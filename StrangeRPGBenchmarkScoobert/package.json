@@ -1,0 +1,16 @@
+{
+  "name": "patchwork",
+  "version": "0.3.0",
+  "description": "Patchwork — a strange JRPG benchmark. 8x8 generated sprites, hero's journey + story circle, balance-tested.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node tools/stage.mjs",
+    "serve": "node server.js",
+    "start": "npm run build && node server.js",
+    "test": "npm run build && node dist/test/headless.js && node dist/test/playthrough.js 8",
+    "balance": "npm run build && node dist/test/playthrough.js 20"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

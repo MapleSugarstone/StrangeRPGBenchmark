@@ -1,0 +1,32 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Please Hold</title>
+<style>
+  :root { --bg: #0d0b14; --fg: #8a8a96; --edge: #2c2540; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font: 12px/1.4 monospace; }
+  canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; outline: none; box-shadow: 0 0 0 2px var(--edge); }
+  #tube { position: relative; }
+  body.scan #tube::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px var(--px, 3px)); }
+  .hint { opacity: 0.75; text-align: center; padding: 0 16px; max-width: 640px; }
+  #companion { position: fixed; display: none; image-rendering: pixelated; cursor: pointer; }
+  #bubble { position: fixed; display: none; background: #efe6d2; color: #0d0b14; padding: 4px 8px; font: 12px monospace; border: 2px solid #0d0b14; }
+</style>
+</head>
+<body>
+<!--
+  OPERATOR NOTE 0411
+  If you are reading the page source, you are Above, and you looked where nobody looks.
+  That is the whole job. There is a letter for you: D2AG-LMT
+  Open it from Options, then Open a letter.
+-->
+<div id="tube"><canvas id="screen" width="192" height="192" tabindex="0"></canvas></div>
+<div class="hint">Arrows or WASD move. Z, Space, or Enter confirms. X or Esc cancels and opens the menu. C listens. Shift runs. Tab shows your goal. M mutes. Gamepads work too.</div>
+<canvas id="companion" width="8" height="8"></canvas>
+<div id="bubble"></div>
+<script src="game.js"></script>
+</body>
+</html>

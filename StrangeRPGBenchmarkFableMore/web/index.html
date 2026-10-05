@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plumb</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="lines"></canvas>
+<main>
+  <canvas id="game" width="224" height="224"></canvas>
+  <div class="pad">
+    <div class="dpad">
+      <button data-key="up">^</button>
+      <button data-key="left">&lt;</button>
+      <button data-key="down">v</button>
+      <button data-key="right">&gt;</button>
+    </div>
+    <div class="btns">
+      <button data-key="cancel">X</button>
+      <button data-key="ok">Z</button>
+      <button data-key="menu">C</button>
+    </div>
+  </div>
+</main>
+<!--
+  If you are reading the page source, you are reading a line.
+  A knot reader would say: >o >oo <o -- not every message is spoken aloud.
+  The Tuner's Knot Key is at key.html. One knot string opens something at the title.
+-->
+<script src="game.js"></script>
+</body>
+</html>

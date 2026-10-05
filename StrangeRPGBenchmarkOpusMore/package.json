@@ -1,0 +1,18 @@
+{
+  "name": "please-hold",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A tile-based role-playing game set at the bottom of everything, where unanswered prayers settle into land.",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit -p .",
+    "sim": "node build.mjs --sim && node build/sim.cjs",
+    "test": "tsc --noEmit -p . && node build.mjs --sim && node build/sim.cjs --quick"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

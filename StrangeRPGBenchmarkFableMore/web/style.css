@@ -1,0 +1,14 @@
+html, body { margin: 0; height: 100%; background: #0b0a10; color: #d8cfb8; font-family: monospace; overflow: hidden; }
+#lines { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+main { position: relative; z-index: 1; min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+canvas#game { image-rendering: pixelated; image-rendering: crisp-edges; background: #000; outline: 2px solid #23263a; cursor: none; }
+body.oneplayer canvas#game { cursor: default; }
+.pad { display: none; width: 100%; max-width: 480px; justify-content: space-between; padding: 0 16px; box-sizing: border-box; }
+.dpad { display: grid; grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 44px); gap: 4px; }
+.dpad button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.dpad button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.dpad button:nth-child(3) { grid-column: 2; grid-row: 2; }
+.dpad button:nth-child(4) { grid-column: 3; grid-row: 2; }
+.btns { display: flex; gap: 8px; align-items: flex-end; }
+button { width: 44px; height: 44px; background: #23263a; color: #f2efe6; border: 1px solid #8e8a92; border-radius: 6px; font-size: 18px; touch-action: manipulation; }
+@media (pointer: coarse) { .pad { display: flex; } }

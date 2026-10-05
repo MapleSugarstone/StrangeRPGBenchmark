@@ -1,0 +1,20 @@
+{
+  "name": "moth-crown",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A tile based adventure game with 8x8 generated sprites.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "serve": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "sim": "node scripts/build.mjs --sim && node dist/sim.js",
+    "test": "node scripts/build.mjs --sim && node dist/sim.js --quick"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}

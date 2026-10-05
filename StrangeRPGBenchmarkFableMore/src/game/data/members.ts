@@ -1,0 +1,275 @@
+import type { MemberDef } from "../types";
+
+export const MEMBERS: Record<string, MemberDef> = {
+  fathom: {
+    id: "fathom",
+    name: "Fathom",
+    title: "Tuner of Hem. Cut bait.",
+    held: false,
+    economy: "length",
+    note: null,
+    sprite: { kind: "humanoid", seed: "fathom", variant: "slack", a: "sand", b: "teal" },
+    base: { hp: 42, atk: 9, mag: 6, def: 6, spd: 11 },
+    growth: { hp: 7, atk: 1.6, mag: 1.0, def: 1.1, spd: 0.45 },
+    learn: [
+      { skill: "swing", level: 1 },
+      { skill: "duck", level: 1 },
+      { skill: "k_bowline", level: 1 },
+      { skill: "k_fist", level: 2 },
+      { skill: "climb", level: 3 },
+      { skill: "k_hitch", level: 4 },
+      { skill: "k_snare", level: 5 },
+      { skill: "k_cat", level: 7 },
+      { skill: "k_shank", level: 9 },
+      { skill: "k_reef", level: 10 },
+      { skill: "k_clove", level: 13 },
+      { skill: "k_timber", level: 14 },
+      { skill: "k_stopper", level: 15 },
+    ],
+    weak: [],
+    resist: [],
+    ai: "hero",
+    color: "teal",
+    joinChapter: 1,
+    pool: { base: 6, perLevel: 0.5 },
+  },
+  burl: {
+    id: "burl",
+    name: "Burl",
+    title: "Three hooks' worth of line that woke up",
+    held: true,
+    economy: "tension",
+    note: "G",
+    sprite: { kind: "knot", seed: "burl", a: "rust", b: "gold" },
+    base: { hp: 56, atk: 9, mag: 3, def: 9, spd: 7 },
+    growth: { hp: 9.5, atk: 1.4, mag: 0.5, def: 1.6, spd: 0.3 },
+    learn: [
+      { skill: "butt", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "snarl", level: 1 },
+      { skill: "lash", level: 3 },
+      { skill: "tighten", level: 6 },
+      { skill: "bind", level: 8 },
+      { skill: "rise", level: 1 },
+      { skill: "letgo", level: 1 },
+    ],
+    weak: ["cut"],
+    resist: ["blunt"],
+    ai: "tank",
+    color: "rust",
+    joinChapter: 1,
+  },
+  dulcet: {
+    id: "dulcet",
+    name: "Dulcet",
+    title: "Lure-harpist. Cut twenty years, lying.",
+    held: true,
+    economy: "tension",
+    note: "E",
+    sprite: { kind: "humanoid", seed: "dulcet", variant: "robe", a: "violet", b: "bone" },
+    base: { hp: 38, atk: 5, mag: 11, def: 5, spd: 10 },
+    growth: { hp: 6, atk: 0.8, mag: 1.9, def: 0.9, spd: 0.4 },
+    learn: [
+      { skill: "strum", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "tune", level: 1 },
+      { skill: "harmonic", level: 1 },
+      { skill: "lullaby", level: 5 },
+      { skill: "resonate", level: 9 },
+      { skill: "rise", level: 1 },
+      { skill: "letgo", level: 1 },
+    ],
+    weak: ["blunt"],
+    resist: ["hum"],
+    ai: "support",
+    color: "violet",
+    joinChapter: 2,
+  },
+  lissom: {
+    id: "lissom",
+    name: "Lissom",
+    title: "The only one in the Snarl allowed to move",
+    held: true,
+    economy: "tension",
+    note: "D",
+    sprite: { kind: "humanoid", seed: "lissom", variant: "tall", a: "rose", b: "salt" },
+    base: { hp: 44, atk: 10, mag: 6, def: 6, spd: 13 },
+    growth: { hp: 6.5, atk: 1.7, mag: 0.9, def: 1.0, spd: 0.55 },
+    learn: [
+      { skill: "step", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "tangle", level: 1 },
+      { skill: "lead", level: 8 },
+      { skill: "whirl", level: 10 },
+      { skill: "unravel", level: 12 },
+      { skill: "rise", level: 1 },
+      { skill: "letgo", level: 1 },
+    ],
+    weak: ["cold"],
+    resist: ["cut"],
+    ai: "striker",
+    color: "rose",
+    joinChapter: 3,
+  },
+  gust: {
+    id: "gust",
+    name: "Gust",
+    title: "A small wind, hooked for whistling",
+    held: true,
+    economy: "tension",
+    note: "A",
+    sprite: { kind: "wind", seed: "gust", variant: "face", a: "frost", b: "sky" },
+    base: { hp: 34, atk: 4, mag: 13, def: 4, spd: 14 },
+    growth: { hp: 5, atk: 0.6, mag: 2.1, def: 0.7, spd: 0.6 },
+    learn: [
+      { skill: "breeze", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "setwind", level: 1 },
+      { skill: "gale", level: 10 },
+      { skill: "updraft", level: 12 },
+      { skill: "hush", level: 14 },
+      { skill: "rise", level: 1 },
+      { skill: "letgo", level: 1 },
+    ],
+    weak: ["cold"],
+    resist: ["blunt", "cut"],
+    ai: "mage",
+    color: "sky",
+    joinChapter: 5,
+  },
+  hale: {
+    id: "hale",
+    name: "Hale",
+    title: "Reeled up, hung, thrown back, held twice",
+    held: true,
+    economy: "tension",
+    note: "C",
+    sprite: { kind: "humanoid", seed: "hale", variant: "hat", a: "frost", b: "indigo" },
+    base: { hp: 50, atk: 13, mag: 7, def: 7, spd: 9 },
+    growth: { hp: 7.5, atk: 2.1, mag: 1.0, def: 1.1, spd: 0.35 },
+    learn: [
+      { skill: "jab", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "frostbite", level: 1 },
+      { skill: "rise", level: 1 },
+      { skill: "holdfast", level: 14 },
+      { skill: "rime", level: 16 },
+      { skill: "letgo", level: 1 },
+    ],
+    weak: ["heat"],
+    resist: ["cold"],
+    ai: "striker",
+    color: "frost",
+    joinChapter: 4,
+  },
+  sump: {
+    id: "sump",
+    name: "Sump",
+    title: "A lobe. Eats what the Fish leave.",
+    held: false,
+    economy: "slack",
+    note: null,
+    sprite: { kind: "creature", seed: "sump", variant: "beast", a: "plum", b: "mint" },
+    base: { hp: 70, atk: 12, mag: 5, def: 10, spd: 7 },
+    growth: { hp: 11, atk: 1.9, mag: 0.6, def: 1.7, spd: 0.25 },
+    learn: [
+      { skill: "bump", level: 1 },
+      { skill: "duck", level: 1 },
+      { skill: "burrow", level: 1 },
+      { skill: "swallow", level: 1 },
+      { skill: "roll", level: 17 },
+      { skill: "spit", level: 19 },
+    ],
+    weak: ["cold"],
+    resist: ["heat", "blunt"],
+    ai: "tank",
+    color: "mint",
+    joinChapter: 6,
+  },
+  bob: {
+    id: "bob",
+    name: "Bob",
+    title: "Surveyor of the shelves. Not a title.",
+    held: false,
+    economy: "slack",
+    note: null,
+    sprite: { kind: "humanoid", seed: "bob", variant: "hat", a: "clay", b: "amber" },
+    base: { hp: 48, atk: 11, mag: 9, def: 8, spd: 10 },
+    growth: { hp: 7, atk: 1.7, mag: 1.3, def: 1.2, spd: 0.4 },
+    learn: [
+      { skill: "knock", level: 1 },
+      { skill: "duck", level: 1 },
+      { skill: "plumb", level: 1 },
+      { skill: "dropweight", level: 1 },
+      { skill: "measure", level: 20 },
+      { skill: "truedown", level: 22 },
+    ],
+    weak: ["wind"],
+    resist: [],
+    ai: "controller",
+    color: "amber",
+    joinChapter: 7,
+  },
+  marrow: {
+    id: "marrow",
+    name: "Marrow",
+    title: "Fathom's mother, unhooked for one day",
+    held: true,
+    economy: "tension",
+    note: "B",
+    sprite: { kind: "thing", seed: "marrow", variant: "hand", a: "frost", b: "lilac" },
+    base: { hp: 60, atk: 8, mag: 16, def: 9, spd: 10 },
+    growth: { hp: 8, atk: 1.0, mag: 2.3, def: 1.3, spd: 0.4 },
+    learn: [
+      { skill: "tap", level: 1 },
+      { skill: "hang", level: 1 },
+      { skill: "hold", level: 1 },
+      { skill: "pullup", level: 1 },
+      { skill: "release", level: 1 },
+      { skill: "frosthand", level: 1 },
+      { skill: "rise", level: 1 },
+    ],
+    weak: ["heat"],
+    resist: ["cold", "hum"],
+    ai: "support",
+    color: "lilac",
+    joinChapter: 8,
+  },
+};
+
+export const MEMBER_ORDER = ["fathom", "burl", "dulcet", "lissom", "gust", "hale", "sump", "bob", "marrow"];
+
+/** Experience needed to reach a level. */
+export function xpForLevel(level: number): number {
+  return Math.round(15 * Math.pow(level, 1.3));
+}
+
+/** Total experience at the start of a level. */
+export function xpTotal(level: number): number {
+  let t = 0;
+  for (let l = 1; l < level; l++) t += xpForLevel(l);
+  return t;
+}
+
+export function statsAt(def: MemberDef, level: number): { hp: number; atk: number; mag: number; def: number; spd: number } {
+  const L = level - 1;
+  return {
+    hp: Math.round(def.base.hp + def.growth.hp * L),
+    atk: Math.round(def.base.atk + def.growth.atk * L),
+    mag: Math.round(def.base.mag + def.growth.mag * L),
+    def: Math.round(def.base.def + def.growth.def * L),
+    spd: Math.round(def.base.spd + def.growth.spd * L),
+  };
+}
+
+export function skillsAt(def: MemberDef, level: number, chapter: number): string[] {
+  return def.learn.filter((l) => l.level <= level).map((l) => l.skill).filter((id) => {
+    // Chapter gated skills are checked by the core with the skill table.
+    return true;
+  });
+}
+
+export function poolAt(def: MemberDef, level: number): number {
+  if (!def.pool) return def.economy === "slack" ? 5 : 0;
+  return Math.floor(def.pool.base + def.pool.perLevel * (level - 1));
+}

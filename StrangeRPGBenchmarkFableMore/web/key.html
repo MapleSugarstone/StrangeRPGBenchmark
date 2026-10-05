@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Tuner's Knot Key</title>
+<style>
+  body { background: #0b0a10; color: #d8cfb8; font-family: Georgia, serif; max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; line-height: 1.5; }
+  h1, h2 { color: #f2efe6; font-weight: normal; }
+  h1 { font-size: 1.6rem; }
+  p { max-width: 60ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 10px; margin: 16px 0 28px; }
+  .glyph { background: #23263a; border: 1px solid #4b4f63; border-radius: 4px; padding: 6px; text-align: center; }
+  .glyph canvas { image-rendering: pixelated; width: 48px; height: 48px; display: block; margin: 0 auto 4px; }
+  .glyph span { font-size: 1.1rem; color: #f2efe6; }
+  .glyph small { display: block; color: #8e8a92; font-size: 0.7rem; }
+  .line { background: #23263a; border: 1px solid #4b4f63; border-radius: 4px; padding: 10px; margin: 12px 0; }
+  .line canvas { image-rendering: pixelated; display: block; width: 100%; max-width: 672px; }
+  code { color: #2fa39a; }
+  a { color: #6fb7e8; }
+  input { font: inherit; padding: 6px 8px; background: #23263a; color: #f2efe6; border: 1px solid #8e8a92; border-radius: 4px; width: 100%; max-width: 40ch; }
+</style>
+</head>
+<body>
+<h1>The Tuner's Knot Key</h1>
+<p>On the Drop, a line can carry words. Each letter is a knot: one to three turns, with the lead going to the left or to the right. A plain turn (the light loop) is called overhand. A turn with a cross in it (the green loop) is called crossed. A stretch of bare line is a space. Two stretches end a sentence.</p>
+<p>Fathom's fallen line is written in this key. So are a few lines in the game that nobody reads aloud. If you can see the knots, you can read them with this page. Try the title screen.</p>
+
+<h2>Read the knots</h2>
+<div class="grid" id="grid"></div>
+
+<h2>Write a line</h2>
+<p>Type something and it is tied below.</p>
+<input id="in" value="SLACK IS NOT FALLING" maxlength="60">
+<div class="line"><canvas id="out" width="672" height="8"></canvas></div>
+
+<h2>How the game draws them</h2>
+<p>The glyph strings in the game's code use <code>&gt;</code> and <code>&lt;</code> for the lead side, <code>o</code> for an overhand turn, <code>x</code> for a crossed turn, and <code>-</code> for bare line. The letter A is <code>&gt;o</code>: lead right, one overhand turn.</p>
+<p><a href="index.html">Back to the game</a></p>
+
+<script>
+const ALPHABET = {
+  A: ">o", B: ">oo", C: ">ooo", D: ">x", E: "<o", F: ">xx", G: ">xxx", H: ">ox",
+  I: "<x", J: ">xo", K: ">oxo", L: ">xox", M: ">oox", N: "<oo", O: "<ooo", P: ">xoo",
+  Q: ">oxx", R: "<ox", S: "<xo", T: "<xx", U: "<xxx", V: ">xxo", W: "<oxo", X: "<xox",
+  Y: "<oox", Z: "<xoo", " ": "-", ".": "--", "'": "<x-", ",": "-x",
+  "0": ">o-", "1": ">oo-", "2": ">ooo-", "3": ">x-", "4": ">xx-", "5": ">xxx-", "6": ">ox-", "7": ">xo-", "8": "<o-", "9": "<x-",
+};
+const COLORS = { 1: "#0b0a10", 2: "#d8cfb8", 3: "#2fa39a" };
+function cells(glyph) {
+  const c = new Uint8Array(64);
+  const set = (x, y, v) => { if (x >= 0 && x < 8 && y >= 0 && y < 8) c[y * 8 + x] = v; };
+  for (let y = 0; y < 8; y++) set(3, y, 2);
+  if (glyph === "-") return c;
+  if (glyph === "--") { set(3, 3, 0); set(3, 4, 0); return c; }
+  const lead = glyph[0] === "<" ? -1 : glyph[0] === ">" ? 1 : 0;
+  const turns = glyph.replace(/[<>]/g, "");
+  let y = 1;
+  for (const t of turns) {
+    if (t === "-") { y += 2; continue; }
+    const v = t === "o" ? 2 : 3;
+    if (lead !== 0) { set(3 + lead, y, v); set(3 + lead * 2, y, v); set(3 + lead * 2, y + 1, v); set(3 + lead, y + 1, t === "x" ? 1 : v); }
+    else { set(2, y, v); set(4, y, v); }
+    y += 2;
+  }
+  return c;
+}
+function paint(ctx, c, ox, oy, scale) {
+  for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
+    const v = c[y * 8 + x];
+    if (!v) continue;
+    ctx.fillStyle = COLORS[v];
+    ctx.fillRect(ox + x * scale, oy + y * scale, scale, scale);
+  }
+}
+const grid = document.getElementById("grid");
+for (const [k, g] of Object.entries(ALPHABET)) {
+  const d = document.createElement("div");
+  d.className = "glyph";
+  const cv = document.createElement("canvas");
+  cv.width = 8; cv.height = 8;
+  paint(cv.getContext("2d"), cells(g), 0, 0, 1);
+  const name = k === " " ? "space" : k === "." ? "stop" : k;
+  d.appendChild(cv);
+  d.insertAdjacentHTML("beforeend", `<span>${name}</span><small>${g.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</small>`);
+  grid.appendChild(d);
+}
+const input = document.getElementById("in");
+const out = document.getElementById("out");
+function render() {
+  const text = input.value.toUpperCase();
+  const glyphs = Array.from(text).map((ch) => ALPHABET[ch] ?? "-");
+  const rows = Math.max(1, Math.ceil(glyphs.length / 28));
+  out.height = rows * 8;
+  const ctx = out.getContext("2d");
+  ctx.fillStyle = "#23263a";
+  ctx.fillRect(0, 0, out.width, out.height);
+  glyphs.forEach((g, i) => paint(ctx, cells(g), (i % 28) * 24, Math.floor(i / 28) * 8, 3));
+}
+input.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>

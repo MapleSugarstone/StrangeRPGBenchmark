@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Strange RPG Benchmark</title>
+<meta name="description" content="Tile-based role-playing games, each written by a different AI model.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 1h9l3 3v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z' fill='%23c9ccd1'/%3E%3Crect x='4' y='4' width='8' height='7' rx='1' fill='%2334bfed'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="menu/menu.css">
+</head>
+<body>
+
+<div class="app" id="app">
+  <header class="masthead">
+    <span class="masthead-title">Strange RPG Benchmark</span>
+    <span class="masthead-count" id="count"></span>
+  </header>
+
+  <main class="shelf" id="shelf" aria-label="Game cartridges">
+    <button class="page-arrow prev" id="prev" type="button" aria-label="Previous page" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 7 12l8.5 7.5z" /></svg>
+    </button>
+    <div class="track" id="track"></div>
+    <button class="page-arrow next" id="next" type="button" aria-label="Next page" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 17 12l-8.5 7.5z" /></svg>
+    </button>
+    <p class="load-error" id="load-error" hidden>The game list did not load. Serve this folder over HTTP, for example with <code>node tools/build-site.mjs --serve</code>.</p>
+  </main>
+
+  <nav class="pager" id="pager" aria-label="Pages"></nav>
+
+  <footer class="dock">
+    <svg class="dock-wing left" viewBox="0 0 220 120" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="dock-fill" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#f7f8f9" />
+          <stop offset="0.4667" stop-color="#e2e4e7" />
+          <stop offset="1" stop-color="#c8cbcf" />
+        </linearGradient>
+      </defs>
+      <path d="M0 8H92C138 8 150 56 200 56H220V120H0Z" fill="url(#dock-fill)" />
+      <path d="M0 8H92C138 8 150 56 200 56H220" fill="none" stroke="var(--dock-edge)" stroke-width="2.5" vector-effect="non-scaling-stroke" />
+    </svg>
+    <div class="dock-mid"></div>
+    <svg class="dock-wing right" viewBox="0 0 220 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 8H92C138 8 150 56 200 56H220V120H0Z" fill="url(#dock-fill)" />
+      <path d="M0 8H92C138 8 150 56 200 56H220" fill="none" stroke="var(--dock-edge)" stroke-width="2.5" vector-effect="non-scaling-stroke" />
+    </svg>
+
+    <button class="dock-btn left" id="about-btn" type="button" aria-label="About this collection">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="6.5" r="1.8" /><path d="M10 10.5h3.2v7.5H15v1.8H9v-1.8h1.8v-5.7H10z" /></svg>
+    </button>
+    <div class="clock" aria-live="off">
+      <div class="clock-time"><span id="clock-time">12:00</span><span class="clock-period" id="clock-period"></span></div>
+      <div class="clock-date" id="clock-date"></div>
+    </div>
+    <button class="dock-btn right" id="sound-btn" type="button" aria-label="Sound effects" aria-pressed="true">
+      <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="m16.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+    </button>
+  </footer>
+</div>
+
+<section class="preview" id="preview" aria-labelledby="pv-title" hidden>
+  <div class="pv-main">
+    <div class="pv-banner" id="pv-banner">
+      <div class="pv-screen-col">
+        <button class="pv-screen" id="pv-screen" type="button" aria-label="Next screenshot"></button>
+        <div class="pv-dots" id="pv-dots"></div>
+      </div>
+      <div class="pv-side">
+        <div class="pv-hero-row">
+          <img class="pv-hero" id="pv-hero" alt="">
+          <div>
+            <div class="pv-hero-name" id="pv-hero-name"></div>
+            <div class="pv-hero-role" id="pv-hero-role"></div>
+          </div>
+        </div>
+        <h1 class="pv-title" id="pv-title"></h1>
+        <p class="pv-author" id="pv-author"></p>
+        <p class="pv-wip" id="pv-wip" hidden>Work in progress</p>
+        <p class="pv-blurb" id="pv-blurb"></p>
+        <dl class="pv-facts" id="pv-facts"></dl>
+      </div>
+    </div>
+  </div>
+  <div class="pv-bar">
+    <button class="pill" id="pv-back" type="button">Menu</button>
+    <button class="pill" id="pv-start" type="button">Start</button>
+  </div>
+</section>
+
+<section class="player" id="player" hidden>
+  <iframe id="player-frame" title="Game" allow="autoplay; fullscreen; gamepad"></iframe>
+  <div class="player-bar">
+    <button class="pill small" id="player-home" type="button">Menu</button>
+    <a class="pill small" id="player-tab" target="_blank" rel="noopener">Open in new tab</a>
+  </div>
+</section>
+
+<dialog class="about" id="about">
+  <h2>Strange RPG Benchmark</h2>
+  <p>Each cartridge holds a tile-based role-playing game written by a different AI model. Every game draws its sprites in code at 8 by 8 pixels with at most three colors. Each one follows the hero's journey across its chapters and adds new battle mechanics as it goes.</p>
+  <p>Pick a cartridge to see the game, then press Start to play it in this page. Arrow keys move between cartridges, and Enter opens one.</p>
+  <form method="dialog"><button class="pill small">Close</button></form>
+</dialog>
+
+<script src="menu/menu.js" defer></script>
+</body>
+</html>

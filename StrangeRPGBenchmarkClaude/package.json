@@ -1,0 +1,18 @@
+{
+  "name": "duotone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A tile-based adventure game where every sprite is 8x8 and has at most three colors.",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit -p .",
+    "sim": "node build.mjs --sim && node build/sim.cjs",
+    "test": "tsc --noEmit -p . && node build.mjs --sim && node build/sim.cjs --quick"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

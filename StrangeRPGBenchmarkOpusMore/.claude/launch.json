@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "please-hold",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/serve.mjs", "8137"],
+      "port": 8137
+    },
+    {
+      "name": "menu",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../tools/build-site.mjs", "--skip-build", "--serve", "8091"],
+      "port": 8091
+    }
+  ]
+}

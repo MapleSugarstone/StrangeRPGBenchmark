@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Long Noon</title>
+<style>
+  :root { --bg: #0b0b16; --panel: #15152a; --ink: #d8d8f0; --dim: #7a7a9a; --accent: #ffc83a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: "Courier New", monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 12px; }
+  h1 { margin: 0; font-size: 16px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; font-weight: normal; }
+  .frame { padding: 10px; background: var(--panel); border: 2px solid #3a3a60; border-radius: 6px; box-shadow: 0 0 0 4px #0b0b16, 0 0 40px #000; }
+  canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; background: #000; }
+  .help { font-size: 12px; color: var(--dim); text-align: center; line-height: 1.6; }
+  .help b { color: var(--ink); font-weight: normal; }
+  .pad { display: none; gap: 24px; align-items: center; }
+  .dpad { display: grid; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px); gap: 2px; }
+  .pad button { background: #22223a; color: var(--ink); border: 1px solid #44446a; border-radius: 6px; font: inherit; font-size: 14px; touch-action: none; user-select: none; }
+  .pad .ab { display: flex; gap: 10px; }
+  .pad .ab button { width: 52px; height: 52px; border-radius: 26px; }
+  @media (pointer: coarse) { .pad { display: flex; } }
+</style>
+</head>
+<body>
+  <h1>The Long Noon</h1>
+  <div class="frame"><canvas id="screen" width="128" height="128"></canvas></div>
+  <div class="help"><b>Arrows</b> or <b>WASD</b> move &nbsp; <b>Z</b> / <b>Enter</b> confirm &nbsp; <b>X</b> / <b>Esc</b> cancel and menu</div>
+  <div class="pad">
+    <div class="dpad">
+      <span></span><button data-key="up">^</button><span></span>
+      <button data-key="left">&lt;</button><span></span><button data-key="right">&gt;</button>
+      <span></span><button data-key="down">v</button><span></span>
+    </div>
+    <div class="ab"><button data-key="b">B</button><button data-key="a">A</button></div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

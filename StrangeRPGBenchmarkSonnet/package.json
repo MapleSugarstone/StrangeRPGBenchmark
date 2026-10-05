@@ -1,0 +1,21 @@
+{
+  "name": "the-long-noon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tile-based adventure with 8x8 generated sprites, a twelve chapter story, and a built-in balance lab.",
+  "scripts": {
+    "build": "node build.mjs game",
+    "serve": "node build.mjs game && node serve.mjs",
+    "check": "tsc --noEmit -p .",
+    "test": "node build.mjs tools && node dist/tools/validate.js && node dist/tools/playthrough.js 2 3",
+    "uiplay": "node build.mjs tools && node dist/tools/uiplay.js 1 1",
+    "balance": "node build.mjs tools && node dist/tools/balance.js 60 8",
+    "autotune": "node build.mjs tools && node dist/tools/autotune.js 160 30",
+    "charvalue": "node build.mjs tools && node dist/tools/charvalue.js 4,7,10,12 8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.0"
+  }
+}

@@ -1,0 +1,971 @@
+{
+ "errors": [],
+ "chapters": {
+  "1": {
+   "lost": [
+    "crab1 at level 2"
+   ],
+   "bossRows": [
+    "| boss1 | 4 | 114 | 92% | 55% | 0% | 3% | 19.2 | 31% | 0% | 0.0 |"
+   ],
+   "trashRows": [
+    "| wolf1 | 100% | 100% | 1.9 | 1% | 1% |",
+    "| moth2 | 100% | 100% | 3.5 | 7% | 8% |",
+    "| newt2 | 100% | 100% | 4.0 | 11% | 12% |",
+    "| crab1 | 100% | 100% | 6.1 | 16% | 18% |",
+    "| pup1 | 100% | 100% | 4.8 | 11% | 12% |",
+    "| wolf2 | 100% | 100% | 3.0 | 4% | 5% |",
+    "| pup3 | 100% | 100% | 7.1 | 24% | 33% |"
+   ],
+   "entropy": {
+    "h": 2.3720077674887894,
+    "norm": 0.71404548796208,
+    "distinct": 10,
+    "top": "wick:attack",
+    "topShare": 0.5225
+   },
+   "newEnemies": [
+    "lint_wolf",
+    "hush_moth",
+    "static_newt",
+    "antenna_crab",
+    "blank_pup",
+    "grey_moth"
+   ],
+   "newMembers": [
+    "nona"
+   ],
+   "newMech": [
+    "hues"
+   ],
+   "newSkills": [
+    "lampsweep",
+    "patch",
+    "diagnose",
+    "ninth_life",
+    "purr_loop"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.9233333333333333,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.03333333333333333,
+    "bossWinCasual": 0.5466666666666666,
+    "bossTurns": 19.236666666666668,
+    "bossMinFrac": 0.30701754385964913,
+    "trashTurns": 4.327142857142857,
+    "trashDrainSmart": 0.10632832080200502,
+    "trashDrainMash": 0.1270927318295739,
+    "entropyNorm": 0.71404548796208,
+    "topShare": 0.5225,
+    "losses": 0.16666666666666666,
+    "grind": 0,
+    "novelty": 9.5,
+    "clashRate": 0,
+    "minutes": 13.922777777777776
+   },
+   "score": {
+    "total": 97,
+    "parts": {
+     "challenge": 0.9904761904761906,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 1,
+     "skillMatters": 0.8845551378446109,
+     "variety": 0.7583333333333335,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 1,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "2": {
+   "lost": [
+    "boss2 at level 9",
+    "newt3 at level 7"
+   ],
+   "bossRows": [
+    "| boss2 | 9 | 231 | 90% | 57% | 3% | 5% | 15.6 | 32% | 65% | 0.0 |"
+   ],
+   "trashRows": [
+    "| wisp2 | 100% | 100% | 4.3 | 7% | 10% |",
+    "| heron | 100% | 100% | 3.4 | 4% | 7% |",
+    "| fish2 | 100% | 100% | 3.0 | 3% | 7% |",
+    "| bog2 | 100% | 100% | 3.0 | 4% | 7% |",
+    "| wisp3 | 100% | 100% | 5.8 | 12% | 20% |",
+    "| newt3 | 100% | 100% | 4.2 | 5% | 8% |",
+    "| slime3 | 100% | 100% | 5.1 | 8% | 16% |"
+   ],
+   "entropy": {
+    "h": 2.941230241737548,
+    "norm": 0.752831483186039,
+    "distinct": 15,
+    "top": "wick:attack",
+    "topShare": 0.2710144927536232
+   },
+   "newEnemies": [
+    "static_wisp",
+    "glitch_newt",
+    "radio_heron",
+    "crayonfish",
+    "beepbog",
+    "paint_slime",
+    "octachrome"
+   ],
+   "newMembers": [
+    "tint"
+   ],
+   "newMech": [],
+   "newSkills": [
+    "wickflare",
+    "static_claw",
+    "load",
+    "daub",
+    "splash",
+    "primer"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.8966666666666666,
+    "bossWinMash": 0.03,
+    "bossWinRandom": 0.04666666666666667,
+    "bossWinCasual": 0.5733333333333334,
+    "bossTurns": 15.603333333333333,
+    "bossMinFrac": 0.32234432234432236,
+    "trashTurns": 4.111428571428571,
+    "trashDrainSmart": 0.06337519623233902,
+    "trashDrainMash": 0.10623757195185753,
+    "entropyNorm": 0.752831483186039,
+    "topShare": 0.2710144927536232,
+    "losses": 0.3333333333333333,
+    "grind": 0,
+    "novelty": 8.5,
+    "clashRate": 0.2255772646536412,
+    "minutes": 21.069861111111106
+   },
+   "score": {
+    "total": 98,
+    "parts": {
+     "challenge": 1,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.8891679748822601,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 0.7519242155121373,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "3": {
+   "lost": [
+    "boss3 at level 12",
+    "boss3 at level 12",
+    "boss3 at level 12"
+   ],
+   "bossRows": [
+    "| boss3 | 12 | 533 | 88% | 52% | 13% | 5% | 16.9 | 28% | 25% | 0.5 |",
+    "| templars | 14 | 592 | 100% | 100% | 100% | 100% | 7.6 | 91% | 46% | 1.0 |"
+   ],
+   "trashRows": [
+    "| mimic2 | 100% | 100% | 4.0 | 3% | 5% |",
+    "| ghoul2 | 100% | 100% | 3.9 | 3% | 5% |",
+    "| pew3 | 100% | 100% | 5.5 | 8% | 13% |",
+    "| aco3 | 100% | 100% | 6.1 | 8% | 15% |",
+    "| aco2 | 100% | 100% | 5.2 | 6% | 9% |",
+    "| rib | 100% | 100% | 6.2 | 5% | 8% |"
+   ],
+   "entropy": {
+    "h": 3.606107131314833,
+    "norm": 0.7584000945709143,
+    "distinct": 27,
+    "top": "tint:daub",
+    "topShare": 0.22085889570552147
+   },
+   "newEnemies": [
+    "hymnal_mimic",
+    "censer_drone",
+    "bell_ghoul",
+    "pew_crawler",
+    "acolyte",
+    "choirboy",
+    "cantor_hush",
+    "templar",
+    "rib_sentinel"
+   ],
+   "newMembers": [
+    "brask"
+   ],
+   "newMech": [
+    "break"
+   ],
+   "newSkills": [
+    "snuff",
+    "firmware",
+    "wash",
+    "crush",
+    "moth_curtain",
+    "swarm"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.8833333333333333,
+    "bossWinMash": 0.12666666666666668,
+    "bossWinRandom": 0.04666666666666667,
+    "bossWinCasual": 0.52,
+    "bossTurns": 16.87,
+    "bossMinFrac": 0.2782931354359926,
+    "trashTurns": 5.146666666666667,
+    "trashDrainSmart": 0.05487012987012987,
+    "trashDrainMash": 0.09245207173778601,
+    "entropyNorm": 0.7584000945709143,
+    "topShare": 0.22085889570552147,
+    "losses": 0.5,
+    "grind": 0.3333333333333333,
+    "novelty": 11.5,
+    "clashRate": 0.25552825552825553,
+    "minutes": 15.82625
+   },
+   "score": {
+    "total": 98,
+    "parts": {
+     "challenge": 1,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.8324675324675325,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 0.8517608517608518,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "4": {
+   "lost": [],
+   "bossRows": [
+    "| boss4 | 17 | 634 | 95% | 53% | 0% | 1% | 16.6 | 61% | 105% | 0.8 |"
+   ],
+   "trashRows": [
+    "| mite3 | 100% | 100% | 5.4 | 6% | 15% |",
+    "| scorp2 | 100% | 100% | 4.6 | 4% | 6% |",
+    "| clock2 | 100% | 100% | 3.9 | 2% | 6% |",
+    "| hen | 100% | 100% | 4.8 | 4% | 6% |",
+    "| golem | 100% | 100% | 6.8 | 4% | 8% |",
+    "| golem2 | 100% | 100% | 7.6 | 4% | 9% |"
+   ],
+   "entropy": {
+    "h": 3.7915742644084074,
+    "norm": 0.8381833389794783,
+    "distinct": 23,
+    "top": "tint:daub",
+    "topShare": 0.16556291390728478
+   },
+   "newEnemies": [
+    "minute_mite",
+    "dune_clock",
+    "gearsand_scorpion",
+    "paradox_hen",
+    "hourglass_golem",
+    "chronophage"
+   ],
+   "newMembers": [
+    "tock"
+   ],
+   "newMech": [
+    "tempo"
+   ],
+   "newSkills": [
+    "beacon",
+    "cleanse",
+    "gallery",
+    "tick",
+    "delay",
+    "hasten",
+    "rewind",
+    "carapace"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.95,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.5333333333333333,
+    "bossTurns": 16.61,
+    "bossMinFrac": 0.6088328075709779,
+    "trashTurns": 5.521666666666667,
+    "trashDrainSmart": 0.0401472134595163,
+    "trashDrainMash": 0.08415089379600421,
+    "entropyNorm": 0.8381833389794783,
+    "topShare": 0.16556291390728478,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 11,
+    "clashRate": 0.3814229249011858,
+    "minutes": 17.144652777777775
+   },
+   "score": {
+    "total": 89,
+    "parts": {
+     "challenge": 0.9142857142857145,
+     "agency": 1,
+     "access": 1,
+     "tension": 0,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.7343147563967753,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 1,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "5": {
+   "lost": [],
+   "bossRows": [
+    "| boss5 | 21 | 776 | 97% | 49% | 10% | 0% | 21.4 | 34% | 56% | 0.0 |"
+   ],
+   "trashRows": [
+    "| rat2 | 100% | 100% | 3.7 | 3% | 6% |",
+    "| mite5 | 100% | 100% | 3.4 | 3% | 6% |",
+    "| repo | 100% | 100% | 3.6 | 3% | 5% |",
+    "| tag | 100% | 100% | 3.8 | 3% | 5% |",
+    "| imp3 | 100% | 100% | 4.9 | 6% | 14% |"
+   ],
+   "entropy": {
+    "h": 3.7529997062899128,
+    "norm": 0.7806787239839544,
+    "distinct": 28,
+    "top": "nona:static_claw",
+    "topShare": 0.18872549019607843
+   },
+   "newEnemies": [
+    "moon_rat",
+    "coinmite",
+    "repo_drone",
+    "haggle_imp",
+    "tag_mimic",
+    "baron_surplus"
+   ],
+   "newMembers": [
+    "vend"
+   ],
+   "newMech": [
+    "coin"
+   ],
+   "newSkills": [
+    "overclock",
+    "coin_shot",
+    "dispense",
+    "jackpot",
+    "buyout",
+    "stopwatch",
+    "lance"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.9733333333333334,
+    "bossWinMash": 0.10333333333333333,
+    "bossWinRandom": 0,
+    "bossWinCasual": 0.4866666666666667,
+    "bossTurns": 21.433333333333334,
+    "bossMinFrac": 0.3431372549019608,
+    "trashTurns": 3.8879999999999995,
+    "trashDrainSmart": 0.03630882352941176,
+    "trashDrainMash": 0.07140686274509804,
+    "entropyNorm": 0.7806787239839544,
+    "topShare": 0.18872549019607843,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 10.5,
+    "clashRate": 0.24251497005988024,
+    "minutes": 13.690694444444444
+   },
+   "score": {
+    "total": 95,
+    "parts": {
+     "challenge": 0.8476190476190476,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.7087254901960784,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 0.8083832335329342,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "6": {
+   "lost": [],
+   "bossRows": [
+    "| boss6 | 23 | 849 | 99% | 58% | 1% | 1% | 14.4 | 30% | 114% | 0.0 |"
+   ],
+   "trashRows": [
+    "| jelly3 | 100% | 100% | 6.9 | 10% | 20% |",
+    "| kite2 | 100% | 100% | 4.2 | 6% | 10% |",
+    "| pirate | 100% | 100% | 5.2 | 5% | 8% |",
+    "| vine2 | 100% | 100% | 4.0 | 5% | 9% |",
+    "| whale | 100% | 100% | 5.3 | 3% | 4% |"
+   ],
+   "entropy": {
+    "h": 3.6849489059451384,
+    "norm": 0.8146122329574864,
+    "distinct": 23,
+    "top": "wick:snuff",
+    "topShare": 0.17325227963525835
+   },
+   "newEnemies": [
+    "sky_pirate",
+    "cloud_whale",
+    "stormkite",
+    "ion_jelly",
+    "vine_lurker",
+    "seraph_k7"
+   ],
+   "newMembers": [],
+   "newMech": [
+    "mirror",
+    "link"
+   ],
+   "newSkills": [
+    "lighthouse",
+    "restock"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.9866666666666667,
+    "bossWinMash": 0.013333333333333334,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.58,
+    "bossTurns": 14.43,
+    "bossMinFrac": 0.3003533568904594,
+    "trashTurns": 5.118,
+    "trashDrainSmart": 0.05631566548881036,
+    "trashDrainMash": 0.10102709069493523,
+    "entropyNorm": 0.8146122329574864,
+    "topShare": 0.17325227963525835,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 8,
+    "clashRate": 0.6447368421052632,
+    "minutes": 11.943263888888888
+   },
+   "score": {
+    "total": 97,
+    "parts": {
+     "challenge": 0.8095238095238095,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.842104436592069,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 1,
+     "length": 0.9962175925925926
+    }
+   },
+   "errors": []
+  },
+  "7": {
+   "lost": [],
+   "bossRows": [
+    "| boss7 | 28 | 1049 | 99% | 64% | 0% | 1% | 15.7 | 30% | 111% | 0.4 |",
+    "| ordeal | 29 | 1056 | 100% | 100% | 100% | 100% | 5.0 | 91% | 0% | 0.0 |"
+   ],
+   "trashRows": [
+    "| serp | 100% | 100% | 5.3 | 7% | 15% |",
+    "| unp2 | 100% | 100% | 3.8 | 3% | 8% |",
+    "| warden | 100% | 100% | 5.1 | 10% | 22% |",
+    "| spider2 | 100% | 100% | 3.6 | 2% | 5% |",
+    "| chorus | 100% | 100% | 5.7 | 9% | 22% |"
+   ],
+   "entropy": {
+    "h": 4.0830255646487,
+    "norm": 0.7897649508473745,
+    "distinct": 36,
+    "top": "wick:snuff",
+    "topShare": 0.1618320610687023
+   },
+   "newEnemies": [
+    "thread_serpent",
+    "spool_spider",
+    "unprinter",
+    "loom_warden",
+    "grey_chorister",
+    "the_spindle",
+    "grey_bishop_1"
+   ],
+   "newMembers": [
+    "nil"
+   ],
+   "newMech": [
+    "echo"
+   ],
+   "newSkills": [
+    "blank_stare",
+    "void_touch",
+    "nullify"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.9866666666666667,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.64,
+    "bossTurns": 15.743333333333334,
+    "bossMinFrac": 0.30123927550047663,
+    "trashTurns": 4.712000000000001,
+    "trashDrainSmart": 0.0624137273593899,
+    "trashDrainMash": 0.14108293612964729,
+    "entropyNorm": 0.7897649508473745,
+    "topShare": 0.1618320610687023,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 9,
+    "clashRate": 0.24953789279112754,
+    "minutes": 20.147291666666664
+   },
+   "score": {
+    "total": 96,
+    "parts": {
+     "challenge": 0.8095238095238095,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.8827581823959326,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 0.8317929759704251,
+     "length": 1
+    }
+   },
+   "errors": []
+  },
+  "8": {
+   "lost": [
+    "final at level 33"
+   ],
+   "bossRows": [
+    "| final | 33 | 831 | 96% | 78% | 1% | 7% | 21.4 | 27% | 0% | 0.0 |",
+    "| final2 | 33 | 1346 | 92% | 61% | 0% | 7% | 23.5 | 31% | 65% | 0.1 |"
+   ],
+   "trashRows": [
+    "| wraith3 | 100% | 100% | 4.6 | 10% | 19% |",
+    "| knight | 100% | 100% | 4.3 | 5% | 8% |",
+    "| sheep2 | 100% | 100% | 4.3 | 3% | 6% |",
+    "| mixed8 | 100% | 100% | 5.4 | 5% | 11% |"
+   ],
+   "entropy": {
+    "h": 4.265475685522425,
+    "norm": 0.8014906645619951,
+    "distinct": 40,
+    "top": "wick:snuff",
+    "topShare": 0.17424975798644723
+   },
+   "newEnemies": [
+    "palette_wraith",
+    "null_sheep",
+    "eraser_knight",
+    "grey_bishop",
+    "bishop_loom"
+   ],
+   "newMembers": [
+    "brask",
+    "mirrow",
+    "tock",
+    "vend",
+    "tint"
+   ],
+   "newMech": [
+    "tricolor"
+   ],
+   "newSkills": [
+    "unprint",
+    "crush",
+    "moth_curtain",
+    "swarm",
+    "carapace",
+    "lance",
+    "molt",
+    "reflect",
+    "shard",
+    "glass_guard",
+    "silver_back",
+    "invert",
+    "tick",
+    "delay",
+    "hasten",
+    "rewind",
+    "stopwatch",
+    "paradox",
+    "coin_shot",
+    "dispense",
+    "jackpot",
+    "buyout",
+    "restock",
+    "tariff",
+    "load",
+    "daub",
+    "splash",
+    "primer",
+    "wash",
+    "gallery",
+    "spectrum"
+   ],
+   "inputs": {
+    "bossWinSmart": 0.9233333333333333,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.07333333333333333,
+    "bossWinCasual": 0.6133333333333333,
+    "bossTurns": 23.483333333333334,
+    "bossMinFrac": 0.3083209509658247,
+    "trashTurns": 4.6425,
+    "trashDrainSmart": 0.0569167904903417,
+    "trashDrainMash": 0.10895988112927181,
+    "entropyNorm": 0.8014906645619951,
+    "topShare": 0.17424975798644723,
+    "losses": 0.16666666666666666,
+    "grind": 0,
+    "novelty": 30,
+    "clashRate": 0.0856760374832664,
+    "minutes": 28.624791666666667
+   },
+   "score": {
+    "total": 95,
+    "parts": {
+     "challenge": 0.9904761904761906,
+     "agency": 1,
+     "access": 1,
+     "tension": 1,
+     "bossPacing": 1,
+     "trashPacing": 1,
+     "attrition": 0.846111936602278,
+     "skillMatters": 1,
+     "variety": 1,
+     "noGrind": 1,
+     "novelty": 1,
+     "hueUse": 0.28558679161088807,
+     "length": 1
+    }
+   },
+   "errors": []
+  }
+ },
+ "scores": {
+  "1": {
+   "total": 97,
+   "parts": {
+    "challenge": 0.9904761904761906,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 1,
+    "skillMatters": 0.8845551378446109,
+    "variety": 0.7583333333333335,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 1,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.9233333333333333,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.03333333333333333,
+    "bossWinCasual": 0.5466666666666666,
+    "bossTurns": 19.236666666666668,
+    "bossMinFrac": 0.30701754385964913,
+    "trashTurns": 4.327142857142857,
+    "trashDrainSmart": 0.10632832080200502,
+    "trashDrainMash": 0.1270927318295739,
+    "entropyNorm": 0.71404548796208,
+    "topShare": 0.5225,
+    "losses": 0.16666666666666666,
+    "grind": 0,
+    "novelty": 9.5,
+    "clashRate": 0,
+    "minutes": 13.922777777777776
+   }
+  },
+  "2": {
+   "total": 98,
+   "parts": {
+    "challenge": 1,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.8891679748822601,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 0.7519242155121373,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.8966666666666666,
+    "bossWinMash": 0.03,
+    "bossWinRandom": 0.04666666666666667,
+    "bossWinCasual": 0.5733333333333334,
+    "bossTurns": 15.603333333333333,
+    "bossMinFrac": 0.32234432234432236,
+    "trashTurns": 4.111428571428571,
+    "trashDrainSmart": 0.06337519623233902,
+    "trashDrainMash": 0.10623757195185753,
+    "entropyNorm": 0.752831483186039,
+    "topShare": 0.2710144927536232,
+    "losses": 0.3333333333333333,
+    "grind": 0,
+    "novelty": 8.5,
+    "clashRate": 0.2255772646536412,
+    "minutes": 21.069861111111106
+   }
+  },
+  "3": {
+   "total": 98,
+   "parts": {
+    "challenge": 1,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.8324675324675325,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 0.8517608517608518,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.8833333333333333,
+    "bossWinMash": 0.12666666666666668,
+    "bossWinRandom": 0.04666666666666667,
+    "bossWinCasual": 0.52,
+    "bossTurns": 16.87,
+    "bossMinFrac": 0.2782931354359926,
+    "trashTurns": 5.146666666666667,
+    "trashDrainSmart": 0.05487012987012987,
+    "trashDrainMash": 0.09245207173778601,
+    "entropyNorm": 0.7584000945709143,
+    "topShare": 0.22085889570552147,
+    "losses": 0.5,
+    "grind": 0.3333333333333333,
+    "novelty": 11.5,
+    "clashRate": 0.25552825552825553,
+    "minutes": 15.82625
+   }
+  },
+  "4": {
+   "total": 89,
+   "parts": {
+    "challenge": 0.9142857142857145,
+    "agency": 1,
+    "access": 1,
+    "tension": 0,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.7343147563967753,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 1,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.95,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.5333333333333333,
+    "bossTurns": 16.61,
+    "bossMinFrac": 0.6088328075709779,
+    "trashTurns": 5.521666666666667,
+    "trashDrainSmart": 0.0401472134595163,
+    "trashDrainMash": 0.08415089379600421,
+    "entropyNorm": 0.8381833389794783,
+    "topShare": 0.16556291390728478,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 11,
+    "clashRate": 0.3814229249011858,
+    "minutes": 17.144652777777775
+   }
+  },
+  "5": {
+   "total": 95,
+   "parts": {
+    "challenge": 0.8476190476190476,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.7087254901960784,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 0.8083832335329342,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.9733333333333334,
+    "bossWinMash": 0.10333333333333333,
+    "bossWinRandom": 0,
+    "bossWinCasual": 0.4866666666666667,
+    "bossTurns": 21.433333333333334,
+    "bossMinFrac": 0.3431372549019608,
+    "trashTurns": 3.8879999999999995,
+    "trashDrainSmart": 0.03630882352941176,
+    "trashDrainMash": 0.07140686274509804,
+    "entropyNorm": 0.7806787239839544,
+    "topShare": 0.18872549019607843,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 10.5,
+    "clashRate": 0.24251497005988024,
+    "minutes": 13.690694444444444
+   }
+  },
+  "6": {
+   "total": 97,
+   "parts": {
+    "challenge": 0.8095238095238095,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.842104436592069,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 1,
+    "length": 0.9962175925925926
+   },
+   "inputs": {
+    "bossWinSmart": 0.9866666666666667,
+    "bossWinMash": 0.013333333333333334,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.58,
+    "bossTurns": 14.43,
+    "bossMinFrac": 0.3003533568904594,
+    "trashTurns": 5.118,
+    "trashDrainSmart": 0.05631566548881036,
+    "trashDrainMash": 0.10102709069493523,
+    "entropyNorm": 0.8146122329574864,
+    "topShare": 0.17325227963525835,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 8,
+    "clashRate": 0.6447368421052632,
+    "minutes": 11.943263888888888
+   }
+  },
+  "7": {
+   "total": 96,
+   "parts": {
+    "challenge": 0.8095238095238095,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.8827581823959326,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 0.8317929759704251,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.9866666666666667,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.013333333333333334,
+    "bossWinCasual": 0.64,
+    "bossTurns": 15.743333333333334,
+    "bossMinFrac": 0.30123927550047663,
+    "trashTurns": 4.712000000000001,
+    "trashDrainSmart": 0.0624137273593899,
+    "trashDrainMash": 0.14108293612964729,
+    "entropyNorm": 0.7897649508473745,
+    "topShare": 0.1618320610687023,
+    "losses": 0,
+    "grind": 0,
+    "novelty": 9,
+    "clashRate": 0.24953789279112754,
+    "minutes": 20.147291666666664
+   }
+  },
+  "8": {
+   "total": 95,
+   "parts": {
+    "challenge": 0.9904761904761906,
+    "agency": 1,
+    "access": 1,
+    "tension": 1,
+    "bossPacing": 1,
+    "trashPacing": 1,
+    "attrition": 0.846111936602278,
+    "skillMatters": 1,
+    "variety": 1,
+    "noGrind": 1,
+    "novelty": 1,
+    "hueUse": 0.28558679161088807,
+    "length": 1
+   },
+   "inputs": {
+    "bossWinSmart": 0.9233333333333333,
+    "bossWinMash": 0,
+    "bossWinRandom": 0.07333333333333333,
+    "bossWinCasual": 0.6133333333333333,
+    "bossTurns": 23.483333333333334,
+    "bossMinFrac": 0.3083209509658247,
+    "trashTurns": 4.6425,
+    "trashDrainSmart": 0.0569167904903417,
+    "trashDrainMash": 0.10895988112927181,
+    "entropyNorm": 0.8014906645619951,
+    "topShare": 0.17424975798644723,
+    "losses": 0.16666666666666666,
+    "grind": 0,
+    "novelty": 30,
+    "clashRate": 0.0856760374832664,
+    "minutes": 28.624791666666667
+   }
+  }
+ }
+}
