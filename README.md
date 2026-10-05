@@ -11,37 +11,31 @@ This repository holds tile-based role-playing games that different AI models wro
 | Please Hold | Claude Opus 5.5, Ultracode | `StrangeRPGBenchmarkOpusMore` | Playable, golden |
 | Plumb | Claude Fable 5.1, Ultracode (polished by Opus 5.5) | `StrangeRPGBenchmarkFableMore` | Playable, golden |
 
-## Use the menu
+## Menu
 
-Click a cartridge to open its preview, then press Start to play the game inside the page. Menu in the top-left corner returns to the cartridges. Arrow keys move between cartridges and Enter opens one. The side arrows, the dots, Page Up and Page Down, the mouse wheel, and a horizontal swipe all change the page.
+Each cartridge opens a preview, and the preview's Start button runs the game inside the page. The Menu button in the top-left corner returns to the cartridges. Arrow keys move between cartridges and Enter opens one. The side arrows, the dots, Page Up and Page Down, the mouse wheel, and a horizontal swipe all change the page. The menu adds a page whenever the cartridges fill the current one.
 
-## Preview the site locally
+## Site build
 
-On Windows, double-click `play.cmd`. It builds every game, serves the site at http://localhost:8080/, and opens it in your browser. Close the window to stop the server.
-
-On any system, run the build script directly:
+`tools/build-site.mjs` builds every game that has a build step and copies the menu and the builds into `_site/`. The script needs Node 18 or newer.
 
 ```bash
 node tools/build-site.mjs --serve --open
 ```
 
-The script builds every game that has a build step and copies the menu and the builds into `_site/`. It then serves `_site/` at http://localhost:8080/. Add `--skip-build` to reuse the existing game builds, and put a port number after `--serve` to use another port. The script needs Node 18 or newer.
+`--serve` serves `_site/` at http://localhost:8080/ and accepts a port number after it. `--open` opens the site in a browser. `--skip-build` reuses the existing game builds. On Windows, `play.cmd` runs the same build, serves the site, and opens it.
 
-## Publish on GitHub Pages
+The workflow in `.github/workflows/pages.yml` runs the same script on every push to `main` and publishes `_site/` to GitHub Pages. The Pages source is set to GitHub Actions, so built files are never committed.
 
-1. Push the repository to GitHub with `main` as the default branch.
-2. Open Settings, then Pages, and set Source to GitHub Actions.
-3. Push to `main`, or run the Deploy to GitHub Pages workflow from the Actions tab.
+## Game requirements
 
-The workflow in `.github/workflows/pages.yml` runs `tools/build-site.mjs` and publishes `_site/`. Built files never need to be committed.
+Each game lives in its own folder at the repository root. Its build writes `index.html` and its scripts into one output folder, and every path in that `index.html` is relative. All games share one origin on GitHub Pages, so each game uses browser storage keys that no other game uses.
 
-## Add a game
+Cartridge art lives in `menu/art/`. Each game has its main character as a small PNG with a transparent background and a square screenshot of a scene. Extra screenshots are optional and appear in the preview.
 
-1. Put the game in its own folder at the repository root. Its build must write `index.html` and its scripts into one output folder, and every path in that `index.html` must be relative.
-2. Add the cartridge art to `menu/art/`. You need the main character as a small PNG with a transparent background and a square screenshot of a scene. More screenshots are optional and appear in the preview.
-3. Add an entry to `games.json` and run `node tools/build-site.mjs --serve` to check it.
+## games.json
 
-Each entry in `games.json` has these fields:
+`games.json` lists every cartridge. Each entry has these fields:
 
 - `id` names the game in the address. The site serves the build from `games/<id>/`.
 - `title`, `model`, `effort`, and the optional `agent` appear on the label and in the preview.
@@ -54,5 +48,3 @@ Each entry in `games.json` has these fields:
 - `hero` holds the character's `name`, `role`, and `sprite`.
 - `scene` is the screenshot on the label, and `shots` lists the extra screenshots.
 - `chapters`, `blurb`, and `controls` fill the preview.
-
-The menu adds a page whenever the cartridges fill the current one. All games share one origin on GitHub Pages, so a new game must use browser storage keys that no other game uses.
