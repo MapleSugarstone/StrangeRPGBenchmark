@@ -58,7 +58,7 @@ export type Action =
   | { t: 'flee' };
 
 export type Ev =
-  | { k: 'msg'; text: string }
+  | { k: 'msg'; text: string; sticky?: boolean }
   | { k: 'act'; uid: number; name: string; hue?: Hue }
   | { k: 'dmg'; uid: number; n: number; crit?: boolean; mult?: number; hue?: Hue }
   | { k: 'heal'; uid: number; n: number; ink?: boolean }
@@ -96,7 +96,7 @@ export interface BattleCfg {
 export const NEGATIVE = ['static', 'stun', 'grey', 'hush'];
 export const STATUS_NAME: Record<string, string> = {
   static: 'Static', stun: 'Stun', grey: 'Grey', hush: 'Hush', regen: 'Regen', taunt: 'Taunt',
-  mirror: 'Glass', primed: 'Primed', painted: 'Painted', charge: 'Charging',
+  mirror: 'Glass', primed: 'Primed', painted: 'Painted', charge: 'Charging', locked: 'Locked',
 };
 
 export function stageMult(s: number): number {
@@ -545,10 +545,21 @@ export class Battle {
       return null;
     }
     if (fx.startsWith('charge:')) {
-      u.mem.charged = fx.slice(7);
+      const charged = SKILLS[fx.slice(7)];
+      u.mem.charged = charged.id;
       u.st.charge = { t: 99 };
       ev.push({ k: 'status', uid: u.uid, s: 'charge', on: true });
-      ev.push({ k: 'msg', text: TELEGRAPH[fx.slice(7)] ?? `${u.name} is gathering power.` });
+      let text = TELEGRAPH[charged.id] ?? `${u.name} is gathering power.`;
+      // A charged single-target attack locks onto one foe now, so the party can see who to protect.
+      const lock = charged.target === 'foe' ? this.pickFoe(u) : undefined;
+      if (lock) {
+        u.mem.lockUid = lock.uid;
+        lock.st.locked = { t: 99 };
+        ev.push({ k: 'status', uid: lock.uid, s: 'locked', on: true });
+        text = `${u.name} locks on to ${lock.name}!`;
+      }
+      u.mem.telegraph = lock ? `${u.name} is locked on ${lock.name}!` : `${u.name} is charging ${charged.name}!`;
+      ev.push({ k: 'msg', text, sticky: true });
       return null;
     }
     if (fx.startsWith('summon:')) {
@@ -598,16 +609,15 @@ export class Battle {
     }
 
     const ts = this.targets(u, sk, a.target);
-    // Glass Guard bounces the first enemy spell aimed at a single ally.
-    if (u.side === 1 && sk.kind === 'mag' && sk.target === 'foe' && ts[0]?.st.mirror) {
-      const t = ts[0];
-      delete t.st.mirror;
-      ev.push({ k: 'status', uid: t.uid, s: 'mirror', on: false });
-      ev.push({ k: 'msg', text: 'The glass throws it back!' });
-      this.strike(u, u, sk, ev, pmul);
-      return null;
-    }
     for (const t of ts) {
+      // Glass Guard bounces an enemy spell back at its caster, including each ally's share of a spell that hits everyone.
+      if (u.side === 1 && sk.kind === 'mag' && t.side === 0 && t.st.mirror && u.alive) {
+        delete t.st.mirror;
+        ev.push({ k: 'status', uid: t.uid, s: 'mirror', on: false });
+        ev.push({ k: 'msg', text: `${t.name}'s glass throws ${sk.name} back!` });
+        this.strike(u, u, sk, ev, pmul);
+        continue;
+      }
       const hits = sk.hits ?? 1;
       for (let h = 0; h < hits && t.alive; h++) {
         if ((sk.kind === 'phys' || sk.kind === 'mag' || ((sk.kind === 'debuff') && sk.power)) && t.side !== u.side) {

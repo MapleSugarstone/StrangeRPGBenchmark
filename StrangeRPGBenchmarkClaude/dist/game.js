@@ -1794,7 +1794,7 @@
     { id: "tariff", name: "Tariff", desc: "Coins rain on every foe. Costs gold.", kind: "phys", target: "foes", hue: "wpn", power: 1.1, gold: 2 },
     // Mirrow
     { id: "reflect", name: "Reflect", desc: "Repeat the last action anyone took, as your own.", kind: "util", target: "self", ink: 5, fx: "reflect" },
-    { id: "glass_guard", name: "Glass Guard", desc: "The next spell aimed at an ally bounces back.", kind: "buff", target: "ally", ink: 4, delay: 70, status: { id: "mirror", chance: 1, turns: 4 } },
+    { id: "glass_guard", name: "Glass Guard", desc: "The next spell that hits this ally bounces back at its caster. Lasts four turns.", kind: "buff", target: "ally", ink: 4, delay: 70, status: { id: "mirror", chance: 1, turns: 4 } },
     { id: "shard", name: "Shard", desc: "Blue glass on one foe.", kind: "mag", target: "foe", hue: "B", power: 1.4, ink: 3 },
     { id: "invert", name: "Invert", desc: "Hit every foe with the opposite of its own first hue.", kind: "mag", target: "foes", hue: "invert", power: 1, ink: 10 },
     { id: "silver_back", name: "Silverback", desc: "Show a foe itself. It may stop to stare.", kind: "debuff", target: "foe", ink: 3, status: { id: "stun", chance: 0.6, turns: 1 } },
@@ -1871,7 +1871,7 @@
     { id: "jelly_sting", name: "Jelly Sting", desc: "", kind: "mag", target: "foe", hue: "C", power: 1.1, status: { id: "stun", chance: 0.2, turns: 1 } },
     { id: "halo_ray", name: "Halo Ray", desc: "", kind: "mag", target: "foe", hue: "Y", power: 1.3 },
     { id: "target_lock", name: "Target Lock", desc: "", kind: "util", target: "self", fx: "charge:judgement" },
-    { id: "judgement", name: "Judgement Beam", desc: "", kind: "mag", target: "foes", hue: "Y", power: 2 },
+    { id: "judgement", name: "Judgement Beam", desc: "", kind: "mag", target: "foe", hue: "Y", power: 3 },
     { id: "wing_blades", name: "Wing Blades", desc: "", kind: "phys", target: "foes", power: 0.85 },
     { id: "spin_web", name: "Spin Web", desc: "", kind: "debuff", target: "foe", stage: { stat: "spd", d: -2 } },
     { id: "unprint_ray", name: "Unprint Ray", desc: "", kind: "mag", target: "foe", power: 1.2, status: { id: "grey", chance: 1, turns: 3 } },
@@ -2011,10 +2011,16 @@
       const raw = localStorage.getItem(slot);
       if (!raw) return null;
       const st = JSON.parse(raw);
-      return st.v === 1 ? st : null;
+      return st.v === 1 ? migrate(st) : null;
     } catch {
       return null;
     }
+  }
+  function migrate(st) {
+    const f9 = st.flags;
+    const pastCustoms = st.chapter >= 3 || !!f9.sawThief || !!f9.octoDead || ["prismouth", "lighthouse"].includes(st.map);
+    if (pastCustoms) f9["gateOpen:fizz:M"] = true;
+    return st;
   }
 
   // src/game/script.ts
@@ -2184,6 +2190,7 @@
 
   // src/game/world.ts
   var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  var TINT_MAPS = /* @__PURE__ */ new Set(["fizz", "radio"]);
   function isMarker(c) {
     return /[a-z0-9]/.test(c);
   }
@@ -2242,7 +2249,7 @@
     passable(x, y, st) {
       if (x < 0 || y < 0 || x >= this.w || y >= this.h) return false;
       const t = this.tile(x, y, st);
-      if (t.gate) return st.tint === t.gate;
+      if (t.gate) return st.tint === t.gate || !!st.flags[`gateOpen:${this.def.id}:${t.gate}`];
       if (t.sea) return !!st.flags.skiff;
       if (t.solid) return false;
       return !this.entAt(x, y, true);
@@ -3310,7 +3317,8 @@
         spr: NPC.customs,
         talk: async (s) => {
           const tinted = s.st.tint === "M";
-          if (tinted) await s.say("Customs Frog", "Violet! Correct tint. Welcome to Prismouth. Please enjoy our colors while we still have them.");
+          if (s.has("gateOpen:fizz:M")) await s.say("Customs Frog", "Oh, you again. You're on the list now. Go right through, paint or no paint.");
+          else if (tinted) await s.say("Customs Frog", "Violet! Correct tint. Welcome to Prismouth. Please enjoy our colors while we still have them.");
           else await s.say("Customs Frog", "Prismouth Customs. Tinted persons only. This week's tint is violet. Last week it was enthusiasm, but we couldn't measure it.");
         }
       }
@@ -3457,6 +3465,11 @@
     under: ".",
     outside: "~",
     bg: "bush",
+    enter: async (s) => {
+      if (s.has("gateOpen:fizz:M")) return;
+      s.flag("gateOpen:fizz:M");
+      await s.tell("The sea spray washes the violet off. Customs has your name now, so the gate will open for you either way.");
+    },
     legend: { V: { kind: "wall", solid: true } },
     theme: {
       ground: ["k", "e1", "e2"],
@@ -4675,7 +4688,7 @@
     s.flag("skiff");
     s.mech("mirror");
     await s.join("mirrow", Math.max(21, s.st.members.wick.lvl));
-    await s.tell("^yMirrow^0's ^yReflect^0 repeats the last action anyone took, friend or foe, as Mirrow's own. Copying a boss's best attack back at it is the whole point.");
+    await s.tell("^yMirrow^0 has two kinds of mirror. ^yGlass Guard^0 coats one ally so the next spell that hits them bounces back at its caster. ^yReflect^0 repeats the last action anyone took, friend or foe, as Mirrow's own.");
     await s.tell("You can now sail the ^ycloud sea^0. Walk off the dock onto the clouds.");
   };
   var campfire = async (s) => {
@@ -4707,7 +4720,7 @@
     s.music("boss");
     await s.tell("The Needle is a platform of white metal at the top of the Tether. At its center is a gate shaped like the eye of a sewing needle, and in front of the gate hangs a machine with six wings and a ring of light for a head.");
     await s.say("Seraph K-7", "HALT. THE LOOM IS CLOSED FOR RECLAMATION. ALL COLORS WILL BE COLLECTED. PLEASE HOLD STILL FOR COLLECTION.");
-    await s.say("Mirrow", "...hold still. When its halo locks on, let it fire. Then show it its own beam. I have been waiting my whole life to reflect something this bright.");
+    await s.say("Mirrow", "...hold still. I have been waiting my whole life to reflect something this bright.");
     const r = await s.battle("boss6");
     if (r !== "win") return;
     s.flag("seraphDead");
@@ -5743,7 +5756,8 @@
     mirror: "Glass",
     primed: "Primed",
     painted: "Painted",
-    charge: "Charging"
+    charge: "Charging",
+    locked: "Locked"
   };
   function stageMult(s) {
     return s >= 0 ? 1 + 0.25 * s : 1 / (1 - 0.25 * s);
@@ -6182,10 +6196,20 @@
         return null;
       }
       if (fx.startsWith("charge:")) {
-        u.mem.charged = fx.slice(7);
+        const charged = SKILLS[fx.slice(7)];
+        u.mem.charged = charged.id;
         u.st.charge = { t: 99 };
         ev.push({ k: "status", uid: u.uid, s: "charge", on: true });
-        ev.push({ k: "msg", text: TELEGRAPH[fx.slice(7)] ?? `${u.name} is gathering power.` });
+        let text = TELEGRAPH[charged.id] ?? `${u.name} is gathering power.`;
+        const lock = charged.target === "foe" ? this.pickFoe(u) : void 0;
+        if (lock) {
+          u.mem.lockUid = lock.uid;
+          lock.st.locked = { t: 99 };
+          ev.push({ k: "status", uid: lock.uid, s: "locked", on: true });
+          text = `${u.name} locks on to ${lock.name}!`;
+        }
+        u.mem.telegraph = lock ? `${u.name} is locked on ${lock.name}!` : `${u.name} is charging ${charged.name}!`;
+        ev.push({ k: "msg", text, sticky: true });
         return null;
       }
       if (fx.startsWith("summon:")) {
@@ -6234,15 +6258,14 @@
         return null;
       }
       const ts = this.targets(u, sk, a.target);
-      if (u.side === 1 && sk.kind === "mag" && sk.target === "foe" && ts[0]?.st.mirror) {
-        const t = ts[0];
-        delete t.st.mirror;
-        ev.push({ k: "status", uid: t.uid, s: "mirror", on: false });
-        ev.push({ k: "msg", text: "The glass throws it back!" });
-        this.strike(u, u, sk, ev, pmul);
-        return null;
-      }
       for (const t of ts) {
+        if (u.side === 1 && sk.kind === "mag" && t.side === 0 && t.st.mirror && u.alive) {
+          delete t.st.mirror;
+          ev.push({ k: "status", uid: t.uid, s: "mirror", on: false });
+          ev.push({ k: "msg", text: `${t.name}'s glass throws ${sk.name} back!` });
+          this.strike(u, u, sk, ev, pmul);
+          continue;
+        }
         const hits = sk.hits ?? 1;
         for (let h2 = 0; h2 < hits && t.alive; h2++) {
           if ((sk.kind === "phys" || sk.kind === "mag" || sk.kind === "debuff" && sk.power) && t.side !== u.side) {
@@ -6953,7 +6976,7 @@
     { shape: "star", n: 3 },
     ["k", "w", "y2"],
     [["halo_ray", 3], ["wing_blades", 2]],
-    { hp: 3.2, str: 2.7, mnd: 2.8, spd: 2, xp: 6, gold: 10 },
+    { hp: 4.8, str: 3.8, mnd: 3.9, spd: 2, xp: 6, gold: 10 },
     8,
     "The gate guardian. Its halo is a targeting ring.",
     { ai: "seraph", boss: true }
@@ -7089,7 +7112,7 @@
     { shape: "star", n: 3 },
     ["k", "g2", "w"],
     [["compress", 2], ["erase", 2], ["warden_cleave", 1]],
-    { hp: 4.4, str: 2.2, mnd: 2.4, spd: 2.2, xp: 0, gold: 0 },
+    { hp: 4.4, str: 2.65, mnd: 2.9, spd: 2.2, xp: 0, gold: 0 },
     8,
     "The Bishop, wearing the Loom like a robe. Its colors change as it pulls them from the world.",
     { ai: "bishop2", boss: true }
@@ -7331,8 +7354,12 @@
     if (u.mem.charged) {
       const s = String(u.mem.charged);
       delete u.mem.charged;
+      delete u.mem.telegraph;
       delete u.st.charge;
-      return { t: "skill", skill: s };
+      const lock = b2.byUid(+(u.mem.lockUid ?? 0));
+      delete u.mem.lockUid;
+      if (lock) delete lock.st.locked;
+      return { t: "skill", skill: s, target: lock?.alive ? lock.uid : void 0 };
     }
     if (u.ai && BOSS[u.ai]) {
       const a = BOSS[u.ai](b2, u);
@@ -7358,6 +7385,7 @@
   var PARTY_Y = 91;
   var ROW_H = 15;
   var STATUS_COL = {
+    locked: "r3",
     static: "c3",
     stun: "y2",
     grey: "g2",
@@ -7400,6 +7428,10 @@
       __publicField(this, "victoryLines", []);
       __publicField(this, "reels", null);
       __publicField(this, "scanUid", 0);
+      /** True while an event waits for the player to press a key, such as a boss telegraph or a Diagnose readout. */
+      __publicField(this, "waitKey", false);
+      __publicField(this, "waitT", 0);
+      __publicField(this, "sticky", null);
       __publicField(this, "partyTurns", 0);
       __publicField(this, "result", null);
       __publicField(this, "bgPal");
@@ -7528,6 +7560,16 @@
     }
     playEvents() {
       const fast = this.g.input.isDown("a") || this.g.input.isDown("b");
+      if (this.cur && this.waitKey) {
+        this.waitT++;
+        if (this.waitT > 20 && (this.g.input.pressed("a") || this.g.input.pressed("b"))) {
+          this.waitKey = false;
+          this.sticky = null;
+          this.scanUid = 0;
+          this.g.audio.sfx("tick");
+          this.cur = null;
+        } else return;
+      }
       if (this.cur) {
         this.evT -= fast ? 3 : 1;
         if (this.cur.k === "msg" && this.g.input.pressed("a")) this.evT = 0;
@@ -7564,6 +7606,13 @@
       const a = this.g.audio;
       switch (ev.k) {
         case "msg":
+          if (ev.sticky) {
+            this.sticky = ev.text;
+            this.waitKey = true;
+            this.waitT = 0;
+            this.g.audio.sfx("debuff");
+            return 1;
+          }
           this.message = ev.text;
           return 55;
         case "act": {
@@ -7655,7 +7704,9 @@
           return 50;
         case "scan":
           this.scanUid = ev.uid;
-          return 100;
+          this.waitKey = true;
+          this.waitT = 0;
+          return 1;
         case "push": {
           const [x, y] = this.pos(ev.uid);
           this.floaters.push({ x, y: y - 4, text: "LATER", col: "e3", t: 28 });
@@ -7679,7 +7730,8 @@
       if (this.b.mech.has("link")) items.push({ label: "Link", id: "link", enabled: this.b.canUse(u, "link"), color: this.b.link >= 100 ? "y3" : void 0 });
       items.push({ label: "Flee", id: "flee", enabled: this.b.canFlee });
       this.menu = new Menu(items, items.length);
-      this.message = `${u.name}'s turn.`;
+      const warn = this.b.alive(1).find((e) => e.mem.telegraph);
+      this.message = warn ? String(warn.mem.telegraph) : `${u.name}'s turn.`;
       this.reels = null;
       this.scanUid = 0;
       this.setMode("command");
@@ -7826,7 +7878,7 @@
     }
     targetInfo(t) {
       if (this.targetAll) return this.targets[0]?.side === 1 ? "Every foe." : "Every ally.";
-      if (t.side === 0) return `${t.name}  ${t.hp}/${t.maxHp}`;
+      if (t.side === 0) return `${t.name}  ${t.hp}/${t.maxHp}${t.st.locked ? "  ^rTARGETED^0" : ""}`;
       const p2 = this.pending;
       if (p2?.kind === "skill") {
         const sk = SKILLS[p2.id];
@@ -7922,6 +7974,7 @@
       if (this.mode === "skill" || this.mode === "item" || this.mode === "hue" || this.mode === "partner") this.sub.draw(g, 0, PARTY_Y, 160, this.t);
       if (this.reels && this.cur?.k === "reels") this.drawReels(g);
       if (this.scanUid && this.cur?.k === "scan") this.drawScan(g);
+      if (this.sticky && this.cur?.k === "msg") this.drawSticky(g);
       for (const f9 of this.floaters) {
         const w = textW(f9.text);
         g.text(f9.text, Math.round(f9.x - w / 2) + 1, Math.round(f9.y) + 1, "k");
@@ -7987,6 +8040,10 @@
           hueChips(g, b2.defHues(u), l.x, l.y + l.s + 5);
         }
         if (this.actor === u && this.mode === "events") g.rect(l.x + l.s / 2 - 1, l.y - 3, 3, 1, "r3");
+        if (u.st.charge && Math.floor(this.t / 10) % 3 !== 0) {
+          const label = u.mem.lockUid ? "LOCKED ON" : "CHARGING";
+          g.text(label, l.x + l.s / 2 - textW(label) / 2, Math.max(b2.mech.has("tempo") ? 12 : 1, l.y - 13), "r3");
+        }
       }
     }
     drawMessage(g) {
@@ -8012,7 +8069,8 @@
         const flash = this.flashUid === u.uid && this.flashT > 0 && Math.floor(this.flashT / 2) % 2 === 0;
         const spec = { ...u.spec, pal: b2.displayPal(u) };
         g.sprite(spec, 8, y + 3, { grey: !u.alive, flash: flash ? "r2" : void 0 });
-        g.text(u.name, 19, y + 2, u.alive ? "w" : "g1");
+        if (u.st.locked && Math.floor(this.t / 8) % 2 === 0) g.rectO(6, y + 1, 12, 12, "r2");
+        g.text(u.name, 19, y + 2, !u.alive ? "g1" : u.st.locked ? "r3" : "w");
         const hpCol = !u.alive ? "g1" : u.hp / u.maxHp < 0.25 ? "r3" : u.hp / u.maxHp < 0.5 ? "y2" : "w";
         g.textR(`${u.hp}`, 76, y + 2, hpCol);
         g.text(`/${u.maxHp}`, 77, y + 2, "g1");
@@ -8056,6 +8114,20 @@
       lines.push(weak.length ? `Weak to ${weak.join(", ")}.` : "No weakness.");
       g.box(6, 8, 148, lines.length * LINE_H + 6);
       lines.forEach((l, i) => g.text(l, 10, 11 + i * LINE_H, i === 0 ? "y3" : "w"));
+      this.drawPrompt(g, 148, 8 + lines.length * LINE_H + 1);
+    }
+    drawSticky(g) {
+      const lines = wrap(this.sticky ?? "", 138);
+      g.box(6, 10, 148, lines.length * (LINE_H + 1) + 8, "r3");
+      lines.forEach((l, i) => g.text(l, 11, 14 + i * (LINE_H + 1), i === 0 ? "y3" : "w"));
+      this.drawPrompt(g, 148, 10 + lines.length * (LINE_H + 1) + 3);
+    }
+    /** A blinking arrow that tells the player the game is waiting for a key press. */
+    drawPrompt(g, x, y) {
+      if (this.waitT > 20 && Math.floor(this.t / 16) % 2 === 0) {
+        g.rect(x - 1, y, 3, 1, "w");
+        g.rect(x, y + 1, 1, 1, "w");
+      }
     }
     drawVictory(g) {
       const line = this.victoryLines[0];
@@ -9360,6 +9432,10 @@
       this.field.onMapLoaded();
       this.audio.play(def.music);
       this.banner = { text: def.name, t: 110 };
+      if (this.st.tint && !TINT_MAPS.has(id)) {
+        this.st.tint = "";
+        this.banner = { text: "The paint washes off", t: 110 };
+      }
     }
     async run(script) {
       this.busy++;

@@ -6,7 +6,7 @@ import type { SpriteSpec } from '../core/sprites';
 import { Rng } from '../core/rng';
 import { GameState, Dir, save as saveState } from './state';
 import { Ctx, Script, BattleOpts, BattleResult } from './script';
-import { World } from './world';
+import { World, TINT_MAPS } from './world';
 import { MAPS } from '../maps';
 import { DialogScene, ChoiceScene } from '../scenes/dialog';
 import { BattleScene } from '../scenes/battle';
@@ -131,6 +131,10 @@ export class Game {
     this.field.onMapLoaded();
     this.audio.play(def.music);
     this.banner = { text: def.name, t: 110 };
+    if (this.st.tint && !TINT_MAPS.has(id)) {
+      this.st.tint = '';
+      this.banner = { text: 'The paint washes off', t: 110 };
+    }
   }
 
   async run(script: Script) {

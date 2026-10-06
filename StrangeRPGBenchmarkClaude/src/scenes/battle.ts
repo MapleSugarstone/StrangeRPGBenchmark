@@ -23,7 +23,7 @@ const PARTY_Y = 91;
 const ROW_H = 15;
 
 const STATUS_COL: Record<string, Col> = {
-  static: 'c3', stun: 'y2', grey: 'g2', hush: 'b3', regen: 'e3', taunt: 'y3', mirror: 'b3', primed: 'o3', painted: 'm3', charge: 'r3',
+  locked: 'r3', static: 'c3', stun: 'y2', grey: 'g2', hush: 'b3', regen: 'e3', taunt: 'y3', mirror: 'b3', primed: 'o3', painted: 'm3', charge: 'r3',
 };
 
 export class BattleScene implements Scene {
@@ -53,6 +53,10 @@ export class BattleScene implements Scene {
   victoryLines: string[] = [];
   reels: Hue[] | null = null;
   scanUid = 0;
+  /** True while an event waits for the player to press a key, such as a boss telegraph or a Diagnose readout. */
+  waitKey = false;
+  waitT = 0;
+  sticky: string | null = null;
   partyTurns = 0;
   result: BattleResult | null = null;
   bgPal: [string, string, string];
@@ -155,6 +159,16 @@ export class BattleScene implements Scene {
 
   playEvents() {
     const fast = this.g.input.isDown('a') || this.g.input.isDown('b');
+    if (this.cur && this.waitKey) {
+      this.waitT++;
+      if (this.waitT > 20 && (this.g.input.pressed('a') || this.g.input.pressed('b'))) {
+        this.waitKey = false;
+        this.sticky = null;
+        this.scanUid = 0;
+        this.g.audio.sfx('tick');
+        this.cur = null;
+      } else return;
+    }
     if (this.cur) {
       this.evT -= fast ? 3 : 1;
       if (this.cur.k === 'msg' && this.g.input.pressed('a')) this.evT = 0;
@@ -188,7 +202,10 @@ export class BattleScene implements Scene {
   private startEvent(ev: Ev): number {
     const a = this.g.audio;
     switch (ev.k) {
-      case 'msg': this.message = ev.text; return 55;
+      case 'msg':
+        if (ev.sticky) { this.sticky = ev.text; this.waitKey = true; this.waitT = 0; this.g.audio.sfx('debuff'); return 1; }
+        this.message = ev.text;
+        return 55;
       case 'act': {
         const u = this.b.byUid(ev.uid);
         this.banner = `${u?.name ?? ''}: ${ev.name}`;
@@ -270,7 +287,7 @@ export class BattleScene implements Scene {
         return 8;
       }
       case 'reels': this.reels = ev.hues; a.sfx('tick'); return 50;
-      case 'scan': this.scanUid = ev.uid; return 100;
+      case 'scan': this.scanUid = ev.uid; this.waitKey = true; this.waitT = 0; return 1;
       case 'push': {
         const [x, y] = this.pos(ev.uid);
         this.floaters.push({ x, y: y - 4, text: 'LATER', col: 'e3', t: 28 });
@@ -294,7 +311,8 @@ export class BattleScene implements Scene {
     if (this.b.mech.has('link')) items.push({ label: 'Link', id: 'link', enabled: this.b.canUse(u, 'link'), color: this.b.link >= 100 ? 'y3' : undefined });
     items.push({ label: 'Flee', id: 'flee', enabled: this.b.canFlee });
     this.menu = new Menu(items, items.length);
-    this.message = `${u.name}'s turn.`;
+    const warn = this.b.alive(1).find(e => e.mem.telegraph);
+    this.message = warn ? String(warn.mem.telegraph) : `${u.name}'s turn.`;
     this.reels = null;
     this.scanUid = 0;
     this.setMode('command');
@@ -426,7 +444,7 @@ export class BattleScene implements Scene {
 
   private targetInfo(t: Unit): string {
     if (this.targetAll) return this.targets[0]?.side === 1 ? 'Every foe.' : 'Every ally.';
-    if (t.side === 0) return `${t.name}  ${t.hp}/${t.maxHp}`;
+    if (t.side === 0) return `${t.name}  ${t.hp}/${t.maxHp}${t.st.locked ? '  ^rTARGETED^0' : ''}`;
     const p = this.pending;
     if (p?.kind === 'skill') {
       const sk = SKILLS[p.id];
@@ -526,6 +544,7 @@ export class BattleScene implements Scene {
     if (this.mode === 'skill' || this.mode === 'item' || this.mode === 'hue' || this.mode === 'partner') this.sub.draw(g, 0, PARTY_Y, 160, this.t);
     if (this.reels && this.cur?.k === 'reels') this.drawReels(g);
     if (this.scanUid && this.cur?.k === 'scan') this.drawScan(g);
+    if (this.sticky && this.cur?.k === 'msg') this.drawSticky(g);
     for (const f of this.floaters) {
       const w = textW(f.text);
       g.text(f.text, Math.round(f.x - w / 2) + 1, Math.round(f.y) + 1, 'k');
@@ -594,6 +613,10 @@ export class BattleScene implements Scene {
         hueChips(g, b.defHues(u), l.x, l.y + l.s + 5);
       }
       if (this.actor === u && this.mode === 'events') g.rect(l.x + l.s / 2 - 1, l.y - 3, 3, 1, 'r3');
+      if (u.st.charge && Math.floor(this.t / 10) % 3 !== 0) {
+        const label = u.mem.lockUid ? 'LOCKED ON' : 'CHARGING';
+        g.text(label, l.x + l.s / 2 - textW(label) / 2, Math.max(b.mech.has('tempo') ? 12 : 1, l.y - 13), 'r3');
+      }
     }
   }
 
@@ -621,7 +644,8 @@ export class BattleScene implements Scene {
       const flash = this.flashUid === u.uid && this.flashT > 0 && Math.floor(this.flashT / 2) % 2 === 0;
       const spec = { ...u.spec, pal: b.displayPal(u) };
       g.sprite(spec, 8, y + 3, { grey: !u.alive, flash: flash ? 'r2' : undefined });
-      g.text(u.name, 19, y + 2, u.alive ? 'w' : 'g1');
+      if (u.st.locked && Math.floor(this.t / 8) % 2 === 0) g.rectO(6, y + 1, 12, 12, 'r2');
+      g.text(u.name, 19, y + 2, !u.alive ? 'g1' : u.st.locked ? 'r3' : 'w');
       const hpCol: Col = !u.alive ? 'g1' : u.hp / u.maxHp < 0.25 ? 'r3' : u.hp / u.maxHp < 0.5 ? 'y2' : 'w';
       g.textR(`${u.hp}`, 76, y + 2, hpCol);
       g.text(`/${u.maxHp}`, 77, y + 2, 'g1');
@@ -665,6 +689,22 @@ export class BattleScene implements Scene {
     lines.push(weak.length ? `Weak to ${weak.join(', ')}.` : 'No weakness.');
     g.box(6, 8, 148, lines.length * LINE_H + 6);
     lines.forEach((l, i) => g.text(l, 10, 11 + i * LINE_H, i === 0 ? 'y3' : 'w'));
+    this.drawPrompt(g, 148, 8 + lines.length * LINE_H + 1);
+  }
+
+  private drawSticky(g: Gfx) {
+    const lines = wrap(this.sticky ?? '', 138);
+    g.box(6, 10, 148, lines.length * (LINE_H + 1) + 8, 'r3');
+    lines.forEach((l, i) => g.text(l, 11, 14 + i * (LINE_H + 1), i === 0 ? 'y3' : 'w'));
+    this.drawPrompt(g, 148, 10 + lines.length * (LINE_H + 1) + 3);
+  }
+
+  /** A blinking arrow that tells the player the game is waiting for a key press. */
+  private drawPrompt(g: Gfx, x: number, y: number) {
+    if (this.waitT > 20 && Math.floor(this.t / 16) % 2 === 0) {
+      g.rect(x - 1, y, 3, 1, 'w');
+      g.rect(x, y + 1, 1, 1, 'w');
+    }
   }
 
   private drawVictory(g: Gfx) {

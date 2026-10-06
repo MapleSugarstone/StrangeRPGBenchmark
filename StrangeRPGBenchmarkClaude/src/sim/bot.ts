@@ -1,7 +1,7 @@
 ﻿import { Ctx, BattleOpts, BattleResult } from '../game/script';
 import type { GameState, Dir, MemberState } from '../game/state';
 import { grantXp, addItem, fullStats, healAll, save } from '../game/state';
-import { World, DIRS, Ent } from '../game/world';
+import { World, DIRS, Ent, TINT_MAPS } from '../game/world';
 import { MAPS, CHAPTERS, RouteStep } from '../maps';
 import { Rng } from '../core/rng';
 import { simBattle, Outcome } from './battlesim';
@@ -196,6 +196,7 @@ export class Bot extends Ctx {
     this.world = new World(def, this.st);
     const [x, y] = this.world.marker(marker);
     this.st.map = map;
+    if (!TINT_MAPS.has(map)) this.st.tint = '';
     this.st.x = x;
     this.st.y = y;
     if (dir) this.st.facing = dir;

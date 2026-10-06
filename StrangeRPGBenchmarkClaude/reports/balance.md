@@ -13,13 +13,13 @@ The bot plays each chapter along its story route. It opens every reachable chest
 | Ch | Levels (start, boss, end) | Battles | Losses | Grind fights | Steps | Dialogue words | Gold earned | Est. minutes | Route errors |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | 1.0, 5.2, 5.2 | 11.7 | 0.2 | 0.0 | 343 | 996 | 223 | 13.9 | none |
-| 2 | 5.2, 9.8, 10.0 | 15.3 | 0.3 | 0.0 | 754 | 974 | 722 | 21.1 | none |
+| 2 | 5.2, 9.8, 10.0 | 15.3 | 0.3 | 0.0 | 754 | 995 | 722 | 21.2 | none |
 | 3 | 9.8, 13.7, 13.8 | 11.5 | 0.5 | 0.3 | 387 | 970 | 929 | 15.8 | none |
 | 4 | 13.7, 17.3, 18.0 | 17.2 | 0.0 | 0.0 | 307 | 773 | 1470 | 17.1 | none |
 | 5 | 18.0, 20.8, 21.0 | 10.8 | 0.0 | 0.0 | 369 | 818 | 1923 | 13.7 | none |
-| 6 | 20.8, 23.3, 23.3 | 7.8 | 0.0 | 0.0 | 157 | 897 | 1027 | 11.9 | none |
-| 7 | 23.3, 28.0, 28.0 | 20.3 | 0.0 | 0.0 | 351 | 1095 | 2521 | 20.1 | none |
-| 8 | 28.0, 32.5, 33.5 | 25.8 | 0.2 | 0.0 | 635 | 1307 | 3089 | 28.6 | none |
+| 6 | 20.8, 23.3, 23.3 | 7.8 | 0.0 | 0.0 | 157 | 893 | 1027 | 12.0 | none |
+| 7 | 23.3, 28.0, 28.0 | 20.3 | 0.0 | 0.0 | 351 | 1095 | 2521 | 20.3 | none |
+| 8 | 28.0, 32.5, 33.5 | 25.8 | 0.2 | 0.0 | 635 | 1307 | 3089 | 27.8 | none |
 
 ## Chapter 1: Misprint
 
@@ -172,7 +172,7 @@ Party state is the bot's state right before the fight. Win rates compare four pl
 
 | Group | Level | Party HP | Smart win | Casual win | Mash win | Random win | Smart turns | Median lowest HP | Clash rate | Breaks per fight |
 |---|---|---|---|---|---|---|---|---|---|---|
-| boss6 | 23 | 849 | 99% | 58% | 1% | 1% | 14.4 | 30% | 114% | 0.0 |
+| boss6 | 23 | 849 | 90% | 69% | 0% | 13% | 15.5 | 34% | 105% | 0.1 |
 
 ### Random encounters at boss level, full health
 
@@ -186,7 +186,7 @@ Party state is the bot's state right before the fight. Win rates compare four pl
 
 ### Variety and novelty
 
-Action entropy across the bot's battles: 3.68 bits over 23 distinct actions (normalized 0.81). Most used: `wick:snuff` at 17%.
+Action entropy across the bot's battles: 3.70 bits over 24 distinct actions (normalized 0.81). Most used: `wick:snuff` at 18%.
 
 New enemies: Sky Pirate, Cloud Whale, Stormkite, Ion Jelly, Vine Lurker, Seraph K-7. New party members: none. New mechanics: mirror, link. New skills: Lighthouse, Restock.
 
@@ -213,7 +213,7 @@ Party state is the bot's state right before the fight. Win rates compare four pl
 
 ### Variety and novelty
 
-Action entropy across the bot's battles: 4.08 bits over 36 distinct actions (normalized 0.79). Most used: `wick:snuff` at 16%.
+Action entropy across the bot's battles: 4.13 bits over 37 distinct actions (normalized 0.79). Most used: `wick:snuff` at 16%.
 
 New enemies: Thread Serpent, Spool Spider, Unprinter, Loom Warden, Grey Chorister, The Spindle, Grey Bishop. New party members: Nil. New mechanics: echo. New skills: Blank Stare, Void Touch, Nullify.
 
@@ -225,8 +225,8 @@ Party state is the bot's state right before the fight. Win rates compare four pl
 
 | Group | Level | Party HP | Smart win | Casual win | Mash win | Random win | Smart turns | Median lowest HP | Clash rate | Breaks per fight |
 |---|---|---|---|---|---|---|---|---|---|---|
-| final | 33 | 831 | 96% | 78% | 1% | 7% | 21.4 | 27% | 0% | 0.0 |
-| final2 | 33 | 1346 | 92% | 61% | 0% | 7% | 23.5 | 31% | 65% | 0.1 |
+| final | 33 | 831 | 97% | 86% | 1% | 10% | 19.7 | 27% | 0% | 0.0 |
+| final2 | 33 | 1346 | 85% | 59% | 0% | 17% | 22.3 | 32% | 71% | 0.1 |
 
 ### Random encounters at boss level, full health
 
@@ -239,9 +239,9 @@ Party state is the bot's state right before the fight. Win rates compare four pl
 
 ### Variety and novelty
 
-Action entropy across the bot's battles: 4.27 bits over 40 distinct actions (normalized 0.80). Most used: `wick:snuff` at 17%.
+Action entropy across the bot's battles: 4.19 bits over 39 distinct actions (normalized 0.79). Most used: `wick:snuff` at 18%.
 
-Losses: final at level 33.
+Losses: final2 at level 33.
 
 New enemies: Palette Wraith, Null Sheep, Eraser Knight, Grey Bishop, The Loom-Bound Bishop. New party members: Brask, Mirrow, Tock, VEND, Tint. New mechanics: tricolor. New skills: Unprint, Crush, Moth Curtain, Swarm, Carapace, Blue Lance, Molt, Reflect, Shard, Glass Guard, Silverback, Invert, Tick, Delay, Hasten, Rewind, Stopwatch, Paradox, Coin Shot, Dispense, Jackpot, Buyout, Restock, Tariff, Load Brush, Daub, Splash, Primer, Wash, Gallery, Spectrum.
 
@@ -256,8 +256,8 @@ Each part scores 0 to 100 against a target band. Challenge wants the smart playe
 | 3 | **98** | challenge 100, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 83, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 85, length 100 |
 | 4 | **89** | challenge 91, agency 100, access 100, tension 0, bossPacing 100, trashPacing 100, attrition 73, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 100, length 100 |
 | 5 | **95** | challenge 85, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 71, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 81, length 100 |
-| 6 | **97** | challenge 81, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 84, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 100, length 100 |
+| 6 | **99** | challenge 100, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 84, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 100, length 100 |
 | 7 | **96** | challenge 81, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 88, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 83, length 100 |
-| 8 | **95** | challenge 99, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 85, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 29, length 100 |
+| 8 | **95** | challenge 100, agency 100, access 100, tension 100, bossPacing 100, trashPacing 100, attrition 85, skillMatters 100, variety 100, noGrind 100, novelty 100, hueUse 26, length 100 |
 
-Run time: 10.2 s.
+Run time: 3.6 s.

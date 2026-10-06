@@ -162,8 +162,16 @@ export function load(slot = SAVE_KEY): GameState | null {
     const raw = localStorage.getItem(slot);
     if (!raw) return null;
     const st = JSON.parse(raw) as GameState;
-    return st.v === 1 ? st : null;
+    return st.v === 1 ? migrate(st) : null;
   } catch {
     return null;
   }
+}
+
+/** Brings older saves up to date without changing their format. */
+export function migrate(st: GameState): GameState {
+  const f = st.flags;
+  const pastCustoms = st.chapter >= 3 || !!f.sawThief || !!f.octoDead || ['prismouth', 'lighthouse'].includes(st.map);
+  if (pastCustoms) f['gateOpen:fizz:M'] = true;
+  return st;
 }

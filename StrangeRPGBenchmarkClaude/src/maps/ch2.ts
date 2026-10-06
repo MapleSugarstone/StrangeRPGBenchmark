@@ -171,7 +171,8 @@ const fizz: MapDef = {
     {
       id: 'customs', at: 'c', kind: 'npc', spr: NPC.customs, talk: async s => {
         const tinted = s.st.tint === 'M';
-        if (tinted) await s.say('Customs Frog', 'Violet! Correct tint. Welcome to Prismouth. Please enjoy our colors while we still have them.');
+        if (s.has('gateOpen:fizz:M')) await s.say('Customs Frog', 'Oh, you again. You\'re on the list now. Go right through, paint or no paint.');
+        else if (tinted) await s.say('Customs Frog', 'Violet! Correct tint. Welcome to Prismouth. Please enjoy our colors while we still have them.');
         else await s.say('Customs Frog', 'Prismouth Customs. Tinted persons only. This week\'s tint is violet. Last week it was enthusiasm, but we couldn\'t measure it.');
       },
     },
@@ -309,6 +310,11 @@ const tintLamp: Script = async s => {
 
 const prismouth: MapDef = {
   id: 'prismouth', name: 'Prismouth', music: 'town', rows: buildPrismouth(), under: '.', outside: '~', bg: 'bush',
+  enter: async s => {
+    if (s.has('gateOpen:fizz:M')) return;
+    s.flag('gateOpen:fizz:M');
+    await s.tell('The sea spray washes the violet off. Customs has your name now, so the gate will open for you either way.');
+  },
   legend: { V: { kind: 'wall', solid: true } },
   theme: {
     ground: ['k', 'e1', 'e2'], flowers: ['k', 'e1', 'm3'], path: ['k', 'g2', 'w'], brick: ['k', 'm1', 'm2'], wall: ['k', 'g1', 'g2'],

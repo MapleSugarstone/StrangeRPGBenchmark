@@ -58,6 +58,9 @@ export interface Ent {
 
 export const DIRS: Record<Dir, [number, number]> = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 
+/** Maps where a paint tint stays on the party. Entering any other map washes it off. */
+export const TINT_MAPS = new Set(['fizz', 'radio']);
+
 export function isMarker(c: string): boolean {
   return /[a-z0-9]/.test(c);
 }
@@ -124,7 +127,7 @@ export class World {
   passable(x: number, y: number, st: GameState): boolean {
     if (x < 0 || y < 0 || x >= this.w || y >= this.h) return false;
     const t = this.tile(x, y, st);
-    if (t.gate) return st.tint === t.gate;
+    if (t.gate) return st.tint === t.gate || !!st.flags[`gateOpen:${this.def.id}:${t.gate}`];
     if (t.sea) return !!st.flags.skiff;
     if (t.solid) return false;
     return !this.entAt(x, y, true);

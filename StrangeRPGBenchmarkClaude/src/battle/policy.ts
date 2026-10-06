@@ -88,7 +88,9 @@ function candidates(b: Battle, u: Unit): Cand[] {
   const charging = foes.some(f => f.st.charge);
   const partyHurt = allies.reduce((s, a) => s + (1 - a.hp / a.maxHp), 0);
 
-  out.push({ a: { t: 'guard' }, v: (charging ? 0.55 : 0.02) + (u.ink < u.maxInk * 0.2 ? 0.05 : 0) + (u.hp < u.maxHp * 0.3 && charging ? 0.3 : 0), why: 'guard' });
+  const lockedOnMe = foes.some(f => f.mem.lockUid === u.uid) && !u.st.mirror;
+  const aoeCharge = foes.some(f => f.st.charge && !f.mem.lockUid);
+  out.push({ a: { t: 'guard' }, v: (lockedOnMe ? 0.95 : aoeCharge ? 0.55 : 0.02) + (u.ink < u.maxInk * 0.2 ? 0.05 : 0) + (u.hp < u.maxHp * 0.3 && charging ? 0.3 : 0), why: 'guard' });
 
   for (const id of u.skills) {
     if (!b.canUse(u, id)) continue;
@@ -204,7 +206,7 @@ function candidates(b: Battle, u: Unit): Cand[] {
             if (a.st[s]) continue;
             if (s === 'regen') v += (1 - a.hp / a.maxHp) * 0.3 + (boss ? 0.08 : 0);
             if (s === 'taunt') v += allies.some(x => x !== u && x.hp < x.maxHp * 0.5) ? 0.35 : boss ? 0.15 : 0.02;
-            if (s === 'mirror') v += boss ? 0.12 : 0.01;
+            if (s === 'mirror') v += a.st.locked ? 1.3 : boss ? 0.12 : 0.01;
           }
           if (fx === 'prime') {
             const f = mainFoe(b);

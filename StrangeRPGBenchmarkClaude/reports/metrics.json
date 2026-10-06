@@ -144,7 +144,7 @@
     "grind": 0,
     "novelty": 8.5,
     "clashRate": 0.2255772646536412,
-    "minutes": 21.069861111111106
+    "minutes": 21.179236111111106
    },
    "score": {
     "total": 98,
@@ -419,7 +419,7 @@
   "6": {
    "lost": [],
    "bossRows": [
-    "| boss6 | 23 | 849 | 99% | 58% | 1% | 1% | 14.4 | 30% | 114% | 0.0 |"
+    "| boss6 | 23 | 849 | 90% | 69% | 0% | 13% | 15.5 | 34% | 105% | 0.1 |"
    ],
    "trashRows": [
     "| jelly3 | 100% | 100% | 6.9 | 10% | 20% |",
@@ -429,11 +429,11 @@
     "| whale | 100% | 100% | 5.3 | 3% | 4% |"
    ],
    "entropy": {
-    "h": 3.6849489059451384,
-    "norm": 0.8146122329574864,
-    "distinct": 23,
+    "h": 3.697100358081566,
+    "norm": 0.8063534559988351,
+    "distinct": 24,
     "top": "wick:snuff",
-    "topShare": 0.17325227963525835
+    "topShare": 0.18072289156626506
    },
    "newEnemies": [
     "sky_pirate",
@@ -453,27 +453,27 @@
     "restock"
    ],
    "inputs": {
-    "bossWinSmart": 0.9866666666666667,
-    "bossWinMash": 0.013333333333333334,
-    "bossWinRandom": 0.013333333333333334,
-    "bossWinCasual": 0.58,
-    "bossTurns": 14.43,
-    "bossMinFrac": 0.3003533568904594,
+    "bossWinSmart": 0.9,
+    "bossWinMash": 0.0033333333333333335,
+    "bossWinRandom": 0.12666666666666668,
+    "bossWinCasual": 0.6933333333333334,
+    "bossTurns": 15.47,
+    "bossMinFrac": 0.33568904593639576,
     "trashTurns": 5.118,
     "trashDrainSmart": 0.05631566548881036,
     "trashDrainMash": 0.10102709069493523,
-    "entropyNorm": 0.8146122329574864,
-    "topShare": 0.17325227963525835,
+    "entropyNorm": 0.8063534559988351,
+    "topShare": 0.18072289156626506,
     "losses": 0,
     "grind": 0,
     "novelty": 8,
-    "clashRate": 0.6447368421052632,
-    "minutes": 11.943263888888888
+    "clashRate": 0.6130434782608696,
+    "minutes": 11.969097222222222
    },
    "score": {
-    "total": 97,
+    "total": 99,
     "parts": {
-     "challenge": 0.8095238095238095,
+     "challenge": 1,
      "agency": 1,
      "access": 1,
      "tension": 1,
@@ -485,7 +485,7 @@
      "noGrind": 1,
      "novelty": 1,
      "hueUse": 1,
-     "length": 0.9962175925925926
+     "length": 0.9979398148148149
     }
    },
    "errors": []
@@ -504,11 +504,11 @@
     "| chorus | 100% | 100% | 5.7 | 9% | 22% |"
    ],
    "entropy": {
-    "h": 4.0830255646487,
-    "norm": 0.7897649508473745,
-    "distinct": 36,
+    "h": 4.133114906932537,
+    "norm": 0.7933874471748027,
+    "distinct": 37,
     "top": "wick:snuff",
-    "topShare": 0.1618320610687023
+    "topShare": 0.15963855421686746
    },
    "newEnemies": [
     "thread_serpent",
@@ -540,13 +540,13 @@
     "trashTurns": 4.712000000000001,
     "trashDrainSmart": 0.0624137273593899,
     "trashDrainMash": 0.14108293612964729,
-    "entropyNorm": 0.7897649508473745,
-    "topShare": 0.1618320610687023,
+    "entropyNorm": 0.7933874471748027,
+    "topShare": 0.15963855421686746,
     "losses": 0,
     "grind": 0,
     "novelty": 9,
-    "clashRate": 0.24953789279112754,
-    "minutes": 20.147291666666664
+    "clashRate": 0.24907749077490776,
+    "minutes": 20.287291666666665
    },
    "score": {
     "total": 96,
@@ -562,7 +562,7 @@
      "variety": 1,
      "noGrind": 1,
      "novelty": 1,
-     "hueUse": 0.8317929759704251,
+     "hueUse": 0.8302583025830259,
      "length": 1
     }
    },
@@ -570,11 +570,11 @@
   },
   "8": {
    "lost": [
-    "final at level 33"
+    "final2 at level 33"
    ],
    "bossRows": [
-    "| final | 33 | 831 | 96% | 78% | 1% | 7% | 21.4 | 27% | 0% | 0.0 |",
-    "| final2 | 33 | 1346 | 92% | 61% | 0% | 7% | 23.5 | 31% | 65% | 0.1 |"
+    "| final | 33 | 831 | 97% | 86% | 1% | 10% | 19.7 | 27% | 0% | 0.0 |",
+    "| final2 | 33 | 1346 | 85% | 59% | 0% | 17% | 22.3 | 32% | 71% | 0.1 |"
    ],
    "trashRows": [
     "| wraith3 | 100% | 100% | 4.6 | 10% | 19% |",
@@ -583,11 +583,11 @@
     "| mixed8 | 100% | 100% | 5.4 | 5% | 11% |"
    ],
    "entropy": {
-    "h": 4.265475685522425,
-    "norm": 0.8014906645619951,
-    "distinct": 40,
+    "h": 4.1933528406740335,
+    "norm": 0.7933838650366153,
+    "distinct": 39,
     "top": "wick:snuff",
-    "topShare": 0.17424975798644723
+    "topShare": 0.1787538304392237
    },
    "newEnemies": [
     "palette_wraith",
@@ -640,27 +640,27 @@
     "spectrum"
    ],
    "inputs": {
-    "bossWinSmart": 0.9233333333333333,
+    "bossWinSmart": 0.8533333333333334,
     "bossWinMash": 0,
-    "bossWinRandom": 0.07333333333333333,
-    "bossWinCasual": 0.6133333333333333,
-    "bossTurns": 23.483333333333334,
-    "bossMinFrac": 0.3083209509658247,
+    "bossWinRandom": 0.16666666666666666,
+    "bossWinCasual": 0.5933333333333334,
+    "bossTurns": 22.30666666666667,
+    "bossMinFrac": 0.32317979197622587,
     "trashTurns": 4.6425,
     "trashDrainSmart": 0.0569167904903417,
     "trashDrainMash": 0.10895988112927181,
-    "entropyNorm": 0.8014906645619951,
-    "topShare": 0.17424975798644723,
+    "entropyNorm": 0.7933838650366153,
+    "topShare": 0.1787538304392237,
     "losses": 0.16666666666666666,
     "grind": 0,
     "novelty": 30,
-    "clashRate": 0.0856760374832664,
-    "minutes": 28.624791666666667
+    "clashRate": 0.0776566757493188,
+    "minutes": 27.784791666666667
    },
    "score": {
     "total": 95,
     "parts": {
-     "challenge": 0.9904761904761906,
+     "challenge": 1,
      "agency": 1,
      "access": 1,
      "tension": 1,
@@ -671,7 +671,7 @@
      "variety": 1,
      "noGrind": 1,
      "novelty": 1,
-     "hueUse": 0.28558679161088807,
+     "hueUse": 0.2588555858310626,
      "length": 1
     }
    },
@@ -748,7 +748,7 @@
     "grind": 0,
     "novelty": 8.5,
     "clashRate": 0.2255772646536412,
-    "minutes": 21.069861111111106
+    "minutes": 21.179236111111106
    }
   },
   "3": {
@@ -860,9 +860,9 @@
    }
   },
   "6": {
-   "total": 97,
+   "total": 99,
    "parts": {
-    "challenge": 0.8095238095238095,
+    "challenge": 1,
     "agency": 1,
     "access": 1,
     "tension": 1,
@@ -874,25 +874,25 @@
     "noGrind": 1,
     "novelty": 1,
     "hueUse": 1,
-    "length": 0.9962175925925926
+    "length": 0.9979398148148149
    },
    "inputs": {
-    "bossWinSmart": 0.9866666666666667,
-    "bossWinMash": 0.013333333333333334,
-    "bossWinRandom": 0.013333333333333334,
-    "bossWinCasual": 0.58,
-    "bossTurns": 14.43,
-    "bossMinFrac": 0.3003533568904594,
+    "bossWinSmart": 0.9,
+    "bossWinMash": 0.0033333333333333335,
+    "bossWinRandom": 0.12666666666666668,
+    "bossWinCasual": 0.6933333333333334,
+    "bossTurns": 15.47,
+    "bossMinFrac": 0.33568904593639576,
     "trashTurns": 5.118,
     "trashDrainSmart": 0.05631566548881036,
     "trashDrainMash": 0.10102709069493523,
-    "entropyNorm": 0.8146122329574864,
-    "topShare": 0.17325227963525835,
+    "entropyNorm": 0.8063534559988351,
+    "topShare": 0.18072289156626506,
     "losses": 0,
     "grind": 0,
     "novelty": 8,
-    "clashRate": 0.6447368421052632,
-    "minutes": 11.943263888888888
+    "clashRate": 0.6130434782608696,
+    "minutes": 11.969097222222222
    }
   },
   "7": {
@@ -909,7 +909,7 @@
     "variety": 1,
     "noGrind": 1,
     "novelty": 1,
-    "hueUse": 0.8317929759704251,
+    "hueUse": 0.8302583025830259,
     "length": 1
    },
    "inputs": {
@@ -922,19 +922,19 @@
     "trashTurns": 4.712000000000001,
     "trashDrainSmart": 0.0624137273593899,
     "trashDrainMash": 0.14108293612964729,
-    "entropyNorm": 0.7897649508473745,
-    "topShare": 0.1618320610687023,
+    "entropyNorm": 0.7933874471748027,
+    "topShare": 0.15963855421686746,
     "losses": 0,
     "grind": 0,
     "novelty": 9,
-    "clashRate": 0.24953789279112754,
-    "minutes": 20.147291666666664
+    "clashRate": 0.24907749077490776,
+    "minutes": 20.287291666666665
    }
   },
   "8": {
    "total": 95,
    "parts": {
-    "challenge": 0.9904761904761906,
+    "challenge": 1,
     "agency": 1,
     "access": 1,
     "tension": 1,
@@ -945,26 +945,26 @@
     "variety": 1,
     "noGrind": 1,
     "novelty": 1,
-    "hueUse": 0.28558679161088807,
+    "hueUse": 0.2588555858310626,
     "length": 1
    },
    "inputs": {
-    "bossWinSmart": 0.9233333333333333,
+    "bossWinSmart": 0.8533333333333334,
     "bossWinMash": 0,
-    "bossWinRandom": 0.07333333333333333,
-    "bossWinCasual": 0.6133333333333333,
-    "bossTurns": 23.483333333333334,
-    "bossMinFrac": 0.3083209509658247,
+    "bossWinRandom": 0.16666666666666666,
+    "bossWinCasual": 0.5933333333333334,
+    "bossTurns": 22.30666666666667,
+    "bossMinFrac": 0.32317979197622587,
     "trashTurns": 4.6425,
     "trashDrainSmart": 0.0569167904903417,
     "trashDrainMash": 0.10895988112927181,
-    "entropyNorm": 0.8014906645619951,
-    "topShare": 0.17424975798644723,
+    "entropyNorm": 0.7933838650366153,
+    "topShare": 0.1787538304392237,
     "losses": 0.16666666666666666,
     "grind": 0,
     "novelty": 30,
-    "clashRate": 0.0856760374832664,
-    "minutes": 28.624791666666667
+    "clashRate": 0.0776566757493188,
+    "minutes": 27.784791666666667
    }
   }
  }

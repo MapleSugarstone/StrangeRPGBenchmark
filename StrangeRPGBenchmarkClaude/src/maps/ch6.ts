@@ -65,7 +65,7 @@ const mirrowTalk: Script = async s => {
   s.flag('skiff');
   s.mech('mirror');
   await s.join('mirrow', Math.max(21, s.st.members.wick.lvl));
-  await s.tell('^yMirrow^0\'s ^yReflect^0 repeats the last action anyone took, friend or foe, as Mirrow\'s own. Copying a boss\'s best attack back at it is the whole point.');
+  await s.tell('^yMirrow^0 has two kinds of mirror. ^yGlass Guard^0 coats one ally so the next spell that hits them bounces back at its caster. ^yReflect^0 repeats the last action anyone took, friend or foe, as Mirrow\'s own.');
   await s.tell('You can now sail the ^ycloud sea^0. Walk off the dock onto the clouds.');
 };
 
@@ -96,7 +96,7 @@ const seraphFight: Script = async s => {
   s.music('boss');
   await s.tell('The Needle is a platform of white metal at the top of the Tether. At its center is a gate shaped like the eye of a sewing needle, and in front of the gate hangs a machine with six wings and a ring of light for a head.');
   await s.say('Seraph K-7', 'HALT. THE LOOM IS CLOSED FOR RECLAMATION. ALL COLORS WILL BE COLLECTED. PLEASE HOLD STILL FOR COLLECTION.');
-  await s.say('Mirrow', '...hold still. When its halo locks on, let it fire. Then show it its own beam. I have been waiting my whole life to reflect something this bright.');
+  await s.say('Mirrow', '...hold still. I have been waiting my whole life to reflect something this bright.');
   const r = await s.battle('boss6');
   if (r !== 'win') return;
   s.flag('seraphDead');

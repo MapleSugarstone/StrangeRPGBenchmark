@@ -62,8 +62,12 @@ export function enemyAction(b: Battle, u: Unit): Action {
   if (u.mem.charged) {
     const s = String(u.mem.charged);
     delete u.mem.charged;
+    delete u.mem.telegraph;
     delete u.st.charge;
-    return { t: 'skill', skill: s };
+    const lock = b.byUid(+(u.mem.lockUid ?? 0));
+    delete u.mem.lockUid;
+    if (lock) delete lock.st.locked;
+    return { t: 'skill', skill: s, target: lock?.alive ? lock.uid : undefined };
   }
   if (u.ai && BOSS[u.ai]) {
     const a = BOSS[u.ai](b, u);

@@ -89,7 +89,7 @@ const S: SkillDef[] = [
 
   // Mirrow
   { id: 'reflect', name: 'Reflect', desc: 'Repeat the last action anyone took, as your own.', kind: 'util', target: 'self', ink: 5, fx: 'reflect' },
-  { id: 'glass_guard', name: 'Glass Guard', desc: 'The next spell aimed at an ally bounces back.', kind: 'buff', target: 'ally', ink: 4, delay: 70, status: { id: 'mirror', chance: 1, turns: 4 } },
+  { id: 'glass_guard', name: 'Glass Guard', desc: 'The next spell that hits this ally bounces back at its caster. Lasts four turns.', kind: 'buff', target: 'ally', ink: 4, delay: 70, status: { id: 'mirror', chance: 1, turns: 4 } },
   { id: 'shard', name: 'Shard', desc: 'Blue glass on one foe.', kind: 'mag', target: 'foe', hue: 'B', power: 1.4, ink: 3 },
   { id: 'invert', name: 'Invert', desc: 'Hit every foe with the opposite of its own first hue.', kind: 'mag', target: 'foes', hue: 'invert', power: 1.0, ink: 10 },
   { id: 'silver_back', name: 'Silverback', desc: 'Show a foe itself. It may stop to stare.', kind: 'debuff', target: 'foe', ink: 3, status: { id: 'stun', chance: 0.6, turns: 1 } },
@@ -174,7 +174,7 @@ const S: SkillDef[] = [
   { id: 'jelly_sting', name: 'Jelly Sting', desc: '', kind: 'mag', target: 'foe', hue: 'C', power: 1.1, status: { id: 'stun', chance: 0.2, turns: 1 } },
   { id: 'halo_ray', name: 'Halo Ray', desc: '', kind: 'mag', target: 'foe', hue: 'Y', power: 1.3 },
   { id: 'target_lock', name: 'Target Lock', desc: '', kind: 'util', target: 'self', fx: 'charge:judgement' },
-  { id: 'judgement', name: 'Judgement Beam', desc: '', kind: 'mag', target: 'foes', hue: 'Y', power: 2.0 },
+  { id: 'judgement', name: 'Judgement Beam', desc: '', kind: 'mag', target: 'foe', hue: 'Y', power: 3.0 },
   { id: 'wing_blades', name: 'Wing Blades', desc: '', kind: 'phys', target: 'foes', power: 0.85 },
 
   { id: 'spin_web', name: 'Spin Web', desc: '', kind: 'debuff', target: 'foe', stage: { stat: 'spd', d: -2 } },

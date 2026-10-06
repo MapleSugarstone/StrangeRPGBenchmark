@@ -144,7 +144,7 @@ mk('sky_pirate', 'Sky Pirate', 23, { g: 'human' }, ['k', 'r2', 'b3'], [['cutlass
   'Plunders clouds for their silver linings.');
 mk('ion_jelly', 'Ion Jelly', 24, { shape: 'ghost' }, ['k', 'm3', 'c2'], [['jelly_sting', 3]], { mnd: 1.15, hp: 0.9 }, 2,
   'Drifts in the high air and stings satellites.');
-mk('seraph_k7', 'Seraph K-7', 25, { shape: 'star', n: 3 }, ['k', 'w', 'y2'], [['halo_ray', 3], ['wing_blades', 2]], { hp: 3.2, str: 2.7, mnd: 2.8, spd: 2.0, xp: 6, gold: 10 }, 8,
+mk('seraph_k7', 'Seraph K-7', 25, { shape: 'star', n: 3 }, ['k', 'w', 'y2'], [['halo_ray', 3], ['wing_blades', 2]], { hp: 4.8, str: 3.8, mnd: 3.9, spd: 2.0, xp: 6, gold: 10 }, 8,
   'The gate guardian. Its halo is a targeting ring.', { ai: 'seraph', boss: true });
 
 // Chapter 7: the Loom.
@@ -173,7 +173,7 @@ mk('palette_wraith', 'Palette Wraith', 31, { shape: 'ghost' }, ['k', 'r3', 'b3']
 mk('grey_bishop', 'Grey Bishop', 34, { shape: 'totem', n: 3 }, ['k', 'g2', 'w'], [['compress', 2], ['erase', 2]], { hp: 3.15, str: 2.2, mnd: 2.3, spd: 2.2, xp: 0, gold: 0 }, 8,
   'Grey and white. No hue can touch him until someone paints him.', { ai: 'bishop', boss: true });
 
-mk('bishop_loom', 'The Loom-Bound Bishop', 36, { shape: 'star', n: 3 }, ['k', 'g2', 'w'], [['compress', 2], ['erase', 2], ['warden_cleave', 1]], { hp: 4.4, str: 2.2, mnd: 2.4, spd: 2.2, xp: 0, gold: 0 }, 8,
+mk('bishop_loom', 'The Loom-Bound Bishop', 36, { shape: 'star', n: 3 }, ['k', 'g2', 'w'], [['compress', 2], ['erase', 2], ['warden_cleave', 1]], { hp: 4.4, str: 2.65, mnd: 2.9, spd: 2.2, xp: 0, gold: 0 }, 8,
   'The Bishop, wearing the Loom like a robe. Its colors change as it pulls them from the world.', { ai: 'bishop2', boss: true });
 
 export interface Group { enemies: string[]; flee?: boolean; music?: string }
