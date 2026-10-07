@@ -1,11 +1,10 @@
 import { planBattle, randomEncounter } from '../core/encounter';
 import { generateMap, type MapData, type MapNpc } from '../core/mapgen';
-import { fullHeal, activeMembers, setupChapter } from '../core/party';
+import { fullHeal, activeMembers, recover, setupChapter } from '../core/party';
 import { EndChapter, runScript, type BattleResult, type Host } from '../core/script';
 import { BOSSES, ENEMIES } from '../data/enemies';
 import { GEAR, ITEMS, RUNES } from '../data/items';
 import { chapter } from '../story/chapters';
-import { CIRCLE_ORDER } from '../story/types';
 import { C, rgb, type Screen } from '../gfx/screen';
 import { icon, npcSprite, partySprite, tile } from '../gfx/sprites';
 import { BattleScene } from './battlescene';
@@ -15,6 +14,9 @@ import { MainMenu, ShopScene } from './menus';
 import { CardBox, ChoiceBox, COL, Notify, SayBox, panel } from './ui';
 
 const MOVE_FRAMES = 6;
+const ROOM_FIGHT_CAP = 3;
+/** Random fights are rarer than they used to be, so each one pays more to keep the party on the level curve. */
+const RANDOM_REWARD = 1.8;
 const VIEW = 16;
 
 export class WorldScene implements Scene {
@@ -30,9 +32,8 @@ export class WorldScene implements Scene {
   busy = false;
   steps = 0;
   stepsSince = 0;
-  nextEnc = 8;
-  roomTag = '';
-  roomTagT = 0;
+  nextEnc = 20;
+  roomFights: Record<number, number> = {};
   lastRoom = 0;
   t = 0;
   host: GameHost;
@@ -52,6 +53,7 @@ export class WorldScene implements Scene {
     this.x = this.map.start.x;
     this.y = this.map.start.y;
     this.lastRoom = 1;
+    this.roomFights = {};
   }
 
   async startChapter() {
@@ -119,7 +121,6 @@ export class WorldScene implements Scene {
 
   update(g: Game) {
     this.t++;
-    if (this.roomTagT > 0) this.roomTagT--;
     if (this.busy) return;
     const inp = g.input;
     if (this.moving) {
@@ -148,22 +149,20 @@ export class WorldScene implements Scene {
   private async afterStep() {
     const g = this.g;
     const room = this.map.roomOf(this.x, this.y);
-    if (room !== this.lastRoom && room >= 1 && room <= 8) {
-      this.lastRoom = room;
-      this.roomTag = `${room}. ${CIRCLE_ORDER[room - 1].toUpperCase()}`;
-      this.roomTagT = 90;
-    }
+    if (room !== this.lastRoom && room >= 1 && room <= 8) this.lastRoom = room;
     const b = g.state.beat;
     if (b < 8 && b > 0) {
       const spot = this.map.beatSpot[b];
       if (spot.x === this.x && spot.y === this.y) { await this.runBeat(b); return; }
     }
-    // Random encounters in the wilds.
-    if (room >= 2 && room <= 8 && !(g.state.beat === 5 && room === 6) && !(g.state.chapter === 1 && g.state.beat < 3)) {
+    // Random encounters stop in a room after ROOM_FIGHT_CAP fights so backtracking is not interrupted.
+    const fought = this.roomFights[room] ?? 0;
+    if (room >= 2 && room <= 8 && fought < ROOM_FIGHT_CAP && !(g.state.beat === 5 && room === 6) && !(g.state.chapter === 1 && g.state.beat < 3)) {
       this.stepsSince++;
       if (this.stepsSince >= this.nextEnc) {
         this.stepsSince = 0;
-        this.nextEnc = 6 + g.rng.int(9);
+        this.nextEnc = 18 + g.rng.int(14);
+        this.roomFights[room] = fought + 1;
         await this.randomFight(room);
       }
     }
@@ -175,7 +174,8 @@ export class WorldScene implements Scene {
     g.flash = 10;
     await new Promise((r) => setTimeout(r, 250));
     const foes = randomEncounter(g.state, g.rng, room);
-    await this.host.battle(foes, false, (room - 2) / 5);
+    const res = await this.host.battle(foes, false, (room - 2) / 5, RANDOM_REWARD);
+    if (res === 'win') recover(g.state, 0.3, 0.2);
     this.busy = false;
   }
 
@@ -283,7 +283,6 @@ export class WorldScene implements Scene {
       s.sprite(partySprite(act[i].id), fx * 8 + ox, fy * 8 + oy);
     }
     if (act[0]) s.sprite(partySprite(act[0].id), Math.round(px * 8) + ox, Math.round(py * 8) + oy, { flipX: this.dx < 0 });
-    if (this.roomTagT > 0) { panel(s, 2, 2, this.roomTag.length * 4 + 7, 11); s.text(5, 5, this.roomTag, COL.hi); }
     if (g.state.beat < 8 && this.t < 240 && !this.busy) { /* objective hint lives in the journal */ }
     void C; void rgb; void icon; void GEAR; void ITEMS; void RUNES; void BOSSES;
   }
@@ -305,12 +304,14 @@ export class GameHost implements Host {
   }
   heal() { fullHeal(this.g.state); }
 
-  async battle(foes: string[], boss: boolean, pos = 0.5): Promise<BattleResult> {
+  async battle(foes: string[], boss: boolean, pos = 0.5, reward = 1): Promise<BattleResult> {
     const g = this.g;
     for (;;) {
       g.flash = 8;
       const key = `${g.state.chapter}:${foes.join(",")}`;
       const plan = planBattle(g.state, foes, boss, g.rng, boss ? 0.85 : pos, true, this.losses[key] ?? 0);
+      plan.xp = Math.round(plan.xp * reward);
+      plan.gold = Math.round(plan.gold * reward);
       const res = await new Promise<BattleResult>((resolve) => g.push(new BattleScene(g, plan, resolve)));
       if (res === 'win' || res === 'flee') return res;
       const i = await this.choice('The party has fallen.', ['TRY AGAIN', 'BACK TO TITLE']);

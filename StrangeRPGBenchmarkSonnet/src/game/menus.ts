@@ -7,7 +7,6 @@ import { wrap } from '../gfx/font';
 import { C, type Screen } from '../gfx/screen';
 import { partySprite, icon } from '../gfx/sprites';
 import { chapter } from '../story/chapters';
-import { CIRCLE_ORDER } from '../story/types';
 import type { Game, Scene } from './game';
 import { COL, hpColor, ListMenu, panel, type ListItem } from './ui';
 import type { WorldScene } from './world';
@@ -47,7 +46,6 @@ export class MainMenu implements Scene {
     const ch = chapter(g.state.chapter);
     s.text(60, 14, `CHAPTER ${ch.id}`, COL.hi);
     wrap(ch.title.toUpperCase(), 16).forEach((l, i) => s.text(60, 21 + i * 6, l, C.white));
-    wrap(ch.stage.toUpperCase(), 16).forEach((l, i) => s.text(60, 38 + i * 6, l, C.gray));
     s.text(60, 56, g.audio.muted ? 'SOUND OFF' : 'SOUND ON', C.gray);
     activeMembers(g.state).forEach((m, i) => {
       const y = 79 + i * 12;
@@ -286,7 +284,7 @@ export class JournalScene implements Scene {
   update(g: Game) {
     const ch = chapter(g.state.chapter);
     this.menu.setItems(ch.beats.map((b, i) => ({
-      label: `${i + 1} ${b.circle.toUpperCase()}`,
+      label: `PART ${i + 1}`,
       right: i < g.state.beat ? 'DONE' : i === g.state.beat ? 'NEXT' : '',
       color: i < g.state.beat ? COL.good : i === g.state.beat ? COL.hi : COL.dim,
     })));
@@ -297,7 +295,7 @@ export class JournalScene implements Scene {
     header(s, `CHAPTER ${g.state.chapter}`, g);
     const ch = chapter(g.state.chapter);
     s.text(3, 12, ch.title.toUpperCase().slice(0, 30), C.white);
-    s.text(3, 18, ch.stage.toUpperCase().slice(0, 30), C.gray);
+    s.text(3, 18, ch.place.toUpperCase().slice(0, 30), C.gray);
     this.menu.draw(s, 3, 28, 122);
     const i = this.menu.cursor;
     const known = i <= g.state.beat;

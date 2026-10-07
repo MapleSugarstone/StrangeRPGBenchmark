@@ -206,6 +206,15 @@ export function applyResult(s: GameState, b: Battle, xp: number, gold: number): 
   return out;
 }
 
+/** Restores a fraction of max HP and MP to every roster member, as after a won fight. */
+export function recover(s: GameState, hpFrac: number, mpFrac: number) {
+  for (const m of s.roster) {
+    const st = memberStats(m);
+    m.hp = Math.min(st.hp, m.hp + Math.round(st.hp * hpFrac));
+    m.mp = Math.min(st.mp, m.mp + Math.round(st.mp * mpFrac));
+  }
+}
+
 export function fullHeal(s: GameState) {
   for (const m of s.roster) { const st = memberStats(m); m.hp = st.hp; m.mp = st.mp; }
 }

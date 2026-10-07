@@ -10,6 +10,7 @@ This repository holds tile-based role-playing games that different AI models wro
 | The Moth Crown | Claude Fable 5.1, Ultracode | `StrangeRPGBenchmarkFable` | Playable |
 | Please Hold | Claude Opus 5.5, Ultracode | `StrangeRPGBenchmarkOpusMore` | Playable, golden |
 | Plumb | Claude Fable 5.1, Ultracode (polished by Opus 5.5) | `StrangeRPGBenchmarkFableMore` | Playable, golden |
+| Rote | Claude Opus 5.5, Medium | `StrangeRPGBenchmarkOpusMagic` | Playable |
 
 ## Menu
 

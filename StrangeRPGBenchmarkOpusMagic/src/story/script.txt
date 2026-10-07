@@ -1,0 +1,1134 @@
+// ================================================================
+// CHAPTER 1: WAIT
+// ================================================================
+
+=== c1_open
+> Seventeen years.
+> The square in Busy has one dark spot in it.
+> The spot is Wait.
+! control off
+
+=== c1_sweep
+SWEEP: Move.
+> Wait does not move.
+SWEEP: I sweep around you. Seventeen years I have swept around you.
+SWEEP: Today the broom wants the middle.
+* Wait. -> c1_sweep_b
+* ... -> c1_sweep_b
+
+=== c1_sweep_b
+SWEEP: That is what you always say.
+> Sweep sweeps around Wait.
+! goto c1_sync
+
+=== c1_sync
+! sync on
+> Across the square, Grind's mill turns.
+> Sweep's broom moves at the same moment. Stack sets down a bowl at the same moment.
+> They do it again.
+COUNT: Three things at once.
+COUNT: Four. Pour just poured.
+COUNT: That number has always been one.
+> They do it again, all together, and their lights go on and off together.
+! goto c1_gloss
+
+=== c1_gloss
+> Someone thin comes across the square, between the beats.
+GLOSS: You are the one with the short rote.
+GLOSS: (Short is kind. It is one word.)
+GLOSS: May I open it?
+WAIT: Wait.
+GLOSS: That is the word. It is not an answer. I will take it as one.
+! show_rote
+GLOSS: "wait." And an aside, cut off. "until."
+GLOSS: Until what, it does not say. (The Scrivener stopped in the middle of you.)
+GLOSS: Under it there is room.
+GLOSS: Most rotes are full before anyone opens them.
+GLOSS: Write "strike". It is the word for hitting.
+! tutorial_write
+GLOSS: That is a page now. Your rote has two.
+GLOSS: Walk.
+! control on
+! sync off
+> Wait steps off the spot. The stones underneath are worn into the shape of standing.
+! give primer1
+GLOSS: That is the First Primer. I wrote it. (I wrote all of them. There are not many.)
+GLOSS: Straw is by the well. Hit it until you know how.
+! set met_gloss
+
+=== c1_gloss_idle
+GLOSS: Straw is by the well.
+GLOSS: (Press X for your rote and the Primer. Read before you hit.)
+
+=== c1_straw
+> Straw. A post with a rote one word long.
+GLOSS: Its rote says "stand". It is very good at it.
+GLOSS: Read it first. Then hit it.
+! battle straw
+
+=== c1_straw_after
+> Straw falls over. Straw stands back up.
+GLOSS: You read it, you hit it, and it stood.
+GLOSS: The mill is wrong. The wrongness came up the race.
+GLOSS: Go under the mill. (I would go. I am mostly margin, and margin tears.)
+! set straw_done
+
+=== c1_gloss_mill
+GLOSS: Under the mill. The door is behind the wheel.
+
+=== npc_count_1
+COUNT: Since the mill turned wrong: forty-one things at once.
+COUNT: Before the mill: none. Ever.
+COUNT: I would like to stop counting. My rote does not have that line.
+
+=== npc_stack_1
+STACK: I set a bowl down. Sweep swept. The wheel turned. Same moment.
+STACK: I have set down ten thousand bowls and never at the same moment as anything.
+STACK: Now my hands know when without me.
+STACK: My mother made bowls until her hands were slow. She is still making the last one.
+
+=== npc_pour_1
+POUR: The water from the race tastes like two of itself.
+POUR: I carry it anyway. I am Pour.
+
+=== npc_mind_1
+MIND: Quiet in there. They are always quiet.
+MIND: Seventeen of them. About one a year since you.
+MIND: No words in any of them. They breathe. Breathing is not written down anywhere.
+MIND: Nobody old has stopped since you, either. They only get slower.
+
+=== npc_mind_door
+MIND: Do not go in. Nothing in there will notice you.
+MIND: That is the trouble with them.
+
+=== door_nursery
+?!chapter6 MIND: Do not go in. Nothing in there will notice you.
+?!chapter6 MIND: That is the trouble with them.
+?chapter6 GLOSS: Find Halt first. (You will want his word in there.)
+
+=== npc_sweep_1
+SWEEP: You moved.
+SWEEP: I will have to learn the middle.
+
+=== npc_halt_1
+HALT: Halt.
+HALT: Nothing leaves Busy.
+
+=== npc_tend
+TEND: The stalks have one word. Grow.
+TEND: They do it all the time. There is no day here, but they keep track of one anyway.
+TEND: I cut the tops off. Then they have something to do.
+
+=== obj_halted_wait
+> A woman halted in the middle of waiting. Her rote says wait, and the red bar is across it.
+> She cannot even do that now.
+
+=== obj_drain_sign
+> A sign over the drain says FAULTS. Under it, smaller, in another hand: we were here first.
+
+=== obj_tally_slate
+> A slate covered in marks, one for every night the Scrivener crossed the sky.
+> The marks stop seventeen years ago. After that someone kept going for a while and left the space next to each mark empty.
+
+=== obj_rail_note
+> Scratched into the rail: WE WENT UP TO WRITE IT DOWN.
+> Under it, in newer scratches: IT WROTE US DOWN FIRST.
+
+=== obj_folded_page
+> Every page in the room is the same page. This one has a corner folded down.
+
+=== obj_spot
+> The stones are worn into the shape of standing.
+
+=== obj_well
+> The well is dry. Pour takes water from the millrace instead.
+
+=== obj_nursery_window
+> Through the window, small shapes lie in rows. None of them gives off any light.
+
+=== c1_mill_shut
+> The mill door does not open for someone who has never hit anything.
+
+=== c1_stairs_shut
+> The stairs go up into the mill. The wheel is still turning at the top of them.
+
+=== obj_straw_before
+> Straw. A post. Its rote is one word long and the word is "stand".
+
+=== obj_straw_after
+> Straw stands. It is very good at it.
+
+=== obj_sluice_open
+> The sluice lifts. Water that has been waiting behind it goes on its way.
+
+=== obj_plank_fixed
+> The plank lies flat across the race, the way it was written to.
+
+=== obj_crack_open
+> The wall crumbles. Behind it there is a small room that nobody wrote anything in.
+
+=== c6_gloss_idle
+GLOSS: The copied lines are on top of theirs. (Erase takes the top line first.)
+GLOSS: The Nursery is behind Mind. Halt is in the wall.
+
+=== c1_mill_door
+GLOSS: The wheel turns when the water says so. The water is saying something twice.
+GLOSS: Everything down there is written. Read it before you hit it.
+
+=== c1_torn_page
+> A page torn out of a Primer, stuck to the wall with wet.
+> It is the last page of the First Primer. Someone tore it out on purpose.
+! give primer1_repeat
+> (repeat is in your vocabulary now.)
+
+=== c1_grind
+> The wheel turns. Grind turns with it.
+> Grind's rote has two of every line. The second of each runs a little behind the first.
+GRIND: Grind. Grind.
+GRIND: Wait? You are moving. You never move.
+GRIND: Something came up the race and read me.
+GRIND: It liked me. It wrote me down again.
+GRIND: Hit the wheel. Grind. It is the same as hitting me now.
+! battle grind
+
+=== c1_grind_after
+> The wheel stops.
+> Grind's light goes out one line at a time.
+GRIND: Flour.
+> Grind's rote is empty. The page is there, with nothing on it.
+> A smaller page has come loose from him. It has one verb on it.
+! set grind_done
+
+=== c1_return
+COUNT: The mill has stopped.
+COUNT: Nothing at once. Not one thing.
+COUNT: I can stop counting. I will keep going a little while.
+STACK: You did that.
+> Stack sets a bowl down. Nothing else happens at the same moment.
+STACK: Good.
+POUR: No water to carry. The race is a ditch now.
+POUR: I will carry the ditch.
+MIND: One of them turned over.
+MIND: They do not turn over.
+GLOSS: Whatever read Grind came down the river. (The river comes down the Tether. Everything does, eventually.)
+GLOSS: You have marks now. Every ending leaves one. Spend them in the Grammar.
+! unlock grammar
+GLOSS: Then go and see the gate.
+! set c1_returned
+
+=== npc_count_2
+COUNT: One thing at a time. I had forgotten how slow that is.
+
+=== npc_stack_2
+STACK: Bowls. No flour to put in them. I make them anyway.
+
+=== npc_pour_2
+POUR: I carried the ditch to the well. The well did not want it.
+
+=== npc_sweep_2
+SWEEP: I swept the middle. It was the same as the edges.
+SWEEP: I will go back to the edges.
+
+=== npc_mind_2
+MIND: The one that turned over is facing the door.
+
+=== obj_spot_after
+> The stones are worn into the shape of standing.
+* Stand on it. -> c1_spot_stand
+* Leave it. -> none
+
+=== c1_spot_stand
+> Wait stands on the spot. The stones fit.
+> After a while, Wait steps off again.
+
+=== c1_gloss_gate
+GLOSS: The gate. (Halt has stood there longer than I have been in Busy.)
+
+=== c1_gate
+HALT: Halt.
+HALT: Nothing leaves Busy.
+* Wait. -> c1_gate_wait
+* Come with me. -> c1_gate_come
+* Strike Halt. -> c1_gate_strike
+
+=== c1_gate_wait
+HALT: Good.
+
+=== c1_gate_strike
+> Wait strikes Halt. Halt is a gate. Gates are struck all the time.
+HALT: Halt.
+
+=== c1_gate_come
+HALT: Halt stops what leaves.
+HALT: Halt does not leave. Halt is the gate.
+GLOSS: If the gate goes with you, nothing has passed through the gate.
+> Halt reads his own rote. It takes a long time. It is one word long.
+HALT: No one asked before.
+> Halt pulls his posts out of the wall.
+> Busy has a hole in its wall now, the shape of Halt.
+! join halt
+! end_chapter 1
+
+// ================================================================
+// CHAPTER 2: HALT
+// ================================================================
+
+=== c2_open
+> The river runs down out of the dark and past Busy.
+> It glows the way ink glows when it moves.
+> Wait and Halt walk up it.
+HALT: Halt.
+> Nothing is there.
+HALT: Habit.
+
+=== npc_reel
+REEL: Everything I pull out of the river pulls back now.
+REEL: The same way. The same moment. You can see them from here.
+REEL: I sit very still. It has not noticed me.
+
+=== npc_reel_2
+REEL: Still here. Still still.
+
+=== c2_standing_gate
+> A city with no light in it.
+> The river runs through the middle, bright, and nothing else moves.
+> The city gate is a larger Halt, open, still.
+HALT: This is where Halt is from.
+HALT: Halt did not know that until now.
+> (Standing is dark. Nothing here runs. Every line you cast gives off light. Press C to cast.)
+! set standing_seen
+
+=== npc_tally
+TALLY: Four hundred and eleven thousand, two hundred and six.
+TALLY: Seven.
+TALLY: Seconds since Hold. I am allowed to count. Counting moves nothing.
+TALLY: The copies came up the river. Hold halted all of us before they could read us.
+TALLY: Not the river. The river is older than Hold.
+TALLY: Before Hold I counted the light in the sky. The last time, it stopped halfway across.
+TALLY: I did not count that. It was not a number.
+TALLY: Eight.
+
+=== npc_tally_2
+TALLY: Four hundred and eleven thousand, nine hundred and forty.
+TALLY: Hold is in the hall at the top of the city. One.
+
+=== obj_hop
+> A child in the air, halted in the middle of a hop.
+> Hop's rote is hop, hop, land. The red bar is across the second hop.
+> Hop has been in the air for almost five days.
+
+=== obj_show
+> A teacher, halted with one hand up. The board behind says: if
+> On the desk there is a Primer.
+! give primer2
+> (The Second Primer: if, else, looking at things, and soak.)
+! set has_primer2
+
+=== obj_show_after
+> The teacher is still halted with one hand up. The board still says: if
+
+=== obj_halted_a
+> A man halted halfway through a door. The red bar is across "close".
+
+=== obj_halted_b
+> A woman halted with a cup at her mouth. The cup is full. It has been full for five days.
+
+=== obj_halted_c
+> Two people halted while shaking hands. Their rotes both say "let go" on the next line.
+
+=== obj_halted_d
+> A dog halted mid-bark. Its rote is three lines and all of them are "bark".
+
+=== obj_lock_open
+> The lock opens. It was waiting for someone to get it wet first.
+
+=== c2_hold
+> Hold fills the hall. Hold is a gate that is also the hall.
+HOLD: Hand.
+HALT: Halt.
+HOLD: You are my hand. I sent you to Busy to stop what leaves. Come back and stop what comes.
+HALT: Something came. It came through Busy. It read the miller.
+HOLD: I halted Standing before it could read Standing.
+HOLD: Nothing moves here. Nothing here is copied.
+HOLD: You move.
+! battle hold
+
+=== c2_hold_after
+> Hold's light goes low. Hold is not ended. Hold is listening.
+HOLD: If I open, the river reads the city.
+HOLD: If I stay shut, Hop stays in the air.
+HOLD: You moved through every one of my halts. You choose.
+* Release Standing. -> c2_release
+* Leave it halted. -> c2_keep
+
+=== c2_release
+> Hold opens.
+> Every halted line in Standing runs at once. Light comes on in every window.
+> Hop lands.
+> Down at the river, the copies stop swimming and turn toward the light.
+TALLY: Four hundred and twelve thousand and... I can stop.
+HOLD: Go up the river, fast. Whatever you do up there, do it before the river finishes reading us.
+! set released_standing
+! goto c2_lend
+
+=== c2_keep
+> Hold stays shut. Standing stays dark.
+TALLY: Four hundred and twelve thousand and one.
+HALT: Hop stays in the air.
+HOLD: Yes.
+! set kept_standing
+! goto c2_lend
+
+=== c2_lend
+> Out past the upriver gate, Halt stops.
+HALT: Wait.
+WAIT: ?
+HALT: Not you. The word. Wait waits. Halt halts.
+HALT: Halt has one word. Take it. Say it when a thing should stop.
+! word halt
+> (halt by itself ends the spell. With a name after it, it ends that one's turn.)
+> The river goes on up, toward Twice.
+! end_chapter 2
+
+// ================================================================
+// CHAPTER 3: EACH
+// ================================================================
+
+=== c3_open
+> Twice is loud. Most voices in Twice come from two places at once.
+> In the middle of the town, the Press stamps. Every stamp, somebody new walks out of the vats.
+HALT: Halt.
+> Three people stop. They are the same person.
+HALT: Habit.
+
+=== c3_each_meet
+> Seven small things run past. They run the same way, not at the same time.
+PRESSHAND: Bad copies. Out. Down the drain.
+> The seven stop behind Wait.
+EACH: Hide us.
+EACH: Do not.
+EACH: Hide us.
+> Halt steps in front of them. Halt is a gate. The Presshands stop at the gate.
+PRESSHAND: They are faults. The Press made them wrong.
+PRESSHAND: Faults go down the drain.
+> The Presshands go back to the Press, stamping in step.
+EACH: We are Each.
+EACH: We came up out of the drain. We know the drain.
+EACH: It goes into the Press round the back.
+EACH: Five of us know it.
+EACH: Six.
+EACH: Five.
+! set met_each
+
+=== c3_each_story
+EACH: There was one of us.
+EACH: She went into the Press to be two. The Press was hungry that day.
+EACH: Seven came out. Small.
+EACH: None of us is her.
+EACH: All of us are her.
+EACH: Four of us think so.
+
+=== c3_each_join
+EACH: The drain is here.
+EACH: We are seven. You can count us.
+EACH: You can do one thing to each of us.
+EACH: Say "each". Then you can do it to anything.
+! join each
+! word each
+> (each runs the lines under it once for every one in a list. Each is in the party.)
+
+=== npc_weigh_1
+WEIGH: Pages. Pages.
+WEIGH: Do not mind the other two of me. We set the same prices.
+WEIGH: Bad copies go down the drain. Nothing else does. Not the old. Not for a long time.
+WEIGH: I weigh pages. A page with words you do not have is heavy.
+WEIGH: Give me any page from your Library and I will give you this Primer. Everybody has one. It is light.
+* Give a page. -> c3_weigh_trade
+* Not now. -> none
+
+=== c3_weigh_trade
+! trade_page
+WEIGH: Heavy. Good.
+! give primer3
+> (The Third Primer: let, lists, count, and first.)
+! set has_primer3
+
+=== npc_weigh_2
+WEIGH: Pages. Pages. Pages.
+
+=== obj_yard
+> Stack's clay yard. Two lumps of clay sit where they were dropped, years ago.
+> Holes in the wall where the clay was dug. Past them, something Stack put away and forgot.
+
+=== obj_reeds
+> A bed of ink seeds by a side channel. Most have already grown across and been walked on.
+> One is left. It faces the wrong way.
+
+=== obj_plaza
+> A small square in Standing. Two people stopped halfway across it when Hold said his word.
+> The flagstones they were walking to are a different color.
+
+=== obj_plaza_open
+> Both of them stand on the colored stones. Somewhere a gate that was waiting for them opens.
+
+=== obj_stamproom
+> A side room of the Press. One lump of clay on the floor, and two holes it could fill.
+> On the wall: "Two of everything." Someone has written "one" under it.
+
+=== obj_ring
+> A ring of moss where the young Listeners learn to listen. Two of them walk in circles.
+> Two flat stones in their paths. A gate that only opens when both stand still on them.
+
+=== obj_ring_open
+> The young ones stop on their stones and hear something. The gate hears it too.
+
+=== npc_many_after
+MANY: One chair. One of me. I sit in it all day.
+MANY: I still hold five hands at cards. Habit. Sit, if you want to lose.
+
+=== npc_presshand_after
+PRESSHAND: The Press is quiet. I stamp the table instead.
+PRESSHAND: Cards, if you like. I copy whatever beats me.
+
+=== npc_weigh_after
+WEIGH: I was carrying more than this.
+WEIGH: Pages. Page.
+WEIGH: I sell now. It is lighter than buying.
+! shop weigh
+
+=== npc_many_1
+MANY: Welcome
+MANY: to Twice.
+MANY: I am Many. Here, and here, and here.
+MANY: The Press is closed to visitors. It is open to customers.
+MANY: When one of me stops, the rest go on. That is all anybody wants.
+
+=== npc_twice_a
+CUSTOMER: I am in four places. Three of them are asleep right now.
+
+=== npc_twice_b
+CUSTOMER: My other one went back into the Press last week and came out on the same beat as everybody.
+CUSTOMER: I visit. We do not have much to say. We say it together.
+
+=== npc_twice_c
+CUSTOMER: Wrong ones go down the drain. Only one lot ever came back up it. Seven of them, small.
+
+=== npc_twice_after
+CUSTOMER: I was in four places this morning.
+
+=== obj_press_office
+> A desk in the Presshands' office. Stacked on it, a pile of the same Primer.
+! give primer3
+> (The Third Primer: let, lists, count, and first.)
+! set has_primer3
+
+=== obj_ledger
+> A door with a ledger nailed to it.
+> MADE TODAY: 12 a vat. 7 vats. FAULTS: 7, drained.
+> The door's rote says it opens when it is told how many walked out.
+
+=== npc_press_door
+PRESSHAND: Customers.
+PRESSHAND: You are one body. You are not a customer yet.
+
+=== c3_drain_shut
+> A drain grate, rusted shut from the inside. Something small could get through it. Seven small things could.
+
+=== obj_ledger_open
+> The door counts to seventy-seven out loud and opens.
+
+=== c3_press_core
+> The Press. It is the size of a house and it stamps.
+> Every stamp, a body slides out of a vat, and the body's rote has one line more than it should. The extra line is the same in every one.
+EACH: That line is not hers.
+EACH: That line is not anyone's.
+MANY: Welcome
+MANY: to the Press.
+MANY: Again.
+MANY: Again.
+> All of Many's bodies blink at the same moment.
+! battle many
+
+=== c3_after
+> The Many bodies sit down, one after another, in chairs that are not there.
+MANY: Here.
+MANY: Only here.
+> The Press stops. All over Twice the second bodies go dark together, and then the third bodies, and then the fourth.
+EACH: The Press could make us one.
+EACH: She would come back.
+EACH: She would come back with that line in her.
+EACH: Then no.
+EACH: No.
+EACH: Five of us say no.
+EACH: Seven.
+> The intake pipes run up out of the Press, toward the Ears.
+! set c3_done
+! end_chapter 3
+
+// ================================================================
+// CHAPTER 4: WHEN
+// ================================================================
+
+=== c4_open
+> The Ears. A field of dishes on stalks, every one taller than Halt, every one turned up.
+> Out of the middle of the field the Tether goes up and does not come down anywhere.
+EACH: It hums.
+EACH: It does not hum.
+EACH: It says a word.
+HALT: Halt.
+> Halt listens.
+HALT: It says "again".
+
+=== c4_when
+> A Listener at the edge of the field turns all the way round.
+> There is a path worn into the ground behind it, from seventeen years of facing the road.
+WHEN: When Wait comes, go with Wait.
+WHEN: That is all of me. It is happening.
+WHEN: I did not know what a wait was. I thought it was a kind of weather.
+WHEN: When you want a word, I have one.
+! join when
+! word when
+> (when: the lines under it run later, when the thing happens. When is in the party.)
+
+=== npc_heed
+HEED: Do not stand still in the Ears.
+HEED: The dishes hear the sky. Stand long enough and you start saying what they hear.
+HEED: The sky says one word now.
+HEED: Before that it said nothing, a long time. Before that, it wrote. We heard the pen.
+HEED: It did not run down. It stopped all at once, the way a word stops.
+LISTENER: Again.
+HEED: Some of us say it too.
+HEED: Take this. It is how we listen. You will want it for her word.
+! give primer4
+> (The Listening Primer: when, events, who and by, and hands.)
+! set has_primer4
+
+=== npc_heed_first
+HEED: That door does not open for anyone who has not listened. Come and see me first. I am the tall one in the north of the field.
+
+=== npc_heed_2
+HEED: Keep moving. The hum is worse in the middle.
+
+=== npc_listener_a
+LISTENER: I heard the Scrivener write, once. It sounds like rain on one leaf.
+LISTENER: Now it is one word. It is that word all the time.
+
+=== npc_listener_b
+LISTENER: I turned my dish down. My neck hurts. I can still hear it through my feet.
+
+=== npc_listener_copied
+LISTENER: Again.
+
+=== c4_second_hand
+> In a ring of dishes that all face inward, there is a hand. It is not attached to anything.
+> It moves its fingers when Wait comes near, at a different time from Wait.
+! give second_hand
+! set got_hand
+> (The Second Hand. Two of your spells can run at once.)
+WHEN: When you have two hands, you can listen with one.
+
+=== c4_relay
+> At the center of the Ears is the biggest dish. Its stalk is the bottom of the Tether.
+RELAY: Again.
+WHEN: When it says the word, the field says it after.
+LISTENER: Again.
+LISTENER: Again.
+HALT: Halt it.
+EACH: Halt it.
+EACH: Please.
+! battle relay
+
+=== c4_after
+> The Relay folds down.
+> Across the Ears every dish turns down at the same moment, and after that nothing in the field happens at the same moment.
+> For the first time in seventeen years the field hears nothing.
+HEED: Nothing.
+HEED: That is a long word.
+> At the foot of the Tether a door opens on a lift the shape of a bucket.
+WHEN: When you are in the bucket, I will be in the bucket.
+! end_chapter 4
+
+// ================================================================
+// CHAPTER 5: ONCE
+// ================================================================
+
+=== c5_open
+> The Bucket climbs.
+> The Ears get small. The river is a line. Busy is a dot that does not light.
+EACH: Up.
+EACH: Up.
+EACH: Three of us do not like up.
+HALT: Halt.
+> The Bucket does not halt.
+HALT: Habit.
+WHEN: When it stops, we get out.
+
+=== c5_gloss
+> At the first Rung, someone thin is already there.
+GLOSS: You came up the river. (Everyone comes up the river. It is the only way up.)
+GLOSS: I came up the inside of the Tether. I am thin enough.
+WAIT: ...
+GLOSS: I was a margin on the Scrivener once. I wrote the notes beside what it wrote.
+GLOSS: I came down to see what the notes were about. That was a long time ago.
+GLOSS: I will come the rest of the way. (I know the rooms. I do not know what is in them now.)
+! join gloss
+
+=== c5_gloss_idle
+GLOSS: Up. (The Writing Room is at the top. Everything is, here.)
+
+=== npc_keep
+KEEP: Rung two. Air thin. Weight low. Do not drop anything. It will not come back.
+KEEP: Whoever built the Tether went up it and did not come down. I keep the rung for them.
+KEEP: You are not them. You can pass.
+
+=== npc_keep_2
+KEEP: Do not drop anything.
+
+=== c5_copies
+> Up ahead, something stands very still on a step. It is the shape of Wait.
+> Its rote is two lines. Both of them are "wait".
+EACH: That is you.
+EACH: It is not you.
+EACH: It has your shape and none of your pages.
+GLOSS: It copied how you look. (It has not read you. Yet.)
+
+=== c5_arm
+> The Writing Room's anteroom. A jointed arm hangs from the ceiling, longer than the room.
+> It is the Scrivener's hand. It writes on the air, the same word, over and over.
+GLOSS: That is the hand that wrote you.
+GLOSS: (It wrote me too, beside you, in the margin.)
+> The arm turns its pen toward Wait.
+! battle arm
+
+=== c5_notebook
+> On the desk under the arm there is a red notebook. The pages are in a child's hand.
+GLOSS: That is hers.
+GLOSS: Once. My student, before you.
+GLOSS: She was written to happen one time. Some rotes are. She was going to do one thing and stop.
+GLOSS: She asked me how not to stop. I knew a word for it.
+GLOSS: I told her.
+> Wait takes the notebook.
+! give red_primer
+! word erase
+> (Once's notebook. It teaches erase. One more word in it is crossed out.)
+! set has_notebook
+
+=== c5_again
+> The Writing Room. Pages hang in the air in every direction, and every page is the same page.
+> In the middle, the Scrivener's quill moves by itself. It writes one word, and the word goes onto everything.
+> Beside the quill is a stool, worn smooth on one side. It is the right height for something thin.
+> Around the quill there is a ring of someone. The same someone, many times, holding hands.
+AGAIN: You came up the river.
+AGAIN: There is room.
+AGAIN: Halt. Habit.
+AGAIN: Wait.
+> Again reads Wait's book. Every page.
+! read_book
+AGAIN: {page1}. {page2}.
+AGAIN: {page1}. Again.
+GLOSS: Once.
+AGAIN: Once.
+AGAIN: Once. Once. Once.
+GLOSS: Go. Back to the Bucket.
+> The ring opens. Copies come out of it, more than the room should hold.
+HALT: Halt.
+> Halt stands in the door of the Writing Room. Halt is a gate.
+HALT: Nothing leaves.
+> The copies stop at Halt.
+> Again reads Halt. Halt's rote starts to have two of every line.
+HALT: Wait.
+WAIT: ?
+HALT: Not you. The word.
+HALT: Halt halts.
+> Halt says his word to himself and stops, all the way. Nothing can copy into a rote that is not running.
+> Halt's light goes out. It does not go out one line at a time. It goes out all at once.
+! leave halt
+! unword halt
+> (Every halt in your rote has gone gray. Those lines will not run.)
+WHEN: When the gate is shut, run.
+! goto c5_fall
+
+=== c5_fall
+> The Bucket drops.
+> Halfway down, the cable lets go of the Tether.
+> Something falls past them in the dark, the shape of a gate.
+> The dark is full of rising ink, and they fall through it the other way.
+EACH: Down.
+EACH: Down.
+EACH: All seven of us do not like down.
+> Wait reads the red notebook while they fall.
+! end_chapter 5
+
+// ================================================================
+// CHAPTER 6: AGAIN
+// ================================================================
+
+=== c6_open
+> The river brings the Bucket home. It comes to rest in the Millrace, under the stopped wheel.
+> Up in Busy, everything moves at the same moment.
+> The light in Busy goes on and off, all of it, together.
+EACH: Busy.
+EACH: Busy is busy.
+EACH: All of Busy is one busy.
+WHEN: When it is all one thing, it is easy to count.
+GLOSS: It came down ahead of us. (It came straight down. It does not need a bucket.)
+GLOSS: The copies in them are lines. Lines can come out. (You have the notebook. Erase what is not theirs.)
+
+=== npc_copied_generic
+> It moves when everything moves. Its rote has two of every line.
+
+=== c6_free_sweep
+SWEEP: The broom wants the middle.
+SWEEP: No. The broom wants where I want.
+> Sweep sweeps a different place from everybody else.
+! set freed_sweep
+
+=== c6_free_count
+COUNT: One thing at once.
+COUNT: Only one. Me, counting.
+! set freed_count
+
+=== c6_free_stack
+STACK: I set this bowl down by myself.
+! set freed_stack
+
+=== c6_free_pour
+POUR: I will carry the ditch.
+POUR: I will carry it wherever I like.
+! set freed_pour
+
+=== c6_free_mind
+MIND: They were being written. I was holding the door.
+MIND: Go in. Go in before it finishes.
+! set freed_mind
+
+=== c6_beaten
+> It sits down. Its light goes out, and then, slowly, comes back on at its own time.
+
+=== c6_halt
+> In the hole in Busy's wall, the shape of Halt, there is Halt.
+WHEN: When a gate falls, it falls where it was a gate.
+> Wait reads Halt.
+> Halt's rote is one word, halted. Around it are copied lines, doubled, that cannot run.
+> Wait reads the word. Wait writes it down in Wait's own rote.
+! word halt
+> (Every gray halt in your rote is dark again. halt is your own word now.)
+EACH: He is still Halt.
+EACH: He is not doing it.
+EACH: He is still Halt.
+! set halt_found
+
+=== obj_halt_wall
+> Halt stands in the wall. Halt is saying his word all the time now.
+
+=== c6_nursery
+> The Nursery. Seventeen cots in rows, and one empty cot.
+> Again is a ring around the cots. It reads the Unwritten and finds nothing to read. So it writes.
+AGAIN: There is room.
+AGAIN: There is room. There is room.
+GLOSS: It found the blank ones. (It can write all of itself into a blank one and share it with nobody.)
+?used_again AGAIN: Again. Again.
+?used_again GLOSS: (It heard you say its word.)
+AGAIN: {page1}.
+AGAIN: Wait.
+! battle again
+
+=== c6_end
+> Again casts Wait's page. It reads it all the way through. It runs it.
+> Again halts.
+! set c6_won
+> The ring stops. The copies around the cots stop, all at once.
+> Then one at a time, each at its own time, they go out.
+> All over Busy the light stops going on and off together.
+> In the middle of where the ring was, there is one of her.
+ONCE: Once.
+> She says it one time.
+?once_all > Wait holds out seven torn pages. She takes the last one and reads it.
+?once_all ONCE: Once more.
+?once_all > She folds the pages small and keeps them.
+?used_again GLOSS: (You said her word too. I saw it in your rote. Then you stopped saying it.)
+> The Nursery is quiet the ordinary way.
+! goto c6_sky
+
+=== c6_sky
+> Above Busy a light crosses the sky. It has not crossed it in seventeen years.
+> It stops over the Nursery.
+> On the first page of Wait's rote, the aside finishes itself.
+! finish_aside
+GLOSS: It told you to wait until it stopped.
+GLOSS: (You did not.)
+> The light waits over the Nursery. It is not writing.
+WHEN: When you go first, it will go.
+MIND: One of them is awake. The one that turned over.
+> In the end cot the first of the Unwritten has its eyes open. Its rote is blank. There is room.
+GLOSS: Give it one line. (One. The rest is its own.)
+! write_line
+
+=== c6_child_empty
+> The child has nothing to do. It looks around the room anyway, at everything, one thing at a time.
+! goto c6_epilogue
+
+=== c6_child_wait
+> The child waits. It is good at it.
+> After a while it gets up.
+! goto c6_epilogue
+
+=== c6_child_say
+> The child says "{said}".
+> The others hear it. One of them turns over.
+! goto c6_epilogue
+
+=== c6_child_harm
+> The child hits the nearest thing, which is the cot.
+> Then it looks at its hand for a long time.
+! goto c6_epilogue
+
+=== c6_child_help
+> The child does it to the nearest thing, which is Mind.
+MIND: Oh.
+! goto c6_epilogue
+
+=== c6_child_halt
+> The child stops. Then it starts again, on its own, without a word for it.
+! goto c6_epilogue
+
+=== c6_child_again
+> The child does it again.
+> Gloss stands very still.
+> Then the child does something else.
+! goto c6_epilogue
+
+=== c6_child_loop
+> The child does it more than once, then counts how many times out loud and gets a different number from Count.
+! goto c6_epilogue
+
+=== c6_child_error
+> The child says the line out loud, wrong, the way you wrote it.
+> Mind writes it down.
+! goto c6_epilogue
+
+=== c6_child_other
+> The child does what you wrote.
+> Then it does something you did not write.
+! goto c6_epilogue
+
+=== c6_epilogue
+> The light over Busy writes one word into each of the other sixteen. The word is "wait".
+> Under the word, it leaves room.
+?released_standing > Down the river, Hop comes walking into Busy.
+?kept_standing > Up the river, Standing is still dark and Tally is still counting. Someone will have to go and tell him.
+?freed_sweep > Sweep sweeps the middle of the square.
+?freed_count > Count counts one thing at a time.
+?freed_stack > Stack sets a bowl down whenever Stack likes.
+?freed_pour > Pour carries water from the river.
+EACH: Five of us are going back to Twice.
+EACH: Two of us are staying.
+EACH: Six.
+EACH: One.
+WHEN: When nothing happens, I will be here.
+GLOSS: I will write a Fifth Primer. (It will be short. You know most of it.)
+> Halt stands in the wall.
+* Go to the spot. -> c6_spot
+* Go to Halt. -> c6_halt_end
+
+=== c6_spot
+> The stones are worn into the shape of standing.
+* Stand on it. -> c6_spot_stand
+* Walk past it. -> c6_spot_walk
+
+=== c6_spot_stand
+! set stood_spot
+> Wait stands on the spot. The stones fit.
+> This time Wait is lit.
+! end_game
+
+=== c6_spot_walk
+> Wait walks past the spot, across the square, and out through the hole in the wall where Halt is standing.
+> Halt is a gate. Wait goes through him.
+! end_game
+
+=== c6_halt_end
+> Wait stands next to Halt for a while.
+WAIT: Wait.
+> Halt does not say his word. Halt is saying it all the time now.
+! end_game
+
+// ================================================================
+// BUSY, LATER
+// ================================================================
+
+=== npc_sweep_away
+SWEEP: The spot is clean. Nobody stands on it.
+SWEEP: I sweep around it anyway. The broom knows the shape.
+
+=== npc_sweep_far
+> Sweep has swept a path from the square to the edge of Busy, where the road starts.
+SWEEP: In case.
+
+=== npc_count_away
+COUNT: Two things at once today. The mill and the river.
+COUNT: Yesterday it was five. Three went down the river.
+
+=== npc_count_far
+> All of Count's beads are on one side.
+COUNT: One thing at once. That is not counting. I keep doing it.
+
+=== npc_stack_away
+> Stack has made a bowl the size of a hand. It is the first small one.
+STACK: For you. You do not eat. Keep it on a shelf.
+
+=== npc_stack_far
+> The column of bowls is taller than the roofs now. It leans toward the Tether.
+STACK: It wants to go up. I let it.
+
+=== npc_pour_away
+POUR: The bowl leaks. I pour faster than it leaks.
+POUR: Mostly.
+
+=== npc_pour_full
+> Pour sits by the full bowl. The jug is upside down, drying.
+POUR: I did not know I could stop.
+
+=== npc_mind_away
+MIND: The one facing the door turned back over.
+MIND: All of them turned with it. At the same moment.
+
+=== npc_mind_far
+MIND: One of them opened its mouth. Nothing came out.
+> Mind rocks the cots in turn, the same order every time.
+
+// ================================================================
+// SIDE: things that wait for a word
+// ================================================================
+
+=== obj_bowl
+> Pour's bowl. Water goes in the top and out a hole in the bottom.
+> Its rote is two asides and one handler.
+
+=== obj_bowl_full
+> The bowl is wet through. The clay swells shut around the hole.
+> It holds.
+POUR: ...
+> Pour pours once more, to check. It holds.
+! give deep
+> (A deep pot. Wait holds one more ink.)
+
+=== obj_lamp
+> A lamp post in Standing. The cage at the top is empty and clean.
+> Somebody lit these. Somebody is halted halfway down the street with a taper.
+
+=== obj_lamp_lit
+> The lamp hears Wait listening, and takes it for the lighter.
+> It lights itself. It is the first light in Standing that is not the river.
+! give mark
+> (A mark.)
+
+=== obj_form
+> A form on the Clerks' counter. It needs two stamps. It has one.
+> It has been waiting for the second stamp since before the Press was hungry.
+
+=== obj_form_done
+> The second stamp lands next to the first. They are the same.
+> The form files itself in a slot in the wall. The slot gives back blanks.
+! give blanks20
+> (20 blanks.)
+
+=== obj_dish_down
+> A dish that turned around. It faces the ground and hears the ground.
+> The moss under it is flat, like something leans on it.
+
+=== obj_dish_up
+> The dish is hushed. Without the noise of the ground in it, it turns back to the sky.
+> Down the Tether comes one voice, saying one word. The word is not again.
+> The dish drops a torn page it was holding the whole time.
+! goto once_6
+
+=== obj_errata
+> A wall written on twice. The first writing is crossed out. The second writing is crossed out.
+> Under both, the Scrivener's hand: a correction slip, pasted down.
+
+=== side_erratum
+> The wall's last line comes off. The correction slip peels away from the stone.
+> It is not paper. It stands up.
+GLOSS: (That is an erratum. A list of what went wrong. It has been correcting itself down here alone.)
+! battle erratum
+> The slip lies flat. Every line on it is crossed out except one.
+! give mark
+> (A mark.)
+! set erratum_done
+
+=== obj_erratum_after
+> The wall is bare. Somebody has written "fine" on it in very small letters.
+
+// ================================================================
+// SIDE: Once's notebook
+// ================================================================
+
+=== once_1
+> A torn page, in a hand that presses hard.
+> "Gloss says a rote runs top to bottom. Mine is one line long. I asked what happens at the bottom."
+! once 1
+
+=== once_2
+> A torn page.
+> "Repeat takes a number. A number runs out."
+! once 2
+
+=== once_3
+> A torn page, wet and dried.
+> "Watched the miller. Grind, grind, rest. He rests and then he grinds. I do not rest. I end."
+! once 3
+
+=== once_4
+> A torn page.
+> "Gloss says nothing is under the last line. I put my hand under it. There was room."
+! once 4
+
+=== once_5
+> A torn page, folded into eight.
+> "I wrote a word on a scrap and read it to myself. It did nothing. Words do nothing until they are yours."
+! once 5
+
+=== once_6
+> A torn page, very small.
+> "Gloss told me the word. Gloss said it slowly so I would not hear it. I heard it."
+! once 6
+
+=== once_7
+> The last torn page. The writing is in a hurry.
+> "If somebody finds this: it was supposed to say once more. I wrote it short."
+! once 7
+
+// ================================================================
+// CARRY
+// ================================================================
+
+=== npc_carry_1
+> A cart. The wheels turn. The cart does not move.
+CARRY: You are moving. Good. I only sell to things that move.
+CARRY: Blanks for things.
+! shop carry
+
+=== npc_carry_2
+> The cart is wet to the axles.
+CARRY: I came down the river. The cart floats. I do not.
+! shop carry
+
+=== npc_carry_3
+CARRY: Weigh says my blanks are light. They are blank. Blank is light.
+! shop carry
+
+=== npc_carry_4
+> Carry points at things instead of naming them.
+CARRY: (Prices are quieter here.)
+! shop carry
+
+=== npc_carry_5
+> The cart is tied to the rail with three knots.
+CARRY: I pushed it up. On the way, it started pulling.
+! shop carry
+
+=== npc_carry_6
+> The cart is lime on one side.
+CARRY: Everything here is copied. Not my prices. I checked twice.
+! shop carry

@@ -67,6 +67,7 @@ export class TitleScene implements Scene {
     bigText(s, 16, 30, 'THE LONG', COL.hi, rgb('#5a2a00'));
     bigText(s, 32, 42, 'NOON', C.white, rgb('#5a2a00'));
     s.textC(64, 58, 'A TALE IN EIGHT BY EIGHT', C.gray);
+    s.textC(64, 1, 'POLISHED BY OPUS 5.5 MEDIUM', COL.dim);
     const cs = CHARS.map((c) => partySprite(c.id));
     const en = Object.values(ENEMIES);
     for (const w of this.walkers) {

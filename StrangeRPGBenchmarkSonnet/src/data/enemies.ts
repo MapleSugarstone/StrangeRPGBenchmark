@@ -151,7 +151,7 @@ const ROLE: Record<Role, { hp: number; atk: number; mag: number; def: number; re
   support: { hp: 0.9, atk: 0.55, mag: 0.85, def: 0.9, res: 1.0, spd: 1.0 },
 };
 
-export const TUNE = { hp: 1.0, atk: 1.0, xpDiv: 6.8, goldBase: 6, goldPer: 3 };
+export const TUNE = { hp: 1.0, atk: 1.0, regularAtk: 0.82, xpDiv: 6.8, goldBase: 6, goldPer: 3 };
 
 export function foeStats(def: EnemyDef, lvl: number, chapter = 1): Stats {
   const tn = TUNING[chapter] ?? { hp: 1, atk: 1, bossHp: 1, bossAtk: 1 };
@@ -161,7 +161,7 @@ export function foeStats(def: EnemyDef, lvl: number, chapter = 1): Stats {
   const defRef = 5.5 + 1.7 * (lvl - 1);
   const spdRef = 10 + 0.85 * (lvl - 1);
   const hm = (def.hpMul ?? 1) * TUNE.hp * (def.boss ? tn.bossHp : tn.hp);
-  const am = (def.atkMul ?? 1) * TUNE.atk * (def.boss ? tn.bossAtk * 2.2 : tn.atk);
+  const am = (def.atkMul ?? 1) * TUNE.atk * (def.boss ? tn.bossAtk * 2.2 : tn.atk * TUNE.regularAtk);
   return {
     hp: Math.round(hpRef * r.hp * hm),
     mp: 0,

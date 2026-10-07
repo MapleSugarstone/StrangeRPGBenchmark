@@ -1,0 +1,741 @@
+// ================================================================
+// ACT 2
+// The format is the same as script.txt. {child_line} is the line the player gave the child,
+// {halt_line} the line the player gave Halt, {gloss_line} the line the player gives Gloss.
+// ================================================================
+
+// ================================================================
+// PROLOGUE: THAT NIGHT
+// ================================================================
+
+=== a2_prologue
+! theme prologue_night
+> That night.
+> Busy sleeps the ordinary way, each at its own time.
+?stood_spot > Wait is still standing on the worn spot.
+?!stood_spot > Wait is standing in the hole in the wall, next to Halt.
+> Someone thin comes across the square without a light.
+GLOSS: You did well. (That is true.)
+GLOSS: It will cross every night now. It has seventeen years to catch up on.
+GLOSS: It writes the first line, and I write beside it. It writes the last line, and I write beside that too.
+GLOSS: (I stopped it once because I could not write one more of those.)
+GLOSS: You were the last thing it wrote before I stopped it. I wrote "until" beside you and lifted the pen.
+WAIT: ...
+GLOSS: You can read now. You can write. You would stop me.
+GLOSS: (I am sorry. That is also true.)
+> Gloss writes one line under Wait's rote, in small letters.
+! seal_wait
+GLOSS: Short is kind.
+> Wait stops. Not like Halt. Halt chose it.
+> Gloss goes to the foot of the Tether and goes up the inside, thin enough.
+! act2
+
+// ================================================================
+// CHAPTER 7: UNTIL
+// ================================================================
+
+=== c7_open
+> Seven years.
+> At night a light crosses the sky over Busy. Everyone in Busy knows when.
+> Tonight it stops over a cot in the Nursery, and a new child opens its eyes with a line already in it.
+> Then it moves on, and stops over the square, over Straw.
+> It writes one line at the bottom of Straw's rote.
+> Straw has stood in the square for longer than anyone has counted.
+> Straw stops standing. It does not fall. There is just nothing in it running.
+! sting ending
+> The light goes on across the sky.
+> A child comes out of the Nursery door. It is a page with one corner folded down, covered in small marks.
+> The marks are its own. Nobody wrote them.
+?stood_spot > It goes to the worn spot in the square, where something has stood for seven years.
+?!stood_spot > It goes to the hole in the wall, where something stands next to the gate.
+> It reads.
+ROOM: wait. until it stops. halt. short is kind.
+ROOM: Who is it kind to?
+> The child draws a line through the last line.
+! unseal_wait
+> Wait moves.
+! goto c7_wake
+
+=== c7_wake
+! theme theme_room
+ROOM: You moved. Did it hurt?
+WAIT: ...
+ROOM: I am Room. My rote is one line and then room. Mind says room is most of me.
+ROOM: The others are all called Wait. Sixteen of them. Is that strange?
+* Wait. -> c7_wake_b
+* ? -> c7_wake_b
+
+=== c7_wake_b
+ROOM: You stood there seven years. Mind says the same as before, only longer.
+ROOM: Who wrote the line I crossed out? It was very small writing.
+> Wait reads its own rote.
+! show_rote
+> Every page Wait wrote has faded to nothing. The first page is still there.
+> Under the first page is the crossed-out line.
+> Under the crossing, the way it was written is still there to read.
+> It was not cast. It was written in, from outside.
+> Wait reads how. In, then a name, then the line.
+! word into
+> (You can write into other rotes now, like this: into foe: wait)
+> (The line goes in at the top of their rote and runs on their turn.)
+ROOM: Can you do it to anything? Can you do it to me?
+ROOM: Should you ask first?
+! set c7_woke
+! join room
+! goto c7_tutorial
+
+=== c7_tutorial
+> A cart rolls round the edge of the square, the same circle, over and over.
+> It is in the way of the Nursery door.
+ROOM: The cart's rote is three lines. Turn, turn, step. Did somebody give it a bad rote?
+ROOM: Can you write a better one into it?
+> (Write a page with into foe: and a line, then cast it at the cart.)
+
+=== c7_cart_done
+> The cart does what Wait wrote. Then it does what it always did, from the line after.
+ROOM: It listened to you. Did it have to?
+ROOM: Carts do not get to say. People do. Mind says.
+
+// ---------------------------------------------------------------- Busy, seven years on
+
+=== npc_sweep_7
+SWEEP: You moved. I swept round you seven more years.
+SWEEP: Now there is a space. I keep sweeping it and nothing is in it.
+
+=== npc_count_7
+COUNT: Endings. Three this year. Two last year. None for seventeen before that.
+COUNT: I count them one at a time. They happen one at a time. I prefer it, and I do not.
+
+=== npc_stack_7
+STACK: My mother finished her bowl last spring. The light came. She set it down.
+STACK: It is the best one. Nobody eats out of it.
+
+=== npc_pour_7
+POUR: I pour into the bowl now. It holds. It has held seven years.
+?!bowl_full POUR: It leaks. It has leaked for twenty-four years. I do not mind.
+
+=== npc_mind_7
+MIND: You. You are lighter than I remember. Did they take your pages?
+MIND: I am slow now. Very. The light has been over the Nursery twice this month.
+MIND: Not for me yet. For the new ones. I hold them while it writes.
+
+=== npc_smallwait_1
+SMALL WAIT: Wait.
+> The child waits. Under its word there is a line it wrote itself: look at the river.
+SMALL WAIT: I am going to look at the river.
+
+=== npc_smallwait_2
+SMALL WAIT: Wait.
+> Under its word, two lines in a child's hand: count the bowls. stop at nine.
+SMALL WAIT: Nine. Stack makes more. I stop at nine anyway.
+
+=== npc_smallwait_3
+SMALL WAIT: Are you the first Wait?
+SMALL WAIT: You are very tall for one.
+
+=== npc_straw_7
+> Straw. Its rote is two lines now.
+> stand  # it stands
+> halt  # it stood. that was enough.
+ROOM: The small line. The one on the end. That is the same small writing.
+
+=== npc_straw_7b
+> Straw. Its rote is three lines now.
+> stand  # it stands
+> halt  # it stood. that was enough.
+> stand
+ROOM: It is still standing.
+
+=== side_straw_stands
+> Wait writes one line under the small writing.
+> stand
+> The halt has already run. The line under it runs next.
+> Straw stands. It is the same straw. It does nothing else. It never did.
+ROOM: Was the halt an ending, then?
+ROOM: Or only a place to stop?
+
+=== gutter_open
+> Under the end of the road there is a ditch. Lines that were struck through fall here and stay.
+> They are asides, in Gloss's hand. Nearly every one is crossed out.
+ROOM: Who throws away their own writing?
+
+=== gutter_a
+> (Straw. It stands. It will stand until
+> The rest is struck through twice.
+
+=== gutter_b
+> (Mind. She keeps the ones with nothing written. Someone should keep
+> Struck through. Under it, smaller: (I could not.)
+
+=== gutter_c
+> (Halt. A gate. He stops what leaves. Let him
+> Struck through so hard that the pen went through the page.
+
+=== gutter_d
+> One aside is not crossed out. It is the shortest one.
+> (Room.)
+> Nothing comes after it.
+ROOM: Is that all of me?
+ROOM: Or did Gloss stop there on purpose?
+> Wait folds the aside and keeps it. It weighs more than paper.
+! give deep
+! set found_gutter
+
+=== gutter_d_after
+> The place where the aside was. The dust has the shape of a parenthesis.
+
+=== npc_halt_7
+> Halt stands in the hole in the wall, where a gate goes.
+> His rote is one word and he is saying it all the time. Nothing leaves Busy and nothing comes in.
+HALT: Halt.
+?!seen_npc_halt_7 HALT: You moved. Good. I could not.
+HALT: Habit.
+
+=== npc_carry_7
+> The cart is older. So is Carry. Carry got here first anyway.
+CARRY: Seven years and you did not buy anything. I kept your prices.
+! shop carry
+
+=== obj_count_board
+> A board by Count's door. Count has scratched a mark for every ending. There are five.
+> Beside each mark, a name. Straw is the newest. The paint is still wet.
+
+=== c7_gate_shut
+HALT: Halt.
+HALT: Nothing leaves. Not you. Not now.
+ROOM: Why not now?
+HALT: The light. It is looking for something. I keep it out of Busy at night. Halt.
+
+// ---------------------------------------------------------------- the Nursery
+
+=== c7_nursery_door
+> The Nursery door is shut. A long shadow under it moves the wrong way for the light.
+ROOM: Mind is in there. Is she all right?
+
+=== c7_mind_end
+> The Nursery. Seventeen cots, sixteen of them with sleeping children in, and Mind among them.
+> Something tall stands over Mind's chair. It is two hands closing a book.
+> One hand writes a line at the bottom of Mind's rote while the other holds the book open.
+MIND: Oh.
+> Mind rocks the nearest cot one more time.
+! sting ending
+> Then she stops. The cot goes on rocking for a while by itself.
+> Wait reads Mind.
+> mind  # keeps them
+> halt  # she rocked them. that was enough.
+ROOM: The small writing again. The same as on you. The same as on Straw.
+ROOM: Who writes the little lines?
+> The two hands close the book and turn toward the cots.
+! battle closer
+
+=== c7_closer_after
+> The Closer's book falls shut on the floor. The pages inside are all last lines, none of them finished.
+> Wait reads one. The aside beside it is already written. The line it belongs to is not.
+> halt  # the small one in the end cot. it has room. that is the trouble.
+ROOM: That is my cot.
+ROOM: Why does it want me?
+! set c7_closer_done
+! goto c7_night
+
+=== c7_night
+> Night. The light comes over the edge of the sky.
+> It does not cross. It comes straight toward Busy, straight toward the Nursery, straight toward Room.
+HALT: Halt.
+> At the wall, Halt says his word at the sky.
+> The light stops over the square, held.
+> Halt's rote is one word. He says it with all of it at once.
+HALT: Heavy.
+HALT: I will not hold it long. Go. Out through me.
+WAIT: ...
+HALT: One more thing. Halt does not get asked. You asked once.
+HALT: Write it. My last line. Not it.
+> Halt's rote has room under his word. He holds still for Wait.
+! write_line halt
+
+=== c7_halt_wait
+> Halt waits. The light waits with him, held.
+> Then Halt lets go of the light, and lets go of the rest at the same time.
+! goto c7_halt_end
+
+=== c7_halt_say
+HALT: {said}
+> He says it to the light, loud enough that the light hears.
+! goto c7_halt_end
+
+=== c7_halt_harm
+> Halt hits the light. It does nothing to the light. Halt does it anyway.
+! goto c7_halt_end
+
+=== c7_halt_help
+> Halt does it to Room, the nearest thing.
+ROOM: Oh.
+! goto c7_halt_end
+
+=== c7_halt_halt
+> Halt says his word one last time. It is the same word. It sounds different at the end.
+! goto c7_halt_end
+
+=== c7_halt_again
+> Halt says his word again, and again, and the light does not move while he says it.
+> Then he does not.
+! goto c7_halt_end
+
+=== c7_halt_loop
+> Halt does it, and does it, and counts each one out loud, and the count is right.
+! goto c7_halt_end
+
+=== c7_halt_empty
+> Halt has nothing to do. He looks at the square for a while, the whole of it, which he has never done.
+! goto c7_halt_end
+
+=== c7_halt_error
+> Halt runs the line the way it was written, wrong. Halt does not correct it.
+! goto c7_halt_end
+
+=== c7_halt_other
+> Halt does what you wrote.
+! goto c7_halt_end
+
+=== c7_halt_end
+> Halt stops. He stops as a gate stops, open.
+! sting ending
+> The light comes down over Halt and writes beside his last line in small letters. Then it goes back up.
+> halt
+> {halt_line}  # he chose it.
+ROOM: The small writing knows him.
+ROOM: Does it know you?
+* Yes. -> c7_leave
+* ... -> c7_leave
+
+=== c7_leave
+> Wait goes out through the gate. Room comes too. Nobody tells Room it can.
+! join room
+! set c7_halt_gone
+! end_chapter 7
+
+// ================================================================
+// CHAPTER 8: STET
+// ================================================================
+
+=== c8_open
+> The river is low. The ink runs over the stones instead of under the bridges.
+> It is running the wrong way. Uphill, slowly, toward the Tether.
+ROOM: Rivers go down. Mind said. Was she wrong?
+ROOM: Who is drinking it?
+
+=== npc_reel_8
+REEL: Seven years. Still still.
+REEL: The river goes up now. The catches swim down to stay in it.
+REEL: Everything that lives in ink is going the wrong way to keep its place.
+?!seen_npc_reel_8 REEL: Take a line. The ones that pull hard pull down. That is the way out of here.
+
+=== npc_tally_8
+?released_standing TALLY: You. I stopped counting seconds. Hop taught me minutes.
+?released_standing TALLY: Hold is old. The light came for the hall twice.
+?released_standing TALLY: Hold halted it both times. Hold is tired.
+?kept_standing TALLY: Two hundred and twenty million, nine hundred and four thousand and twelve.
+?kept_standing TALLY: The light does not come here. Nothing here is running for it to end.
+?kept_standing TALLY: Hold halted us so the copies could not read us.
+?kept_standing TALLY: He did not halt the counting. That was kind.
+
+=== npc_hop_8
+HOP: I can hop now. All the way down.
+HOP: The light came for Hold. Hold said his word at it. The light went round.
+
+=== c8_twice
+> Twice. Half the houses have one door bricked up.
+> In the square, people stand very close to where the other copy of them used to stand.
+ROOM: Why do they all have a gap beside them?
+ROOM: What was in it?
+
+=== npc_weigh_8
+> One Weigh. She has three loads and two arms.
+WEIGH: Corrected. The strip came down the street and read us and we were one.
+WEIGH: I carry the same three loads. I drop one every few steps. I pick it up.
+WEIGH: Do not mind me. I set the same prices.
+! shop weigh
+
+=== npc_customer_8
+> A customer stands next to the empty space where the other customer was.
+CUSTOMER: There were two of us. We argued about bread. I win every argument now.
+CUSTOMER: I would like to lose one.
+
+=== c8_corrector_seen
+> At the end of the street, a long paper strip stands up off the stones. It is covered in crossings-out.
+> It bends over a pair of copies, reads them, and draws one line through both.
+> Where there were two clerks there is one, holding twice as many forms.
+> The strip lies down flat and slides into the Press.
+ROOM: It made them one. Did they want to be one?
+ROOM: Did anybody ask the one who is gone?
+
+=== c8_stet
+! theme theme_stet
+> By the drain, an old woman sits on a stool with a pen. Her rote is one word, and an aside.
+> stet  # let it stand
+STET: You are Wait. You are lighter than they said.
+STET: Lighter. Not less.
+STET: The Press used to cross things out of people. Old rotes, bad lines, the parts it did not want.
+STET: I sat here and wrote stet beside them. It means let it stand.
+STET: Now the strip does what the Press did, only faster, and only to copies.
+ROOM: Can you stet the gone ones?
+STET: Gone is gone. Crossed out is not gone. It is under the line. Still readable.
+STET: Sit. Play me. Then I will tell you what the word is for.
+! stet stet
+! goto c8_stet_after
+
+=== c8_stet_after
+STET: Good. You read the table before you played on it.
+STET: Here. It is not a verb. It is a correction to a correction.
+> Stet writes her word on the back of Wait's first page, small, the way the Scrivener does asides.
+! word stet
+> (stet X crosses out every line someone else wrote into X. It works on your own pages too.)
+STET: When something writes into you, stet it.
+STET: Not into people who said yes. That is theirs. You let that stand.
+! set c8_has_stet
+
+=== npc_stet_8
+STET: Let it stand.
+STET: Sit, if you want a game. I play everyone. I have time. It has not come for me.
+STET: Yet. Yet.
+! stet stet
+
+=== npc_stet_9
+STET: Something has been writing into you. I can see the dents.
+STET: Small marks have come down off the light. A caret. A dele. A footnote. They do not hurt you. They change what you were about to do.
+ROOM: Can you stop them?
+STET: I stop nothing. I let things stand. But I hear a pen before it lands.
+> Stet writes on the table with one finger. The dust keeps it.
+> when written: stet who
+> (A when written: line runs the moment someone writes into you, before their line can run.)
+> (who is the one written into, and by is the writer. when ally written: listens for yours too.)
+STET: Write it once, at the top, and keep it in your hand.
+! stet stet
+
+=== c8_every
+! theme theme_every
+> In the empty lot behind the drain there is a woman made of seven specks pressed together.
+> The seams show. She is counting herself and getting the same number every time.
+EVERY: One.
+EVERY: One. One.
+EVERY: Wait. I know you. We. I know you.
+ROOM: Who are you?
+EVERY: I was seven. We were. I am Every now. It read us and drew one line through all of us.
+EVERY: I wanted it. We did. Then it happened and I was the only one left to want it.
+EVERY: Two of us are still in Busy. Small. Uncorrected. It is going to go up the river for them.
+EVERY: I am coming with you. We. I am.
+! set every_joined
+! join every
+
+=== c8_press
+> The Press is quiet. The vats are dry.
+> The strip is wrapped around the great stamp, reading its own crossings-out.
+> It feels Wait reading it, and stands up.
+EVERY: It corrected me. I. Us. Me.
+EVERY: It does not get the other two.
+! battle corrector
+
+=== c8_corrector_after
+! set c8_corrector_done
+> The strip tears along one of its own lines. Under every crossing-out there is something readable.
+> Every reads. Her face moves seven ways and then one way.
+EVERY: Under the line. All of us. Still there.
+STET: Let it stand.
+> Stet has come to the Press door on her stool, slowly, pen out.
+STET: The strip was correcting for the light. The light is writing something long, up there.
+STET: It needs the river for ink. It needs the world tidy before it writes. It is tidying.
+* What is it writing? -> c8_stet_end
+* Who? -> c8_stet_end
+
+=== c8_stet_end
+STET: A primer. One word long.
+STET: I have read every word the Press ever crossed out. I know that hand.
+STET: It is the one that wrote the asides. Small. Kind. It means it.
+ROOM: The small writing.
+ROOM: Is the small writing a person?
+STET: It is a margin. Margins are what people write when they are being honest.
+EVERY: The two in Busy. Leave them two. If it asks, the answer is no.
+STET: Let it stand.
+! end_chapter 8
+
+// ================================================================
+// CHAPTER 9: ROOM
+// ================================================================
+
+=== c9_open
+> The Ears. The dishes all face up now, toward a sky that writes every night.
+> At the edge of the field, facing the road, a Listener stands where one stood before.
+> Wait comes up the road.
+> Her rote fires.
+WHEN: When Wait comes, go with Wait.
+> She takes one step toward Wait and is already beside Wait.
+WHEN: When I wrote it again, I wrote it so it fires every time.
+WHEN: When it fired, I knew it would be seven years. It was seven years.
+ROOM: Did you wait the whole time?
+WHEN: When you ask that, I will say it was not long. It was not long.
+! join when
+! goto c9_heed_after_when
+
+=== c9_heed_after_when
+WHEN: When you want the Scrivener, Heed knows the way. Heed always knew. Nobody asked.
+
+=== npc_heed_9
+HEED: The sky writes every night. We hear it. It is a long word now. Longer every night.
+HEED: Halt. Halt. Halt. In every hand at once, when it is done.
+HEED: The light comes down to write a last line. That is the only time it comes down.
+
+=== c9_relay_plan
+> The Relay, the great dish. Seven years quiet. Its rote is still one long listen.
+WHEN: When the light writes a last line, it comes down to the one it is ending.
+WHEN: When something is ending, the light is right there, low enough to touch.
+ROOM: So something has to end?
+WHEN: When you write it, it only has to look like it is ending.
+> (Write a halt into the Relay. The light will come down to write the aside beside it.)
+
+=== c9_relay_done
+> Wait writes into the Relay. The great dish says halt into the sky, loud, across the whole field.
+> The light hears its own word in the Relay's mouth and comes down to finish the line.
+> It hangs low over the field. It is a page's edge, made of light, longer than the Ears.
+WHEN: When it comes, climb.
+ROOM: Onto the light? Can we?
+> They can.
+! set c9_on_line
+! goto_map line1 11 20
+
+=== c9_line_open
+> The Line. The road the Scrivener crosses the sky on, every night.
+> It is made of everything the Scrivener has written, every first line, end to end.
+> Under them, faintly, every aside.
+> Below, very far down, the river shows as a bright thread going the wrong way.
+ROOM: We are standing on writing.
+ROOM: Whose?
+EVERY: Mine. Look. Ours. There, by your foot. "Each".
+WHEN: When you stand on someone's line, stand lightly.
+
+=== npc_carry_9
+> A cart is parked on the Line, wheels turning. Carry is sitting on it.
+CARRY: You are slow. It is fine. Everyone is slower than me.
+CARRY: I came up on the light last month. It came for me. It wrote half the line and went on.
+CARRY: I was moving too fast for it to finish.
+! shop carry
+
+=== c9_asides
+> Loose words drift over the road. They are asides, come away from the lines they belonged to.
+> # small. hungry. good at it.
+> # it stands.
+> # until
+EVERY: That one is yours.
+WHEN: When they come loose, they look for something to be beside.
+
+=== c9_gloss_voice
+> The light the Line is made of goes bright in front of Room, and the brightness has a voice.
+GLOSS: Room.
+ROOM: The small writing.
+GLOSS: (Yes.)
+GLOSS: When the Primer is written, everything below will stop at once.
+GLOSS: Nobody will stop alone. Nobody will stop slowly.
+GLOSS: Then it begins again. The first line of the new draft is already written. It is you.
+GLOSS: You would be first. You have room. You could write the rest.
+ROOM: What happens to Wait?
+GLOSS: Wait stops with everyone. (Wait would be the last thing it ever wrote, twice.)
+ROOM: Did you ask them?
+GLOSS: ...
+GLOSS: (No.)
+> The light goes back to being road.
+ROOM: It did not answer. Is that an answer?
+
+=== c9_over
+> At the end of the Line, before the machine, the road has been written over.
+> Every line on it is struck through.
+> A figure stands up out of the struck-through words. It is one word with a line through it.
+> It reads Room and starts writing over Room's rote, from the top.
+ROOM: It is writing on me. Over my line. Over the one you gave me.
+! battle over
+
+=== c9_over_after
+! set c9_over_done
+> The struck-through figure lies down and is road again.
+> Room reads its own rote. The first line, the light's: wait. The second, the one Wait gave it.
+> {child_line}
+! theme theme_room_answer
+> Under them, Room writes a line nobody gave it. It writes slowly. It has never written on itself before.
+ROOM: There.
+> stay  # mine
+WHEN: When you write your own line, you will want it to be short. It is short.
+ROOM: Is it a good one?
+* Yes. -> c9_end
+* ... -> c9_end
+
+=== c9_end
+ROOM: It does not matter. It is mine. Gloss can not have the first line. It is taken.
+> At the end of the Line, the Scrivener sits in the sky, larger than Busy, writing.
+> Carry's cart is already parked in front of it.
+! end_chapter 9
+
+// ================================================================
+// CHAPTER 10: GLOSS
+// ================================================================
+
+=== c10_open
+> The Scrivener. From inside, it is rooms. Every room is for writing.
+> The hand hangs from the ceiling of the first hall, mended. It is copying nothing.
+> It is writing one word on the air.
+> halt
+> halt
+> halt
+EVERY: Faster than the strip. All of us at once. I. We.
+WHEN: When it is done writing, it will put it down.
+
+=== c10_files
+> The second room is a filing room. Arms on rails file pages into walls that go up out of sight.
+> Every page is a first line. Every thing that was ever written begins here.
+ROOM: Mine is here somewhere.
+WHEN: When you find yours, do not read the asides. You will want to argue with them.
+
+=== c10_lastpage
+> One page hangs alone in the middle of the room. It is the page of last lines.
+> It has seventeen years of blanks in it. A few new lines at the bottom: Straw. Mind. Halt.
+> Halt's line is the only one written in two hands.
+> Someone is sitting under the page, holding seven folded pages small in her lap.
+?once_all ONCE: Once more.
+?!once_all ONCE: Once.
+> She has said her word for the year. She points instead.
+> On the page of last lines, her own line is blank. Beside it, an aside, written long ago: # once. then done.
+> Under it, in her own hand, very small: again
+> It has been crossed out by someone else. Stet is written beside the crossing.
+ROOM: She wrote her own line. Somebody crossed it out. Somebody let it stand.
+EVERY: Under the line. Still readable.
+> Once takes Wait's hand and puts it on her blank line. She does not write. She waits to see what Wait does.
+* Write nothing. -> c10_once_nothing
+* Write halt. -> c10_once_halt
+
+=== c10_once_nothing
+> Wait writes nothing.
+> Once nods once. Then she writes her own line, in the blank, very small.
+> once more
+> It is not a loop. It runs one more time and then it is done, when she says.
+! set once_own
+! goto c10_once_after
+
+=== c10_once_halt
+> Wait puts the pen to the blank, and lifts it.
+> Once nods once. Then she writes her own line in the blank, very small.
+> once more
+> It is not a loop. It runs one more time and then it is done, when she says.
+! set once_own
+! goto c10_once_after
+
+=== c10_once_after
+ROOM: That is the difference.
+ROOM: Again is not stopping. Once more is stopping when you say.
+WHEN: When it is yours, it ends when you say.
+
+=== c10_quill
+> The top room. The quill moves by itself over a page as wide as a field.
+> On the page, one word, written very carefully, over and over, in a hand that never shakes.
+> Beside the quill, on the worn stool, sits Gloss.
+GLOSS: You came up the light. (Everyone comes up the river. You found another way.)
+GLOSS: Room.
+ROOM: My first line is taken. I wrote it myself.
+GLOSS: (I read it on the way up.)
+GLOSS: I made all of it worse by stopping it. Once. Again. Seventeen years of nobody ending.
+GLOSS: They should end. Everything I wrote was written to.
+GLOSS: I want them to end together, and kindly, and once.
+* Did you ask them? -> c10_ask
+* ... -> c10_ask
+
+=== c10_ask
+GLOSS: (No.)
+GLOSS: The Primer is written. It goes down when the quill lifts.
+GLOSS: It will go into you first. I am sorry. (That is also true.)
+! battle gloss
+
+=== c10_gloss_after
+> Gloss sits back on the stool. The quill does not lift.
+> Wait goes to the page as wide as a field and reads the Fifth Primer. It is one word, many times.
+> Wait writes into it. Not over it. Into it.
+! write_rule
+> Under the Scrivener's rule for first lines, there is a new line in Wait's hand:
+> leave the last line blank  # for them
+> The quill reads it. It goes on writing first lines. Where it would write a last line, it lifts.
+GLOSS: That is not how it was written.
+ROOM: Is it how it is written now?
+GLOSS: (Yes.)
+GLOSS: Then I am a margin on a machine that writes beginnings. (It is less work. It is lonely.)
+GLOSS: I wrote the asides beside everything. Nobody wrote one beside me.
+GLOSS: Will you write my last line? (You can say no. Say no if you want.)
+* Yes. -> c10_gloss_line
+* No. -> c10_gloss_no
+
+=== c10_gloss_no
+GLOSS: Then I will sit here and write the asides for the first lines. (That is a good job. I liked it once.)
+GLOSS: When I want a last line, I will write it. (Thank you for the room.)
+! set gloss_kept
+! goto c10_end
+
+=== c10_gloss_line
+> Gloss holds still for Wait, the way Halt did.
+! write_line gloss
+> Beside the line, Wait writes the aside. Nobody has ever written one beside Gloss.
+> {gloss_line}  # until
+GLOSS: Until. (Until what?)
+GLOSS: (I see. Until I say.)
+! set gloss_lined
+! goto c10_end
+
+=== c10_end
+> The quill goes on. It writes a first line into something new, far below.
+> It does not write the last line. It leaves room.
+! end_game2
+
+=== c10_lastpage_read
+> The page of last lines. Seventeen years of blank lines, then Straw, then Mind, then Halt.
+> Under them, room for everyone else.
+
+=== c10_once_idle
+> Once holds the seven folded pages. She does not say anything. It is not the time of year for it.
+
+=== c10_arms_done
+> The three arms stop on their plates at the same moment, which they never have.
+> The wall at the top of the room files itself away.
+EVERY: Stopped. All of them at once. That is not the same as all of them stopping.
+WHEN: When you go up, go up carefully.
+
+=== c10_gloss_idle
+GLOSS: (I am still here. I am always beside something.)
+
+// ---------------------------------------------------------------- odds and ends
+
+=== c8_east_shut
+> The east road out of Standing is halted. Nothing on it moves, and nothing moves along it.
+
+=== npc_carry_8
+> The cart is parked on dry stones where the river used to be.
+CARRY: The river went up. I came down. We passed each other.
+! shop carry
+
+=== npc_carry_10
+> The cart is parked by the first door of the machine.
+CARRY: First again. The door does not mind.
+! shop carry
+
+// ================================================================
+// CODA: IT
+// ================================================================
+
+=== coda
+! theme coda
+> The light crosses Busy every night and writes first lines.
+> Nobody gets a last line from the sky any more. People write their own when they want to. Most do not want to yet.
+> Count scratches a board of first lines now. He runs out of board.
+> Stack's mother's bowl is still on the shelf. Nobody eats out of it.
+?released_standing > Hold sits in the hall with the doors open. Tally counts in minutes.
+?kept_standing > Somebody goes up the river to Standing to tell Tally he can stop. Tally finishes the number first.
+> Every keeps the two specks in Busy as two. They visit her. She is every one of them, and one.
+> When stands at the edge of the Ears, facing the road. When Wait comes, she goes with Wait. Wait comes often.
+> Stet sits by the drain and lets things stand.
+> Room writes on everything. Room asks the things first.
+?gloss_kept > In the sky, a margin sits beside a machine and writes asides for new things. Small. Kind. Asked.
+?gloss_lined > In the sky, a margin sits beside a machine and writes asides. Beside its own rote there is one, until.
+> In Busy there is a worn spot in the square.
+> Wait walks past it.
+! credits2

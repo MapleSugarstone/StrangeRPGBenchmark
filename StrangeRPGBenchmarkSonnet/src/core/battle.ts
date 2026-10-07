@@ -421,7 +421,7 @@ export class Battle {
         count('flee');
         this.ev.push({ t: 'act', u: u.uid, name: 'Flee' });
         const foeSpd = Math.max(...this.livingFoes().map((f) => this.stat(f, 'spd')));
-        if (this.rng.chance(Math.min(0.9, 0.35 + 0.5 * (this.stat(u, 'spd') / foeSpd - 0.6)))) { this.over = 'flee'; this.msg('Got away!'); }
+        if (this.rng.chance(Math.min(0.95, Math.max(0.7, 0.45 + 0.5 * (this.stat(u, 'spd') / foeSpd - 0.6))))) { this.over = 'flee'; this.msg('Got away!'); }
         else this.msg('Could not escape!');
         break;
       }

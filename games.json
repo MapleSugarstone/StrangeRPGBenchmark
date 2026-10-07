@@ -101,6 +101,23 @@
       "chapters": 9,
       "blurb": "Everyone on the Drop has a hook in the back and a line straight up into a sky that drips. Once a year a line goes tight and somebody is reeled up. Fathom's line comes down instead, with a file knotted into it, and every entry comes true.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc cancels. C opens the menu. Tab shows your goal. Shift hurries. M mutes. Player two uses the mouse. Gamepads work."
+    },
+    {
+      "id": "rote",
+      "title": "Rote",
+      "model": "Claude Opus 5.5",
+      "effort": "Medium",
+      "folder": "StrangeRPGBenchmarkOpusMagic",
+      "status": "playable",
+      "golden": true,
+      "build": { "command": "npm run build", "dist": "dist", "exclude": ["harness.js"] },
+      "colors": { "accent": "#c8ff2e", "ink": "#0b0a10" },
+      "hero": { "name": "Wait", "role": "The last thing the Scrivener wrote", "sprite": "menu/art/rote-hero.png" },
+      "scene": "menu/art/rote-standing.png",
+      "shots": ["menu/art/rote-editor.png", "menu/art/rote-ch1.png", "menu/art/rote-battle.png", "menu/art/rote-line.png"],
+      "chapters": 10,
+      "blurb": "Everything that lives runs a rote, a short book of instructions a machine in the sky wrote into it. Wait got one word. When a rote that copies itself into everything comes down the river, Wait finds room under the word and starts writing spells in a language you learn as you go. Seven years later, Wait learns to write into other rotes.",
+      "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C casts a page. R reads. Tab shows your goal. M mutes. In the rote you type code: Tab completes a word, F1 explains it, and F5 tests the page."
     }
   ]
 }
