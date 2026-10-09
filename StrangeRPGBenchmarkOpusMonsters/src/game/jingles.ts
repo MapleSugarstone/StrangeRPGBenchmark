@@ -1,4 +1,4 @@
-// Jingles for a whorl growing a level and for a whorl going into the horn, pitched to the key and chord the music plays now.
+// Jingles for a whorl growing a level, going into the horn, and switching in battle, pitched to the key and chord the music plays now.
 import { sfx } from '../engine/audio';
 import { chordLen, ct, deg, hiss, scaleLen, tone } from './tuned';
 
@@ -47,6 +47,25 @@ export function catchJingle(): void {
 export function joinJingle(): void {
   hornClose(0);
   chime(0.34);
+}
+
+/** A whorl called back: three quick plucks fall down the chord, then the horn closes softly round it. About 0.35 seconds. */
+export function switchOutJingle(): void {
+  [2, 1, 0].forEach((k, i) => tone({ w: 'triangle', f: ct(k, 5), dur: 0.08, vol: 0.03, at: i * 0.045, fm: [2, 0.9] }));
+  const f = deg(0, 3);
+  tone({ w: 'sawtooth', f: f * 0.94, to: f, dur: 0.2, vol: 0.03, at: 0.13, a: 0.015, lp: [1400, 180, 3] });
+  tone({ f: f / 2, dur: 0.18, vol: 0.026, at: 0.13, a: 0.015 });
+  hiss({ f: 320, kind: 'lowpass', q: 0.8, dur: 0.07, vol: 0.11, at: 0.27 });
+}
+
+/** A whorl sent out: the horn opens under a filter that lifts, three quick plucks climb the chord, and a small bell glints on top. About 0.3 seconds. */
+export function switchInJingle(): void {
+  const f = deg(0, 3);
+  tone({ w: 'sawtooth', f, dur: 0.14, vol: 0.026, a: 0.01, lp: [220, 1600, 3] });
+  hiss({ f: 900, to: 2600, q: 1.5, dur: 0.08, vol: 0.04, at: 0.04 });
+  [0, 1, 2].forEach((k, i) => tone({ w: 'triangle', f: ct(k, 5), dur: 0.08, vol: 0.03, at: 0.08 + i * 0.045, fm: [2, 0.9] }));
+  tone({ f: ct(0, 6), dur: 0.2, vol: 0.022, at: 0.21, fm: [3.5, 1.8] });
+  tone({ f: deg(4, 7), dur: 0.05, vol: 0.009, at: 0.25, fm: [2.76, 1] });
 }
 
 /** A sounding that fails: the horn closes and rocks twice, then the usual sagging conch of a failure. */

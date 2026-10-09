@@ -65,7 +65,7 @@ export interface Form {
 }
 
 /** What the other side sees instead of the fighter: its name, look, types, and habits. Incoming hits use the disguise's types. */
-export interface Disguise { name: string; sprite: SpriteData; types: Type[]; passives: string[]; moves?: string[] }
+export interface Disguise { name: string; sprite: SpriteData; types: Type[]; passives: string[]; moves?: string[]; agi?: number }
 
 export interface Fighter {
   side: 0 | 1;
@@ -145,7 +145,10 @@ export interface Pending {
   unstop?: boolean;
 }
 
-export type Ev =
+/** The battle clock as the speed lanes show it: each side's out whorl, its next turn, and the time between its plain turns. */
+export interface LaneSnap { t: number; out: [number, number]; next: [number, number]; step: [number, number] }
+
+export type Ev = { lane?: LaneSnap } & (
   | { e: 'msg'; text: string }
   | { e: 'use'; side: 0 | 1; idx: number; move: string; name: string }
   | { e: 'dmg'; side: 0 | 1; idx: number; amt: number; kind: 'P' | 'M' | 'T'; eff: number; shield: number }
@@ -159,7 +162,7 @@ export type Ev =
   | { e: 'cut'; side: 0 | 1; idx: number }
   | { e: 'peg'; idx: number }
   | { e: 'guard'; side: 0 | 1; idx: number }
-  | { e: 'blocked'; side: 0 | 1; idx: number };
+  | { e: 'blocked'; side: 0 | 1; idx: number });
 
 export interface Rules {
   nerve: boolean;
@@ -187,6 +190,8 @@ export interface Battle {
   pend: Pending[];
   ev: Ev[];
   quiet: boolean;
+  /** Set by the battle screen: every event then carries a LaneSnap for the speed lanes. */
+  lanes?: boolean;
   rules: Rules;
   over: null | 0 | 1 | 'run' | 'peg';
   need: Decision | null;

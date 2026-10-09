@@ -1,11 +1,24 @@
-import { act, advance, aimable, basicOf, hpShare, nameOf, passivesOf, seenName, seenPassives, seenSprite, seenTypes, spriteOf, typesOf, sk, canGuard, canSwitch, forecast, ticks, isBig, legal, moveDef, moveText, newBattle, pegChance, pegLine, replace, reserves, standing, STATUS_NAME, targetKind, usable } from '../battle/engine';
+import { act, advance, aimable, basicOf, hpShare, nameOf, passivesOf, seenName, seenPassives, seenSprite, seenTypes, spriteOf, typesOf, sk, canGuard, canSwitch, forecast, ticks, isBig, legal, moveDef, moveText, newBattle, pegChance, pegLine, replace, reserves, standing, STATUS_NAME, targetKind, usable, laneSnap } from '../battle/engine';
 import { playCry } from './cries';
 import { choose as aiChoose, chooseReplacement, describeAction } from '../battle/ai';
-import type { Action, Battle, Ev, Fighter, Mon, SpriteData, Summon } from '../battle/model';
+import type { Action, Battle, Ev, Fighter, LaneSnap, Mon, SpriteData, Summon } from '../battle/model';
 import { MARKS, MOVES, NOTIONS, PASSIVES, SUMMONS, type MoveDef } from '../battle/registry';
 
 /** The bottom panel's grid: seven rows of text 9 pixels apart from y 124, and the divider between the actions and the detail. */
 const MENU_Y = 124, MENU_ROWS = 7, DIVIDER = 90;
+/** The speed lanes: a dark strip above your panel, right of where damage numbers rise from your whorl. */
+const LANE_X = 113, LANE_Y = 56, LANE_W = 72;
+/** A switch in frames: the old whorl leaves, a pause, then the new whorl pops out and settles. */
+const SW_LEAVE = 22, SW_PAUSE = 10, SW_ENTER = 26;
+/** One switch on screen: the whorl leaving, the one coming, frames so far, and whether a foe's move forced it. */
+interface Swap { from: number; to: number; t: number; forced: boolean; popped: boolean }
+/** Frames for a lane's marks to glide, and for a switch's old marks to dim and new marks to feed in, on the switch's own beats. */
+const LANE_GLIDE = 30, LANE_FADE = SW_LEAVE + SW_PAUSE, LANE_FEED = SW_ENTER;
+/** One speed lane as drawn: its marks, where a glide started, turns taken that the clock has not passed, and a switch's fade and feed. */
+interface Lane { out: number; next: number; step: number; fromNext: number; fromStep: number; glide: number; past: number[]; oldNext: number; oldStep: number; fade: number; feed: number }
+const smooth = (u: number): number => u * u * (3 - 2 * u);
+const sameLane = (a: LaneSnap, b: LaneSnap | null): boolean => !!b && a.t === b.t && a.out[0] === b.out[0] && a.out[1] === b.out[1]
+  && [0, 1].every(i => Math.abs(a.next[i] - b.next[i]) < 0.01 && Math.abs(a.step[i] - b.step[i]) < 0.01);
 import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
 import { clear, ctx, dither, layer, mix, rect, INK } from '../engine/screen';
@@ -14,7 +27,7 @@ import { drawFighter, FOE_AT, MINE_AT, paintBackdrop, SCENE_H, SCENE_W, sceneNow
 import { drawSprite } from '../engine/sprites';
 import { sfx } from '../engine/audio';
 import { music } from '../engine/music';
-import { catchJingle, levelJingle, missJingle } from './jingles';
+import { catchJingle, levelJingle, missJingle, switchInJingle, switchOutJingle } from './jingles';
 import { LEVEL_MAX, TYPE_COLOR, typeMult, xpToNext, type Type } from '../data/types';
 import { close, fadeToBlack, run, type Mode } from './modes';
 import { box, BADC, cdIcon, cursor, DIM, GOOD, hpBar, MINE, NERVE, PAPER, markIcon, miniSigil, pips, SEL, tideGauge, tideIcon, teamShell, capIcon, statusIcon, THEIRS, typeBadge, WARN } from './ui';
@@ -125,6 +138,15 @@ class BattleView implements Mode {
   outcome: BattleOutcome | null = null;
   enter = 30;
   t = 0;
+  laneT = -1;
+  laneGoal = 0;
+  laneSpan = 0;
+  laneBusy = 0;
+  laneQ: LaneSnap[] = [];
+  laneLast: LaneSnap | null = null;
+  lanes: Lane[] = [];
+  swaps: (Swap | null)[] = [null, null];
+  swapCries: { f: Fighter; at: number }[] = [];
   xpDone = false;
   infoText: string[] = [];
   tipLines: string[] = [];
@@ -307,6 +329,8 @@ class BattleView implements Mode {
     this.floats = this.floats.filter(f => (f.t -= 1) > 0);
     this.glows = this.glows.filter(g => ++g.t < g.life);
     if (this.bannerT > 0) this.bannerT--;
+    this.tickSwaps();
+    this.tickLanes();
     if (this.o.practice && this.phase !== 'end') {
       if (input.hit('menu') && !this.debugAsk) { this.debugAsk = true; if (this.phase === 'events') sfx('blip'); }
       if (this.debugAsk && this.phase !== 'events') { this.openDebug(); return; }
@@ -340,6 +364,8 @@ class BattleView implements Mode {
 
   play(e: Ev): void {
     const SPR = (side: 0 | 1) => (side === 0 ? { x: MINE_AT[0] * 2, y: MINE_AT[1] * 2 } : { x: FOE_AT[0] * 2, y: FOE_AT[1] * 2 });
+    // A "sends out" message already carries the switch, which the lane plays with the switch itself.
+    if (e.lane && !(e.e === 'msg' && this.queue[0]?.e === 'out')) { this.laneQ.push(e.lane); this.laneLast = e.lane; }
     switch (e.e) {
       case 'msg': {
         this.msgText = e.text; this.timer = 34 + Math.min(40, e.text.length);
@@ -348,6 +374,8 @@ class BattleView implements Mode {
         if (this.log.length > 200) this.log.shift();
         const f = this.introCries.get(e);
         if (f) this.cry(f, 'out');
+        // "Sends out" stays on screen through the switch that follows it, so the switch starts at once.
+        if (this.queue[0]?.e === 'out') this.timer = 8;
         break;
       }
       case 'use': {
@@ -403,7 +431,7 @@ class BattleView implements Mode {
         this.timer = 8;
         break;
       }
-      case 'out': this.outIdx[e.side] = e.idx; this.disp[e.side][e.idx].off = 0; this.light(e.side, 10, 1.6, 16); sfx('switch'); this.cry(this.b.s[e.side].f[e.idx], 'out'); this.timer = 14; break;
+      case 'out': this.startSwap(e.side, e.idx); break;
       case 'ko': { const d = this.disp[e.side][e.idx]; d.ko = true; d.hp = 0; this.light(e.side, 14, 2.4, 12); this.cry(this.b.s[e.side].f[e.idx], 'ko'); this.timer = 20; break; }
       case 'nerve': if (e.n > 0) sfx('nerve'); this.timer = 2; break;
       case 'wind': {
@@ -627,6 +655,7 @@ class BattleView implements Mode {
     this.drawSideHud(1, (FOE_AT[0] + slide) * 2, FOE_AT[1] * 2);
     this.drawSideHud(0, (MINE_AT[0] - slide) * 2, MINE_AT[1] * 2);
     this.drawTempo();
+    this.drawLanes();
     this.drawPanel(1, 2, 14);
     this.drawPanel(0, 86, 72);
     // Floating numbers and words stack upward rather than overlap, each a clear pixel from the next, shadows included.
@@ -666,6 +695,7 @@ class BattleView implements Mode {
 
   /** A side's out slough as a scene figure, or null when it is gone or knocked out. */
   outFigure(side: 0 | 1, x: number, y: number): SceneFigure | null {
+    if (this.swaps[side]) return null;
     const idx = this.outIdx[side];
     const d = this.disp[side][idx];
     if (d.gone || d.ko) return null;
@@ -680,16 +710,22 @@ class BattleView implements Mode {
     const out: SceneFigure[] = [];
     for (const side of [1, 0] as const) {
       const x = side === 1 ? FOE_AT[0] + slide : MINE_AT[0] - slide, y = side === 1 ? FOE_AT[1] : MINE_AT[1];
-      this.b.s[side].sum.forEach((u, i) => { const [sx, sy] = this.summonAt(side, i, x, y); out.push(this.summonFigure(side, u, sx, sy)); });
+      this.shownSums(side).forEach((u, i) => { const [sx, sy] = this.summonAt(side, i, x, y); out.push(this.summonFigure(side, u, sx, sy)); });
       const o = this.outFigure(side, x, y);
       if (o) out.push(o);
     }
     return out;
   }
 
+  /** A side's summons on screen: during a switch, the incoming whorl's summons wait until it pops out. */
+  shownSums(side: 0 | 1): Summon[] {
+    const sw = this.swaps[side];
+    return sw && !sw.popped ? this.b.s[side].sum.filter(u => u.by !== sw.to) : this.b.s[side].sum;
+  }
+
   /** Summons stand beside their side's out whorl, each with a one-pixel HP bar. */
   drawSummons(side: 0 | 1, x: number, y: number): void {
-    this.b.s[side].sum.forEach((u, i) => {
+    this.shownSums(side).forEach((u, i) => {
       const [sx, sy] = this.summonAt(side, i, x, y);
       const fg = this.summonFigure(side, u, sx, sy);
       drawFighter(fg.s, fg.x, fg.y, fg.flip);
@@ -698,9 +734,75 @@ class BattleView implements Mode {
     });
   }
 
+  /** Starts the switch on screen. The panel, the lane, and the sounds follow its beats, and the queue waits for it. */
+  startSwap(side: 0 | 1, to: number): void {
+    const old = this.swaps[side];
+    if (old) this.outIdx[side] = old.to;
+    // A forced switch's message comes after its event: show it now so the words and the motion line up.
+    const k = this.queue.findIndex(q => q.e === 'use' || q.e === 'out' || (q.e === 'msg' && / is (forced|dragged) out\./.test(q.text)));
+    const said = k >= 0 ? this.queue[k] : null;
+    const forced = !!said && said.e === 'msg';
+    if (said && said.e === 'msg') {
+      this.queue.splice(k, 1);
+      this.msgText = said.text;
+      this.log.push(said.text);
+    }
+    this.disp[side][to].off = 0;
+    this.swaps[side] = { from: this.outIdx[side], to, t: 0, forced, popped: false };
+    switchOutJingle();
+    // The lanes catch up at once, so the lane's dim and feed land on the same beats as the whorls.
+    for (const L of this.lanes) L.glide = 0;
+    this.laneBusy = 0;
+    while (this.laneQ.length) this.laneBusy = this.applyLane(this.laneQ.shift()!);
+    if (forced && said?.lane) this.laneQ.push(said.lane);
+    this.timer = SW_LEAVE + SW_PAUSE + SW_ENTER;
+  }
+
+  /** Moves each switch one frame. The new whorl pops out after the pause, and its panel and cry come with it. */
+  tickSwaps(): void {
+    for (const side of [0, 1] as const) {
+      const sw = this.swaps[side];
+      if (!sw) continue;
+      sw.t += this.speed();
+      if (!sw.popped && sw.t >= SW_LEAVE + SW_PAUSE) {
+        sw.popped = true;
+        this.outIdx[side] = sw.to;
+        this.light(side, 10, 1.6, 16);
+        switchInJingle();
+        this.swapCries.push({ f: this.b.s[side].f[sw.to], at: this.t + 15 });
+      }
+      if (sw.t >= SW_LEAVE + SW_PAUSE + SW_ENTER) this.swaps[side] = null;
+    }
+    for (const c of this.swapCries.filter(c => c.at <= this.t)) this.cry(c.f, 'out');
+    this.swapCries = this.swapCries.filter(c => c.at > this.t);
+  }
+
+  /** A switch in the scene: the old whorl curls into its horn (or is shoved off with a trail), then the new one pops out and settles. */
+  drawSwap(side: 0 | 1, sw: Swap, x: number, y: number): void {
+    const back = side === 0 ? -1 : 1, flip = side === 0;
+    if (sw.t < SW_LEAVE) {
+      const d = this.disp[side][sw.from], u = smooth(sw.t / SW_LEAVE);
+      if (d.gone) return;
+      if (d.ko) { dither(x, y, 8, 8, INK, 0.4 * (1 - u)); return; }
+      const dx = Math.round(back * (sw.forced ? 12 : 3) * u);
+      if (sw.forced) for (let j = 0; j < 3; j++) {
+        const len = Math.max(1, Math.round((4 - j) * (1 - u) * 1.5));
+        rect(back < 0 ? x + dx + 9 : x + dx - 1 - len, y + 2 + j * 2, len, 1, mix(PAPER, INK, 0.55));
+      }
+      drawFighter(look(this.b.s[side].f[sw.from]), x + dx, y, flip, sw.forced ? 1 - 0.5 * u : 1 - u);
+      return;
+    }
+    if (sw.t < SW_LEAVE + SW_PAUSE) return;
+    const u = Math.min(1, (sw.t - SW_LEAVE - SW_PAUSE) / SW_ENTER);
+    const k = u < 0.55 ? 1.25 * smooth(u / 0.55) : 1.25 - 0.25 * smooth((u - 0.55) / 0.45);
+    drawFighter(look(this.b.s[side].f[sw.to]), x, y, flip, k);
+  }
+
   drawSide(side: 0 | 1, x: number, y: number): void {
     const d = this.disp[side][this.outIdx[side]];
     this.drawSummons(side, x, y);
+    const sw = this.swaps[side];
+    if (sw) { this.drawSwap(side, sw, x, y); return; }
     if (d.gone) return;
     if (d.ko) {
       dither(x, y, 8, 8, INK, 0.4);
@@ -756,6 +858,101 @@ class BattleView implements Mode {
     }
     text(note || this.o.name, 3, 2, note ? col : DIM);
     if (this.o.practice && textWidth(note || this.o.name) < 140) textRight('V debug', 189, 2, this.debugAsk ? SEL : '#4a4660');
+  }
+
+  /** Moves the speed lanes one frame: queued clock changes play one at a time, and the drawn clock follows at a steady pace. */
+  tickLanes(): void {
+    const b = this.b, sp = this.speed();
+    if (this.laneT < 0) {
+      b.lanes = true;
+      const s = laneSnap(b);
+      this.laneT = this.laneGoal = s.t;
+      this.laneLast = s;
+      this.lanes = ([0, 1] as const).map(sd => ({ out: s.out[sd], next: s.next[sd], step: s.step[sd], fromNext: s.next[sd], fromStep: s.step[sd], glide: 0, past: [], oldNext: 0, oldStep: 0, fade: 0, feed: 0 }));
+      this.laneSpan = Math.max(200, Math.min(700, 3.5 * Math.max(s.step[0], s.step[1], 100)));
+      return;
+    }
+    // Once every event has played, the battle's own clock is the last change to show.
+    if (!this.queue.length && !this.cur) {
+      const s = laneSnap(b);
+      if (!sameLane(s, this.laneLast)) { this.laneQ.push(s); this.laneLast = s; }
+    }
+    for (const L of this.lanes) {
+      L.glide = Math.max(0, L.glide - sp);
+      if (L.fade > 0) L.fade = Math.max(0, L.fade - sp); else L.feed = Math.max(0, L.feed - sp);
+    }
+    this.laneBusy -= sp;
+    while (this.laneBusy <= 0 && this.laneQ.length) this.laneBusy = this.applyLane(this.laneQ.shift()!);
+    const lag = this.laneGoal - this.laneT;
+    if (lag > 0) this.laneT += Math.min(lag, Math.max(3, lag / 40) * sp);
+    for (const L of this.lanes) L.past = L.past.filter(t => t >= this.laneT);
+  }
+
+  /** Starts one queued clock change and returns how many frames it takes. */
+  applyLane(s: LaneSnap): number {
+    this.laneGoal = Math.max(this.laneGoal, s.t);
+    let busy = 0;
+    for (const sd of [0, 1] as const) {
+      const L = this.lanes[sd];
+      if (s.out[sd] !== L.out) {
+        // A switch: the old whorl's marks dim where they stand, then the new whorl's marks feed in from the right.
+        Object.assign(L, { out: s.out[sd], oldNext: L.next, oldStep: L.step, fade: LANE_FADE, feed: LANE_FEED, glide: 0, past: [], next: s.next[sd], step: s.step[sd], fromNext: s.next[sd], fromStep: s.step[sd] });
+        busy = Math.max(busy, LANE_FADE + LANE_FEED);
+        continue;
+      }
+      // Turns taken since the last change stay on the tape until the clock passes them.
+      let n = L.next;
+      for (let k = 0; k < 12 && L.step > 0 && n < s.t - 0.5; k++) { L.past.push(n); n += L.step; }
+      if (Math.abs(s.next[sd] - n) > 0.5 || Math.abs(s.step[sd] - L.step) > 0.5) {
+        Object.assign(L, { fromNext: n, fromStep: L.step, glide: LANE_GLIDE });
+        busy = Math.max(busy, LANE_GLIDE);
+      } else Object.assign(L, { fromNext: s.next[sd], fromStep: s.step[sd] });
+      L.next = s.next[sd];
+      L.step = s.step[sd];
+    }
+    return busy;
+  }
+
+  /** Speed lanes: each out whorl's coming turns as marks on the battle clock, the foe above and yours below. */
+  drawLanes(): void {
+    const b = this.b;
+    const down = (sd: 0 | 1) => { const f = b.s[sd].f[b.s[sd].out], d = this.disp[sd][this.outIdx[sd]]; return !f || f.ko || f.gone || !d || d.ko || d.gone; };
+    if (this.laneT < 0 || this.phase === 'end' || down(0) || down(1)) return;
+    rect(LANE_X - 4, LANE_Y, LANE_W + 7, 13, INK);
+    rect(LANE_X - 2, LANE_Y + 2, 1, 9, mix(DIM, INK, 0.4));
+    for (const sd of [1, 0] as const) {
+      const L = this.lanes[sd], ly = LANE_Y + (sd === 1 ? 2 : 7), c = sd === 0 ? MINE : THEIRS;
+      // A lane that is changing lights up for the length of the change.
+      const lit = Math.max(L.glide / LANE_GLIDE, L.fade > 0 ? 1 : L.feed / LANE_FEED);
+      rect(LANE_X, ly + 3, LANE_W, 1, mix(c, INK, 0.75 - 0.35 * lit));
+      for (const t of L.past) this.laneMark(t, 0, ly, false, mix(c, INK, 0.4));
+      if (L.fade > 0) {
+        const k = 1 - L.fade / LANE_FADE;
+        this.laneRow(L.oldNext, L.oldStep, 0, ly, mix(c, INK, 0.5 * k), mix(c, INK, 0.4 + 0.5 * k));
+        continue;
+      }
+      const u = L.glide > 0 ? smooth(1 - L.glide / LANE_GLIDE) : 1;
+      const dx = L.feed > 0 ? Math.round(smooth(L.feed / LANE_FEED) * LANE_W) : 0;
+      const glow = L.glide > 0 ? mix(c, PAPER, 0.4 * L.glide / LANE_GLIDE) : c;
+      this.laneRow(L.fromNext + (L.next - L.fromNext) * u, L.fromStep + (L.step - L.fromStep) * u, dx, ly, glow, mix(glow, INK, 0.4));
+    }
+  }
+
+  /** One lane's coming turns from `next` and every `step` after it, shifted right by dx and cut at the lane's right end. */
+  laneRow(next: number, step: number, dx: number, ly: number, first: string, rest: string): void {
+    for (let k = 0, t = next; k < 12; k++, t += step) {
+      if (!this.laneMark(t, dx, ly, k === 0, k === 0 ? first : rest) || step <= 0) break;
+    }
+  }
+
+  /** Draws one mark at clock time t, or returns false once that time is past the lane's right end. */
+  laneMark(t: number, dx: number, ly: number, tall: boolean, c: string): boolean {
+    const p = (t - this.laneT) / this.laneSpan;
+    if (p > 1) return false;
+    const x = LANE_X + Math.round(p * (LANE_W - 1)) + dx;
+    if (x > LANE_X + LANE_W - 1) return false;
+    if (p >= 0) rect(x, tall ? ly : ly + 1, 1, tall ? 4 : 3, c);
+    return true;
   }
 
   /** Whether the player is picking an action right now. */

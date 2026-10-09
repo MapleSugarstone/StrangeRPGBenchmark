@@ -3027,8 +3027,8 @@ let figG: CanvasRenderingContext2D | null = null;
 let figImg: ImageData | null = null;
 let figU: Uint32Array | null = null;
 
-/** Draws a slough or summon lit by direction from this frame's scene lights. Call after paintBackdrop, in scene pixels. */
-export function drawFighter(s: SpriteData, x: number, y: number, flip: boolean): void {
+/** Draws a slough or summon lit by direction from this frame's scene lights. Call after paintBackdrop, in scene pixels. A scale k grows or shrinks it from its feet. */
+export function drawFighter(s: SpriteData, x: number, y: number, flip: boolean, k = 1): void {
   const b = lastBase;
   if (!b) return;
   if (!figG) {
@@ -3041,7 +3041,9 @@ export function drawFighter(s: SpriteData, x: number, y: number, flip: boolean):
   const m = lightMap(s, flip);
   backFighter(s, m, x, y, flip, b);
   figG!.putImageData(figImg!, 0, 0);
-  ctx.drawImage(figG!.canvas, Math.round(x), Math.round(y));
+  if (k === 1) { ctx.drawImage(figG!.canvas, Math.round(x), Math.round(y)); return; }
+  const w = Math.round(8 * k);
+  if (w > 0) ctx.drawImage(figG!.canvas, Math.round(x + 4 - w / 2), Math.round(y + 8 - w), w, w);
 }
 
 /** The color of one sprite pixel as 0xRRGGBB. */

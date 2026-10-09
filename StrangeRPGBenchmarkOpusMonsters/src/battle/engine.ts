@@ -1,6 +1,6 @@
 import { statsAt, typeMult, type Stats, type Type } from '../data/types';
 import { profileOf } from '../data/profiles';
-import type { Action, Battle, Decision, Ev, Fighter, Form, MarkVal, Mon, Pending, Rules, Side, SpriteData, StatusId, Summon } from './model';
+import type { Action, Battle, Decision, Ev, Fighter, Form, LaneSnap, MarkVal, Mon, Pending, Rules, Side, SpriteData, StatusId, Summon } from './model';
 import { MARKS, MOVES, NOTIONS, PASSIVES, SUMMONS, type Ctx, type DmgInfo, type HitOpts, type Hooks, type MoveDef, type Ratio } from './registry';
 
 export const SPREAD_SHARE = 0.35;
@@ -92,8 +92,7 @@ export function takeOver(b: Battle, f: Fighter, from: Fighter, tag = 'taken'): v
 /** Shows the other side `as` instead of `f` (an ally, usually), until called again with null. Hits on `f` use the disguise's types. */
 export function disguise(b: Battle, f: Fighter, as: Fighter | null): void {
   if (replaying && as) return;
-  f.disguise = as ? { name: nameOf(as), sprite: spriteOf(as), types: typesOf(as).slice(), passives: passivesOf(as).slice(), moves: as.moves.slice() } : null;
-  void b;
+  f.disguise = as ? { name: nameOf(as), sprite: spriteOf(as), types: typesOf(as).slice(), passives: passivesOf(as).slice(), moves: as.moves.slice(), agi: stat(b, as, 'agi') } : null;
 }
 
 // ---------------------------------------------------------------- summons and items
@@ -364,7 +363,21 @@ export function isOut(b: Battle, f: Fighter): boolean {
 }
 
 export function emit(b: Battle, e: Ev): void {
-  if (!b.quiet) b.ev.push(e);
+  if (b.quiet) return;
+  if (b.lanes) e.lane = laneSnap(b);
+  b.ev.push(e);
+}
+
+/** The clock for the speed lanes as the player sees it: a disguised whorl is spaced by the AGI of the whorl it shows. */
+export function laneSnap(b: Battle): LaneSnap {
+  const side = (sd: 0 | 1): [number, number] => {
+    const s = b.s[sd], f = s.f[s.out];
+    if (!f || f.ko || f.gone) return [s.next, 0];
+    const t = ticks(b, f, 100), seen = f.disguise?.agi;
+    return [s.next, seen === undefined ? t : t * (stat(b, f, 'agi') + 100) / (seen + 100)];
+  };
+  const a = side(0), c = side(1);
+  return { t: b.t, out: [b.s[0].out, b.s[1].out], next: [a[0], c[0]], step: [a[1], c[1]] };
 }
 
 export function label(b: Battle, f: Fighter): string {
