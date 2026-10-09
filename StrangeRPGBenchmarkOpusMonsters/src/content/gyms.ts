@@ -2,7 +2,7 @@
 // The Spire's nave keeps its bell ropes. The layouts below were checked with solvers for their shortest solutions.
 import { sfx } from '../engine/audio';
 import { act, choose, emote, field, hint, morphTo, narr, say, shake, sound } from '../game/api';
-import { flag, setFlag } from '../game/state';
+import { G, flag, setFlag } from '../game/state';
 import { defScript, MAPS, SCRIPTS } from '../game/world';
 import { Canvas } from './areakit';
 
@@ -273,3 +273,25 @@ moveNpc('fallgym', 'perihel', 7, 1);
 moveNpc('fallgym', 'sw1', 2, 14, 1);
 moveNpc('fallgym', 'sw2', 12, 14, 3);
 MAPS.fallgym.npcs.push({ id: 'fallsign', x: 7, y: 15, sprite: 'sign', name: undefined, lines: ['Perihel keeps the hall dark. A star-type whorl worn in front lights it. You will have read this.'] });
+
+// ---------------------------------------------------------------- back doors
+
+/**
+ * Several halls only solve from the door to the keeper, such as the Rib's slides. Once the hall's pearl is won, a door
+ * opens in the back wall two tiles from the keeper and leads out to the town.
+ */
+const HALL_PEARL: Record<string, [string, string]> = {
+  ribgym: ['knuckle', 'rib'], mastgym: ['', 'mast'], bolegym: ['grafton', 'bole'], humgym: ['ohm', 'pylon'],
+  tuskgym: ['tallow', 'tusk'], hiltgym: ['', 'hilt'], spiregym: ['verger', 'spire'],
+};
+for (const [id, [keeperId, pearl]] of Object.entries(HALL_PEARL)) {
+  const m = MAPS[id];
+  if (!m) continue;
+  const keeper = m.npcs.find(n => n.id === keeperId) || m.npcs.find(n => n.y <= 2) || { x: 7 };
+  const x = [keeper.x + 2, keeper.x - 2].find(x => m.rows[1]?.[x] === '_');
+  if (x === undefined) continue;
+  const won = () => G.scales.includes(pearl);
+  const out = m.warps[0];
+  (m.mods ||= []).push({ x, y: 0, ch: 'd', when: won });
+  m.warps.push({ x, y: 0, to: out.to, tx: out.tx, ty: out.ty, dir: out.dir ?? 2, when: won });
+}
