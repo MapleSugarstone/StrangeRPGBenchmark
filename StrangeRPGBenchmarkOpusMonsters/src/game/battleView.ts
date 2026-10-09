@@ -15,10 +15,10 @@ import { drawSprite } from '../engine/sprites';
 import { sfx } from '../engine/audio';
 import { music } from '../engine/music';
 import { catchJingle, levelJingle, missJingle } from './jingles';
-import { TYPE_COLOR, typeMult, xpToNext, type Type } from '../data/types';
+import { LEVEL_MAX, TYPE_COLOR, typeMult, xpToNext, type Type } from '../data/types';
 import { close, fadeToBlack, run, type Mode } from './modes';
 import { box, BADC, cdIcon, cursor, DIM, GOOD, hpBar, MINE, NERVE, PAPER, markIcon, miniSigil, pips, SEL, tideGauge, tideIcon, teamShell, capIcon, statusIcon, THEIRS, typeBadge, WARN } from './ui';
-import { G, HERO, HORN_NAME, capHere, giveXp, levelOf, loosened, nerveUnlocked, owned, scaleNow, seen, type PegKind } from './state';
+import { G, HERO, foeLevel, HORN_NAME, capHere, giveXp, levelOf, loosened, nerveUnlocked, owned, scaleNow, seen, type PegKind } from './state';
 
 export interface BattleOpts {
   enemy: Mon[];
@@ -66,7 +66,15 @@ type Phase = 'events' | 'menu' | 'target' | 'switch' | 'peg' | 'replace' | 'tagt
 const PEG_ORDER: PegKind[] = ['twig', 'brass', 'bone', 'iron'];
 const PEG_NAME = HORN_NAME;
 
+const AI_TIERS: BattleOpts['ai'][] = ['wild', 'trainer', 'keeper', 'champion'];
+
 export function battle(o: BattleOpts): Promise<BattleOutcome> {
+  // Challenge and Hard raise every foe's level and AI. Practice, tutorials, scripted catches, and level-synced fights stay as set.
+  const diff = G.opts.difficulty || 0;
+  if (diff && !o.practice && !o.tips && !o.scripted && !o.sync) {
+    o = { ...o, enemy: o.enemy.map(m => ({ ...m, level: Math.min(LEVEL_MAX, foeLevel(m.level)) })),
+      ai: diff === 2 ? 'champion' : AI_TIERS[Math.min(3, AI_TIERS.indexOf(o.ai) + 1)] };
+  }
   // On the Strand, whorls from the Volute fight at their Strand level.
   const mine = o.practice ? o.practice.mine : G.party.filter(m => m).map(m => (scaleNow.strand && m.strand ? { ...m, level: m.strand.level } : m));
   if (!mine.length) return Promise.resolve({ result: 'run', pegged: [], kos: 0 });
@@ -254,7 +262,8 @@ class BattleView implements Mode {
     this.outcome = { result, pegged, kos };
     // The Register's Guide opens its fatigue chapter once a battle has run that long.
     if (b.fatigued && !this.o.practice) G.flags.fatigueMet = 1;
-    for (const m of pegged) { owned(m.kind); if (scaleNow.strand) m.strandBorn = true; }
+    // A caught whorl keeps a level raised by difficulty, down to the current level cap.
+    for (const m of pegged) { owned(m.kind); if (scaleNow.strand) m.strandBorn = true; if (m.level > capHere()) { m.level = capHere(); m.xp = 0; } }
     for (const f of b.s[0].f) {
       const n = f.mon.notion ? NOTIONS[f.mon.notion] : null;
       if (n?.spent && f.k.notionUsed) { f.mon.notion = null; this.endLines.push(`${f.mon.name}'s ${n.name} is gone.`); }

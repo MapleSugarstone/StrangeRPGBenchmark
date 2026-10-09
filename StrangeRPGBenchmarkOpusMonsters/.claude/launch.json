@@ -6,6 +6,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["../tools/build-site.mjs", "--skip-build", "--serve", "8093"],
       "port": 8093
+    },
+    {
+      "name": "whorl",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8743"],
+      "port": 8743
     }
   ]
 }

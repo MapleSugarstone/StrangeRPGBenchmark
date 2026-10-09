@@ -12,7 +12,7 @@ import { sfx, setSfxVolume } from '../engine/audio';
 import { music } from '../engine/music';
 import { close, run, type Mode } from './modes';
 import { box, cursor, DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, sigil, statChart, typeBadge, WARN, BADC } from './ui';
-import { G, HERO, HORN_NAME, HORN_PRICE, charmsUnlocked, levelOf, notionsUnlocked, save } from './state';
+import { G, HERO, HORN_NAME, HORN_PRICE, DIFFICULTY_NAMES, DIFFICULTY_TEXT, charmsUnlocked, levelOf, notionsUnlocked, save } from './state';
 import { FIT_STAT, HORN_LINE, moveKinds, moveText, TAN_PER_STAT, TAN_TOTAL, tanBonus, tanPerLayer, tanText } from '../battle/engine';
 import { choose, say } from './dialogue';
 import { renameMon } from './files';
@@ -347,11 +347,15 @@ async function charmMenu(): Promise<void> {
 
 async function optionsMenu(): Promise<void> {
   for (;;) {
-    const i = await listMenu('Options', [`Music ${Math.round(G.opts.music * 10)}`, `Sounds ${Math.round(G.opts.sfx * 10)}`, `Battle speed ${G.opts.speed}`], { w: 120 });
+    const i = await listMenu('Options', [`Music ${Math.round(G.opts.music * 10)}`, `Sounds ${Math.round(G.opts.sfx * 10)}`, `Battle speed ${G.opts.speed}`, `Difficulty: ${DIFFICULTY_NAMES[G.opts.difficulty || 0]}`], {
+      w: 140,
+      detail: (k) => { if (k === 3) { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[G.opts.difficulty || 0], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } },
+    });
     if (i < 0) return;
     if (i === 0) { G.opts.music = (Math.round(G.opts.music * 10) + 2) % 12 / 10; music.setVolume(G.opts.music); }
     if (i === 1) { G.opts.sfx = (Math.round(G.opts.sfx * 10) + 2) % 12 / 10; setSfxVolume(G.opts.sfx); }
     if (i === 2) G.opts.speed = G.opts.speed >= 3 ? 1 : G.opts.speed + 1;
+    if (i === 3) G.opts.difficulty = ((G.opts.difficulty || 0) + 1) % 3;
   }
 }
 

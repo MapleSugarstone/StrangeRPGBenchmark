@@ -44,7 +44,8 @@ export interface Save {
   stackBest: number;
   beaten: Record<string, number>;
   lastTannery: { map: string; x: number; y: number };
-  opts: { music: number; sfx: number; speed: number };
+  /** difficulty: 0 Normal, 1 Challenge, 2 Hard. Older saves have none and play Normal. */
+  opts: { music: number; sfx: number; speed: number; difficulty?: number };
   gem: GemSave;
 }
 
@@ -207,4 +208,16 @@ export function addMon(m: Mon): 'party' | 'rack' {
   if (G.party.length < 4) { G.party.push(m); return 'party'; }
   G.rack.push(m);
   return 'rack';
+}
+
+export const DIFFICULTY_NAMES = ['Normal', 'Challenge', 'Hard'];
+export const DIFFICULTY_TEXT = [
+  'Foes are the levels the story sets.',
+  'Every foe is 10% higher in level and fights smarter.',
+  'Every foe is 20% higher in level plus 1, and fights as well as a champion.',
+];
+/** A foe's level on the current difficulty, wild whorls included. */
+export function foeLevel(level: number): number {
+  const d = G.opts.difficulty || 0;
+  return d === 2 ? Math.ceil(level * 1.2) + 1 : d === 1 ? Math.ceil(level * 1.1) : level;
 }

@@ -24,7 +24,10 @@ import { registerPortraits } from './game/dialogue';
 import { drawAll, fadeToBlack, modes, replaceAll, run, top, close, tickAll, type Mode } from './game/modes';
 import { field, safeSpot } from './game/field';
 import { startMenu } from './game/menus';
-import { G, HERO, hasSave, load, setGame, fresh, loosened, useSlot } from './game/state';
+import { DIFFICULTY_NAMES, DIFFICULTY_TEXT, G, HERO, hasSave, load, setGame, fresh, loosened, useSlot } from './game/state';
+import { listMenu } from './game/menus';
+import { box } from './game/ui';
+import { wrap } from './engine/font';
 import { FileSelect, NameEntry } from './game/files';
 import { inPractice, practice } from './game/practice';
 import { MOVES, NOTIONS, PASSIVES, SUMMONS } from './battle/registry';
@@ -121,6 +124,11 @@ async function newGame(): Promise<void> {
     const g = fresh();
     g.name = name;
     setGame(g);
+    const d = await listMenu('How hard?', DIFFICULTY_NAMES, {
+      w: 120,
+      detail: (k) => { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[k], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); },
+    });
+    g.opts.difficulty = Math.max(0, d);
     await fadeToBlack();
     startField(true);
     return;
