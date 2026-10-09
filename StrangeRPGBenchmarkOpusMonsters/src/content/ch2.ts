@@ -191,8 +191,15 @@ defScript('tack2', async () => {
   await say('Tack', 'Leeward\'s 1 keeper and there\'s 11 of them. So I\'m gonna help. After I beat you.');
   const r = await battle({ enemy: [makeMon('tackle', 17), makeMon('hare', 16), makeMon('paring', 16)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 1.15 });
   music.play('drysea');
-  if (r.result === 'win') { G.flags.tackWins = (G.flags.tackWins || 0) + 1; await say('Tack', `${2 - (G.flags.tackWins || 0)} wins for me. ${G.flags.tackWins} for you. 11 Hermits still.`); }
-  else await say('Tack', '1 more for me. Right. Hermits.');
+  if (r.result !== 'win') {
+    // Tack keeps the road to the Mast until Ouro wins. He goes back to his spot, and Ouro steps back out of the trigger.
+    await say('Tack', '1 more for me. And I\'m still in the road. You don\'t get by till it\'s 1 for you.');
+    await Promise.all([walkTo('tackds', 2, 12), walkTo('ouro', 9, 12)]);
+    faceToward('tackds', 'ouro');
+    return;
+  }
+  G.flags.tackWins = (G.flags.tackWins || 0) + 1;
+  await say('Tack', `${2 - (G.flags.tackWins || 0)} wins for me. ${G.flags.tackWins} for you. 11 Hermits still.`);
   await walkOff('tackds', 0, 12);
   setFlag('tack2');
 });
