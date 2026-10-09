@@ -345,18 +345,42 @@ async function charmMenu(): Promise<void> {
   G.charm = i === 0 ? null : opts[i];
 }
 
-async function optionsMenu(): Promise<void> {
-  for (;;) {
-    const i = await listMenu('Options', [`Music ${Math.round(G.opts.music * 10)}`, `Sounds ${Math.round(G.opts.sfx * 10)}`, `Battle speed ${G.opts.speed}`, `Difficulty: ${DIFFICULTY_NAMES[G.opts.difficulty || 0]}`], {
-      w: 140,
-      detail: (k) => { if (k === 3) { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[G.opts.difficulty || 0], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } },
-    });
-    if (i < 0) return;
-    if (i === 0) { G.opts.music = (Math.round(G.opts.music * 10) + 2) % 12 / 10; music.setVolume(G.opts.music); }
-    if (i === 1) { G.opts.sfx = (Math.round(G.opts.sfx * 10) + 2) % 12 / 10; setSfxVolume(G.opts.sfx); }
-    if (i === 2) G.opts.speed = G.opts.speed >= 3 ? 1 : G.opts.speed + 1;
-    if (i === 3) G.opts.difficulty = ((G.opts.difficulty || 0) + 1) % 3;
-  }
+/** Options stay open while they change: left and right step a value, and Z steps it up and wraps round. */
+function optionsMenu(): Promise<void> {
+  let i = 0;
+  const x = 4, y = 4, w = 140;
+  const rows = () => [`Music ${Math.round(G.opts.music * 10)}`, `Sounds ${Math.round(G.opts.sfx * 10)}`, `Battle speed ${G.opts.speed}`, `Difficulty: ${DIFFICULTY_NAMES[G.opts.difficulty || 0]}`];
+  const step = (n: number, max: number, dir: number, wrapAround: boolean) => {
+    const v = n + dir;
+    return wrapAround ? (v + max + 1) % (max + 1) : Math.max(0, Math.min(max, v));
+  };
+  const change = (dir: number, wrapAround: boolean) => {
+    if (i === 0) { G.opts.music = step(Math.round(G.opts.music * 10), 10, dir, wrapAround) / 10; music.setVolume(G.opts.music); sfx('move'); }
+    if (i === 1) { G.opts.sfx = step(Math.round(G.opts.sfx * 10), 10, dir, wrapAround) / 10; setSfxVolume(G.opts.sfx); sfx('ok'); }
+    if (i === 2) { G.opts.speed = step(G.opts.speed - 1, 2, dir, wrapAround) + 1; sfx('move'); }
+    if (i === 3) { G.opts.difficulty = step(G.opts.difficulty || 0, 2, dir, wrapAround); sfx('move'); }
+  };
+  const m: Mode = {
+    update() {
+      if (input.hit('up')) { i = (i + 3) % 4; sfx('move'); }
+      if (input.hit('down')) { i = (i + 1) % 4; sfx('move'); }
+      if (input.hit('left')) change(-1, false);
+      if (input.hit('right')) change(1, false);
+      if (input.hit('ok')) change(1, true);
+      if (input.hit('back')) { sfx('back'); close(m); }
+    },
+    draw() {
+      const items = rows();
+      box(x, y, w, items.length * 9 + 16);
+      text('Options', x + 4, y + 3, SEL);
+      items.forEach((s, k) => {
+        if (k === i) cursor(x + 3, y + 13 + k * 9);
+        text(s, x + 10, y + 13 + k * 9, k === i ? SEL : PAPER);
+      });
+      if (i === 3) { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[G.opts.difficulty || 0], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); }
+    },
+  };
+  return run<void>(m);
 }
 
 /** The start menu entry picked last, where the cursor opens next time. */

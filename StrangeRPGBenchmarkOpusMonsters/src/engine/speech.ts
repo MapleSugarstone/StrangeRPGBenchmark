@@ -53,7 +53,7 @@ export interface Letter {
 }
 
 /** Talking plays this much louder than a voice's own level, so speech sits above the music. Set with the sound test page's level check. */
-const TALK_GAIN = 0.267;
+const TALK_GAIN = 0.17;
 
 type Kind = 'vowel' | 'glide' | 'hum' | 'hiss' | 'soft' | 'burst';
 
