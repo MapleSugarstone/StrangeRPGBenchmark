@@ -1,6 +1,6 @@
 import { statsAt, typeMult, type Stats, type Type } from '../data/types';
 import { profileOf } from '../data/profiles';
-import type { Action, Battle, Decision, Ev, Fighter, Form, LaneSnap, MarkVal, Mon, Pending, Rules, Side, SpriteData, StatusId, Summon } from './model';
+import type { Action, Battle, Decision, Ev, Fighter, Form, MarkVal, Mon, Pending, Rules, Side, Snap, SnapFighter, SnapSide, SpriteData, StatusId, Summon } from './model';
 import { MARKS, MOVES, NOTIONS, PASSIVES, SUMMONS, type Ctx, type DmgInfo, type HitOpts, type Hooks, type MoveDef, type Ratio } from './registry';
 
 export const SPREAD_SHARE = 0.35;
@@ -364,20 +364,32 @@ export function isOut(b: Battle, f: Fighter): boolean {
 
 export function emit(b: Battle, e: Ev): void {
   if (b.quiet) return;
-  if (b.lanes) e.lane = laneSnap(b);
+  if (b.lanes) e.snap = snapOf(b);
   b.ev.push(e);
 }
 
-/** The clock for the speed lanes as the player sees it: a disguised whorl is spaced by the AGI of the whorl it shows. */
-export function laneSnap(b: Battle): LaneSnap {
-  const side = (sd: 0 | 1): [number, number] => {
+/** The battle as the screen shows it now. A disguised whorl shows the disguise, and its lane is spaced by the AGI of the whorl it shows. */
+export function snapOf(b: Battle): Snap {
+  const clock = (sd: 0 | 1): [number, number] => {
     const s = b.s[sd], f = s.f[s.out];
     if (!f || f.ko || f.gone) return [s.next, 0];
     const t = ticks(b, f, 100), seen = f.disguise?.agi;
     return [s.next, seen === undefined ? t : t * (stat(b, f, 'agi') + 100) / (seen + 100)];
   };
-  const a = side(0), c = side(1);
-  return { t: b.t, out: [b.s[0].out, b.s[1].out], next: [a[0], c[0]], step: [a[1], c[1]] };
+  const counts = (r: Record<string, { n: number } | undefined>) => Object.fromEntries(Object.entries(r).filter(([, v]) => v).map(([k, v]) => [k, v!.n]));
+  const side = (sd: 0 | 1): SnapSide => {
+    const s = b.s[sd], f = s.f[s.out];
+    const out: SnapFighter | null = f ? {
+      idx: f.idx, hp: f.hp, name: sd === 0 ? nameOf(f) : seenName(f), types: (sd === 0 ? typesOf(f) : seenTypes(f)).slice(),
+      sprite: sd === 0 ? spriteOf(f) : seenSprite(f), s: counts(f.s as Record<string, { n: number } | undefined>), m: counts(f.m),
+    } : null;
+    return { nerve: s.nerve, caps: s.caps, sum: s.sum.map(u => ({ ...u })), out };
+  };
+  const a = clock(0), c = clock(1);
+  return {
+    t: b.t, out: [b.s[0].out, b.s[1].out], next: [a[0], c[0]], step: [a[1], c[1]], side: [side(0), side(1)],
+    wind: b.pend.filter(p => p.kind === 'windup').map(p => ({ ...p })),
+  };
 }
 
 export function label(b: Battle, f: Fighter): string {

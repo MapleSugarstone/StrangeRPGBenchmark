@@ -145,10 +145,19 @@ export interface Pending {
   unstop?: boolean;
 }
 
-/** The battle clock as the speed lanes show it: each side's out whorl, its next turn, and the time between its plain turns. */
-export interface LaneSnap { t: number; out: [number, number]; next: [number, number]; step: [number, number] }
+/** An out whorl as the screen shows it: its name, types, and look as the player sees them, and its statuses and marks with their counts. */
+export interface SnapFighter { idx: number; hp: number; name: string; types: string[]; sprite: SpriteData; s: Record<string, number>; m: Record<string, number> }
 
-export type Ev = { lane?: LaneSnap } & (
+/** A side as the screen shows it: tide, caps laid under it, summons, and its out whorl. */
+export interface SnapSide { nerve: number; caps: number; sum: Summon[]; out: SnapFighter | null }
+
+/**
+ * The battle as the screen shows it at one event, so the screen follows events as they play rather than the end of a turn.
+ * The clock part feeds the speed lanes: each out whorl, its next turn, and the time between its plain turns.
+ */
+export interface Snap { t: number; out: [number, number]; next: [number, number]; step: [number, number]; side: [SnapSide, SnapSide]; wind: Pending[] }
+
+export type Ev = { snap?: Snap } & (
   | { e: 'msg'; text: string }
   | { e: 'use'; side: 0 | 1; idx: number; move: string; name: string }
   | { e: 'dmg'; side: 0 | 1; idx: number; amt: number; kind: 'P' | 'M' | 'T'; eff: number; shield: number }
@@ -190,7 +199,7 @@ export interface Battle {
   pend: Pending[];
   ev: Ev[];
   quiet: boolean;
-  /** Set by the battle screen: every event then carries a LaneSnap for the speed lanes. */
+  /** Set by the battle screen: every event then carries a Snap of what the screen shows. */
   lanes?: boolean;
   rules: Rules;
   over: null | 0 | 1 | 'run' | 'peg';

@@ -1,7 +1,7 @@
-import { act, advance, aimable, basicOf, hpShare, nameOf, passivesOf, seenName, seenPassives, seenSprite, seenTypes, spriteOf, typesOf, sk, canGuard, canSwitch, forecast, ticks, isBig, legal, moveDef, moveText, newBattle, pegChance, pegLine, replace, reserves, standing, STATUS_NAME, targetKind, usable, laneSnap } from '../battle/engine';
+import { act, advance, aimable, basicOf, nameOf, passivesOf, seenName, seenPassives, seenSprite, seenTypes, spriteOf, typesOf, sk, canGuard, canSwitch, forecast, ticks, isBig, legal, moveDef, moveText, newBattle, pegChance, pegLine, replace, reserves, standing, STATUS_NAME, targetKind, usable, snapOf } from '../battle/engine';
 import { playCry } from './cries';
 import { choose as aiChoose, chooseReplacement, describeAction } from '../battle/ai';
-import type { Action, Battle, Ev, Fighter, LaneSnap, Mon, SpriteData, Summon } from '../battle/model';
+import type { Action, Battle, Ev, Fighter, Mon, Snap, SnapFighter, SnapSide, SpriteData, Summon } from '../battle/model';
 import { MARKS, MOVES, NOTIONS, PASSIVES, SUMMONS, type MoveDef } from '../battle/registry';
 
 /** The bottom panel's grid: seven rows of text 9 pixels apart from y 124, and the divider between the actions and the detail. */
@@ -17,7 +17,7 @@ const LANE_GLIDE = 30, LANE_FADE = SW_LEAVE + SW_PAUSE, LANE_FEED = SW_ENTER;
 /** One speed lane as drawn: its marks, where a glide started, turns taken that the clock has not passed, and a switch's fade and feed. */
 interface Lane { out: number; next: number; step: number; fromNext: number; fromStep: number; glide: number; past: number[]; oldNext: number; oldStep: number; fade: number; feed: number }
 const smooth = (u: number): number => u * u * (3 - 2 * u);
-const sameLane = (a: LaneSnap, b: LaneSnap | null): boolean => !!b && a.t === b.t && a.out[0] === b.out[0] && a.out[1] === b.out[1]
+const sameLane = (a: Snap, b: Snap | null): boolean => !!b && a.t === b.t && a.out[0] === b.out[0] && a.out[1] === b.out[1]
   && [0, 1].every(i => Math.abs(a.next[i] - b.next[i]) < 0.01 && Math.abs(a.step[i] - b.step[i]) < 0.01);
 import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
@@ -142,8 +142,12 @@ class BattleView implements Mode {
   laneGoal = 0;
   laneSpan = 0;
   laneBusy = 0;
-  laneQ: LaneSnap[] = [];
-  laneLast: LaneSnap | null = null;
+  laneQ: Snap[] = [];
+  laneLast: Snap | null = null;
+  /** The battle as shown so far: the snapshot of the last event played, or the live battle once every event has played. */
+  shown: Snap | null = null;
+  /** Each whorl as last shown while out, so a whorl keeps its icons and look until the screen moves past it. */
+  seenF = new Map<string, SnapFighter>();
   lanes: Lane[] = [];
   swaps: (Swap | null)[] = [null, null];
   swapCries: { f: Fighter; at: number }[] = [];
@@ -364,8 +368,9 @@ class BattleView implements Mode {
 
   play(e: Ev): void {
     const SPR = (side: 0 | 1) => (side === 0 ? { x: MINE_AT[0] * 2, y: MINE_AT[1] * 2 } : { x: FOE_AT[0] * 2, y: FOE_AT[1] * 2 });
+    if (e.snap) this.show(e.snap);
     // A "sends out" message already carries the switch, which the lane plays with the switch itself.
-    if (e.lane && !(e.e === 'msg' && this.queue[0]?.e === 'out')) { this.laneQ.push(e.lane); this.laneLast = e.lane; }
+    if (e.snap && !(e.e === 'msg' && this.queue[0]?.e === 'out')) { this.laneQ.push(e.snap); this.laneLast = e.snap; }
     switch (e.e) {
       case 'msg': {
         this.msgText = e.text; this.timer = 34 + Math.min(40, e.text.length);
@@ -410,7 +415,8 @@ class BattleView implements Mode {
         const d = this.disp[e.side][e.idx];
         const f = this.b.s[e.side].f[e.idx];
         d.hp = Math.min(f.maxHp, d.hp + e.amt);
-        if (e.amt === 0) d.hp = f.hp;
+        // A resync (a thaw) takes the HP as of this event, not the HP at the end of the turn.
+        if (e.amt === 0) { const o = e.snap?.side[e.side].out; d.hp = o && o.idx === e.idx ? o.hp : f.hp; }
         const p = SPR(e.side);
         if (this.outIdx[e.side] === e.idx && e.amt > 0) { this.floats.push({ x: p.x + 12, y: p.y - 4, s: '+' + e.amt, c: GOOD, t: 36 }); this.light(e.side, 10, 1.6, 26, GOOD); }
         sfx('heal');
@@ -467,8 +473,8 @@ class BattleView implements Mode {
       if (g.travel) out.push({ x: Math.round(g.x + (g.tx - g.x) * f), y: Math.round(g.y + (g.ty - g.y) * f), r: g.r, lv: g.lv, tint: g.tint, core: true });
       else out.push({ x: g.x, y: g.y, r: g.r * (0.6 + 0.4 * (1 - f)), lv: g.lv * (1 - f), tint: g.tint });
     }
-    for (const p of this.b.pend) {
-      if (p.kind !== 'windup' || this.outIdx[p.side] !== p.idx || this.disp[p.side][p.idx]?.ko) continue;
+    for (const p of this.snapNow().wind) {
+      if (this.outIdx[p.side] !== p.idx || this.disp[p.side][p.idx]?.ko) continue;
       const [x, y] = midOf(p.side);
       out.push({ x, y, r: 9, lv: 1.1 + 0.5 * Math.sin(this.t / 7), tint: this.tintOf(p.side, p.idx, p.move) });
     }
@@ -476,6 +482,27 @@ class BattleView implements Mode {
   }
 
   me(): Fighter { return this.b.s[0].f[this.b.s[0].out]; }
+
+  /** Takes a snapshot as what the screen now shows, and remembers each out whorl as it was shown. */
+  show(s: Snap): void {
+    this.shown = s;
+    for (const sd of [0, 1] as const) { const o = s.side[sd].out; if (o) this.seenF.set(`${sd}:${o.idx}`, o); }
+  }
+
+  /** The battle as shown so far. Before the first event it is the live battle. */
+  snapNow(): Snap { return this.shown || snapOf(this.b); }
+
+  /** A whorl as last shown while out, or as it is now if it has not been shown yet. */
+  shownF(side: 0 | 1, idx: number): SnapFighter {
+    const seen = this.seenF.get(`${side}:${idx}`);
+    if (seen) return seen;
+    const f = this.b.s[side].f[idx];
+    const n = (r: Record<string, { n: number } | undefined>) => Object.fromEntries(Object.entries(r).filter(([, v]) => v).map(([k, v]) => [k, v!.n]));
+    return { idx, hp: f.hp, name: who(f), types: kinds(f), sprite: look(f), s: n(f.s as Record<string, { n: number } | undefined>), m: n(f.m) };
+  }
+
+  /** A side's tide, caps, and summons as shown. */
+  shownSide(side: 0 | 1): SnapSide { return this.snapNow().side[side]; }
 
   updateMenu(): void {
     const n = this.options.length;
@@ -630,7 +657,9 @@ class BattleView implements Mode {
   intensity(): number {
     const b = this.b;
     if (b.fatigued) return 1;
-    const low = Math.min(hpShare(b, 0), hpShare(b, 1));
+    // The HP shown so far, so the music and the scene do not react to a hit before it lands.
+    const share = (sd: 0 | 1) => { let a = 0, m = 0; b.s[sd].f.forEach((f, i) => { const d = this.disp[sd][i]; m += f.maxHp; a += d.ko || d.gone ? 0 : Math.max(0, d.hp); }); return m ? a / m : 0; };
+    const low = Math.min(share(0), share(1));
     return Math.max(0, Math.min(1, (1 - low) * 1.2));
   }
 
@@ -702,7 +731,7 @@ class BattleView implements Mode {
     let dx = 0;
     if (d.shake > 0) dx = (d.shake % 4 < 2 ? -1 : 1);
     if (d.off > 0) dx += Math.round((side === 0 ? d.off : -d.off) / 2);
-    return { s: look(this.b.s[side].f[idx]), x: x + dx, y: y + (Math.floor(this.t / 30) % 2), flip: side === 0, ground: y + 8 };
+    return { s: this.shownF(side, idx).sprite, x: x + dx, y: y + (Math.floor(this.t / 30) % 2), flip: side === 0, ground: y + 8 };
   }
 
   /** Every slough and summon on screen this frame, for the scene's shadows. */
@@ -717,10 +746,10 @@ class BattleView implements Mode {
     return out;
   }
 
-  /** A side's summons on screen: during a switch, the incoming whorl's summons wait until it pops out. */
+  /** A side's summons as shown: during a switch, the incoming whorl's summons wait until it pops out. */
   shownSums(side: 0 | 1): Summon[] {
-    const sw = this.swaps[side];
-    return sw && !sw.popped ? this.b.s[side].sum.filter(u => u.by !== sw.to) : this.b.s[side].sum;
+    const sw = this.swaps[side], sum = this.shownSide(side).sum;
+    return sw && !sw.popped ? sum.filter(u => u.by !== sw.to) : sum;
   }
 
   /** Summons stand beside their side's out whorl, each with a one-pixel HP bar. */
@@ -754,7 +783,7 @@ class BattleView implements Mode {
     for (const L of this.lanes) L.glide = 0;
     this.laneBusy = 0;
     while (this.laneQ.length) this.laneBusy = this.applyLane(this.laneQ.shift()!);
-    if (forced && said?.lane) this.laneQ.push(said.lane);
+    if (forced && said?.snap) { this.show(said.snap); this.laneQ.push(said.snap); }
     this.timer = SW_LEAVE + SW_PAUSE + SW_ENTER;
   }
 
@@ -789,13 +818,13 @@ class BattleView implements Mode {
         const len = Math.max(1, Math.round((4 - j) * (1 - u) * 1.5));
         rect(back < 0 ? x + dx + 9 : x + dx - 1 - len, y + 2 + j * 2, len, 1, mix(PAPER, INK, 0.55));
       }
-      drawFighter(look(this.b.s[side].f[sw.from]), x + dx, y, flip, sw.forced ? 1 - 0.5 * u : 1 - u);
+      drawFighter(this.shownF(side, sw.from).sprite, x + dx, y, flip, sw.forced ? 1 - 0.5 * u : 1 - u);
       return;
     }
     if (sw.t < SW_LEAVE + SW_PAUSE) return;
     const u = Math.min(1, (sw.t - SW_LEAVE - SW_PAUSE) / SW_ENTER);
     const k = u < 0.55 ? 1.25 * smooth(u / 0.55) : 1.25 - 0.25 * smooth((u - 0.55) / 0.45);
-    drawFighter(look(this.b.s[side].f[sw.to]), x, y, flip, k);
+    drawFighter(this.shownF(side, sw.to).sprite, x, y, flip, k);
   }
 
   drawSide(side: 0 | 1, x: number, y: number): void {
@@ -819,19 +848,18 @@ class BattleView implements Mode {
   /** Guard and wind-up markers beside an out slough, in screen pixels. */
   drawSideHud(side: 0 | 1, x: number, y: number): void {
     const idx = this.outIdx[side];
-    const f = this.b.s[side].f[idx];
     const d = this.disp[side][idx];
     if (d.gone || d.ko) return;
-    if (f.s.guard) statusIcon('guard', x + 18, y);
-    const pend = this.b.pend.find(p => p.kind === 'windup' && p.side === side && p.idx === idx);
+    if (this.shownF(side, idx).s.guard) statusIcon('guard', x + 18, y);
+    const pend = this.snapNow().wind.find(p => p.side === side && p.idx === idx);
     if (pend && this.t % 20 < 14) text('!', x + 6, y - 10, SEL, INK);
   }
 
-  /** How many turns `side` takes before time `at`, counting a turn it is taking now. */
+  /** How many turns `side` takes before time `at` as shown so far, counting a turn it is taking now. */
   turnsBefore(side: 0 | 1, at: number): number {
-    const f = this.b.s[side].f[this.b.s[side].out];
-    let nx = this.b.s[side].next, n = 0;
-    while (nx < at && n < 9) { n++; nx += ticks(this.b, f, 100); }
+    const s = this.snapNow();
+    let nx = s.next[side], n = 0;
+    while (nx < at && n < 9 && s.step[side] > 0) { n++; nx += s.step[side]; }
     return n;
   }
 
@@ -841,7 +869,7 @@ class BattleView implements Mode {
     const b = this.b;
     let note = '';
     let col = DIM;
-    const wind = b.pend.find(p => p.kind === 'windup');
+    const wind = this.snapNow().wind[0];
     if (wind) {
       const name = MOVES[wind.move]?.name || 'It';
       const other = (1 - wind.side) as 0 | 1;
@@ -865,16 +893,20 @@ class BattleView implements Mode {
     const b = this.b, sp = this.speed();
     if (this.laneT < 0) {
       b.lanes = true;
-      const s = laneSnap(b);
+      const s = snapOf(b);
+      this.show(s);
       this.laneT = this.laneGoal = s.t;
       this.laneLast = s;
       this.lanes = ([0, 1] as const).map(sd => ({ out: s.out[sd], next: s.next[sd], step: s.step[sd], fromNext: s.next[sd], fromStep: s.step[sd], glide: 0, past: [], oldNext: 0, oldStep: 0, fade: 0, feed: 0 }));
       this.laneSpan = Math.max(200, Math.min(700, 3.5 * Math.max(s.step[0], s.step[1], 100)));
       return;
     }
-    // Once every event has played, the battle's own clock is the last change to show.
+    // Once every event has played, the live battle is what the screen shows, and its clock is the last change for the lanes.
     if (!this.queue.length && !this.cur) {
-      const s = laneSnap(b);
+      const s = snapOf(b);
+      this.show(s);
+      // Every event has played, so the end state is safe to show: this clears anything no event reports, such as an expired shield.
+      if (!this.swaps[0] && !this.swaps[1]) b.s.forEach((sd, si) => sd.f.forEach((f, fi) => { const d = this.disp[si][fi]; d.hp = f.hp; d.shield = f.shield; d.ko = f.ko; d.gone = f.gone; }));
       if (!sameLane(s, this.laneLast)) { this.laneQ.push(s); this.laneLast = s; }
     }
     for (const L of this.lanes) {
@@ -889,11 +921,13 @@ class BattleView implements Mode {
   }
 
   /** Starts one queued clock change and returns how many frames it takes. */
-  applyLane(s: LaneSnap): number {
+  applyLane(s: Snap): number {
     this.laneGoal = Math.max(this.laneGoal, s.t);
     let busy = 0;
     for (const sd of [0, 1] as const) {
       const L = this.lanes[sd];
+      // A knocked-out whorl has no turns to space: its lane keeps its marks until the knockout plays and the lane hides.
+      if (s.out[sd] === L.out && s.step[sd] <= 0) continue;
       if (s.out[sd] !== L.out) {
         // A switch: the old whorl's marks dim where they stand, then the new whorl's marks feed in from the right.
         Object.assign(L, { out: s.out[sd], oldNext: L.next, oldStep: L.step, fade: LANE_FADE, feed: LANE_FEED, glide: 0, past: [], next: s.next[sd], step: s.step[sd], fromNext: s.next[sd], fromStep: s.step[sd] });
@@ -915,8 +949,11 @@ class BattleView implements Mode {
 
   /** Speed lanes: each out whorl's coming turns as marks on the battle clock, the foe above and yours below. */
   drawLanes(): void {
-    const b = this.b;
-    const down = (sd: 0 | 1) => { const f = b.s[sd].f[b.s[sd].out], d = this.disp[sd][this.outIdx[sd]]; return !f || f.ko || f.gone || !d || d.ko || d.gone; };
+    // Hidden once the shown whorl is gone, or knocked out with its knockout already played out on screen.
+    const down = (sd: 0 | 1) => {
+      const d = this.disp[sd][this.outIdx[sd]];
+      return !d || d.gone || (d.ko && !(this.cur?.e === 'ko' && this.cur.side === sd));
+    };
     if (this.laneT < 0 || this.phase === 'end' || down(0) || down(1)) return;
     rect(LANE_X - 4, LANE_Y, LANE_W + 7, 13, INK);
     rect(LANE_X - 2, LANE_Y + 2, 1, 9, mix(DIM, INK, 0.4));
@@ -977,13 +1014,15 @@ class BattleView implements Mode {
     const idx = this.outIdx[side];
     const f = s.f[idx];
     const d = this.disp[side][idx];
+    // Names, types, statuses, marks, caps, and tide come from the events played so far, never from the end of the turn.
+    const sf = this.shownF(side, idx), ss = this.shownSide(side);
     box(x, y, 104, 35, side === 0 ? MINE : THEIRS);
     const lv = this.b.rules.sync ? 25 : f.mon.level;
-    const nameEnd = text(who(f), x + 3, y + 2, PAPER);
+    const nameEnd = text(sf.name, x + 3, y + 2, PAPER);
     textRight(`L${lv}`, x + 101, y + 2, DIM);
     // The type sigils follow the name on its row, clear of a descender.
     let tx = nameEnd + 3;
-    for (const t of kinds(f)) { miniSigil(t as Type, tx, y + 3); tx += 7; }
+    for (const t of sf.types) { miniSigil(t as Type, tx, y + 3); tx += 7; }
     // Two actions this turn: an "x2" beside the level that brightens and dims slowly, left out when a long name reaches it.
     const x2 = x + 101 - textWidth(`L${lv}`) - 4;
     if (this.choosing() && !this.b.pend.some(p => p.kind === 'windup') && this.actsTwice() === side && tx + 1 < x2 - textWidth('x2')) {
@@ -996,7 +1035,7 @@ class BattleView implements Mode {
       if (best > 0 && best < 1) line = best;
     }
     // A hidden foe shows no HP, statuses, or marks.
-    const veiled = side === 1 && !!f.s.hidden;
+    const veiled = side === 1 && !!sf.s.hidden;
     let hpEnd: number;
     if (veiled) { rect(x + 3, y + 15, 98, 5, INK); hpEnd = text('hidden', x + 3, y + 21, DIM); statusIcon('hidden', hpEnd + 4, y + 22); }
     else {
@@ -1004,11 +1043,11 @@ class BattleView implements Mode {
       hpEnd = text(`${Math.max(0, Math.ceil(d.hp))}/${f.maxHp}`, x + 3, y + 21, DIM);
       // Statuses and marks sit at the right end of the HP numbers row, clear of the bar and the name, newest leftmost.
       const icons: [number, (ix: number) => void][] = [];
-      for (const k of Object.keys(f.s)) if (k !== 'guard') icons.push([6, ix => { statusIcon(k, ix, y + 22); }]);
-      for (const k of Object.keys(f.m)) {
+      for (const k of Object.keys(sf.s)) if (k !== 'guard') icons.push([6, ix => { statusIcon(k, ix, y + 22); }]);
+      for (const k of Object.keys(sf.m)) {
         const md = MARKS[k];
         if (!md?.name) continue;
-        const n = f.m[k].n;
+        const n = sf.m[k];
         icons.push([n > 1 ? 7 + textWidth(String(Math.min(9, n))) : 6, ix => markIcon(ix, y + 22, md.color || (md.negative ? BADC : SEL), n)]);
       }
       let ix = x + 102;
@@ -1022,8 +1061,8 @@ class BattleView implements Mode {
       teamShell(rx, ry, dd.gone ? DIM : dd.ko ? '#4a4450' : i === idx ? PAPER : (side === 0 ? MINE : THEIRS));
       rx += 5;
     });
-    for (let k = 0; k < Math.min(4, s.caps); k++) capIcon(rx + 2 + k * 4, ry + 2);
-    if (this.b.rules.nerve) tideGauge(x + 101 - 57, ry - 1, s.nerve, 10);
+    for (let k = 0; k < Math.min(4, ss.caps); k++) capIcon(rx + 2 + k * 4, ry + 2);
+    if (this.b.rules.nerve) tideGauge(x + 101 - 57, ry - 1, ss.nerve, 10);
   }
 
   drawBottom(): void {
