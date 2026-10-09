@@ -1,11 +1,11 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H, wrap } from "../../engine/screen";
+import { type Screen, W, H, wrap, LINE_H } from "../../engine/screen";
 import type { Scene } from "../../engine/scene";
 import { deferred } from "../../engine/scene";
 import { getSprite, getLarge, type Cells } from "../../engine/sprites";
 import { colorInt, mixInt, PALETTE_INT, type ColorName } from "../../engine/palette";
 import { hash } from "../../engine/rng";
-import { FONT_H } from "../../engine/fontdata";
+import { FONT_H, FONT_W } from "../../engine/fontdata";
 import { drawBox, ListCursor } from "../../engine/dialogue";
 import type { Audio, NoteName } from "../../engine/audio";
 import { NOTE_NAMES } from "../../engine/audio";
@@ -50,8 +50,17 @@ interface Float {
 const STRIP_Y = 2;
 const ENEMY_TOP = 22;
 const PARTY_Y = 100;
-const PANEL_Y = 134;
-const CMD_Y = 176;
+const PANEL_Y = 132;
+/** Party rows in the panel, one text line each. */
+const PANEL_ROW = 9;
+const STATUS_X = 158;
+const CMD_Y = 172;
+/** Skill, knot, item and pair lists open a taller box from here, over the party panel. */
+const LIST_Y = PANEL_Y - 2;
+const LIST_ROWS = 4;
+const CMD_ROWS = 2;
+const CMD_COL_W = 54;
+const NOTE_W = 16;
 const LANE_X = [36, 112, 188];
 
 const COMMANDS_HELP: Record<string, string> = {
@@ -454,12 +463,14 @@ export class BattleScene implements Scene {
     switch (this.phase) {
       case "command": {
         this.cmdCursor.move(input, this.host.audio);
-        // Left and right hop between the two command columns
-        if ((input.pressed("left") || input.pressed("right")) && this.commands.length > 4) {
+        // Left and right hop between command columns
+        if ((input.pressed("left") || input.pressed("right")) && this.commands.length > CMD_ROWS) {
+          const cols = Math.ceil(this.commands.length / CMD_ROWS);
+          const i = this.cmdCursor.index;
+          const col = (Math.floor(i / CMD_ROWS) + (input.pressed("right") ? 1 : cols - 1)) % cols;
           input.consume("left");
           input.consume("right");
-          const i = this.cmdCursor.index;
-          this.cmdCursor.index = i >= 4 ? i - 4 : Math.min(this.commands.length - 1, i + 4);
+          this.cmdCursor.index = Math.min(this.commands.length - 1, col * CMD_ROWS + (i % CMD_ROWS));
           this.host.audio.sfx("cursor");
         }
         if (input.pressed("ok")) {
@@ -594,7 +605,15 @@ export class BattleScene implements Scene {
     if (!c) return;
     const p = this.pos(c);
     if (this.floats.some((f) => f.text === text && Math.abs(f.x - p.x) < 10 && f.t > 0.5)) return;
-    this.floats.push({ x: p.x, y: p.y - 10 - this.floats.filter((f) => Math.abs(f.x - p.x) < 10).length * 7, text, color, t: 0.9 });
+    // Floats rise together, so one placed a line above every float still near its start stays a line apart
+    let y = p.y - 10;
+    const near = this.floats.filter((f) => Math.abs(f.x - p.x) < 40).map((f) => f.y - (0.9 - f.t) * 14);
+    for (let k = 0; k < near.length + 1; k++) {
+      const hit = near.find((ny) => Math.abs(ny - y) < LINE_H);
+      if (hit === undefined) break;
+      y = hit - LINE_H;
+    }
+    this.floats.push({ x: p.x, y, text, color, t: 0.9 });
   }
 
   private async playOne(e: BattleEvent): Promise<void> {
@@ -782,22 +801,31 @@ export class BattleScene implements Scene {
     this.drawSparks(s);
     this.drawPanel(s);
     this.drawCommand(s);
+    const msgLines = this.message ? wrap(this.message.text, W - 20) : [];
+    const msgW = msgLines.length ? Math.max(...msgLines.map((l) => s.textWidth(l))) + 10 : 0;
+    const msgH = msgLines.length * LINE_H + 6;
+    const msgY = PARTY_Y - 5 - msgH;
     for (const f of this.floats) {
-      const y = f.y - (0.9 - f.t) * 14;
-      s.textCenter(f.text, f.x, Math.round(y), f.color, "black");
+      const y = Math.round(f.y - (0.9 - f.t) * 14);
+      // A float that would run under the message box waits until the box is gone
+      const fx = f.x - s.textWidth(f.text) / 2;
+      if (msgLines.length && y + FONT_H >= msgY && y <= msgY + msgH && fx + s.textWidth(f.text) >= (W - msgW) / 2 && fx <= (W + msgW) / 2) continue;
+      s.textCenter(f.text, f.x, y, f.color, "black");
     }
     if (this.message) {
-      const tw = s.textWidth(this.message.text) + 8;
-      drawBox(s, Math.floor((W - tw) / 2), PARTY_Y - 20, Math.min(W - 4, tw), FONT_H + 7);
-      s.textCenter(this.message.text, W / 2, PARTY_Y - 16, "white");
+      const lines = msgLines;
+      const tw = msgW;
+      const by = msgY;
+      drawBox(s, Math.floor((W - tw) / 2), by, tw, msgH);
+      lines.forEach((l, i) => s.textCenter(l, W / 2, by + 4 + i * LINE_H, "white"));
     }
     if (this.banner) {
       const lines = wrap(this.banner.text, W - 24);
       const tw = Math.min(W - 8, Math.max(...lines.map((l) => s.textWidth(l))) + 12);
-      const th = lines.length * (FONT_H + 1) + 9;
+      const th = lines.length * LINE_H + 9;
       const by = PARTY_Y + 22 - th;
       drawBox(s, Math.floor((W - tw) / 2), by, tw, th);
-      lines.forEach((l, i) => s.textCenter(l, W / 2, by + 5 + i * (FONT_H + 1), this.banner!.color));
+      lines.forEach((l, i) => s.textCenter(l, W / 2, by + 5 + i * LINE_H, this.banner!.color));
     }
     if (this.biteFlash > 0) {
       // The ground cracks open under the party band and something dark shows
@@ -973,8 +1001,12 @@ export class BattleScene implements Scene {
       const weight = this.previewWeight();
       const t = previewTempo(this.s, this.actor, weight);
       const idx = list.findIndex((u) => u.tempo > t && u.id !== this.actor!.id);
-      const px = idx < 0 ? x : 3 + idx * 14 - 3;
-      s.text("↓", px, STRIP_Y - 1, "gold");
+      // A three pixel arrow fits the six pixel gap between two portraits
+      const px = idx < 0 ? x - 3 : idx * 14;
+      const gold = colorInt("gold");
+      s.vline(px, 0, 5, gold);
+      s.hline(4, px - 1, px + 1, gold);
+      s.px(px, 6, gold);
     }
     // The Bite meter: a two pixel seam under the strip that widens as the field hums, with a jaw at its end
     const bw = Math.round((W - 12) * (this.s.bite / 100));
@@ -988,13 +1020,13 @@ export class BattleScene implements Scene {
     }
     // Phrase
     if (this.s.mech.notes) {
-      const px = W - 44;
-      s.rect(px - 2, 0, 46, 14, "ink");
+      const px = W - 46;
+      s.rect(px - 2, 0, 48, 14, "ink");
       s.sprite(getSprite("shape", "note", "note"), px, 3, "gold", "gold");
       for (let i = 0; i < 3; i++) {
         const n = this.s.phrase[i];
-        s.frame(px + 10 + i * 10, 2, 9, 10, "slate");
-        if (n) s.text(n, px + 13 + i * 10, 4, "gold");
+        s.frame(px + 10 + i * 12, 1, 11, 12, "slate");
+        if (n) s.text(n, px + 13 + i * 12, 3, "gold");
       }
     }
   }
@@ -1097,18 +1129,26 @@ export class BattleScene implements Scene {
         // Only label a foe whose name fits between it and its neighbors; while targeting, only the target is labeled
         const gaps = enemies(this.s).filter((o) => o.id !== c.id && o.alive && !o.taken).map((o) => Math.abs(this.pos(o).x - p.x));
         const room = gaps.length ? Math.min(...gaps) : W;
-        const nm = c.name.length > 14 ? c.name.slice(0, 14) : c.name;
-        if (isTarget || s.textWidth(nm) + 2 <= room) s.textCenter(nm, p.x, hy + 3, isTarget ? "gold" : "bone");
+        const nm = c.name;
+        const tw = s.textWidth(nm);
+        // A neighbor's label needs a clear gap, so only names well short of the spacing show
+        if (isTarget || tw + 12 <= room) {
+          const lx = Math.max(3, Math.min(W - 3 - tw, Math.round(p.x - tw / 2)));
+          // The plate keeps lines and pips behind the label 1 px clear of the letters
+          s.rect(lx - 2, hy + 2, tw + 4, FONT_H + 2, "ink");
+          s.text(nm, lx, hy + 3, isTarget ? "gold" : "bone");
+        }
       }
       // Revealed weaknesses
       const rev = c.revealed.filter((e) => c.weak.includes(e));
-      rev.forEach((el, i) => s.sprite(getSprite("shape", el, el), p.x - 12 + i * 9, hy + 10, "orange", "gold"));
-      if (!c.held && c.economy === "slack") s.text("○", p.x - 1, y - 7, "ash");
+      rev.forEach((el, i) => s.sprite(getSprite("shape", el, el), p.x - 12 + i * 9, hy + 13, "orange", "gold"));
+      // Slack foes are marked at the left of the sprite, clear of the locks and the target arrow above
+      if (!c.held && c.economy === "slack") s.text("○", p.x - (c.boss ? 15 : 13), y + (c.boss ? -2 : 1), "ash");
     }
     if (isTarget) {
       s.sprite(getSprite("shape", "cursor", "down"), p.x - 4, y - (c.boss ? 19 : 11) - Math.round(Math.sin(this.time * 6) * 2), "gold", "gold");
     }
-    if (c.lifted > 0) s.text("↑", p.x - 1, y - 6, "frost");
+    if (c.lifted > 0) s.text("↑", p.x - 2, y - 9, "frost");
   }
 
   private drawLocks(s: Screen, c: Combatant, x: number, y: number): void {
@@ -1130,18 +1170,18 @@ export class BattleScene implements Scene {
     s.hline(PANEL_Y - 2, 0, W - 1, colorInt("slate"));
     const ps = party(this.s);
     ps.forEach((c, i) => {
-      const y = PANEL_Y + i * 10;
+      const y = PANEL_Y + i * PANEL_ROW;
       const active = this.actor?.id === c.id;
-      if (active) s.rect(0, y - 1, W, 10, "slate");
+      if (active) s.rect(0, y - 1, W, PANEL_ROW, "slate");
       s.text(c.name, 3, y, !c.alive ? "ash" : c.reheld ? "blood" : active ? "gold" : "white");
       // HP bar
-      const bx = 40, bw = 44;
+      const bx = 41, bw = 40;
       s.rect(bx, y + 1, bw, 5, "coal");
       const frac = c.hp / c.maxHp;
       s.rect(bx, y + 1, Math.round(bw * frac), 5, frac < 0.3 ? "blood" : frac < 0.6 ? "amber" : "leaf");
-      s.textRight(`${c.hp}`, bx + bw + 16, y, "bone");
+      s.textRight(`${c.hp}`, 103, y, "bone");
       // Resource
-      const rx = 110;
+      const rx = 107;
       if (c.economy === "tension" && !c.letGo) {
         const mt = maxTension(c);
         for (let k = 0; k < mt; k++) s.rect(rx + k * 5, y + 1, 4, 5, k < c.tension ? (c.tension >= liftThreshold(c) - 1 && this.s.mech.lift ? "blood" : "gold") : "coal");
@@ -1153,78 +1193,95 @@ export class BattleScene implements Scene {
       } else {
         for (let k = 0; k < c.maxPool; k++) s.rect(rx + k * 5, y + 1, 4, 5, k < c.pool ? "mint" : "coal");
       }
-      // Statuses
-      // Whole words only: as many as fit, then a count of the rest
+      // Statuses: whole words only, as many as fit, then a count of the rest
       const words = [c.lifted > 0 ? "up" : "", c.climbing ? "climb" : "", c.letGo ? "slack" : "", c.tangledWith ? "tangle" : ""].filter(Boolean);
       for (const x of c.statuses) if (!["guard", "duck", "charge"].includes(x.id)) words.push(STATUS_LABEL[x.id] ?? x.id);
+      const room = Math.floor((W - 3 - STATUS_X) / FONT_W);
       let out = "", shown = 0;
-      for (const w of words) { const next = out ? `${out} ${w}` : w; if (next.length > 15) break; out = next; shown++; }
-      if (shown < words.length) out += ` +${words.length - shown}`;
-      s.text(out, 150, y, c.reheld ? "blood" : "lilac");
+      for (const w of words) {
+        const next = out ? `${out} ${w}` : w;
+        const rest = words.length - shown - 1;
+        if (next.length + (rest > 0 ? ` +${rest}`.length : 0) > room) break;
+        out = next;
+        shown++;
+      }
+      if (shown < words.length) out = out ? `${out} +${words.length - shown}` : `+${words.length}`;
+      s.text(out, STATUS_X, y, c.reheld ? "blood" : "lilac");
     });
   }
 
   private drawCommand(s: Screen): void {
     drawBox(s, 0, CMD_Y, W, H - CMD_Y);
     if (this.phase === "anim" || this.phase === "idle" || this.phase === "result" || !this.actor) {
-      if (this.actor && this.actor.side === "enemy") s.text(`${this.actor.name} acts.`, 6, CMD_Y + 5, "bone");
+      if (this.actor && this.actor.side === "enemy") wrap(`${this.actor.name} acts.`, W - 13).forEach((l, i) => s.text(l, 6, CMD_Y + 5 + i * LINE_H, "bone"));
       return;
     }
     const actor = this.actor;
-    const left = 6, top = CMD_Y + 4;
+    const left = 6, top = CMD_Y + 3;
     const open = this.openLocks();
     if (this.phase === "command") {
       this.commands.forEach((cmd, i) => {
-        const col = Math.floor(i / 4), row = i % 4;
-        const x = left + col * 64, y = top + row * 10;
+        const x = left + Math.floor(i / CMD_ROWS) * CMD_COL_W, y = top + (i % CMD_ROWS) * LINE_H;
         if (i === this.cmdCursor.index) s.text("▶", x - 1, y, "gold");
-        s.text(cmd, x + 8, y, i === this.cmdCursor.index ? "white" : "bone");
-        if (this.commandAnswers(actor, cmd, open)) this.answerMark(s, x + 10 + s.textWidth(cmd), y);
+        s.text(cmd, x + 6, y, i === this.cmdCursor.index ? "white" : "bone");
+        if (this.commandAnswers(actor, cmd, open)) this.answerMark(s, x + 7 + s.textWidth(cmd), y);
       });
       const cmd = this.commands[this.cmdCursor.index];
       const reheld = party(this.s).some((p) => p.reheld && p.alive);
       let help = cmd === "Attack" && reheld ? "A plain hit. Hit a re-held ally to free them. They are last in the target list." : COMMANDS_HELP[cmd] ?? "";
       if (this.commandAnswers(actor, cmd, open)) help = `Answers an open lock. ${help}`;
-      this.helpText(s, help, 134, top);
+      this.helpText(s, help, left, top + CMD_ROWS * LINE_H + 1, W - 12, 3);
     } else if (["skills", "knots", "untie", "items", "pairs"].includes(this.phase)) {
+      // Lists open a taller box over the party panel, with the actor's resource on top
+      drawBox(s, 0, LIST_Y, W, H - LIST_Y);
+      const ly = LIST_Y + 4;
+      s.text(actor.name, left, ly, "gold");
+      const res = actor.economy === "tension" && !actor.letGo ? `tension ${actor.tension}/${maxTension(actor)}` : actor.economy === "length" ? `${actor.pool}/${actor.maxPool} fm` : `points ${actor.pool}/${actor.maxPool}`;
+      s.textRight(res, W - 7, ly, "teal");
       const cur = this.listCursor;
       cur.clamp();
-      const vis = this.list.slice(cur.top, cur.top + 4);
+      const vis = this.list.slice(cur.top, cur.top + LIST_ROWS);
+      const rowY = ly + LINE_H + 1;
       vis.forEach((it, i) => {
         const idx = cur.top + i;
-        const y = top + i * 10;
+        const y = rowY + i * LINE_H;
         if (idx === cur.index) s.text("▶", left - 1, y, "gold");
         let label = it.label;
         if (it.skill) label += it.skill.cost > 0 ? ` ${it.skill.cost}` : "";
-        label = label.slice(0, 22);
-        s.text(label, left + 8, y, !it.afford ? "ash" : idx === cur.index ? "white" : "bone");
-        if (it.afford && this.answers(this.listLock(it), open)) this.answerMark(s, left + 10 + s.textWidth(label), y);
+        s.text(label, left + 6, y, !it.afford ? "ash" : idx === cur.index ? "white" : "bone");
+        if (it.afford && this.answers(this.listLock(it), open)) this.answerMark(s, left + 7 + s.textWidth(label), y);
       });
-      if (this.list.length > 4) s.text(cur.top > 0 ? "↑" : " ", 112, top, "ash"), s.text(cur.top + 4 < this.list.length ? "↓" : " ", 112, top + 30, "ash");
+      if (this.list.length > LIST_ROWS) {
+        if (cur.top > 0) s.text("↑", W - 12, rowY, "ash");
+        if (cur.top + LIST_ROWS < this.list.length) s.text("↓", W - 12, rowY + (LIST_ROWS - 1) * LINE_H, "ash");
+      }
+      if (!this.list.length) s.text("Nothing here.", left + 6, rowY, "ash");
+      const sepY = rowY + LIST_ROWS * LINE_H;
+      s.hline(sepY, 2, W - 3, colorInt("slate"));
       const it = this.list[cur.index];
-      if (it) this.helpText(s, it.afford && this.answers(this.listLock(it), open) ? `Answers an open lock. ${it.sub}` : it.sub, 122, top);
-      if (!this.list.length) s.text("Nothing here.", left + 8, top, "ash");
+      if (it) this.helpText(s, it.afford && this.answers(this.listLock(it), open) ? `Answers an open lock. ${it.sub}` : it.sub, left, sepY + 3, W - 12, 4);
     } else if (this.phase === "target" || this.phase === "target2") {
       const t = this.targetList[this.targetIndex];
-      s.text(this.phase === "target2" ? "And the second target:" : "Choose a target.", left, top, "bone");
       if (t) {
-        s.text(t.name, left, top + 10, "gold");
+        // The second pick of a two target skill is marked on the name line, so the text below keeps four lines
+        if (this.phase === "target2") { s.text("2nd:", left, top, "bone"); s.text(t.name, left + s.textWidth("2nd: ") + 1, top, "gold"); }
+        else s.text(t.name, left, top, "gold");
         const d = ENEMIES[t.defId];
         const about = d ? d.about : MEMBERS[t.defId]?.title ?? "";
-        this.helpText(s, about, left, top + 20, W - 12);
-      }
+        this.helpText(s, about, left, top + LINE_H, W - 12, 4);
+      } else s.text("Choose a target.", left, top, "bone");
     } else if (this.phase === "note") {
       s.text("Tune the line to:", left, top, "bone");
-      NOTE_NAMES.forEach((n, i) => s.text(n, left + 8 + i * 14, top + 9, i === this.listCursor.index ? "gold" : "bone"));
-      s.text("▶", left + 1 + this.listCursor.index * 14, top + 9, "gold");
+      NOTE_NAMES.forEach((n, i) => s.text(n, left + 8 + i * NOTE_W, top + LINE_H, i === this.listCursor.index ? "gold" : "bone"));
+      s.text("▶", left + 1 + this.listCursor.index * NOTE_W, top + LINE_H, "gold");
       const phrase = this.s.phrase.join(" ");
-      s.text(`Phrase so far: ${phrase || "none"}`, left, top + 18, "lilac");
-      s.text("Major C E G   Minor A C E   Dim B D F", left, top + 27, "ash");
-      s.text("Sus C F G   Aug C E G#", left, top + 34, "ash");
+      s.text(`Phrase so far: ${phrase || "none"}`, left, top + LINE_H * 2, "lilac");
+      s.text("Major C E G  Minor A C E", left, top + LINE_H * 3, "ash");
+      s.text("Dim B D F  Sus C F G  Aug C E G#", left, top + LINE_H * 4, "ash");
     } else if (this.phase === "wind") {
-      s.text(`Set the ${this.pushName()} for next round:`, left, top, "bone");
-      ["Left", "Still", "Right"].forEach((n, i) => s.text(n, left + 8 + i * 40, top + 12, i === this.listCursor.index ? "gold" : "bone"));
-      s.text("▶", left + 1 + this.listCursor.index * 40, top + 12, "gold");
+      this.helpText(s, `Set the ${this.pushName()} for next round:`, left, top, W - 12, 2, "bone");
+      ["Left", "Still", "Right"].forEach((n, i) => s.text(n, left + 8 + i * 48, top + LINE_H * 2 + 2, i === this.listCursor.index ? "gold" : "bone"));
+      s.text("▶", left + 1 + this.listCursor.index * 48, top + LINE_H * 2 + 2, "gold");
     }
   }
 
@@ -1240,26 +1297,18 @@ export class BattleScene implements Scene {
     s.px(x + 1, y + 3, c);
   }
 
-  private helpText(s: Screen, text: string, x: number, y: number, width = W - x - 6): void {
-    const maxChars = Math.floor(width / 4);
-    const words = text.split(" ");
-    const lines: string[] = [];
-    let line = "";
-    for (const w of words) {
-      if (line.length + w.length + 1 > maxChars && line) { lines.push(line); line = w; }
-      else line = line ? line + " " + w : w;
-    }
-    if (line) lines.push(line);
-    lines.slice(0, 5).forEach((l, i) => s.text(l, x, y + i * 7, "bone"));
+  private helpText(s: Screen, text: string, x: number, y: number, width = W - x - 6, maxLines = 4, color: ColorName = "bone"): void {
+    wrap(text, width).slice(0, maxLines).forEach((l, i) => s.text(l, x, y + i * LINE_H, color));
   }
 
   private drawResult(s: Screen): void {
+    s.dimRect(0, 0, W, H, 0.5);
     const lines = this.resultLines.flatMap((l, i) => wrap(l, W - 44).map((w) => ({ w, first: i === 0 })));
-    const h = Math.min(H - 40, lines.length * 8 + 22);
-    const y = Math.floor((H - h) / 2) - 10;
+    const h = Math.min(H - 20, lines.length * LINE_H + 22);
+    const y = Math.max(4, Math.floor((H - h) / 2) - 10);
     drawBox(s, 16, y, W - 32, h);
-    lines.slice(0, Math.floor((h - 18) / 8)).forEach((l, i) => s.text(l.w, 22, y + 6 + i * 8, l.first ? "gold" : "white"));
-    if (Math.floor(this.time * 3) % 2 === 0) s.text("▶", W - 28, y + h - 9, "gold");
+    lines.slice(0, Math.floor((h - 18) / LINE_H)).forEach((l, i) => s.text(l.w, 22, y + 6 + i * LINE_H, l.first ? "gold" : "white"));
+    if (Math.floor(this.time * 3) % 2 === 0) s.text("▶", W - 28, y + h - 11, "gold");
   }
 
   private drawHandUi(s: Screen): void {
@@ -1270,15 +1319,16 @@ export class BattleScene implements Scene {
       const cd = this.s.hand[k];
       s.rect(x - 1, y - 1, 10, 10, this.handPick === k ? "frost" : "coal");
       s.sprite(getSprite("shape", glyph[k], glyph[k]), x, y, cd > 0 ? "slate" : "frost", cd > 0 ? "slate" : "white");
-      if (cd > 0) s.text(`${cd}`, x - 5, y + 1, "ash");
+      if (cd > 0) s.text(`${cd}`, x - 8, y, "ash");
     });
     if (this.hover) {
-      const lines = this.hover.text.length > 50 ? [this.hover.text.slice(0, 50), this.hover.text.slice(50, 100)] : [this.hover.text];
-      const tw = Math.min(W - 8, Math.max(...lines.map((l) => s.textWidth(l))) + 8);
+      const lines = wrap(this.hover.text, W - 20);
+      const tw = Math.min(W - 8, Math.max(...lines.map((l) => s.textWidth(l))) + 10);
       const hx = Math.max(2, Math.min(W - tw - 2, this.hover.x - tw / 2));
-      const hy = this.hover.y > 60 ? this.hover.y - 10 - lines.length * 7 : this.hover.y + 12;
-      drawBox(s, Math.round(hx), hy, tw, lines.length * 7 + 6);
-      lines.forEach((l, i) => s.text(l, Math.round(hx) + 4, hy + 3 + i * 7, "white"));
+      const th = lines.length * LINE_H + 6;
+      const hy = this.hover.y > 60 ? this.hover.y - 10 - th : this.hover.y + 12;
+      drawBox(s, Math.round(hx), hy, tw, th);
+      lines.forEach((l, i) => s.text(l, Math.round(hx) + 5, hy + 4 + i * LINE_H, "white"));
     }
   }
 

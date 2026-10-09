@@ -2,7 +2,7 @@ import type { Scene, SceneStack } from "./scene";
 import type { Screen } from "./screen";
 import type { Key } from "./input";
 import { getSprite, type SpriteSpec } from "./sprites";
-import { wrap, FONT_W } from "./font";
+import { wrap, FONT_W, LINE_H } from "./font";
 import type { ColorName } from "./palette";
 import { audio } from "./audio";
 
@@ -14,9 +14,19 @@ export interface Page {
   color?: ColorName;
 }
 
-export const BOX_Y = 136;
-export const BOX_H = 56;
-const LINE_H = 7;
+export const BOX_Y = 128;
+export const BOX_H = 64;
+const TEXT_X = 6;
+const PORTRAIT_TEXT_X = 26;
+/** Rightmost lit column a line may reach, leaving room for the page arrow at INDICATOR_X. */
+const TEXT_RIGHT = 180;
+const INDICATOR_X = 182;
+const PLAIN_TEXT_Y = 5;
+const SPEAKER_TEXT_Y = 14;
+
+function colsFrom(x: number): number {
+  return Math.floor((TEXT_RIGHT - x - (FONT_W - 2)) / FONT_W) + 1;
+}
 
 /**
  * Dialogue box pinned to the bottom of the square. Pages advance on confirm.
@@ -33,11 +43,16 @@ export class DialogueScene implements Scene {
   private resolve: (choice: number) => void;
   private blink = 0;
 
-  constructor(private stack: SceneStack, pages: Page[], resolve: (choice: number) => void, private fastHeld: () => boolean) {
+  private boxH: number;
+
+  /** boxY moves the top of the box down, for screens that keep a strip above it in view. */
+  constructor(private stack: SceneStack, pages: Page[], resolve: (choice: number) => void, private fastHeld: () => boolean, private boxY = BOX_Y) {
     this.resolve = resolve;
+    this.boxH = 192 - boxY;
     for (const p of pages) {
-      const cols = p.speaker || p.portrait ? 40 : 45;
-      const maxLines = p.speaker || p.portrait ? 5 : 6;
+      const cols = colsFrom(p.portrait ? PORTRAIT_TEXT_X : TEXT_X);
+      // The last line's descender row keeps 1 px clear of the inner frame, 2 px above the bottom.
+      const maxLines = Math.floor((this.boxH - 11 - (p.speaker ? SPEAKER_TEXT_Y : PLAIN_TEXT_Y)) / LINE_H) + 1;
       const lines = wrap(p.text, cols);
       for (let i = 0; i < lines.length; i += maxLines) {
         const last = i + maxLines >= lines.length;
@@ -97,20 +112,17 @@ export class DialogueScene implements Scene {
 
   draw(s: Screen): void {
     const p = this.pages[this.page];
-    s.panel(0, BOX_Y, 192, BOX_H, "dark", "white");
-    s.frame(1, BOX_Y + 1, 190, BOX_H - 2, "black");
-    let tx = 6, ty = BOX_Y + 5;
+    s.panel(0, this.boxY, 192, this.boxH, "dark", "white");
+    s.frame(1, this.boxY + 1, 190, this.boxH - 2, "black");
+    let tx = TEXT_X, ty = this.boxY + PLAIN_TEXT_Y;
     if (p.portrait) {
-      s.rect(4, BOX_Y + 4, 18, 18, "black");
-      s.sprite(getSprite(p.portrait), 5, BOX_Y + 5, p.portrait.a, p.portrait.b, { scale: 2 });
-      tx = 26;
+      s.rect(4, this.boxY + 4, 18, 18, "black");
+      s.sprite(getSprite(p.portrait), 5, this.boxY + 5, p.portrait.a, p.portrait.b, { scale: 2 });
+      tx = PORTRAIT_TEXT_X;
     }
     if (p.speaker) {
-      s.text(p.speaker, p.portrait ? 26 : 6, BOX_Y + 4, "yellow");
-      tx = p.portrait ? 26 : 6;
-      ty = BOX_Y + 12;
-    } else if (p.portrait) {
-      ty = BOX_Y + 5;
+      s.text(p.speaker, tx, this.boxY + 4, "yellow");
+      ty = this.boxY + SPEAKER_TEXT_Y;
     }
     let remaining = this.shown;
     for (let i = 0; i < p.lines.length && remaining > 0; i++) {
@@ -122,18 +134,18 @@ export class DialogueScene implements Scene {
     if (complete && p.choices) {
       const w = Math.max(...p.choices.map((c) => c.length)) * FONT_W + 14;
       const h = p.choices.length * LINE_H + 6;
-      const x = 192 - w - 4, y = BOX_Y - h - 2;
+      const x = 192 - w - 4, y = this.boxY - h - 2;
       s.panel(x, y, w, h, "dark", "white");
       p.choices.forEach((c, i) => {
         s.text(c, x + 10, y + 3 + i * LINE_H, i === this.cursor ? "yellow" : "white");
         if (i === this.cursor) s.text(">", x + 4, y + 3 + i * LINE_H, "yellow");
       });
     } else if (complete && Math.floor(this.blink * 3) % 2 === 0) {
-      s.text("v", 184, BOX_Y + BOX_H - 8, "yellow");
+      s.text("v", INDICATOR_X, this.boxY + this.boxH - 10, "yellow");
     }
   }
 }
 
-export function say(stack: SceneStack, fastHeld: () => boolean, pages: Page[]): Promise<number> {
-  return new Promise((resolve) => stack.push(new DialogueScene(stack, pages, resolve, fastHeld)));
+export function say(stack: SceneStack, fastHeld: () => boolean, pages: Page[], boxY = BOX_Y): Promise<number> {
+  return new Promise((resolve) => stack.push(new DialogueScene(stack, pages, resolve, fastHeld, boxY)));
 }

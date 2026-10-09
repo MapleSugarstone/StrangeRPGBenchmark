@@ -19,7 +19,7 @@ import { Scene, app } from './app';
 import { ActorDef, FieldLog, LEGEND, MapDef, Region, check } from './mapkit';
 const SPEAKER_COLOR_ROOM = 0xe6dfd0;
 import { MAPS, REGIONS } from './maps';
-import { canSay, lineLimit, pageLimit, maxHp, maxInk, saveGame, ticks } from './state';
+import { canSay, lineLimit, pageLimit, maxHp, maxInk, saveGame, ticks, lastPage } from './state';
 import { C, Menu, panel } from './ui';
 import { markCount } from './dialogue';
 import { game } from './game';
@@ -71,6 +71,7 @@ export class Field implements Scene {
   dir = 0;
   move: { fx: number; fy: number; t: number; speed: number } | null = null;
   trail: { x: number; y: number }[] = [];
+  private followFlip: boolean[] = [];
   actors: Actor[] = [];
   camX = 0;
   camY = 0;
@@ -110,6 +111,8 @@ export class Field implements Scene {
     this.applyBecomes();
     this.refreshTiles();
     this.spawnActors();
+    this.trail = this.startTrail();
+    this.followFlip = app.s.party.map(() => dir === 2);
     this.banner = 150;
     this.fade = 16;
     this.hum = 0;
@@ -226,6 +229,20 @@ export class Field implements Scene {
       const x = Math.max(2, Math.min(W - r.length * CW - 2, this.x * 8 - this.camX + 4 - (r.length * CW) / 2)) + this.camX;
       this.floaters.push({ s: r, x, y: this.y * 8 - 14 - (rows.length - 1 - k) * 8, life: 240, color: SPEAKER_COLOR[w], vy: -0.04 });
     });
+  }
+
+  /** Places followers in a line behind Wait on arrival, or under Wait where there is no room. */
+  private startTrail(): { x: number; y: number }[] {
+    const [dx, dy] = DIRS[this.dir];
+    const out: { x: number; y: number }[] = [];
+    let last = { x: this.x, y: this.y };
+    for (let n = 1; n <= app.s.party.length + 1; n++) {
+      const bx = this.x - dx * n, by = this.y - dy * n;
+      const open = bx >= 0 && by >= 0 && bx < this.w && by < this.h && !this.tiles[by][bx].solid && !this.map.exits.some((e) => e.x === bx && e.y === by);
+      if (open && last.x === this.x - dx * (n - 1) && last.y === this.y - dy * (n - 1)) last = { x: bx, y: by };
+      out.push(last);
+    }
+    return out;
   }
 
   // ---------------------------------------------------------------- queries
@@ -403,7 +420,7 @@ export class Field implements Scene {
       if (!ex) return;
     }
     this.trail.unshift({ x: this.x, y: this.y });
-    if (this.trail.length > 8) this.trail.pop();
+    if (this.trail.length > 9) this.trail.pop();
     this.move = { fx: this.x, fy: this.y, t: 0, speed: down('run') ? 2 : 1 };
     this.x = nx;
     this.y = ny;
@@ -548,6 +565,7 @@ export class Field implements Scene {
   private openCast() {
     const pages = app.s.pages;
     this.castMenu = new Menu(pages.map((p) => ({ label: p.name, right: p.fixed ? '' : '' })), 8);
+    this.castMenu.i = Math.max(0, pages.findIndex((p) => p.name === lastPage.name));
     sfx.ok();
   }
 
@@ -557,6 +575,7 @@ export class Field implements Scene {
     if (r === -2) { this.castMenu = null; return; }
     if (r >= 0) {
       this.castMenu = null;
+      lastPage.name = app.s.pages[r]?.name ?? '';
       this.castField(r);
     }
   }
@@ -756,12 +775,17 @@ export class Field implements Scene {
     }
     const party = app.s.party;
     for (let i = party.length - 1; i >= 0; i--) {
-      const p = this.trail[Math.min(this.trail.length - 1, i)];
-      if (!p) continue;
-      const k = party[i];
-      const sx = p.x * 8 - this.camX, sy = p.y * 8 - this.camY;
-      drawList.push({ y: p.y * 8 - 0.5, fn: () => { dropShadow(sx + 1, sy + 7); drawSprite(k, sx, sy, { frame: Math.floor(app.frame / 20) % 2, flip: this.dir === 2 }); } });
-      lights.push([sx + 4, sy + 4, 26, 0.4, tint(spritePal(k)[2], 0.5), { z: 10 }]);
+      const to = this.trail[Math.min(this.trail.length - 1, i)];
+      if (!to) continue;
+      const from = this.trail[Math.min(this.trail.length - 1, i + 1)];
+      const k = this.move ? this.move.t / 8 : 1;
+      if (to.x !== from.x) this.followFlip[i] = to.x < from.x;
+      const fx = Math.round((from.x + (to.x - from.x) * k) * 8), fy = Math.round((from.y + (to.y - from.y) * k) * 8);
+      const kind = party[i];
+      const flip = this.followFlip[i] ?? false;
+      const sx = fx - this.camX, sy = fy - this.camY;
+      drawList.push({ y: fy - 0.5, fn: () => { dropShadow(sx + 1, sy + 7); drawSprite(kind, sx, sy, { frame: Math.floor(app.frame / 20) % 2, flip }); } });
+      lights.push([sx + 4, sy + 4, 26, 0.4, tint(spritePal(kind)[2], 0.5), { z: 10 }]);
     }
     const [wx, wy] = this.playerPos();
     const marks = markCount();

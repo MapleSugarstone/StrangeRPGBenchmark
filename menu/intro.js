@@ -1,4 +1,5 @@
 // The opening screen: black, then the photosensitivity warning, then the creator's message and a Continue button.
+// A click or key press finishes the current fade or wait at once.
 (() => {
   'use strict';
 
@@ -17,56 +18,75 @@
   let stage = 'black';
   let skip = null;
 
-  function pause(ms, skippable) {
+  function pause(ms) {
     return new Promise((resolve) => {
-      const timer = setTimeout(resolve, ms);
-      skip = skippable ? () => { clearTimeout(timer); skip = null; resolve(); } : null;
+      const done = () => { clearTimeout(timer); if (skip === done) skip = null; resolve(); };
+      const timer = setTimeout(done, ms);
+      skip = done;
     });
   }
 
+  // Transitions started while the class is on finish at once. Two frames lets the browser apply the new classes first.
+  function hurry() {
+    intro.classList.add('hurry');
+    requestAnimationFrame(() => requestAnimationFrame(() => intro.classList.remove('hurry')));
+  }
+
+  function advance() {
+    if (!skip) return;
+    hurry();
+    skip();
+  }
+
   intro.addEventListener('cancel', (e) => e.preventDefault());
-  intro.addEventListener('click', () => { if (stage === 'warning' && skip) skip(); });
+  intro.addEventListener('click', (e) => {
+    if (e.target.closest('#intro-continue')) return;
+    advance();
+  });
   intro.addEventListener('keydown', (e) => {
-    if (stage === 'warning' && skip && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      skip();
-    }
+    if (e.repeat || ['Tab', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) return;
+    if (e.target === cont && stage === 'ready' && (e.key === 'Enter' || e.key === ' ')) return;
+    if (!skip) return;
+    e.preventDefault();
+    advance();
   });
 
   const fade = (ms) => (still ? 0 : ms);
 
   async function run() {
-    await pause(fade(700), false);
+    await pause(fade(700));
     intro.classList.add('lit');
     warning.classList.add('on');
     stage = 'warning';
-    await pause(1500, false);
-    await pause(6500, true);
+    await pause(8000);
     warning.classList.remove('on');
-    await pause(fade(900), false);
+    await pause(fade(900));
     stage = 'message';
     intro.setAttribute('aria-labelledby', 'intro-message-title');
     message.classList.add('on');
-    await pause(fade(1600), false);
-    if (stage === 'message') cont.focus({ preventScroll: true });
+    await pause(fade(1600));
+    if (stage !== 'message') return;
+    stage = 'ready';
+    cont.focus({ preventScroll: true });
   }
 
-  cont.addEventListener('click', () => {
-    if (stage !== 'message') return;
-    stage = 'done';
+  cont.addEventListener('click', async () => {
+    if (stage !== 'message' && stage !== 'ready') return;
+    stage = 'leaving';
     dispatchEvent(new Event('intro-done'));
     intro.classList.add('leaving');
-    setTimeout(() => {
-      intro.close();
-      const player = document.getElementById('player');
-      const preview = document.getElementById('preview');
-      if (player && !player.hidden) {
-        document.getElementById('player-frame').focus();
-      } else if (preview && !preview.hidden) {
-        const start = document.getElementById('pv-start');
-        (start.disabled ? document.getElementById('pv-back') : start).focus({ preventScroll: true });
-      }
-    }, fade(900));
+    await pause(fade(900));
+    stage = 'done';
+    intro.close();
+    if (intro.contains(document.activeElement)) document.activeElement.blur();
+    const player = document.getElementById('player');
+    const preview = document.getElementById('preview');
+    if (player && !player.hidden) {
+      document.getElementById('player-frame').focus();
+    } else if (preview && !preview.hidden) {
+      const start = document.getElementById('pv-start');
+      (start.disabled ? document.getElementById('pv-back') : start).focus({ preventScroll: true });
+    }
   });
 
   run();

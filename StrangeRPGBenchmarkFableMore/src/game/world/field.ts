@@ -1,7 +1,7 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H, TILE, COLS, ROWS } from "../../engine/screen";
+import { type Screen, W, H, TILE, COLS, ROWS, wrap, LINE_H } from "../../engine/screen";
 import type { Scene } from "../../engine/scene";
-import { getSprite } from "../../engine/sprites";
+import { getSprite, strideFrame, type Cells } from "../../engine/sprites";
 import { colorInt, mixInt, PALETTE_INT, type ColorName } from "../../engine/palette";
 import { Rng, hash } from "../../engine/rng";
 import type { Audio, NoteName } from "../../engine/audio";
@@ -10,7 +10,6 @@ import type { GameState } from "../state";
 import { MEMBERS } from "../data/members";
 import { GROUP_BY_ID, ENEMIES } from "../data/enemies";
 import type { SpriteRef } from "../types";
-import { FONT_H } from "../../engine/fontdata";
 import { drawBox } from "../../engine/dialogue";
 
 /** What the field needs from the game. */
@@ -45,6 +44,10 @@ interface Mover {
   moving: boolean;
   from: { x: number; y: number };
   t: number;
+  /** Part of the next step already walked when a step ends partway through a frame. */
+  carry: number;
+  /** Steps taken, so the walk frames alternate feet. */
+  steps: number;
   sprite: SpriteRef;
   held: boolean;
 }
@@ -112,7 +115,7 @@ export class FieldScene implements Scene {
   }
 
   private mover(x: number, y: number, facing: Facing, sprite: SpriteRef, held: boolean): Mover {
-    return { x, y, px: 0, py: 0, facing, moving: false, from: { x, y }, t: 0, sprite, held };
+    return { x, y, px: 0, py: 0, facing, moving: false, from: { x, y }, t: 0, carry: 0, steps: 0, sprite, held };
   }
 
   get def(): MapDef {
@@ -213,7 +216,7 @@ export class FieldScene implements Scene {
     this.flashT = 0.25;
   }
   showToast(text: string): void {
-    const lines = wrapText(text, 50).slice(0, 3);
+    const lines = wrap(text, W - 20);
     this.toast = { lines, t: 2.8 + (lines.length - 1) * 0.8 };
   }
 
@@ -271,6 +274,11 @@ export class FieldScene implements Scene {
     // Player
     const run = input.held("run");
     this.advance(this.player, dt, run ? RUN_TIME : STEP_TIME, true);
+    // An exit or trigger on the tile just reached takes over before the next step starts
+    if (this.busy) {
+      this.centerCamera(false, dt);
+      return;
+    }
     if (!this.player.moving) {
       if (input.pressed("menu")) {
         input.consume("menu");
@@ -329,7 +337,11 @@ export class FieldScene implements Scene {
     m.x = nx;
     m.y = ny;
     m.moving = true;
-    m.t = 0;
+    m.steps++;
+    // The tile changes now, so the offset must too, or this frame draws the mover a whole tile ahead
+    m.t = m.carry;
+    m.carry = 0;
+    this.place(m);
     if (m === this.player) {
       this.trail.unshift({ x: m.from.x, y: m.from.y, facing: m.facing });
       if (this.trail.length > 8) this.trail.pop();
@@ -338,18 +350,23 @@ export class FieldScene implements Scene {
   }
 
   private advance(m: Mover, dt: number, stepTime: number, isPlayer: boolean): void {
-    if (!m.moving) return;
+    if (!m.moving) { m.carry = 0; return; }
     m.t += dt / stepTime;
     if (m.t >= 1) {
+      // A step begun later this frame starts with the time left over, so a held key walks at an even pace
+      m.carry = Math.min(0.9, m.t - 1);
       m.t = 0;
       m.moving = false;
       m.px = m.py = 0;
       if (isPlayer && m === this.player) void this.arrived();
-    } else {
-      const k = 1 - m.t;
-      m.px = Math.round((m.from.x - m.x) * TILE * k);
-      m.py = Math.round((m.from.y - m.y) * TILE * k);
-    }
+    } else this.place(m);
+  }
+
+  /** Pixel offset from the tile a mover is heading to, back toward the tile it left. */
+  private place(m: Mover): void {
+    const k = 1 - m.t;
+    m.px = Math.round((m.from.x - m.x) * TILE * k);
+    m.py = Math.round((m.from.y - m.y) * TILE * k);
   }
 
   private async arrived(): Promise<void> {
@@ -610,27 +627,27 @@ export class FieldScene implements Scene {
         s.line(ax * TILE + 4 - ox, ay * TILE + 4 - oy, bx * TILE + 4 - ox, by * TILE + 4 - oy, c);
       }
     }
-    // Chests
-    for (const c of this.def.chests ?? []) {
-      if (this.host.g.opened.includes(c.id)) s.spriteDim(getSprite("item", "chest", "chest"), c.x * TILE - ox, c.y * TILE - oy, "clay", "gold", 0.5);
-      else s.sprite(getSprite("item", "chest", "chest"), c.x * TILE - ox, c.y * TILE - oy, "clay", "gold");
-    }
-    // Sprites sorted by y
-    const drawList: { y: number; draw: () => void; lineX?: number; lineY?: number; lineColor?: number; pluck?: number }[] = [];
+    // Everything that stands on the map, drawn back to front by the bottom of its sprite
+    const drawList: { y: number; x: number; kind: number; draw: () => void; lineX?: number; lineY?: number; lineColor?: number; pluck?: number }[] = [];
     const lineColor = colorInt(theme.line);
     const dimLine = mixInt(lineColor, PALETTE_INT.black, this.dimmed ? 0.75 : 0.45);
+    for (const c of this.def.chests ?? []) {
+      const cx = c.x * TILE - ox, cy = c.y * TILE - oy;
+      const opened = this.host.g.opened.includes(c.id);
+      drawList.push({ y: cy, x: cx, kind: DEPTH_KIND.chest, draw: () => (opened ? s.spriteDim(getSprite("item", "chest", "chest"), cx, cy, "clay", "gold", 0.5) : s.sprite(getSprite("item", "chest", "chest"), cx, cy, "clay", "gold")) });
+    }
     for (const n of this.npcs) {
       const sx = n.x * TILE + n.px - ox, sy = n.y * TILE + n.py - oy;
       if (sx < -8 || sy < -8 || sx >= W || sy >= H) continue;
       const pl = (n as unknown as { pluckT?: number });
-      drawList.push({ y: sy, draw: () => this.drawMover(s, n, sx, sy), lineX: n.held ? sx + 4 : undefined, lineY: sy, lineColor: dimLine, pluck: pl.pluckT });
+      drawList.push({ y: sy, x: sx, kind: DEPTH_KIND.npc, draw: () => this.drawMover(s, n, sx, sy), lineX: n.held ? sx + 4 : undefined, lineY: sy, lineColor: dimLine, pluck: pl.pluckT });
       if (pl.pluckT) pl.pluckT = Math.max(0, pl.pluckT - 1 / 60);
     }
     for (const e of this.enemies) {
       if (e.dead) continue;
       const sx = e.x * TILE + e.px - ox, sy = e.y * TILE + e.py - oy;
       if (sx < -8 || sy < -8 || sx >= W || sy >= H) continue;
-      drawList.push({ y: sy, draw: () => { this.drawMover(s, e, sx, sy, e.frozen > 0 ? colorInt("frost") : undefined); if (e.fleeing) s.text("!", sx + 3, sy - 6, "gold"); }, lineX: e.held ? sx + 4 : undefined, lineY: sy, lineColor: mixInt(dimLine, PALETTE_INT.black, 0.3) });
+      drawList.push({ y: sy, x: sx, kind: DEPTH_KIND.foe, draw: () => { this.drawMover(s, e, sx, sy, e.frozen > 0 ? colorInt("frost") : undefined); if (e.fleeing) s.text("!", sx + 3, sy - 6, "gold"); }, lineX: e.held ? sx + 4 : undefined, lineY: sy, lineColor: mixInt(dimLine, PALETTE_INT.black, 0.3) });
     }
     // Followers walk the trail
     const followers = this.host.followers();
@@ -647,21 +664,23 @@ export class FieldScene implements Scene {
       const fy = tp.y * TILE + (prev.y - tp.y) * TILE * (1 - k) - oy;
       const sx = Math.round(fx), sy = Math.round(fy);
       const face = prev.facing;
-      drawList.push({ y: sy, draw: () => s.sprite(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), sx, sy, def.sprite.a, def.sprite.b, { flip: face === "left" }), lineX: def.held ? sx + 4 : undefined, lineY: sy, lineColor: dimLine });
+      // Followers step with the leader, each on the opposite foot to the one ahead
+      const walking = this.player.moving && (tp.x !== prev.x || tp.y !== prev.y);
+      const cells = walkCells(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), walking, this.player.t, this.player.steps + i + 1);
+      const bob = walkBob(walking, this.player.t);
+      drawList.push({ y: sy, x: sx, kind: DEPTH_KIND.follower, draw: () => s.sprite(cells, sx, sy + bob, def.sprite.a, def.sprite.b, { flip: face === "left" }), lineX: def.held ? sx + 4 : undefined, lineY: sy, lineColor: dimLine });
     });
     const psx = this.player.x * TILE + this.player.px - ox, psy = this.player.y * TILE + this.player.py - oy;
     const pl = this.player as unknown as { pluckT?: number };
-    drawList.push({ y: psy, draw: () => this.drawMover(s, this.player, psx, psy), lineX: this.player.held ? psx + 4 : undefined, lineY: psy, lineColor: lineColor, pluck: pl.pluckT });
+    drawList.push({ y: psy, x: psx, kind: DEPTH_KIND.player, draw: () => this.drawMover(s, this.player, psx, psy), lineX: this.player.held ? psx + 4 : undefined, lineY: psy, lineColor: lineColor, pluck: pl.pluckT });
     if (pl.pluckT) pl.pluckT = Math.max(0, pl.pluckT - 1 / 60);
-    drawList.sort((a, b) => a.y - b.y);
-    // Lines first so sprites sit over them, except each line rises from its own sprite
-    if (!this.def.noLines) {
-      for (const d of drawList) {
-        if (d.lineX === undefined || d.lineY === undefined) continue;
-        this.drawLine(s, d.lineX, d.lineY, d.lineColor ?? dimLine, d.pluck ?? 0, ox, oy);
-      }
+    // Every sprite is 8 tall, so sorting by its top in pixels, walk offset included, sorts by its feet
+    drawList.sort((a, b) => a.y - b.y || a.x - b.x || a.kind - b.kind);
+    // Each line is drawn with its own sprite, so a line in front crosses the sprites behind it and never one in front
+    for (const d of drawList) {
+      if (!this.def.noLines && d.lineX !== undefined && d.lineY !== undefined) this.drawLine(s, d.lineX, d.lineY, d.lineColor ?? dimLine, d.pluck ?? 0, ox, oy);
+      d.draw();
     }
-    for (const d of drawList) d.draw();
     this.drawFx(s, ox, oy, true);
     // Light: a wash of the theme's color, then darkness in the Under
     if (theme.tint && !this.def.dark) s.tint(0, 0, W, H, theme.tint.c, theme.tint.t);
@@ -678,15 +697,15 @@ export class FieldScene implements Scene {
     // Toast and goal
     if (this.toast) {
       const tw = Math.min(W - 4, Math.max(...this.toast.lines.map((l) => s.textWidth(l))) + 10);
-      drawBox(s, Math.floor((W - tw) / 2), 4, tw, this.toast.lines.length * (FONT_H + 1) + 7);
-      this.toast.lines.forEach((l, i) => s.textCenter(l, W / 2, 8 + i * (FONT_H + 1), "gold"));
+      drawBox(s, Math.floor((W - tw) / 2), 4, tw, this.toast.lines.length * LINE_H + 7);
+      this.toast.lines.forEach((l, i) => s.textCenter(l, W / 2, 8 + i * LINE_H, "gold"));
     }
     if (this.goalShown) {
       const text = this.host.goalText();
-      const lines = wrapText(text, 48);
-      const bh = lines.length * (FONT_H + 1) + 10;
+      const lines = wrap(text, W - 24);
+      const bh = lines.length * LINE_H + 10;
       drawBox(s, 6, 6, W - 12, bh);
-      lines.forEach((l, i) => s.text(l, 11, 11 + i * (FONT_H + 1), "white"));
+      lines.forEach((l, i) => s.text(l, 11, 11 + i * LINE_H, "white"));
     }
   }
 
@@ -772,9 +791,8 @@ export class FieldScene implements Scene {
   }
 
   private drawMover(s: Screen, m: Mover, sx: number, sy: number, tint?: number): void {
-    const cells = getSprite(m.sprite.kind, m.sprite.seed, m.sprite.variant);
-    const bob = m.moving && Math.floor(m.t * 4) % 2 === 1 ? -1 : 0;
-    s.sprite(cells, sx, sy + bob, m.sprite.a, m.sprite.b, { flip: m.facing === "left", tint });
+    const cells = walkCells(getSprite(m.sprite.kind, m.sprite.seed, m.sprite.variant), m.moving, m.t, m.steps);
+    s.sprite(cells, sx, sy + walkBob(m.moving, m.t), m.sprite.a, m.sprite.b, { flip: m.facing === "left", tint });
   }
 
   /** A held thing's line: straight up to the top, hidden behind roofs, humming when plucked. */
@@ -833,15 +851,30 @@ export class FieldScene implements Scene {
     const out: { x: number; color: string; slack: boolean }[] = [];
     const ox = Math.round(this.camX), oy = Math.round(this.camY);
     const psx = this.player.x * TILE + this.player.px - ox + 4;
-    out.push({ x: psx, color: "#d8cfb8", slack: !this.player.held || !!this.def.noLines });
+    // The page carries on each line in the color it has at the top row of the field, after the light passes
+    const lineColor = colorInt(this.map.theme.line);
+    const dimLine = mixInt(lineColor, PALETTE_INT.black, this.dimmed ? 0.75 : 0.45);
+    const psy = this.player.y * TILE + this.player.py - oy;
+    const lit = (c: number, x: number): string => {
+      const theme = this.map.theme;
+      if (this.def.dark) {
+        const d = Math.hypot(x - psx, psy + 4);
+        return cssColor(mixInt(c, PALETTE_INT.black, d < 56 ? 0 : 0.55 + 0.45 * Math.min(1, (d - 56) / 40)));
+      }
+      return cssColor(theme.tint ? mixInt(c, colorInt(theme.tint.c), theme.tint.t) : c);
+    };
+    out.push({ x: psx, color: lit(lineColor, psx), slack: !this.player.held || !!this.def.noLines });
     const followers = this.host.followers();
     followers.forEach((id, i) => {
       const def = MEMBERS[id];
       const tp = this.trail[Math.min(this.trail.length - 1, i * 2 + 1)];
+      const prev = this.trail[Math.min(this.trail.length - 1, i * 2)];
       if (!tp) return;
-      out.push({ x: tp.x * TILE - ox + 4, color: "#8e8a92", slack: !def.held || !!this.def.noLines });
+      // The same slide the follower is drawn with, so the page line stays on the follower's line
+      const k = this.player.moving ? 1 - this.player.t : 0;
+      const fx = Math.round(tp.x * TILE + (prev.x - tp.x) * TILE * (1 - k) - ox);
+      out.push({ x: fx + 4, color: lit(dimLine, fx + 4), slack: !def.held || !!this.def.noLines });
     });
-    void oy;
     return out;
   }
 
@@ -860,15 +893,21 @@ function opposite(f: Facing): Facing {
   return f === "up" ? "down" : f === "down" ? "up" : f === "left" ? "right" : "left";
 }
 
-function wrapText(text: string, maxChars: number): string[] {
-  const out: string[] = [];
-  let line = "";
-  for (const w of text.split(" ")) {
-    if (line.length + w.length + 1 > maxChars && line) { out.push(line); line = w; }
-    else line = line ? line + " " + w : w;
-  }
-  if (line) out.push(line);
-  return out;
+/** Draw order for world sprites whose feet are level: chests at the back, Fathom in front. */
+const DEPTH_KIND = { chest: 0, foe: 1, npc: 2, follower: 3, player: 4 } as const;
+
+/** A packed color as a CSS hex string. */
+function cssColor(c: number): string {
+  return `#${[c & 255, (c >> 8) & 255, (c >> 16) & 255].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}
+
+/** The walk cycle: a stride frame for the first half of each step, then the standing frame. */
+function walkCells(base: Cells, moving: boolean, t: number, steps: number): Cells {
+  return moving && t < 0.5 ? strideFrame(base, (steps & 1) as 0 | 1) : base;
+}
+
+function walkBob(moving: boolean, t: number): number {
+  return moving && Math.floor(t * 4) % 2 === 1 ? -1 : 0;
 }
 
 export type { ColorName };

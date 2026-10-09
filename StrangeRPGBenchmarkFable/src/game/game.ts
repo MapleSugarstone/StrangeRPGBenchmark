@@ -221,8 +221,8 @@ export class Game {
 
   // ---------- Dialogue ----------
 
-  say(pages: Page[]): Promise<number> {
-    return say(this.stack, this.fastHeld, pages);
+  say(pages: Page[], boxY?: number): Promise<number> {
+    return say(this.stack, this.fastHeld, pages, boxY);
   }
 
   portrait(charId: string): SpriteSpec {

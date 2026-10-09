@@ -1,6 +1,6 @@
 import type { Input } from "./input";
-import { type Screen, W, H, wrap } from "./screen";
-import { FONT_H } from "./fontdata";
+import { type Screen, W, H, wrap, LINE_H } from "./screen";
+import { FONT_H, FONT_W } from "./fontdata";
 import type { Scene } from "./scene";
 import { deferred } from "./scene";
 import type { Cells } from "./sprites";
@@ -25,9 +25,10 @@ export interface SayOptions {
   auto?: boolean;
 }
 
-export const BOX_H = 44;
+export const BOX_H = 53;
 const PAD = 5;
-const LINES = 3;
+/** Rightmost lit column of a line, so the page arrow at W - 10 stays clear. */
+const TEXT_RIGHT = W - 13;
 
 /**
  * A dialogue box inside the square. Text types out, pages on confirm,
@@ -47,16 +48,19 @@ export class DialogueScene implements Scene {
   private age = 0;
 
   constructor(private text: string, private opts: SayOptions, private audio: Audio, private hurry: () => boolean) {
-    const textW = W - PAD * 2 - (opts.portrait ? 20 : 0) - 2;
+    const tx = PAD + 1 + (opts.portrait ? 20 : 0);
+    const textW = (Math.floor((TEXT_RIGHT - tx - (FONT_W - 2)) / FONT_W) + 1) * FONT_W - 1;
+    // A speaker name takes the first row of the box
+    const perPage = opts.speaker ? 4 : 5;
     // Try a slightly narrower column rather than leave one word alone on the last page
     let lines = wrap(text, textW);
-    for (const narrower of [textW - 8, textW - 16]) {
-      if (lines.length <= LINES || lines.length % LINES !== 1) break;
+    for (const narrower of [textW - FONT_W * 2, textW - FONT_W * 4]) {
+      if (lines.length <= perPage || lines.length % perPage !== 1) break;
       const alt = wrap(text, narrower);
-      if (alt.length % LINES !== 1) { lines = alt; break; }
+      if (alt.length % perPage !== 1) { lines = alt; break; }
     }
     this.pages = [];
-    for (let i = 0; i < lines.length; i += LINES) this.pages.push(lines.slice(i, i + LINES));
+    for (let i = 0; i < lines.length; i += perPage) this.pages.push(lines.slice(i, i + perPage));
     if (this.pages.length === 0) this.pages.push([""]);
     this.done = deferred<void>();
     this.promise = this.done.promise;
@@ -123,7 +127,7 @@ export class DialogueScene implements Scene {
     let ty = y + PAD;
     if (this.opts.speaker) {
       s.text(this.opts.speaker, tx, ty, this.opts.color ?? "gold");
-      ty += FONT_H + 1;
+      ty += LINE_H;
     }
     const lines = this.pages[this.page];
     let remaining = Math.floor(this.shown);
@@ -131,11 +135,11 @@ export class DialogueScene implements Scene {
       const n = Math.min(line.length, remaining);
       s.text(line.slice(0, n), tx, ty, "white");
       remaining -= n;
-      ty += FONT_H + 1;
+      ty += LINE_H;
     }
     if (this.shown >= this.pageChars() && !this.opts.auto && Math.floor(this.blink * 3) % 2 === 0) {
       const more = this.page < this.pages.length - 1;
-      s.text(more ? "↓" : "▶", W - 10, y + BOX_H - 8, "gold");
+      s.text(more ? "↓" : "▶", W - 10, y + BOX_H - 10, "gold");
     }
   }
 }

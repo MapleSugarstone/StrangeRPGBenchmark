@@ -3,8 +3,7 @@ import type { Screen } from "../../engine/screen";
 import type { Key } from "../../engine/input";
 import { getSprite } from "../../engine/sprites";
 import type { ColorName } from "../../engine/palette";
-import { BOX_Y } from "../../engine/dialogue";
-import { wrap } from "../../engine/font";
+import { wrap, textWidth, LINE_H } from "../../engine/font";
 import { audio, type Sfx } from "../../engine/audio";
 import type { Game, BattleOpts } from "../game";
 import type { EnemyDef, StatusId, TargetKind } from "../types";
@@ -14,7 +13,7 @@ import { STATUSES } from "../data/statuses";
 import { CHARACTERS } from "../data/classes";
 import { gainXp } from "../party";
 import {
-  createBattle, nextActor, performAction, enemyAction, usableSkills, canPay, validTargets, needsTarget, forecast, rewards, active, has, wordSpell,
+  createBattle, RANDOM_FIGHT_REWARD, nextActor, performAction, enemyAction, usableSkills, canPay, validTargets, needsTarget, forecast, rewards, active, has, wordSpell,
   type BattleState, type Combatant, type BattleEvent, type Action,
 } from "./core";
 
@@ -24,8 +23,34 @@ type Menu = "main" | "skill" | "item" | "target" | "words";
 
 interface Floater { uid: number; text: string; color: ColorName; t: number }
 
+/** Seconds a floater stays up. The next one on the same combatant waits until this one ends. */
+const FLOAT_LIFE = 0.8;
+
 const MAIN_ORDER = ["attack", "skill", "item", "guard", "swaprow", "delay", "borrow", "rewind", "fuse", "cast", "flee"];
 const MAIN_LABEL: Record<string, string> = { attack: "Attack", skill: "Skill", item: "Item", guard: "Guard", swaprow: "Row", delay: "Delay", borrow: "Borrow", rewind: "Rewind", fuse: "Fuse", cast: "Cast", flee: "Flee" };
+
+// Screen layout, top to bottom. Each band keeps text 1 px clear of the next band.
+const TOP_BAR_H = 10;
+const ENEMY_BACK_Y = 12;
+const ENEMY_Y = 26;
+const PARTY_Y = 71;
+const PARTY_BACK_Y = 78;
+const STRIP_Y = 88;
+const ROWS_Y = 99;
+const ROWS_PITCH = 9;
+const BOX_Y = 136;
+const BOX_H = 56;
+/** Skill, item and word lists open a taller panel from here, over the party rows. */
+const PANEL_Y = 98;
+const TEXT_X = 4;
+/** Columns of text that fit between TEXT_X and the right border. */
+const BOX_COLS = 31;
+const MSG_LINES = 5;
+const MAIN_ROWS = 3;
+const MAIN_COL_W = 46;
+const LIST_ROWS = 5;
+const WORD_ROWS = 4;
+const ROW_H = 10;
 
 export class BattleScene implements Scene {
   overlay = false;
@@ -82,7 +107,7 @@ export class BattleScene implements Scene {
     const names = this.defs.map((d) => d.name);
     this.say(this.opts.intro ?? (names.length === 1 ? `${names[0]} appears.` : `${[...new Set(names)].join(", ")} appear.`));
     await this.wait(600);
-    for (const ev of s.log) if (ev.type === "line") await this.game.say([{ speaker: ev.speaker, text: ev.text }]);
+    for (const ev of s.log) if (ev.type === "line") await this.game.say([{ speaker: ev.speaker, text: ev.text }], BOX_Y);
     s.log = [];
     while (!s.over && !this.done) {
       const actor = nextActor(s);
@@ -125,7 +150,7 @@ export class BattleScene implements Scene {
 
   private async victory(): Promise<void> {
     const s = this.state;
-    const r = rewards(s);
+    const r = rewards(s, this.opts.ambush ? RANDOM_FIGHT_REWARD : 1);
     this.say(`Won. ${r.xp} XP, ${r.gold} salt.`);
     this.game.state.gold += r.gold;
     s.gold = this.game.state.gold;
@@ -184,8 +209,16 @@ export class BattleScene implements Scene {
   // ---------- Event playback ----------
 
   private say(text: string): void {
-    for (const line of wrap(text, 45)) this.messages.push(line);
-    while (this.messages.length > 3) this.messages.shift();
+    for (const line of wrap(text, BOX_COLS)) this.messages.push(line);
+    while (this.messages.length > MSG_LINES) this.messages.shift();
+  }
+
+  /** Queues a floater. One on the same combatant waits until the one before it has moved clear. */
+  private float(uid: number, text: string, color: ColorName): void {
+    const party = this.state.combatants.find((x) => x.uid === uid)?.side === "party";
+    const mine = this.floaters.filter((f) => f.uid === uid);
+    const t = mine.length ? Math.min(...mine.map((f) => f.t)) - (party ? FLOAT_LIFE : 0.65) : 0;
+    this.floaters.push({ uid, text, color, t: Math.min(0, t) });
   }
 
   private name(uid: number): string {
@@ -216,10 +249,10 @@ export class BattleScene implements Scene {
         }
         case "damage": {
           const c = this.state.combatants.find((x) => x.uid === ev.target)!;
-          if (ev.amount < 0) { this.floaters.push({ uid: ev.target, text: `+${-ev.amount}`, color: "green", t: 0 }); this.say(`${c.name} absorbs it.`); }
+          if (ev.amount < 0) { this.float(ev.target, `+${-ev.amount}`, "green"); this.say(`${c.name} absorbs it.`); }
           else {
             this.flashes.set(ev.target, 0.12);
-            this.floaters.push({ uid: ev.target, text: `${ev.amount}`, color: ev.crit ? "yellow" : ev.weak ? "orange" : ev.resist ? "gray" : "white", t: 0 });
+            this.float(ev.target, `${ev.amount}`, ev.crit ? "yellow" : ev.weak ? "orange" : ev.resist ? "gray" : "white");
             if (ev.crit) { this.shake = 0.2; }
             if (ev.weak) this.say(`Weak! ${ev.amount} to ${c.name}.`);
             else if (ev.resist) this.say(`Resisted. ${ev.amount} to ${c.name}.`);
@@ -228,13 +261,13 @@ export class BattleScene implements Scene {
           await this.wait(ev.amount < 0 ? 350 : 300);
           break;
         }
-        case "heal": if (ev.amount > 0) { this.floaters.push({ uid: ev.target, text: `+${ev.amount}`, color: "green", t: 0 }); await this.wait(280); } break;
-        case "st": if (ev.amount > 0) { this.floaters.push({ uid: ev.target, text: `+${ev.amount}st`, color: "teal", t: 0 }); await this.wait(220); } break;
-        case "miss": this.floaters.push({ uid: ev.target, text: "miss", color: "gray", t: 0 }); this.say(`${this.name(ev.target)} dodges.`); await this.wait(300); break;
+        case "heal": if (ev.amount > 0) { this.float(ev.target, `+${ev.amount}`, "green"); await this.wait(280); } break;
+        case "st": if (ev.amount > 0) { this.float(ev.target, `+${ev.amount}st`, "teal"); await this.wait(220); } break;
+        case "miss": this.float(ev.target, "miss", "gray"); this.say(`${this.name(ev.target)} dodges.`); await this.wait(300); break;
         case "status": {
           const d = STATUSES[ev.id];
           if (ev.id === "brace" && !ev.on) break;
-          this.floaters.push({ uid: ev.target, text: ev.on ? d.short : `-${d.short}`, color: ev.on ? d.color : "gray", t: 0 });
+          this.float(ev.target, ev.on ? d.short : `-${d.short}`, ev.on ? d.color : "gray");
           if (ev.on) this.say(`${this.name(ev.target)}: ${d.name}.`);
           await this.wait(ev.on ? 320 : 120);
           break;
@@ -242,9 +275,9 @@ export class BattleScene implements Scene {
         case "death": this.dying.set(ev.target, 0.5); this.say(`${this.name(ev.target)} falls.`); await this.wait(450); break;
         case "revive": this.dying.delete(ev.target); this.say(`${this.name(ev.target)} returns.`); await this.wait(400); break;
         case "text": this.say(ev.text); await this.wait(420); break;
-        case "line": await this.game.say([{ speaker: ev.speaker, text: ev.text }]); break;
+        case "line": await this.game.say([{ speaker: ev.speaker, text: ev.text }], BOX_Y); break;
         case "link": this.linkFlash = { name: ev.name, t: 0.9 }; this.shake = 0.25; this.say(`LINK: ${ev.name}!`); await this.wait(600); break;
-        case "tempo": this.floaters.push({ uid: ev.target, text: ev.amount > 0 ? "later" : "sooner", color: ev.amount > 0 ? "blue" : "lime", t: 0 }); await this.wait(300); break;
+        case "tempo": this.float(ev.target, ev.amount > 0 ? "later" : "early", ev.amount > 0 ? "blue" : "lime"); await this.wait(300); break;
         case "row": this.say(`${this.name(ev.target)} moves to the ${ev.row} row.`); await this.wait(300); break;
         case "debt": this.say(ev.amount > 0 ? `Debt +${ev.amount} (now ${ev.total}).` : `Debt paid ${-ev.amount} (now ${ev.total}).`); await this.wait(350); break;
         case "rewind": this.shake = 0.4; this.dying.clear(); await this.wait(500); break;
@@ -264,7 +297,7 @@ export class BattleScene implements Scene {
     for (const [k, v] of this.flashes) { if (v - dt <= 0) this.flashes.delete(k); else this.flashes.set(k, v - dt); }
     for (const [k, v] of this.dying) { this.dying.set(k, Math.max(0, v - dt)); }
     for (const f of this.floaters) f.t += dt;
-    this.floaters = this.floaters.filter((f) => f.t < 0.8);
+    this.floaters = this.floaters.filter((f) => f.t < FLOAT_LIFE);
     if (this.linkFlash) { this.linkFlash.t -= dt; if (this.linkFlash.t <= 0) this.linkFlash = null; }
     if (this.waiting && this.t >= this.waiting.until) { const w = this.waiting; this.waiting = null; w.resolve(); }
   }
@@ -280,10 +313,13 @@ export class BattleScene implements Scene {
     else if (k === "cancel") audio.sfx("cancel");
     if (this.menu === "main") {
       const n = this.mainItems.length;
-      const cols = Math.ceil(n / 6);
+      const cols = Math.ceil(n / MAIN_ROWS);
       if (k === "up") this.mainCursor = (this.mainCursor + n - 1) % n;
       else if (k === "down") this.mainCursor = (this.mainCursor + 1) % n;
-      else if ((k === "left" || k === "right") && cols > 1) this.mainCursor = (this.mainCursor + 6) % n < n ? (this.mainCursor + 6) % n : this.mainCursor;
+      else if ((k === "left" || k === "right") && cols > 1) {
+        const col = (Math.floor(this.mainCursor / MAIN_ROWS) + (k === "right" ? 1 : cols - 1)) % cols;
+        this.mainCursor = Math.min(n - 1, col * MAIN_ROWS + (this.mainCursor % MAIN_ROWS));
+      }
       else if (k === "ok") {
         const id = this.mainItems[this.mainCursor];
         this.lastMain = this.mainCursor;
@@ -397,7 +433,7 @@ export class BattleScene implements Scene {
     const scale = c.boss ? 4 : 3;
     const spacing = n > 3 ? 40 : 48;
     const x = Math.round(96 + (i - (n - 1) / 2) * spacing - scale * 4);
-    const y = c.row === "back" && this.state.mechanics.has("rows") ? 14 : 30;
+    const y = c.row === "back" && this.state.mechanics.has("rows") ? ENEMY_BACK_Y : ENEMY_Y;
     return { x, y, scale };
   }
 
@@ -406,19 +442,24 @@ export class BattleScene implements Scene {
     const i = ps.indexOf(c);
     const n = ps.length;
     const x = Math.round(96 + (i - (n - 1) / 2) * 30 - 8);
-    const y = c.row === "back" && this.state.mechanics.has("rows") ? 76 : 68;
+    const y = c.row === "back" && this.state.mechanics.has("rows") ? PARTY_BACK_Y : PARTY_Y;
     return { x, y };
+  }
+
+  /** One status short at a time, cycling, so a busy combatant never needs more than three letters of room. */
+  private statusShort(c: Combatant): StatusId | null {
+    if (c.statuses.length === 0) return null;
+    return c.statuses[Math.floor(this.t / 1.2) % c.statuses.length].id;
   }
 
   draw(s: Screen): void {
     const st = this.state;
     s.clear("black");
     if (this.shake > 0) { s.shakeX = Math.round((Math.random() - 0.5) * 4); s.shakeY = Math.round((Math.random() - 0.5) * 4); }
-    // Arena backdrop.
+    // Arena floor at the feet of the front row, 1 px below the back row's status line.
     const chapter = this.game.chapter();
     const back: ColorName = ["dark", "indigo", "teal", "brown", "green", "gray", "dark", "purple", "orange"][Math.max(0, chapter.n - 1)] as ColorName;
-    s.rect(0, 8, 192, 56, "black");
-    for (let x = 0; x < 192; x += 8) s.rect(x, 62 + ((x / 8) % 2), 8, 1, back);
+    for (let x = 0; x < 192; x += 8) s.rect(x, ENEMY_Y + 23 + ((x / 8) % 2), 8, 1, back);
     // Top bar.
     s.text(`R${st.round}`, 2, 1, "gray");
     const mechs: string[] = [];
@@ -426,8 +467,8 @@ export class BattleScene implements Scene {
     if (st.mechanics.has("rewind")) mechs.push(`rw ${st.rewindsLeft}`);
     if (st.mechanics.has("rows")) mechs.push("rows");
     s.textRight(mechs.join(" "), 190, 1, st.debt >= 40 ? "red" : "gray");
-    if (this.linkFlash) s.textCenter(this.linkFlash.name, 96, 1, Math.floor(this.linkFlash.t * 10) % 2 ? "yellow" : "white");
 
+    const targeting = this.menu === "target" && this.choosing ? this.targets[this.targetCursor] : null;
     // Enemies.
     for (const c of st.combatants) {
       if (c.side !== "enemy") continue;
@@ -437,13 +478,12 @@ export class BattleScene implements Scene {
       const bounce = this.actor === c ? Math.floor(this.t * 8) % 2 : 0;
       const tint: ColorName | undefined = this.flashes.has(c.uid) ? "white" : dying !== undefined && c.hp <= 0 ? "dark" : undefined;
       s.sprite(getSprite(c.sprite), x, y - bounce, c.sprite.a, c.sprite.b, { scale, tint });
-      // HP bar.
       const w = scale * 8;
       s.bar(x, y + w + 1, w, 3, c.hp / c.max.hp, c.boss ? "purple" : "red");
       if (c.charge) s.rect(x + w - 3, y - 2, 3, 3, elementColor(c.charge));
-      // Status shorts.
-      const shorts = c.statuses.slice(0, 2).map((x) => STATUSES[x.id].short);
-      if (shorts.length) s.text(shorts.join(" "), x, y + w + 5, "yellow");
+      // The ally target arrow sits where a front row boss shows its status.
+      const short = this.statusShort(c);
+      if (short && targeting?.side !== "party") s.text(STATUSES[short].short, x, y + w + 5, "yellow");
     }
     // Party sprites in the arena.
     for (const c of st.combatants) {
@@ -453,57 +493,60 @@ export class BattleScene implements Scene {
       const bounce = this.actor === c && this.choosing ? Math.floor(this.t * 6) % 2 : 0;
       const tint: ColorName | undefined = this.flashes.has(c.uid) ? "white" : c.guarding ? "salt" : undefined;
       s.sprite(getSprite(c.sprite), x, y - bounce, c.sprite.a, c.sprite.b, { scale: 2, tint });
-      if (c.fusedWith !== null) s.text(`${c.fuseTurns}`, x + 14, y - 4, "pink");
+      // The fuse count gives way to this member's floaters, which pass over the same spot.
+      if (c.fusedWith !== null && !this.floaters.some((f) => f.uid === c.uid && f.t >= 0)) s.text(`${c.fuseTurns}`, x + 17, y + 4, "pink");
     }
-    // Target cursor.
-    if (this.menu === "target" && this.choosing) {
-      const tgt = this.targets[this.targetCursor];
-      const p = tgt.side === "enemy" ? this.enemyPos(tgt) : { ...this.partyPos(tgt), scale: 2 };
+    // Target cursor, kept below the top bar.
+    if (targeting) {
+      const p = targeting.side === "enemy" ? this.enemyPos(targeting) : { ...this.partyPos(targeting), scale: 2 };
       const cur = getSprite({ kind: "shape", seed: "cursor", a: "yellow", b: "white", variant: "arrowdown" });
-      s.sprite(cur, p.x + (p.scale * 8) / 2 - 4, p.y - 9 + (Math.floor(this.t * 6) % 2), "yellow", "white");
-      s.panel(0, BOX_Y - 11, 192, 11, "dark", "white");
-      const tag = tgt.side === "enemy" ? (tgt.revealed ? ` weak:${tgt.weak.join("/") || "none"}` : "") : ` ${tgt.hp}/${tgt.max.hp}`;
-      s.text(`${tgt.name}${tag}`, 4, BOX_Y - 8, "yellow");
+      s.sprite(cur, p.x + (p.scale * 8) / 2 - 4, Math.max(TOP_BAR_H, p.y - 9) + (Math.floor(this.t * 6) % 2), "yellow", "white");
     }
     // Floaters.
     for (const f of this.floaters) {
+      if (f.t < 0) continue;
       const c = st.combatants.find((x) => x.uid === f.uid)!;
       const p = c.side === "enemy" ? this.enemyPos(c) : { ...this.partyPos(c), scale: 2 };
-      const yy = p.y - 2 - Math.round(f.t * 14);
+      // Party floaters rise over the sprite and stop short of the enemy status line.
+      const yy = c.side === "enemy" ? Math.max(TOP_BAR_H, p.y - 2 - Math.round(f.t * 14)) : PARTY_Y + 6 - Math.round(f.t * 8);
       s.textCenter(f.text, p.x + (p.scale * 8) / 2, yy, f.color, "black");
+    }
+    if (this.linkFlash) {
+      const w = textWidth(this.linkFlash.name) + 14;
+      s.panel(96 - Math.floor(w / 2), 40, w, 14, "dark", "white");
+      s.textCenter(this.linkFlash.name, 96, 43, Math.floor(this.linkFlash.t * 10) % 2 ? "yellow" : "white");
     }
     // Tempo strip.
     if (st.mechanics.has("tempo")) {
       const order = forecast(st, 10);
-      s.rect(0, 86, 192, 10, "dark");
-      s.text("next", 2, 88, "gray");
+      s.rect(0, STRIP_Y, 192, 10, "dark");
+      s.text("next", 2, STRIP_Y + 1, "gray");
       order.forEach((c, i) => {
-        const x = 22 + i * 16;
-        s.rect(x - 1, 86, 10, 10, c.side === "party" ? "blue" : "red");
-        s.sprite(getSprite(c.sprite), x, 87, c.sprite.a, c.sprite.b);
+        const x = 30 + i * 16;
+        s.rect(x - 1, STRIP_Y, 10, 10, c.side === "party" ? "blue" : "red");
+        s.sprite(getSprite(c.sprite), x, STRIP_Y + 1, c.sprite.a, c.sprite.b);
       });
     }
-    // Party status rows.
+    // Party status rows: name, HP bar, HP, ST, one status, row.
     const rows = st.combatants.filter((c) => c.side === "party" && c.fuseTurns >= 0);
     rows.forEach((c, i) => {
-      const y = 98 + i * 10;
+      const y = ROWS_Y + i * ROWS_PITCH;
       const isActor = this.actor === c && !!this.choosing;
       const dead = c.hp <= 0;
       s.sprite(getSprite(c.sprite), 2, y, c.sprite.a, c.sprite.b, { tint: dead ? "dark" : undefined });
-      s.text(c.name.slice(0, 7), 12, y + 1, isActor ? "yellow" : dead ? "gray" : "white");
-      s.bar(42, y + 1, 44, 6, c.hp / c.max.hp, c.hp < c.max.hp * 0.25 ? "red" : "green");
-      s.text(`${c.hp}`, 88, y + 1, dead ? "red" : "white");
-      s.bar(104, y + 1, 28, 6, c.st / c.max.st, "teal");
-      s.text(`${c.st}`, 134, y + 1, "teal");
-      const shorts = c.statuses.filter((x) => x.id !== "brace" || true).slice(0, 3).map((x) => STATUSES[x.id].short);
-      s.text(shorts.join(" "), 148, y + 1, "yellow");
-      if (st.mechanics.has("rows")) s.text(c.row === "back" ? "b" : "f", 186, y + 1, "gray");
+      s.text(c.name, 12, y, isActor ? "yellow" : dead ? "gray" : "white");
+      s.bar(86, y + 1, 26, 6, c.hp / c.max.hp, c.hp < c.max.hp * 0.25 ? "red" : "green");
+      s.textRight(`${c.hp}`, 132, y, dead ? "red" : "white");
+      s.textRight(`${c.st}`, 154, y, "teal");
+      const short = this.statusShort(c);
+      if (short) s.text(STATUSES[short].short, 158, y, "yellow");
+      if (st.mechanics.has("rows")) s.text(c.row === "back" ? "b" : "f", 182, y, "gray");
     });
     // Bottom box.
-    s.panel(0, BOX_Y, 192, 56, "dark", "white");
+    s.panel(0, BOX_Y, 192, BOX_H, "dark", "white");
     if (this.choosing && this.actor) this.drawMenu(s);
     else {
-      this.messages.forEach((m, i) => s.text(m, 6, BOX_Y + 6 + i * 8, i === this.messages.length - 1 ? "white" : "gray"));
+      this.messages.forEach((m, i) => s.text(m, TEXT_X, BOX_Y + 4 + i * LINE_H, i === this.messages.length - 1 ? "white" : "gray"));
     }
     s.shakeX = 0; s.shakeY = 0;
   }
@@ -512,80 +555,113 @@ export class BattleScene implements Scene {
     const st = this.state;
     const actor = this.actor!;
     const y0 = BOX_Y + 4;
-    if (this.menu === "main" || this.menu === "target" && !this.pending?.itemId && !this.pending?.words && MAIN_ORDER.includes(this.pending?.skillId ?? "")) {
+    if (this.menu === "target") { this.drawTarget(s); return; }
+    if (this.menu === "main") {
       this.mainItems.forEach((id, i) => {
-        const col = Math.floor(i / 6), row = i % 6;
-        const x = 10 + col * 60, y = y0 + row * 8;
+        const x = 10 + Math.floor(i / MAIN_ROWS) * MAIN_COL_W, y = y0 + (i % MAIN_ROWS) * LINE_H;
         let label = MAIN_LABEL[id];
         if (id === "guard" && st.mechanics.has("brace")) label = "Brace";
         const sel = i === this.mainCursor;
         s.text(label, x, y, sel ? "yellow" : "white");
-        if (sel) s.text(">", x - 6, y, "yellow");
+        if (sel) s.text(">", x - 7, y, "yellow");
       });
       const id = this.mainItems[this.mainCursor];
-      const desc = id === "skill" ? "Use a skill." : id === "item" ? "Use an item." : id === "cast" ? "Build a spell from words." : id === "flee" ? "Run from the fight." : SKILLS[id]?.desc ?? "";
-      this.drawDesc(s, desc);
+      const desc = id === "skill" ? "Use a skill." : id === "item" ? "Use an item." : id === "cast" ? "Build a spell from words." : id === "flee" ? "Run from the fight."
+        : id === "guard" ? (st.mechanics.has("brace") ? "Halve damage this round. Your next attack deals double." : "Halve damage this round.")
+        : SKILLS[id]?.desc ?? "";
+      s.rect(1, BOX_Y + 31, 190, 1, "gray");
+      wrap(desc, BOX_COLS).slice(0, 2).forEach((l, i) => s.text(l, TEXT_X, BOX_Y + 34 + i * LINE_H, "salt"));
       return;
     }
-    if (this.menu === "skill" || (this.menu === "target" && this.pending?.skillId && !MAIN_ORDER.includes(this.pending.skillId))) {
+    // Skill, item and word lists cover the party rows with a taller panel.
+    s.panel(0, PANEL_Y, 192, 192 - PANEL_Y, "dark", "white");
+    s.text(actor.name, TEXT_X, PANEL_Y + 3, "yellow");
+    s.textRight(`ST ${actor.st}/${actor.max.st}`, 188, PANEL_Y + 3, "teal");
+    s.rect(1, PANEL_Y + 12, 190, 1, "gray");
+    const ly = PANEL_Y + 15;
+    let desc = "";
+    if (this.menu === "skill") {
       const list = this.skillList(actor);
-      const top = Math.max(0, Math.min(this.skillCursor - 2, list.length - 5));
-      list.slice(top, top + 5).forEach((id, i) => {
+      const top = this.listTop(this.skillCursor, list.length);
+      list.slice(top, top + LIST_ROWS).forEach((id, i) => {
         const sk = SKILLS[id];
-        const idx = top + i;
-        const y = y0 + i * 8;
+        const y = ly + i * ROW_H;
         const ok = canPay(st, actor, sk);
-        const sel = idx === this.skillCursor;
+        const sel = top + i === this.skillCursor;
         s.text(sk.name, 10, y, sel ? "yellow" : ok ? "white" : "gray");
-        s.textRight(`${sk.cost}`, 120, y, ok ? "teal" : "gray");
-        if (sk.element) s.rect(124, y + 1, 4, 4, elementColor(sk.element));
-        if (sk.debt) s.text(`d${sk.debt}`, 130, y, "red");
-        if (sel) s.text(">", 4, y, "yellow");
+        s.textRight(`${sk.cost}`, 132, y, ok ? "teal" : "gray");
+        if (sk.element) s.rect(136, y + 2, 4, 4, elementColor(sk.element));
+        if (sk.debt) s.text(`d${sk.debt}`, 144, y, "red");
+        if (sel) s.text(">", 3, y, "yellow");
       });
-      if (list.length > 5) s.text(top > 0 ? "^" : " ", 186, y0, "gray"), s.text(top + 5 < list.length ? "v" : " ", 186, y0 + 32, "gray");
-      this.drawDesc(s, SKILLS[list[this.skillCursor]]?.desc ?? "");
-      return;
-    }
-    if (this.menu === "item" || (this.menu === "target" && this.pending?.itemId)) {
+      this.drawScroll(s, top, list.length);
+      desc = SKILLS[list[this.skillCursor]]?.desc ?? "";
+    } else if (this.menu === "item") {
       const list = this.itemList();
-      const top = Math.max(0, Math.min(this.itemCursor - 2, list.length - 5));
-      list.slice(top, top + 5).forEach((id, i) => {
+      const top = this.listTop(this.itemCursor, list.length);
+      list.slice(top, top + LIST_ROWS).forEach((id, i) => {
         const it = ITEMS[id];
-        const idx = top + i;
-        const y = y0 + i * 8;
-        const sel = idx === this.itemCursor;
+        const y = ly + i * ROW_H;
+        const sel = top + i === this.itemCursor;
         s.sprite(getSprite(it.sprite), 10, y - 1, it.sprite.a, it.sprite.b);
         s.text(it.name, 20, y, sel ? "yellow" : "white");
-        s.textRight(`x${st.inventory[id]}`, 120, y, "gray");
-        if (sel) s.text(">", 4, y, "yellow");
+        s.textRight(`x${st.inventory[id]}`, 150, y, "gray");
+        if (sel) s.text(">", 3, y, "yellow");
       });
-      this.drawDesc(s, ITEMS[list[this.itemCursor]]?.desc ?? "");
-      return;
-    }
-    if (this.menu === "words" || (this.menu === "target" && this.pending?.words)) {
+      this.drawScroll(s, top, list.length);
+      desc = ITEMS[list[this.itemCursor]]?.desc ?? "";
+    } else if (this.menu === "words") {
       const cols = this.wordColumns();
       const heads = ["verb", "noun", "shape"];
       cols.forEach((list, ci) => {
         const x = 6 + ci * 62;
-        s.text(heads[ci], x, y0, ci === this.wordCol ? "yellow" : "gray");
+        s.text(heads[ci], x + 7, ly, ci === this.wordCol ? "yellow" : "gray");
         const cur = this.wordCursor[ci];
-        const top = Math.max(0, Math.min(cur - 1, list.length - 3));
-        list.slice(top, top + 3).forEach((id, i) => {
+        const top = Math.max(0, Math.min(cur - 1, list.length - WORD_ROWS));
+        list.slice(top, top + WORD_ROWS).forEach((id, i) => {
           const w = WORDS.find((x) => x.id === id)!;
           const sel = top + i === cur;
-          s.text(w.word, x + 6, y0 + 8 + i * 8, sel ? (ci === this.wordCol ? "yellow" : "white") : "gray");
-          if (sel) s.text(">", x, y0 + 8 + i * 8, ci === this.wordCol ? "yellow" : "gray");
+          const y = ly + ROW_H + i * ROW_H;
+          s.text(w.word, x + 7, y, sel ? (ci === this.wordCol ? "yellow" : "white") : "gray");
+          if (sel) s.text(">", x, y, ci === this.wordCol ? "yellow" : "gray");
         });
       });
       const words: [string, string, string] = [cols[0][this.wordCursor[0]], cols[1][this.wordCursor[1]], cols[2][this.wordCursor[2]]];
       const sk = words.every(Boolean) ? wordSpell(words) : null;
-      this.drawDesc(s, sk ? `${sk.name}: ${sk.cost} st${sk.power ? `, pow ${sk.power}` : ""}${sk.heal ? `, heal ${sk.heal}` : ""}${sk.hits ? `, x${sk.hits}` : ""}` : "Pick three words that fit.");
+      desc = sk ? `${sk.name}: ${sk.cost} st${sk.power ? `, pow ${sk.power}` : ""}${sk.heal ? `, heal ${sk.heal}` : ""}${sk.hits ? `, x${sk.hits}` : ""}` : "Pick three words that fit.";
     }
+    s.rect(1, PANEL_Y + 64, 190, 1, "gray");
+    wrap(desc, BOX_COLS).slice(0, 3).forEach((l, i) => s.text(l, TEXT_X, PANEL_Y + 66 + i * LINE_H, "salt"));
   }
 
-  private drawDesc(s: Screen, desc: string): void {
-    s.rect(1, BOX_Y + 45, 190, 1, "gray");
-    s.text(desc.length > 46 ? desc.slice(0, 45) + "~" : desc, 4, BOX_Y + 48, "salt");
+  private listTop(cursor: number, n: number): number {
+    return Math.max(0, Math.min(cursor - 2, n - LIST_ROWS));
+  }
+
+  private drawScroll(s: Screen, top: number, n: number): void {
+    if (top > 0) s.text("^", 182, PANEL_Y + 15, "gray");
+    if (top + LIST_ROWS < n) s.text("v", 182, PANEL_Y + 15 + (LIST_ROWS - 1) * ROW_H, "gray");
+  }
+
+  /** The action being aimed, the target, and what is known about it. */
+  private drawTarget(s: Screen): void {
+    const p = this.pending;
+    const tgt = this.targets[this.targetCursor];
+    if (!p || !tgt) return;
+    const y0 = BOX_Y + 4;
+    const action = p.itemId ? ITEMS[p.itemId].name : p.words ? wordSpell(p.words)?.name ?? "Spell" : SKILLS[p.skillId!]?.name ?? "";
+    s.text(action, TEXT_X, y0, "white");
+    s.text(`> ${tgt.name}`, TEXT_X, y0 + LINE_H, "yellow");
+    const info = tgt.side === "enemy"
+      ? (tgt.revealed ? `weak: ${tgt.weak.join(", ") || "none"}` : "weak: unknown")
+      : `HP ${tgt.hp}/${tgt.max.hp}  ST ${tgt.st}/${tgt.max.st}`;
+    s.text(info, TEXT_X, y0 + LINE_H * 2, "salt");
+    if (tgt.statuses.length === 0) return;
+    s.rect(1, BOX_Y + 31, 190, 1, "gray");
+    const names = tgt.statuses.map((x) => STATUSES[x.id].name).join(", ");
+    const lines = wrap(names, BOX_COLS);
+    const shown = lines.length <= 2 ? lines : wrap(tgt.statuses.map((x) => STATUSES[x.id].short).join(" "), BOX_COLS);
+    shown.slice(0, 2).forEach((l, i) => s.text(l, TEXT_X, BOX_Y + 34 + i * LINE_H, "yellow"));
   }
 }
 

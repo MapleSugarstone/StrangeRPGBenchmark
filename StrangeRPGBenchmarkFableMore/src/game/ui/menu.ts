@@ -1,9 +1,9 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H, wrap } from "../../engine/screen";
+import { type Screen, W, H, wrap, LINE_H } from "../../engine/screen";
+import type { ColorName } from "../../engine/palette";
 import type { Scene } from "../../engine/scene";
 import { deferred } from "../../engine/scene";
 import { getSprite } from "../../engine/sprites";
-import { FONT_H } from "../../engine/fontdata";
 import { drawBox, ListCursor } from "../../engine/dialogue";
 import type { Audio } from "../../engine/audio";
 import { type GameState, maxHpOf, skillsOf, poolOf, addItem, save, encodeSave, bonded } from "../state";
@@ -27,6 +27,9 @@ export interface MenuHost {
 type Page = "root" | "party" | "member" | "items" | "gear" | "knots" | "rig" | "story" | "options" | "save" | "swap" | "code";
 
 const ROOT = ["Party", "Items", "Knots", "Rig", "Story", "Options", "Save", "Close"];
+/** Text rows that fit on the scrolling Story and code pages. */
+const STORY_ROWS = 21;
+const CODE_ROWS = 18;
 
 /** The pause menu. Everything in it fits in the square. */
 export class MenuScene implements Scene {
@@ -42,6 +45,8 @@ export class MenuScene implements Scene {
   private time = 0;
   private swapFrom = -1;
   private code = "";
+  /** First row shown on the Story or code page. */
+  private storyTop = 0;
 
   constructor(private host: MenuHost) {}
 
@@ -68,6 +73,7 @@ export class MenuScene implements Scene {
           if (pick === "Close") { this.done.resolve(); return; }
           this.page = pick.toLowerCase() as Page;
           this.sub = new ListCursor(this.subCount(), 8);
+          this.storyTop = 0;
         }
         break;
       }
@@ -187,6 +193,8 @@ export class MenuScene implements Scene {
         break;
       }
       case "story": {
+        if (input.pressed("up")) this.storyTop = Math.max(0, this.storyTop - 1);
+        if (input.pressed("down")) this.storyTop++;
         if (input.pressed("cancel") || input.pressed("ok")) { input.consume("cancel"); input.consume("ok"); a.sfx("cancel"); this.page = "root"; return; }
         break;
       }
@@ -203,7 +211,7 @@ export class MenuScene implements Scene {
             case 2: o.twoPlayer = !o.twoPlayer; this.toast(o.twoPlayer ? "Player two is the Hand. Use the mouse." : "One player."); break;
             case 3: o.tips = !o.tips; break;
             case 4: o.difficulty = o.difficulty === "slack" ? "plumb" : o.difficulty === "plumb" ? "taut" : "slack"; break;
-            case 5: this.code = encodeSave(this.g); this.page = "code"; break;
+            case 5: this.code = encodeSave(this.g); this.page = "code"; this.storyTop = 0; break;
             case 6: this.host.toTitle(); this.done.resolve(); return;
           }
           a.sfx("ok");
@@ -211,6 +219,8 @@ export class MenuScene implements Scene {
         break;
       }
       case "code": {
+        if (input.pressed("up")) this.storyTop = Math.max(0, this.storyTop - 1);
+        if (input.pressed("down")) this.storyTop++;
         if (input.pressed("cancel") || input.pressed("ok")) {
           input.consume("cancel"); input.consume("ok");
           if (input.pressed("ok") || true) {
@@ -301,8 +311,11 @@ export class MenuScene implements Scene {
     s.dimRect(0, 0, W, H, 0.55);
     drawBox(s, 4, 4, W - 8, H - 8);
     const top = 9;
-    s.text(this.title(), 10, top, "gold");
-    s.textRight(`${this.g.slugs} slugs`, W - 10, top, "bone");
+    const title = this.title();
+    s.text(title, 10, top, "gold");
+    // The slug count shares the title row only when both fit with a gap
+    const slugs = `${this.g.slugs} slugs`;
+    if (s.textWidth(title) + s.textWidth(slugs) + 12 <= W - 20) s.textRight(slugs, W - 10, top, "bone");
     switch (this.page) {
       case "root": this.drawRoot(s); break;
       case "party": this.drawParty(s); break;
@@ -318,9 +331,14 @@ export class MenuScene implements Scene {
       case "save": this.drawSave(s); break;
     }
     if (this.note) {
-      const tw = s.textWidth(this.note.text) + 10;
-      drawBox(s, Math.floor((W - tw) / 2), H - 26, tw, FONT_H + 8);
-      s.textCenter(this.note.text, W / 2, H - 22, "gold");
+      // The page dims under a note, so the box never cuts through a line of the page
+      s.dimRect(0, 0, W, H, 0.6);
+      const lines = wrap(this.note.text, W - 30);
+      const tw = Math.max(...lines.map((l) => s.textWidth(l))) + 12;
+      const th = lines.length * LINE_H + 7;
+      const ny = H - 10 - th;
+      drawBox(s, Math.floor((W - tw) / 2), ny, tw, th);
+      lines.forEach((l, i) => s.textCenter(l, W / 2, ny + 4 + i * LINE_H, "gold"));
     }
   }
 
@@ -341,42 +359,61 @@ export class MenuScene implements Scene {
     }
   }
 
+  /** Wrapped lines from y down, LINE_H apart. Returns the y below the last line. */
+  private para(s: Screen, text: string, x: number, y: number, color: ColorName, width = W - x - 12): number {
+    const lines = wrap(text, width);
+    lines.forEach((l, i) => s.text(l, x, y + i * LINE_H, color));
+    return y + lines.length * LINE_H;
+  }
+
+  /** Scroll marks at the right edge of a list that has more rows above or below. */
+  private scrollMarks(s: Screen, cur: ListCursor, y: number, rowH: number): void {
+    if (cur.count <= cur.visible) return;
+    if (cur.top > 0) s.text("↑", W - 16, y, "ash");
+    if (cur.top + cur.visible < cur.count) s.text("↓", W - 16, y + (cur.visible - 1) * rowH, "ash");
+  }
+
   private drawRoot(s: Screen): void {
     ROOT.forEach((r, i) => {
       const y = 24 + i * 10;
       if (i === this.cur.index) s.text("▶", 10, y, "gold");
       s.text(r, 20, y, i === this.cur.index ? "white" : "bone");
     });
+    s.text(`${this.g.slugs} slugs`, 10, 24 + ROOT.length * 10 + 4, "bone");
     // Party summary on the right
     this.g.active.forEach((id, i) => {
       const m = this.g.members[id];
       const def = MEMBERS[id];
-      const y = 24 + i * 22;
+      const y = 24 + i * 24;
       s.sprite(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), 90, y, def.sprite.a, def.sprite.b, { scale: 2 });
       s.text(`${def.name} L${m.level}`, 110, y, "white");
       const max = maxHpOf(m);
-      s.rect(110, y + 8, 60, 4, "coal");
-      s.rect(110, y + 8, Math.round((60 * m.hp) / max), 4, m.hp < max * 0.3 ? "blood" : "leaf");
-      s.text(`${m.hp}/${max}`, 174, y + 7, "bone");
-      s.text(def.held ? "held" : "slack", 110, y + 14, def.held ? "bone" : "teal");
+      s.rect(110, y + 9, 60, 4, "coal");
+      s.rect(110, y + 9, Math.round((60 * m.hp) / max), 4, m.hp < max * 0.3 ? "blood" : "leaf");
+      s.text(`${m.hp}/${max}`, 174, y + 8, "bone");
+      s.text(def.held ? "held" : "slack", 110, y + 15, def.held ? "bone" : "teal");
     });
     const goal = wrap(this.host.goalText(), W - 30);
-    goal.slice(0, 3).forEach((l, i) => s.text(l, 10, H - 40 + i * 8, "lilac"));
+    const gy = Math.max(132, 216 - goal.length * LINE_H);
+    goal.forEach((l, i) => s.text(l, 10, gy + i * LINE_H, "lilac"));
   }
 
   private drawParty(s: Screen): void {
+    const rowH = 19;
     this.g.roster.forEach((id, i) => {
       const m = this.g.members[id];
       const def = MEMBERS[id];
-      const y = 22 + i * 20;
+      const y = 22 + i * rowH;
       const sel = i === this.sub.index;
-      if (sel) s.rect(8, y - 2, W - 16, 20, "slate");
+      if (sel) s.rect(8, y - 2, W - 16, rowH, "slate");
       s.sprite(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), 12, y, def.sprite.a, def.sprite.b, { scale: 2 });
       s.text(`${def.name}`, 32, y, this.g.active.includes(id) ? "white" : "ash");
-      s.text(`L${m.level}  ${m.hp}/${maxHpOf(m)}`, 32, y + 8, "bone");
-      s.text(this.g.active.includes(id) ? "in" : "out", W - 26, y, this.g.active.includes(id) ? "mint" : "ash");
-      wrap(def.title, 92).slice(0, 3).forEach((l, k) => s.text(l, 96, y + k * 7, "lilac"));
+      s.text(`L${m.level}  ${m.hp}/${maxHpOf(m)}`, 32, y + LINE_H, "bone");
+      s.text(this.g.active.includes(id) ? "in" : "out", W - 30, y, this.g.active.includes(id) ? "mint" : "ash");
     });
+    // The chosen member's title, under the list
+    const id = this.g.roster[this.sub.index];
+    if (id) this.para(s, MEMBERS[id].title, 12, 22 + this.g.roster.length * rowH + 2, "lilac");
   }
 
   private drawMember(s: Screen): void {
@@ -384,67 +421,81 @@ export class MenuScene implements Scene {
     const m = this.g.members[id];
     const def = MEMBERS[id];
     const st = statsAt(def, m.level);
-    s.sprite(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), 12, 22, def.sprite.a, def.sprite.b, { scale: 3 });
-    s.text(def.name, 40, 22, "white");
-    s.text(def.title.slice(0, 40), 40, 30, "lilac");
-    s.text(`Level ${m.level}   XP ${m.xp}/${xpForLevel(m.level)}`, 40, 38, "bone");
+    s.sprite(getSprite(def.sprite.kind, def.sprite.seed, def.sprite.variant), 12, 22, def.sprite.a, def.sprite.b, { scale: 2 });
+    s.text(def.name, 34, 22, "white");
+    let y = this.para(s, def.title, 34, 22 + LINE_H, "lilac");
+    y = Math.max(y, 40) + 1;
+    s.text(`Level ${m.level}   XP ${m.xp}/${xpForLevel(m.level)}`, 12, y, "bone");
     const gearStats = (slot: "glove" | "line") => { const it = m.gear[slot] ? ITEMS[m.gear[slot]!] : null; return it?.stats ?? {}; };
     const gs = { ...gearStats("glove") };
     const ls = gearStats("line");
     const tot = (k: "atk" | "mag" | "def" | "spd") => st[k] + (gs[k] ?? 0) + (ls[k] ?? 0);
-    s.text(`HP ${m.hp}/${maxHpOf(m)}  ATK ${tot("atk")}  MAG ${tot("mag")}`, 12, 50, "bone");
-    s.text(`DEF ${tot("def")}  SPD ${tot("spd")}  ${def.economy === "length" ? `Line ${poolOf(this.g, m)} fm` : def.economy === "tension" ? "Tension" : "Slack points"}`, 12, 58, "bone");
-    s.text(`Weak: ${def.weak.join(", ") || "none"}  Resists: ${def.resist.join(", ") || "none"}`, 12, 66, "ash");
-    // Skills
+    s.text(`HP ${m.hp}/${maxHpOf(m)}  ATK ${tot("atk")}  MAG ${tot("mag")}`, 12, y + LINE_H, "bone");
+    s.text(`DEF ${tot("def")}  SPD ${tot("spd")}  ${def.economy === "length" ? `Line ${poolOf(this.g, m)} fm` : def.economy === "tension" ? "Tension" : "Slack points"}`, 12, y + LINE_H * 2, "bone");
+    y = this.para(s, `Weak: ${def.weak.join(", ") || "none"}  Resists: ${def.resist.join(", ") || "none"}`, 12, y + LINE_H * 3, "ash") + 2;
+    // Skills, two to a row
     const skills = skillsOf(m, this.g.chapter).filter((k) => !["hang", "duck", "rise", "letgo"].includes(k));
-    s.text("Skills:", 12, 78, "gold");
-    skills.slice(0, 10).forEach((k, i) => s.text(SKILLS[k].name, 12 + (i % 2) * 100, 86 + Math.floor(i / 2) * 8, "white"));
+    s.text("Skills:", 12, y, "gold");
+    skills.slice(0, 10).forEach((k, i) => s.text(SKILLS[k].name, 12 + (i % 2) * 100, y + LINE_H + Math.floor(i / 2) * LINE_H, "white"));
+    y += LINE_H * (1 + Math.ceil(Math.min(10, skills.length) / 2)) + 3;
     // Options
     const opts = [this.g.active.includes(id) ? "Leave the party" : "Join the party", `Gloves: ${m.gear.glove ? ITEMS[m.gear.glove].name : "none"}`, `${def.held ? "Weight" : "Soles"}: ${m.gear.line ? ITEMS[m.gear.line].name : "none"}`, def.held ? `Lure: ${m.gear.lure ? ITEMS[m.gear.lure].name : "none"}` : "Lure: no line", "Swap position"];
     opts.forEach((o, i) => {
-      const y = 128 + i * 10;
-      if (i === this.sub.index) s.text("▶", 10, y, "gold");
-      s.text(o, 20, y, i === this.sub.index ? "white" : i === 3 && !def.held ? "ash" : "bone");
+      const oy = y + i * LINE_H;
+      if (i === this.sub.index) s.text("▶", 10, oy, "gold");
+      s.text(o, 20, oy, i === this.sub.index ? "white" : i === 3 && !def.held ? "ash" : "bone");
     });
+    y += opts.length * LINE_H + 3;
     // Bonds
     const bonds = PAIRS.filter((p) => p.members.includes(id) && bonded(this.g, p.members[0], p.members[1])).map((p) => SKILLS[p.skill].name);
-    if (bonds.length) s.text(`Pairs: ${bonds.join(", ")}`.slice(0, 50), 12, 182, "rose");
-    s.text(`Talks around the fire: ${m.talks}${def.held && m.gear.lure ? `   Note: ${ITEMS[m.gear.lure].note ?? def.note}` : def.note ? `   Note: ${def.note}` : ""}`, 12, 192, "ash");
+    if (bonds.length) y = this.para(s, `Pairs: ${bonds.join(", ")}`, 12, y, "rose");
+    // The note goes on the talks line when both fit, and on a line of its own when they do not
+    const note = def.held && m.gear.lure ? ITEMS[m.gear.lure].note ?? def.note : def.note;
+    const talks = `Talks around the fire: ${m.talks}`;
+    const both = note ? `${talks}  Note: ${note}` : talks;
+    if (wrap(both, W - 24).length === 1) s.text(both, 12, y, "ash");
+    else { s.text(talks, 12, y, "ash"); s.text(`Note: ${note}`, 12, y + LINE_H, "ash"); }
   }
 
   private drawRig(s: Screen): void {
     const known = this.knotList().filter((k) => k.known);
     this.sub.clamp();
-    s.text(`Rigged: ${this.g.rig.length} of 4. Confirm toggles a knot.`, 12, 22, "teal");
-    if (!known.length) s.text("Fathom knows no knots yet.", 12, 34, "ash");
+    let y = this.para(s, `Rigged: ${this.g.rig.length} of 4. Confirm toggles a knot.`, 12, 22, "teal") + 3;
+    if (!known.length) { s.text("Fathom knows no knots yet.", 12, y, "ash"); y += LINE_H; }
     known.forEach((k, i) => {
-      const y = 34 + i * 10;
+      const ky = y + i * 10;
       const on = this.g.rig.includes(k.id);
-      if (i === this.sub.index) s.text("▶", 10, y, "gold");
-      s.text(on ? "●" : "○", 20, y, on ? "teal" : "slate");
-      s.text(k.name, 30, y, i === this.sub.index ? "white" : "bone");
-      s.textRight(`${k.cost} fm`, W - 12, y, "teal");
+      if (i === this.sub.index) s.text("▶", 10, ky, "gold");
+      s.text(on ? "●" : "○", 20, ky, on ? "teal" : "slate");
+      s.text(k.name, 30, ky, i === this.sub.index ? "white" : "bone");
+      s.textRight(`${k.cost} fm`, W - 12, ky, "teal");
     });
+    y += known.length * 10 + 4;
     const k = known[this.sub.index];
-    if (k) wrap(k.desc, W - 30).slice(0, 4).forEach((l, i) => s.text(l, 12, 150 + i * 8, "lilac"));
-    if (!this.g.rig.length) s.text("Nothing rigged: the first four known knots come.", 12, 186, "ash");
+    if (k) y = this.para(s, k.desc, 12, y, "lilac") + 4;
+    if (!this.g.rig.length) this.para(s, "Nothing rigged: the first four known knots come.", 12, Math.max(y, 190), "ash");
   }
 
   private drawGear(s: Screen): void {
     const id = this.g.roster[this.memberIdx];
     const choices = this.gearChoices(id);
-    choices.forEach((c, i) => {
+    this.sub.count = choices.length;
+    this.sub.clamp();
+    choices.slice(this.sub.top, this.sub.top + this.sub.visible).forEach((c, i) => {
+      const idx = this.sub.top + i;
       const y = 24 + i * 10;
-      if (i === this.sub.index) s.text("▶", 10, y, "gold");
-      s.text(c === "none" ? "Nothing" : ITEMS[c].name, 20, y, i === this.sub.index ? "white" : "bone");
+      if (idx === this.sub.index) s.text("▶", 10, y, "gold");
+      s.text(c === "none" ? "Nothing" : ITEMS[c].name, 20, y, idx === this.sub.index ? "white" : "bone");
     });
+    this.scrollMarks(s, this.sub, 24, 10);
     const pick = choices[this.sub.index];
+    const dy = 24 + this.sub.visible * 10 + 6;
     if (pick && pick !== "none") {
       const it = ITEMS[pick];
-      wrap(it.desc, W - 30).forEach((l, i) => s.text(l, 12, 100 + i * 8, "lilac"));
+      const y = this.para(s, it.desc, 12, dy, "lilac") + 2;
       const st = it.stats ?? {};
-      s.text(Object.entries(st).map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v}`).join("  "), 12, 130, "mint");
-    } else s.text("Take it off.", 12, 100, "ash");
+      s.text(Object.entries(st).map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v}`).join("  "), 12, y, "mint");
+    } else s.text("Take it off.", 12, dy, "ash");
   }
 
   private drawSwap(s: Screen): void {
@@ -457,75 +508,95 @@ export class MenuScene implements Scene {
 
   private drawItems(s: Screen): void {
     const ids = this.itemIds();
+    this.sub.count = ids.length;
     this.sub.clamp();
-    const vis = ids.slice(this.sub.top, this.sub.top + 8);
+    const scrolls = ids.length > this.sub.visible;
+    const vis = ids.slice(this.sub.top, this.sub.top + this.sub.visible);
     vis.forEach((id, i) => {
       const idx = this.sub.top + i;
       const y = 24 + i * 10;
       const it = ITEMS[id];
       if (idx === this.sub.index) s.text("▶", 10, y, "gold");
       s.sprite(getSprite("item", it.sprite, it.sprite), 20, y - 1, it.kind === "key" ? "gold" : "bone", it.kind === "key" ? "white" : "teal");
-      s.text(`${it.name}`, 30, y, idx === this.sub.index ? "white" : it.kind === "key" ? "gold" : "bone");
-      s.textRight(`x${this.g.inventory[id]}`, W - 12, y, "bone");
+      s.text(`${it.name}`, 31, y, idx === this.sub.index ? "white" : it.kind === "key" ? "gold" : "bone");
+      s.textRight(`x${this.g.inventory[id]}`, scrolls ? W - 20 : W - 12, y, "bone");
     });
+    this.scrollMarks(s, this.sub, 24, 10);
     if (!ids.length) s.text("The pack is empty.", 20, 24, "ash");
     const it = ids[this.sub.index] ? ITEMS[ids[this.sub.index]] : null;
-    if (it) wrap(it.desc, W - 30).slice(0, 4).forEach((l, i) => s.text(l, 12, 110 + i * 8, "lilac"));
-    s.text("Confirm uses a consumable on whoever needs it most.", 12, 150, "ash");
+    let y = 24 + this.sub.visible * 10 + 4;
+    if (it) y = Math.max(y + 5 * LINE_H, this.para(s, it.desc, 12, y, "lilac")) + 4;
+    else y += 5 * LINE_H + 4;
+    this.para(s, "Confirm uses a consumable on whoever needs it most.", 12, y, "ash");
   }
 
   private drawKnots(s: Screen): void {
     const list = this.knotList();
+    this.sub.count = list.length;
     this.sub.clamp();
     const m = this.g.members.fathom;
     s.text(`Line carried: ${poolOf(this.g, m)} fathoms`, 12, 22, "teal");
-    const vis = list.slice(this.sub.top, this.sub.top + 8);
+    const scrolls = list.length > this.sub.visible;
+    const vis = list.slice(this.sub.top, this.sub.top + this.sub.visible);
     vis.forEach((k, i) => {
       const idx = this.sub.top + i;
-      const y = 32 + i * 10;
+      const y = 33 + i * 10;
       if (idx === this.sub.index) s.text("▶", 10, y, "gold");
       s.text(k.known ? k.name : "???", 20, y, k.known ? (idx === this.sub.index ? "white" : "bone") : "ash");
-      s.textRight(`${k.cost} fm`, W - 12, y, "teal");
+      s.textRight(`${k.cost} fm`, scrolls ? W - 20 : W - 12, y, "teal");
     });
-    if (list.length > 8) {
-      if (this.sub.top > 0) s.text("↑", W - 16, 22, "ash");
-      if (this.sub.top + 8 < list.length) s.text("↓", W - 16, 112, "ash");
-    }
+    this.scrollMarks(s, this.sub, 33, 10);
     const k = list[this.sub.index];
-    if (k) wrap(k.known ? k.desc : "Fathom has not learned this knot yet.", W - 30).slice(0, 4).forEach((l, i) => s.text(l, 12, 120 + i * 8, "lilac"));
+    let y = 33 + this.sub.visible * 10 + 3;
+    if (k) y = this.para(s, k.known ? k.desc : "Fathom has not learned this knot yet.", 12, y, "lilac");
     // Decoded knot messages, drawn as knots
-    s.text("Read from the line:", 12, 156, "gold");
+    y = Math.max(y + 3, 158);
+    s.text("Read from the line:", 12, y, "gold");
     const read = this.g.knotsRead.slice(-3);
     read.forEach((id, i) => {
       const msg = KNOT_MESSAGES[id] ?? "";
       const glyphs = encodeKnots(msg).slice(0, 24);
-      glyphs.forEach((gl, j) => s.sprite(knotCells(gl), 12 + j * 8, 164 + i * 12, "bone", "teal"));
+      glyphs.forEach((gl, j) => s.sprite(knotCells(gl), 12 + j * 8, y + 11 + i * 12, "bone", "teal"));
     });
-    if (!read.length) s.text("Nothing yet.", 12, 166, "ash");
+    if (!read.length) s.text("Nothing yet.", 12, y + 11, "ash");
   }
 
-  private drawStory(s: Screen): void {
-    const beats = this.host.beats();
-    s.text(`Chapter ${this.g.chapter}`, 12, 22, "white");
-    let y = 32;
-    beats.forEach((b, i) => {
+  /** Every line of the Story page, top to bottom. The page scrolls when they do not fit. */
+  private storyLines(): { text: string; color: ColorName; x: number; mark?: { glyph: string; color: ColorName } }[] {
+    const out: { text: string; color: ColorName; x: number; mark?: { glyph: string; color: ColorName } }[] = [];
+    const add = (text: string, color: ColorName, x = 12, width = W - x - 12) => wrap(text, width).forEach((l) => out.push({ text: l, color, x }));
+    add(`Chapter ${this.g.chapter}`, "white");
+    this.host.beats().forEach((b, i) => {
       const here = i === this.g.beat;
       const past = i < this.g.beat;
       const label = ["You", "Need", "Go", "Search", "Find", "Take", "Return", "Change"][i];
-      s.text(here ? "▶" : past ? "•" : " ", 12, y, here ? "gold" : "ash");
       // Beats still to come stay unwritten
-      const lines = past || here ? wrap(`${label}: ${b}`, W - 36).slice(0, 2) : [`${label}: ...`];
-      lines.forEach((l, k) => s.text(l, 22, y + k * 7, here ? "white" : past ? "bone" : "ash"));
-      y += lines.length * 7 + 2;
+      const first = out.length;
+      add(past || here ? `${label}: ${b}` : `${label}: ...`, here ? "white" : past ? "bone" : "ash", 22);
+      if (here || past) out[first].mark = { glyph: here ? "▶" : "•", color: here ? "gold" : "ash" };
     });
-    y += 4;
+    out.push({ text: "", color: "ash", x: 12 });
     const journey = ["Ordinary world and the call", "Refusal and the mentor", "Crossing the threshold", "Tests, allies, enemies", "Tests, allies, enemies", "Approach to the inmost cave", "The ordeal", "Reward and the road back", "Resurrection and return"];
-    s.text(`Journey: ${journey[this.g.chapter - 1] ?? ""}`, 12, y, "lilac");
-    s.text(`Steps ${this.g.steps}   Battles ${this.g.battles}`, 12, y + 9, "ash");
+    add(`Journey: ${journey[this.g.chapter - 1] ?? ""}`, "lilac");
+    add(`Steps ${this.g.steps}   Battles ${this.g.battles}`, "ash");
     const h = Math.floor(this.g.playtime / 3600), mn = Math.floor((this.g.playtime % 3600) / 60);
-    s.text(`Time ${h}h ${mn}m   Towns taught: ${this.g.taught.length}`, 12, y + 17, "ash");
-    const gy = y + 29;
-    wrap(this.host.goalText(), W - 30).slice(0, Math.max(1, Math.floor((212 - gy) / 8))).forEach((l, i) => s.text(l, 12, gy + i * 8, "white"));
+    add(`Time ${h}h ${mn}m   Towns taught: ${this.g.taught.length}`, "ash");
+    out.push({ text: "", color: "ash", x: 12 });
+    add(this.host.goalText(), "white");
+    return out;
+  }
+
+  private drawStory(s: Screen): void {
+    const lines = this.storyLines();
+    const rows = STORY_ROWS;
+    this.storyTop = Math.max(0, Math.min(this.storyTop, lines.length - rows));
+    lines.slice(this.storyTop, this.storyTop + rows).forEach((l, i) => {
+      const y = 22 + i * LINE_H;
+      if (l.mark) s.text(l.mark.glyph, 12, y, l.mark.color);
+      s.text(l.text, l.x, y, l.color);
+    });
+    if (this.storyTop > 0) s.text("↑", W - 16, 22, "ash");
+    if (this.storyTop + rows < lines.length) s.text("↓", W - 16, 22 + (rows - 1) * LINE_H, "ash");
   }
 
   private drawOptions(s: Screen): void {
@@ -538,19 +609,27 @@ export class MenuScene implements Scene {
       s.text(r, 20, y, i === this.sub.index ? "white" : "bone");
     });
     const help = ["M also mutes.", "Hold Shift to hurry text and battle.", "Player two uses the mouse: pluck lines in the field, help in battle.", "Short hints the first time a mechanic appears.", "Slack: foes are softer. Plumb: as tuned. Taut: foes hit harder and last longer. Change it any time.", "A code you can paste at the title screen on another machine.", "Progress since the last save is lost."];
-    wrap(help[this.sub.index], W - 30).forEach((l, i) => s.text(l, 12, 100 + i * 8, "lilac"));
+    this.para(s, help[this.sub.index], 12, 100, "lilac");
+  }
+
+  private codeLines(): string[] {
+    return wrap(this.code.replace(/(.{30})/g, "$1 "), W - 24);
   }
 
   private drawCode(s: Screen): void {
-    const lines = wrap(this.code.replace(/(.{48})/g, "$1 "), W - 24);
-    lines.slice(0, 20).forEach((l, i) => s.text(l, 12, 24 + i * 7, "bone"));
-    s.text("Confirm copies it. Cancel goes back.", 12, H - 22, "gold");
+    const lines = this.codeLines();
+    const rows = CODE_ROWS;
+    this.storyTop = Math.max(0, Math.min(this.storyTop, lines.length - rows));
+    lines.slice(this.storyTop, this.storyTop + rows).forEach((l, i) => s.text(l, 12, 24 + i * LINE_H, "bone"));
+    if (this.storyTop > 0) s.text("↑", W - 16, 24, "ash");
+    if (this.storyTop + rows < lines.length) s.text("↓", W - 16, 24 + (rows - 1) * LINE_H, "ash");
+    this.para(s, "Confirm copies it. Cancel goes back.", 12, 194, "gold");
   }
 
   private drawSave(s: Screen): void {
     s.text("Save here?", 12, 30, "white");
-    s.text("Confirm saves. Cancel goes back.", 12, 40, "bone");
-    s.text("The game also saves itself at every map change.", 12, 56, "ash");
+    this.para(s, "Confirm saves. Cancel goes back.", 12, 40, "bone");
+    this.para(s, "The game also saves itself at every map change.", 12, 58, "ash");
   }
 }
 

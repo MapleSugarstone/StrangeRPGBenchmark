@@ -1,5 +1,5 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H } from "../../engine/screen";
+import { type Screen, W, H, wrap, LINE_H } from "../../engine/screen";
 import type { Scene } from "../../engine/scene";
 import { deferred } from "../../engine/scene";
 import { getSprite } from "../../engine/sprites";
@@ -125,8 +125,8 @@ export class HookScene implements Scene {
       s.sprite(getSprite("creature", "hookfish", "flyer"), fx, fy, mixInt(colorInt("sea"), PALETTE_INT.black, 0.6), mixInt(colorInt("teal"), PALETTE_INT.black, 0.6));
     }
     const help = this.state === "sinking" ? "The bob sinks..." : this.state === "waiting" ? "Wait for the twitch. Then confirm." : this.state === "twitch" ? "NOW." : this.message;
-    s.text(help.slice(0, 50), 16, H - 36, this.state === "twitch" ? "gold" : "bone");
-    s.text("Cancel reels in.", 16, H - 28, "ash");
+    wrap(help, W - 36).slice(0, 2).forEach((l, i) => s.text(l, 16, 160 + i * LINE_H, this.state === "twitch" ? "gold" : "bone"));
+    s.text("Cancel reels in.", 16, 182, "ash");
   }
 }
 
@@ -214,26 +214,31 @@ export class KnotTieScene implements Scene {
 
   draw(s: Screen): void {
     s.dimRect(0, 0, W, H, 0.6);
-    const h = 110;
+    const h = 120;
     drawBox(s, 10, (H - h) / 2, W - 20, h);
     const top = (H - h) / 2 + 5;
     s.text(this.title, 16, top, "gold");
-    s.text(this.keys.map((k, i) => `${k[0].toUpperCase()}${k.slice(1)}: ${this.steps[i].toLowerCase()}`).join(". ") + ".", 16, top + 10, "ash");
+    wrap(this.keys.map((k, i) => `${k[0].toUpperCase()}${k.slice(1)}: ${this.steps[i].toLowerCase()}`).join(". ") + ".", W - 36).slice(0, 2).forEach((l, i) => s.text(l, 16, top + 10 + i * LINE_H, "ash"));
     // The sequence as knot glyphs, revealed in the show phase. A hidden sequence must be remembered.
     const glyphs = this.seq.map((v) => ["<o", ">o", "<x", ">x"][v]);
     glyphs.forEach((g, i) => {
       const lit = this.phase === "show" ? i < this.shown : i < this.input.length;
-      if (lit || !this.hide) s.sprite(knotCells(g), 20 + i * 14, top + 26, lit ? "bone" : "slate", lit ? "teal" : "slate");
-      else s.text("○", 22 + i * 14, top + 27, "slate");
-      if (this.phase === "show" && i < this.shown) s.text(this.steps[this.seq[i]].slice(0, 5), 16 + i * 14, top + 38, "bone");
+      if (lit || !this.hide) s.sprite(knotCells(g), 20 + i * 14, top + 32, lit ? "bone" : "slate", lit ? "teal" : "slate");
+      else s.text("○", 22 + i * 14, top + 33, "slate");
     });
+    // The step just shown, under its knot. Labels sit one at a time because a word is wider than a knot.
+    if (this.phase === "show" && this.shown > 0 && this.shown <= this.seq.length) {
+      const word = this.steps[this.seq[this.shown - 1]];
+      const cx = 24 + (this.shown - 1) * 14;
+      s.text(word, Math.max(16, Math.min(W - 18 - s.textWidth(word), Math.round(cx - s.textWidth(word) / 2))), top + 43, "bone");
+    }
     // A line that gets knotted as you go
-    const y = top + 60;
+    const y = top + 66;
     s.hline(y, 20, W - 20, colorInt("teal"));
     const n = this.phase === "show" ? this.shown : this.input.length;
     for (let i = 0; i < n; i++) s.sprite(getSprite("item", "knot", "knot"), 30 + i * 22, y - 4, "bone", "teal");
     s.text(this.phase === "show" ? "Watch." : this.phase === "tie" ? `Tie it. ${this.input.length}/${this.seq.length}` : this.message, 16, top + 80, this.phase === "tie" ? "gold" : "bone");
-    if (this.message && this.phase === "tie") s.text(this.message, 16, top + 90, "orange");
+    if (this.message && this.phase === "tie") wrap(this.message, W - 36).slice(0, 2).forEach((l, i) => s.text(l, 16, top + 90 + i * LINE_H, "orange"));
     void KNOT_ALPHABET;
   }
 }
@@ -281,10 +286,11 @@ export class SwingScene implements Scene {
   draw(s: Screen): void {
     s.dimRect(0, 0, W, H, 0.6);
     drawBox(s, 10, 20, W - 20, H - 40);
-    s.text(`The Swing. Push ${Math.min(this.pushes + 1, 8)} of 8. ${Math.round(this.distance)} of ${this.goal} yards.`, 16, 25, "gold");
+    s.text(`The Swing. Push ${Math.min(this.pushes + 1, 8)} of 8.`, 16, 25, "gold");
+    s.text(`${Math.round(this.distance)} of ${this.goal} yards.`, 16, 25 + LINE_H, "gold");
     // The ribs of the Hull, the pivot, the courier on the line
-    for (let y = 36; y < 48; y += 4) s.hline(y, 16, W - 16, colorInt("coal"));
-    const px = W / 2, py = 40, len = 70;
+    for (let y = 46; y < 58; y += 4) s.hline(y, 16, W - 16, colorInt("coal"));
+    const px = W / 2, py = 50, len = 70;
     const cx = Math.round(px + Math.sin(this.angle) * len), cy = Math.round(py + Math.cos(this.angle) * len);
     s.line(px, py, cx, cy, this.flash > 0 ? colorInt("white") : colorInt("bone"));
     s.sprite(getSprite("humanoid", "swinger", "tall"), cx - 4, cy, "amber", "ink", { flip: this.angle < 0 });
@@ -292,8 +298,8 @@ export class SwingScene implements Scene {
     s.dither(16, 150, W - 32, 20, "sand", "olive");
     const marker = 16 + Math.round(((W - 32) * Math.min(1, this.distance / this.goal)));
     s.vline(marker, 146, 170, colorInt("gold"));
-    s.text("Confirm at the top of the swing.", 16, H - 36, "bone");
-    if (this.message) s.text(this.message, 16, H - 28, this.over ? "gold" : "ash");
+    s.text("Confirm at the top of the swing.", 16, 174, "bone");
+    if (this.message) wrap(this.message, W - 36).slice(0, 2).forEach((l, i) => s.text(l, 16, 183 + i * LINE_H, this.over ? "gold" : "ash"));
   }
 }
 
@@ -349,15 +355,15 @@ export class PluckScene implements Scene {
   draw(s: Screen): void {
     s.dimRect(0, 0, W, H, 0.6);
     drawBox(s, 10, 20, W - 20, H - 40);
-    s.text(`Plucking. Hits ${this.hits}, misses ${this.misses}, of ${this.total}.`, 16, 25, "gold");
+    s.text(`Plucking. Hits ${this.hits}, misses ${this.misses}.`, 16, 25, "gold");
     const lanes = [52, 92, 132, 172];
     lanes.forEach((x, i) => {
       s.vline(x, 36, 150, this.flashLane === i && this.flashT > 0 ? colorInt("white") : colorInt("bone"));
       s.sprite(getSprite("humanoid", `pluck${i}`, ""), x - 4, 150, "bone", ["sea", "plum", "moss", "rust"][i] as never);
-      s.text(["←", "↑", "↓", "→"][i], x - 1, 162, "ash");
+      s.text(["←", "↑", "↓", "→"][i], x - 2, 162, "ash");
     });
     s.hline(140, 40, W - 40, mixInt(colorInt("gold"), PALETTE_INT.black, 0.4));
     for (const n of this.notes) if (!n.hit) s.sprite(getSprite("shape", "note", "note"), lanes[n.lane] - 4, Math.round(n.y) - 4, "gold", "gold");
-    s.text(this.over ? "Done. Confirm." : "Press the direction when the note reaches the line.", 16, H - 30, this.over ? "gold" : "bone");
+    wrap(this.over ? "Done. Confirm." : `Press the direction when the note reaches the line. ${this.total} notes.`, W - 36).forEach((l, i) => s.text(l, 16, 176 + i * LINE_H, this.over ? "gold" : "bone"));
   }
 }

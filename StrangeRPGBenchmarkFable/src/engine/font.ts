@@ -2,6 +2,9 @@ import { GLYPHS, FONT_W, FONT_H } from "./fontdata";
 
 export { FONT_W, FONT_H };
 
+/** Distance between text baselines. One empty row separates a descender from the next line. */
+export const LINE_H = FONT_H + 1;
+
 const compiled = new Map<string, number[]>();
 
 function compile(rows: string[]): number[] {
@@ -12,11 +15,11 @@ function compile(rows: string[]): number[] {
   });
 }
 
-/** Row bitmasks for a character. Unknown characters render as a box. */
+/** Row bitmasks for a character. Unknown characters render as a question mark. */
 export function glyph(ch: string): number[] {
   let g = compiled.get(ch);
   if (!g) {
-    const rows = GLYPHS[ch] ?? GLYPHS["?"] ?? ["####", "#..#", "#..#", "#..#", "####", "...."];
+    const rows = GLYPHS[ch] ?? GLYPHS["?"];
     g = compile(rows);
     compiled.set(ch, g);
   }

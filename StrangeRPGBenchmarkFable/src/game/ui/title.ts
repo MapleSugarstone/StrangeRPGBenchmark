@@ -5,6 +5,7 @@ import { getSprite } from "../../engine/sprites";
 import type { Game } from "../game";
 import { Rng } from "../../engine/rng";
 import { audio } from "../../engine/audio";
+import { textWidth } from "../../engine/font";
 
 /** Title screen with drifting generated moths. */
 export class TitleScene implements Scene {
@@ -61,15 +62,15 @@ export class TitleScene implements Scene {
       const flap = Math.floor(this.t * 6 + m.x) % 2 === 0;
       s.sprite(getSprite(spec), Math.round(m.x), Math.round(m.y), flap ? "salt" : "gray", "pink", { black: "dark" });
     }
-    s.textCenter("THE", 96, 40, "gray");
-    s.textCenter("MOTH CROWN", 96, 50, "yellow", "red");
-    s.textCenter("a tile adventure", 96, 62, "salt");
+    s.textCenter("THE", 96, 36, "gray");
+    s.textCenter("MOTH CROWN", 96, 47, "yellow", "red");
+    s.textCenter("a tile adventure", 96, 60, "salt");
     const opts = this.options();
     opts.forEach((o, i) => {
-      s.textCenter(o, 96, 120 + i * 10, i === this.cursor ? "yellow" : "white");
-      if (i === this.cursor) s.text(">", 96 - o.length * 2 - 8, 120 + i * 10, "yellow");
+      s.textCenter(o, 96, 116 + i * 11, i === this.cursor ? "yellow" : "white");
+      if (i === this.cursor) s.text(">", Math.floor(96 - textWidth(o) / 2) - 9, 116 + i * 11, "yellow");
     });
-    s.textCenter("arrows move  Z ok  X back  C menu", 96, 170, "gray");
-    s.textCenter("hold shift to hurry", 96, 178, "dark");
+    s.textCenter("arrows move  Z ok  X back", 96, 165, "gray");
+    s.textCenter("C menu  hold shift to hurry", 96, 176, "gray");
   }
 }

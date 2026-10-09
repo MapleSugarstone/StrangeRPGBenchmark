@@ -60,7 +60,10 @@
     addEventListener('pointerdown', unlock, { capture: true });
     addEventListener('keydown', unlock, { capture: true });
     const play = (notes, type = 'sine', gain = 0.05) => {
-      if (!state.sound || !ctx || ctx.state !== 'running') return;
+      if (!state.sound || !ctx) return;
+      // A key press can activate a button before the audio context finishes resuming.
+      if (ctx.state === 'suspended') { ctx.resume().then(() => play(notes, type, gain), () => {}); return; }
+      if (ctx.state !== 'running') return;
       let t = ctx.currentTime;
       for (const [freq, dur] of notes) {
         const osc = ctx.createOscillator();
@@ -84,6 +87,9 @@
       start: () => play([[659, 0.08], [988, 0.08], [1319, 0.2]], 'triangle', 0.06),
     };
   })();
+
+  addEventListener('intro-done', () => sfx.select());
+  $('intro-continue')?.addEventListener('mouseenter', () => sfx.hover());
 
   // Shelf
 
@@ -542,8 +548,6 @@
     .then((r) => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
     .then((data) => {
       state.games = data.games || [];
-      const playable = state.games.filter((g) => g.status !== 'wip').length;
-      $('count').textContent = `${state.games.length} cartridges · ${playable} playable`;
       renderShelf(0);
       route();
     })

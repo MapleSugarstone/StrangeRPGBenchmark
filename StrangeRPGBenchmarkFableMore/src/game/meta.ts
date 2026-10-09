@@ -29,9 +29,11 @@ export class Meta {
     this.fav.width = 16;
     this.fav.height = 16;
     this.pageLines = document.getElementById("lines") as HTMLCanvasElement;
+    // Device pixels, so a page line is as wide as one game pixel and lines up with it
     const fit = () => {
-      this.pageLines.width = window.innerWidth;
-      this.pageLines.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      this.pageLines.width = Math.round(window.innerWidth * dpr);
+      this.pageLines.height = Math.round(window.innerHeight * dpr);
     };
     fit();
     window.addEventListener("resize", fit);
@@ -125,26 +127,31 @@ export class Meta {
     const r = this.canvas.getBoundingClientRect();
     if (this.falling) this.fall = Math.min(1, this.fall + dt / 3);
     if (this.tight > 0) this.tight = Math.max(0, this.tight - dt / 2.5);
+    // Work in device pixels: the line continues the game pixel column it leaves, at the same width and color
+    const dpr = window.devicePixelRatio || 1;
+    const px = Math.max(1, Math.round(scale * dpr));
+    const top = Math.round(r.top * dpr);
+    const left = Math.round(r.left * dpr);
     for (const l of this.lineXs) {
       if (l.slack) continue;
-      const x = Math.round(r.left + l.x * scale) + 0.5;
-      ctx.strokeStyle = l.color;
-      ctx.globalAlpha = 0.55 + 0.4 * this.tight;
-      ctx.lineWidth = Math.max(1, Math.floor(scale / 2)) + (this.tight > 0.3 ? 1 : 0);
-      ctx.beginPath();
+      const x = left + Math.round(l.x * px);
+      const extra = this.tight > 0.3 ? 1 : 0;
       if (this.falling) {
         // The line goes slack: it sags and falls toward the canvas top
-        const top = r.top * this.fall + (-20) * (1 - this.fall);
-        const sag = Math.sin(this.fall * Math.PI) * 60;
-        ctx.moveTo(x, r.top);
-        ctx.quadraticCurveTo(x + sag, (r.top + top) / 2, x + sag * 0.5, Math.max(top, 0));
+        const end = top * this.fall + -20 * dpr * (1 - this.fall);
+        const sag = Math.sin(this.fall * Math.PI) * 60 * dpr;
+        const cx = x + px / 2;
+        ctx.strokeStyle = l.color;
+        ctx.lineWidth = px;
+        ctx.beginPath();
+        ctx.moveTo(cx, top);
+        ctx.quadraticCurveTo(cx + sag, (top + end) / 2, cx + sag * 0.5, Math.max(end, 0));
+        ctx.stroke();
       } else {
-        ctx.moveTo(x, r.top);
-        ctx.lineTo(x, 0);
+        ctx.fillStyle = l.color;
+        ctx.fillRect(x - extra, 0, px + extra * 2, top);
       }
-      ctx.stroke();
     }
-    ctx.globalAlpha = 1;
   }
 
   /** Offer a file to save: used for the knot letter at the end. */

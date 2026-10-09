@@ -70,8 +70,9 @@ export class Game implements FieldHost, BattleHost, MenuHost {
   // Frame loop
 
   private frame(t: number): void {
-    const dt = Math.min(0.1, (t - this.last) / 1000 || 0.016);
-    this.last = t;
+    // The timer below passes performance.now(), which can run ahead of the next animation frame's timestamp
+    const dt = this.last === 0 ? 0.016 : Math.min(0.1, Math.max(0, (t - this.last) / 1000));
+    this.last = Math.max(this.last, t);
     this.input.poll(dt);
     this.scenes.update(dt, this.input);
     if (this.running && !this.inBattle) this.g.playtime += dt;

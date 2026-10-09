@@ -9,8 +9,15 @@ import { CHARACTERS } from "../data/classes";
 import { visible, type Entity } from "./map";
 import { ENCOUNTERS } from "../data/enemies";
 import { audio } from "../../engine/audio";
+import { textWidth } from "../../engine/font";
 
 const STEP_TIME = 0.11;
+/** Wild steps after a fight with no chance of another. */
+const QUIET_STEPS = 16;
+/** Scales every map's encounterRate. With the ramp, a fight comes about every 37 wild steps instead of every 10. */
+const RATE_SCALE = 0.25;
+const RAMP_PER_STEP = 0.002;
+const RAMP_CAP = 0.06;
 
 /** Tile movement, camera, NPC interaction and random encounters. */
 export class OverworldScene implements Scene {
@@ -107,9 +114,9 @@ export class OverworldScene implements Scene {
     }
     const t = map.tileAt(p.x, p.y);
     this.stepsSinceFight++;
-    if (t.wild && map.def.encounters && this.stepsSinceFight > 3) {
-      const rate = map.def.encounterRate ?? 0.08;
-      const bonus = Math.min(0.2, (this.stepsSinceFight - 4) * 0.012);
+    if (t.wild && map.def.encounters && this.stepsSinceFight > QUIET_STEPS) {
+      const rate = (map.def.encounterRate ?? 0.08) * RATE_SCALE;
+      const bonus = Math.min(RAMP_CAP, (this.stepsSinceFight - QUIET_STEPS - 1) * RAMP_PER_STEP);
       if (this.game.rng.chance(rate + bonus)) {
         this.stepsSinceFight = 0;
         this.busy = true;
@@ -193,8 +200,9 @@ export class OverworldScene implements Scene {
     s.sprite(getSprite(lead.sprite), Math.round(px - camX), Math.round(py - camY) - bob, lead.sprite.a, lead.sprite.b, { flipX: p.dir === "left" });
     if (this.banner) {
       const alpha = Math.min(1, this.banner.t);
-      s.panel(24, 20, 144, 16, "dark", alpha > 0.5 ? "white" : "gray");
-      s.textCenter(this.banner.text, 96, 25, "white");
+      const w = Math.max(144, textWidth(this.banner.text) + 12);
+      s.panel(96 - w / 2, 20, w, 16, "dark", alpha > 0.5 ? "white" : "gray");
+      s.textCenter(this.banner.text, 96, 24, "white");
     }
   }
 }

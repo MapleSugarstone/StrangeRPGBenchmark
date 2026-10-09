@@ -208,6 +208,9 @@ export function restAll(s: SaveData) {
   for (const k of s.party) s.allyHp[k] = allyMax(s, k);
 }
 
+/** The page Wait used last this session, so page menus open on it. */
+export const lastPage = { name: '' };
+
 export function saveGame(s: SaveData) {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(s)); return true; } catch { return false; }
 }

@@ -6,6 +6,8 @@ export const H = 224;
 export const TILE = 8;
 export const COLS = W / TILE;
 export const ROWS = H / TILE;
+/** Distance between lines of text. One empty row separates a descender from the next line. */
+export const LINE_H = FONT_H + 1;
 
 export type Cells = Uint8Array; // 64 cells, values 0..3
 
@@ -43,14 +45,24 @@ export class Screen {
   fit(): void {
     // Size in screen pixels, not page pixels: on a display scaled 125 or 150 percent a page pixel is a fraction of a screen pixel
     const dpr = window.devicePixelRatio || 1;
-    const avail = Math.min(window.innerWidth - 16, window.innerHeight - 24) * dpr;
-    const s = Math.max(1, Math.min(Math.round(4 * dpr), Math.floor(avail / W)));
+    // The touch pad and the 12 px gap above it only take room when the pad is shown
+    const pad = document.querySelector<HTMLElement>(".pad");
+    const padH = pad && getComputedStyle(pad).display !== "none" ? pad.offsetHeight + 12 : 0;
+    const avail = Math.min(window.innerWidth - 16, window.innerHeight - 24 - padH) * dpr;
+    const s = Math.max(1, Math.floor(avail / W));
     this.deviceScale = s;
     this.scale = s / dpr;
     this.canvas.width = W * s;
     this.canvas.height = H * s;
     this.canvas.style.width = `${(W * s) / dpr}px`;
     this.canvas.style.height = `${(H * s) / dpr}px`;
+    // Centering can leave the canvas half a screen pixel off, which blurs it and splits the page lines' join
+    this.canvas.style.position = "relative";
+    this.canvas.style.left = "0px";
+    this.canvas.style.top = "0px";
+    const r = this.canvas.getBoundingClientRect();
+    this.canvas.style.left = `${(Math.round(r.left * dpr) - r.left * dpr) / dpr}px`;
+    this.canvas.style.top = `${(Math.round(r.top * dpr) - r.top * dpr) / dpr}px`;
     this.ctx.imageSmoothingEnabled = false;
   }
 
@@ -241,7 +253,7 @@ export class Screen {
       const g = GLYPHS[ch] ?? GLYPHS["?"];
       for (let r = 0; r < FONT_H; r++) {
         const row = g[r];
-        for (let k = 0; k < 3; k++) {
+        for (let k = 0; k < FONT_W - 1; k++) {
           if (row[k] === "#") {
             if (sh !== undefined) this.px(cx + k + 1, y + r + 1, sh);
             this.px(cx + k, y + r, ci);

@@ -66,6 +66,23 @@ export function colorize(line: string, onWord?: (w: string) => number | null): n
   return cols;
 }
 
+/** Why a page cannot have this name, or null when it can. */
+export function pageNameError(n: string, idx: number): string | null {
+  if (app.s.pages.some((p, i) => i !== idx && p.name === n)) return 'another page has that name';
+  if (!/^[a-z][a-z0-9_]*$/.test(n)) return 'use lowercase letters and digits';
+  if (VERBS[n] || KEYWORDS[n] || NAMES[n] || FUNCTIONS[n]) return 'that is already a word of the Cant';
+  return null;
+}
+
+/** Applies one key to a name being typed: the new name, 'enter', or null to cancel. */
+export function nameKey(e: KeyboardEvent, n: string, fresh: boolean): string | null {
+  if (e.key === 'Escape') return null;
+  if (e.key === 'Enter') return 'enter';
+  if (e.key === 'Backspace') return fresh ? '' : n.slice(0, -1);
+  if (e.key.length === 1 && /[a-z0-9_]/i.test(e.key)) return ((fresh ? '' : n) + e.key.toLowerCase()).slice(0, 10);
+  return n;
+}
+
 export class Editor implements Scene {
   opaque = true;
   lines: string[] = [''];
@@ -81,6 +98,8 @@ export class Editor implements Scene {
   completions: string[] = [];
   compIdx = 0;
   renaming: string | null = null;
+  /** The first key typed while renaming replaces the whole name. */
+  private renameFresh = false;
   bench: Bench | null = null;
   pagePick: number | null = null;
   message = '';
@@ -185,7 +204,7 @@ export class Editor implements Scene {
     switch (e.key) {
       case 'Escape': this.close(); return true;
       case 'F1': this.help(); return true;
-      case 'F2': if ((this.mode === 'normal' || this.mode === 'battle') && !this.page.fixed) { this.renaming = this.page.name; sfx.ok(); } return true;
+      case 'F2': if ((this.mode === 'normal' || this.mode === 'battle') && !this.page.fixed) { this.renaming = this.page.name; this.renameFresh = true; sfx.ok(); } return true;
       case 'F5': this.test(); return true;
       case 'PageUp': this.completions = []; this.switchPage(-1); return true;
       case 'PageDown': this.completions = []; this.switchPage(1); return true;
@@ -504,22 +523,17 @@ export class Editor implements Scene {
   }
 
   private renameKey(e: KeyboardEvent): boolean {
+    const r = nameKey(e, this.renaming!, this.renameFresh);
+    this.renameFresh = false;
+    if (r === null) { this.renaming = null; return true; }
+    if (r !== 'enter') { this.renaming = r; return true; }
     const n = this.renaming!;
-    if (e.key === 'Escape') { this.renaming = null; return true; }
-    if (e.key === 'Enter') {
-      const ok = /^[a-z][a-z0-9_]*$/.test(n) && !VERBS[n] && !KEYWORDS[n] && !NAMES[n] && !FUNCTIONS[n];
-      const taken = app.s.pages.some((p, i) => i !== this.pageIdx && p.name === n);
-      if (!ok || taken) { sfx.error(); this.flash(taken ? 'another page has that name' : 'a name is lowercase letters and digits, and not a word of the Cant', C.bad); return true; }
-      const old = this.page.name;
-      this.page.name = n;
-      for (const k of Object.keys(app.s.flags)) void k;
-      if (old !== n) this.changed = true;
-      this.renaming = null;
-      sfx.ok();
-      return true;
-    }
-    if (e.key === 'Backspace') { this.renaming = n.slice(0, -1); return true; }
-    if (e.key.length === 1 && /[a-z0-9_]/i.test(e.key) && n.length < 10) this.renaming = n + e.key.toLowerCase();
+    const why = pageNameError(n, this.pageIdx);
+    if (why) { sfx.error(); this.flash(why, C.bad); return true; }
+    if (this.page.name !== n) this.changed = true;
+    this.page.name = n;
+    this.renaming = null;
+    sfx.ok();
     return true;
   }
 
@@ -633,7 +647,7 @@ export class Editor implements Scene {
     msgLines.slice(0, 2).forEach((l, i) => text(l, 3, 154 + i * 8, col));
     const st = this.page.stats;
     if (!this.page.fixed && st.casts) text(`cast ${st.casts}  harm ${st.harm}  best ${st.best}`, 3, 172, C.faint);
-    text(this.mode === 'tutorial' ? 'Tab completes a word' : this.mode === 'margin' ? 'Tab word F1 help F5 run Esc back' : 'Tab word F1 help F5 test PgDn page', 3, 182, C.faint);
+    text(this.mode === 'tutorial' ? 'Tab completes a word' : this.mode === 'margin' ? 'Tab word F1 help F5 run Esc back' : 'F1 help F2 rename F5 test PgDn page', 3, 182, C.faint);
   }
 
   private drawPopup() {

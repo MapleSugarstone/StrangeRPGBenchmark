@@ -6,7 +6,7 @@ import { ITEMS, WORDS } from "../game/data/items";
 import { SKILLS } from "../game/data/skills";
 import { CHARACTERS } from "../game/data/classes";
 import { newMember, gainXp, fullHeal, memberStats } from "../game/party";
-import { createBattle, nextActor, performAction, enemyAction, rewards, type BattleState, type BattleEvent } from "../game/battle/core";
+import { createBattle, nextActor, performAction, enemyAction, rewards, RANDOM_FIGHT_REWARD, type BattleState, type BattleEvent } from "../game/battle/core";
 import { greedyPolicy, randomPolicy, attackOnlyPolicy, type Policy } from "./policies";
 
 const quick = process.argv.includes("--quick");
@@ -196,10 +196,10 @@ function evalRun(p: Profile, runs: number): RunStats {
       Object.assign(inv, state.inventory);
       for (const c of state.combatants) if (c.side === "party" && c.member) { c.member.hp = Math.max(1, c.hp); c.member.st = c.st; }
       if (out.result === "win") {
-        const rw = rewards(state);
+        const rw = rewards(state, RANDOM_FIGHT_REWARD);
         for (const m of party) gainXp(m, rw.xp);
-        // Shop restock from gold, roughly: one flask per fight won.
-        inv.brine = (inv.brine ?? 0) + 1;
+        // Shop restock from gold, roughly: one flask per fight won at the old pay, so more at the raised pay.
+        inv.brine = (inv.brine ?? 0) + RANDOM_FIGHT_REWARD;
         // Field healing: a player tops up anyone under 60% from the bag before walking on.
         for (const m of party) {
           const stats = memberStats(m);

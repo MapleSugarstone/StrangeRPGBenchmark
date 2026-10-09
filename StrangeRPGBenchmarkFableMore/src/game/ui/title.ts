@@ -1,10 +1,10 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H } from "../../engine/screen";
+import { type Screen, W, H, wrap, LINE_H } from "../../engine/screen";
 import type { Scene } from "../../engine/scene";
 import { deferred } from "../../engine/scene";
 import { getSprite } from "../../engine/sprites";
 import { colorInt, mixInt, PALETTE_INT } from "../../engine/palette";
-import { FONT_H, GLYPHS } from "../../engine/fontdata";
+import { FONT_H, FONT_W, GLYPHS } from "../../engine/fontdata";
 import { drawBox } from "../../engine/dialogue";
 import type { Audio } from "../../engine/audio";
 import { Rng } from "../../engine/rng";
@@ -110,47 +110,51 @@ export class TitleScene implements Scene {
     // Title
     const title = "PLUMB";
     const tx = Math.floor((W - title.length * 12) / 2);
+    // Plates behind the words stop the lines short of the letters
+    s.rect(tx - 3, 47, title.length * 12 + 5, 20, "ink");
     for (let i = 0; i < title.length; i++) {
       drawBigLetter(s, title[i], tx + i * 12, 50, "white", "slate");
     }
-    s.textCenter("a world on a line", W / 2, 76, "bone");
+    const sub = "a world on a line";
+    s.rect(Math.floor(W / 2 - s.textWidth(sub) / 2) - 2, 74, s.textWidth(sub) + 4, FONT_H + 3, "ink");
+    s.textCenter(sub, W / 2, 76, "bone");
     // Knot title: SLACK IS NOT FALLING as knots along a line
     const glyphs = encodeKnots(KNOT_MESSAGES.secret_title);
     const gx = Math.floor((W - glyphs.length * 8) / 2);
     glyphs.forEach((g, i) => s.sprite(knotCells(g), gx + i * 8, 88, "bone", "teal"));
     if (this.mode === "menu") {
+      s.rect(W / 2 - 42, 102, 90, this.items.length * LINE_H + 3, "ink");
       this.items.forEach((it, i) => {
-        const y = 104 + i * 9;
+        const y = 104 + i * LINE_H;
         if (i === this.index) s.text("▶", W / 2 - 38, y, "gold");
         s.text(it, W / 2 - 28, y, i === this.index ? "white" : "bone");
       });
     } else {
-      drawBox(s, 8, 100, W - 16, 44);
-      s.text(this.message, 14, 105, "gold");
-      const shown = this.typed.length > 40 ? "..." + this.typed.slice(-37) : this.typed;
-      s.text(shown + (Math.floor(this.time * 2) % 2 ? "_" : " "), 14, 118, "white");
-      s.text("Enter confirms. Esc cancels.", 14, 132, "ash");
+      drawBox(s, 8, 98, W - 16, 50);
+      const msg = wrap(this.message, W - 30);
+      msg.forEach((l, i) => s.text(l, 14, 102 + i * LINE_H, "gold"));
+      // The field shows the end of what was typed, and the cursor, in one row
+      const cols = Math.floor((W - 30) / FONT_W) - 1;
+      const shown = this.typed.length > cols ? "..." + this.typed.slice(-(cols - 3)) : this.typed;
+      s.text(shown + (Math.floor(this.time * 2) % 2 ? "_" : " "), 14, 102 + Math.max(2, msg.length) * LINE_H + 2, "white");
+      s.text("Enter confirms. Esc cancels.", 14, 137, "ash");
     }
     const meta = loadMeta();
-    if (meta.endings.length) s.textCenter(`Endings seen: ${meta.endings.join(", ")}`, W / 2, H - 14, "ash");
-    s.textCenter("Z or Enter: confirm   X or Esc: back   C: menu", W / 2, H - 7, "slate");
+    if (meta.endings.length) wrap(`Endings seen: ${meta.endings.join(", ")}`, W - 12).forEach((l, i, a) => s.textCenter(l, W / 2, H - 31 - (a.length - 1 - i) * LINE_H, "ash"));
+    s.textCenter("Z or Enter: confirm  X or Esc: back", W / 2, H - 20, "slate");
+    s.textCenter("C: menu", W / 2, H - 11, "slate");
   }
 }
 
-/** A letter from the small font scaled by three, with a shadow. */
+/** A letter from the small font scaled by two, with a shadow: 10 by 14 pixels, set 12 apart. */
 export function drawBigLetter(s: Screen, ch: string, x: number, y: number, color: string, shadow: string): void {
   const g = GLYPHS[ch] ?? GLYPHS["?"];
   const c = colorInt(color as never), sh = colorInt(shadow as never);
-  for (let r = 0; r < 6; r++) {
-    for (let k = 0; k < 3; k++) {
-      if (g[r][k] !== "#") continue;
-      s.rect(x + k * 3 + 1, y + r * 3 + 1, 3, 3, sh);
-    }
-  }
-  for (let r = 0; r < 6; r++) {
-    for (let k = 0; k < 3; k++) {
-      if (g[r][k] !== "#") continue;
-      s.rect(x + k * 3, y + r * 3, 3, 3, c);
+  for (const [col, d] of [[sh, 1], [c, 0]] as const) {
+    for (let r = 0; r < FONT_H; r++) {
+      for (let k = 0; k < FONT_W - 1; k++) {
+        if (g[r][k] === "#") s.rect(x + k * 2 + d, y + r * 2 + d, 2, 2, col);
+      }
     }
   }
 }

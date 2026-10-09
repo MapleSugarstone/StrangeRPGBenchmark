@@ -6,10 +6,13 @@ import { audio } from "./engine/audio";
 
 function boot(): void {
   const canvas = document.getElementById("game") as HTMLCanvasElement;
+  const pad = document.querySelector<HTMLElement>(".pad");
   const fit = () => {
     // Size in device pixels so each game pixel covers a whole number of screen pixels at any page zoom or display scaling.
     const dpr = window.devicePixelRatio || 1;
-    const size = Math.min(window.innerWidth, window.innerHeight - 40) * dpr;
+    // The touch pad and the 12 px gap above it only take room when the pad is shown. The 4 px covers the canvas outline.
+    const padH = pad && getComputedStyle(pad).display !== "none" ? pad.offsetHeight + 12 : 0;
+    const size = Math.min(window.innerWidth - 4, window.innerHeight - padH - 4) * dpr;
     const scale = Math.max(1, Math.floor(size / W));
     canvas.width = W * scale;
     canvas.height = H * scale;

@@ -37,7 +37,7 @@ npm run serve
 | Shift | Hurry |
 | M | Mute |
 
-In the editor you type code. Tab completes the word under the cursor, F1 explains it, F5 runs the page on the test bench against any foe you have met, F2 renames the page, Page Up and Page Down switch pages, and Ctrl+L copies in a page from the Library. Ctrl+Z and Ctrl+Y undo and redo. Ctrl+C, Ctrl+X, and Ctrl+V work on the current line. Ctrl+E puts the whole page on the system clipboard.
+In the editor you type code. Tab completes the word under the cursor, F1 explains it, F5 runs the page on the test bench against any foe you have met, F2 renames the page (R does the same from the page list), Page Up and Page Down switch pages, and Ctrl+L copies in a page from the Library. Ctrl+Z and Ctrl+Y undo and redo. Ctrl+C, Ctrl+X, and Ctrl+V work on the current line. Ctrl+E puts the whole page on the system clipboard.
 
 ## The Cant in one screen
 

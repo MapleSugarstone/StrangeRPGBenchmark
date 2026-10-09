@@ -17,7 +17,7 @@ import { BEvent, Battle, Body, Snapshot } from './battle';
 import { FOES } from './enemies';
 import { Editor, colorize } from './editor';
 import { markCount } from './dialogue';
-import { PAGE_COLORS, allyMax, battlePages, battleSetup, blankStats, collectPage, gainXp, loadGame, maxHp, maxInk } from './state';
+import { PAGE_COLORS, allyMax, battlePages, battleSetup, blankStats, collectPage, gainXp, lastPage, loadGame, maxHp, maxInk } from './state';
 import { C, Menu, bar, panel } from './ui';
 
 type Result = 'win' | 'lose' | 'fled';
@@ -234,6 +234,8 @@ export class BattleView implements Scene {
       right: !p.code ? 'broken' : p.closed ? 'halt' : p.corrected ? 'wrong' : m === 'cast' ? inkOf(p.stmts) : '',
       rightColor: !p.code || p.closed || p.corrected ? C.bad : C.hi,
     })), 6);
+    const at = pages.findIndex((p) => p.name === lastPage.name);
+    if (at >= 0 && !this.pageMenu.items[at].disabled) this.pageMenu.i = at;
     this.mode = 'pages';
   }
 
@@ -241,6 +243,7 @@ export class BattleView implements Scene {
     const r = this.pageMenu.update();
     if (r === -2) { this.mode = 'command'; return; }
     if (r < 0) return;
+    lastPage.name = this.b.setup.pages[r]?.name ?? '';
     if (this.pageMode === 'write') {
       const before = JSON.stringify(app.s.pages);
       app.push(new Editor(r, 'battle', () => {

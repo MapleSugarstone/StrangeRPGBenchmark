@@ -1,5 +1,5 @@
 import type { Input } from "../../engine/input";
-import { type Screen, W, H, wrap } from "../../engine/screen";
+import { type Screen, W, H, wrap, LINE_H } from "../../engine/screen";
 import type { Scene } from "../../engine/scene";
 import { deferred } from "../../engine/scene";
 import { getSprite } from "../../engine/sprites";
@@ -35,9 +35,11 @@ export class CardScene implements Scene {
     if (big) {
       const tx = Math.floor((W - this.title.length * 12) / 2);
       for (let i = 0; i < this.title.length; i++) if (i / this.title.length < k) drawBigLetter(s, this.title[i], tx + i * 12, 80, "white", "slate");
-    } else lines.forEach((l, i) => s.textCenter(l, W / 2, 84 + i * 8, "white"));
-    if (this.t > 0.5) s.textCenter(this.subtitle, W / 2, big ? 104 : 104 + lines.length * 8, "bone");
-    if (this.beat && this.t > 0.9) s.textCenter(this.beat, W / 2, 124, "lilac");
+    } else lines.forEach((l, i) => s.textCenter(l, W / 2, 84 + i * LINE_H, "white"));
+    const sub = wrap(this.subtitle, W - 20);
+    const subY = big ? 104 : 104 + lines.length * LINE_H;
+    if (this.t > 0.5) sub.forEach((l, i) => s.textCenter(l, W / 2, subY + i * LINE_H, "bone"));
+    if (this.beat && this.t > 0.9) wrap(this.beat, W - 20).forEach((l, i) => s.textCenter(l, W / 2, Math.max(124, subY + sub.length * LINE_H + 8) + i * LINE_H, "lilac"));
     // A single line down the middle of the card, as a frame
     const c = s.buf;
     void c;
@@ -66,7 +68,9 @@ export class KnotScene implements Scene {
   draw(s: Screen): void {
     s.dimRect(0, 0, W, H, 0.7);
     const rows = Math.ceil(this.glyphs.length / 24);
-    const h = 40 + rows * 12 + 8;
+    const quote = this.glyphs.length === 0 ? wrap("The line is bare. Nothing is written here.", W - 28) : wrap(`"${this.text}"`, W - 28);
+    const quoteY = 18 + Math.max(1, rows) * 12 + 4;
+    const h = quoteY + quote.length * LINE_H + 12;
     const y = Math.floor((H - h) / 2);
     drawBox(s, 6, y, W - 12, h);
     s.text(`${this.reader} reads the knots:`, 12, y + 5, "gold");
@@ -78,15 +82,16 @@ export class KnotScene implements Scene {
     });
     if (this.glyphs.length === 0) {
       s.hline(y + 20, 14, W - 14, colorInt("teal"));
-      s.textCenter("The line is bare. Nothing is written here.", W / 2, y + h - 18, "white");
-      if (Math.floor(this.t * 3) % 2 === 0) s.text("▶", W - 16, y + h - 9, "gold");
-    } else if (shown >= this.glyphs.length) {
-      const lines = wrap(`"${this.text}"`, W - 28);
-      lines.forEach((l, i) => s.textCenter(l, W / 2, y + h - 18 - (lines.length - 1 - i) * 8, "white"));
-      if (Math.floor(this.t * 3) % 2 === 0) s.text("▶", W - 16, y + h - 9, "gold");
+    }
+    if (this.glyphs.length === 0 || shown >= this.glyphs.length) {
+      quote.forEach((l, i) => s.textCenter(l, W / 2, y + quoteY + i * LINE_H, "white"));
+      if (Math.floor(this.t * 3) % 2 === 0) s.text("▶", W - 18, y + h - 11, "gold");
     }
   }
 }
+
+/** Shop rows start here, under the keeper and slug count. */
+const SHOP_LIST_Y = 41;
 
 /** A shop. Buy and sell. */
 export class ShopScene implements Scene {
@@ -142,9 +147,9 @@ export class ShopScene implements Scene {
   }
   draw(s: Screen): void {
     s.dimRect(0, 0, W, H, 0.5);
-    drawBox(s, 6, 20, W - 12, H - 70);
-    s.text(this.keeper, 12, 25, "gold");
-    s.textRight(`${this.g.slugs} slugs`, W - 12, 25, "bone");
+    drawBox(s, 6, 16, W - 12, H - 36);
+    s.text(this.keeper, 12, 21, "gold");
+    s.textRight(`${this.g.slugs} slugs`, W - 12, 21 + (s.textWidth(this.keeper) + s.textWidth(`${this.g.slugs} slugs`) + 12 > W - 24 ? LINE_H : 0), "bone");
     if (this.mode === "root") {
       ["Buy", "Sell", "Leave"].forEach((r, i) => {
         const y = 40 + i * 10;
@@ -155,29 +160,32 @@ export class ShopScene implements Scene {
     }
     const list = this.mode === "buy" ? this.items : this.sellable();
     this.cur.clamp();
+    const scrolls = list.length > 6;
     const vis = list.slice(this.cur.top, this.cur.top + 6);
     vis.forEach((id, i) => {
       const idx = this.cur.top + i;
       const it = ITEMS[id];
-      const y = 38 + i * 10;
+      const y = SHOP_LIST_Y + i * 10;
       if (idx === this.cur.index) s.text("▶", 12, y, "gold");
       s.sprite(getSprite("item", it.sprite, it.sprite), 22, y - 1, "bone", "teal");
-      s.text(it.name, 32, y, idx === this.cur.index ? "white" : "bone");
+      s.text(it.name, 33, y, idx === this.cur.index ? "white" : "bone");
       const price = this.mode === "buy" ? it.price : Math.max(1, Math.floor(it.price / 2));
-      s.textRight(`${price}${this.mode === "sell" ? ` x${this.g.inventory[id]}` : ""}`, W - 12, y, this.mode === "buy" && this.g.slugs < price ? "ash" : "bone");
+      s.textRight(`${price}${this.mode === "sell" ? ` x${this.g.inventory[id]}` : ""}`, scrolls ? W - 22 : W - 12, y, this.mode === "buy" && this.g.slugs < price ? "ash" : "bone");
     });
-    if (list.length > 6) {
-      if (this.cur.top > 0) s.text("↑", W - 16, 31, "ash");
-      if (this.cur.top + 6 < list.length) s.text("↓", W - 16, 96, "ash");
+    if (scrolls) {
+      if (this.cur.top > 0) s.text("↑", W - 18, SHOP_LIST_Y, "ash");
+      if (this.cur.top + 6 < list.length) s.text("↓", W - 18, SHOP_LIST_Y + 50, "ash");
     }
-    if (!list.length) s.text(this.mode === "buy" ? "Nothing for sale." : "Nothing to sell.", 22, 38, "ash");
+    if (!list.length) s.text(this.mode === "buy" ? "Nothing for sale." : "Nothing to sell.", 22, SHOP_LIST_Y, "ash");
     const it = list[this.cur.index] ? ITEMS[list[this.cur.index]] : null;
     if (it) {
-      wrap(it.desc, W - 30).slice(0, 4).forEach((l, i) => s.text(l, 12, 104 + i * 8, "lilac"));
-      if (it.stats) s.text(Object.entries(it.stats).map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v}`).join("  "), 12, 138, "mint");
-      s.text(it.kind === "weight" ? "For held members." : it.kind === "sole" ? "For slack members." : it.kind === "glove" ? "For anyone." : "", 12, 146, "ash");
+      const lines = wrap(it.desc, W - 30);
+      lines.forEach((l, i) => s.text(l, 12, SHOP_LIST_Y + 66 + i * LINE_H, "lilac"));
+      let y = SHOP_LIST_Y + 66 + lines.length * LINE_H + 3;
+      if (it.stats) { s.text(Object.entries(it.stats).map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v}`).join("  "), 12, y, "mint"); y += LINE_H; }
+      s.text(it.kind === "weight" ? "For held members." : it.kind === "sole" ? "For slack members." : it.kind === "glove" ? "For anyone." : "", 12, y, "ash");
     }
-    if (this.note) s.textCenter(this.note.text, W / 2, H - 60, "gold");
+    if (this.note) wrap(this.note.text, W - 30).forEach((l, i, a) => s.textCenter(l, W / 2, H - 32 - (a.length - 1 - i) * LINE_H, "gold"));
   }
 }
 
@@ -212,7 +220,7 @@ export class CampScene implements Scene {
     const h = 30 + (this.options.length + 1) * 12;
     const y = Math.floor((H - h) / 2);
     drawBox(s, 10, y, W - 20, h);
-    s.text("Who sits together by the fire?", 16, y + 5, "gold");
+    s.text("Who sits together by the fire?", 16, y + 4, "gold");
     this.options.forEach((t, i) => {
       const yy = y + 16 + i * 12;
       if (i === this.cur.index) s.text("▶", 16, yy + 1, "gold");

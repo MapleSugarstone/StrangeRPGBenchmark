@@ -41,6 +41,36 @@ export function generate(spec: SpriteSpec): Cells {
   }
 }
 
+const strides = new WeakMap<Cells, [Cells, Cells]>();
+
+/**
+ * A walking frame made from a standing sprite: the bottom two rows split at the middle,
+ * one half steps outward and the other foot lifts. Side 0 steps left, side 1 steps right.
+ */
+export function strideFrame(c: Cells, side: 0 | 1): Cells {
+  let pair = strides.get(c);
+  if (!pair) {
+    pair = [stride(c, 0), stride(c, 1)];
+    strides.set(c, pair);
+  }
+  return pair[side];
+}
+
+function stride(c: Cells, side: 0 | 1): Cells {
+  const out = Uint8Array.from(c);
+  for (const y of [6, 7]) {
+    for (let x = 0; x < 8; x++) out[y * 8 + x] = 0;
+    for (let x = 0; x < 8; x++) {
+      const v = c[y * 8 + x];
+      if (!v) continue;
+      const stepping = side === 0 ? x < 4 : x >= 4;
+      if (stepping) set(out, x + (side === 0 ? -1 : 1), y, v);
+      else if (y === 6) set(out, x, y, v);
+    }
+  }
+  return out;
+}
+
 const at = (c: Cells, x: number, y: number) => (x < 0 || y < 0 || x > 7 || y > 7 ? 0 : c[y * 8 + x]);
 const set = (c: Cells, x: number, y: number, v: number) => {
   if (x >= 0 && y >= 0 && x < 8 && y < 8) c[y * 8 + x] = v;

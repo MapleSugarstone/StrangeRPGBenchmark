@@ -3,13 +3,13 @@ import { costLabel, cost } from '../cant/analyze';
 import { parse } from '../cant/parser';
 import { sfx, toggleMute, isMuted } from '../engine/audio';
 import { CW, text, textCenter, wrap } from '../engine/font';
-import { pressed, tapped } from '../engine/input';
+import { pressed, setTextMode, tapped } from '../engine/input';
 import { H, W, frame, rect } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { BATTLE_ART } from '../engine/sprites16';
 import { Scene, app } from './app';
 import { ALLIES } from './enemies';
-import { Editor, colorize } from './editor';
+import { Editor, colorize, nameKey, pageNameError } from './editor';
 import { GRAMMAR, GNode } from './grammar';
 import { PRIMER } from './primers';
 import { PAGE_COLORS, allyMax, blankStats, buyNode, hands, lineLimit, maxHp, pageLimit, maxInk, pageSlots, regen, saveGame, ticks, xpToNext } from './state';
@@ -76,7 +76,43 @@ export class PauseMenu implements Scene {
 export class RoteList implements Scene {
   opaque = true;
   menu = new Menu([], 10);
+  /** The name being typed for the selected page, or null. */
+  renaming: string | null = null;
+  private fresh = false;
+  private why = '';
+  private thenEdit = false;
+  private t = 0;
   constructor() { this.build(); }
+
+  private startRename(thenEdit: boolean) {
+    const p = app.s.pages[this.menu.i];
+    if (!p || p.fixed) { sfx.error(); return; }
+    this.renaming = p.name;
+    this.fresh = true;
+    this.why = '';
+    this.thenEdit = thenEdit;
+    sfx.ok();
+    setTextMode((e) => this.renameKey(e));
+  }
+
+  private renameKey(e: KeyboardEvent): boolean {
+    const r = nameKey(e, this.renaming!, this.fresh);
+    this.fresh = false;
+    if (r !== 'enter') {
+      if (r === null) { this.renaming = null; setTextMode(null); sfx.back(); if (this.thenEdit) app.push(new Editor(this.menu.i, 'normal')); }
+      else { this.renaming = r; this.why = ''; }
+      return true;
+    }
+    const why = pageNameError(this.renaming!, this.menu.i);
+    if (why) { this.why = why; sfx.error(); return true; }
+    app.s.pages[this.menu.i].name = this.renaming!;
+    this.renaming = null;
+    setTextMode(null);
+    sfx.ok();
+    this.build();
+    if (this.thenEdit) app.push(new Editor(this.menu.i, 'normal'));
+    return true;
+  }
 
   build() {
     const s = app.s;
@@ -111,7 +147,10 @@ export class RoteList implements Scene {
   }
 
   update() {
+    this.t++;
+    if (this.renaming !== null) return;
     if (tapped('cast')) { this.cycleSeal(); return; }
+    if (tapped('page')) { this.startRename(false); return; }
     const r = this.menu.update();
     if (r === -2) { app.pop(); return; }
     if (r < 0) return;
@@ -122,6 +161,8 @@ export class RoteList implements Scene {
       while (used.has(`page${n}`)) n++;
       s.pages.push({ id: `p${Date.now()}`, name: `page${n}`, src: '', color: s.pages.length % PAGE_COLORS.length, stats: blankStats() });
       this.build();
+      this.startRename(true);
+      return;
     }
     app.push(new Editor(r, 'normal'));
   }
@@ -131,6 +172,11 @@ export class RoteList implements Scene {
     const s = app.s;
     text('Your rote', 6, 4, C.hi);
     text(`${s.pages.length - 1}/${pageSlots(s)} pages, ${lineLimit(s)} lines each`, 6, 13, C.dim);
+    if (this.renaming !== null) {
+      const it = this.menu.items[this.menu.i];
+      it.label = `${this.renaming}${this.t % 40 < 20 ? '_' : ''}`;
+      it.color = C.hi;
+    }
     this.menu.draw(8, 26, 80);
     const p = s.pages[this.menu.i];
     panel(94, 24, 94, 120, C.faint);
@@ -148,7 +194,8 @@ export class RoteList implements Scene {
       if (seal) text(`${seal.id} seal: ${seal.doc}`.slice(0, 37), 6, 170, seal.color);
     } else text('A blank page.', 97, 28, C.dim);
     const owned = Object.values(s.seals).some((n) => n > 0);
-    text(owned ? 'Z writes. C sets a seal. Esc goes back.' : 'Z writes. Esc goes back.', 6, 182, C.faint);
+    if (this.renaming !== null) text(this.why ? this.why.slice(0, 37) : 'Type a name. Enter to keep it.', 6, 182, this.why ? C.bad : C.hi);
+    else text(owned ? 'Z writes. R renames. C sets a seal.' : 'Z writes. R renames. Esc goes back.', 6, 182, C.faint);
   }
 }
 

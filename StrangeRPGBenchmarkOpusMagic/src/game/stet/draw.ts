@@ -111,7 +111,7 @@ export function drawCard(f: Face, x: number, y: number, anim = 0) {
   text(String(f.e[0]), x + 12, y + 2, numColor(f, 0));
   text(String(f.e[3]), x + 2, y + 10, numColor(f, 3));
   text(String(f.e[1]), x + 22, y + 10, numColor(f, 1));
-  text(String(f.e[2]), x + 12, y + 26, numColor(f, 2));
+  text(String(f.e[2]), x + 12, y + 25, numColor(f, 2));
   const card = CARDS[f.id];
   drawArt(card?.art ?? 'page', x + 10, y + 9, f.halted ? 'halted' : f.copied ? 'copied' : undefined, anim);
   if (f.halted) rect(x + 2, y + 17, CARD_W - 4, 1, 0xff3a3a);

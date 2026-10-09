@@ -147,7 +147,8 @@ TEND: I cut the tops off. Then they have something to do.
 > Through the window, small shapes lie in rows. None of them gives off any light.
 
 === c1_mill_shut
-> The mill door does not open for someone who has never hit anything.
+> The mill door stays shut.
+> In Busy you hit Straw before you go near the wheel. Straw stands by the well.
 
 === c1_stairs_shut
 > The stairs go up into the mill. The wheel is still turning at the top of them.

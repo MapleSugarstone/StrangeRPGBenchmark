@@ -895,12 +895,15 @@ export function restore(s: BattleState, snap: string): void {
 
 export interface Rewards { xp: number; gold: number; items: string[]; memories: string[] }
 
-export function rewards(s: BattleState): Rewards {
+/** Random fights pay this many times an enemy's XP and salt, because they come about a third as often as they used to. */
+export const RANDOM_FIGHT_REWARD = 3;
+
+export function rewards(s: BattleState, mult = 1): Rewards {
   const r: Rewards = { xp: 0, gold: 0, items: [], memories: [] };
   for (const e of enemies(s)) {
     const d = e.enemyDef!;
-    r.xp += d.xp;
-    r.gold += d.gold;
+    r.xp += Math.round(d.xp * mult);
+    r.gold += Math.round(d.gold * mult);
     for (const drop of d.drops) if (s.rng.chance(drop.chance)) r.items.push(drop.item);
     if (d.memory && s.mechanics.has("memories") && s.rng.chance(d.boss ? 1 : 0.35)) r.memories.push(d.memory);
   }
