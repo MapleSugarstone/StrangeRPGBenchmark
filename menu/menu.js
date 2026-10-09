@@ -259,7 +259,7 @@
   }, { capture: true });
 
   document.addEventListener('keydown', (e) => {
-    if (!preview.hidden || !player.hidden || $('about').open) return;
+    if (!preview.hidden || !player.hidden || $('about').open || $('intro')?.open) return;
     if (e.altKey || e.ctrlKey || e.metaKey) return;
     const active = document.activeElement;
     const onSlot = active?.classList?.contains('slot') && !active.classList.contains('empty');

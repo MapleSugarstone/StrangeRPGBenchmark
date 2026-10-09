@@ -25,8 +25,12 @@ body {
   background-image: repeating-linear-gradient(180deg, var(--bg-line) 0 2px, transparent 2px 7px);
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  caret-color: transparent;
 }
 button { font: inherit; color: inherit; }
+dialog { -webkit-user-select: none; user-select: none; }
 [hidden] { display: none !important; }
 
 .app {
@@ -49,6 +53,36 @@ button { font: inherit; color: inherit; }
   color: var(--text-dim);
 }
 .masthead-count { font-weight: 500; }
+.masthead-end { display: inline-flex; align-items: center; gap: 12px; }
+
+/* The music toggle: a small round button like the dock's, with negative margins so the masthead keeps its height. */
+.music-btn {
+  width: 30px;
+  height: 30px;
+  margin: -8px 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--pill-edge);
+  background: radial-gradient(circle at 35% 30%, #fff, #eef0f2 70%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+  color: #8a8f96;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.music-btn svg { width: 58%; fill: currentColor; }
+.music-btn:hover,
+.music-btn:focus-visible {
+  outline: none;
+  border-color: var(--select);
+  color: var(--select-ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14), 0 0 10px var(--select-glow);
+}
+.music-btn .icon-off { display: none; }
+.music-btn[aria-pressed="false"] .icon-on { display: none; }
+.music-btn[aria-pressed="false"] .icon-off { display: block; }
+.music-btn[aria-pressed="false"] { color: #a9adb3; }
 
 /* Shelf and pages */
 
@@ -122,19 +156,21 @@ button { font: inherit; color: inherit; }
 .slot::after {
   content: "";
   position: absolute;
-  inset: -8px;
+  inset: -6px;
   /* The same corners as the cartridge, grown by the gap. */
-  border-radius: calc(6cqw + 8px) calc(6cqw + 8px) calc(9cqw + 8px) calc(9cqw + 8px);
+  border-radius: calc(6cqw + 6px) calc(6cqw + 6px) calc(9cqw + 6px) calc(9cqw + 6px);
   border: 3px solid var(--select);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 18px var(--select-glow);
+  box-shadow: 0 0 14px var(--select-glow);
   opacity: 0;
-  transform: scale(0.97);
-  transition: opacity 0.15s, transform 0.25s;
+  transform: translateY(-3.6cqw) scale(0.99);
+  transition: opacity 0.15s, transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
   pointer-events: none;
 }
 .slot.empty::after { display: none; }
+/* The ring takes the same lift as the cartridge so the gap between them stays even. */
 .slot:hover::after,
-.slot:focus-visible::after { opacity: 1; transform: scale(1); }
+.slot:focus-visible::after { opacity: 1; transform: translateY(-3.6cqw) scale(1.025); }
+.slot:active::after { transform: translateY(-1.2cqw) scale(0.99); }
 
 /* Cartridge */
 
@@ -145,8 +181,8 @@ button { font: inherit; color: inherit; }
   transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
 }
 .slot:hover .cart-wrap,
-.slot:focus-visible .cart-wrap { transform: translateY(-3%) scale(1.025); }
-.slot:active .cart-wrap { transform: translateY(-1%) scale(0.99); }
+.slot:focus-visible .cart-wrap { transform: translateY(-3.6cqw) scale(1.025); }
+.slot:active .cart-wrap { transform: translateY(-1.2cqw) scale(0.99); }
 
 .cart {
   --shell: color-mix(in oklab, var(--accent) 18%, #d3d5d9);
@@ -791,6 +827,73 @@ button { font: inherit; color: inherit; }
 .about::backdrop { background: rgba(230, 233, 237, 0.7); backdrop-filter: blur(3px); }
 .about h2 { margin: 0 0 8px; font-size: 22px; font-weight: 800; }
 .about form { margin-top: 16px; text-align: right; }
+
+/* Opening screen */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: clamp(24px, 7vh, 72px) 20px;
+  border: 0;
+  background: #000;
+  color: #c6cad1;
+  font-family: var(--font);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: opacity 0.9s ease;
+}
+.intro[open] { display: grid; place-items: center; }
+.intro::backdrop { background: transparent; }
+.intro:focus { outline: none; }
+.intro::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(52, 191, 237, 0.07), transparent 70%), #0e1014;
+  opacity: 0;
+  transition: opacity 2.6s ease;
+  pointer-events: none;
+}
+.intro.lit::before { opacity: 1; }
+.intro.leaving { opacity: 0; }
+
+.intro-step {
+  grid-area: 1 / 1;
+  position: relative;
+  width: min(640px, 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+.intro-step.on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.4s ease;
+}
+.intro-step h2 { margin: 0; font-weight: 800; }
+.intro-step p { margin: 0 0 16px; font-size: 16px; line-height: 1.8; }
+
+.intro-warning { text-align: center; }
+.intro-icon { display: block; width: 44px; margin: 0 auto 14px; color: #ffd84d; }
+.intro-warning h2 { margin-bottom: 18px; font-size: clamp(21px, 3vw, 26px); color: #f2f3f5; }
+.intro-warning p { max-width: 560px; margin-inline: auto; }
+
+.intro-message h2 { margin-bottom: 20px; font-size: 15px; letter-spacing: 0.04em; color: var(--select); }
+.intro-message p { color: #d4d7dd; }
+.intro-continue-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.intro-message.on .intro-continue-row { opacity: 1; transition: opacity 1s ease 1.6s; }
 
 /* Smaller screens */
 

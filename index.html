@@ -25,10 +25,31 @@
 </head>
 <body>
 
+<dialog class="intro" id="intro" aria-labelledby="intro-warning-title" open>
+  <section class="intro-step intro-warning" id="intro-warning">
+    <svg class="intro-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 21.5 20h-19z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /><path d="M12 9.5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><circle cx="12" cy="17.3" r="1.2" fill="currentColor" /></svg>
+    <h2 id="intro-warning-title">Photosensitivity warning</h2>
+    <p>Some of these games flash, shake the screen, or change colors quickly. A small number of people can have seizures from flashing lights or patterns. This can happen to people who have never had a seizure or epilepsy before.</p>
+    <p>Stop playing at once and talk to a doctor if you feel dizzy or notice blurred vision, eye or muscle twitching, disorientation, or any movement you cannot control.</p>
+  </section>
+  <section class="intro-step intro-message" id="intro-message" aria-labelledby="intro-message-title">
+    <h2 id="intro-message-title">A message from the creator:</h2>
+    <p>All of these games are benchmark tests for various LLMs for learning more about agentic coding. Many assets/sounds are generated, and almost all the writing is generated. I have gone over and done some polish by making assets, but the bulk of games here are mostly prompted. For my favorite games, I intend to do another pass and redo a majority of assets and writing, but bits of AI will remain in the final product inevitably.</p>
+    <p>The intention of this project is to improve my CS skills in the current software engineering market in a way that's fun, and lets me play through new games blind. I chose the pixel art style since I find that constraining the resolution of the AI produces results that are less immediately off-putting to me, and lets me put more of my own creativity into how assets are made. The writing is fairly bad, but I think there's a lot of enjoyment that can come from just seeing how weird some of these are. Some are winners, some are boring, some are really bad, but each of them has taught me a bit more about how to use AI as a tool rather than a substitute for thinking.</p>
+    <div class="intro-continue-row"><button class="pill" id="intro-continue" type="button">Continue</button></div>
+  </section>
+</dialog>
+
 <div class="app" id="app">
   <header class="masthead">
     <span class="masthead-title">Strange RPG Benchmark</span>
-    <span class="masthead-count" id="count"></span>
+    <span class="masthead-end">
+      <span class="masthead-count" id="count"></span>
+      <button class="music-btn" id="music-btn" type="button" aria-label="Music" aria-pressed="true" title="Music">
+        <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><circle cx="6.6" cy="17.6" r="2.6" /><circle cx="16.6" cy="15.4" r="2.6" /></svg>
+        <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V6.2l10-2.2v11.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><circle cx="6.6" cy="17.6" r="2.6" /><circle cx="16.6" cy="15.4" r="2.6" /><path d="M3.5 3.5l17 17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+      </button>
+    </span>
   </header>
 
   <main class="shelf" id="shelf" aria-label="Game cartridges">
@@ -126,6 +147,8 @@
   <form method="dialog"><button class="pill small">Close</button></form>
 </dialog>
 
+<script src="menu/intro.js" defer></script>
+<script src="menu/music.js" defer></script>
 <script src="menu/menu.js" defer></script>
 </body>
 </html>
