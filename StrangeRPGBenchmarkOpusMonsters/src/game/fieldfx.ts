@@ -159,7 +159,7 @@ function subLight(x: number, y: number, w: number, h: number, lv: number): void 
 /** Tiles that light a dark map, with the radius they reveal. Lit tiles light the ground through the sky's lamps. */
 const SHOW: Record<string, number> = { L: 16, H: 12, '~': 9, m: 10, q: 14, P: 8 };
 /** Things on a map that glow, by prop name, with their radius. */
-const PROP_LIGHT: Record<string, number> = { starGrain: 20, augerPoint: 24, conchThroat: 20, bottle: 8, hearth: 26, lantern: 22, stove: 12 };
+const PROP_LIGHT: Record<string, number> = { starGrain: 20, augerPoint: 24, conchThroat: 20, bottle: 8, hearth: 26, lantern: 22, stove: 12, shopfront: 14, shopSign: 12 };
 
 interface Lamp { x: number; y: number; r: number; show: number }
 let lamps: Lamp[] = [];

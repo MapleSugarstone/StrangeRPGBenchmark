@@ -1,6 +1,8 @@
 import { starfall } from './game/minigames/starfall';
 import { scrape } from './game/minigames/scrape';
 import { drawStone, playSetting } from './game/minigames/setting';
+import { shopScreen } from './game/shopScreen';
+import { middenScreen } from './game/middenScreen';
 import { PUZZLES } from './game/setting/puzzles';
 import { cardOf, pegboard } from './game/minigames/pegboard';
 import { battle } from './game/battleView';
@@ -180,7 +182,7 @@ requestAnimationFrame(rafLoop);
 setInterval(() => { if (performance.now() - last > 60) loop(performance.now()); }, 33);
 
 (window as any).__slough = {
-  G: () => G, sfx, sfxWav, field, modes, close, top, input, aiChoose, makeMon, scripts: SCR, startField, SPECIES, PEOPLE, shapeOf, paletteOf, fitVariants, battle, sceneNow, BACKDROP_KEYS, scrape, pegboard, cardOf, playSetting, drawStone, PUZZLES, starfall, drawFighter,
+  G: () => G, sfx, sfxWav, field, modes, close, top, input, aiChoose, makeMon, scripts: SCR, startField, SPECIES, PEOPLE, shapeOf, paletteOf, fitVariants, battle, sceneNow, BACKDROP_KEYS, scrape, pegboard, cardOf, playSetting, drawStone, PUZZLES, shopScreen, middenScreen, starfall, drawFighter,
   feel: { stats: feelStats, openRegisterAt, voiceFor, playKindCry, speciesCry },
   /** Shows six battle backdrops at a time for art review. Any key closes it. */
   sheet(page: number, loose = 0, dusk = 0): void {

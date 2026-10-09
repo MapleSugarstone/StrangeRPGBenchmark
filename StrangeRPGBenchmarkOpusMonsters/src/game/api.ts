@@ -10,6 +10,7 @@ import { battle, type BattleOpts, type BattleOutcome } from './battleView';
 import { choose, hint, notice, say } from './dialogue';
 import { field, giveMon, type ActKind, type EmoteKind } from './field';
 import { fitterMenu } from './fitter';
+import { joinJingle } from './jingles';
 import { listMenu, rack, shop, tanMenu } from './menus';
 import { G, fittingUnlocked, loosened, notionsUnlocked, save } from './state';
 import { SPAWNS, type TrainerDef } from './world';
@@ -141,7 +142,7 @@ export async function liftOff(id: string, from: string, x?: number, y?: number):
 /** A whorl or a cast walks up to Ouro and goes in with Ouro's four, fading as it joins. */
 export async function joinOuro(id: string): Promise<void> {
   await walkUp(id);
-  sfx('peg');
+  joinJingle();
   await field.fadeWho(id, false, 20);
 }
 /** Keeps people out of the scene until walkIn brings them on, so a flag that shows them does not make them appear. */

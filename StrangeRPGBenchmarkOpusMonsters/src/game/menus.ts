@@ -15,10 +15,13 @@ import { box, cursor, DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, sigil, statChar
 import { G, HERO, HORN_NAME, HORN_PRICE, charmsUnlocked, levelOf, notionsUnlocked, save } from './state';
 import { FIT_STAT, HORN_LINE, moveKinds, moveText, TAN_PER_STAT, TAN_TOTAL, tanBonus, tanPerLayer, tanText } from '../battle/engine';
 import { choose, say } from './dialogue';
+import { renameMon } from './files';
 import { MAPS } from './world';
 import { registerMenu } from './register';
 import { ITEMS } from './items';
 import { bagScreen } from './bag';
+import { middenScreen } from './middenScreen';
+import { shopScreen } from './shopScreen';
 import { STARLIGHT } from '../data/starborn';
 
 /** Extra start-menu entries that content adds, such as the hand bell on the Strand. Choosing one closes the menu. */
@@ -78,7 +81,7 @@ export function starMark(x: number, y: number, t: number): void {
 }
 
 /** Each stat as the battle builds it: the level's base, what the held notion adds, what nacre adds, and what the seam takes. */
-function statParts(m: Mon): { k: string; base: number; held: number; nacre: number; seam: number; total: number }[] {
+export function statParts(m: Mon): { k: string; base: number; held: number; nacre: number; seam: number; total: number }[] {
   const base = statsAt(m.level, profileOf(m)) as unknown as Record<string, number>;
   const n = m.notion ? NOTIONS[m.notion] : null;
   return STAT_KEYS.map(k => {
@@ -103,7 +106,7 @@ const CHART_X = 128, CHART_Y = 49;
  * Full page about one whorl: a header, then Moves, Habits, and Stats tabs that scroll when they run long.
  * The Stats tab has two views, the chart and the breakdown, and left and right step through them as if they were tabs.
  */
-export function monPage(m: Mon, extra?: string): Promise<void> {
+export function monPage(m: Mon): Promise<void> {
   let tab = 0, view = 0, scroll = 0, tick = 0;
   const rowsOf = (): PageRow[] => {
     const out: PageRow[] = [];
@@ -251,7 +254,6 @@ export function monPage(m: Mon, extra?: string): Promise<void> {
       if (scroll > 0) for (let k = 0; k < 3; k++) rect(184 - k, TOP - 3 + k, 1 + k * 2, 1, DIM);
       if (scroll < end - (BOTTOM - TOP)) for (let k = 0; k < 3; k++) rect(184 - k, BOTTOM - 1 - k, 1 + k * 2, 1, DIM);
       rect(4, 177, 184, 1, '#3a3442');
-      if (extra) text(extra, 6, 166, WARN);
       const lr = tab === 2 ? 'L/R views.' : 'L/R tabs.';
       textCenter(end > BOTTOM - TOP ? `${lr} Up/down scroll. X back.` : `${lr} X back.`, 96, 179, '#6a6478');
     },
@@ -280,8 +282,10 @@ async function fourMenu(): Promise<void> {
     const m = G.party[i];
     const acts = ['Look', 'Make lead', 'Move down'];
     if (notionsUnlocked()) acts.push(m.notion ? 'Take notion' : 'Give notion');
+    acts.push('Rename');
     const a = await choose(acts, true);
-    if (a === 0) await monPage(m);
+    if (acts[a] === 'Rename') await renameMon(m);
+    else if (a === 0) await monPage(m);
     else if (a === 1 && i > 0) { G.party.splice(i, 1); G.party.unshift(m); sel = 0; }
     else if (a === 2 && i < G.party.length - 1) { G.party.splice(i, 1); G.party.splice(i + 1, 0, m); sel = i + 1; }
     else if (a === 3) {
@@ -379,67 +383,14 @@ export async function startMenu(): Promise<void> {
 
 export const PEG_PRICE = HORN_PRICE;
 
-export async function shop(stock: string[]): Promise<void> {
-  for (;;) {
-    const items = stock.map(s => {
-      if (s in PEG_PRICE) return `${HORN_NAME[s as keyof typeof PEG_PRICE]}  ${PEG_PRICE[s as keyof typeof PEG_PRICE]}`;
-      if (ITEMS[s]) return `${ITEMS[s].name}  ${ITEMS[s].price}`;
-      return `${NOTIONS[s].name}  ${NOTIONS[s].price}`;
-    });
-    const i = await listMenu(`Buy  (${G.rind} cowries)`, items, {
-      w: 140,
-      detail: (j) => {
-        const s = stock[j];
-        box(4, 150, 184, 38);
-        const t = s in PEG_PRICE ? `Line ${Math.round(HORN_LINE[s] * 100)}%. You have ${G.pegs[s as 'twig']}.`
-          : ITEMS[s] ? `${ITEMS[s].text} You have ${G.items[s] || 0}.` : `${NOTIONS[s].text} You have ${G.notions[s] || 0}.`;
-        wrap(t, 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER));
-      },
-    });
-    if (i < 0) return;
-    const s = stock[i];
-    const price = s in PEG_PRICE ? PEG_PRICE[s as keyof typeof PEG_PRICE] : ITEMS[s] ? ITEMS[s].price : NOTIONS[s].price;
-    if (G.rind < price) { await say(null, 'Not enough cowries.'); continue; }
-    if (s in PEG_PRICE || ITEMS[s]) {
-      const n = await choose(['1', '5', '10'], true, 'How many?');
-      if (n < 0) continue;
-      const cnt = [1, 5, 10][n];
-      const can = Math.min(cnt, Math.floor(G.rind / price));
-      G.rind -= can * price;
-      if (ITEMS[s]) G.items[s] = (G.items[s] || 0) + can;
-      else G.pegs[s as 'twig'] += can;
-      sfx('ok');
-      await say(null, `${HERO} buys ${can}.`);
-    } else {
-      G.rind -= price;
-      G.notions[s] = (G.notions[s] || 0) + 1;
-      sfx('ok');
-      await say(null, `${HERO} buys the ${NOTIONS[s].name}.`);
-    }
-  }
+/** The grotto shop screen (src/game/shopScreen.ts). */
+export function shop(stock: string[]): Promise<void> {
+  return shopScreen(stock);
 }
 
-export async function rack(): Promise<void> {
-  for (;;) {
-    const i = await listMenu('The Midden', G.rack.map(monLine).concat(G.rack.length ? [] : []), { w: 120,
-      detail: (k) => { const m = G.rack[k]; if (!m) return; box(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
-    if (i < 0) return;
-    const m = G.rack[i];
-    const a = await choose(['Look', 'Swap in', 'Let go'], true);
-    if (a === 0) await monPage(m);
-    if (a === 1) {
-      if (G.party.length < 4) { G.rack.splice(i, 1); G.party.push(m); continue; }
-      const j = await listMenu('Swap with', G.party.map(monLine), { w: 120 });
-      if (j < 0) continue;
-      const out = G.party[j];
-      G.party[j] = m;
-      G.rack[i] = out;
-    }
-    if (a === 2) {
-      const sure = await choose(['Let it go', 'Keep it'], true, `${m.name} walks off and does not come back.`);
-      if (sure === 0) { G.rack.splice(i, 1); if (m.notion) G.notions[m.notion] = (G.notions[m.notion] || 0) + 1; }
-    }
-  }
+/** The Midden screen (src/game/middenScreen.ts). */
+export function rack(): Promise<void> {
+  return middenScreen();
 }
 
 void textCenter; void textWidth; void BADC;

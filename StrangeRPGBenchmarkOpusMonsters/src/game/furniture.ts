@@ -235,6 +235,29 @@ defProp('netframe', {
   },
 });
 
+/** A shop's signboard along the eave, three tiles wide: a big painted cowrie between two small horns. */
+defProp('shopSign', {
+  w: 3, h: 1,
+  paint(x, y) {
+    R(x + 1, y, 22, 8, INK); R(x + 2, y + 1, 20, 6, WOOD); R(x + 2, y + 1, 20, 1, WOOD_L); R(x + 2, y + 6, 20, 1, WOOD_D);
+    R(x + 9, y + 2, 6, 4, SHELL); R(x + 10, y + 1, 4, 1, SHELL); R(x + 10, y + 6, 4, 1, SHELL_P);
+    R(x + 11, y + 2, 2, 4, SHELL_P); R(x + 12, y + 3, 1, 2, '#8a5a50'); R(x + 10, y + 2, 1, 1, '#ffffff');
+    for (const hx of [x + 4, x + 17]) { R(hx, y + 3, 3, 2, '#e8c060'); R(hx + (hx < x + 12 ? 3 : -1), y + 2, 1, 4, '#e8c060'); R(hx + 1, y + 3, 1, 1, '#b08030'); }
+  },
+});
+
+/** A shopfront under a striped awning: a scalloped rose and cream canopy and a window with shells set out in it. */
+defProp('shopfront', {
+  w: 3, h: 1,
+  paint(x, y) {
+    R(x + 1, y + 3, 22, 5, INK); R(x + 2, y + 4, 20, 3, '#2a3048'); R(x + 2, y + 4, 20, 1, '#3a4260');
+    R(x + 4, y + 5, 2, 2, SHELL); R(x + 9, y + 5, 3, 2, SHELL_P); R(x + 10, y + 5, 1, 1, SHELL); R(x + 15, y + 5, 2, 2, '#e8c060'); R(x + 19, y + 6, 2, 1, SHELL);
+    R(x, y - 1, 24, 4, INK);
+    for (let k = 0; k < 11; k++) R(x + 1 + k * 2, y, 2, 2, k % 2 ? '#e8dcc0' : '#c8686a');
+    for (let k = 0; k < 6; k++) R(x + 2 + k * 4, y + 3, 2, 1, k % 2 ? '#e8dcc0' : '#c8686a');
+  },
+});
+
 /** A lantern on a post. It lights the ground round it. */
 defProp('lantern', {
   w: 1, h: 1,

@@ -19,7 +19,7 @@ import { DIM, PAPER, SEL } from './ui';
 // ---------------------------------------------------------------- icons
 
 /** An 8 by 8 icon: rows of '.', '1' for ink, and 'a' to 'd' for its own colors. */
-interface Icon { px: string[]; c: string[] }
+export interface Icon { px: string[]; c: string[] }
 const I = (px: string[], ...c: string[]): Icon => ({ px, c });
 
 const HORN = ['...11...', '..1aa1..', '.1abba1.', '1abbcba1', '1abccba1', '.1abba1.', '..1aa11.', '...11.11'];
@@ -84,7 +84,7 @@ const SHAPE_OF: [RegExp, string][] = [
 ];
 const NOTION_COLORS = ['#c84a4a', '#4a7ac8', '#c8a040', '#4a9a5a', '#a05ac8', '#c87a3a', '#3ab0a8', '#d86a9a'];
 
-function iconOf(id: string, kind: Entry['kind']): Icon {
+export function iconOf(id: string, kind: Entry['kind']): Icon {
   if (ICONS[id]) return ICONS[id];
   if (kind === 'notion') {
     const shape = SHAPE_OF.find(([re]) => re.test(id))?.[1] ?? 'gear';
@@ -99,7 +99,7 @@ function iconOf(id: string, kind: Entry['kind']): Icon {
   return ICONS.key;
 }
 
-function drawIcon(ic: Icon, x: number, y: number, s = 1): void {
+export function drawIcon(ic: Icon, x: number, y: number, s = 1): void {
   ic.px.forEach((row, j) => {
     for (let i = 0; i < 8; i++) {
       const ch = row[i];
@@ -111,10 +111,10 @@ function drawIcon(ic: Icon, x: number, y: number, s = 1): void {
 
 // ---------------------------------------------------------------- pockets
 
-interface Entry { id: string; name: string; count: number | null; text: string; kind: 'horn' | 'item' | 'spent' | 'notion' | 'key' | 'find' | 'lore' | 'sketch'; sell?: number; order: number }
+export interface Entry { id: string; name: string; count: number | null; text: string; kind: 'horn' | 'item' | 'spent' | 'notion' | 'key' | 'find' | 'lore' | 'sketch'; sell?: number; order: number }
 interface Pocket { name: string; color: string; icon: Icon; list: () => Entry[] }
 
-const HORN_TEXT: Record<string, string> = {
+export const HORN_TEXT: Record<string, string> = {
   twig: `Its line is at ${Math.round(HORN_LINE.twig * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,
   brass: `Its line is at ${Math.round(HORN_LINE.brass * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,
   bone: `Its line is at ${Math.round(HORN_LINE.bone * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,

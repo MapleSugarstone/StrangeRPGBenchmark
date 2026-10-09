@@ -56,12 +56,12 @@ defMap({
     'T.............============================f=',
     '===============================.......~~TTTT',
     'T.............=================.......~~TTTT',
-    'Tiiiiiiiiiii..g===============g.......~~TTTT',
-    'T.rrrrrr.rrr.rrrrrr.rrr.=.rrrrrr.rrr..~~TTTT',
-    'T.rrrrrr.rrr.rrrrrr.rrr.=.rrrrrr.rrr..~~TTTT',
-    'T.hhdhhh.hhh.hhdhhh.hhh.=.hhdhhh.hhh..~~TTTT',
+    'Tirrrrrrrrrr..g===============g.......~~TTTT',
+    'T.rrrrrrrrrr.rrrrrr.rrr.=.rrrrrr.rrr..~~TTTT',
+    'T.rrrrrrrrrr`rrrrrr.rrr.=.rrrrrr.rrr..~~TTTT',
+    'T`hhhhdhhhhh`hhdhhh.hhh.=.hhdhhh.hhh..~~TTTT',
     'T.==================================..~~TTTT',
-    'T.......................=...........i.~~TTTT',
+    'T..`....................=...........i.~~TTTT',
     'T....................g.g=...........ii~~TTTT',
     'T..rrrrrr.rrrr..........=..rrrrrr.rrr.~~TTTT',
     'T..rrrrrr.rrrr..........=..rrrrrr.rrr.~~TTTT',
@@ -85,7 +85,7 @@ defMap({
   ],
   warps: [
     { x: 10, y: 5, to: 'home', tx: 4, ty: 6, dir: 2 },
-    { x: 4, y: 21, to: 'fellmonger', tx: 4, ty: 6, dir: 2 },
+    { x: 6, y: 21, to: 'fellmonger', tx: 4, ty: 6, dir: 2 },
     { x: 17, y: 5, to: 'tackhouse', tx: 4, ty: 6, dir: 2 },
     { x: 15, y: 21, to: 'shellhouse', tx: 4, ty: 6, dir: 2 },
     { x: 12, y: 27, to: 'oldshell', tx: 4, ty: 6, dir: 2 },
@@ -95,6 +95,17 @@ defMap({
   ],
   zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['burr', 3], ['paring', 2]], lv: [2, 4], n: 7, area: 'meadow' },
   tileTalk: { w: 'well', d: 'shutDoor' },
+  // The Strandmonger's shop, the widest house in the village: a signboard on the eave, awnings over two shop windows,
+  // lanterns at both corners, a crate by the side wall, and a barrel across the road.
+  props: [
+    { x: 5, y: 20, pic: 'shopSign' },
+    { x: 2, y: 21, pic: 'shopfront' },
+    { x: 8, y: 21, pic: 'shopfront' },
+    { x: 1, y: 21, pic: 'lantern' },
+    { x: 12, y: 21, pic: 'lantern' },
+    { x: 3, y: 23, pic: 'barrel' },
+    { x: 12, y: 20, pic: 'crate' },
+  ],
   npcs: [
     { id: 'tack', x: 23, y: 13, sprite: 'tack', name: 'Tack', when: () => !flag('slipday'), talk: 'tackTalk' },
     { id: 'tackle', x: 23, y: 13, sprite: 'tack', mon: 'tackle', name: 'Tackle', when: () => !!flag('tackleOut') && !flag('slipday'), lines: ['Tackle looks at Ouro. Ouro looks back. (neither blinks)'] },
@@ -111,6 +122,7 @@ defMap({
     { id: 'signe', x: 36, y: 14, sprite: 'sign', name: null as any, lines: ['East: Fall. A long way round. Painted by someone who never went.'] },
     { id: 'signn', x: 12, y: 1, sprite: 'sign', name: null as any, lines: ['North: the Brook Wood. Mind the brook. It minds you back.'] },
     { id: 'signs', x: 25, y: 32, sprite: 'sign', name: null as any, lines: ['South: Cockle Cove. Shells free. Sea not for sale.'] },
+    { id: 'signshop', x: 1, y: 22, sprite: 'sign', name: null as any, lines: ['THE STRANDMONGER. Strays, horns, the Register. Looking is free. Leaning on the sign, one cowrie.'] },
     { id: 'carter', x: 7, y: 11, sprite: 'villager2', name: 'Carter', dir: 0, talk: 'carter' },
     { id: 'crowd1', x: 19, y: 16, sprite: 'villager', when: () => !flag('crowdGone') },
     { id: 'crowd2', x: 27, y: 15, sprite: 'villager2', when: () => !flag('crowdGone') },
@@ -140,7 +152,7 @@ defMap({
     '#________#',
     '####d#####',
   ],
-  warps: [{ x: 4, y: 7, to: 'fellside', tx: 4, ty: 22, dir: 0 }],
+  warps: [{ x: 4, y: 7, to: 'fellside', tx: 6, ty: 22, dir: 0 }],
   npcs: [{ id: 'fm', blocks: true, x: 2, y: 2, sprite: 'fellmonger', name: 'Strandmonger', talk: 'fellmonger' }],
 });
 
@@ -319,7 +331,7 @@ defScript('homeEnter', async () => {
 
 defScript('gran', async () => {
   if (!flag('slipday')) { await say('Gran', 'Tell my little turnip the square lies in that direction. That one. Where I am pointing.'); return; }
-  if (!flag('starter')) { await say('Gran', 'Tell my little turnip the Strandmonger commences trade at eight.'); return; }
+  if (!flag('starter')) { await say('Gran', 'Tell my little turnip the Strandmonger commences trade at eight. Down south, past the square.'); return; }
   if (!has('rib')) { await say('Gran', 'Tell my little turnip the road dry at this season, and dusty beyond all reason.'); return; }
   if (flag('ch5done') && !flag('granNeck')) { await granNeck(); return; }
   await say('Gran', 'Tell my little turnip a bowl awaits, should it find itself hungry.');
@@ -347,7 +359,7 @@ async function nightScene(): Promise<void> {
     await tint('#0b0a10', 0, 40);
     await say('Gran', 'Tell my little turnip the craze has come calling at the door.');
   }
-  await say('Gran', 'Tell my little turnip the Strandmonger opens at eight, and is punctilious about it.');
+  await say('Gran', 'Tell my little turnip the Strandmonger opens at eight. South of the square, under the lanterns.');
   setFlag('night');
   evening(false);
   goal('See the Strandmonger, south of the square.');

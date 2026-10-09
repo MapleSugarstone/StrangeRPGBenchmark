@@ -288,7 +288,7 @@ class RegisterBook implements Mode {
     else if (input.hit('wear') && G.register[k] === 2) {
       this.busy = true;
       sfx('ok');
-      void monPage(registerMon(k), 'Shown at level 25.').then(() => { this.busy = false; input.clear(); });
+      void monPage(registerMon(k)).then(() => { this.busy = false; input.clear(); });
     } else if (input.hit('back')) { this.turn(-1); this.view = 'grid'; }
   }
 

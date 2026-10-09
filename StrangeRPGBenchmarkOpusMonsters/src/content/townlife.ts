@@ -62,7 +62,7 @@ posts('fellside', 'washline', 30, 24, 3);
 add('fellside', { id: 'tswasher', x: 29, y: 24, sprite: 'oldwoman', name: 'Woman', dir: 1, idle: { every: 170, act: 'lift' },
   lines: ['Washing dries fast after a Turning Day. Something about the air.', 'Or I just did less washing. Could be that.'] });
 napper('fellside', 'tsnapper', 10, 23, 'puffball', 'Puffball');
-piece('fellside', 'broom', 6, 22, false);
+piece('fellside', 'broom', 8, 22, false);
 add('fellside', { id: 'tssweeper', x: 6, y: 23, sprite: 'villager2', name: 'Sweeper', route: '.rr.ll', pace: 14, idle: { every: 90, act: 'bow' }, movable: true,
   lines: ['Sweeping shell bits off the step. They come back.', 'Everybody\'s shedding something this year.'] });
 piece('fellside', 'flowers', 2, 24, false); piece('fellside', 'flowers', 3, 24, false);

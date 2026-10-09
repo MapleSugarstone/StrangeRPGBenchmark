@@ -186,10 +186,12 @@ function drawPic(id: string, x: number, y: number, b: Book): void {
   }
   if (id === 'armor') {
     // One hit of 100 power against three amounts of DEF.
+    // The bar sits 2 px clear of the widest label and of the widest number.
+    const bx = x + textWidth('100 DEF') + 2, bw = x + COL - textWidth('100') - 2 - bx;
     [0, 42, 100].forEach((d, n) => {
       const ry = y + n * 9, dmg = Math.round(100 * 100 / (100 + d));
       text(`${d} DEF`, x, ry, b.RED);
-      bar(x + 33, ry + 1, 27, dmg / 100, b.BLUE, b);
+      bar(bx, ry + 1, bw, dmg / 100, b.BLUE, b);
       textRight(String(dmg), x + COL, ry, b.INK);
     });
     return;
@@ -264,17 +266,19 @@ function drawPic(id: string, x: number, y: number, b: Book): void {
     // How far whorls can grow for each pearl, or on the Strand for each star grain.
     const caps = id === 'caps' ? CAPS : STRAND_CAPS, unit = id === 'caps' ? 'Pearls' : 'Grains';
     const per = Math.ceil(caps.length / 2);
+    // Each column fits its two headings with 3 px between, and the columns sit 8 px apart, centered on the page.
+    const colW = textWidth(unit) + 3 + textWidth('Cap'), gap = 8, x0 = x - Math.floor((colW * 2 + gap - COL) / 2);
     for (const col of [0, 1]) {
-      const cx = x + col * 40;
+      const cx = x0 + col * (colW + gap);
       text(unit, cx, y, b.PENCIL);
-      textRight('Cap', cx + 36, y, b.PENCIL);
+      textRight('Cap', cx + colW, y, b.PENCIL);
       caps.slice(col * per, col * per + per).forEach((c, n) => {
         const i = col * per + n, ry = y + 10 + n * 9;
         text(i === caps.length - 1 ? `${i}+` : String(i), cx, ry, b.INK);
-        textRight(String(c), cx + 36, ry, b.RED);
+        textRight(String(c), cx + colW, ry, b.RED);
       });
     }
-    if (id === 'caps' && G.flags.postgame) text(`After the story, ${LEVEL_MAX}`, x, y + 10 + per * 9, b.INK);
+    if (id === 'caps' && G.flags.postgame) text(`After the story, ${LEVEL_MAX}`, x0, y + 10 + per * 9, b.INK);
     return;
   }
   if (id === 'fatigue') {

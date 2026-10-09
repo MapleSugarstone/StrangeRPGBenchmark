@@ -1,113 +1,6 @@
 // Sounds for the Setting board: small plonky machine noises pitched to the key and chord the music plays now.
-// They go through the shared effects gain, so the volume setting and mute apply, and nothing plays while muted.
-import { sink } from '../../engine/audio';
-import { music } from '../../engine/music';
-import { tuningOf, type Tuning } from '../voices';
+import { above, ct, deg, hiss, scaleLen, tone, tune } from '../tuned';
 import type { Atom, Part, Sim, Step, Stone } from './core';
-
-// ---------------------------------------------------------------- synth
-
-/** One short voice: a pitch that may glide to `to`, an optional FM ring, and a fast attack and exponential fall. */
-interface Tone { f: number; dur: number; vol: number; at?: number; w?: OscillatorType; to?: number; fm?: [number, number]; a?: number; pan?: number }
-
-function out(ac: BaseAudioContext, dest: AudioNode, pan: number | undefined): AudioNode {
-  if (!pan) return dest;
-  const p = ac.createStereoPanner();
-  p.pan.value = Math.max(-1, Math.min(1, pan));
-  p.connect(dest);
-  return p;
-}
-
-function tone(o: Tone): void {
-  const s = sink();
-  if (!s) return;
-  const ac = s.a, t = s.t + (o.at ?? 0), end = t + o.dur;
-  const env = ac.createGain();
-  env.gain.setValueAtTime(0.0001, t);
-  env.gain.linearRampToValueAtTime(o.vol, t + (o.a ?? 0.003));
-  env.gain.exponentialRampToValueAtTime(0.0001, end);
-  env.connect(out(ac, s.dest, o.pan));
-  const osc = ac.createOscillator();
-  osc.type = o.w ?? 'sine';
-  osc.frequency.setValueAtTime(o.f, t);
-  // A glide lands on its note in the first half, so the note heard longest is the one in key.
-  if (o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t + Math.min(0.06, o.dur * 0.5));
-  if (o.fm) {
-    const m = ac.createOscillator(), mg = ac.createGain();
-    m.frequency.setValueAtTime(o.f * o.fm[0], t);
-    if (o.to) m.frequency.exponentialRampToValueAtTime(o.to * o.fm[0], t + Math.min(0.06, o.dur * 0.5));
-    mg.gain.setValueAtTime(o.f * o.fm[1], t);
-    mg.gain.exponentialRampToValueAtTime(Math.max(0.01, o.f * 0.02), end);
-    m.connect(mg);
-    mg.connect(osc.frequency);
-    m.start(t);
-    m.stop(end + 0.02);
-  }
-  osc.connect(env);
-  osc.start(t);
-  osc.stop(end + 0.02);
-}
-
-const noiseBufs = new WeakMap<BaseAudioContext, AudioBuffer>();
-
-/** Filtered noise: clicks, ratchets, felt thuds, and swishes. `to` sweeps the filter. */
-function hiss(o: { f: number; dur: number; vol: number; at?: number; q?: number; to?: number; kind?: BiquadFilterType; pan?: number }): void {
-  const s = sink();
-  if (!s) return;
-  const ac = s.a, t = s.t + (o.at ?? 0), end = t + o.dur;
-  let buf = noiseBufs.get(ac);
-  if (!buf) {
-    buf = ac.createBuffer(1, Math.floor(ac.sampleRate * 0.5), ac.sampleRate);
-    const d = buf.getChannelData(0);
-    let r = 11;
-    for (let i = 0; i < d.length; i++) { r = (r * 16807) % 2147483647; d[i] = (r / 2147483647) * 2 - 1; }
-    noiseBufs.set(ac, buf);
-  }
-  const src = ac.createBufferSource(), fl = ac.createBiquadFilter(), env = ac.createGain();
-  src.buffer = buf;
-  src.loop = true;
-  fl.type = o.kind ?? 'bandpass';
-  fl.Q.value = o.q ?? 2;
-  fl.frequency.setValueAtTime(o.f, t);
-  if (o.to) fl.frequency.exponentialRampToValueAtTime(o.to, end);
-  env.gain.setValueAtTime(o.vol, t);
-  env.gain.exponentialRampToValueAtTime(0.0001, end);
-  src.connect(fl);
-  fl.connect(env);
-  env.connect(out(ac, s.dest, o.pan));
-  src.start(t, Math.random() * 0.4);
-  src.stop(end + 0.02);
-}
-
-// ---------------------------------------------------------------- pitch
-
-let cache: { at: number; tune: Tuning } | null = null;
-
-/** The music's scale and the chord sounding now, read at most every 150 ms. With no music it is C major pentatonic. */
-function tune(): Tuning {
-  const now = performance.now();
-  if (!cache || now - cache.at > 150) cache = { at: now, tune: tuningOf(music.harmony()) };
-  return cache.tune;
-}
-
-const hz = (m: number): number => 440 * Math.pow(2, (m - 69) / 12);
-
-/** Pitch classes as steps above the root, lowest first. */
-const above = (pcs: number[], root: number): number[] => [...new Set(pcs.map(p => (((p - root) % 12) + 12) % 12))].sort((a, b) => a - b);
-
-/** The `i`th note up the scale from the root, in octave `oct`, where octave 4 holds middle C. */
-function deg(i: number, oct = 4): number {
-  const T = tune(), s = above(T.scale, T.root), o = Math.floor(i / s.length);
-  return hz(12 * (oct + 1) + T.root + s[i - o * s.length] + 12 * o);
-}
-
-/** The `i`th tone of the chord sounding now, counting up from its lowest, in octave `oct`. Arms 1, 2, and 3 take tones 0, 1, and 2, so arms acting together spell the chord. */
-function ct(i: number, oct = 4): number {
-  const T = tune(), s = above(T.tones, T.root), o = Math.floor(i / s.length);
-  return hz(12 * (oct + 1) + T.root + s[i - o * s.length] + 12 * o);
-}
-
-const scaleLen = (): number => above(tune().scale, tune().root).length;
 
 // ---------------------------------------------------------------- the machine's actions
 
@@ -310,7 +203,7 @@ export function slideSound(x: number, y: number, h: number): void {
   tone({ w: 'triangle', f: deg(x + (h - 1 - y), 4), dur: 0.04, vol: 0.016, at: 0.02, fm: [3.98, 1] });
 }
 
-/** A part turned in place: the arm's ratchet with no glide. */
+/** A part turned in place: the arm's ratchet and slide. */
 export function turnPartSound(): void {
   turnSound(0, true, 0, 0.9);
 }

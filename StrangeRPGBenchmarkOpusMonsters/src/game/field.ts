@@ -8,6 +8,7 @@ import { sfx } from '../engine/audio';
 import { music } from '../engine/music';
 import { battle, type BattleOutcome } from './battleView';
 import { choose, hint, notice, say } from './dialogue';
+import { offerName } from './files';
 import { close, run, type Mode } from './modes';
 import { G, HERO, STRAND_START, addMon, loosened, save, scaleNow, seen, wearingUnlocked } from './state';
 import { drawTile, isSolid, LEDGE, REGIONS, type Pal } from './tiles';
@@ -753,6 +754,7 @@ export class Field implements Mode {
       m.notion = null;
       const where = addMon(m);
       await notice(where === 'party' ? `${m.name} joins your team.` : `${m.name} goes to the Midden.`);
+      await offerName(m);
     }
     if (r.result === 'lose') await this.lose();
     save();
@@ -1226,7 +1228,10 @@ function facesLeft(who: object, dir: number): boolean {
  */
 function walkBob(px: number, py: number, x: number, y: number, running: boolean): number {
   const left = Math.abs(px - x * 8) + Math.abs(py - y * 8);
-  if (!left || left > 8 || running || ((x + y) & 1)) return 0;
+  if (!left || left > 8) return 0;
+  // Running bobs on every step, for a quicker bounce. Walking bobs on every other step.
+  if (running) return left >= 3 && left <= 6 ? 1 : 0;
+  if ((x + y) & 1) return 0;
   return left >= 2 && left <= 5 ? 1 : 0;
 }
 
@@ -1314,9 +1319,10 @@ function reachesWay(m: MapDef, x0: number, y0: number): boolean {
 export function crustKey(map: string, x: number, y: number): string { return `crust:${map}:${x},${y}`; }
 
 export const field = new Field();
-export function giveMon(m: Mon): Promise<void> {
+export async function giveMon(m: Mon): Promise<void> {
   const where = addMon(m);
-  return notice(where === 'party' ? `${m.name} joins your team.` : `${m.name} goes to the Midden.`);
+  await notice(where === 'party' ? `${m.name} joins your team.` : `${m.name} goes to the Midden.`);
+  await offerName(m);
 }
 
 /** The battle track for a trainer: the Peel, the Hands, and Cinch have their own. */

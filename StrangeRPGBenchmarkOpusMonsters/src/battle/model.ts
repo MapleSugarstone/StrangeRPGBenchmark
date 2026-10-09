@@ -35,6 +35,8 @@ export interface Mon {
   strandBorn?: boolean;
   /** Tanned points per stat. Each point adds 2% to that stat. */
   tan?: Partial<Record<'hp' | 'atk' | 'def' | 'res' | 'mgk' | 'agi' | 'cha', number>>;
+  /** The name it had before the player first renamed it. Clearing a name brings this back. */
+  baseName?: string;
   /** Carcanet's Tape: four stone letters (p pearl, a amber, g beach glass, s star glass) it sets in a loop, chosen on the Setting board. */
   tape?: string;
 }

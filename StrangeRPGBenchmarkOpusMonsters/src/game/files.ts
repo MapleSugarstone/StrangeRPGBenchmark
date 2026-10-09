@@ -3,7 +3,9 @@ import { sfx } from '../engine/audio';
 import { dither, frame, rect, INK } from '../engine/screen';
 import { text, textCenter, textRight, textWidth } from '../engine/font';
 import { drawSprite, PEOPLE } from '../engine/sprites';
-import { close, type Mode } from './modes';
+import { close, run, type Mode } from './modes';
+import type { Mon, SpriteData } from '../battle/model';
+import { choose } from './dialogue';
 import { HERO, SLOTS, slotInfo } from './state';
 import { drawNight, nightFrame } from './title';
 import { box, DIM, PAPER, PORTRAIT_BG, SEL, WARN } from './ui';
@@ -137,11 +139,25 @@ export class LetterGrid {
 }
 
 /** Name entry on a letter grid. Closes with the name, or null when backed out with an empty name. */
+/** What the name screen asks, whose picture it shows, and the name an empty entry keeps. Defaults name Ouro. */
+export interface NameOpts { title?: string; sprite?: SpriteData; fallback?: string; start?: string }
+
 export class NameEntry implements Mode {
   opaque = true;
   name = '';
   grid = new LetterGrid();
   t = 0;
+  title: string;
+  sprite: SpriteData;
+  fallback: string;
+
+  constructor(o: NameOpts = {}) {
+    this.title = o.title ?? 'What is your name?';
+    this.sprite = o.sprite ?? PEOPLE.vellum;
+    this.fallback = o.fallback ?? HERO;
+    this.name = (o.start ?? '').slice(0, MAX);
+    if (this.name) this.grid.page = 1;
+  }
 
   update(): void {
     this.t++;
@@ -156,7 +172,7 @@ export class NameEntry implements Mode {
     const ch = g.press();
     if (ch === null) return;
     if (ch === 'del') { if (this.name) { this.name = this.name.slice(0, -1); sfx('back'); } return; }
-    if (ch === 'done') { sfx('ok'); close(this, this.name.trim() || HERO); return; }
+    if (ch === 'done') { sfx('ok'); close(this, this.name.trim() || this.fallback); return; }
     if (this.name.length >= MAX || (ch === ' ' && (!this.name || this.name.endsWith(' ')))) { sfx('bump'); return; }
     this.name += ch;
     sfx('blip');
@@ -167,20 +183,35 @@ export class NameEntry implements Mode {
 
   draw(): void {
     backdrop();
-    textCenter('What is your name?', 96, 10, PAPER, INK);
+    textCenter(this.title, 96, 10, PAPER, INK);
     frame(26, 24, 32, 32, PORTRAIT_BG, DIM);
-    drawSprite(PEOPLE.vellum, 30, 28, 3);
+    drawSprite(this.sprite, 30, 28, 3);
     // The name field: one slot per letter, with the default name shown faintly while it is empty.
     const fx = 66, fy = 44;
     for (let k = 0; k < MAX; k++) rect(fx + k * 12, fy + 10, 9, 1, k < this.name.length ? PAPER : DIM);
     const slotText = (s: string, c: string) => [...s].forEach((ch, k) => text(ch, fx + k * 12 + Math.round((9 - textWidth(ch)) / 2), fy, c));
     if (this.name) slotText(this.name, PAPER);
-    else slotText(HERO, '#5a5468');
+    else if (this.fallback.length <= MAX) slotText(this.fallback, '#5a5468');
+    else text(this.fallback, fx, fy, '#5a5468');
     if (this.name.length < MAX && (this.t >> 4) % 2) rect(fx + this.name.length * 12, fy - 1, 1, 9, SEL);
     this.grid.draw();
     rect(0, 168, 192, 1, INK);
     textCenter('Z types. X deletes. V jumps to Done.', 96, 172, DIM);
-    textCenter('Empty keeps the name Ouro.', 96, 182, DIM);
+    textCenter(`Empty keeps the name ${this.fallback}.`, 96, 182, DIM);
     fadeIn(this.t);
   }
+}
+
+/** Opens the name screen for a whorl. An empty name gives back the name it had before it was first renamed. */
+export async function renameMon(m: Mon): Promise<void> {
+  const base = m.baseName ?? m.name;
+  const n = await run<string | null>(new NameEntry({ title: 'What will you call it?', sprite: m.sprite, fallback: base, start: m.name === base ? '' : m.name }));
+  if (n === null) return;
+  if (n !== base) m.baseName = base;
+  m.name = n;
+}
+
+/** Asks whether to name a whorl that just joined, and opens the name screen on a yes. */
+export async function offerName(m: Mon): Promise<void> {
+  if (await choose(['Yes', 'No'], true, `Give ${m.name} a name?`) === 0) await renameMon(m);
 }

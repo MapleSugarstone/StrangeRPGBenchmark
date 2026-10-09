@@ -14,6 +14,7 @@ import { drawFighter, FOE_AT, MINE_AT, paintBackdrop, SCENE_H, SCENE_W, sceneNow
 import { drawSprite } from '../engine/sprites';
 import { sfx } from '../engine/audio';
 import { music } from '../engine/music';
+import { catchJingle, levelJingle, missJingle } from './jingles';
 import { TYPE_COLOR, typeMult, xpToNext, type Type } from '../data/types';
 import { close, fadeToBlack, run, type Mode } from './modes';
 import { box, BADC, cdIcon, cursor, DIM, GOOD, hpBar, MINE, NERVE, PAPER, markIcon, miniSigil, pips, SEL, tideGauge, tideIcon, teamShell, capIcon, statusIcon, THEIRS, typeBadge, WARN } from './ui';
@@ -334,6 +335,7 @@ class BattleView implements Mode {
       case 'msg': {
         this.msgText = e.text; this.timer = 34 + Math.min(40, e.text.length);
         this.log.push(e.text);
+        if (e.text.endsWith('won\'t curl into the horn.')) missJingle();
         if (this.log.length > 200) this.log.shift();
         const f = this.introCries.get(e);
         if (f) this.cry(f, 'out');
@@ -402,7 +404,7 @@ class BattleView implements Mode {
         break;
       }
       case 'cut': sfx('cut'); this.disp[e.side][e.idx].shake = 14; this.light(e.side, 10, 2, 12); this.timer = 10; break;
-      case 'peg': { const d = this.disp[1][e.idx]; d.gone = true; this.light(1, 16, 2.4, 34, TYPE_COLOR.STAR); sfx('peg'); this.timer = 30; break; }
+      case 'peg': { const d = this.disp[1][e.idx]; d.gone = true; this.light(1, 16, 2.4, 34, TYPE_COLOR.STAR); catchJingle(); this.timer = 30; break; }
       case 'guard': this.light(e.side, 8, 1.4, 12, TYPE_COLOR.SALT); sfx('guard'); this.timer = 6; break;
       case 'blocked': sfx('shield'); this.disp[e.side][e.idx].flash = 8; this.light(e.side, 8, 1.6, 10, TYPE_COLOR.SALT); this.timer = 8; break;
     }
@@ -583,6 +585,7 @@ class BattleView implements Mode {
     if (input.hit('ok') || (input.held('fast') && this.timer % 6 === 0)) {
       this.sub++;
       if (this.sub >= this.endLines.length) close(this, this.outcome!);
+      else { const lv = / is level (\d+)\.$/.exec(this.endLines[this.sub]); if (lv) levelJingle(Number(lv[1])); }
     }
   }
 
@@ -957,7 +960,7 @@ class BattleView implements Mode {
         attack: `${basicOf(f) === 'P' ? 'A physical hit' : 'A magic hit'} with no type.${this.b.rules.nerve ? ' If it lands: +1 tide.' : ''}`,
         guard: 'Takes half damage until your next turn. It can\'t be forced out.',
         switch: 'Send out a whorl from reserve.',
-        peg: 'Sound it with a horn. It always works when the foe is at or under the gold line on its HP bar.',
+        peg: 'Sound it with a horn. The weaker the foe, the more likely it curls in.',
         run: 'Leave. It always works.',
         notion: n?.text || '',
       };
@@ -967,9 +970,20 @@ class BattleView implements Mode {
     const lines: [string, string][] = [];
     for (const [s, c] of body) for (const l of wrap(s, w)) lines.push([l, c]);
     const free = MENU_ROWS - row - foot.length;
-    // A text longer than the panel turns to its next page every 3 seconds.
-    const pg = Math.floor(performance.now() / 3000) % Math.max(1, Math.ceil(lines.length / free));
-    lines.slice(pg * free, pg * free + free).forEach(([l, c], k) => text(l, x, MENU_Y + (row + k) * 9, c));
+    if (lines.length <= free) lines.forEach(([l, c], k) => text(l, x, MENU_Y + (row + k) * 9, c));
+    else {
+      // A text too long for the panel shows what fits and a hint. Holding Shift shows it whole in a wide box above the menu,
+      // which covers the scene only while it is held.
+      lines.slice(0, free - 1).forEach(([l, c], k) => text(l, x, MENU_Y + (row + k) * 9, c));
+      text('Shift: more', x, MENU_Y + (row + free - 1) * 9, SEL);
+      if (input.held('fast')) {
+        const wide: [string, string][] = [];
+        for (const [s, c] of body) for (const l of wrap(s, 176)) wide.push([l, c]);
+        const h = wide.length * 9 + 7, y0 = 121 - h;
+        box(4, y0, 184, h);
+        wide.forEach(([l, c], k) => text(l, 10, y0 + 4 + k * 9, c));
+      }
+    }
     // The footer sits on the last rows. The habits hint takes the last row when nothing else needs it.
     foot.forEach(([l, c], k) => text(l, x, MENU_Y + (MENU_ROWS - foot.length + k) * 9, c));
     if (!foot.length && row + lines.length < MENU_ROWS) text('L/R habits', x, MENU_Y + (MENU_ROWS - 1) * 9, '#5a5466');
