@@ -1,6 +1,7 @@
 // Builds every game in games.json that has a build step and assembles the static site in _site/.
 // Usage: node tools/build-site.mjs [--skip-build] [--serve [port]] [--open]
 import { exec, execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -44,6 +45,24 @@ for (const game of manifest.games) {
   });
   console.log(`${game.title}: copied to _site/games/${game.id}/`);
 }
+
+// GitHub Pages lets browsers cache files for 10 minutes, so every local script and stylesheet URL carries a content hash.
+// Without it a fresh page can run with a stale script from the previous deploy.
+function stampAssets(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) { stampAssets(file); continue; }
+    if (!entry.name.endsWith('.html')) continue;
+    const html = fs.readFileSync(file, 'utf8').replace(/\b(src|href)="([^"?#:]+\.(?:js|css))"/g, (match, attr, ref) => {
+      const asset = path.join(path.dirname(file), ref);
+      if (!fs.existsSync(asset)) return match;
+      const hash = createHash('sha1').update(fs.readFileSync(asset)).digest('hex').slice(0, 10);
+      return `${attr}="${ref}?v=${hash}"`;
+    });
+    fs.writeFileSync(file, html);
+  }
+}
+stampAssets(out);
 
 if (serveFlag !== -1) {
   const port = Number(args[serveFlag + 1]) || 8080;

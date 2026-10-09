@@ -546,12 +546,12 @@
 
   fetch('games.json', { cache: 'no-cache' })
     .then((r) => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
+    // The error message covers only a failed download or parse. A bug while drawing the shelf goes to the console.
     .then((data) => {
       state.games = data.games || [];
       renderShelf(0);
       route();
-    })
-    .catch(() => {
+    }, () => {
       $('load-error').hidden = false;
       renderShelf(0);
     });
