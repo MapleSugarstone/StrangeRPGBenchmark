@@ -81,19 +81,46 @@ function tickReveal(): void {
   }
 }
 
+/** Screen pixels per layout pixel. Layout stays 640 square, and the canvas renders at the screen's own resolution. */
+let pixelScale = 1;
+
+/** Rounds every rectangle edge to a whole screen pixel so sprites and panels never show blended in-between pixels. */
+function snapRects(c: CanvasRenderingContext2D): void {
+  const fill = c.fillRect.bind(c);
+  const snap = (v: number) => Math.round(v * pixelScale) / pixelScale;
+  c.fillRect = (x, y, w, h) => {
+    const x0 = snap(x);
+    const y0 = snap(y);
+    fill(x0, y0, snap(x + w) - x0, snap(y + h) - y0);
+  };
+  // A stroke straddles its edge, so it is drawn as four filled bands that snap like everything else.
+  c.strokeRect = (x, y, w, h) => {
+    const lw = c.lineWidth;
+    const prev = c.fillStyle;
+    c.fillStyle = c.strokeStyle;
+    const ox = x - lw / 2, oy = y - lw / 2, ow = w + lw, oh = h + lw;
+    c.fillRect(ox, oy, ow, lw);
+    c.fillRect(ox, oy + oh - lw, ow, lw);
+    c.fillRect(ox, oy + lw, lw, oh - 2 * lw);
+    c.fillRect(ox + ow - lw, oy + lw, lw, oh - 2 * lw);
+    c.fillStyle = prev;
+  };
+}
+
 export function initUI(canvas: HTMLCanvasElement): void {
-  canvas.width = CANVAS_SIZE;
-  canvas.height = CANVAS_SIZE;
   ctx = canvas.getContext("2d")!;
-  ctx.imageSmoothingEnabled = false;
-  // Display at a whole number of screen pixels per canvas pixel. A window too small for 1x falls back to fitting.
+  snapRects(ctx);
+  // Resizing the canvas resets the context, so the scale and smoothing are set again on every fit.
   const fit = () => {
     const dpr = window.devicePixelRatio || 1;
-    const avail = Math.min(window.innerWidth, window.innerHeight) * 0.96 * dpr;
-    const s = Math.floor(avail / CANVAS_SIZE);
-    const css = (s >= 1 ? CANVAS_SIZE * s : Math.floor(avail)) / dpr;
-    canvas.style.width = `${css}px`;
-    canvas.style.height = `${css}px`;
+    const device = Math.max(160, Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.96 * dpr));
+    canvas.width = device;
+    canvas.height = device;
+    canvas.style.width = `${device / dpr}px`;
+    canvas.style.height = `${device / dpr}px`;
+    pixelScale = device / CANVAS_SIZE;
+    ctx.setTransform(pixelScale, 0, 0, pixelScale, 0, 0);
+    ctx.imageSmoothingEnabled = false;
   };
   fit();
   window.addEventListener("resize", fit);
