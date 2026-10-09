@@ -35,7 +35,7 @@ export function goal(s: GameState): string {
     case 6:
       if (!f('c6_camp')) return 'Walk to the treeline in the east.';
       if (!f('c6_both')) return 'Find a way north through the Wood. Someone waits in a clearing.';
-      if (!f('c6_hushev')) return 'One of you on each plate. Meet in the north clearing.';
+      if (!f('c6_hushev')) return 'One of you on each plate. Press Tab to switch. Meet in the north clearing.';
       if (!f('c6_hush')) return 'Face whatever is eating the sound.';
       if (!f('c6_gone')) return 'Go north to the foot of the Line.';
       return 'Climb the ladder up the Line.';

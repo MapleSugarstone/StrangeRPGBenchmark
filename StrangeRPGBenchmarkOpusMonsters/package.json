@@ -1,0 +1,19 @@
+{
+  "name": "slough",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A creature-collecting role-playing game about a world that has outgrown its shell.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node scripts/build.mjs --tools && node dist-tools/test.js",
+    "sim": "node scripts/build.mjs --tools && node dist-tools/sim.js",
+    "duel": "node scripts/build.mjs --tools && node dist-tools/duel.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}

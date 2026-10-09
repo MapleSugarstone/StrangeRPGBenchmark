@@ -97,13 +97,16 @@ export class DialogueScene implements Scene {
       if (Math.floor(g.t / 20) % 2) g.text('\u0005', 180, y0 + BOX_H - 10, 'gold');
     }
     if (this.choices && this.page >= this.pages.length - 1 && this.shown >= len) {
-      const w = Math.max(...this.choices.map((c) => textWidth(c))) + 20;
-      const h = this.choices.length * 11 + 8;
+      const rows = this.choices.map((c) => wrap(c, 188 - 20));
+      const w = Math.max(...rows.flat().map((l) => textWidth(l))) + 20;
+      const h = rows.reduce((n, r) => n + r.length, 0) * 11 + 8;
       const cx = 190 - w, cy = (this.top ? y0 + BOX_H + 2 : y0 - h - 2);
       g.box(cx, cy, w, h, 'gold');
-      this.choices.forEach((c, i) => {
-        g.text(c, cx + 13, cy + 5 + i * 11, i === this.choiceIdx ? 'gold' : 'paper');
-        if (i === this.choiceIdx) g.cursor(cx + 5, cy + 5 + i * 11);
+      let yy = cy + 5;
+      rows.forEach((r, i) => {
+        r.forEach((l, k) => g.text(l, cx + 13, yy + k * 11, i === this.choiceIdx ? 'gold' : 'paper'));
+        if (i === this.choiceIdx) g.cursor(cx + 5, yy);
+        yy += r.length * 11;
       });
     }
   }

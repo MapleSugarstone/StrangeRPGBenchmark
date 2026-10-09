@@ -11,6 +11,8 @@ export interface CablePuzzle {
   src: [number, number, number];
   dst: [number, number, number];
   onSolve: (c: Ctx) => Promise<void>;
+  // Runs instead of turning a junction while it returns true.
+  locked?: (c: Ctx) => Promise<boolean>;
 }
 
 const OPEN: Record<string, number[]> = { I: [0, 2], L: [0, 1], T: [0, 1, 2], '+': [0, 1, 2, 3] };
@@ -65,6 +67,7 @@ export function cableTriggers(pz: CablePuzzle): TriggerDef[] {
     x: pz.ox + cell.x, y: pz.oy + cell.y, touch: true,
     run: async (c: Ctx) => {
       if (c.flag('pz_' + pz.id)) { await c.say(null, 'The line is live. Better not touch it now.'); return; }
+      if (pz.locked && await pz.locked(c)) return;
       const r = rot(c, pz, cell.x, cell.y, cell.i);
       c.s.flags[`pz_${pz.id}_${cell.x}_${cell.y}`] = (r + 1) % (cell.k === 'I' ? 2 : 4);
       c.sfx('blip');

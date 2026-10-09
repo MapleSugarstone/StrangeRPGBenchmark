@@ -1,0 +1,6 @@
+{ "name": "B tailwind", "charm": "fall", "team": [
+  { "fit": ["turbine", "lune"], "moves": ["spinup", "updraft", "lune_facet", "lune_glaive"], "passives": ["tailwind", "lune_waxing"], "types": ["STAR"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["turbine", "perigee"], "moves": ["gale", "updraft", "ping", "fix"], "passives": ["tailwind", "telemetry"], "types": ["GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "hp": 6 } },
+  { "fit": ["turbine", "nail"], "moves": ["gale", "spinup", "nail_flick", "nail_rake"], "passives": ["tailwind", "nail_third"], "types": ["BEAST"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "hp": 6 } },
+  { "fit": ["turbine", "floe"], "moves": ["gale", "updraft", "shard", "calve"], "passives": ["tailwind", "chill"], "types": ["TIDE"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } }
+] }

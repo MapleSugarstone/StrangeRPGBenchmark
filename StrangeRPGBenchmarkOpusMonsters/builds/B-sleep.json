@@ -1,0 +1,6 @@
+{ "name": "B sleep loop", "charm": "tusk", "team": [
+  { "fit": ["selkie", "gnarl"], "moves": ["selkie_bubble", "selkie_backwash", "gnarl_nightmare", "gnarl_mindsap"], "passives": ["selkie_lull", "gnarl_baddream"], "types": ["TIDE", "STAR"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["berg", "hemlock"], "moves": ["berg_groan", "berg_growler", "draught", "wilt"], "passives": ["berg_undercut", "cup"], "types": ["TIDE", "ROOT"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "hp": 6 } },
+  { "fit": ["undine", "selkie"], "moves": ["undine_undersong", "undine_fathom", "selkie_bubble", "selkie_gift"], "passives": ["undine_toobig", "selkie_lull"], "types": ["TIDE"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["gnarl", "hemlock"], "moves": ["gnarl_nightmare", "gnarl_grip", "draught", "dose"], "passives": ["gnarl_baddream", "cup"], "types": ["STAR", "ROOT"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } }
+] }

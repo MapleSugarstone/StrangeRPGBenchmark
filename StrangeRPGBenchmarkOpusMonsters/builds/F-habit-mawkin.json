@@ -1,0 +1,5 @@
+{ "name": "F habit mawkin", "charm": "mast", "team": [
+ {"fit": ["knot", "mawkin"], "moves": ["mawkin_terrify", "mawkin_rattle", "stand", "turnkey"], "passives": ["habit", "mawkin_dread"], "types": ["ROOT"], "basic": "M", "notion": "bodkin", "tan": {"mgk": 6, "hp": 6}},
+ {"kind": "razor", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "tang", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "gimlet", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}} ] }

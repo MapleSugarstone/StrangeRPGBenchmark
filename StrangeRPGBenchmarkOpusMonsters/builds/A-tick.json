@@ -1,0 +1,5 @@
+﻿{ "name": "A turn-start ticks", "charm": "tusk", "team": [
+ { "fit": ["peat", "furnace"], "moves": ["peat_seep", "peat_slane", "stoke", "firebox"], "passives": ["peat_bogbreath", "radiant"], "types": ["ROOT", "GEAR"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["horizon", "peat"], "moves": ["horizon_skyline", "horizon_widen", "peat_mire", "peat_smoke"], "passives": ["horizon_ring", "peat_bogbreath"], "types": ["STAR", "ROOT"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["furnace", "horizon"], "moves": ["stoke", "flue", "horizon_skyline", "horizon_farpoint"], "passives": ["radiant", "horizon_ring"], "types": ["GEAR", "STAR"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["peat", "undine"], "moves": ["peat_seep", "peat_mire", "undine_fathom", "undine_glimpse"], "passives": ["peat_bogbreath", "undine_toobig"], "types": ["ROOT", "TIDE"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } } ] }

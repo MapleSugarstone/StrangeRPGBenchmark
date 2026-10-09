@@ -1,0 +1,77 @@
+# WHORL game text, chunk 9 of 15. Files: src/content/gems.ts, src/content/geode.ts
+# Speakers: DRUSE (16), BEZEL (12), ? (8), hint (6), choice (5), notice (2), choice prompt (2)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/gems.ts
+
+== scene: gems
+[0fcqux3] ? | A gem setter's bench that folds flat. Arms, stations, and a tray of stones.
+
+== scene: findSketch
+[0ha5uk1] notice | A Setting sketch: {pz.name}.
+[0lyjgrj] hint | (A drawing of arms and stones. A gem setter in Rib would know what it is for.)
+[0t7dizc] hint | (The sketch goes on the Setting board. Open Setting from the menu to try it.)
+
+== scene: BEZEL_TIERS
+[0abxan2] ? | One set! A machine that works once is luck, but yours worked four times. That is a trade.
+[07gjm8m] ? | Three sketches set. Rib's setters needed a season for three. Two seasons, I mean.
+[1p3x5no] ? | Six! Half the sketches, set most immaculately.
+[17qposa] ? | There is a geode-cracker in Hum named Druse who collects people like you. Go and be collected.
+[0656yvx] ? | Nine set. My bench grows jealous of yours. It pinched my thumb this morning out of spite.
+[02gzd9x] ? | EVERY sketch set. I have nothing left to teach you, which is a most unaccustomable feeling!!
+[17y2lku] ? | Take this ring. I set it at your age and it has never fit a single finger since.
+
+== scene: bezel
+[0z1ggjn] BEZEL | A FINE afternoon for setting stones. Splendid, I mean. Fine is two grades under splendid.
+[0mpjanc] BEZEL | I am Bezel, setter of stones to Rib and to anybody else who pays most punctually.
+[059cz2b] BEZEL | Is that a sketch in your hand? Somebody drew a machine and lost it. How carelessly delicious.
+[1vi2tn8] BEZEL | A setter's bench has arms to carry stones and setters to bond them. Nobody's thumbs get pinched!!
+[0h95mbg] notice | Got the Setting board.
+[1sbukr3] BEZEL | I keep three benches and the third is most surplusable. Here is a first sketch to begin on as well.
+[0uiqtwq] hint | (Setting is in the menu now. Press X and choose Setting.)
+[1ys12wj] BEZEL | Sketches blow about the Volute like leaves. Bring back any you find set, and I will be thrilled.
+[00rpmfw] BEZEL | {#1} cycles for {pz.name}? My own machine takes {#3}.
+[1etw3q5] BEZEL | You have out-set the setter. That is quick work. Indecent, I mean, but in the good way.
+[0bj9rg6] BEZEL | The first sketch needs one arm. Grab the pearl, swing it round, and let go over the setting.
+[149zyvj] BEZEL | {n} set of {G.gem.found.length} found. A sketch left unset is a stone left rough!!
+[1knie79] BEZEL | {n} set. Druse in Hum talks of a geode that wants all twelve. I find geodes vulgar, personally.
+[0o3boov] BEZEL | All twelve, and {G.gem.runs} machines set running. I have counted, I am a setter.
+
+== scene: druse
+[0h75cg5] DRUSE | Inside this one there's a hollow the size of a fist, lined with violet. Watch.
+[1mjzk5b] DRUSE | There. Violet. I'm Druse. I crack geodes and I'm never wrong about the inside.
+[1jr0tf2] DRUSE | Inside your pack there's no setter's board. Bezel in Rib has spares. Ask.
+[0559p3j] DRUSE | Inside your pack there's a setter's board with sketches on it. Show me what you've set.
+[1qo4yup] DRUSE | Still no board in there. Bezel, in Rib. Spares.
+[0h1m8xo] DRUSE | All twelve set. Inside the crater fields, the geode just opened. I heard it from here.
+[1b03nah] DRUSE | The east crater, north of Fall. Its south rim. Bring something soft for your ears.
+[0vw753u] DRUSE | {n} set. Inside your head there's a machine-shaped room now. Good. I need it.
+[0phbcsa] DRUSE | Inside the crater fields north of Fall there's a geode as big as Rib. Nobody's opened it.
+[1qreq0y] DRUSE | Its door is a seam in the east crater, a lock of twelve settings. Set all 12 sketches and it opens.
+[1i8chyp] DRUSE | Inside it there's a whorl strung like a necklace. I've never seen it. It's there, though.
+[145u3vu] DRUSE | {n} of 12. Inside the geode the whorl is counting along with you.
+[1q5nnhe] DRUSE | Inside that board there's not a scratch. Run something. Break something.
+[0j9a7o0] DRUSE | {runs} runs. Inside each one there's a little click where it works or doesn't.
+[15cw5hk] DRUSE | {runs} runs. Inside that number there are a lot of stones on the floor.
+[071vgku] DRUSE | {runs} runs! Inside you there's a setter. Bezel will be cross.
+
+==== file: src/content/geode.ts
+
+== scene: geode
+[153yrqf] hint | (The seam in the rim chimes once for each Setting puzzle set: {n} of 12.)
+
+== scene: letGo
+[04tz7os] hint | (The socket rings flat. It wants a polished stone.)
+
+== scene: c
+[0hzr3xp] choice | Turn left
+[1xutvmu] choice | Turn right
+[1vedy4e] choice | Let go
+[1g4a3sa] choice prompt | Arm {#1}
+[01rxihm] choice prompt | The arm
+[19d0wlp] choice | Sound it
+[19fkhyl] choice | Leave it
+
+== scene: carcanet
+[06x7wd3] hint | (Carcanet sets its Stones in the order of its Tape. Write the Tape in Setting, under its name.)

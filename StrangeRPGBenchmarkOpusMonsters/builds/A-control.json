@@ -1,0 +1,5 @@
+﻿{ "name": "A control", "charm": "rib", "team": [
+ { "kind": "cholla", "notion": "waxseal", "tan": { "atk": 6, "hp": 6 } },
+ { "kind": "stump", "notion": "spareskin", "tan": { "hp": 6, "atk": 6 } },
+ { "kind": "berg", "notion": "waxseal", "tan": { "atk": 6, "hp": 6 } },
+ { "kind": "bonedry", "notion": "waxseal", "tan": { "atk": 6, "hp": 6 } } ] }

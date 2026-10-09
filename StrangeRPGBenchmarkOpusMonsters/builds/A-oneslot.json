@@ -1,0 +1,5 @@
+﻿{ "name": "A one-slot carry", "charm": null, "team": [
+ { "fit": ["leech", "undine"], "moves": ["draw", "bloat", "undine_fathom", "undine_glimpse"], "passives": ["engorge", "undine_toobig"], "types": ["BEAST", "TIDE"], "basic": "M", "notion": "heartstone", "tan": { "hp": 6, "mgk": 6 } },
+ { "kind": "spawn" },
+ { "kind": "gnarl" },
+ { "kind": "kiln" } ] }

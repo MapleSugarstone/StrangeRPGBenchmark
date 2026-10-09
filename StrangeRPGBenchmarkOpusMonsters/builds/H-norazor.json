@@ -1,0 +1,55 @@
+{
+ "name": "Herleur team, base Razor for Razoron",
+ "charm": null,
+ "team": [
+  {
+   "kind": "razor",
+   "notion": "longshin",
+   "tan": {
+    "atk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "kind": "scion",
+   "notion": "bloodglass",
+   "tan": {
+    "atk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "kind": "bourdon",
+   "notion": "bitterroot",
+   "tan": {
+    "mgk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "fit": [
+    "fleur",
+    "heron"
+   ],
+   "moves": [
+    "fleur_flower",
+    "fleur_spray",
+    "heron_billstab",
+    "heron_reedstand"
+   ],
+   "passives": [
+    "heron_stockstill",
+    "heron_graycoat"
+   ],
+   "types": [
+    "SALT"
+   ],
+   "basic": "M",
+   "notion": "longshin",
+   "tan": {
+    "mgk": 6,
+    "hp": 6
+   }
+  }
+ ]
+}

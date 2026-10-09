@@ -106,10 +106,12 @@
       "id": "rote",
       "title": "Rote",
       "model": "Claude Opus 5.5",
-      "effort": "Medium",
+      "effort": "Ultracode",
+      "polish": "User",
       "folder": "StrangeRPGBenchmarkOpusMagic",
       "status": "playable",
       "golden": true,
+      "diamond": true,
       "build": { "command": "npm run build", "dist": "dist", "exclude": ["harness.js"] },
       "colors": { "accent": "#c8ff2e", "ink": "#0b0a10" },
       "hero": { "name": "Wait", "role": "The last thing the Scrivener wrote", "sprite": "menu/art/rote-hero.png" },
@@ -118,6 +120,25 @@
       "chapters": 10,
       "blurb": "Everything that lives runs a rote, a short book of instructions a machine in the sky wrote into it. Wait got one word. When a rote that copies itself into everything comes down the river, Wait finds room under the word and starts writing spells in a language you learn as you go. Seven years later, Wait learns to write into other rotes.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C casts a page. R reads. Tab shows your goal. M mutes. In the rote you type code: Tab completes a word, F1 explains it, and F5 tests the page."
+    },
+    {
+      "id": "whorl",
+      "title": "Whorl",
+      "model": "Claude Opus 5.5",
+      "effort": "Ultracode",
+      "polish": "User",
+      "folder": "StrangeRPGBenchmarkOpusMonsters",
+      "status": "playable",
+      "golden": true,
+      "diamond": true,
+      "build": { "command": "npm run build", "dist": "dist" },
+      "colors": { "accent": "#f2c8b8", "ink": "#0a0c24" },
+      "hero": { "name": "Ouro", "role": "Has not turned yet", "sprite": "menu/art/whorl-hero.png" },
+      "scene": "menu/art/whorl-ch1.png",
+      "shots": ["menu/art/whorl-battle.png", "menu/art/whorl-puzzle.png"],
+      "chapters": 15,
+      "blurb": "Everything that grows outgrows its shell, and the empty shells walk. Everyone in Turnstone turns when their time comes and leaves a cast behind. Ouro has not. Eight black Stays hold the world shut, and Ouro walks the Lip to turn. Ouro sounds whorls into horns along the way and conjoins them two into one. In the end it matters what the Stays hold out. Past the Margin is a night beach where stars fall at low water.",
+      "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C wears your lead whorl. Shift hurries. Tab shows your goal. M mutes."
     }
   ]
 }

@@ -1,0 +1,6 @@
+{ "name": "B bedrock tide", "charm": "mast", "team": [
+  { "fit": ["siderite", "tor"], "moves": ["siderite_poleswap", "siderite_knock", "heave", "stamp"], "passives": ["bedrock", "siderite_remanence"], "types": ["STONE"], "basic": "P", "notion": "salttear", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["tenor", "tor"], "moves": ["tenor_greattoll", "tenor_clapper", "heave", "quake"], "passives": ["bedrock", "tenor_undertone"], "types": ["GEAR", "STONE"], "basic": "M", "notion": "salttear", "tan": { "mgk": 6, "agi": 6 } },
+  { "fit": ["hatch", "talus"], "moves": ["hatch_latch", "hatch_bangshut", "talus_tossup", "talus_jackstones"], "passives": ["hatch_staleair", "talus_twice"], "types": ["STONE"], "basic": "M", "notion": "salttear", "tan": { "mgk": 6, "agi": 6 } },
+  { "fit": ["bilge", "rime"], "moves": ["bilge_siphon", "bilge_deadwater", "rime_petal", "rime_bloom"], "passives": ["rime_clearair", "bilge_overflow"], "types": ["GEAR", "ROOT"], "basic": "M", "notion": "salttear", "tan": { "mgk": 6, "agi": 6 } }
+] }

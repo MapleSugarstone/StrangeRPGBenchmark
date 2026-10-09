@@ -1,0 +1,55 @@
+{
+ "name": "Herleur team, base Heron in its place",
+ "charm": null,
+ "team": [
+  {
+   "fit": [
+    "razor",
+    "carrion"
+   ],
+   "moves": [
+    "razor_cut",
+    "razor_upright",
+    "feast",
+    "peck"
+   ],
+   "passives": [
+    "razor_startle",
+    "razor_hinge"
+   ],
+   "types": [
+    "BEAST"
+   ],
+   "basic": "P",
+   "notion": "longshin",
+   "tan": {
+    "atk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "kind": "scion",
+   "notion": "bloodglass",
+   "tan": {
+    "atk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "kind": "bourdon",
+   "notion": "bitterroot",
+   "tan": {
+    "mgk": 6,
+    "hp": 6
+   }
+  },
+  {
+   "kind": "heron",
+   "notion": "longshin",
+   "tan": {
+    "atk": 6,
+    "hp": 6
+   }
+  }
+ ]
+}

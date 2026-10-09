@@ -1,0 +1,5 @@
+{ "name": "F one shell lead", "charm": "mast", "team": [
+ {"fit": ["hyponome", "vacuole"], "moves": ["hyponome_squirt", "hyponome_pushoff", "vacuole_old", "vacuole_vacuum"], "passives": ["hyponome_ebbpull", "vacuole_thin"], "types": ["VOID", "TIDE"], "basic": "M", "notion": "bodkin", "tan": {"mgk": 6, "hp": 6}},
+ {"kind": "razor", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "tang", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "gimlet", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}} ] }

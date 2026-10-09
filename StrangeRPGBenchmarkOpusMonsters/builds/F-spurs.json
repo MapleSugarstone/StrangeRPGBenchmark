@@ -1,0 +1,5 @@
+{ "name": "F four bone spurs", "charm": "mast", "team": [
+ {"fit": ["atlas", "gore"], "moves": ["atlas_quills", "atlas_marrow", "horn", "stampede"], "passives": ["atlas_turnedback", "thickneck"], "types": ["STONE", "BEAST"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["atlas", "mote"], "moves": ["atlas_quills", "atlas_marrow", "mote_glint", "mote_hand"], "passives": ["atlas_turnedback", "mote_side"], "types": ["STONE", "STAR"], "basic": "P", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["atlas", "silt"], "moves": ["atlas_quills", "atlas_marrow", "silt_sink", "silt_sludge"], "passives": ["atlas_turnedback", "silt_silting"], "types": ["STONE"], "basic": "P", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["atlas", "grenadier"], "moves": ["atlas_quills", "atlas_hunker", "grenadier_bite", "grenadier_rake"], "passives": ["atlas_turnedback", "grenadier_scent"], "types": ["STONE", "BEAST"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}} ] }

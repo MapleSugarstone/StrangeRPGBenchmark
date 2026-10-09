@@ -1,0 +1,399 @@
+# WHORL game text, chunk 8 of 15. Files: src/content/act2/ch5.ts, src/content/act2/ch6.ts, src/content/act2/kit.ts, src/content/areakit.ts, src/content/credits.ts
+# Speakers: look (36), Cinch (30), hint (29), Mudlark (26), choice (16), notice (12), narration (10), goal (10), Gran (9), Tack (8), Label-reader (7), ? (add) (7), Bare (6), Strandmonger (6), Letter (5), Counter (4), Ring polisher (3), Man at the well (3), Eldest (3), Marram-cutter (2), Star-chaser (2), Jelly-turner (2), Conch-diver (2), ? (listMenu) (2), choice prompt (2), The Sifter (2), Woman (climbing) (1), Carving (1), ? (knot) (1), ? (vellumslip) (1), ? (welling) (1), ? (full) (1), ? (squall) (1), ? (dynamo) (1), ? (mundane) (1), Hermit (1), Old man (1), Woman (1), Boy (1), Girl (1), ? (once) (1), The Strand Boardmaster (1), ? (push) (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/act2/ch5.ts
+
+== scene: map springlow
+[132m5p1] Woman (climbing) | Up. And down. Up. And down. My knees have opinions about the big low.
+[15p00n5] look | Inside, every climber is climbing at once. The stair is full. (someone is going down the up side)
+[1yr3wbl] look | A whole wreck, lying on its side on sand nobody here has seen dry.
+[145kvyd] look | Weed lies flat over it. Something in the hold is breathing slowly.
+[1udazog] look | The anchor stone. The sea is so far out that its hole is full of stars.
+
+== scene: springEnter
+[05s020g] narration | Far up the beach, a hand lifts the Volute out of the sand.
+[1c0ufx8] narration | The hand holds the Volute up to where an ear would be.
+[1cfdbny] goal | Follow the footprints east, along the upper beach.
+
+== scene: map longstrand
+[1ec6rfv] Marram-cutter | Cutting dune grass for thatch. I go round the labels. Feels rude to cut a label.
+[0jnzjkf] Marram-cutter | Eh. Thatch'll keep.
+[0q27k97] Star-chaser | Big low! Once a year you get to run right behind the stars! Come on, come on!
+[15aiwox] Star-chaser | Aw. Fine, you win. Now run!
+[01e9nio] Jelly-turner | I turn the jellies over so they don't dry out. Do they say thanks? They do not.
+[02t5sdt] Jelly-turner | Yeah, they're not gonna thank you either.
+[1bnusyo] look | A label stuck in a dune, driftwood, pressed with big letters that lean and grow toward the end.
+[0x19iln] look | A label on a tall post, its top cut to point upward.
+[1wk843e] look | A label lying on its side where the wind blew it over. Nobody has stood it back up.
+[0qadyw6] look | A label half buried, the letters smaller and neater, very old.
+[029i6tb] look | A label in the marram, with the grass grown up round it.
+[0mzyzcl] look | A label leaning on another label. (the other one leans back)
+[1cky0y6] look | A label with a crab living under it. The crab comes out, sees Ouro, and goes back in.
+[175ip5x] look | A label stuck in the sand in no order with the others.
+[1h6hynr] look | A label with sand drifted up to the K.
+[1ebpref] look | A new label. The letters are the biggest yet.
+[1ve9gbm] look | A label in the wet sand, leaning toward the sea.
+[0hklsmg] look | A label at the edge of the water. Each small wave comes up to it and goes back.
+[0gtzrk4] look | A label. Something has scratched under the letters, small: "not this one".
+[0ozb8mz] look | Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+
+== scene: labelReader
+[0ezjtqx] Label-reader | Low water. Look at all that sand. Nothing's coming to take any of it.
+[1acmx3v] Label-reader | High water. KEEP THE SEA's under the sea now. Only one out here that got what it asked for.
+[04g4vvj] Label-reader | I read 'em, that's all I do. First word's always KEEP. After THE it gets tricky.
+[0vcpcpb] Label-reader | Old ones are neat and small. New ones are huge. Hurts my neck, honestly.
+[0r412ip] Label-reader | Got a shell for catching, if you want it. Stars land in the same holes here every year. Same holes!
+[0720y75] hint | (Starfall on the Long Strand: stars fall only in the footprint columns. Learn the order.)
+[1diqy7o] choice | Catch stars
+[10rrbrd] choice | Not now
+[0h0yb4h] Label-reader | {score}! Clean night. I'll write that on a label. A small one, not like theirs.
+[0dgb0at] Label-reader | {score}. Watch the holes. They always pick the same holes.
+
+== scene: listenMud
+[19b7dpx] Mudlark | Nope. Not coming out. Not at dead low, and not for just anybody.
+[0fu0jes] Mudlark | I never stay in the same shell. Never skip past one, either. Always next door.
+[14b0z1l] Mudlark | And I don't grab a shell I haven't had my ear on first.
+[1fiaiwn] hint | (Put your ear to a shell to listen. An empty shell plays with notes missing.)
+[0sr6yz8] hint | (A shell with someone moving in it plays with footsteps in it.)
+
+== scene: foundMud
+[0s0pa76] Mudlark | Huh. Don't usually lose that one. Don't mind, though. Much.
+[1e1k58d] Mudlark | Rules, if you're sticking round. No labeled ones. No standing up at dead low.
+[0j7wr6c] Mudlark | And I never look up at it. Don't need to. You learn the feet, you don't forget the feet.
+[1pisapb] goal | Look at the big square in the middle of the Tray.
+
+== scene: emptySquare
+[1iu4xyy] choice | Four white posts.
+[0wposod] narration | The posts are white and round on top. They are as tall as the posts at the corners of the Margin.
+[0uergi9] Mudlark | I stay off the big square. Never seen a thing in it. Not once.
+[1cwa69k] Mudlark | Listened down every row. Once. Not doing it twice. Not one whole tune in the lot.
+[0e3we77] Mudlark | Never heard one play the whole thing. Except yours, way up the beach.
+[0nvdxcm] goal | Stand by the big empty square.
+[06yar4g] goal | Talk to the Mudlark.
+
+== scene: bootSquare
+[0u25yfy] choice | Take the boot.
+[0yo92ic] choice | Leave it.
+[0ijqyim] Mudlark | Labeled. I wouldn't. Wouldn't stop you, though.
+[1h6wddx] notice | Ouro gets Gran's boot, full of sand seventy years old.
+
+== scene: crazedShell
+[0z1kf8u] narration | The gray shell is drawn all over with crazes. In the crazes are the shapes of towns.
+[0q459qh] hint | (The old Apex. Cinch would want to see it, when the sea has been in.)
+
+== scene: trayEnter
+[05er1jh] hint | (At dead low the Gleaner works in the Tray. Its feet are dangerous. Keep out of the rows it is in.)
+[062bu9x] goal | Something moves in one of the small shells at the north edge of the Tray.
+
+== scene: trayTack
+[02ciw0v] Tack | 312 squares. Still 1 empty. 1 of us sat by it all night, and it wasn't me.
+[0x6c1ch] Tack | Counted 312 squares. Twice. 1 empty. The big 1, in the middle.
+[14fjpzl] Tack | It picked up 40 in a row and put every one back in order. Showoff.
+
+== scene: trayMudlark
+[0ecerwf] Mudlark | No labels. Don't need 'em. Don't need anybody doing it for me, either.
+[0g0xeml] Mudlark | Here. I don't keep keys I can't use. Opens the last room in the top one.
+[0fsp3th] notice | (Ouro gets the Hollow Top's key.)
+[0i98goo] Mudlark | No more lying flat at low. Don't miss it. Well. My elbows don't.
+[0bdsx1x] Mudlark | Don't bother pulling it. I've tried. They don't stay off.
+[1r6uy3y] Mudlark | Mine never stand still at low. Never. You saw why.
+[090vsy6] Mudlark | Can't carry it flat, I don't keep it. That's the whole rule.
+[09nyqys] Mudlark | Told you. No labeled ones. No standing up at dead low.
+[0vgheyo] Mudlark | Big square's in the middle. Go look. I'm not going near it.
+
+== scene: leadToYard
+[1y7efc5] Mudlark | Don't live in the rows. Don't live far off, either. This way.
+[1vaccv6] Mudlark | Wouldn't put my door anywhere its feet don't come. Nobody looks where they step.
+
+== scene: trayCinch
+[1t5i7tv] Cinch | Sit. Wade, huh. That's a name for somebody small.
+[0x5onvy] Cinch | Still sitting with that one. Room here if you want to sit with it too.
+
+== scene: trayTake
+[00fezol] narration | The hand lifts them both, high, up beside the dark where an ear would be.
+[0srj79w] hint | (Small Gran is marked. The label goes where she goes.)
+[01rj65c] hint | ({#1} is marked. The label goes where it goes.)
+
+== scene: springHigh
+[1sp9bt4] Cinch | Sit. They let me out at the high. Sent soup.
+[0r1vkfc] Cinch | Sit here by me. You can see the pink one from here, down the beach.
+[1s0t8i1] narration | Down the beach, something very large lies curled in the mouth of the great pink shell.
+[0xqhhpx] Cinch | Sit and watch it a while. Same thing, every time.
+[0f8trjd] Cinch | Seen that before. Left one at a post myself. Did the same thing every day.
+[0p0mliy] Cinch | From here it looks like a cast. Somebody's. Somebody big.
+[090t9nh] Cinch | Sit. Nobody's in it.
+[134eemu] choice | Whose is it?
+[0jbyemp] Cinch | Sit with that one a while. I would.
+[10lp0ky] Cinch | Sit.
+[1le2bxx] Cinch | From down here we look alike. Got my nose, see.
+[03x0xbd] goal | Letters wait at the Sand Dollar post. The pink shell lies at the east end of the beach.
+
+== scene: map mudlarkyard
+[06ajpzg] look | One of the Mudlark's own labels, scratched small in a different hand: "{s}".
+
+== scene: yardEnter
+[0iio6ma] hint | (The Gleaner's feet come down in the yard in the same round of six steps.)
+[15dkcs9] hint | (With the tide table, a mark shows where the next foot lands.)
+
+== scene: yardDoor
+[06pdgfs] Mudlark | Don't fight fair. Don't fight long. Get down here.
+[06y72q1] Mudlark | Keep it. Never keep what I win anyway.
+[0n0sr7e] Mudlark | There. Don't give these out much. Don't have much to give.
+[1wyob4u] Mudlark | Go on, then. I don't keep anything I can't carry flat.
+[0o5dj1l] goal | Stand by the big empty square.
+[0x2dezb] goal | Listen at the big empty square.
+
+== scene: yardMudlark
+[0d2lzvb] Mudlark | Not coming out to the gate. I'll wait at the door. Mind the feet.
+[0358nfp] Mudlark | Back again? I don't keep anything I can't carry flat. You included.
+
+== scene: map hollowtop
+[09v7vlp] look | In the square the ground is crazed all over.
+[0gcmixd] look | In the middle is a shell-shaped hollow, and nothing in it.
+[133n2af] look | On a kitchen wall, children's heights scratched in the plaster.
+[10dwipf] look | The top mark is a little higher than the rest.
+[1ljl06j] look | Down the well, on a ledge above the dry bottom, a nautilus horn.
+[0flui5e] look | In the child's room, in a box under the bed, five grains of nacre.
+[171qgy3] look | A cart with its shafts down. Nothing is between the shafts.
+[1yf3bri] look | A row of washing over a wall, dry for years. It does not move.
+[0lbti28] look | A door with a lock. Every other door here opens for stillness. This one wants a key.
+
+== scene: htEnter
+[1tqabxp] hint | (Doors here open only when nothing moves near them.)
+
+== scene: map oldapex
+[1k8mg5b] look | The flat round place, crazed all over. Through the crazes, far below, the Tray's rows.
+
+== scene: oaEnter
+[0g805z5] Cinch | Sit. That's me, there. Still at it.
+
+== scene: oaCinch
+[1tp884p] Cinch | There. Both of us sitting. Only took forty years.
+[1rhqkjj] Cinch | Sit and watch me a while. Funny. Never stops, does it.
+
+== scene: oaCast
+[1ew7x78] Cinch | Sit down by me, then. You've stood long enough.
+
+== scene: counter
+[0eocihh] Counter | Four. W, A, D, E. Still four. Only count I've ever been sure of.
+[0djz2uj] Counter | Four. Letters, I think, in the shine on the far knuckle. Can't read backward, me.
+[0db3j2h] Counter | One. Star, that's what it takes. Maybe two. Stand on the far knuckle at night and wait.
+
+== scene: ringPolisher
+[0qdxlay] Ring polisher | It shines now! Forty years of rubbing, and look at it go :-]
+[0vrqv60] Ring polisher | When a star falls at night, it shines right across to the far knuckle. All the way!
+[18vb9b8] Ring polisher | Mind the shine on your way out. It gets in your eyes, the good way.
+
+== scene: ringNight
+[067ouma] Counter | Four. W, A, D, E. Four, and I'm sure. Had the ring down as a knuckle for years. It's a name.
+
+==== file: src/content/act2/ch6.ts
+
+== scene: map conchlip
+[1tj7k4z] Conch-diver | I dive in the mouth at low, while it's out walking. Pearls in there! Big pink ones.
+[1rn29ue] Conch-diver | Ugh. No pink ones today.
+[09ie1g1] look | Letters pressed into the pink of the lip itself.
+[01ecqlc] look | Knobs on every turn of the spire, worn smooth on top.
+[1xmq3j5] look | Something has held this shell, often, by the knobs.
+[1wgfrsz] look | Under the lip's edge, where the pink curls back, a nautilus horn.
+[0j9ne7j] look | A label stuck in the sand by the great pink shell.
+
+== scene: lipEnter
+[0gxzmk1] Cinch | Sit. This is as far as I go. Good lip, this. Made for sitting.
+[1stj8wh] Cinch | From here you can hear it breathe. Or the sea. One of the two.
+[1gvb0wl] goal | Go in at the lip, round the inside of the spiral.
+
+== scene: lipCinch
+[19a66c5] Cinch | Wade. Been saying it over. Small sort of name.
+[0vv9mts] Cinch | Lip's still good. Haven't moved off it once. Plenty of room.
+[0hrm3pl] Cinch | Breathing, or the sea. Haven't decided. Sit and help me.
+
+== scene: map conchpink
+[0yr3he9] look | A round door in the pink. It is shut. Beyond it the spiral goes on up.
+
+== scene: brush
+[0weqpix] hint | (Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)
+[1fvnjcx] hint | (At low tide nothing listens, and the walls stand wider. The way on opens only at high tide.)
+
+== scene: turnEnter
+[121352l] hint | (A door here is shut while you can see it, ahead or in a polished wall.)
+[0qh8mty] hint | (Hold the face button to walk backward.)
+
+== scene: opening
+[0cmbjuw] hint | (Small Gran's lines open the way here. She is not in your team.)
+
+== scene: map conchroar
+[121fzuj] Carving | A round shut door, carved with {#1}.
+[15vg31t] look | A pink pool off the second opening. The water in it is the color of the lip.
+
+== scene: roarEnter
+[1tlxxgn] hint | (Talk to Small Gran at an opening, and her next line comes out of the next opening up, louder.)
+[0bu5asb] hint | (Each door waits for one of her lines.)
+
+== scene: aperture
+[1g1hwfu] choice | Wake it
+[0i5oeis] choice | Not yet
+[18o4upr] hint | (Small Gran's last line wakes it. She is not in your team.)
+[1uncyhk] hint | Her next line is her last one.
+[05mjr2n] choice | Talk to her.
+
+== scene: wake
+[02jj1ln] hint | (The tide here is high. Both sides start with 3 tide.)
+[0e6727s] hint | (The Conch lets you out at the lip. Come back at high tide.)
+
+== scene: lines
+[0jfxy12] ? (knot) | Something in Knot turns, once. ... A long creak.
+[1k0r9mm] ? (vellumslip) | It turns over in the hand. ... Once.
+[00k03po] ? (welling) | Water moves in Kaivodo. ... A long way down.
+[0ukqm5r] ? (full) | The tide in Full comes up. ... And goes down.
+[12h11f7] ? (squall) | Rain comes out of it, sideways. A little. ... Onto the great hand.
+[099pana] ? (dynamo) | It hums. ... The same note the old pump hummed.
+[1gv9m6a] ? (mundane) | It beats. ... Once. ... Very slowly.
+
+== scene: hears
+[0ojbm8w] narration | It does what it always does. The hand holds still for it.
+
+== scene: i
+[15hmm58] ? (listMenu) | Give which whorl?
+
+== scene: chooseGift
+[0uh5hl2] hint | (Your team must keep at least one whorl.)
+[07skke1] choice | Give it.
+[1jwe57m] choice | Choose again.
+[1o8ifzs] choice prompt | {m.name}. It will not come back.
+
+== scene: theGift
+[0y2xvdh] Cinch | Sit. You can see its hand from down here. Empty.
+[1acp5u0] Cinch | Picked up every shell on the beach, that one. Looks like it only ever wanted one.
+[1owve59] hint | (Choose one whorl to give it. It will not come back.)
+[0oyqxp8] Cinch | Sit. It's holding still now. Always was good at that, the old thing.
+[1tfrcgx] Cinch | Sit a minute. She's got the best seat on the beach.
+[09mmitv] notice | Ouro gets a star grain. Six now.
+
+== scene: lowWaterAfter
+[06crusk] Cinch | Sit, if you like. Nothing's coming.
+
+== scene: theVolute
+[0ndx788] narration | Far down the beach, the Gleaner sits in the pink shell with something held to its ear.
+
+== scene: ch6
+[1h1muyt] Tack | 0 turns today. 3 of us, sitting. Writing that down.
+[06uw65z] Tack | Day 41. That's 41 turns. Your go, I said.
+[00vq424] Bare | Sit, if you want. Leave the post be.
+[1kd1rip] Hermit | (A Hermit sits on the hard new edge with a haul team asleep beside them.)
+[1crogom] Bare | Go on home. Your gran will have soup on.
+
+== scene: epilogueApex
+[0sy06r6] Tack | Day 41. 41 turns. Your go.
+[13psvdp] Tack | 0 turns today. That's still a number.
+[0nm2txv] Bare | Leave it. Let it come when it comes.
+[1huiuni] Tack | 3 of us sitting. Fine. I'll count the days instead.
+
+== scene: epilogueLip
+[18bsu7u] Bare | Sit down. All of you. Rest.
+[0ofxtnz] Bare | Put the haul away. Go eat something.
+[0o3bmsc] Bare | Go home. Eat at your gran's.
+
+== scene: kitchen
+[1j2stee] Gran | Tell my little turnip
+[0mfulam] Gran | You gave her to a child.
+[051u3wx] Gran | She will like that. She was always fond of the beach.
+[0ik1yxz] Gran | That is my left.
+[0kx5dco] Gran | Tell my little turnip she has come home, then.
+[08v6bkq] Gran | Tell my little turnip she is redolent of salt.
+[1o4kl97] Gran | Tell my little turnip that my boot.
+[0zwzdwb] Gran | Tell my little turnip it was the left one. I hopped home, the entire distance.
+[0fqv12o] Gran | Tell my little turnip it looks a good deal lighter.
+[0uew3c2] Man at the well | Dry. They say she's gone to the beach. She always did frighten easy.
+[1wiejyg] Man at the well | She's up! Water's right up. She's heard something she liked.
+[0sd6gb4] Man at the well | She's still dust. We carry, it's not far. I tell her about it every trip.
+[0mlyxmb] Strandmonger | Which that stray cost me two cowries and a sandwich. I still miss the sandwich.
+[0cdb005] Strandmonger | You got the best of that trade twice. I've never once managed it.
+[0tz1nuc] narration | North past the Lip, the Exuvia settles lower in the sand, and lies still.
+[17zgsph] narration | That night the moon comes up full, and stays full.
+[0gnnjba] goal | The Strand stays open, through the Margin or the gray at the Shoreline.
+[0cdu356] hint | (The Strand stays open. Keepers on the Strand take rematches at Strand level 35.)
+
+== scene: credits2
+[0cood01] ? (add) | Turns at the post, Tack: 41
+[06j1d6v] ? (add) | Teams hauled, Bare: all
+[1m7ufgy] ? (add) | The Volute rests.
+[04es6im] ? (add) | The Volute hardens.
+
+== scene: ch6
+[1o0lgyu] Cinch | Sit down. Wade. That's a small somebody's name.
+[0h41023] Cinch | Staying out here, me. They've got a good fire, and a log my shape.
+[01w1obn] Cinch | Sit. Your world's got a hand in it, lying palm up. I sat on its thumb once, a whole afternoon.
+[18zyvaf] Cinch | From the thumb you could see a ring on it. Writing round the inside.
+[1fgkw0e] Cinch | Hang on. I'm coming too. Got a lip to sit on.
+[0snq8da] Strandmonger | A thick one! Three cowries. He wrote on both sides, which is free, which I regret.
+[00s4whz] Letter | Day 30. 30 turns. At low something lifted us. Whole Volute tipped. Lug fell over.
+[0rjvrhb] Letter | Turned post anyway. 1 turn, hard as could. Got put down. Fid says 4 spans down.
+[0aa30vr] Letter | Hasp asked if hands steady. Were not. 0 days off. Tack.
+[1v98mrn] Strandmonger | From Bare. Wouldn't pay postage. Which I carried it anyway, at a loss of a cowrie and my good name.
+[0n4pwpv] Letter | Haul every low. All teams, all at once, in time. Keep moving.
+[070l69w] Letter | Mend two cracked teams. Haul again. Come home when you can. Bare.
+[1iaw6z2] Strandmonger | Going to the pink one, aren't you. I can see it on you. That's a ten-cowrie face, easy.
+[1mr0z7v] Strandmonger | Plus your Midden I'll keep for nothing while you're down there. Once. Free. I feel ill.
+[1qqj2tn] Eldest | Yesterday that boot was on her foot. This morning I'd know it in the dark.
+[019rq0b] Eldest | Yesterday she'd have wanted it back. This morning I think she still would.
+[0750n6g] Eldest | (yesterday that girl goes home. this morning she will be old)
+[1i6yf6u] Old man | Big low's done. Went right past us twice! We kicked our feet like anything.
+[0sj4un6] Woman | Everybody's house stayed! Except one on the far bar. He's in with his sister now.
+[09fd0f5] Boy | A girl's voice came out of the pink one! Everybody stopped sweeping. I stopped first.
+[1fthy4f] The Sifter | Two lows a day, every day, and one house restored. A most equitable measure!!
+[0pd3o14] The Sifter | Two lows a day, every day, and one house. Fair measure. A thimble, a barrow, a flannock.
+[1ilejko] Girl | Somebody said "Don't look" really loud. So Gloss looked. Gloss always does.
+[10it0wo] ? (once) | Heard it on the stair. It said it twice! Second time was louder.
+
+== scene: strandBoardmaster
+[1vn17x8] The Strand Boardmaster | Every Strand card has been through my hands, damp or dry. Five stayed, most loyally!!
+
+==== file: src/content/act2/kit.ts
+
+== scene: useShell
+[19ltuu9] choice | Call {sitting.name}
+[0vse1qq] choice | Leave it
+[03v033w] notice | {sitting.name} comes back to your team.
+[1vuylfu] notice | {sitting.name} goes to the Midden.
+[03yvhel] hint | Ouro needs at least one whorl to keep before leaving one in a shell.
+[0w2dnfp] choice | Leave it
+
+== scene: i
+[0r8vru9] ? (listMenu) | Leave which whorl?
+
+== scene: turnTide
+[1wmntl2] hint | (At low tide the sand is open, and stars fall in a line.)
+[0vvp5ew] hint | (At low water a shell with nothing moving in it is gone when the shadow passes.)
+[08va9ed] hint | (You can leave a whorl sitting in a shell. A whorl moves about, so the shell stays.)
+[1aulzbl] hint | (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+
+== scene: giveGrain
+[050r78r] notice | {from} gives Ouro a star grain.
+
+== scene: chooseGift
+[0kid9or] choice | Give {m.name}
+[114tkth] choice | Not yet
+[1gburix] choice prompt | It will not come back.
+
+==== file: src/content/areakit.ts
+
+== scene: rows
+[0bxzuy7] ? (push) | row {i} is {r.length} wide, more than {w}: {r}
+
+== scene: reward
+[06fb91m] notice | A notion: {#1}.
+[0y8z3re] notice |  x 
+[0p56st6] notice | A notion: 
+[0yiypgd] notice |  x 
+[0o9uclz] notice | {r.rind} cowries.
+[0r1fauu] notice | {r.tan} nacre. Any grotto will layer it on.
+
+==== file: src/content/credits.ts
+
+== scene: credits
+[1lqq9a0] ? (add) | Ouro conjoined nothing.
+[1y7vyxz] ? (add) | The Volute holds.
+[0xuux8l] ? (add) | The Volute turns.

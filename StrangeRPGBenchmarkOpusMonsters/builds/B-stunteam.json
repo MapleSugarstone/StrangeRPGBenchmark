@@ -1,0 +1,6 @@
+{ "name": "B stun team", "charm": "tusk", "team": [
+  { "fit": ["talus", "buckler"], "moves": ["talus_tossup", "talus_bonechip", "buckler_vault", "buckler_rim"], "passives": ["talus_twice", "buckler_umbo"], "types": ["STONE", "GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["vat", "sallet"], "moves": ["vat_bodyslam", "vat_rollcask", "sallet_browbash", "sallet_hotbreath"], "passives": ["vat_ferment", "sallet_oldblood"], "types": ["TIDE", "STONE"], "basic": "M", "notion": "heartstone", "tan": { "hp": 6, "agi": 6 } },
+  { "fit": ["bonedry", "molar"], "moves": ["bonedry_stare", "bonedry_crack", "molar_rupture", "molar_cusp"], "passives": ["bonedry_unburied", "molar_heft"], "types": ["BEAST", "STONE"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["glove", "kiln"], "moves": ["glove_springoff", "glove_grub", "kiln_bellows", "kiln_clinker"], "passives": ["kiln_glaze", "glove_cuffed"], "types": ["BEAST", "GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } }
+] }

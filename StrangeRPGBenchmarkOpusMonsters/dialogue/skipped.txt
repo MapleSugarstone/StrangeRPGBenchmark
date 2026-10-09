@@ -1,0 +1,576 @@
+no lowercase (label)	src/content/act2/ch1.ts	KEEP THE SEA.
+no lowercase (label)	src/content/act2/ch1.ts	KEEP THE STARS.
+no lowercase (label)	src/content/act2/ch2.ts	KEEP THE COWRIE.
+no lowercase (label)	src/content/act2/ch2.ts	KEEP THE COWRIE.
+no lowercase (label)	src/content/act2/ch5.ts	AND ONCE A DAY AND ONCE A DAY AND ONCE A-
+no lowercase (label)	src/content/act2/ch5.ts	AND THEY HAVE TO STAY AT THE HEIGHT OF THE ARMS AND YOU WILL HAVE TO MAKE ME AND-
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE BOOT.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE CONE
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE CRAZES.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE DARK.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE DUNE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE EDGE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE FOAM.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE HARP
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE HOLLOW ONE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE NIGHT.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE OLIVE
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE SAND.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE SEA.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE SHORE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE SKY.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE SMALL ONE
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE STARS.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE TIDE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE TOP
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE VOLUTE.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE WAVES.
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE WENTLETRAP
+no lowercase (label)	src/content/act2/ch5.ts	KEEP THE WIND.
+no lowercase (label)	src/content/act2/ch5.ts	THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE POST HAS TO TURN ONCE A DAY
+no lowercase (label)	src/content/act2/ch5.ts	YOU WILL HAVE TO MAKE ME PUT MY HANDS DOWN AND THEY WILL NOT COME DOWN
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE FOUR.
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE FOUR.
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE LIP
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE MOUTH
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE PINK.
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE PINK.
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE ROAR
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE SHELL
+no lowercase (label)	src/content/act2/ch6.ts	KEEP THE SPIRE
+no lowercase (label)	src/content/act2/ch6.ts	THE VOLUTE HARDENS.
+no lowercase (label)	src/content/act2/ch6.ts	THE VOLUTE RESTS.
+no lowercase (label)	src/content/areas1.ts	WIND NONE. SEA NONE. CREW ASHORE. SHIP ALSO.
+no lowercase (label)	src/content/areas2.ts	I AM NOT SECOND.
+no lowercase (label)	src/content/areas2.ts	I GO FIRST. I ALWAYS HAVE.
+no lowercase (label)	src/content/areas2.ts	I GO LAST, AND LOUDEST.
+no lowercase (label)	src/content/areas2.ts	NAMES LIE IN THIS TOWER.
+no lowercase (label)	src/content/ch9.ts	THE POST HAS TO TURN ONCE A DAY AND IT HAS TO BE TODAY AND IT HAS TO BE EVERY DAY AND-
+no lowercase (label)	src/content/ch9.ts	THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE HANDS HAVE TO STAY ON AND
+no lowercase (label)	src/content/ch9.ts	THE VOLUTE HOLDS.
+no lowercase (label)	src/content/ch9.ts	THE VOLUTE TURNS.
+no lowercase (label)	src/content/ch9.ts	YOU HAVE TO GO ROUND THE HANDS FIRST AND ALL FOUR HAVE TO LET YOU AND THEN YOU HAVE TO-
+not prose	src/content/act2/ch1.ts	Man by the fire
+not prose	src/content/act2/ch1.ts	Man by the fire
+not prose	src/content/act2/ch1.ts	Woman with a basin
+not prose	src/content/act2/ch1.ts	Woman with a basin
+not prose	src/content/act2/ch2.ts	Woman with a bowl
+not prose	src/content/act2/ch2.ts	Woman with a bowl
+not prose	src/content/act2/ch4.ts	A drawing on a shell
+not prose	src/content/act2/ch4.ts	Four notches
+not prose	src/content/act2/ch4.ts	Man with a net
+not prose	src/content/act2/ch4.ts	Scraped place {#1} of 3
+not prose	src/content/act2/ch4.ts	Siphon's first bowl
+not prose	src/content/act2/ch4.ts	Siphon's old mat
+not prose	src/content/act2/ch4.ts	Strand level 13
+not prose	src/content/act2/ch4.ts	Strand level 18
+not prose	src/content/act2/ch4.ts	Strand level 23
+not prose	src/content/act2/ch4.ts	Strand level 28
+not prose	src/content/act2/ch4.ts	Strand level 35
+not prose	src/content/act2/ch4.ts	Strand level 50
+not prose	src/content/act2/ch4.ts	The Hollow Top's key
+not prose	src/content/act2/ch4.ts	Three notches
+not prose	src/content/act2/ch4.ts	four notches
+not prose	src/content/act2/ch4.ts	three notches
+not prose	src/content/act2/ch5.ts	not this one
+not prose	src/content/act2/ch5.ts	not this one
+not prose	src/content/act2/ch5.ts	not this one either
+not prose	src/content/act2/ch6.ts	Kept by WADE
+not prose	src/content/act2/ch6.ts	Star grains: {#1}
+not prose	src/content/act2/ch6.ts	Starfall best: {best}
+not prose	src/content/act2/ch6.ts	a curl shaped like a question mark
+not prose	src/content/act2/ch6.ts	a scratched hand
+not prose	src/content/act2/ch6.ts	acorn varix mew halite skitter fucus flotsam mote seaglass kipper actinia lacuna columba lobworm
+not prose	src/content/act2/ch6.ts	chamois swift torr plummet zenith bourdon laminaria eelgrass grenadier asterias cirrus hyponome
+not prose	src/content/act2/ch6.ts	furl laggard tain luster gyre lichen groundswell chalk saltline tumbleweed riser columella crimp
+not prose	src/content/act2/ch6.ts	ostium gimlet albatross protoconch astrolabe pallasite halophile heirloom lodestar ammonite
+not prose	src/content/act2/ch6.ts	razor annulet macula pallium seiche scud enamel porcella specie emery faience denticle diastema
+not prose	src/content/act2/ch6.ts	saltwort albedo cuttle medusa bollard docket vacancy trochus hopper crabwise magpie cache strombus
+not prose	src/content/act2/ch6.ts	sanderling flood surf fleur madrepore blush cochlea samphire gimbal lull flange pleiad aphelion
+not prose	src/content/act2/ch6.ts	slackwater brinicle transit ballast sluice septum vacuole evaporite hood spoor bolide marram
+not prose	src/content/areakit.ts	map {mapId} has no zone
+not prose	src/content/areakit.ts	no map {mapId} to link from
+not prose	src/content/areas1.ts	You knocked my pile over :-(
+not prose	src/content/ch1.ts	The hare would've won :-(
+not prose	src/content/credits.ts	Every whorl Ouro conjoined
+not prose	src/content/credits.ts	Kinds in the Register: {pegged} of {WILD_KINDS.length}
+not prose	src/content/credits.ts	Ouro's four at the end
+not prose	src/content/credits.ts	Stays Ouro pulled: {#1}
+not prose	src/content/credits.ts	Time on the Lip: {h}:{#2}
+not prose	src/content/credits.ts	Wins against Tack: {#1}
+not prose	src/content/gems.ts	Setting board
+not prose	src/content/guide.ts	Bad statuses
+not prose	src/content/guide.ts	Before you conjoin
+not prose	src/content/guide.ts	Comes sooner
+not prose	src/content/guide.ts	Crests and tide
+not prose	src/content/guide.ts	Each kind is different
+not prose	src/content/guide.ts	Getting cowries
+not prose	src/content/guide.ts	Good statuses
+not prose	src/content/guide.ts	How to get tide
+not prose	src/content/guide.ts	Levels and XP
+not prose	src/content/guide.ts	Losing cowries
+not prose	src/content/guide.ts	Moves that hit every foe
+not prose	src/content/guide.ts	Moving twice
+not prose	src/content/guide.ts	Physical and magic
+not prose	src/content/guide.ts	Quick actions
+not prose	src/content/guide.ts	Sounding with horns
+not prose	src/content/guide.ts	Spending cowries
+not prose	src/content/guide.ts	Switching clears statuses
+not prose	src/content/guide.ts	Things to use
+not prose	src/content/guide.ts	Turns and time
+not prose	src/content/guide.ts	Two more types
+not prose	src/content/ring.ts	Big whelk shell
+not prose	src/content/ring.ts	Prising iron
+not prose	src/content/ring.ts	The Master's chart
+not prose	src/content/ring.ts	The front step
+not prose	src/content/ring.ts	The weathervane
+not prose	src/content/ring.ts	Wading stilts
+not prose	src/content/ring1.ts	Set on this stake
+not prose	src/content/ring2.ts	Z or X to fold it
+not prose	src/content/ring3.ts	puzzle 5: the salt pans cannot be crossed from their start
+not prose	src/content/ring4.ts	puzzle 6: the sleepers in the kelp cannot be cleared from the chair's lane
+not prose	src/content/ring5.ts	puzzle 7: the gantries cannot be turned to the sea from their start
+not prose	src/content/ring7.ts	puzzle 10: the three stones cannot be dragged out of the cut
+not prose	src/content/ring8.ts	puzzle 11: the lean can be crossed without the haul stones
+not prose	src/content/ring8.ts	puzzle 11: the lean cannot be crossed
+not prose	src/content/ring8.ts	the Long Way Round: the ford cannot be crossed with the haul stones
+not prose	src/content/townlife.ts	did you hear about the bells
+not prose	src/content/townlife.ts	they're all a bit wrong now
+not text	src/content/act2/ch1.ts	Child in a whelk
+not text	src/content/act2/ch1.ts	Driftwood boy
+not text	src/content/act2/ch1.ts	Man in a whelk
+not text	src/content/act2/ch1.ts	The Outer Whorl
+not text	src/content/act2/ch1.ts	The Sand Dollar
+not text	src/content/act2/ch1.ts	Woman in a whelk
+not text	src/content/act2/ch2.ts	Gloss's Hall
+not text	src/content/act2/ch2.ts	Gloss's clerk
+not text	src/content/act2/ch2.ts	The Cowrie's Back
+not text	src/content/act2/ch2.ts	The Glaze Halls
+not text	src/content/act2/ch2.ts	The Under-teeth
+not text	src/content/act2/ch3.ts	Climber on the outside
+not text	src/content/act2/ch3.ts	Climber on the outside
+not text	src/content/act2/ch3.ts	The Auger's Dune
+not text	src/content/act2/ch3.ts	The Mouth Room
+not text	src/content/act2/ch3.ts	The Rolling Rooms
+not text	src/content/act2/ch3.ts	Turnwise's Landing
+not text	src/content/act2/ch4.ts	Nautilus doorkeeper
+not text	src/content/act2/ch4.ts	Nautilus doorkeeper
+not text	src/content/act2/ch4.ts	Nautilus fisher
+not text	src/content/act2/ch4.ts	Nautilus fisher
+not text	src/content/act2/ch4.ts	Old man (climbing)
+not text	src/content/act2/ch4.ts	The Low Line
+not text	src/content/act2/ch4.ts	The Tide-reader's room
+not text	src/content/act2/ch4.ts	The living chamber
+not text	src/content/act2/ch4.ts	The old chambers
+not text	src/content/act2/ch4.ts	The siphuncle
+not text	src/content/act2/ch5.ts	Band of light
+not text	src/content/act2/ch5.ts	Cinch's cast
+not text	src/content/act2/ch5.ts	Cinch's cast
+not text	src/content/act2/ch5.ts	Cinch's cast
+not text	src/content/act2/ch5.ts	Cinch's cast
+not text	src/content/act2/ch5.ts	Cinch's cast
+not text	src/content/act2/ch5.ts	Ring polisher
+not text	src/content/act2/ch5.ts	Ring polisher
+not text	src/content/act2/ch5.ts	Ring polisher
+not text	src/content/act2/ch5.ts	The Hollow Top
+not text	src/content/act2/ch5.ts	The Long Strand
+not text	src/content/act2/ch5.ts	The Mudlark's yard
+not text	src/content/act2/ch5.ts	The old Apex
+not text	src/content/act2/ch5.ts	The spring low
+not text	src/content/act2/ch6.ts	Man at the well
+not text	src/content/act2/ch6.ts	Man at the well
+not text	src/content/act2/ch6.ts	The Conch's lip
+not text	src/content/act2/ch6.ts	The Strand Boardmaster
+not text	src/content/act2/ch6.ts	The Strand Boardmaster
+not text	src/content/areas1.ts	Ring polisher
+not text	src/content/areas1.ts	Ring polisher
+not text	src/content/areas1.ts	The Knucklebones
+not text	src/content/areas1.ts	The Shoreline
+not text	src/content/areas1.ts	The Undermeadow
+not text	src/content/areas2.ts	A cast under the ice
+not text	src/content/areas2.ts	The Dropfield
+not text	src/content/areas2.ts	The Iceshelf
+not text	src/content/areas2.ts	The Rootfall
+not text	src/content/areas2.ts	The Underspire
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The Upright Man
+not text	src/content/areas2.ts	The cast under the ice
+not text	src/content/areas3.ts	A reflection
+not text	src/content/areas3.ts	A soldier's cast
+not text	src/content/areas3.ts	A soldier's cast
+not text	src/content/areas3.ts	The Glass Desert
+not text	src/content/areas3.ts	The Hands' Orchard
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Old Field
+not text	src/content/ch1.ts	Girl with a net
+not text	src/content/ch1.ts	Girl with a net
+not text	src/content/ch1.ts	Gran's kitchen
+not text	src/content/ch1.ts	Inside the Rib
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Man at the well
+not text	src/content/ch1.ts	Old man's cast
+not text	src/content/ch1.ts	The Midden Road
+not text	src/content/ch1.ts	The Strandmonger's
+not text	src/content/ch2.ts	Leeward's deck
+not text	src/content/ch2.ts	Man on stilts
+not text	src/content/ch3.ts	The salt marsh
+not text	src/content/ch4.ts	Inside the Bole
+not text	src/content/ch4.ts	The understory
+not text	src/content/ch5.ts	Conjoiner's boy
+not text	src/content/ch5.ts	Conjoiner's boy
+not text	src/content/ch5.ts	Inside the Pylon
+not text	src/content/ch5.ts	Ohm's workshop
+not text	src/content/ch5.ts	The machine fields
+not text	src/content/ch6.ts	Old Amber's hall
+not text	src/content/ch6.ts	Rider's cast
+not text	src/content/ch6.ts	Very old man
+not text	src/content/ch6.ts	Very old woman
+not text	src/content/ch7.ts	The Hermitage
+not text	src/content/ch7.ts	The Hilt road
+not text	src/content/ch7.ts	The Moonwater
+not text	src/content/ch7.ts	The guardhouse
+not text	src/content/ch8.ts	Synced keeper
+not text	src/content/ch8.ts	Synced keeper
+not text	src/content/ch8.ts	The crater fields
+not text	src/content/ch9.ts	Man at the well
+not text	src/content/ch9.ts	Man at the well
+not text	src/content/geode.ts	The Druse Hall
+not text	src/content/geode.ts	The Geode's Mouth
+not text	src/content/gyms.ts	Guard on drill
+not text	src/content/gyms.ts	Guard on drill
+not text	src/content/homes.ts	The Rider's house
+not text	src/content/homes.ts	The bell-tuner's
+not text	src/content/homes.ts	The blue window house
+not text	src/content/homes.ts	The bread house
+not text	src/content/homes.ts	The bucket house
+not text	src/content/homes.ts	The bunk house
+not text	src/content/homes.ts	The button-polisher's
+not text	src/content/homes.ts	The carvings house
+not text	src/content/homes.ts	The comb-carver's
+not text	src/content/homes.ts	The crate house
+not text	src/content/homes.ts	The empty house
+not text	src/content/homes.ts	The fireside house
+not text	src/content/homes.ts	The guard's house
+not text	src/content/homes.ts	The guards' bunks
+not text	src/content/homes.ts	The house with the cradle
+not text	src/content/homes.ts	The leaning house
+not text	src/content/homes.ts	The net-mender's
+not text	src/content/homes.ts	The parts shop
+not text	src/content/homes.ts	The quiet house
+not text	src/content/homes.ts	The root house
+not text	src/content/homes.ts	The shell-sorter's
+not text	src/content/homes.ts	The spoon-carver's
+not text	src/content/homes.ts	The star-counter's
+not text	src/content/homes.ts	The stilt kitchen
+not text	src/content/homes.ts	The twins' house
+not text	src/content/homes.ts	The warm house
+not text	src/content/homes.ts	The weaver's
+not text	src/content/homes.ts	The woodcutter's hut
+not text	src/content/minigames.ts	Ohm's apprentice
+not text	src/content/minigames.ts	The Boardmaster
+not text	src/content/minigames.ts	The Boardmaster
+not text	src/content/minigames.ts	The Boardmaster
+not text	src/content/minigames.ts	Verger's clerk
+not text	src/content/postgame.ts	The Shallows
+not text	src/content/ring1.ts	Tack's house
+not text	src/content/ring1.ts	The Brook Wood
+not text	src/content/ring1.ts	The Islander's hut
+not text	src/content/ring1.ts	The carver's
+not text	src/content/ring1.ts	The old shell
+not text	src/content/ring1.ts	The porch house
+not text	src/content/ring1.ts	The shelf house
+not text	src/content/ring1.ts	Woman with a basket
+not text	src/content/ring2.ts	The High-water Mark
+not text	src/content/ring2.ts	The boat-house
+not text	src/content/ring2.ts	The stilt-maker's
+not text	src/content/ring3.ts	The Saltings
+not text	src/content/ring3.ts	The Shouting Wood
+not text	src/content/ring3.ts	The ledger room
+not text	src/content/ring4.ts	Driftwood man
+not text	src/content/ring4.ts	Driftwood man
+not text	src/content/ring4.ts	The Kelp Beds
+not text	src/content/ring4.ts	The rain house
+not text	src/content/ring5.ts	The Gantry Shore
+not text	src/content/ring5.ts	The trader's
+not text	src/content/ring6.ts	The rememberer's house
+not text	src/content/ring8.ts	The Long Way Round
+not text	src/content/ring8.ts	The house on the slope
+not text	src/content/ring9.ts	The Gate Ring
+not text	src/data/species.ts	arrives before bad news
+not text	src/data/species.ts	boxes in the spring
+not text	src/data/species.ts	breathes the tide in and out
+not text	src/data/species.ts	brings up water when asked
+not text	src/data/species.ts	catches and holds
+not text	src/data/species.ts	comes back once a lifetime
+not text	src/data/species.ts	comes in sideways
+not text	src/data/species.ts	dries everything it sits on
+not text	src/data/species.ts	drifts and cracks
+not text	src/data/species.ts	drops things for you
+not text	src/data/species.ts	faces into the wind
+not text	src/data/species.ts	floats over someone else
+not text	src/data/species.ts	follows by smell
+not text	src/data/species.ts	goes in and out
+not text	src/data/species.ts	goes off when something is wrong
+not text	src/data/species.ts	goes off when stepped on
+not text	src/data/species.ts	goes round and round
+not text	src/data/species.ts	goes through small gaps
+not text	src/data/species.ts	goes up all at once
+not text	src/data/species.ts	grows a ring every year
+not text	src/data/species.ts	grows across paths
+not text	src/data/species.ts	hangs over the north
+not text	src/data/species.ts	holds on until it is full
+not text	src/data/species.ts	hums when it is turned
+not text	src/data/species.ts	is offered in a cup
+not text	src/data/species.ts	is warm all the way through
+not text	src/data/species.ts	keeps a space on top for someone
+not text	src/data/species.ts	keeps doing what it was doing
+not text	src/data/species.ts	lifts what is under it
+not text	src/data/species.ts	lowers its head first
+not text	src/data/species.ts	passes over at noon
+not text	src/data/species.ts	piles itself higher when hit
+not text	src/data/species.ts	presses down
+not text	src/data/species.ts	pulls a face at the rain
+not text	src/data/species.ts	pulls at your ankles
+not text	src/data/species.ts	pulls the water up after it
+not text	src/data/species.ts	pulls whatever it is tied to
+not text	src/data/species.ts	runs the wrong way up rivers
+not text	src/data/species.ts	shrugs and the ground shrugs with it
+not text	src/data/species.ts	sits in low places
+not text	src/data/species.ts	slides when you step on it
+not text	src/data/species.ts	spreads under everything
+not text	src/data/species.ts	stands where it was put
+not text	src/data/species.ts	sticks to whoever passes
+not text	src/data/species.ts	strikes the same place twice
+not text	src/data/species.ts	takes stone out of whatever it touches
+not text	src/data/species.ts	thins and comes back
+not text	src/data/species.ts	turns in place
+not text	src/data/species.ts	waits on the fence
+not text	src/data/species.ts	walks like Tack
+not text	src/data/species.ts	walks round the Lip with a house on
+not text	src/data/species.ts	was the middle of everything once
+not text	src/data/species.ts	watches from very high up
+not text	src/data/species3.ts	blows apart and grows back where it lands
+not text	src/data/species3.ts	bores in and waits in the hole
+not text	src/data/species3.ts	carries everything on its back and bristles
+not text	src/data/species3.ts	changes tack without being asked
+not text	src/data/species3.ts	comes up where you were standing
+not text	src/data/species3.ts	counts to four and then shouts
+not text	src/data/species3.ts	drags things back where they were
+not text	src/data/species3.ts	follows one thing and takes what it has
+not text	src/data/species3.ts	gets bigger on what it eats
+not text	src/data/species3.ts	gets harder to stop the longer it rolls
+not text	src/data/species3.ts	gets through and bites on the third try
+not text	src/data/species3.ts	goes out and comes back
+not text	src/data/species3.ts	goes quiet and makes you quiet
+not text	src/data/species3.ts	grabs whoever hits its friends
+not text	src/data/species3.ts	grows a coat of wood on whoever is near
+not text	src/data/species3.ts	has more voices in it than holes
+not text	src/data/species3.ts	holds on to whatever it reaches
+not text	src/data/species3.ts	holds something that is still working
+not text	src/data/species3.ts	holds the bill for later
+not text	src/data/species3.ts	is a little farther off than it looks
+not text	src/data/species3.ts	keeps a piece of everything it beats
+not text	src/data/species3.ts	keeps going when broken in two
+not text	src/data/species3.ts	keeps things cold through the bad months
+not text	src/data/species3.ts	lands on the same side twice
+not text	src/data/species3.ts	leaves a little of itself in everything
+not text	src/data/species3.ts	leaves lumps of itself lying about
+not text	src/data/species3.ts	makes everyone sit and wait
+not text	src/data/species3.ts	makes friends bigger and enemies small
+not text	src/data/species3.ts	pulls harder the longer it is left alone
+not text	src/data/species3.ts	pulls long, then short
+not text	src/data/species3.ts	pumps out what comes in
+not text	src/data/species3.ts	puts things to sleep and keeps them there
+not text	src/data/species3.ts	remembers every step it took
+not text	src/data/species3.ts	rings and everything stops
+not text	src/data/species3.ts	ripens and goes off
+not text	src/data/species3.ts	scratches the same place until it gives
+not text	src/data/species3.ts	sends things up that come down later
+not text	src/data/species3.ts	shakes off whatever sticks to it
+not text	src/data/species3.ts	shuts things in for a while
+not text	src/data/species3.ts	stands in a field and frightens what comes
+not text	src/data/species3.ts	stands in front and takes it
+not text	src/data/species3.ts	stands still until it does not
+not text	src/data/species3.ts	stings everything near it while the tide lasts
+not text	src/data/species3.ts	stings the same spot over and over
+not text	src/data/species3.ts	swings and leaves smoke where it went
+not text	src/data/species3.ts	takes a hit and lets a pane go
+not text	src/data/species3.ts	takes a little off you every turn
+not text	src/data/species3.ts	takes the hits and gives them back
+not text	src/data/species3.ts	turns any way it likes
+not text	src/data/species3.ts	waves one big claw
+not text	src/data/species3.ts	will not be moved
+not text	src/data/species4.ts	brews until it bursts
+not text	src/data/species4.ts	brings its own cold air
+not text	src/data/species4.ts	buds polyps and stops at the door
+not text	src/data/species4.ts	carries whatever stands on it
+not text	src/data/species4.ts	climbs back on after a fall
+not text	src/data/species4.ts	climbs one step at a time
+not text	src/data/species4.ts	counts the blows it takes
+not text	src/data/species4.ts	crowns whoever follows it
+not text	src/data/species4.ts	cuts whoever is not watching
+not text	src/data/species4.ts	does what you were about to do
+not text	src/data/species4.ts	falls off things on purpose
+not text	src/data/species4.ts	feeds whoever leans on it
+not text	src/data/species4.ts	fires whatever it is handed
+not text	src/data/species4.ts	freezes your boots to the floor
+not text	src/data/species4.ts	gathers frost on what it looks at
+not text	src/data/species4.ts	gets harder with every dent
+not text	src/data/species4.ts	gets up once more than you expect
+not text	src/data/species4.ts	grips and cuts
+not text	src/data/species4.ts	has a drake in it some days
+not text	src/data/species4.ts	hides its own shell
+not text	src/data/species4.ts	holds you by the ankles
+not text	src/data/species4.ts	hops when you look at it
+not text	src/data/species4.ts	is too big to see whole
+not text	src/data/species4.ts	jumps onto whoever passes
+not text	src/data/species4.ts	keeps going after the last one
+not text	src/data/species4.ts	keeps its stars turning
+not text	src/data/species4.ts	keeps most of itself under
+not text	src/data/species4.ts	keeps whatever reaches it
+not text	src/data/species4.ts	lands beside whatever is falling
+not text	src/data/species4.ts	lays down layers as it goes
+not text	src/data/species4.ts	mixes three weathers
+not text	src/data/species4.ts	picks one branch and cuts only that
+not text	src/data/species4.ts	pulls at anything iron
+not text	src/data/species4.ts	pulls things over the edge
+not text	src/data/species4.ts	punches hardest every third time
+not text	src/data/species4.ts	rises at the other corner
+not text	src/data/species4.ts	runs hot and has to sit down
+not text	src/data/species4.ts	says the last thing back louder
+not text	src/data/species4.ts	shuts itself around a friend
+not text	src/data/species4.ts	snaps once before it moves
+not text	src/data/species4.ts	spins when it is cornered
+not text	src/data/species4.ts	spreads a hit thin
+not text	src/data/species4.ts	stings low and slow
+not text	src/data/species4.ts	takes after whatever it beats
+not text	src/data/species4.ts	throws its edges about
+not text	src/data/species4.ts	throws itself at a friend
+not text	src/data/species4.ts	throws what it catches
+not text	src/data/species4.ts	turns things into frogs
+not text	src/data/species4.ts	turns toward talk nobody else hears
+not text	src/data/species4.ts	waits and lines up its horn
+not text	src/data/species5.ts	brings things home
+not text	src/data/species5.ts	climbs out of anything
+not text	src/data/species5.ts	climbs sideways
+not text	src/data/species5.ts	clinks when pleased
+not text	src/data/species5.ts	comes apart in squares
+not text	src/data/species5.ts	creeps to the dry side
+not text	src/data/species5.ts	curls at low water
+not text	src/data/species5.ts	digs down when a star lands
+not text	src/data/species5.ts	does it again later
+not text	src/data/species5.ts	drills in and stays
+not text	src/data/species5.ts	flies over everything
+not text	src/data/species5.ts	gets in between
+not text	src/data/species5.ts	goes smooth slowly
+not text	src/data/species5.ts	goes up when stood on
+not text	src/data/species5.ts	grows a new lip when pushed
+not text	src/data/species5.ts	grows a room at a time
+not text	src/data/species5.ts	holds up the middle
+not text	src/data/species5.ts	is warm on one side
+not text	src/data/species5.ts	is worn by every hand
+not text	src/data/species5.ts	jumps on shadows
+not text	src/data/species5.ts	keeps a ring lit
+not text	src/data/species5.ts	keeps falling
+not text	src/data/species5.ts	keeps pushing
+not text	src/data/species5.ts	lifts and sets down
+not text	src/data/species5.ts	looks for what was taken
+not text	src/data/species5.ts	meshes on whatever is there
+not text	src/data/species5.ts	moves when you look away
+not text	src/data/species5.ts	opens where it is put
+not text	src/data/species5.ts	points at one thing
+not text	src/data/species5.ts	polishes what it lies on
+not text	src/data/species5.ts	pops when squeezed
+not text	src/data/species5.ts	rides the warm air up
+not text	src/data/species5.ts	rings when touched
+not text	src/data/species5.ts	rises a little every tide
+not text	src/data/species5.ts	rolls downhill
+not text	src/data/species5.ts	rolls in on itself
+not text	src/data/species5.ts	says her next line
+not text	src/data/species5.ts	scours what touches it
+not text	src/data/species5.ts	settles on whatever passes
+not text	src/data/species5.ts	shines in the dark
+not text	src/data/species5.ts	shows what is put in front of it
+not text	src/data/species5.ts	shuts when a shadow passes
+not text	src/data/species5.ts	stands still and holds the water
+not text	src/data/species5.ts	stands up in one sheet
+not text	src/data/species6.ts	breathes things away from it
+not text	src/data/species6.ts	burns brighter while it works
+not text	src/data/species6.ts	changes color to match
+not text	src/data/species6.ts	comes back faster
+not text	src/data/species6.ts	comes in and stays a while
+not text	src/data/species6.ts	does things twice
+not text	src/data/species6.ts	dries rings off you
+not text	src/data/species6.ts	dries what it touches
+not text	src/data/species6.ts	freezes a line along the bottom
+not text	src/data/species6.ts	goes quiet and makes you quiet
+not text	src/data/species6.ts	holds still and holds you still
+not text	src/data/species6.ts	holds your hand back
+not text	src/data/species6.ts	keeps everyone in order
+not text	src/data/species6.ts	keeps one of everything
+not text	src/data/species6.ts	keeps the old air in
+not text	src/data/species6.ts	keeps things level
+not text	src/data/species6.ts	keeps whatever falls in
+not text	src/data/species6.ts	leaves prints that stars land in
+not text	src/data/species6.ts	lets one side through
+not text	src/data/species6.ts	lies flat under your boots
+not text	src/data/species6.ts	lies still until struck
+not text	src/data/species6.ts	listens to each shell it lifts
+not text	src/data/species6.ts	looks for its sisters
+not text	src/data/species6.ts	looks up from very deep
+not text	src/data/species6.ts	makes things louder
+not text	src/data/species6.ts	measures before it acts
+not text	src/data/species6.ts	never blinks
+not text	src/data/species6.ts	never gets wet
+not text	src/data/species6.ts	opens wider when named
+not text	src/data/species6.ts	pickles what it holds
+not text	src/data/species6.ts	reaches for whatever is nearest
+not text	src/data/species6.ts	ripples when you talk
+not text	src/data/species6.ts	rolls toward voices
+not text	src/data/species6.ts	salts whatever it spits at
+not text	src/data/species6.ts	seals the room behind you
+not text	src/data/species6.ts	shuts into a shell when hurt
+not text	src/data/species6.ts	shuts the door on trouble
+not text	src/data/species6.ts	sinks a little more each minute
+not text	src/data/species6.ts	sounds like the sea
+not text	src/data/species6.ts	spins when you look away
+not text	src/data/species6.ts	stands in front of the nearest shell
+not text	src/data/species6.ts	stands up when the water goes
+not text	src/data/species6.ts	stands where it is put
+not text	src/data/species6.ts	steps inward
+not text	src/data/species6.ts	takes the best thing you have
+not text	src/data/species6.ts	takes the shine off things
+not text	src/data/species6.ts	tells you it fell from the sky
+not text	src/data/species6.ts	turns the water pink
+not text	src/data/species6.ts	waits for something to fill it
+not text	src/data/species6.ts	walks off and leaves runners
+not text	src/data/species6.ts	walks sideways round trouble
+not text	src/data/species7.ts	sets a stone in itself every breath
+protected	src/content/act2/ch1.ts	Climb over it
+protected	src/content/act2/ch1.ts	Climb over it
+protected	src/content/act2/ch1.ts	Driftwood boy
+protected	src/content/act2/ch1.ts	Leave a whorl in it
+protected	src/content/act2/ch1.ts	Leave a whorl in it
+protected	src/content/act2/ch1.ts	One got through.
+protected	src/content/act2/ch1.ts	One got through.
+protected	src/content/act2/ch2.ts	Gloss's clerk
+protected	src/content/act2/ch3.ts	Climber on the outside
+protected	src/content/act2/ch4.ts	Cinch's cast
+protected	src/content/act2/ch5.ts	Cinch's cast
+protected	src/content/act2/kit.ts	Leave a whorl in it

@@ -1,0 +1,6 @@
+{ "name": "B burr lock", "charm": "tusk", "team": [
+  { "fit": ["burr", "talus"], "moves": ["catch", "prickle", "talus_tossup", "talus_bonechip"], "passives": ["stuckon", "talus_twice"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "buckler"], "moves": ["catch", "prickle", "buckler_vault", "buckler_parry"], "passives": ["stuckon", "buckler_umbo"], "types": ["ROOT", "GEAR"], "basic": "P", "notion": "longshin", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "vat"], "moves": ["catch", "prickle", "vat_bodyslam", "vat_rollcask"], "passives": ["stuckon", "vat_ferment"], "types": ["ROOT", "TIDE"], "basic": "P", "notion": "heartstone", "tan": { "hp": 6, "agi": 6 } },
+  { "fit": ["burr", "dynamo"], "moves": ["catch", "prickle", "spark", "arc"], "passives": ["stuckon", "charge"], "types": ["ROOT", "GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } }
+] }

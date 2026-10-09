@@ -1,0 +1,5 @@
+{ "name": "C guard wall", "charm": "mast", "team": [
+ { "fit": ["groundswell", "undine"], "moves": ["groundswell_swell", "groundswell_lift", "undine_glimpse", "undine_fathom"], "passives": ["groundswell_full", "undine_toobig"], "types": ["TIDE"], "basic": "M", "notion": "spareskin", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["fata", "cairn"], "moves": ["fata_glint", "fata_hazerush", "laystone", "topple"], "passives": ["fata_doubling", "stacking"], "types": ["STAR", "STONE"], "basic": "M", "notion": "waxseal", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["peat", "kipper"], "moves": ["peat_seep", "peat_mire", "kipper_slap", "kipper_desiccate"], "passives": ["peat_bogbreath", "kipper_stiff"], "types": ["ROOT", "SALT"], "basic": "M", "notion": "waxseal", "tan": { "mgk": 6, "hp": 6 } },
+ { "fit": ["tang", "rumple"], "moves": ["tang_chip", "tang_scabbard", "rumple_ruck", "rumple_upfold"], "passives": ["tang_edgeguard", "rumple_give"], "types": ["GEAR", "ROOT"], "basic": "P", "notion": "spareskin", "tan": { "atk": 6, "hp": 6 } } ] }

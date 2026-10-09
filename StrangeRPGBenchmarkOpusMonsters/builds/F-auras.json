@@ -1,0 +1,5 @@
+{ "name": "F stacked reserve heals", "charm": "mast", "team": [
+ {"fit": ["espalier", "mote"], "moves": ["espalier_spur", "espalier_saprise", "mote_glint", "mote_turn"], "passives": ["espalier_trained", "mote_side"], "types": ["ROOT", "STAR"], "basic": "M", "notion": "waxseal", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["mote", "espalier"], "moves": ["mote_glint", "mote_hand", "espalier_spur", "espalier_lattice"], "passives": ["espalier_trained", "mote_side"], "types": ["STAR"], "basic": "M", "notion": "spareskin", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["espalier", "lune"], "moves": ["espalier_spur", "espalier_saprise", "lune_facet", "lune_glaive"], "passives": ["espalier_trained", "lune_waxing"], "types": ["ROOT", "STAR"], "basic": "M", "notion": "bodkin", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["mote", "cairn"], "moves": ["mote_glint", "mote_turn", "shoulder", "laystone"], "passives": ["mote_side", "waymark"], "types": ["STAR", "STONE"], "basic": "M", "notion": "waxseal", "tan": {"mgk": 6, "hp": 6}} ] }

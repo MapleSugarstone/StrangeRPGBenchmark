@@ -30,10 +30,19 @@ j.rect(11, 21, 7, 1, '$').rect(22, 21, 7, 1, '$');
 j.rect(19, 35, 2, 1, '.').rect(39, 18, 1, 2, 'E');
 j.scatter('p', 10, 501);
 
+const LAMPS: [number, number][] = [
+  [15, 10], [25, 10], [12, 11], [27, 11], [12, 18], [27, 18], [15, 24], [25, 24],
+  [10, 29], [29, 29], [17, 30], [22, 30], [17, 34], [22, 34], [38, 16], [38, 21],
+];
+// Marquee lights over the casino door and the four house doors.
+const MARQUEES: [number, number, number][] = [[19.5, 8, 34], [6, 17, 22], [33, 17, 22], [5, 27, 20], [34, 27, 20]];
+
 const JACKPOT: MapDef = {
-  id: 'jackpot', name: 'Jackpot', chapter: 5, music: 'jackpot', bg: 'ink', battleBg: ['plum', 'red'], mode: () => 'night', glow: { window: 18, machine: 16 }, weather: 'glints',
+  id: 'jackpot', name: 'Jackpot', chapter: 5, music: 'jackpot', bg: 'ink', battleBg: ['plum', 'red'], mode: () => 'night', glow: { window: 20, machine: 18, door: 14, water: 12 }, weather: 'glints',
+  light: () => ({ ambient: 1, lights: [...LAMPS.map(([x, y]): [number, number, number] => [x, y - 0.5, 30]), ...MARQUEES] }),
   rows: j.rows(), legend: LEGEND,
   npcs: [
+    ...LAMPS.map(([x, y], i) => ({ id: 'lamp' + i, x, y, sprite: P('object', 'lamp' + i, 'gold', 'cream') })),
     { id: 'phone', x: 24, y: 25, sprite: P('object', 'payphone', 'slate', 'sky'), talk: (c) => c.payphone() },
     {
       id: 'giftshop', x: 25, y: 31, sprite: P('robed', 'giftshop', 'pink', 'gold'), prayer: 'Please let somebody buy something.',

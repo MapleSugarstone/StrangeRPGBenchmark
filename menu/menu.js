@@ -95,14 +95,57 @@
 
   // Positions and delays of the sparkles on a golden cartridge, as left %, top %, delay in seconds, and size in cqw.
   const SPARKLES = [[6, 8, 0, 10], [88, 22, 0.7, 7], [14, 58, 1.3, 6.5], [92, 70, 0.35, 9], [50, 4, 1.8, 6], [74, 92, 1.05, 8], [30, 90, 2.2, 6]];
+  // A diamond cartridge has more glints, each with its own color from the prism.
+  const GLINTS = [[6, 8, 0, 10, '#ffffff'], [88, 18, 0.5, 8, '#9fe8ff'], [14, 52, 1.1, 7, '#ffb8e6'], [94, 64, 0.3, 9, '#ffffff'], [48, 3, 1.6, 6.5, '#c8b8ff'],
+    [76, 94, 0.9, 8, '#9fffd8'], [26, 92, 2.0, 6.5, '#fff2a8'], [3, 34, 2.4, 6, '#9fe8ff'], [97, 42, 1.4, 6, '#ffb8e6'], [60, 97, 2.7, 5.5, '#ffffff']];
+
+  /** The cartridge's edition: diamond outranks golden. */
+  const tierOf = (game) => (game.diamond ? 'diamond' : game.golden ? 'golden' : null);
+
+  /**
+   * The facets of a diamond cartridge as an SVG: a jittered grid cut into triangles, lit from the top left, with white edges.
+   * Each cartridge gets its own cut from `seed`.
+   */
+  function crystalSvg(seed) {
+    let s = seed * 7919 + 17;
+    const rnd = () => { s = (Math.imul(s, 1103515245) + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+    const W = 100, H = 122, cols = 6, rows = 7;
+    const pts = [];
+    for (let r = 0; r <= rows; r++) {
+      for (let c = 0; c <= cols; c++) {
+        const jx = c === 0 || c === cols ? 0 : (rnd() - 0.5) * 12, jy = r === 0 || r === rows ? 0 : (rnd() - 0.5) * 12;
+        pts.push([c * W / cols + jx, r * H / rows + jy]);
+      }
+    }
+    const at = (r, c) => pts[r * (cols + 1) + c];
+    const tris = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const a = at(r, c), b = at(r, c + 1), d = at(r + 1, c), e = at(r + 1, c + 1);
+        if ((r + c) % 2) tris.push([a, b, e], [a, e, d]); else tris.push([a, b, d], [b, e, d]);
+      }
+    }
+    const polys = tris.map((t) => {
+      const cx = (t[0][0] + t[1][0] + t[2][0]) / 3, cy = (t[0][1] + t[1][1] + t[2][1]) / 3;
+      const v = Math.max(0, Math.min(1, 1 - (cx / W) * 0.45 - (cy / H) * 0.45 + (rnd() - 0.5) * 0.7));
+      const fill = v > 0.6
+        ? `rgba(255,255,255,${(0.18 + v * 0.5).toFixed(2)})`
+        : `rgba(${Math.round(70 + v * 110)},${Math.round(150 + v * 80)},${Math.round(215 + v * 35)},${(0.22 + (1 - v) * 0.4).toFixed(2)})`;
+      return `<polygon points="${t.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ')}" fill="${fill}" stroke="rgba(255,255,255,0.6)" stroke-width="0.35"/>`;
+    }).join('');
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${polys}</svg>`;
+  }
 
   function cartridge(game, index) {
     const wip = game.status === 'wip';
-    const label = `${game.title}, by ${game.model}, ${game.effort}${game.polish ? `, polished by ${game.polish}` : ''}${game.golden ? ', golden cartridge' : ''}${wip ? ', work in progress' : ''}`;
-    const sparkles = game.golden ? SPARKLES.map(([x, y, d, s]) =>
-      el('span', { class: 'sparkle', 'aria-hidden': 'true', style: { '--x': `${x}%`, '--y': `${y}%`, '--d': `${d}s`, '--s': `${s}cqw` } })) : [];
+    const tier = tierOf(game);
+    const label = `${game.title}, by ${game.model}, ${game.effort}${game.polish ? `, polished by ${game.polish}` : ''}${tier ? `, ${tier} cartridge` : ''}${wip ? ', work in progress' : ''}`;
+    const sparkles = tier === 'diamond' ? GLINTS.map(([x, y, d, s, c]) =>
+      el('span', { class: 'sparkle', 'aria-hidden': 'true', style: { '--x': `${x}%`, '--y': `${y}%`, '--d': `${d}s`, '--s': `${s}cqw`, '--c': c } }))
+      : tier === 'golden' ? SPARKLES.map(([x, y, d, s]) =>
+        el('span', { class: 'sparkle', 'aria-hidden': 'true', style: { '--x': `${x}%`, '--y': `${y}%`, '--d': `${d}s`, '--s': `${s}cqw` } })) : [];
     const slot = el('button', {
-      class: game.golden ? 'slot golden' : 'slot',
+      class: tier ? `slot ${tier}` : 'slot',
       type: 'button',
       'data-index': String(index),
       'aria-label': label,
@@ -128,7 +171,8 @@
             ),
           ),
           el('span', { class: 'cart-grip' }),
-          game.golden ? el('span', { class: 'cart-shine', 'aria-hidden': 'true' }) : null,
+          tier === 'diamond' ? (() => { const f = el('span', { class: 'cart-facets', 'aria-hidden': 'true' }); f.innerHTML = crystalSvg(index + 1); return f; })() : null,
+          tier ? el('span', { class: 'cart-shine', 'aria-hidden': 'true' }) : null,
           wip ? el('span', { class: 'wip-tape', 'aria-hidden': 'true' }, 'Work in progress') : null,
         ),
         ...sparkles,
@@ -342,7 +386,8 @@
     $('pv-hero-role').textContent = game.hero.role || '';
 
     const facts = [['Chapters', String(game.chapters)]];
-    if (game.golden) facts.push(['Cartridge', 'Golden edition']);
+    const tier = tierOf(game);
+    if (tier) facts.push(['Cartridge', tier === 'diamond' ? 'Diamond edition' : 'Golden edition']);
     if (game.controls) facts.push(['Controls', game.controls]);
     $('pv-facts').replaceChildren(...facts.flatMap(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]));
 
@@ -395,7 +440,8 @@
     app.inert = false;
     const slot = state.returnFocus;
     state.returnFocus = null;
-    if (slot && slot.isConnected) slot.focus({ preventScroll: true });
+    // The preview may have moved to a game on another page, so turn the shelf to it before focusing.
+    if (slot && slot.isConnected) focusGame(Number(slot.dataset.index));
   }
 
   $('pv-back').addEventListener('click', () => { sfx.back(); toMenu(); });
@@ -405,10 +451,28 @@
     go(`play/${state.current.id}`);
   });
   $('pv-screen').addEventListener('click', () => showShot(state.shot + 1, true));
+
+  /** Moves the preview to the neighboring game, wrapping round the shelf, and keeps the shelf focus in step. */
+  function stepGame(dir) {
+    if (!state.current) return;
+    const i = state.games.indexOf(state.current);
+    const next = state.games[(i + dir + state.games.length) % state.games.length];
+    sfx.hover();
+    const slot = track.querySelector(`.slot[data-index="${state.games.indexOf(next)}"]`);
+    if (slot) state.returnFocus = slot;
+    history.replaceState(history.state, '', `#game/${next.id}`);
+    openPreview(next);
+    const banner = $('pv-banner');
+    if (banner.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      banner.animate([{ transform: `translateX(${dir * 40}px)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 260, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+    }
+  }
+  $('pv-prev').addEventListener('click', () => stepGame(-1));
+  $('pv-next').addEventListener('click', () => stepGame(1));
   preview.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Backspace') { e.preventDefault(); sfx.back(); toMenu(); }
-    if (e.key === 'ArrowLeft') showShot(state.shot - 1, true);
-    if (e.key === 'ArrowRight') showShot(state.shot + 1, true);
+    if (e.key === 'ArrowLeft') { e.preventDefault(); stepGame(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); stepGame(1); }
   });
 
   // Player

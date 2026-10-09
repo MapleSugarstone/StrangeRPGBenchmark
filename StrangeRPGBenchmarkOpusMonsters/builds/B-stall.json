@@ -1,0 +1,6 @@
+{ "name": "B stall", "charm": "pylon", "team": [
+  { "fit": ["skipper", "furrow"], "moves": ["skipper_hop", "skipper_barbfin", "furrow_underfold", "furrow_split"], "passives": ["skipper_slick", "furrow_illfooting"], "types": ["TIDE", "ROOT"], "basic": "P", "notion": "warmstone", "tan": { "hp": 6, "def": 6 } },
+  { "fit": ["welling", "halo"], "moves": ["bucket", "brim", "aegis", "intervention"], "passives": ["drawnup", "grace"], "types": ["TIDE", "STAR"], "basic": "M", "notion": "ribbon", "tan": { "cha": 6, "hp": 6 } },
+  { "fit": ["stump", "grotto"], "moves": ["sap", "heartwood", "cavein", "takein"], "passives": ["regrow", "drip"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "spareskin", "tan": { "hp": 6, "def": 6 } },
+  { "fit": ["floe", "pew"], "moves": ["shard", "packice", "pew_hardseat", "pew_respite"], "passives": ["refreeze", "pew_kneeling"], "types": ["TIDE", "STONE"], "basic": "M", "notion": "chrysalis", "tan": { "hp": 6, "res": 6 } }
+] }

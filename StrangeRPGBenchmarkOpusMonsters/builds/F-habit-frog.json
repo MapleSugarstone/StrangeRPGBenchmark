@@ -1,0 +1,5 @@
+{ "name": "F habit frog", "charm": "mast", "team": [
+ {"fit": ["knot", "spawn"], "moves": ["spawn_hex", "spawn_flick", "turnkey", "thekey"], "passives": ["habit", "spawn_toadskin"], "types": ["BEAST"], "basic": "M", "notion": "bodkin", "tan": {"mgk": 6, "hp": 6}},
+ {"kind": "razor", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "tang", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "gimlet", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}} ] }

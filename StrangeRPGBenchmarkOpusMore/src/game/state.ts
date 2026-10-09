@@ -212,8 +212,26 @@ export function loadGame(): GameState | null {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return null;
     const s = JSON.parse(raw) as GameState;
-    return s.v === 1 ? s : null;
+    if (s.v !== 1) return null;
+    repairSave(s);
+    return s;
   } catch { return null; }
+}
+
+// Older builds let the Cloister gates open before Anyone joined. Anyone departs by story at the end of chapter 7.
+export function repairSave(s: GameState) {
+  const f = s.flags;
+  const pastAnyone = f.c3_anyone || f.pz_inner || f.pz_vault || f.c3_supev || f.c3_sup || s.chapter >= 4;
+  if (s.roster.anyone || !pastAnyone || f.c7_fall) return;
+  const ms = Object.values(s.roster);
+  const avg = Math.round(ms.reduce((a, m) => a + m.lvl, 0) / Math.max(1, ms.length));
+  const carried = f.ngplus ? Number(f.lvl_anyone ?? 0) : 0;
+  s.roster.anyone = newMember('anyone', Math.max(avg, 10, carried), Math.max(3, s.chapter));
+  if (f.calling_anyone) s.roster.anyone.calling = String(f.calling_anyone);
+  if (s.party.length < 4 && !s.party.includes('anyone')) s.party.push('anyone');
+  f.c3_anyone = 1;
+  f.c3_anyone_seen = 1;
+  f.mech_line = 1;
 }
 
 // What a finished game hands to the next one in Again mode.

@@ -1,0 +1,5 @@
+{ "name": "F hearth and spurs", "charm": "mast", "team": [
+ {"fit": ["kiln", "atlas"], "moves": ["kiln_clinker", "kiln_temper", "atlas_quills", "atlas_hunker"], "passives": ["kiln_hearth", "atlas_turnedback"], "types": ["GEAR", "STONE"], "basic": "P", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["atlas", "kiln"], "moves": ["atlas_quills", "atlas_marrow", "kiln_clinker", "kiln_ram"], "passives": ["kiln_hearth", "atlas_turnedback"], "types": ["STONE", "GEAR"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["kiln", "gore"], "moves": ["kiln_clinker", "kiln_temper", "horn", "stampede"], "passives": ["kiln_hearth", "thickneck"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["kiln", "hyponome"], "moves": ["kiln_clinker", "kiln_temper", "hyponome_pushoff", "hyponome_exhale"], "passives": ["kiln_hearth", "hyponome_ebbpull"], "types": ["GEAR"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}} ] }

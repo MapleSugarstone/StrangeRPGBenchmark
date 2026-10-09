@@ -1,0 +1,5 @@
+﻿{ "name": "A no-ward fittings", "charm": "mast", "team": [
+ { "fit": ["booster", "bloom"], "moves": ["booster_downrange", "booster_scatter", "bloom_upwell", "bloom_swarm"], "passives": ["booster_last", "bloom_clearbody"], "types": ["GEAR", "TIDE"], "basic": "P", "notion": "spareskin", "tan": { "hp": 6, "atk": 6 } },
+ { "fit": ["berg", "lumbric"], "moves": ["berg_groan", "berg_capsize", "lumbric_stretch", "lumbric_fling"], "passives": ["berg_undercut", "berg_keel"], "types": ["TIDE", "ROOT"], "basic": "P", "notion": "spareskin", "tan": { "hp": 6, "atk": 6 } },
+ { "fit": ["glove", "stump"], "moves": ["glove_helping", "glove_springoff", "heartwood", "sap"], "passives": ["glove_cuffed", "regrow"], "types": ["BEAST", "ROOT"], "basic": "P", "notion": "spareskin", "tan": { "hp": 6, "atk": 6 } },
+ { "fit": ["capsule", "crane"], "moves": ["capsule_hullburst", "capsule_reentry", "hook", "lift"], "passives": ["capsule_drogue", "capsule_coldsoak"], "types": ["GEAR"], "basic": "P", "notion": "embercoat", "tan": { "hp": 6, "mgk": 6 } } ] }

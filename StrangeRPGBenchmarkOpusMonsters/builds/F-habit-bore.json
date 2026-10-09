@@ -1,0 +1,5 @@
+{ "name": "F habit spring bore", "charm": "mast", "team": [
+ {"fit": ["knot", "bore"], "moves": ["boretide", "surge", "turnkey", "stand"], "passives": ["habit", "momentum"], "types": ["TIDE"], "basic": "P", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "razor", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "tang", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"kind": "gimlet", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}} ] }

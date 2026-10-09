@@ -1,0 +1,6 @@
+{ "name": "B caps and force-outs", "charm": "tusk", "team": [
+  { "fit": ["puffball", "eddy"], "moves": ["setcap", "toxicpuff", "turn", "whirl"], "passives": ["camouflage", "spin"], "types": ["ROOT", "TIDE"], "basic": "M", "notion": "lodestone", "tan": { "mgk": 6, "agi": 6 } },
+  { "fit": ["undertow", "turbine"], "moves": ["pullunder", "churn", "gale", "updraft"], "passives": ["riptide", "tailwind"], "types": ["TIDE"], "basic": "M", "notion": "lodestone", "tan": { "mgk": 6, "agi": 6 } },
+  { "fit": ["mangonel", "silt"], "moves": ["mangonel_hurl", "mangonel_lob", "silt_mirepit", "silt_sludge"], "passives": ["mangonel_cradle", "silt_lakebed"], "types": ["STONE"], "basic": "P", "notion": "lodestone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["bore", "prow"], "moves": ["crest", "surge", "prow_coldspray", "prow_bulwark"], "passives": ["prow_bowwave", "upstream"], "types": ["TIDE", "STAR"], "basic": "P", "notion": "lodestone", "tan": { "atk": 6, "agi": 6 } }
+] }

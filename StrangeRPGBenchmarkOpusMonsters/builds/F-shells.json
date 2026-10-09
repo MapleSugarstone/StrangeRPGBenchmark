@@ -1,0 +1,5 @@
+{ "name": "F shells and wall feed", "charm": "mast", "team": [
+ {"fit": ["hyponome", "espalier"], "moves": ["hyponome_squirt", "hyponome_pushoff", "espalier_spur", "espalier_saprise"], "passives": ["hyponome_ebbpull", "espalier_trained"], "types": ["TIDE", "ROOT"], "basic": "M", "notion": "waxseal", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["mote", "hyponome"], "moves": ["mote_glint", "mote_turn", "hyponome_squirt", "hyponome_exhale"], "passives": ["hyponome_ebbpull", "mote_side"], "types": ["STAR", "TIDE"], "basic": "M", "notion": "spareskin", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["espalier", "mote"], "moves": ["espalier_spur", "espalier_saprise", "mote_glint", "mote_hand"], "passives": ["espalier_trained", "mote_side"], "types": ["ROOT", "STAR"], "basic": "M", "notion": "bodkin", "tan": {"mgk": 6, "hp": 6}},
+ {"fit": ["vacuole", "hyponome"], "moves": ["vacuole_old", "vacuole_vacuum", "hyponome_squirt", "hyponome_pushoff"], "passives": ["hyponome_ebbpull", "vacuole_thin"], "types": ["VOID"], "basic": "M", "notion": "waxseal", "tan": {"mgk": 6, "hp": 6}} ] }

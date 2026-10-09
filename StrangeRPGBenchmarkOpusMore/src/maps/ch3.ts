@@ -140,6 +140,11 @@ const PZ1: CablePuzzle = {
   id: 'inner', ox: 14, oy: 17, cells: ['LII', 'LLT', 'LIL'], start: [0, 0, 0, 0, 2, 1, 1, 0, 3],
   src: [0, 1, 3], dst: [2, 0, 1],
   onSolve: async (c) => { await c.say(null, 'Power hums through the cable. The gate to the upper hall rolls open.'); },
+  locked: async (c) => {
+    if (c.s.roster.anyone) return false;
+    await c.say(null, 'The junction will not turn. Every line here is patched through somewhere else. To the west, in a side chapel, one switchboard is silent.');
+    return true;
+  },
 };
 const PZ2: CablePuzzle = {
   id: 'vault', ox: 24, oy: 4, cells: ['LTLI', 'ILTL', 'TLII', 'LTIL'], start: [1, 2, 3, 0, 0, 1, 2, 3, 1, 2, 0, 0, 3, 0, 1, 2],
@@ -180,6 +185,11 @@ const CLOISTER: MapDef = {
     {
       x: 19, y: 16, w: 2, once: 'c3_gatehint',
       run: async (c) => {
+        if (!c.s.roster.anyone) {
+          c.s.flags.c3_gatehint = 0;
+          await c.say(null, 'A barred gate. The lock is a socket with no power in it. Something in the west chapel is silent. Maybe it knows how the power runs.');
+          return;
+        }
         await c.say(null, 'A barred gate. The lock is a socket with no power in it. To the west, a block of cable junctions sits on the floor, dark.');
         await c.say(null, 'Face a junction and press Z to turn it. Run power from the gold socket to the red one.');
       },

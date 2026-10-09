@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "menu",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../tools/build-site.mjs", "--skip-build", "--serve", "8093"],
+      "port": 8093
+    }
+  ]
+}

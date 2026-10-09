@@ -1,0 +1,6 @@
+{ "name": "B hitch pivot", "charm": "tusk", "team": [
+  { "fit": ["burr", "talus"], "moves": ["catch", "hitch", "talus_tossup", "talus_bonechip"], "passives": ["talus_twice", "talus_shaken"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "tor"], "moves": ["catch", "hitch", "heave", "quake"], "passives": ["bedrock", "aftershock"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "longshin", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "vat"], "moves": ["catch", "hitch", "vat_bodyslam", "vat_rollcask"], "passives": ["vat_ferment", "vat_hops"], "types": ["ROOT", "TIDE"], "basic": "P", "notion": "heartstone", "tan": { "hp": 6, "agi": 6 } },
+  { "fit": ["burr", "perigee"], "moves": ["catch", "hitch", "ping", "fix"], "passives": ["telemetry", "orbit"], "types": ["ROOT", "GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } }
+] }

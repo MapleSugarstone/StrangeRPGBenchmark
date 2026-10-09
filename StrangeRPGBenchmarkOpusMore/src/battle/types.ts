@@ -153,6 +153,7 @@ export interface Unit {
   twin?: boolean;
   mask?: string;
   answerTries?: number;
+  knownAsk?: boolean;
   boss?: boolean;
   scale?: number;
 }
@@ -172,7 +173,7 @@ export type Action =
   | { t: 'pass' };
 
 export type BEvent =
-  | { k: 'msg'; text: string }
+  | { k: 'msg'; text: string; hold?: boolean }
   | { k: 'act'; uid: number; name: string }
   | { k: 'dmg'; uid: number; n: number; crit?: boolean; weak?: boolean; resist?: boolean; clean?: boolean; braced?: boolean }
   | { k: 'miss'; uid: number }

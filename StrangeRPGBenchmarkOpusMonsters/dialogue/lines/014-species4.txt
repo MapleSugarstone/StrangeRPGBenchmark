@@ -1,0 +1,114 @@
+# WHORL game text, chunk 14 of 15. Files: src/data/species4.ts, src/data/species5.ts
+# Speakers: Register entry: Kiln (1), Register entry: Vyobi (1), Register entry: Vienum (1), Register entry: Kazeli (1), Register entry: Capkara (1), Register entry: Imshin (1), Register entry: Pasara (1), Register entry: Kuzumen (1), Register entry: Bosshi (1), Register entry: Hyocies (1), Register entry: Phoshi (1), Register entry: Rosmachi (1), Register entry: Gevuori (1), Register entry: Sarkaku (1), Register entry: Puikria (1), Register entry: Ruokme (1), Register entry: Losari (1), Register entry: Hatari (1), Register entry: Glakago (1), Register entry: Scutate (1), Register entry: Umatsu (1), Register entry: Mangonel (1), Register entry: Kabura (1), Register entry: Sagitli (1), Register entry: Kugami (1), Register entry: Salgoro (1), Register entry: Liemus (1), Register entry: Ranaru (1), Register entry: Lunkuu (1), Register entry: Siderite (1), Register entry: Kuoria (1), Register entry: Vilasi (1), Register entry: Scorri (1), Register entry: Spitoge (1), Register entry: Sunaka (1), Register entry: Haze (1), Register entry: Calkuro (1), Register entry: Hasafex (1), Register entry: Tebukas (1), Register entry: Surcuki (1), Register entry: Napirus (1), Register entry: Scalago (1), Register entry: Nolhaku (1), Register entry: Owanis (1), Register entry: Finihei (1), Register entry: Murk (1), Register entry: Avachi (1), Register entry: Hebrum (1), Register entry: Shiruga (1), Register entry: Notbomi (1), Register entry: Vakone (1), Register entry: Rokbo (1), Register entry: Comine (1), Register entry: Kamorus (1), Register entry: Shiola (1), Register entry: Nomipu (1), Register entry: Rakmata (1), Register entry: Cistako (1), Register entry: Mibu (1), Register entry: Ampullo (1), Register entry: Kamono (1), Register entry: Isoko (1), Register entry: Keeba (1), Register entry: Cohato (1), Register entry: Spijire (1), Register entry: Veigai (1), Register entry: Renbiwa (1), Register entry: Madaku (1), Register entry: Haota (1), Register entry: Lainami (1), Register entry: Roibuki (1), Register entry: Nitorshi (1), Register entry: Poscus (1), Register entry: Kolikni (1), Register entry: Limashi (1), Register entry: Faience (1), Register entry: Serrari (1), Register entry: Rakoma (1), Register entry: Makimen (1), Register entry: Tardas (1), Register entry: Tain (1), Register entry: Daz (1), Register entry: Tulimuji (1), Register entry: Kokala (1), Register entry: Maineri (1), Register entry: Hakutu (1), Register entry: Sujiva (1), Register entry: Kokieri (1), Register entry: Pordan (1), Register entry: Coshira (1), Register entry: Tegaote (1), Register entry: Kamopra (1), Register entry: Pasubame (1), Register entry: Kukira (1), Register entry: Otosus (1), Register entry: Huipki (1), Register entry: Humiri (1), Register entry: Reikuchi (1), Register entry: Kairari (1), Register entry: Vobasa (1), Register entry: Alkume (1), Register entry: Small Gran (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/species4.ts
+
+== scene: species4
+[14jy60d] Register entry: Kiln | A brick kiln from the old works. One side still warm. Hand it a notion and it hands it back harder. Four cowries, warm side up.
+[042kpel] Register entry: Vyobi | Which carries whatever stands on it to the same place, same speed. A conveyor belt's shell. Three cowries, same price.
+[0aeg932] Register entry: Vienum | Off the old mast on the Lip, where it kept vigil like a monk. Hums signals in no tongue anyone speaks and passes them round. Four cowries, quiet.
+[0u2hw56] Register entry: Kazeli | A sail with nothing left to push it. Comes down next to things about to fall over. Five cowries. I'm stood well back.
+[113i66y] Register entry: Capkara | Down hot from very high, shut like a clam. Opens for a friend and closes behind them. Four cowries. Not my friend.
+[1e1cwdf] Register entry: Imshin | And the part that falls off first. Falls off things on purpose now. Keep it off the roof. Three cowries. The roof's on you.
+[1k6x444] Register entry: Pasara | Off the Dropfield. Points its face at whoever spoke last and says it back louder. Five cowries. FIVE COWRIES.
+[16xu0ba] Register entry: Kuzumen | Hull scrap fused into one lump, one eye bigger than the other. Runs hot and has to sit down. Three cowries. I know the feeling.
+[00fi6jo] Register entry: Bosshi | A musk ox's cast, left standing in the snow. Eyes down by its knees. Frost on whatever it looks at. I ask four cowries, from behind it.
+[1jmlrc5] Register entry: Hyocies | Plus a block that walked off the glacier. Stand still near it and your boots freeze to the floor. Pay the four cowries on the move.
+[102okwa] Register entry: Phoshi | What a seal-woman left on the ice. Somebody hid it in a chest once. Sleeps where it likes now. Five cowries. Don't tell her husband.
+[1yp42wt] Register entry: Rosmachi | Tusks growing up instead of down. Every third punch it throws is the one people talk about. Three cowries. People talk.
+[0ybr6hu] Register entry: Gevuori | Off the shelf. Most of it under the ice, face and all. Five cowries for the top. The rest is extra.
+[167r280] Register entry: Sarkaku | Which waits under the shelf lining its tusk up on you. The longer it waits the worse. Four cowries, before it's lined up.
+[0zfd9ba] Register entry: Puikria | Off the eaves of a house, an icicle that fell in love with whoever lived there and came to life over it. Three cowries. It still melts a little when they pass.
+[1ko0axr] Register entry: Ruokme | Off the last pair of great auks, gone in my grandfather's time. Their shells kept going. Six cowries, and I'd rather you kept it.
+[1jt1shf] Register entry: Losari | A soldier's breastplate, off the Hilt road. Face where the heart went. Every dent makes it harder to dent, and dearer. Four cowries today.
+[13zkspl] Register entry: Hatari | And a battle banner, pole for a backbone. Snaps once before it does anything. Hand it three cowries and it snaps at those too.
+[1gh72wb] Register entry: Glakago | The half of a sword that stays in the grip. Spins when it's cornered. Five cowries for half a sword. The other half's dearer.
+[10dqiwf] Register entry: Scutate | A round shield, one eye where the boss should be. Counts the blows it takes and pays each one back. Four cowries. Honest, that.
+[1xaoz48] Register entry: Umatsu | Plus a war horse with the barding still on. Throw it and it gets up and climbs back on itself. Five cowries and a brush.
+[042noqv] Register entry: Mangonel | A catapult, arm growing out of its head. Throws what it catches and gets bigger as it goes. Five cowries. Stand behind it to pay.
+[19ah01i] Register entry: Kabura | A helmet on two short legs, from the battlefield. Some days there's a drake in it. Five cowries, more on drake days.
+[0iotyc1] Register entry: Sagitli | An arrow that never came down. Sits in the quiver and comes out sharper. Four cowries. Somebody's still waiting under it.
+[1v80h5t] Register entry: Kugami | Which is a reflection the lakebed kept when the moon's shell rose. Does what you were about to do. Six cowries. You were about to pay.
+[1j9rcc7] Register entry: Salgoro | A mudskipper. Hops when you look at it. Something bigger follows it about in the mud. Three cowries, and I'm not asking what.
+[1p3ns1t] Register entry: Liemus | Silt off the Moonwater's bed, eyes at the bottom. You go in to the ankles and stop. I'm asking three cowries, from dry ground.
+[0wyn1nf] Register entry: Ranaru | And a frog with its mouth on its belly. Turns other things into frogs for a while. Three cowries. I was a frog Tuesday.
+[06jeqkp] Register entry: Lunkuu | Off the moon's shell, a piece that broke on the way up. Throws its edges about and they come back. Six cowries. Mine didn't.
+[0hcmoup] Register entry: Siderite | An iron stone off the fallen star. Walk past it and your buckles try to stay. Five cowries, and whatever buckles it keeps.
+[19vujuo] Register entry: Kuoria | Plus furnace slag with a brew going in it. Sell it on before the brew goes off. Four cowries. I'm selling it on.
+[13g607m] Register entry: Vilasi | Off the glass desert, broken. Holds whatever it grips until both of you stop. Five cowries, handed over in gloves.
+[0g6f5dc] Register entry: Scorri | Plus the tail end of a scorpion. Walks on the sting and keeps the rest up top. Five cowries. Don't shake on it.
+[1jmtx1a] Register entry: Spitoge | A jumping cactus. It does jump. Pull one joint out and another's already in. Four cowries, which it jumped at.
+[1qv1cgb] Register entry: Sunaka | Which is a dune, with a dead reef in it. Comes up the road at night and stops at the door. Buds little ones. Four cowries, and two shovels.
+[1ip1ib0] Register entry: Haze | The wobble over hot glass, left behind. Keeps three weathers in its mouth and mixes them. Six cowries. Mixing's free.
+[1cys8z3] Register entry: Calkuro | A desert skull, bleached white as nacre. Gets up once more than you'd think. Five cowries. Then once more.
+[0d3j3nr] Register entry: Hasafex | Off the Hands' orchard, pruning shears, eye in the pivot. Picks one branch and cuts only that one. Six cowries. Tidy.
+[0wgss5m] Register entry: Tebukas | And a gardener's glove, face in the palm. Throws itself at a friend and the friend lands swinging. Five cowries. No pairs.
+[0xyjmfa] Register entry: Surcuki | A grafted branch. Takes after whichever tree it beats first. Six cowries. Grafton would charge seven.
+[0358jer] Register entry: Napirus | A pear tree trained flat on the orchard wall. Lives on the wall and feeds whoever leans there. Six cowries, pears free.
+[1bdvo7j] Register entry: Scalago | Plus a rung off a ladder on the Climb. Every turn it takes, it's a step higher. Six cowries on the bottom step.
+[0e88asa] Register entry: Nolhaku | A blank off the edge where nothing was. Hit it and every one of you feels it. Seven cowries for nothing. Bargain.
+[06l4yd2] Register entry: Owanis | The end of a road. Things that reach it stay. Charges at the barrier. Seven cowries, and that's the end of it.
+[0zz8lu7] Register entry: Finihei | Which has its stars still going round it, this horizon. They fall when it asks. Seven cowries. Never asks me.
+[17r24en] Register entry: Murk | Off the tide at the edge, the fog. Cuts deepest at whoever hasn't touched it yet. Seven cowries. Touch it first.
+[0cloreo] Register entry: Avachi | Out past the edge, something drowned. This is the part that fits in the Register. Seven cowries for this part. Rest on request.
+[0txhm6d] Register entry: Hebrum | And a piece of the Lip that walked off. Pulls things over the edge and gets heavier. Seven cowries by weight. Today's weight.
+[1dhs2mg] Register entry: Shiruga | Off the Shallows, a wrinkle in loose ground. Step on one corner and the other corners come up. Six cowries. I'd iron it.
+[17q56lx] Register entry: Notbomi | And a dip in the Shallows that fills with salt water from below. Lays down mud in layers and wears them. Six cowries, muddy.
+[0uzlbc2] Register entry: Vakone | A craze that got up out of the ground and walked off. Sets a ring of thorns on whoever follows. Seven cowries. Walk beside it.
+
+==== file: src/data/species5.ts
+
+== scene: species5
+[1ybzj6m] Register entry: Rokbo | Off the outside of the Volute, a barnacle. Lived on your world its whole life and never once looked in. Two cowries, no questions.
+[1speds0] Register entry: Comine | Was the Volute's lip, till the shell grew past it one spring. So it got up and left. Three cowries. Still thinks it's a lip.
+[07mjv5h] Register entry: Kamorus | A gull. Forty years it rode the same air up the Volute every evening. Still goes up at six, indoors too. Two cowries, ceiling extra.
+[0bo49a0] Register entry: Shiola | Which is spray, dried on the Volute's outside, square in every grain. I counted the grains. Two cowries, plus a week of counting.
+[1jfl9pu] Register entry: Nomipu | Sand hopper, size of a dog. Jumps at shadows and lands on them, so keep yours still. One cowrie. My shadow's still sore.
+[0qc5f6w] Register entry: Rakmata | Off the tide line, wrack weed that pops. Children buy it to hear it pop. One cowrie, and it won't pop for anyone who's turned.
+[1gwipfi] Register entry: Cistako | A crate. Floated in shut, stayed shut. I made a good offer for what's inside and it did not open. Rude. Three cowries, contents unknown.
+[1269tp1] Register entry: Mibu | Which is fallen star, a grain the size of a fist. Warm on one side, and the side keeps moving round. Four cowries. Bring tongs.
+[14ufc8d] Register entry: Ampullo | Plus a bottle. Broke on the wrack, got rubbed frosty by salt, then walked off. Two cowries. Sharp end's the front, so hold the back.
+[0tk1whc] Register entry: Kamono | Fish, dried and salted on the wrack line by nobody. Who salts a fish for nobody? Very dry. One cowrie, which is more than nobody charged.
+[13ewgsx] Register entry: Isoko | Tide-pool flower. Shuts tight when a shadow goes over, which out here is always. Shut now. Two cowries, sold shut.
+[0wsr5cn] Register entry: Keeba | Was a hollow in the sand where a taken shell lay. Goes round looking for the shell. Hasn't found it. Three cowries. It checks pockets.
+[0fnvlpc] Register entry: Cohato | One of the five doves out of a sand dollar. Flies only at night and brings things back. Four cowries, or whatever it brought you.
+[1go2k1j] Register entry: Spijire | And the curl of sand a worm pushes up at low water. Worm left. Curl keeps curling. One cowrie. The worm's extra, if found.
+[08zasg1] Register entry: Veigai | Razor clam. Digs straight down whenever a star lands near it, which out here is every night. Three cowries, if you can dig it up.
+[095ht0p] Register entry: Renbiwa | The ring of light a landed star leaves on wet sand! Never faded, this one. Five cowries. You won't sleep with it in the room.
+[04b1eis] Register entry: Madaku | Off the Cowrie's dome, one of the dark spots. Moves when nobody looks up. I've never seen it move, so it's honest. Three cowries.
+[11600uh] Register entry: Haota | The soft cover a cowrie slides over its shell. Polishes whatever it lies on. Three slippery cowries.
+[07fl0il] Register entry: Lainami | Wave. Stopped on the sand, stood up gray, and has stood there since my grandfather. Four cowries. Won't move for you, either.
+[1lee2sn] Register entry: Roibuki | Spray blown off a wave. The wave stopped. The spray didn't, and still hasn't. Two cowries, paid at a run.
+[0n358mk] Register entry: Nitorshi | Which is the top coat of the Cowrie's polish, come off in one sheet and stood up. Three cowries. Shows every fingerprint.
+[1g2lvut] Register entry: Poscus | Pig! Small, round, glazed all over, kept by the Cowrie folk. Rolls when the floor tilts, and the floor tilts. Two cowries. You chase it.
+[0ko2cnr] Register entry: Kolikni | Purse of tiny cowries that grew shut. Clinks when pleased. Pricing money in money gives me a headache. Five cowries, or one of itself.
+[1i7t85b] Register entry: Limashi | Grit the Cowrie folk polish with. Scours whatever touches it, the hand included. Two cowries. Pay with the other hand.
+[0guhbj3] Register entry: Faience | Out of a Cowrie window box, a flower that grew glazed. Rings when touched. Ting! That was me. Three cowries a flower, tings free.
+[0gfil0m] Register entry: Serrari | Three of the Cowrie's teeth, still meshing on nothing. They'll mesh on you if you let them. Sleeves up, then hand me two cowries.
+[02omz0z] Register entry: Rakoma | The gap between two of the Cowrie's teeth. Wandered off, and the teeth closed up behind it. Four cowries, which is a lot for a gap.
+[1fcac5z] Register entry: Makimen | Plus the rolled-in edge of the Cowrie's mouth. Keeps rolling in. Comes out quick. Two cowries, quicker than you.
+[0u293hf] Register entry: Tardas | A reflection. Fell three steps behind its owner and never caught up. Does what you did. Four cowries, paid three steps ago.
+[1sp1hr2] Register entry: Tain | Back of a mirror, the silver bit. Shows nothing on its own. Hold it up to me and it shows three cowries.
+[1xaadgz] Register entry: Daz | Shine off the Cowrie's dome at full dark. Went off on its own one night. Four cowries. Outshines your lamp, out of spite.
+[0gbzs5d] Register entry: Tulimuji | Plus wind. Went round and round inside the Auger so long it kept the shape. Sit down before you count out three cowries.
+[0cbkuq2] Register entry: Kokala | Lichen, off the Auger's outside. Moves round to the dry side every tide. Slow? Slow. One cowrie, delivered next year.
+[0asfs7j] Register entry: Maineri | Swell that lifted the Auger at high water and set it down again. Lifts things, prices too. Three cowries this morning. Four now.
+[10cl4la] Register entry: Hakutu | White dust a climber kept in a pouch, till it climbed out of the pouch. Two cowries, and it'll climb out of yours.
+[1c9ee4v] Register entry: Sujiva | Which is the white line the tide leaves on the Auger's walls, a little higher every roll. Three cowries and rising.
+[0asmhbe] Register entry: Kokieri | Weed. Rolls round the Auger's rooms and never roots. Came in my front door and out the back without buying a thing. One cowrie.
+[1ct4ptw] Register entry: Pordan | One step off the Auger's stair. Stand on it and up it goes, by itself. Three cowries, going up.
+[0yvmuzm] Register entry: Coshira | The post down the middle of the Auger. Climbed itself! Everything leans on it, me included. Five cowries, and it leans back.
+[10wo73u] Register entry: Tegaote | Handhold, worn into the wall by sixty years of fingers till it went finger-shaped. Two cowries. Hold it gently, it's tired.
+[13vejc0] Register entry: Kamopra | Goat! The climbers kept it. Climbs walls sideways, still. Two cowries, plus whatever it's standing on.
+[04zp6u7] Register entry: Pasubame | Swift that nested at the top of the Auger and never landed any lower. Sells for three cowries, up a ladder.
+[1wsbt4u] Register entry: Kukira | The push of air in the Auger's narrow whorls. Got a shell and kept pushing. Two cowries. It'll push for one.
+[1qxyjp4] Register entry: Otosus | The drop under the top stair. Kept falling after nobody did, and is falling now. Drop four cowries in and listen for them.
+[1xaayog] Register entry: Huipki | Highest point the Auger ever pointed at. Points at it still. Up. That way. The five cowries go this way.
+[0v59alw] Register entry: Humiri | Low note the Auger plays when air goes through it. This one kept humming, on my shelf, all night. Three cowries. Please.
+[1qlpdts] Register entry: Reikuchi | Which is the hole the star burned through the Margin! Opens wherever it's put. Six cowries. Mine's on the floor. Can't find the floor.
+[0sv8b0u] Register entry: Kairari | Moon snail. Drills a round hole in anything and goes in. Drilled my cowries, the little button. Six cowries. Three, with a hole in.
+[16g37pi] Register entry: Vobasa | Bird. Flew over the whole beach once and never came down. Its shell came down. Seven cowries. The bird's still up there if you want it.
+[1j57ejw] Register entry: Alkume | The Nautilus's first room, size of a pea. Grew a shell of its own and is still growing. Six cowries today. Bigger tomorrow.
+[0zgzj7x] Register entry: Small Gran | Gran's cast. Came out in my bundle, on top of the cowries. No price. I carried her. I never bought her, and I'd not sell her.

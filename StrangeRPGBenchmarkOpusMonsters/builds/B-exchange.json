@@ -1,0 +1,6 @@
+{ "name": "B exchange loop", "charm": "tusk", "team": [
+  { "fit": ["eddy", "peat"], "moves": ["exchange", "whirl", "peat_seep", "peat_slane"], "passives": ["peat_bogbreath", "peat_preserved"], "types": ["TIDE", "ROOT"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["eddy", "horizon"], "moves": ["exchange", "whirl", "horizon_skyline", "horizon_farpoint"], "passives": ["horizon_ring", "horizon_accretion"], "types": ["TIDE", "STAR"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["eddy", "furnace"], "moves": ["exchange", "whirl", "stoke", "flue"], "passives": ["radiant", "banked"], "types": ["TIDE", "GEAR"], "basic": "M", "notion": "embercoat", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["eddy", "espalier"], "moves": ["exchange", "whirl", "espalier_spur", "espalier_lattice"], "passives": ["espalier_trained", "turnabout"], "types": ["TIDE", "ROOT"], "basic": "M", "notion": "warmstone", "tan": { "mgk": 6, "hp": 6 } }
+] }

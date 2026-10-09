@@ -117,14 +117,14 @@ button { font: inherit; color: inherit; }
   position: absolute;
   inset: 16% 20% 14%;
   border-radius: 6px 6px 10px 10px;
-  clip-path: polygon(0 0, 80% 0, 100% 12%, 100% 100%, 0 100%);
   background: rgba(120, 128, 138, 0.07);
 }
 .slot::after {
   content: "";
   position: absolute;
   inset: -8px;
-  border-radius: 18px;
+  /* The same corners as the cartridge, grown by the gap. */
+  border-radius: calc(6cqw + 8px) calc(6cqw + 8px) calc(9cqw + 8px) calc(9cqw + 8px);
   border: 3px solid var(--select);
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 18px var(--select-glow);
   opacity: 0;
@@ -153,16 +153,15 @@ button { font: inherit; color: inherit; }
   position: absolute;
   inset: 0;
   border-radius: 6cqw 6cqw 9cqw 9cqw;
-  clip-path: polygon(0 0, 82% 0, 100% 12%, 100% 100%, 0 100%);
   background:
     linear-gradient(105deg, rgba(255, 255, 255, 0.5) 0 14%, transparent 38%),
     linear-gradient(180deg, color-mix(in oklab, var(--shell) 65%, white), var(--shell) 28%, color-mix(in oklab, var(--shell) 86%, black));
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), inset 0 -1.5cqw 0 rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16), inset 0 1px 0 1px rgba(255, 255, 255, 0.5), inset 0 -1.5cqw 0 rgba(0, 0, 0, 0.07);
 }
 .cart-top {
   position: absolute;
   left: 9%;
-  right: 30%;
+  right: 9%;
   top: 3.4%;
   height: 4.6%;
   background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0 1px, rgba(255, 255, 255, 0.6) 1px 2px, transparent 2px 4px);
@@ -337,6 +336,65 @@ button { font: inherit; color: inherit; }
   0% { left: -70%; }
   42%, 100% { left: 140%; }
 }
+/* Diamond cartridge: a cut-crystal shell with facets, a prismatic sheen that sweeps across it, and glints in prism colors. */
+
+.slot.diamond .cart {
+  --shell: #b9dcf2;
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, 0.8) 0 10%, transparent 30%),
+    radial-gradient(ellipse 120% 55% at 30% 0%, rgba(255, 255, 255, 0.7), transparent 60%),
+    linear-gradient(160deg, #f2fcff, #c8ecff 20%, #94d2f4 44%, #c4e8fb 60%, #7cbde6 82%, #5a9bcc);
+  box-shadow:
+    inset 0 0 0 1px rgba(36, 78, 120, 0.5),
+    inset 0 0 0 1.4cqw rgba(255, 255, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1.5cqw 0 rgba(30, 70, 110, 0.22);
+}
+.cart-facets {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.cart-facets svg { display: block; width: 100%; height: 100%; }
+/* A cut bevel round the crystal: light on the top and left faces, shade on the bottom and right. */
+.cart-facets::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 1.6cqw 1.6cqw 0 -0.4cqw rgba(255, 255, 255, 0.75),
+    inset -1.6cqw -1.6cqw 0 -0.4cqw rgba(40, 95, 150, 0.4),
+    inset 0 0 0 0.5cqw rgba(255, 255, 255, 0.35);
+}
+.slot.diamond .cart-top,
+.slot.diamond .cart-grip {
+  background: repeating-linear-gradient(180deg, rgba(30, 70, 110, 0.35) 0 1px, rgba(255, 255, 255, 0.85) 1px 2px, transparent 2px 4px);
+}
+.slot.diamond .label-well {
+  z-index: 1;
+  background: linear-gradient(180deg, #46789e, #2c5274);
+  box-shadow: inset 0 2px 4px rgba(10, 30, 50, 0.5), 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.slot.diamond .cart-wrap {
+  filter: drop-shadow(0 6px 8px rgba(40, 90, 140, 0.3)) drop-shadow(0 0 7px rgba(170, 230, 255, 0.55));
+}
+.slot.diamond .cart-shine::before {
+  width: 46%;
+  background: linear-gradient(100deg, transparent, rgba(255, 150, 210, 0) 12%, rgba(255, 160, 215, 0.4) 30%, rgba(255, 255, 255, 0.85) 50%,
+    rgba(130, 225, 255, 0.45) 68%, rgba(180, 160, 255, 0) 88%, transparent);
+  animation: gold-shine 5.4s ease-in-out infinite;
+}
+.slot.diamond:hover .cart-shine::before,
+.slot.diamond:focus-visible .cart-shine::before { animation-duration: 1.8s; }
+.slot.diamond .sparkle {
+  background: var(--c, #fff);
+  filter: drop-shadow(0 0 1.2cqw var(--c, #fff));
+}
+
 .sparkle {
   position: absolute;
   z-index: 3;
@@ -493,9 +551,10 @@ button { font: inherit; color: inherit; }
   pointer-events: none;
 }
 .clock-time {
-  margin-bottom: calc(var(--dock-h) * 0.09);
+  flex-shrink: 0;
+  margin-bottom: calc(var(--dock-h) * 0.06);
   color: #a3a7ad;
-  font-size: calc(var(--dock-h) * 0.5);
+  font-size: calc(var(--dock-h) * 0.42);
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -505,6 +564,7 @@ button { font: inherit; color: inherit; }
 }
 .clock-period { margin-left: 0.25em; font-size: 0.32em; font-weight: 700; }
 .clock-date {
+  flex-shrink: 0;
   height: calc(var(--dock-h) * 64 / 120);
   display: grid;
   place-items: center;
@@ -565,11 +625,12 @@ button { font: inherit; color: inherit; }
   background-color: var(--bg);
   background-image: repeating-linear-gradient(180deg, var(--bg-line) 0 2px, transparent 2px 7px);
 }
+.preview { --edge: clamp(28px, 5vw, 60px); }
 .pv-main {
   overflow: auto;
   display: grid;
   place-items: center;
-  padding: clamp(16px, 3vw, 32px) clamp(16px, 4vw, 48px);
+  padding: clamp(16px, 3vw, 32px) calc(var(--edge) + clamp(8px, 2vw, 24px));
 }
 .pv-banner {
   width: min(1080px, 100%);

@@ -1,0 +1,5 @@
+{ "name": "F four hearths", "charm": "mast", "team": [
+ {"fit": ["kiln", "gore"], "moves": ["kiln_clinker", "kiln_temper", "horn", "stampede"], "passives": ["kiln_hearth", "thickneck"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "bodkin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["kiln", "grenadier"], "moves": ["kiln_clinker", "kiln_temper", "grenadier_bite", "grenadier_rake"], "passives": ["kiln_hearth", "grenadier_scent"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["kiln", "stoat"], "moves": ["kiln_clinker", "kiln_temper", "nip", "dart"], "passives": ["kiln_hearth", "weasel"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "spareskin", "tan": {"atk": 6, "hp": 6}},
+ {"fit": ["kiln", "glove"], "moves": ["kiln_clinker", "kiln_temper", "glove_grub", "glove_springoff"], "passives": ["kiln_hearth", "glove_handspring"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "waxseal", "tan": {"atk": 6, "hp": 6}} ] }

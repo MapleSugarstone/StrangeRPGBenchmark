@@ -1,0 +1,5 @@
+﻿{ "name": "A glimpse wall", "charm": "mast", "team": [
+ { "fit": ["leech", "undine"], "moves": ["draw", "bloat", "undine_fathom", "undine_glimpse"], "passives": ["engorge", "undine_toobig"], "types": ["BEAST", "TIDE"], "basic": "M", "notion": "spareskin", "tan": { "hp": 6, "mgk": 6 } },
+ { "fit": ["buckler", "rumple"], "moves": ["buckler_vault", "buckler_rim", "rumple_buckle", "rumple_ruck"], "passives": ["buckler_umbo", "rumple_foldover"], "types": ["GEAR", "ROOT"], "basic": "M", "notion": "spareskin", "tan": { "hp": 6, "mgk": 6 } },
+ { "fit": ["berg", "undine"], "moves": ["berg_growler", "berg_groan", "undine_undersong", "undine_glimpse"], "passives": ["undine_undercurrent", "berg_undercut"], "types": ["TIDE"], "basic": "P", "notion": "warmstone", "tan": { "hp": 6, "atk": 6 } },
+ { "fit": ["bonedry", "undine"], "moves": ["bonedry_crack", "bonedry_marrow", "undine_glimpse", "undine_fathom"], "passives": ["bonedry_grudge", "bonedry_unburied"], "types": ["BEAST", "TIDE"], "basic": "M", "notion": "spareskin", "tan": { "hp": 6, "atk": 6 } } ] }

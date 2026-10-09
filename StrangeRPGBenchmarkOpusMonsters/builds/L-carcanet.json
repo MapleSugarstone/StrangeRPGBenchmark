@@ -1,0 +1,5 @@
+{ "name": "L Carcanet with the top three", "charm": "mast", "team": [
+ { "kind": "carcanet", "tape": "apgs", "notion": "crownofhorn", "tan": { "mgk": 6, "hp": 6 } },
+ { "kind": "razor", "notion": "waxseal", "tan": { "atk": 6, "hp": 6 } },
+ { "kind": "tang", "notion": "spareskin", "tan": { "atk": 6, "hp": 6 } },
+ { "kind": "gimlet", "notion": "bodkin", "tan": { "atk": 6, "hp": 6 } } ] }

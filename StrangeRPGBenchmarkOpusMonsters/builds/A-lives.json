@@ -1,0 +1,5 @@
+﻿{ "name": "A extra lives", "charm": "rib", "team": [
+ { "fit": ["bonedry", "floe"], "moves": ["bonedry_marrow", "bonedry_crack", "shard", "packice"], "passives": ["bonedry_unburied", "refreeze"], "types": ["BEAST", "TIDE"], "basic": "P", "notion": "spareskin", "tan": { "atk": 6, "hp": 6 } },
+ { "fit": ["stump", "cellar"], "moves": ["splinter", "sap", "cellar_frostrot", "cellar_shelf"], "passives": ["regrow", "cellar_borrowed"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "spareskin", "tan": { "atk": 6, "hp": 6 } },
+ { "fit": ["wain", "cholla"], "moves": ["wain_trundle", "wain_rut", "cholla_jump", "cholla_grab"], "passives": ["wain_runson", "cholla_storedwater"], "types": ["GEAR", "ROOT"], "basic": "P", "notion": "spareskin", "tan": { "atk": 6, "hp": 6 } },
+ { "fit": ["vane", "halo"], "moves": ["vane_spar", "vane_halyard", "smite", "aegis"], "passives": ["vane_landfall", "martyr"], "types": ["STAR"], "basic": "M", "notion": "spareskin", "tan": { "mgk": 6, "hp": 6 } } ] }

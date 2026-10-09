@@ -1,0 +1,6 @@
+{ "name": "B interrupt chain", "charm": "spire", "team": [
+  { "fit": ["lune", "skua"], "moves": ["lune_beam", "lune_facet", "skua_stoop", "skua_harry"], "passives": ["lune_waxing", "skua_highwheel"], "types": ["STAR", "BEAST"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["tenor", "hatch"], "moves": ["tenor_peal", "tenor_clapper", "hatch_bangshut", "hatch_latch"], "passives": ["tenor_undertone", "hatch_staleair"], "types": ["GEAR", "STONE"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["fulgur", "aerial"], "moves": ["flash", "arcbolt", "aerial_interference", "aerial_reception"], "passives": ["static", "aerial_carrier"], "types": ["STAR"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } },
+  { "fit": ["turbine", "tor"], "moves": ["updraft", "gale", "heave", "stamp"], "passives": ["feather", "aftershock"], "types": ["GEAR", "STONE"], "basic": "M", "notion": "bitterroot", "tan": { "mgk": 6, "hp": 6 } }
+] }

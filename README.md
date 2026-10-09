@@ -10,7 +10,8 @@ This repository holds tile-based role-playing games that different AI models wro
 | The Moth Crown | Claude Fable 5.1, Ultracode | `StrangeRPGBenchmarkFable` | Playable |
 | Please Hold | Claude Opus 5.5, Ultracode | `StrangeRPGBenchmarkOpusMore` | Playable, golden |
 | Plumb | Claude Fable 5.1, Ultracode (polished by Opus 5.5) | `StrangeRPGBenchmarkFableMore` | Playable, golden |
-| Rote | Claude Opus 5.5, Medium | `StrangeRPGBenchmarkOpusMagic` | Playable |
+| Rote | Claude Opus 5.5, Ultracode (polished by User) | `StrangeRPGBenchmarkOpusMagic` | Playable, diamond |
+| Whorl | Claude Opus 5.5, Ultracode (polished by User) | `StrangeRPGBenchmarkOpusMonsters` | Playable, diamond |
 
 ## Menu
 
@@ -44,6 +45,7 @@ Cartridge art lives in `menu/art/`. Each game has its main character as a small 
 - `folder` is the game's folder.
 - `status` is `playable`, or `wip` for a game without a build. A `wip` cartridge carries a work-in-progress tape and its Start button stays disabled.
 - The optional `golden` set to `true` marks a standout game. Its cartridge has a gold shell with a band of light that crosses it and white sparkles at its edges, and its preview lists it as a golden edition. With reduced motion turned on, the shine and sparkles hold still.
+- The optional `diamond` set to `true` marks a game built over many more follow-up prompts. It outranks `golden`. Its cartridge has a pale cut-crystal shell with facets, a rainbow sheen that crosses it, and glints in prism colors, and its preview lists it as a diamond edition.
 - `build` holds the `command` to run in the folder, the `dist` output folder, and an optional `exclude` list of output files to leave out. A `wip` game has no `build`.
 - `colors` holds the `accent` and `ink` colors of the label.
 - `hero` holds the character's `name`, `role`, and `sprite`.

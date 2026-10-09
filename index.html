@@ -4,8 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Strange RPG Benchmark</title>
-<meta name="description" content="Tile-based role-playing games, each written by a different AI model.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 1h9l3 3v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z' fill='%23c9ccd1'/%3E%3Crect x='4' y='4' width='8' height='7' rx='1' fill='%2334bfed'/%3E%3C/svg%3E">
+<meta name="description" content="Benchmark tests on LLM game making competency">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Strange RPG Benchmark">
+<meta property="og:description" content="Benchmark tests on LLM game making competency">
+<meta property="og:url" content="https://maplesugarstone.github.io/StrangeRPGBenchmark/">
+<meta property="og:image" content="https://maplesugarstone.github.io/StrangeRPGBenchmark/menu/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Strange RPG Benchmark">
+<meta name="twitter:description" content="Benchmark tests on LLM game making competency">
+<meta name="twitter:image" content="https://maplesugarstone.github.io/StrangeRPGBenchmark/menu/preview.png">
+<link rel="icon" type="image/png" sizes="144x144" href="menu/favicon.png">
+<link rel="apple-touch-icon" href="menu/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
@@ -65,6 +77,12 @@
 </div>
 
 <section class="preview" id="preview" aria-labelledby="pv-title" hidden>
+  <button class="page-arrow prev" id="pv-prev" type="button" aria-label="Previous game">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 7 12l8.5 7.5z" /></svg>
+  </button>
+  <button class="page-arrow next" id="pv-next" type="button" aria-label="Next game">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 17 12l-8.5 7.5z" /></svg>
+  </button>
   <div class="pv-main">
     <div class="pv-banner" id="pv-banner">
       <div class="pv-screen-col">

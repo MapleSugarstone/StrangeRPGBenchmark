@@ -40,6 +40,7 @@ export class BattleScene implements Scene {
   phase: 'intro' | 'next' | 'play' | 'menu' | 'ring' | 'brace' | 'end' | 'done' | 'listen' = 'intro';
   queue: BEvent[] = [];
   evT = 0;
+  holdMsg = 0;
   actor: Unit | null = null;
   menus: Menu[] = [];
   pending: Pending | null = null;
@@ -225,6 +226,11 @@ export class BattleScene implements Scene {
 
   playEvents() {
     const inp = this.game.input;
+    if (this.holdMsg) {
+      if (this.holdMsg > 1) this.holdMsg--;
+      else if (inp.pressed('ok') || inp.pressed('back')) { this.holdMsg = 0; this.game.audio.sfx('blip'); }
+      return;
+    }
     if (this.evT > 0) {
       this.evT--;
       if (inp.pressed('ok') && this.evT > 6) this.evT = 6;
@@ -245,7 +251,18 @@ export class BattleScene implements Scene {
     const au = this.game.audio;
     const name = (uid: number) => this.b.get(uid)?.name ?? '';
     switch (ev.k) {
-      case 'msg': this.addLog(ev.text); this.evT = 34; break;
+      case 'msg':
+        // Held messages clear the log, page if longer than it, and wait for a press. A short delay first stops a held Z from skipping them.
+        if (ev.hold) {
+          const lines = wrap(ev.text, 176);
+          this.log = lines.slice(0, MAX_LOG);
+          if (lines.length > MAX_LOG) this.queue.unshift({ k: 'msg', hold: true, text: lines.slice(MAX_LOG).join(' ') });
+          this.holdMsg = 20;
+        } else {
+          this.addLog(ev.text);
+          this.evT = Math.min(100, 34 + Math.max(0, ev.text.length - 30));
+        }
+        break;
       case 'act': {
         const u = this.b.get(ev.uid);
         if (u) this.step.set(u.uid, 14);
@@ -299,7 +316,13 @@ export class BattleScene implements Scene {
       }
       case 'leave': this.fadeOut.set(ev.uid, 30); this.evT = 20; break;
       case 'push': this.floats.push({ uid: ev.uid, text: '\u0004\u0004', color: 'sky', t: 24, dy: -14 }); this.evT = 6; break;
-      case 'windup': this.addLog(ev.text); this.banner = { text: 'WINDING UP', t: 60, color: 'red' }; au.sfx('debuff'); this.evT = 50; break;
+      case 'windup': {
+        this.addLog(ev.text);
+        const w = this.b.get(ev.uid)?.windup;
+        if (w) this.addLog(`Hit it with ${w.breakElem.join(' or ')} ${w.need} time${w.need === 1 ? '' : 's'} before its next turn to break it.`);
+        if (w) this.holdMsg = 20; else this.evT = 50;
+      }
+        this.banner = { text: 'WINDING UP', t: 60, color: 'red' }; au.sfx('debuff'); break;
       case 'break': this.bigText = { text: 'BREAK!', t: 45 }; au.sfx('crit'); this.shakeT = 10; this.evT = 30; break;
       case 'grow': au.sfx('buff'); this.evT = 10; break;
       case 'swap': au.sfx('door'); this.evT = 20; break;
@@ -499,11 +522,26 @@ export class BattleScene implements Scene {
     }
   }
 
+  wantText(u: Unit): string {
+    const def = ENEMIES[u.id];
+    if (!def || def.noAnswer) return 'It cannot be answered.';
+    if (!this.mechs().has('answer')) return '';
+    if (!u.knownAsk && !this.game.state!.kept.includes(u.id)) return 'Answer with what the prayer asks for.';
+    const when = { none: '', listened: ' after a Listen', low: ' below half HP', alone: ' when alone', late: ' after 2 turns' }[def.askNeed ?? 'none'];
+    return `Wants: ${VERB_NAME[def.ask]}${when}`;
+  }
+
   verbHint(v: Verb): string {
     const h: Record<Verb, string> = {
-      feed: 'Give it something to eat.', play: 'Play with it.', pet: 'A gentle hand.', praise: 'Tell it it did well.',
-      listen: 'Really listen to it.', promise: 'Promise it what it wants.', forgive: 'Forgive it.', letgo: 'Tell it it can stop now.',
-      remember: 'Say its name. Remember it.',
+      feed: 'Give it something to eat. For a prayer that is hungry or wants more.',
+      play: 'Play with it. For a prayer that is restless, impatient, or bored.',
+      pet: 'A gentle hand. For a prayer that is scared, lonely, or hoping for luck.',
+      praise: 'Tell it it did well. For a prayer that wants to win or to do a job right.',
+      listen: 'Really listen to it. For a prayer that wants to be heard or to hear something.',
+      promise: 'Promise it what it wants. For a prayer that is waiting or afraid of what comes next.',
+      forgive: 'Forgive it. For a prayer that is sorry, or angry at someone.',
+      letgo: 'Tell it it can stop now. For a prayer that cannot stop or holds on too hard.',
+      remember: 'Say its name. For a prayer afraid that it was all for nothing.',
       hello: 'The first word, instead of the last one.',
     };
     return h[v];
@@ -850,11 +888,12 @@ export class BattleScene implements Scene {
       const u = this.listenUnit;
       const def = ENEMIES[u.id];
       const lines = wrap(`"${def?.prayer ?? '...'}"`, 176);
-      g.text(`${u.name} was asked for:`, 8, 138, 'gold');
-      lines.slice(0, 2).forEach((l, i) => g.text(l, 8, 149 + i * 10, 'cream'));
-      const info = `Weak: ${u.weak.join(', ') || 'none'}   Resists: ${[...u.resist, ...u.immune].join(', ') || 'none'}`;
-      g.text(info.slice(0, 44), 8, 171, 'sky');
-      g.text(`HP ${u.hp}/${u.mhp}`, 8, 180, 'grey');
+      const weak = `Weak: ${u.weak.join(', ') || 'none'}`, res = `Resists: ${[...u.resist, ...u.immune].join(', ') || 'none'}`;
+      const info = lines.length < 3 ? [weak, res] : wrap(`${weak}   ${res}`, 176).slice(0, 1);
+      g.text(`${u.name} was asked for:`, 8, 137, 'gold');
+      lines.slice(0, 3).forEach((l, i) => g.text(l, 8, 146 + i * 9, 'cream'));
+      info.forEach((l, i) => g.text(l, 8, 146 + (5 - info.length + i - 1) * 9, 'sky'));
+      g.text(this.wantText(u), 8, 182, 'mint');
       return;
     }
     if (this.phase === 'end') {
@@ -871,9 +910,8 @@ export class BattleScene implements Scene {
           g.text(`HP ${t.hp}/${t.mhp}`, 8, 149, 'paper');
           if (t.listened) g.text(`Weak: ${t.weak.join(', ') || 'none'}`, 8, 159, 'sky');
           else g.text('Listen to learn its weak spots.', 8, 159, 'grey');
-          if (t.windup) g.text(`Break with: ${t.windup.breakElem.join(' or ')} (${t.windup.got}/${t.windup.need})`, 8, 169, 'orange');
-          const def = ENEMIES[t.id];
-          if (this.game.state!.kept.includes(t.id) && def) g.text(`Wants: ${VERB_NAME[def.ask]}`, 8, 179, 'mint');
+          if (t.windup) g.text(`Break: ${t.windup.need - t.windup.got} more ${t.windup.breakElem.join(' or ')} hit${t.windup.need - t.windup.got === 1 ? '' : 's'}`, 8, 169, 'orange');
+          if (t.knownAsk || this.game.state!.kept.includes(t.id)) g.text(this.wantText(t), 8, 179, 'mint');
         } else if (t) g.text(`HP ${Math.max(0, t.hp)}/${t.mhp}  VP ${t.vp}/${t.mvp}`, 8, 149, 'paper');
         return;
       }
@@ -921,10 +959,11 @@ export class BattleScene implements Scene {
       return;
     }
     this.log.forEach((l, i) => g.text(l, 8, 138 + i * 10, i === this.log.length - 1 ? 'paper' : 'grey'));
+    if (this.holdMsg === 1 && Math.floor(g.t / 20) % 2) g.text('\u0005', 182, 182, 'gold');
   }
 
   descBox(g: Gfx, text: string) {
-    const lines = wrap(text, 176).slice(0, 3);
+    const lines = wrap(text, 176).slice(0, 4);
     const h = lines.length * 10 + 7;
     g.box(0, 92 - h + 1, W, h, 'grey');
     lines.forEach((l, i) => g.text(l, 8, 92 - h + 5 + i * 10, 'cream'));

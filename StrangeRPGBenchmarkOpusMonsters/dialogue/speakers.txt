@@ -1,0 +1,599 @@
+218	look
+148	? (p)
+117	choice
+106	hint
+88	Cinch
+82	?
+74	Tack
+63	? (s)
+62	goal
+49	Strandmonger
+45	notice
+40	Gran
+40	Bare
+38	Hermit
+28	The Sifter
+26	narration
+26	Mudlark
+24	Woman
+23	Tide-reader
+22	Old Amber
+20	Old man
+18	choice prompt
+16	Man at the well
+16	Turnwise
+16	DRUSE
+16	Islander
+15	Gloss
+14	Child
+14	Old woman
+14	Shellwright
+14	Eldest
+13	Man
+12	Siphon
+12	BEZEL
+11	Leeward
+11	Counter
+11	sign or spot in The living chamber (folk)
+10	Knuckle
+10	Grafton
+10	Letter
+10	Guard
+10	The Master
+10	? (low)
+9	Quillon
+8	? (giveKeyItem)
+8	Verger
+8	Grafter
+8	Tellin
+8	Tinker
+8	Ohm
+8	Perihel
+8	Bottle girl
+8	Sweeper
+8	? (sign)
+7	Murex
+7	? (listMenu)
+7	Ice-fisher
+7	? (base)
+7	Point-watcher
+7	Label-reader
+7	? (add)
+6	Purchase
+6	The Upright Man
+6	? (open)
+6	? ()
+6	Carver
+6	Stilt-maker
+6	Rememberer
+5	Boy
+5	Ringer
+5	Conjoiner
+5	Lug
+5	Ring polisher
+5	The Catcher
+5	Lunch-bringer
+5	The Listener
+5	The Pruner
+5	? (high)
+5	Tooth-sitter
+5	sign or spot in The Exuvia
+5	Stackkeeper
+4	sign or spot in Turnstone
+4	? (turnBack)
+4	Pilgrim
+4	Hasp
+4	Pell
+4	Beachcomber
+4	Sexton
+4	Shore-woman
+4	Cartographer
+4	Polisher
+4	? (take)
+4	Tide table
+4	Nautilus doorkeeper
+4	Marks
+4	Net-mender
+4	r.name
+4	? (shut)
+4	? (read)
+4	Trader
+4	Ford-sitter
+4	Fisher
+3	Tack's mum
+3	Helper
+3	Sword drill
+3	Star walker
+3	Fid
+3	? (hand)
+3	Weed-raker
+3	Girl
+3	? (keeperFight)
+3	Bell-keeper
+3	Kelp-cutter
+3	A goat
+3	sign or spot in The living chamber
+3	? (lore_kettle)
+3	? (lore_door)
+3	? (lore_window)
+3	? (lore_chair)
+3	? (lore_vane)
+3	? (lore_tub)
+3	? (lore_step)
+3	? (lore_gate)
+3	Basin-keeper
+2	Drover
+2	Scraper
+2	Salter
+2	Wrecker
+2	Shell girl
+2	Old fisher
+2	Deckhand
+2	Bosun
+2	Eel boy
+2	Cutter
+2	Forester
+2	Coaler
+2	Watcher
+2	Conjoiner's boy
+2	Trapper
+2	Herder
+2	Hall keeper
+2	Smith
+2	Rock walker
+2	Sky watcher
+2	Mole-catcher
+2	Cellar girl
+2	Bootless
+2	Bonesetter
+2	Nail biter
+2	Plank-walker
+2	Gunner
+2	Swimmer
+2	Wall-toucher
+2	Bell-striker
+2	Glazier
+2	Pew-sitter
+2	Root-cutter
+2	Beetle girl
+2	Upfaller
+2	Scrapper
+2	Hull-sleeper
+2	Ice-cutter
+2	Seal-wife
+2	Auk-keeper
+2	Arrow-finder
+2	Flake boy
+2	Mirror-mender
+2	Shade-seeker
+2	Skull kid
+2	Ladder girl
+2	Glovesmith
+2	Edge-walker
+2	Guard on drill
+2	Shell-sitter
+2	Grain-picker
+2	Driftwood boy
+2	Woman with a basin
+2	Man by the fire
+2	Spot-counter
+2	Seiche-stander
+2	Pig-keeper
+2	Gloss's clerk
+2	Reflection-chaser
+2	Dune-sitter
+2	Climber on the outside
+2	? (slid)
+2	Rung-skipper
+2	Stair-sleeper
+2	Swift-keeper
+2	Salt-scraper
+2	Slate
+2	Woman (climbing)
+2	Nautilus fisher
+2	Deep-fisher
+2	Pumper
+2	Room-sitter
+2	Marram-cutter
+2	Star-chaser
+2	Jelly-turner
+2	Conch-diver
+2	? (title)
+2	Weaver
+2	Baker
+2	Dad
+2	Twin
+2	Shell-sorter
+2	Sailor
+2	Bell-tuner
+2	Spoon-carver
+2	Star-counter
+2	Woodcutter
+2	The Boardmaster
+2	monger ? 'Strandmonger' : 'Shellwright'
+2	Woman with a basket
+2	? (text)
+2	Raker
+2	Shouter
+2	Bellower
+2	Driftwood man
+2	Rain-seller
+2	Rigger
+2	Sealer
+2	Blade-picker
+2	Dune walker
+2	Tide-runner
+2	Ring-walker
+2	Hare
+2	Paring
+2	Fiddler
+2	Mycel
+2	Dandle
+2	Piston
+2	Auk
+2	Shoveler
+2	Tang
+2	Smith's boy
+2	Tor
+1	Tackle
+1	Girl with a net
+1	Ribman
+1	Carter
+1	Man on stilts
+1	Reeve
+1	sign or spot in The nave
+1	Gatherer
+1	Iesbiki
+1	Bole woman
+1	Hummer
+1	Very old man
+1	Very old woman
+1	Old guard
+1	sign or spot in The Hermitage
+1	Synced keeper
+1	Fall guard
+1	Register entry: Ouro's cast
+1	Small Gran
+1	Pell's cast
+1	Bilge boy
+1	Foam boy
+1	Dish-turner
+1	The cast under the ice
+1	A soldier's cast
+1	Fencer
+1	Groom
+1	Silt-wife
+1	Glass-walker
+1	Blank
+1	Sign
+1	Woman in a whelk
+1	Man in a whelk
+1	Child in a whelk
+1	Wet-dealer
+1	Madaku
+1	Door
+1	Kokieri
+1	Tumbler
+1	Groove
+1	Old man (climbing)
+1	Star-picker
+1	Brine-diver
+1	Ballast-girl
+1	? (L)
+1	? (P)
+1	? (M)
+1	Carving
+1	? (knot)
+1	? (vellumslip)
+1	? (welling)
+1	? (full)
+1	? (squall)
+1	? (dynamo)
+1	? (mundane)
+1	? (once)
+1	The Strand Boardmaster
+1	? (push)
+1	Bone-dealer
+1	Salt-card
+1	Verger's clerk
+1	Moss-player
+1	Ohm's apprentice
+1	Tally-keeper
+1	Card-sharp
+1	Star-reader
+1	sign or spot in The Shallows
+1	? (prisingiron)
+1	? (stilts)
+1	? (jingle)
+1	? (haul)
+1	? (letter)
+1	? (whelk)
+1	? (beachglass)
+1	? (saltcake)
+1	? (ridertin)
+1	? (bellchip)
+1	? (rainjar)
+1	? (moonsilt)
+1	? (starglass)
+1	? (ambergris)
+1	sign or spot in Cockle Cove (giveKeyItem)
+1	sign or spot in The Brook Wood
+1	Porch man
+1	Porch kid
+1	Tide-liner
+1	sign or spot in The Saltings
+1	sign or spot in The Saltings (giveKeyItem)
+1	? (mast)
+1	? (bole)
+1	? (pylon)
+1	? (tusk)
+1	? (hilt)
+1	? (fall)
+1	Clerk
+1	Ledger
+1	sign or spot in The Kelp Beds (giveKeyItem)
+1	Crane-minder
+1	sign or spot in The Gantry Shore (giveKeyItem)
+1	Floe-watcher
+1	sign or spot in The Floes (giveKeyItem)
+1	Stone-sorter
+1	sign or spot in The Shingle (giveKeyItem)
+1	Hilt smith
+1	Register entry: Kivishi
+1	Register entry: Jarira
+1	Register entry: Daista
+1	Register entry: Luotsu
+1	Register entry: Menhir
+1	Register entry: Louriba
+1	Register entry: Irvino
+1	Register entry: Kumpuka
+1	Register entry: Kaivodo
+1	Register entry: Vetoki
+1	Register entry: Utumi
+1	Register entry: Hyolau
+1	Register entry: Squall
+1	Register entry: Vuoksho
+1	Register entry: Suomizu
+1	Register entry: Pyoruzu
+1	Register entry: Yabuko
+1	Register entry: Sienoko
+1	Register entry: Gobonen
+1	Register entry: Tarhaju
+1	Register entry: Kankabu
+1	Register entry: Tuhkori
+1	Register entry: Ibabus
+1	Register entry: Myroku
+1	Register entry: Orrery
+1	Register entry: Notsuru
+1	Register entry: Molasha
+1	Register entry: Varhari
+1	Register entry: Camado
+1	Register entry: Manuchi
+1	Register entry: Virtaki
+1	Register entry: Pilteki
+1	Register entry: Lupusmi
+1	Register entry: Iesbiki
+1	Register entry: Okopa
+1	Register entry: Iliru
+1	Register entry: Varasu
+1	Register entry: Sonno
+1	Register entry: Peubi
+1	Register entry: Usapus
+1	Register entry: Mikapi
+1	Register entry: Hometa
+1	Register entry: Remaku
+1	Register entry: Sazuma
+1	Register entry: Kakeha
+1	Register entry: Tekage
+1	Register entry: Enneshi
+1	Register entry: Honoki
+1	Register entry: Tackle
+1	Register entry: Full
+1	Register entry: Mundane
+1	Register entry: Knot
+1	Register entry: Holm
+1	Register entry: Tanpoka
+1	Register entry: Mawkin
+1	Register entry: Teraba
+1	Register entry: Cutaru
+1	Register entry: Karrum
+1	Register entry: Talpara
+1	Register entry: Kucella
+1	Register entry: Mimato
+1	Register entry: Kupas
+1	Register entry: Herya
+1	Register entry: Tobiku
+1	Register entry: Koolus
+1	Register entry: Honevel
+1	Register entry: Hamkuba
+1	Register entry: Kaukubi
+1	Register entry: Kynme
+1	Register entry: Koshika
+1	Register entry: Netoive
+1	Register entry: Echili
+1	Register entry: Rakani
+1	Register entry: Vistus
+1	Register entry: Ikara
+1	Register entry: Prosaki
+1	Register entry: Sensi
+1	Register entry: Vesen
+1	Register entry: Cakoli
+1	Register entry: Taihoki
+1	Register entry: Namito
+1	Register entry: Tozodo
+1	Register entry: Partica
+1	Register entry: Ajoku
+1	Register entry: Spuawa
+1	Register entry: Aeshio
+1	Register entry: Ardeagi
+1	Register entry: Annagi
+1	Register entry: Deispes
+1	Register entry: Kelpana
+1	Register entry: Madotra
+1	Register entry: Urkuda
+1	Register entry: Nanum
+1	Register entry: Arcapas
+1	Register entry: Fumusri
+1	Register entry: Polro
+1	Register entry: Shivus
+1	Register entry: Pechi
+1	Register entry: Nekkori
+1	Register entry: Mushina
+1	Register entry: Mulchi
+1	Register entry: Virtsa
+1	Register entry: Kobudus
+1	Register entry: Amevia
+1	Register entry: Kiln
+1	Register entry: Vyobi
+1	Register entry: Vienum
+1	Register entry: Kazeli
+1	Register entry: Capkara
+1	Register entry: Imshin
+1	Register entry: Pasara
+1	Register entry: Kuzumen
+1	Register entry: Bosshi
+1	Register entry: Hyocies
+1	Register entry: Phoshi
+1	Register entry: Rosmachi
+1	Register entry: Gevuori
+1	Register entry: Sarkaku
+1	Register entry: Puikria
+1	Register entry: Ruokme
+1	Register entry: Losari
+1	Register entry: Hatari
+1	Register entry: Glakago
+1	Register entry: Scutate
+1	Register entry: Umatsu
+1	Register entry: Mangonel
+1	Register entry: Kabura
+1	Register entry: Sagitli
+1	Register entry: Kugami
+1	Register entry: Salgoro
+1	Register entry: Liemus
+1	Register entry: Ranaru
+1	Register entry: Lunkuu
+1	Register entry: Siderite
+1	Register entry: Kuoria
+1	Register entry: Vilasi
+1	Register entry: Scorri
+1	Register entry: Spitoge
+1	Register entry: Sunaka
+1	Register entry: Haze
+1	Register entry: Calkuro
+1	Register entry: Hasafex
+1	Register entry: Tebukas
+1	Register entry: Surcuki
+1	Register entry: Napirus
+1	Register entry: Scalago
+1	Register entry: Nolhaku
+1	Register entry: Owanis
+1	Register entry: Finihei
+1	Register entry: Murk
+1	Register entry: Avachi
+1	Register entry: Hebrum
+1	Register entry: Shiruga
+1	Register entry: Notbomi
+1	Register entry: Vakone
+1	Register entry: Rokbo
+1	Register entry: Comine
+1	Register entry: Kamorus
+1	Register entry: Shiola
+1	Register entry: Nomipu
+1	Register entry: Rakmata
+1	Register entry: Cistako
+1	Register entry: Mibu
+1	Register entry: Ampullo
+1	Register entry: Kamono
+1	Register entry: Isoko
+1	Register entry: Keeba
+1	Register entry: Cohato
+1	Register entry: Spijire
+1	Register entry: Veigai
+1	Register entry: Renbiwa
+1	Register entry: Madaku
+1	Register entry: Haota
+1	Register entry: Lainami
+1	Register entry: Roibuki
+1	Register entry: Nitorshi
+1	Register entry: Poscus
+1	Register entry: Kolikni
+1	Register entry: Limashi
+1	Register entry: Faience
+1	Register entry: Serrari
+1	Register entry: Rakoma
+1	Register entry: Makimen
+1	Register entry: Tardas
+1	Register entry: Tain
+1	Register entry: Daz
+1	Register entry: Tulimuji
+1	Register entry: Kokala
+1	Register entry: Maineri
+1	Register entry: Hakutu
+1	Register entry: Sujiva
+1	Register entry: Kokieri
+1	Register entry: Pordan
+1	Register entry: Coshira
+1	Register entry: Tegaote
+1	Register entry: Kamopra
+1	Register entry: Pasubame
+1	Register entry: Kukira
+1	Register entry: Otosus
+1	Register entry: Huipki
+1	Register entry: Humiri
+1	Register entry: Reikuchi
+1	Register entry: Kairari
+1	Register entry: Vobasa
+1	Register entry: Alkume
+1	Register entry: Small Gran
+1	Register entry: Konleva
+1	Register entry: Nikusa
+1	Register entry: Syvakai
+1	Register entry: Tahtode
+1	Register entry: Lonshu
+1	Register entry: Puhalki
+1	Register entry: Tynagi
+1	Register entry: Soryubi
+1	Register entry: Yliri
+1	Register entry: Paimori
+1	Register entry: Monti
+1	Register entry: Mukabe
+1	Register entry: Hafusen
+1	Register entry: Kuorisho
+1	Register entry: Hupfuta
+1	Register entry: Ashiaki
+1	Register entry: Tulisei
+1	Register entry: Heinaba
+1	Register entry: Ruojiki
+1	Register entry: Shidor
+1	Register entry: Ikapia
+1	Register entry: Kutelo
+1	Register entry: Pakui
+1	Register entry: Tifuda
+1	Register entry: Tyhaki
+1	Register entry: Hyrkoma
+1	Register entry: Kidedan
+1	Register entry: Sivuko
+1	Register entry: Picagi
+1	Register entry: Kakulo
+1	Register entry: Masilma
+1	Register entry: Sirdori
+1	Register entry: Manva
+1	Register entry: Kohisai
+1	Register entry: Kukhana
+1	Register entry: Kosango
+1	Register entry: Shinmi
+1	Register entry: Korvami
+1	Register entry: Suomono
+1	Register entry: Tenbinka
+1	Register entry: Hilzuka
+1	Register entry: Laibiru
+1	Register entry: Sisarmai
+1	Register entry: Pakaeri
+1	Register entry: Astrolabe
+1	Register entry: Pallasite
+1	Register entry: Rusumo
+1	Register entry: Petami
+1	Register entry: Opaski
+1	Register entry: Kotigai
+1	Register entry: The Gleaner
+1	Register entry: Carcanet

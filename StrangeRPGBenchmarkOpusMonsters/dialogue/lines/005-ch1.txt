@@ -1,0 +1,272 @@
+# WHORL game text, chunk 5 of 15. Files: src/content/act2/ch1.ts
+# Speakers: The Sifter (26), Cinch (24), look (18), Strandmonger (17), hint (13), choice (13), Bottle girl (8), goal (7), Tack (6), Gran (4), narration (3), notice (3), Weed-raker (3), Letter (3), choice prompt (3), Shell-sitter (2), Grain-picker (2), Driftwood boy (2), ? (2), Woman with a basin (2), Old man (2), Boy (2), Woman (2), Man by the fire (2), Girl (2), Shellwright (2), Eldest (2), Sign (1), Woman in a whelk (1), Man in a whelk (1), Child in a whelk (1), ? (listMenu) (1), Wet-dealer (1), ? (keeperFight) (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/act2/ch1.ts
+
+== scene: strandBoard
+[1ue889f] hint | (Strand rule: the row nearest the sea is wet. A card on a wet row loses 1 on every edge.)
+[0gu8qb2] hint | (At high tide the middle row is wet as well.)
+
+== scene: gran
+[1r5m79w] Gran | Tell my little turnip soup.
+[1a0egey] Gran | Tell my little turnip she is to be brought home of a Sunday. Every Sunday.
+[0j63l25] Gran | Tell my little turnip there is soup, and that two bowls are laid regardless.
+[0tncj3h] Gran | Tell my little turnip Sundays, without exception.
+
+== scene: a2MarginEnter
+[18kxcpg] goal | Go to the east edge of the Margin.
+
+== scene: a2CinchMargin
+[07f7ji8] Cinch | Sit down, sit down. Saw that one coming from all the way over at the fire.
+[091l6cb] Cinch | Most of a day's walk, for me. Sat down four or five times on the way.
+[1aq3trr] Cinch | Sit low and the air comes right up in your face. That's the beach, that air.
+[11gbq5k] Cinch | Have a sit first. Your ground's gone soft. Can feel it right through the coat.
+[1upvjxz] Cinch | New shell gives a bit when you sit on it. Forgot that. Been a while.
+[0gjyste] Cinch | Sit a minute before you go. Who's turning your post while you're out?
+[05ao6xx] choice | Tack is.
+[1nbtla1] Cinch | Tack. Good. Counting's a sitting-down job, mostly. Sit easy, then.
+[0q1330i] Cinch | Sit on the edge with your legs over. That's how I went. Then you sort of lean.
+[0otxuvl] choice | Go through
+[0k5um7z] choice | Not yet
+[0f4czvy] Cinch | No rush. Be right here. Forty years of practice, sitting.
+
+== scene: map outerwhorl
+[0ls4pn7] look | The shell curls away under Ouro's feet, ridge after ridge, down to the sand.
+[1gmxpsc] look | The ridge is worn smooth here in a long dip, the width of a road.
+[0g3cp3s] look | Something big has leaned on it, many times.
+[09d5x7u] look | An old lip of the shell, outgrown one spring long ago. The barnacles moved in after.
+[1hnlivm] look | In the lee of the third ridge, wedged in a growth line, two whelk horns.
+
+== scene: a2OuterWhorl
+[0v7ryjf] Cinch | Here, sit. Best seat there is for seeing what you came out of.
+[0rujkdq] narration | It is a shell. It lies on the sand. It is the size of a hill.
+[1ifuaze] Cinch | Sit and look a while. It's bigger from the inside.
+[0dd4n24] goal | Walk down the ridges to the sand.
+
+== scene: exuviaLines
+[0ex9km5] narration | North along the beach there is a hollow in the sand, shell-shaped. Nothing is in it.
+[0mlo2y5] narration | North along the beach lies another shell, paler and older, half sunk in the sand.
+
+== scene: a2CinchRidge
+[0f16ti5] Cinch | Still looking? Good. Sit and look. It's bigger from the inside.
+
+== scene: a2CinchFoot
+[0qk1na7] Cinch | Pick a shell, any shell, and sit in it with me. It's coming low.
+
+== scene: a2FirstLow
+[0etr8xg] Cinch | Sit in one of these with me. Quick, now. It's coming low.
+[18hfmx1] choice | Get in
+[09hln83] choice | Stay out
+[0n9xk9v] Cinch | Suit yourself. Sit by the door, then, where I can see you.
+[0ylf08y] Cinch | Always tap my foot in here. Can't help it.
+[1w8i2jz] Cinch | Stay sat a bit. Here it comes back in.
+[1508x1p] Cinch | See the bell from down here? There, on the post by the weed.
+[022excz] hint | (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+[1ye40os] hint | (At low tide the sand is open, and stars fall in a line.)
+[0ue52lq] hint | (At low water a shell with nothing moving in it is gone when the shadow passes.)
+[19ujl2i] Cinch | Me, I'm off to sit at whatever fire they've got. West, along the weed.
+[1smjxt9] goal | Go west along the Wrack to the Sand Dollar.
+
+== scene: a2Ch1Return
+[0hg2h1l] hint | (The Margin hole stays open. Go back inside any time through the Outer Whorl.)
+[0kaejux] goal | Cinch is at the fire in the Sand Dollar.
+
+== scene: map wrack
+[1dkhqr8] Shell-sitter | Different shell every low, that's my rule. Yesterday was a whelk. Drafty.
+[0a6llqj] Shell-sitter | Fine. This shell's taken. Plenty more on the beach.
+[0a6w9vm] Grain-picker | Grains go to the Sifter. You're going in the sand.
+[0rbr9om] Grain-picker | Ugh. The Sifter's gonna hear about this. And weigh it.
+[1e8cbea] Driftwood boy | Everything floats in. Some of it floats back out. I wanna see where it goes.
+[11c7g9g] Driftwood boy | I'm floating back. Don't follow, you'd sink.
+[0scapdg] look | In a knot of black weed, dry inside, a notion.
+[1230rui] look | An oyster in the pool, as big as a plate. Ouro pries it open. Nacre.
+[0nhmso3] look | A hollow log. Down inside it, a triton horn.
+
+== scene: a2WrackSign
+[09sv99h] Sign | The Sand Dollar, west. At low water, get in something. Under it, scratched: and WIGGLE
+
+== scene: a2WhelkFamily
+[1riy5x6] Woman in a whelk | Low water, so we're in. Hi. Can't stop.
+[1u91qmy] Man in a whelk | Keep rocking, Mim. Good. Big rocks. That's it.
+[1lc4ljl] Child in a whelk | I'm ROCKING, Dad.
+
+== scene: i
+[0op2zdv] ? (listMenu) | Leave which whorl?
+
+== scene: a2PoolShell
+[0jk4req] notice | {sitting.name} comes back to your team.
+[157q69o] notice | {sitting.name} goes to the Midden.
+
+== scene: a2BottleGirl
+[0qkwtz6] Bottle girl | Dear inside. Low water, I'm in the log. Logs used to be trees. Dear trees, what's it like up?
+[19p1scv] Bottle girl | Dear inside. Another one washed up today, under a crab. The crab says hello.
+[0le6lsr] Bottle girl | Dear whoever reads these. I find them all along the wrack. Sorry about the sand in them.
+[01vasa1] Bottle girl | Dear sea. Take this one in under the big shell. Shell, bell, well. Dear well, are you down there?
+
+== scene: opts
+[1cjy411] ? | Who writes them?
+[1c9yic2] ? | Who writes them?
+
+== scene: a2BottleGirl
+[1k7msom] Bottle girl | Dear inside. Somebody read one!! Somebody actually read one of them!!
+[1l3ua48] Bottle girl | Dear Mum. The good stone isn't under my bed anymore. I gave it to someone. Don't look.
+[1xo9607] Bottle girl | Dear whoever writes them. It's nobody here. We checked. Your letters are very big.
+[0jlvfl9] Bottle girl | Dear sea. Have them back. You keep bringing them. Bringing's for parties. Dear party, I can't come.
+
+== scene: a2Raker
+[02m5kan] Weed-raker | Low water. I'm in my barrow, rocking it. Don't watch me.
+[0wy2hd3] Weed-raker | I rake the weed into nice lines. The sea puts it in lines anyway. Worse lines.
+[1qtys7u] Weed-raker | See the glints in the weed? Grains. You can see them at night. Leave them be.
+
+== scene: a2SifterHouse
+[152d8zz] The Sifter | One house. Two lows a day. And a grand, unbroken total of zero grains lost!!
+[163vxdo] The Sifter | One whelk, one fire, one sieve. A sack of sand, a pinch of tea, a thrimble of quiet.
+
+== scene: map sanddollar
+[1e3affv] look | Children have scratched their heights into the wall of the test, with names.
+[1lv2v4g] look | The lowest mark is older than the rest, and very small.
+[138t027] look | A sack of cowries, tied at the neck. A shell tag on the string says STRANDMONGER.
+[1vpor7t] look | A fire of driftwood on a ring of stones. It smells of salt.
+[1s76pgm] look | Under the steps cut in the test, in a dry hollow, a whelk horn and some cowries.
+
+== scene: a2SandDollarEnter
+[1wni54t] goal | The Strandmonger keeps a counter in the east petal.
+
+== scene: ch1
+[0y7r3oe] Woman with a basin | Five doves in the middle of town. Don't go breaking the dollar to get at them. People have tried.
+[066ipm6] Woman with a basin | Low water! Shaking my sieve. Sand's going in your shoes, sorry.
+[1sw9pyk] Old man | We came off the old shell five grandmothers back. Walked the whole way. Feet still hurt.
+[0aatn5m] Old man | Low water. Chair, then kick. Kick, kick. Seventy years I've done this.
+[0r44zwc] Boy | My house is a whelk! I sweep it every low so it knows I'm in. It knows.
+[08n98l6] Boy | Low water. Sweep sweep sweep. Can't talk.
+[1d6vjvn] Woman | Your trader buys our cowries by the sack. We just sweep 'em off the wrack. Easiest money there is.
+[0k3xir0] Woman | Low water. The Gleaner's out on the flats. Hear that? That's it.
+[1ioe9fz] Man by the fire | Stars come down every low. You get used to the noise. Kinda.
+[1x8kjqe] Man by the fire | Low water. I'm turning the fish. Don't tell me if it's burning.
+[19bu424] Girl | Don't sit still in an empty one at low water. Duh. Babies know that.
+[0odr10n] Girl | Low water. I'm hopping. Hopping's the best one.
+
+== scene: joinSmallGran
+[0xekuhq] hint | (She says her lines in order. In battle each line is a move, and she can only use the next one.)
+
+== scene: a2Strandmonger
+[1p3gs41] Strandmonger | Well, there you are. Look at that face. Surprised. I'd give two cowries for it, tops.
+[0upur9d] Strandmonger | Twice a year I walk out here for cowries. Cheap off the wrack. Sand cheap.
+[0jrpjcv] Strandmonger | Plus forty cowries a sack out here. Fifty a sack inside. Keep it from your gran, she'll want a cut.
+[0fern4a] Strandmonger | Speaking of your gran. She sent a parcel. Paid six cowries postage up front. Never happens.
+[0i7ap5a] Strandmonger | Your gran said, "Tell my little turnip to take her." She said it to that one, mind. Not to me.
+[0grp5o1] Strandmonger | Which I carried the message for free. The carrying of her, I charged for. By the pound.
+[0qgv5u8] Strandmonger | I'm here a while. Register pages are a cowrie each out here. Robbery. I'm the robber.
+[0c31ibn] Strandmonger | And a letter, from your friend at the post. One cowrie postage due. I paid. Now you're due.
+[0mard05] Letter | Day 1. Turned 1 time. Heavy. You owe 1 chair. Tack.
+[1k1o2rs] Strandmonger | Grains, now. The Sifter keeps those. A grain's worth more than a pearl on this beach.
+[1gdoe03] Strandmonger | Not to me. I'd give you two cowries for one. Two and a button.
+[148ck7b] goal | The Sifter is in the middle of the town, among the doves.
+[116a610] Strandmonger | Strand kinds, a cowrie a page. Your gran's slate. It reaches this far, I checked.
+[1kdtata] Strandmonger | Remember? The walk out here is free. The road costs shoes. Told you that for nothing.
+
+== scene: grayRoadReward
+[1m9oo8h] Strandmonger | You found my road! Toll's a cowrie each way. I set it just now.
+[1b3m2oz] Strandmonger | Which I'll waive, once. Worth more to you than a cowrie and less to me. We both win. Me more.
+[1nziwmp] Strandmonger | Don't tell your gran. She'd use it and never pay. She did that with a bridge once.
+
+== scene: a2PostShell
+[04foiki] Strandmonger | And another. Letter, one cowrie postage. Your friend writes tiny. Cheapskate. Respect.
+[0i9n7sp] Letter | Day 9. 9 turns. Lug says close in here. Fid says post 19 spans round. Knew already. Tack.
+[1en66k9] Strandmonger | Letter. A cowrie. He's numbering the pages now. Costs me nothing and I hate that.
+[068hyjx] Letter | Day 17. 17 turns. Hasp asked about hands 3 times. Purchase charged for 1 chair. Tack.
+
+== scene: a2Shellwright
+[1ckafsr] Shellwright | Yeah? Shop's here in the petal. Midden's under the floor. Stays dry, mostly.
+[1for3oz] Shellwright | Conjoiner's out back. Your Volute ones join with ours fine. It takes. Anything else?
+
+== scene: a2CinchFire
+[0g4u446] Cinch | Hollows go somewhere. Sit up high enough and you'd see. Nothing's higher than that long one.
+[1ypj29n] Cinch | Sat on the bar a while today. Hollows go down past that spotted one. Close past it.
+[05gm6x9] Cinch | Pull up a stone. They let anyone sit here. Told them I'm staying. They said fine.
+[0g5uyy2] Cinch | Good seat, this. You can see all five doors from it. Everybody goes in at low.
+
+== scene: a2Eldest
+[0021y81] Eldest | (yesterday the tide comes in over my feet, same as this morning it will)
+[0bvyeap] Eldest | This morning I'll be a girl. Yesterday I'm a girl with a sieve. Which one are you asking?
+
+== scene: a2WetDealer
+[0hhytzy] Wet-dealer | I deal on the bar. Cards get wet. I deal 'em wet. You'll play 'em wet.
+
+== scene: a2SifterTop
+[0a484vs] The Sifter | Three cowries per star caught. One shell apiece. A cracked shell is a shell subtracted.
+[1y9pztv] The Sifter | Thirty stars in a night earns a notion. Sixty earns a thing of wholly unseen kind!!
+[0odwslx] hint | (Starfall: hold a shell under the falling stars. Gold stars are worth 3. Dark ones crack the shell.)
+[1saq7ts] choice | Catch stars
+[1d9silh] choice | Not now
+[0hm4fn3] The Sifter | {score} stars, duly tallied. {#2} cowries, duly paid.
+[1v1swa9] The Sifter | Thirty and upward!! One notion, presented in full.
+[1di3v6c] Tack | {score}. Beats my {#2}. Okay. You're counted.
+
+== scene: a2TackTop
+[1tefyzz] Tack | 39. 40. 41. Hey. 41 stars tonight, and 0 of them hit me.
+[1yr6fn0] Tack | Came through your hole. 1 hole. Thanks for that.
+[14euxg1] Tack | Back there it's all soft. 0 things to hold. So, stars.
+[0dstrvs] Tack | My best is 41 in a shell. Beat it and you get counted.
+[0v7yi26] Tack | {#1} in a shell, my best. You've got {#2}. Just saying.
+
+== scene: map doves
+[1ppei8z] look | A white dove made of shell, as tall as Ouro. Sand has drifted against its feet.
+[0af70xd] look | A white dove made of shell. It faces in, like the others.
+
+== scene: a2DovesEnter
+[19o5keh] The Sifter | Two sacks of sand a day go through this. In each, a pinch of star, a fleck of shell, a glimmock.
+[01l2v5y] The Sifter | Three grains of star in that last handful, and one of you. Highly irregular.
+[0ijessp] The Sifter | One fight, one grain. That is my tariff. Out here one grain is an immensity.
+[0h30wej] The Sifter | The floor is twelve measures short of a path. Here is a sack holding precisely twelve.
+[1yuwdx3] hint | (Pour sand to make a path. A cell with four measures spills one measure into each cell beside it.)
+[1m4itke] hint | (You can stand only on cells with two or three measures.)
+
+== scene: pourScript
+[004omyp] choice | Refill it
+[0jvv0j0] choice | Not yet
+[0hdk5vp] choice prompt | The Sifter: Twelve more measures. This sackful costs nothing.
+[13hbqrp] choice | Pay 12 cowries
+[0kpttlx] choice | Not yet
+[0j11er6] choice prompt | The Sifter: A cowrie a measure. Twelve for the sack.
+[0j6tk1j] The Sifter | Twelve cowries, and you are short of them. I extend not one grain of credit.
+[1taaa03] choice | Pour a measure
+[0qde27j] choice | Leave it
+[0niuu4i] choice prompt | {#1} measures here. {sack} in the sack.
+
+== scene: a2Sifter
+[0zno3sm] The Sifter | Twelve measures. One path. And of help from me: not a pinch, not a dram, not a smidgelet.
+[1xzwkt7] The Sifter | {#1} measures used. {sack} left in the sack. Not a single grain spilled!!
+[0h6suaj] The Sifter | Ten
+[18g6obm] The Sifter | Four of mine, one at a time. One grain at the end of it. A fair and measurable contest.
+[0fu5kfx] The Sifter | Two of my four are salt, and salt beats two kinds. Root, and beast. Measure that.
+[0xdbsyf] The Sifter | Salt is beaten by two kinds, tide and void. That is all of salt, to the last pinch.
+[187gszc] ? (keeperFight) | A handful of losses weighs nothing at all. Return with a fuller sack.
+[0ua5q9a] The Sifter | Four down. One grain up. A most correct and agreeable exchange.
+[1gglr4c] hint | (Star grains raise the cap on Strand levels. With one grain your whorls can reach Strand level 13.)
+[0fbxdfk] The Sifter | One more sackful, and then home for supper. An ample, well-earned supper.
+
+== scene: sifterTake
+[0msiz5t] The Sifter | One house. By my measure, none now.
+[1j406e8] The Sifter | Thirty years in it. Two hours out of it, for one grain. A dreadful exchange.
+[1nu86en] The Sifter | A sack of sieves in it. A pound of tea. A modest smatterling of spoons.
+[1g5tuyd] Cinch | Come and sit by me. There's room at the fire till you find another one.
+[1v8ljwq] goal | Walk back east along the Wrack to the foot of the Volute.
+
+== scene: a2SifterFire
+[1jtug7k] notice | {m.name} comes back from the whelk.
+[1srmib5] The Sifter | Two lows!! One house, restored to a full and proper count of one!!
+[0m4xvx8] The Sifter | Three grains of nacre, a sack of cowries, a glommet of thanks. Fair measure.
+[1a1pnvm] The Sifter | One whelk, wide at the door, one span longer than myself. That is the requisite size.
+[1lncmb7] The Sifter | It must stay put two lows in a row. Two!! Anything less, I shan't trust it.
+[0np9hp4] hint | (A whelk washes up on the farthest weed ring of the Wrack at high tide.)
+
+== scene: map flats
+[0dhqywg] look | In the runnel, under an inch of cold water, a nautilus horn.
+[1ybrd1q] look | A razor hole, straight down. At the bottom, a notion.
+[1n0o4bn] look | A worm curl of sand, still curling. Inside it, some nacre.
+
+== scene: a2FlatsEnter
+[0zjpmh3] hint | (At low water you see only inside the rings of landed stars. Soft sand shows only in a ring.)

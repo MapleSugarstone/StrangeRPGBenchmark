@@ -284,8 +284,9 @@ async function receptionist(c: Ctx) {
   await c.say('receptionist', 'Give a thing what it asked for and it can stop. It leaves in peace, and it leaves you its prayer to keep.');
   c.set('mech_answer');
   c.sfx('answer');
-  await c.say(null, 'Hello learned Answer. In battle, choose Answer and pick what to give. Listen first, and you will hear what it asked for.');
-  await c.say(null, 'Some ferals will only take an answer once they are worn down, or once they have been heard. Wrong answers offend them.');
+  await c.say(null, 'Hello learned Answer. Every feral grew from a prayer. Use the Listen skill on one to hear its prayer, then decide what would answer it.');
+  await c.say(null, 'Choose Answer and pick one. Each answer says what kind of prayer it fits. The right one sends the feral away in peace, and you keep its prayer.');
+  await c.say(null, 'A wrong answer offends the feral, and it hits harder for a while. The right answer at the wrong time does no harm. The feral tells you what has to happen first.');
   await c.say('receptionist', 'This one has been circling my desk for a century. Try.');
   const r = await c.battle('wr0', { intro: 'A Ticket shuffles up to the desk, hopeful.' });
   if (r === 'win' && c.s.kept.includes('ticket')) {

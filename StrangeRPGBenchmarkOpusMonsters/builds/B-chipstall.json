@@ -1,0 +1,6 @@
+{ "name": "B chip stall", "charm": "rib", "team": [
+  { "fit": ["skipper", "peat"], "moves": ["skipper_hop", "skipper_dart", "peat_smoke", "peat_seep"], "passives": ["peat_bogbreath", "skipper_slick"], "types": ["TIDE", "ROOT"], "basic": "M", "notion": "warmstone", "tan": { "hp": 6, "def": 6 } },
+  { "fit": ["furrow", "grotto"], "moves": ["furrow_underfold", "furrow_split", "cavein", "takein"], "passives": ["drip", "furrow_illfooting"], "types": ["ROOT", "STONE"], "basic": "M", "notion": "embercoat", "tan": { "hp": 6, "mgk": 6 } },
+  { "fit": ["stump", "sallet"], "moves": ["sap", "stubborn", "sallet_visor", "sallet_hotbreath"], "passives": ["sallet_oldblood", "regrow"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "spareskin", "tan": { "hp": 6, "def": 6 } },
+  { "fit": ["welling", "furnace"], "moves": ["bucket", "brim", "stoke", "firebox"], "passives": ["radiant", "drawnup"], "types": ["TIDE", "GEAR"], "basic": "M", "notion": "embercoat", "tan": { "hp": 6, "mgk": 6 } }
+] }

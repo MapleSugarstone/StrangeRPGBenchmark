@@ -1,0 +1,5 @@
+﻿{ "name": "A stroke edge", "charm": "bole", "team": [
+ { "fit": ["piston", "fiddler"], "moves": ["drive", "fullstroke", "fiddler_clawwave", "fiddler_regrown"], "passives": ["stroke", "pressure"], "types": ["GEAR", "BEAST"], "basic": "P", "notion": "edgecharm", "tan": { "atk": 6, "agi": 6 } },
+ { "fit": ["piston", "furrow"], "moves": ["drive", "fullstroke", "furrow_underfold", "furrow_maze"], "passives": ["stroke", "pressure"], "types": ["GEAR", "ROOT"], "basic": "P", "notion": "edgecharm", "tan": { "atk": 6, "agi": 6 } },
+ { "fit": ["piston", "tang"], "moves": ["drive", "plunge", "tang_chip", "tang_scabbard"], "passives": ["stroke", "tang_twostep"], "types": ["GEAR"], "basic": "P", "notion": "edgecharm", "tan": { "atk": 6, "agi": 6 } },
+ { "fit": ["tor", "piston"], "moves": ["stamp", "heave", "drive", "plunge"], "passives": ["stroke", "pressure"], "types": ["STONE", "GEAR"], "basic": "P", "notion": "edgecharm", "tan": { "atk": 6, "agi": 6 } } ] }

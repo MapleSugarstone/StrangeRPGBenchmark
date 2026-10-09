@@ -1,0 +1,1 @@
+﻿{ "name": "Example", "charm": "rib", "team": [ { "kind": "cairn", "notion": "spareskin" }, { "fit": ["quarry", "carrion"], "moves": ["cut", "excavate", "peck", "mob"], "passives": ["dugout", "gather"], "types": ["STONE", "BEAST"], "basic": "P", "notion": "bodkin" }, { "kind": "flare", "notion": "bitterroot" }, { "kind": "halo", "notion": "waxseal" } ] }

@@ -1,0 +1,293 @@
+# WHORL game text, chunk 2 of 15. Files: src/content/ch4.ts, src/content/ch5.ts, src/content/ch6.ts, src/content/ch7.ts
+# Speakers: Hermit (24), Old Amber (22), Bare (18), goal (14), Grafton (10), choice (9), Quillon (9), Tellin (8), Ohm (8), Murex (7), notice (6), Guard (6), look (5), hint (5), Child (4), Grafter (4), Tinker (4), Pilgrim (4), Woman (3), Old man (3), Shellwright (3), Old woman (3), Sword drill (3), Forester (2), Man (2), Coaler (2), Watcher (2), Conjoiner's boy (2), Letter (2), Trapper (2), Herder (2), Hall keeper (2), Smith (2), Gatherer (1), Iesbiki (1), Bole woman (1), Hummer (1), Very old man (1), Very old woman (1), Old guard (1), sign or spot in The Hermitage (1), ? (giveKeyItem) (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/ch4.ts
+
+== scene: map route4
+[0dgz6kc] Forester | Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.
+[1groslv] Forester | Aaand there goes my hat. Up.
+[06ceygm] Hermit | Kid, you're standing in the haul. We're hauling the Bole here.
+[08l3zmg] Hermit | Whatever. Haul's still going.
+[1uwtld5] Gatherer | Tarhaju whorls drop fruit, same as real orchards. Same fruit too. I've done a lot of tasting.
+[06sto47] Hermit | She says ease it, don't yank it. So we're easing. Very slowly. All day.
+[1g586th] Iesbiki | A yoke whorl in harness, waiting to pull. It has the patience of a gate.
+[0jnnhtn] look | In the hollow past the sleeping stump, a heap of acorns and a notion under them.
+[0umnxju] look | In the dell past the sleeping howl, two nacre wrapped in moss.
+[1s6zdtz] look | In the glade inside the thicket, a sea biscuit someone left on a stump. (still crisp)
+
+== scene: map bole
+[1er3lvt] Man | By the trunk the rain goes up. Out here it comes down. We picked out here. We like regular rain.
+[0tiszrz] Woman | Grafton conjoins better than the Conjoiner. Don't tell either of them. It'd be a whole thing.
+[16h2tdl] Child | It came out like a tooth! A big wobbly one! Does the ground get a cowrie for it?
+[0ofrgxl] Child | There's a bunch of big ones at the roots and they're pulling and nobody's stopping them!
+[1k0bcxf] Old man | My cast went up into the roots fifty years ago and never came down. Stubborn. Gets that from me.
+[1x3jr6m] Bole woman | I dropped a stone down the hole where it was. Still listening. Shh. ...Nope. Still listening.
+[0qqrypr] Hermit | Ease it. Ease it! Don't yank it. She'll know if you yank it.
+
+== scene: map bolegym
+[0h0qn0n] Grafter | Made my four out of eight. I miss two of 'em. Which two changes day to day.
+[1h0uvff] Grafter | Okay, now I miss three.
+[0j22dvi] Grafter | Sure, there's the Conjoiner in Spire. But Grafton's here, and Grafton's better. Ask anybody.
+[0xvkfsk] Grafter | Grafton's better than me too. Obviously.
+
+== scene: route4Enter
+[0nn1bto] goal | Go north through the understory to the Bole.
+
+== scene: boleEnter
+[06y790d] goal | Grafton keeps the Bole. The gym is inside the trunk.
+
+== scene: boleTannery
+[0dxdikx] Shellwright | Yeah? Notions just came in. Little things to hold. Changes how a whorl fights. One each, though.
+[1xs49mk] hint | (To give a notion, press X and pick Team. Each whorl can hold one notion.)
+
+== scene: zestBole
+[1mippo1] Tellin | Okay okay, I'm pulling, you're watching, that's how this goes,
+[0gqzn06] Tellin | nothing's changing, so keep watching, yeah?
+[1xdlbwi] Tellin | No no no, I'm not stopping, not for a late one, not for anybody, we're on a schedule here, okay?
+[1hffwlq] Tellin | Yeah yeah, fine, I'm off to the trunk and you're off to the gym and we're both working so it's fine.
+
+== scene: grafton
+[0jmv1rw] Grafton | The pearl remains yours and the Stay remains lying across the street!! (we step over it)
+[0c3mhj1] Grafton | You have descended into the trunk and I am most thoroughly gladdened by it.
+[0yv26ig] Grafton | Every one of my four was twain and now each is a singular and splendid one. (don't ask which halves)
+[0vm9m5c] Grafton | Engage them and you shall behold the doubled magnificence of what two can do.
+[12f6lpy] Grafton | You are victorious and now I bestow upon you the pearl of the Bole, which is-
+[1rsrthr] Grafton | They are pulling the Bole and we are standing most inconveniently inside of it!! (run)
+[05fkh9v] Tellin | And we're off, we're off, you're still kind of arriving, it's coming loose,
+[1rcszxr] Tellin | it's loose, great work everybody, bye!
+[0ce3l3b] Grafton | Nevertheless the pearl is yours and the Stay is gone, and on this both my heads agree.
+[0gvdesb] notice | Ouro gets the Bole pearl.
+[1ebjqn9] Grafton | You are scratching and that is most inadvisable for a person of your age!! (quit it)
+[02nfrq1] goal | The Hermits went north to the machine fields and Hum.
+
+== scene: graftonAfter
+[0j31e33] Grafton | The tree is down and the town, I am delighted to report, is still here!!
+[04xr7wl] Grafton | The Hermits have marched north and taken every one of the big ones with them, most discourteously.
+
+==== file: src/content/ch5.ts
+
+== scene: map route5
+[1swvo9r] Tinker | These machines were the Riders'. They turned ages ago. The casts are still on shift.
+[1bt29jt] Tinker | Huh. They're still working. I'm not.
+[1fj8uq4] Coaler | A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.
+[0dg7c6o] Coaler | Great. Cold sleep tonight.
+[114ug43] Hermit | Pylon's next. She says that one'll be hard. She's usually right about hard.
+[0ek865z] Watcher | See that? Satellite's cast. Fell in the winter. We call it shellfall. I said it first.
+[1895pur] Watcher | The rest of it's still up there. Going round with no shell on. Brr.
+[1kea9u9] look | Behind the dead machine, a tin of Rider rations, still sealed, and a cog.
+[0yhhuyq] look | Behind the other dead machine, two Rider tins stacked as if for later.
+
+== scene: map hum
+[147p69d] Woman | Mm. Keep humming. Stop and you can't hear it change. Mmmm. Like that. You're a bit flat.
+[0b45v02] Man | The Riders built it, mm, and we stuck it in the ground. It didn't mind. We asked.
+[04fhext] Child | Mmmm. I hum in my sleep. Mum says. She also says I kick.
+[19urbso] Old woman | Mm. The note's dropped twice this year. Once for the Mast, once for the Bole. My teeth felt both.
+[109ta81] Hermit | Hold the haul. Hold it. Okay, you can breathe.
+[0u6ljqy] Hermit | This one's loose. Feel that? No, don't touch it.
+[1j4tt24] Hummer | Nobody goes east while the Pylon's wrong. Mmmmm. Hear that? Wrong.
+
+== scene: map humgym
+[05jjdtv] Conjoiner's boy | Ohm makes notions. I've worked here two years and Ohm's never said a whole sentence. Not one.
+[0zpmadz] Conjoiner's boy | ...Yeah okay. Me neither, now.
+[1dcg122] Tinker | Put a notion on the right whorl and it's a whole other whorl. Ohm taught me that. Didn't say a word.
+[185rsut] Tinker | Ohm's gonna be quiet about this. Like, extra quiet.
+
+== scene: map pylon
+[1ralktn] Hermit | Breathe out, she says. So I breathe out. Doesn't help me any, but I do it.
+[0wz3dbt] Hermit | It hums wrong when she touches it. Gives me the shivers.
+
+== scene: route5Enter
+[0dxc8ot] goal | Go east across the machine fields to Hum.
+
+== scene: humEnter
+[020xs9r] goal | Ohm keeps the Pylon. The workshop is west of it.
+
+== scene: ohm
+[0pid4fs] Ohm | Yes.
+[08lzhol] Ohm | Pylon. Hermits. Now. Four point nought nought one dwems.
+[0pscq4r] Ohm | Yes.
+
+== scene: c
+[1fgtz75] choice | Are you Ohm?
+[09gnjfl] choice | I want the pearl
+
+== scene: ohm
+[0q2cbtq] Ohm | Yes.
+[0s9mcal] Ohm | Four. Notions. Each. Two point two six skellets.
+[0qcbxip] Ohm | Yes.
+[1sw0km6] notice | Ouro gets the Pylon pearl and a Salt Tear.
+[1lm0puk] Ohm | No.
+[0dxzqnp] choice | No what?
+[0ei7nkc] Ohm | Pylon. Hermits. Now. Eleven point three gallimots.
+[1d42sxm] goal | The Hermits are at the Pylon.
+
+== scene: zestPylon
+[0i9l354] Tellin | Oh hey hey, you again, okay, I'm winning, you're just arriving, it's going the way of the Bole, so.
+[0xxkxf2] Tellin | Okay so I'm losing, that's fine, that's totally fine, I'm going round the back, nobody follow me.
+[044q6k3] Bare | Arms in first. Then the head. That's it.
+[0njeu1v] Bare | Now breathe out. And through you go.
+[1gjwz05] Hermit | Uh, she was saying that to herself. Don't copy her.
+[027d6au] hint | (Press C to wear your lead whorl or take it off. Its type decides what ground you can cross.)
+[1cjbppe] hint | (STONE crosses crazes. A craze is a crack. TIDE walks on water. ROOT goes through thickets.)
+[03egnn9] hint | (GEAR passes dead machines. BEAST climbs ledges. STAR lights up dark places.)
+[1nj20lb] goal | Go through the gap in the Pylon.
+
+== scene: barePylon
+[1u3eyhv] Bare | Okay. Stop there.
+[180fe5t] Bare | Take that off. You'll want your arms for this.
+[0g12awp] Bare | Go on, send out your first.
+[16pppvt] Bare | Enough. Tools down. All of it.
+[1b6zxus] Bare | All of you, out. Watch your heads on the way.
+[016vdmc] Bare | Hey. Turn around for me.
+[1ix433g] Bare | Put your hand on the back of your neck.
+[1dlalsw] Bare | That's the Mast and the Bole.
+[0p0vua7] Bare | Count the Stays. Count what's left.
+[1qz06pb] Bare | Go on, then. Save another one.
+[1j7auf6] notice | Ouro gets a letter with a black spiral seal.
+[0d0zv3i] Letter | The Volute has to hold. You will not be thanked twice. Cinch.
+[1mxzc0m] Shellwright | Mm. Never had a letter from the Apex come through here. Mm. You keep that. Frame it, maybe.
+[12z1u0h] goal | Go east to the tundra and Tusk. Turnstone is a cart ride away.
+
+==== file: src/content/ch6.ts
+
+== scene: c
+[0t2u1ev] choice | Set it
+[0uxcjce] choice | Pull it
+
+== scene: map route6
+[0nfnz28] Trapper | Hyolau whorls drift down from the north on their own. We wait at the edge. It's a lot of waiting.
+[19hi678] Trapper | Right. More waiting.
+[0695av0] Herder | An ox cast'll pull a sledge forever. I keep meaning to tell it to stop.
+[0yi0hcb] Herder | Oh. Mine stopped.
+[0a8t3il] Hermit | We're undercutting the Tusk. Oldest one there is. Should go easy. Probably.
+[142y36h] Hermit | Eh. Doesn't matter. Old shells walk off the beach. Nobody sees them again.
+[1f1x9s1] Pilgrim | Every year I walk out to the saint's halo. The saint's still out there somewhere, bareheaded.
+[1qhfpf1] Pilgrim | Aw. Now the halo's somewhere else too.
+
+== scene: map tusk
+[0jskj5g] Very old man | My grandmother's grandmother walked down off the old shell in these boots. Still good boots.
+[0eeh5ha] Very old woman | We remember things for the young. There aren't any young here. We remember anyway, in case.
+[0hg0v43] Old man | My cast's ninety, and it's twelve. Don't ask me how. We've both got bad knees, though.
+[0ii3oy8] Old woman | Went over all in one go. The whole ground jumped. So did I! At my age!
+[0b1bo55] Old woman | Amber's the keeper. Hundred and three. Don't shout at her, she hears fine. She hates that.
+[11l0kqt] Old guard | East's the Hilt road, south-east's the Shingle. Amber wants to see you first, though.
+
+== scene: map tuskgym
+[1rnhtju] Hall keeper | Our keeper was a most formidable terror at fights!! She has told us so, at length.
+[0jxxejr] Hall keeper | She was, it transpires, entirely and lamentably correct.
+
+== scene: route6Enter
+[02jxkux] goal | Go north across the tundra to Tusk.
+
+== scene: tuskTannery
+[1o6tcwv] Shellwright | Charms, yeah? Wear a pearl and your team fights to it. One pearl at a time. Anything else?
+[1pfkn9b] hint | (Press X and pick Charm to wear one pearl. A charm helps your whole team in battle.)
+
+== scene: tallow
+[0lltyov] Old Amber | You should have gone on to the Hilt, dear heart. They had talked of the Moonwater there.
+[1qwpkvf] Old Amber | You came the long way round. I came that way too, once, in better boots.
+[0jebii1] Old Amber | My grandmother's grandmother had told my grandmother. My grandmother had told me, at this fire.
+[1fl9031] Old Amber | The Volute turned. Its old shell lifted off whole, in one magnificent piece.
+[004qmjh] Old Amber | The Riders were upon it. Their houses, their machines, their fours, their good spoons.
+[0j09x7f] Old Amber | The shell had got up and walked north. Most of them had stayed aboard.
+[1su5xzf] Old Amber | A few climbed down. They walked back over the new shell. It was still soft.
+[16yaybb] Old Amber | The ones who climbed down drove the Stays. They had seen it go, you understand.
+[0o6j3zq] choice | Did the rest choose?
+[0yy9ryb] Old Amber | My grandmother never said. I asked her eleven times. For the eleventh she pretended to sleep.
+[072j40k] Old Amber | Cinch had come down to the Lip, once. Cinch had gone back up quieter.
+[1mcmuch] Old Amber | And then Cinch sent me this.
+[1bdt859] Letter | The Volute has to hold. You will not be thanked twice. Cinch.
+[06wfllp] Old Amber | It had come forty years ago. I had kept it beside the clock.
+[0ut3kxf] Old Amber | You came for a fight. Well. I was a terror at fights, in my day.
+[0xoch1o] Old Amber | I had lost. I had always been going to, one day.
+[1g08l7k] notice | Ouro gets the Tusk pearl.
+[00n13kr] Old Amber | They cut it in the night. I heard every spadeful. I was always a light sleeper.
+[0iqz625] Old Amber | Other years I had set it myself. This year I had hoped you would help me.
+[1x04za2] Hermit | Or. You take the haul. It's nearly out. One pull'd do it.
+[1585n45] Hermit | She says the late ones should get a go. Here. Your go.
+[16gbzk5] Old Amber | It held. It always did, bless it.
+[0jkjreu] Hermit | That's three. Thanks, kid.
+[0fmm7q8] Old Amber | So it went. They went too, once. Off north, with their spoons.
+[03l1zcp] Old Amber | I had something for you. I had kept it a very long time.
+[0co3gs9] Old Amber | My grandmother's grandmother's cast. A Rider's. She turned the very day she climbed down.
+[160qxno] Old Amber | It never fought. It had walked a long way. It had wanted north, always north.
+[06az8c8] notice | Ouro gets a Rider's cast.
+[133mtkn] Old Amber | They were talking of the Moonwater, at the Hilt. I heard them through two walls.
+[118dh3d] goal | Go east from Tusk along the Hilt road.
+
+==== file: src/content/ch7.ts
+
+== scene: map route7
+[1k43jug] Guard | The Hilt's guarded. I'm the guard. All of it. The whole guard is me.
+[0cmcldj] Guard | Okay. Was the whole guard.
+[003aap5] Pilgrim | There's conjoined whorls walking wild out here now. Two shells grown into one. All on their own!
+[145jg5e] Pilgrim | Both halves lost. Bad day for halves.
+[1nes1np] Hermit | Moonwater tonight. Everybody's going. Bring a towel.
+[0o6n8cf] Hermit | Fine. You're going too, then.
+[151ef2i] Smith | Everyone asks if the sword's sharp. It's a Stay! Sharp's not the point! I'm the smith, I'd know.
+[0ahx2a6] Smith | Go look at it yourself, then.
+[1pxj675] Hermit | Moonwater's closed. Murex says. You want to argue, Murex is in the Hermitage.
+
+== scene: map peelhouse
+[1x21b5f] sign or spot in The Hermitage | On the wall, painted: a spiral shell with a dark crack down the front. Under it, smaller: WIPE FEET.
+[0rn6uk4] Hermit | We prise old shells off the rocks in here. The late ones watch. So they know how it comes off.
+[12n6rep] Hermit | See? That's how it comes off.
+[1twk1ap] Hermit | Bare's down at the water. Murex is on the door.
+[042kv0c] Hermit | Murex is still on the door. Murex is always on the door.
+
+== scene: map hilt
+[1v2tv5s] Guard | Two hundred years we've guarded it and tonight it moves. There's no rule for that. I checked.
+[1l3k2yk] Guard | We guard the sword. Nobody alive has seen the blade. That's how you know we're good at it.
+[00kef11] Woman | There's blade showing! Nobody alive's ever seen blade! And now I've seen blade!
+[16j4y6m] Child | I touched the blade. It's not even sharp. I'm never washing this hand.
+[1t52tq6] Old man | Conjoined whorls on the road now, wild ones. Two in one. Never used to be. I blame the moon.
+[0au3sm0] Guard | Crater road's south. Quillon says nobody goes till the sword's seen to. So nobody goes.
+[0ibks10] Guard | Glass road's south-east. Same rule. Sword first, then glass. Quillon's very firm.
+
+== scene: map hiltgym
+[06mavse] Sword drill | Finish 'em while they're low. Or they come back. They always come back.
+[0ahzk1h] Sword drill | Some moves finish one outright when it's under a line. Count their HP. Always count.
+[0xj0hs7] Sword drill | Ah. Counted wrong.
+
+== scene: route7Enter
+[1isv19t] goal | The Hermitage is on the Hilt road. The Moonwater is south of it.
+
+== scene: pith
+[1xjxy0n] Murex | Have you ever, um. Seen the moon come up? Out of a lake?
+[1hdwdha] Murex | You're the... late one? From the Pylon?
+[07de0xc] Murex | Did you, uh. Count the Stays? Like she said?
+[180usht] Murex | Do you know how many kids in Tusk have turned? In ten years? Do you want to guess?
+[00ds73d] Murex | Shall we fight? Or would you rather keep standing there? For a while?
+[0pfodf3] Murex | Have you ever seen the moon come up out of a lake? Would you like to? Tonight?
+[1z017i1] Murex | So why don't you go and look?
+[082b5q4] Hermit | Here. Take a harness. We've got loads.
+[19ouikz] ? (giveKeyItem) | Ouro gets the haul, a harness and a long rope.
+[1qd4980] goal | Go south from the Hilt road to the Moonwater.
+
+== scene: moonwaterEnter
+[1dviqua] Bare | Steady now. All of you.
+[02250n4] Bare | Lift.
+[0eetbbk] Bare | Pull. Keep pulling. Don't look at it, just pull.
+[16n1c0j] choice | Sound it
+[14whoqa] choice | Fight it
+[1l3jd63] Bare | Keep it close.
+[1yp5mlr] choice | You're not taking it?
+[19hhw2k] Bare | Go on up to the Hilt.
+[14eb4g0] Bare | Walk.
+[1xgor4l] goal | Go to Hilt, at the east end of the road.
+
+== scene: quillon
+[0438ur1] Quillon | If you go south, then the Fall. Then, regrettably, the slope.
+[03y9t6m] Quillon | If you desire my pearl, then you must first return from the Moonwater. Dripping, ideally.
+[1n75pg2] Quillon | If you are the one from the Moonwater, then you carry the moon about in a horn!!
+[01k67i9] Quillon | If you would duel me, then you shall duel me with it out. I insist upon it.
+[0wljwnd] Quillon | If you lose, then I take nothing. If you win, then the pearl. Then a biscuit.
+[0b1xtkc] Quillon | If that is the end, then it is yours, and most fairly won!!
+[0c3fglr] notice | Ouro gets the Hilt pearl.
+[08vwi34] Quillon | If we pack the hole now, then it shall stand. I have a spade. I have two spades.
+[17nlszn] Hermit | Or we just take it. It's halfway out already.
+[0jys98i] Quillon | If it holds the night, then it holds. Then breakfast.
+[1duuhlg] Quillon | If that is what you wanted, then you have it, and the ringing as well.
+[1floepl] goal | Go south from Hilt across the crater fields to Fall.

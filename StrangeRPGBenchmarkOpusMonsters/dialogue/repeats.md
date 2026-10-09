@@ -1,0 +1,768 @@
+# Repeated phrasing
+
+2690 lines from the export of 2026-10-07T16:40:49.332Z. A phrase that comes from one speaker may be their running joke. A phrase spread across many speakers is usually an accident.
+
+## Tics and marks
+
+- kinda: 6 lines (0.2%)
+- yeah: 17 lines (0.6%)
+- uh: 5 lines (0.2%)
+- um: 1 lines (0.0%)
+- okay: 23 lines (0.9%)
+- mostly: 6 lines (0.2%)
+- though: 12 lines (0.4%)
+- anyway: 16 lines (0.6%)
+- just: 24 lines (0.9%)
+- really: 8 lines (0.3%)
+- actually: 3 lines (0.1%)
+- :-] and :-): 4 lines (0.1%)
+- :-(: 1 lines (0.0%)
+- !! or more: 58 lines (2.2%)
+- ?? or more: 2 lines (0.1%)
+- a line of ...: 0 lines (0.0%)
+- ... inside a line: 17 lines (0.6%)
+- parenthetical aside: 54 lines (2.0%)
+- cut off with a hyphen: 4 lines (0.1%)
+- ALL CAPS word: 27 lines (1.0%)
+
+## Phrases of three to five words used in 4 or more lines
+
+- **tell the child** (32) from Gran 31, Strandmonger 1
+  - [1ju7zdd] Gran: Tell my little turnip it's today. The day of all its days.
+  - [0aq8b8o] Gran: Tell my little turnip to present itself in the square and remain there until it comes.
+  - [1nd5u8j] Gran: Tell my little turnip porridge, of the yesterday variety.
+  - [084po7m] Gran: Tell my little turnip the square lies in that direction. That one. Where I am pointing.
+  - [1y3vepu] Gran: Tell my little turnip the Strandmonger commences trade at eight.
+  - [0patauh] Gran: Tell my little turnip the road dry at this season, and dusty beyond all reason.
+- **at high tide** (14) from narration 14
+  - [0gu8qb2] narration: (At high tide the middle row is wet as well.)
+  - [022excz] narration: (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+  - [0np9hp4] narration: (A whelk washes up on the farthest weed ring of the Wrack at high tide.)
+  - [1iqoc5l] narration: The halls are dark at high tide. At low water, with the mouth open, starlight comes in.
+  - [1ycwijc] narration: On the ledge that is a floor only at high tide, a notion, rolled into the corner.
+  - [0wlfts5] narration: (At low tide the Auger lies on its left side. At high tide it floats and rolls onto its right.)
+- **a nautilus horn** (13) from look 12, narration 1
+  - [07v5b5k] look: Down in a hold, wedged where the ballast was, a nautilus horn.
+  - [1jxktiy] look: On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [02sc395] narration: Inside the hatch, packed in something soft, a notion and a nautilus horn.
+  - [1w1rd1x] look: Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.
+  - [1sc0eug] look: Under the big tree, where the Hands sit to eat, a notion and a nautilus horn.
+- **at low water** (13) from narration 8, Girl 1, ? (base) 1, goal 1, look 1, Register entry: Lobworm 1
+  - [0ue52lq] narration: (At low water a shell with nothing moving in it is gone when the shadow passes.)
+  - [0jom5uc] narration: Sign: The Sand Dollar, west. At low water, get in something. Under it, scratched: and WIGGLE
+  - [19bu424] Girl: Don't sit still in an empty one at low water. Duh. Babies know that.
+  - [0zjpmh3] narration: (At low water you see only inside the rings of landed stars. Soft sand shows only in a ring.)
+  - [17jo4kq] ? (base): At low water we all stamp at once. It's the only dance we've got. It's a good dance.
+  - [1kpys9n] goal: With the mouth open, starlight crosses the Glaze Halls at low water. The door is in the Polish.
+- **ouro gets the** (10) from narration 10
+  - [0ongrip] narration: Ouro gets the Rib pearl.
+  - [1hbvubo] narration: Ouro gets the Mast pearl.
+  - [0lji8dt] narration: Ouro gets the Spire pearl.
+  - [0gvdesb] narration: Ouro gets the Bole pearl.
+  - [1ulstj1] narration: Ohm hands Ouro a pearl and a notion. Ouro gets the Pylon pearl and a Salt Tear.
+  - [1g08l7k] narration: Ouro gets the Tusk pearl.
+- **at high water** (10) from narration 3, Tide-reader 2, Seiche-stander 1, goal 1, Brine-diver 1, sign or spot in The living chamber (folk) 1, Register entry: Groundswell 1
+  - [0lqap1t] Seiche-stander: I stand in the gray at high water. It's super warm in there. Nobody believes me.
+  - [1wl9js8] goal: Swim back across the Flats to the Sand Dollar at high water.
+  - [000sijd] Brine-diver: I dive at high water. Cold down there. Colder every year.
+  - [13f7xw5] sign or spot in The living chamber (folk): Sea comes in at the hood at high water. We like our feet wet. You get used to it.
+  - [15zu9rq] Tide-reader: At high water, it was my gran's, most cherishedly. At low, it is yours, most deservedly.
+  - [06swhba] Tide-reader: At high water, soup. At low, the wall. At flood, at ebb, at slack, at neap, at spr-
+- **a long way** (9) from narration 4, sign or spot in Turnstone 1, Old Amber 1, Cinch 1, ? (welling) 1, Register entry: Keel 1
+  - [0iu1yjv] sign or spot in Turnstone: East: Fall. A long way round. Painted by someone who never went.
+  - [0ze1ejs] narration: The hole where the Mast stood goes down a long way, very black. (someone dropped a cowrie in)
+  - [160qxno] Old Amber: It never fought. It had walked a long way. It had wanted north, always north.
+  - [12gmo6o] narration: The ridges end in wet sand. The sea is a long way out and still going.
+  - [0fp1cli] Cinch: Sit on the floor and the low ones are right there to read. They go back a long way.
+  - [1vd0el7] narration: Inside it is empty and pale, and it goes on a long way.
+- **a round hole** (9) from narration 7, look 1, Register entry: Gimlet 1
+  - [0fi8e4i] narration: A round hole goes through the shell. Its rim is soft and pink.
+  - [1d5iyvs] narration: A round hole with a black rim, where a point stuck out once.
+  - [0slecyu] narration: Where one is missing there is a round hole with a black rim.
+  - [1in9gmj] narration: A stone as big as a cart, with a round hole drilled clean through it.
+  - [0nq3ruf] narration: A round hole near the top of the dome, as wide as a door. Its edge is beveled smooth.
+  - [0wa8jxl] narration: A cowrie in the weed with a round hole drilled in it, clean as a bead.
+- **the sand dollar** (9) from goal 5, narration 4
+  - [1smjxt9] goal: Go west along the Wrack to the Sand Dollar.
+  - [0kaejux] goal: Cinch is at the fire in the Sand Dollar.
+  - [0jom5uc] narration: Sign: The Sand Dollar, west. At low water, get in something. Under it, scratched: and WIGGLE
+  - [1wl9js8] goal: Swim back across the Flats to the Sand Dollar at high water.
+  - [10ap2vb] narration: The Strandmonger's footprints go on along the wrack toward the Sand Dollar.
+  - [15w6vz3] goal: The Strandmonger is at his counter in the Sand Dollar.
+- **it three cowries** (9) from Register entry: Quarry 1, Register entry: Furnace 1, Register entry: Yoke 1, Register entry: Bloom 1, Register entry: Pennon 1, Register entry: Lacuna 1, Register entry: Evaporite 1, Register entry: Cuttle 1, Register entry: Strombus 1
+  - [0731a03] Register entry: Quarry: The shell a hole left behind. Takes stone out of what it hits and keeps it. Three cowries. Count your walls after.
+  - [0qp82zy] Register entry: Furnace: Off the old works. Warm all through for a hundred years. Sleep near it. Three cowries, or two and your blanket.
+  - [1lc42p7] Register entry: Yoke: Off an ox team. Pulls whatever it's tied to. Doesn't stop when you untie it. Three cowries, and one fence.
+  - [0v0n1c9] Register entry: Bloom: Off the shoreline, a jellyfish bloom. Stings everything near it and spends your tide doing it. Three cowries. Ow.
+  - [13zkspl] Register entry: Pennon: And a battle banner, pole for a backbone. Snaps once before it does anything. Hand it three cowries and it snaps at those too.
+  - [0wsr5cn] Register entry: Lacuna: Was a hollow in the sand where a taken shell lay. Goes round looking for the shell. Hasn't found it. Three cowries. It checks pockets.
+- **all the way** (8) from narration 3, Man at the well 1, Cinch 1, Ring polisher 1, Register entry: Scree 1, Register entry: Pew 1
+  - [0wkikos] Man at the well: I let the bucket all the way down and she sends me up dust.
+  - [07f7ji8] Cinch: Sit down, sit down. Saw that one coming from all the way over at the fire.
+  - [1dcv4tn] narration: The Tide-reader turns the stool all the way round, slowly, reading.
+  - [1r90s5a] narration: The Mudlark is standing up, all the way up. Every label in the Tray behind her lies face down.
+  - [0vrqv60] Ring polisher: When a star falls at night, it shines right across to the far knuckle. All the way!
+  - [1jj11nn] narration: The Mudlark stands up in the Tray, all the way up, and looks round.
+- **the dry sea** (7) from Knuckle 2, goal 2, Register entry: Urchin 1, Register entry: Fata 1, Register entry: Keel 1
+  - [10rx1ft] Knuckle: Mast next, yeah? Along the Dry Sea.
+  - [14sz1v2] Knuckle: Anyway. Mast's next. Go along the Dry Sea.
+  - [1d3h98b] goal: Go west from Rib along the Dry Sea to Mast.
+  - [0ndi58e] goal: Cross the Dry Sea west to Mast.
+  - [04knk2e] Register entry: Urchin: Off the dry sea floor, an urchin's test, mouth underneath. Whatever sticks to it falls off. Two cowries, unsticky.
+  - [1yzuzov] Register entry: Fata: Plus the water that hangs over the dry sea, standing on its own reflection. Stones go through it. Four cowries, see-through.
+- **a long time** (7) from narration 5, look 2
+  - [1m3n1ru] look: Wedged under a pew, a notion somebody sat on for a long time.
+  - [0c7nwy1] look: A face in the roots. Its eyes are two snail shells. It has watched the middle a long time.
+  - [0vpi2vu] narration: The ground shakes once. A long time later it shakes again, closer.
+  - [1edlw4c] narration: The hand holds still a long time.
+  - [1n0r98d] narration: Cinch looks at Knot for a long time.
+  - [09nyr17] narration: Ouro says nothing. The sea says it for a long time.
+- **and sits down** (7) from narration 7
+  - [07v0s2f] narration: Cinch climbs into the mouth of a big brown whelk and sits down inside it.
+  - [0ojhy0i] narration: Cinch walks off west along the wrack line, slowly, and sits down twice on the way.
+  - [0jcorhg] narration: Cinch looks at the disc, and at Ouro, and sits down on it.
+  - [1g2nf5l] narration: Along the upper beach from the west, someone comes very slowly, and sits down twice on the way.
+  - [07b6e0v] narration: Cinch climbs onto the lip and sits down near its edge, facing the mouth.
+  - [0kbjkhv] narration: Ouro takes both hands off the post and sits down beside it, with legs straight out.
+- **along the wrack** (7) from narration 4, goal 2, Bottle girl 1
+  - [0ojhy0i] narration: Cinch walks off west along the wrack line, slowly, and sits down twice on the way.
+  - [1smjxt9] goal: Go west along the Wrack to the Sand Dollar.
+  - [0le6lsr] Bottle girl: Dear whoever reads these. I find them all along the wrack. Sorry about the sand in them.
+  - [1v8ljwq] goal: Walk back east along the Wrack to the foot of the Volute.
+  - [10ap2vb] narration: The Strandmonger's footprints go on along the wrack toward the Sand Dollar.
+  - [0stptwx] narration: West along the wrack the Sand Dollar lies flat and round. Smoke goes up from one petal.
+- **you can see** (7) from Cinch 3, Weed-raker 1, ? (base) 1, narration 1, Register entry: Elver 1
+  - [1qtys7u] Weed-raker: See the glints in the weed? Grains. You can see them at night. Leave them be.
+  - [0g5uyy2] Cinch: Good seat, this. You can see all five doors from it. Everybody goes in at low.
+  - [01f7wa7] ? (base): We polish the inside every day. You can see your feet in it. A bit late, but you can.
+  - [0r1vkfc] Cinch: Sit here by me. You can see the pink one from here, down the beach.
+  - [121352l] narration: (A door here is shut while you can see it, ahead or in a polished wall.)
+  - [0y2xvdh] Cinch: Sit. You can see its hand from down here. Empty.
+- **end of the beach** (7) from narration 5, Tide-reader 1, goal 1
+  - [0r64ytl] narration: Past the rows, at the end of the beach, a great pink shell lies with its mouth to the sea.
+  - [1vz1yt0] Tide-reader: At the first of the ebb, it comes out of the pink shell at the end of the beach.
+  - [0nppzjv] narration: Far off, at the east end of the beach, something moves at the pink shell.
+  - [08k97f0] narration: The feet go away east, toward the pink shell at the end of the beach.
+  - [1u4ek9c] narration: At the end of the beach the tide is coming in round the mouth of the great pink shell.
+  - [03x0xbd] goal: Letters wait at the Sand Dollar post. The pink shell lies at the east end of the beach.
+- **looks at ouro** (6) from narration 3, A goat 2, Tackle 1
+  - [0961oju] Tackle: Tackle looks at Ouro. Ouro looks back. (neither blinks)
+  - [0osy9hj] narration: Tackle looks at Ouro. (Tack does not)
+  - [06epbet] A goat: (The Nautilus folk's goat, out on the sand. It looks at Ouro and chews.)
+  - [1fj11ej] A goat: (A goat. It looks at Ouro and chews something it found.)
+  - [184lko0] narration: Gran turns and looks at Ouro.
+  - [1yjxr3q] narration: Gran looks at Ouro over the boot.
+- **tell the child the** (6) from Gran 6
+  - [084po7m] Gran: Tell my little turnip the square lies in that direction. That one. Where I am pointing.
+  - [1y3vepu] Gran: Tell my little turnip the Strandmonger commences trade at eight.
+  - [0patauh] Gran: Tell my little turnip the road dry at this season, and dusty beyond all reason.
+  - [0s7dq9j] Gran: Tell my little turnip the Strandmonger keeps strays of an unpedigreed nature.
+  - [0k83zad] Gran: Tell my little turnip the craze has come calling at the door.
+  - [1pjz7ub] Gran: Tell my little turnip the Strandmonger opens at eight, and is punctilious about it.
+- **two cowries and** (6) from Strandmonger 2, Register entry: Dynamo 1, Register entry: Elver 1, Register entry: Skep 1, Register entry: Chalk 1
+  - [0kdhsls] Strandmonger: And good. That one cost me two cowries and a sandwich, and I miss the sandwich.
+  - [0mlyxmb] Strandmonger: Which that stray cost me two cowries and a sandwich. I still miss the sandwich.
+  - [06cm3qj] Register entry: Dynamo: Off the old pump. Hums when it's turned. Two cowries and a sandwich, the going rate for sandwiches.
+  - [1ap4x69] Register entry: Elver: Plus a glass eel. You can see what it ate. Every third bite it doesn't let go. Two cowries, and what it ate at cost.
+  - [1aupc2t] Register entry: Skep: A straw beehive the bees left. Stings on its own now, through the door in its belly. Two cowries and gloves. My gloves.
+  - [10cl4la] Register entry: Chalk: White dust a climber kept in a pouch, till it climbed out of the pouch. Two cowries, and it'll climb out of yours.
+- **the sea comes** (6) from narration 4, Child 1, Plank-walker 1
+  - [1vofjc0] Child: The sea comes every night and I wave and it doesn't wave back yet!
+  - [1rhj3o8] Plank-walker: Every morning I walk the plank. Practice, for when the sea comes back. I'm great at the end bit.
+  - [0r0da5m] narration: The sea comes back in. It fills the hollows and covers the lower sand.
+  - [1ppxi18] narration: The sea comes in while Ouro walks.
+  - [11rmp1q] narration: Ouro sits down in the small room and waits. The sea comes in, and the rooms open with a sigh.
+  - [0ds8ypb] narration: At high tide the sound of the sea comes up from below, loud, going round and round.
+- **come down to** (6) from narration 4, Old Amber 1, Nautilus fisher 1
+  - [072j40k] Old Amber: Cinch had come down to the Lip, once. Cinch had gone back up quieter.
+  - [1adi6wb] Nautilus fisher: The Auger's come down to live by us. They're so loud at low. We pump quiet.
+  - [07hqqzm] narration: The cast's hands come down to its sides for the first time.
+  - [1gm4h7s] narration: The eyes come down to Ouro, and to Small Gran, and to the label by her.
+  - [0wkdwjc] narration: The eyes come down to Ouro.
+  - [05xuiq7] narration: Shoulders up out of the sea again, with the water running off. The eyes come down to Ouro.
+- **ouro takes the** (6) from narration 6
+  - [027tcwl] narration: Ouro takes the haul with the Hermits.
+  - [1so6fqc] narration: Ouro takes the bowl down carefully, the right way up for the rain. That is upside down.
+  - [0nxqowi] narration: Old Amber at twelve, pearly, copying each step Ouro takes the wrong way round.
+  - [1qv1jyc] narration: (Ouro takes the bowl.)
+  - [1cplnpu] narration: (Ouro takes the mat.)
+  - [1620x1y] narration: (Ouro takes the drawing.)
+- **pressed into the** (6) from look 4, narration 2
+  - [1kz8h1b] look: Inside is the shape of everything that was ever in the hold, pressed into the walls.
+  - [0mz889j] narration: She is pushing a strip of driftwood into one of them. Letters are pressed into the strip.
+  - [1x90v8f] look: Small handprints pressed into the polish when it was soft, hundreds of them, at one height.
+  - [0n5nbh3] look: Under the anchor stone, pressed into the wet sand, a notion.
+  - [09ie1g1] look: Letters pressed into the pink of the lip itself.
+  - [0kasj34] narration: KEEP THE PINK, pressed into the lip itself.
+- **high tide the** (6) from narration 6
+  - [0gu8qb2] narration: (At high tide the middle row is wet as well.)
+  - [022excz] narration: (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+  - [0p5aw1m] narration: Night. High tide. The sea is up around the bottom ridge. Small waves go along the shell and back.
+  - [0c3eyem] narration: (At high tide the Nautilus tips toward whichever end holds more water.)
+  - [0ds8ypb] narration: At high tide the sound of the sea comes up from below, loud, going round and round.
+  - [1aulzbl] narration: (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+- **along the beach** (6) from narration 6
+  - [0ex9km5] narration: North along the beach there is a hollow in the sand, shell-shaped. Nothing is in it.
+  - [0mlo2y5] narration: North along the beach lies another shell, paler and older, half sunk in the sand.
+  - [0n7q9d2] narration: The shaking goes away along the beach, slower and slower.
+  - [1ecggqm] narration: Long ridges of black weed run along the beach. Grains glint in them.
+  - [07xf1uw] narration: The shaking goes away along the beach.
+  - [0a562yw] narration: It turns over once, slowly, and floats. The ebb carries it off along the beach.
+- **hollow in the sand** (6) from narration 5, Register entry: Lacuna 1
+  - [0ex9km5] narration: North along the beach there is a hollow in the sand, shell-shaped. Nothing is in it.
+  - [0bhbs3m] narration: Beside it is a hollow in the sand, shell-shaped, the same size. Nothing is in it.
+  - [0wzx7h5] narration: A hollow in the sand, round at one end, pointed at the other.
+  - [0kcojuo] narration: Beside the Volute there is a hollow in the sand, the shape of a shell.
+  - [1050kle] narration: A hollow in the sand where a shell lay.
+  - [0wsr5cn] Register entry: Lacuna: Was a hollow in the sand where a taken shell lay. Goes round looking for the shell. Hasn't found it. Three cowries. It checks pockets.
+- **a hollow in the sand** (6) from narration 5, Register entry: Lacuna 1
+  - [0ex9km5] narration: North along the beach there is a hollow in the sand, shell-shaped. Nothing is in it.
+  - [0bhbs3m] narration: Beside it is a hollow in the sand, shell-shaped, the same size. Nothing is in it.
+  - [0wzx7h5] narration: A hollow in the sand, round at one end, pointed at the other.
+  - [0kcojuo] narration: Beside the Volute there is a hollow in the sand, the shape of a shell.
+  - [1050kle] narration: A hollow in the sand where a shell lay.
+  - [0wsr5cn] Register entry: Lacuna: Was a hollow in the sand where a taken shell lay. Goes round looking for the shell. Hasn't found it. Three cowries. It checks pockets.
+- **line of hollows** (6) from narration 6
+  - [0cuuo0q] narration: The stars in the line of hollows go out one by one.
+  - [1sxkola] narration: The line of hollows goes past it close on the seaward side.
+  - [0kat90h] narration: The line of hollows runs past the foot of a high dune.
+  - [1uj86md] narration: Down the beach the line of hollows runs to the sea, then turns east along the low-water line.
+  - [0gysjtw] narration: The line of hollows is already there along the old water's edge, empty, waiting for the stars.
+  - [1i9o9tk] narration: A new line of hollows goes with them. Stars start landing in it, one after another, going east.
+- **at low tide** (6) from narration 6
+  - [1ye40os] narration: (At low tide the sand is open, and stars fall in a line.)
+  - [0wlfts5] narration: (At low tide the Auger lies on its left side. At high tide it floats and rolls onto its right.)
+  - [0r2g6bb] narration: (At low tide the pool starts empty, and every fourth round a star falls and adds 2.)
+  - [1fvnjcx] narration: (At low tide nothing listens, and the walls stand wider. The way on opens only at high tide.)
+  - [15xufbf] narration: At low tide the Conch is quiet. The line goes into the opening and does not come out.
+  - [1wmntl2] narration: (At low tide the sand is open, and stars fall in a line.)
+- **down the beach** (6) from narration 4, Eldest 1, Cinch 1
+  - [0zayulu] narration: The sea is far out. The last stars of the low water are going out down the beach.
+  - [136nrwa] narration: The hole faces down the beach, toward the spotted dome.
+  - [1uj86md] narration: Down the beach the line of hollows runs to the sea, then turns east along the low-water line.
+  - [0vqd7pv] Eldest: (yesterday a girl comes down the beach with a pale one the same size beside her)
+  - [0duth8w] narration: The feet come back down the beach and turn east, along the upper beach, away from the sea.
+  - [0r1vkfc] Cinch: Sit here by me. You can see the pink one from here, down the beach.
+- **four white posts** (6) from narration 5, choice 1
+  - [1hth1fh] narration: Four white posts stand in the sand at the four corners of the Cowrie. They were not there before.
+  - [1fvwfre] narration: A world-shell as big as a hill in a square of four white posts. A label stands in front of it.
+  - [11aoq6t] narration: Four white posts stand at its corners.
+  - [1iu4xyy] choice: Four white posts.
+  - [05rvkkm] narration: Four white posts mark it, each no taller than a thumb.
+  - [149bejc] narration: Each square is marked by four white posts. In each square lies a shell as big as a hill.
+- **the back wall** (6) from narration 4, goal 2
+  - [0ks6y2t] narration: The hole in the back wall is shut. New shell has grown across it, pale and wet.
+  - [0ygqup3] narration: Beds, pots, nets, a rack of drying kelp, children, a goat. The back wall curves across, smooth.
+  - [0o83kx7] narration: Low down in the back wall is a small round hole. A pipe of shell goes into it.
+  - [16vdnc6] goal: Talk to the round one by the back wall.
+  - [1bds2p7] goal: Go in at the hole in the back wall.
+  - [09mt712] narration: Behind the back wall the rooms go inward, each one smaller than the last.
+- **the pink shell** (6) from narration 3, Tide-reader 2, goal 1
+  - [1vz1yt0] Tide-reader: At the first of the ebb, it comes out of the pink shell at the end of the beach.
+  - [0qgk6jh] Tide-reader: At the turn, it goes back into the pink shell and lies down.
+  - [0nppzjv] narration: Far off, at the east end of the beach, something moves at the pink shell.
+  - [08k97f0] narration: The feet go away east, toward the pink shell at the end of the beach.
+  - [03x0xbd] goal: Letters wait at the Sand Dollar post. The pink shell lies at the east end of the beach.
+  - [1kabos5] narration: The Gleaner is sitting in the pink shell at the far end of the beach.
+- **hand comes down** (6) from narration 6
+  - [13d5goo] narration: A hand comes down out of the dark. Fingers go under one end of the Auger and lift it a little.
+  - [1m7dna4] narration: A hand comes down. Fingers close round the Volute and lift it out of the sand.
+  - [0otja4g] narration: A hand comes down out of the dark. Its knuckles are each the size of a cart.
+  - [0uzaf5c] narration: Then the hand comes down, slowly, and sets Small Gran on the sand, and Ouro beside her.
+  - [13k3c8d] narration: Then the hand comes down, slowly, and sets X on the sand, and Ouro beside it.
+  - [1l66cus] narration: The hand comes down and lifts Ouro's lead whorl, and holds it up, and listens.
+- **stands in front** (6) from narration 4, Register entry: Prow 1, Register entry: Docket 1
+  - [0idv2tw] narration: A driftwood label stands in front of it. X.
+  - [1fvwfre] narration: A world-shell as big as a hill in a square of four white posts. A label stands in front of it.
+  - [1nob5dm] narration: A label stands in front of it.
+  - [0dklujo] narration: A driftwood label stands in front of each.
+  - [1od3ccn] Register entry: Prow: And a figurehead that left before the ship went down. Still stands in front of people. Pass the five cowries round it.
+  - [1m8t8h2] Register entry: Docket: Label post. Walks to the nearest shell and stands in front of it. In front of me since Tuesday. Three cowries. Hasn't written anything yet.
+- **stands in front of** (6) from narration 4, Register entry: Prow 1, Register entry: Docket 1
+  - [0idv2tw] narration: A driftwood label stands in front of it. X.
+  - [1fvwfre] narration: A world-shell as big as a hill in a square of four white posts. A label stands in front of it.
+  - [1nob5dm] narration: A label stands in front of it.
+  - [0dklujo] narration: A driftwood label stands in front of each.
+  - [1od3ccn] Register entry: Prow: And a figurehead that left before the ship went down. Still stands in front of people. Pass the five cowries round it.
+  - [1m8t8h2] Register entry: Docket: Label post. Walks to the nearest shell and stands in front of it. In front of me since Tuesday. Three cowries. Hasn't written anything yet.
+- **the empty square** (6) from narration 6
+  - [0r36fc5] narration: The feet stop in the rows. Then they come along the row toward the empty square.
+  - [0y13bk0] narration: Ouro stands by the empty square.
+  - [0sxaivr] narration: Ouro stands by the empty square. X stands beside Ouro, out of its horn, very still.
+  - [007bttj] narration: Ouro sits by the empty square. Small Gran stands beside the new label.
+  - [18j0gu1] narration: Ouro sits by the empty square, beside the new label.
+  - [0cbm381] narration: Cinch sits down at the corner of the empty square, by a white post, and puts the pot between them.
+- **the old shell** (5) from narration 2, Woman 1, Very old man 1, Old man 1
+  - [0dq3355] Woman: House turned in spring. We moved into the old shell. The new one's off being a house somewhere.
+  - [0jskj5g] Very old man: My grandmother's grandmother walked down off the old shell in these boots. Still good boots.
+  - [02n7fi6] narration: The old shell of the Volute gets up, very slowly, and walks north.
+  - [1nflpmr] narration: The houses stand on new ground. The old ones went north with the old shell.
+  - [1sw9pyk] Old man: We came off the old shell five grandmothers back. Walked the whole way. Feet still hurt.
+- **you can hear** (5) from Cinch 2, Boy 1, Verger 1, Wall-toucher 1
+  - [0pcrli7] Boy: Put your ear on the Rib and you can hear the Volute! Do it! Do it now! Did you hear it?
+  - [0pwzm1t] Verger: in a fight, a wind-up is a bell you can hear coming. stop it, or get out from under it.
+  - [0mtbci4] Wall-toucher: Put your ear to the gray. You can hear the sea in there. Honest.
+  - [0qpk3um] Cinch: Bottom step's best for hearing. You can hear them all climbing up there.
+  - [1stj8wh] Cinch: From here you can hear it breathe. Or the sea. One of the two.
+- **i can see** (5) from Cinch 2, Gran 1, Tack 1, Strandmonger 1
+  - [0pvd640] Gran: Tell my little turnip I can see it from here.
+  - [1p8a2f4] Tack: 5th time. You're loose. I can see it from ten steps up.
+  - [0n9xk9v] Cinch: Suit yourself. Sit by the door, then, where I can see you.
+  - [1iv4prf] Cinch: Sit there, where I can see you through the window.
+  - [1iaw6z2] Strandmonger: Going to the pink one, aren't you. I can see it on you. That's a ten-cowrie face, easy.
+- **goes into the** (5) from narration 4, look 1
+  - [0u4eeij] narration: The trunk goes into the ground. Near it, rain falls up into the roots. (umbrellas go upside down)
+  - [1hm2ba7] look: A siphon pump, a long handle of shell on a pipe that goes into the floor.
+  - [03ae745] narration: Light goes into the ring and comes out across the knuckle in a bright band.
+  - [15xufbf] narration: At low tide the Conch is quiet. The line goes into the opening and does not come out.
+  - [08kge63] narration: Small Gran's line goes into the opening and comes out in the mouth, past the door.
+- **the hilt road** (5) from goal 3, Old guard 1, Register entry: Cuirass 1
+  - [1w528hu] Old guard: East's the Hilt road. Amber wants to see you first, though. So. Amber first.
+  - [118dh3d] goal: Go east from Tusk along the Hilt road.
+  - [1isv19t] goal: The Hermitage is on the Hilt road. The Moonwater is south of it.
+  - [1qd4980] goal: Go south from the Hilt road to the Moonwater.
+  - [1jt1shf] Register entry: Cuirass: A soldier's breastplate, off the Hilt road. Face where the heart went. Every dent makes it harder to dent, and dearer. Four cowries today.
+- **all at once** (5) from narration 3, Letter 1, Register entry: Flare 1
+  - [10j3ka7] narration: The water comes down all at once. Every Hermit is wet. The Hilt stops a span higher than it was.
+  - [1gqwa49] narration: Behind Ouro the climbers go up and down the Auger, all at once.
+  - [1ihqy09] narration: Under the music many voices pull together, all at once, in time. The shell shakes in the hand.
+  - [0n4pwpv] Letter: Haul every low. All teams, all at once, in time. Keep moving.
+  - [0coi752] Register entry: Flare: Came off the sun. Goes up all at once. Six cowries and a bucket. A full bucket.
+- **you will have** (5) from Perihel 3, Cinch 1, ? 1
+  - [0bn78if] Perihel: You will go up. Will you look at its hands? You will have looked.
+  - [1pclfhj] Perihel: Will you want to look at its hands? You will have wanted to, very much.
+  - [0amm8vt] Perihel: You will hold out your hand. You will have the Fall pearl. You will drop it once and pick it up.
+  - [17pvir8] Cinch: You will have to make me take my hands off it.
+  - [0ehuxjp] ?: Perihel keeps the hall dark. A star-type whorl worn in front lights it. You will have read this.
+- **flat round place** (5) from narration 4, look 1
+  - [1ndbmvq] narration: The top is a flat round place. In the middle stands the Operculum, a black post with four arms.
+  - [09i56fr] narration: Its mouth is at ground level and open. Inside, very close, is a flat round place.
+  - [1k8mg5b] look: The flat round place, crazed all over. Through the crazes, far below, the Tray's rows.
+  - [1cxuqed] narration: The old Apex is close: the flat round place, crazed all over, and the Operculum.
+  - [1tpmuo3] narration: The top is a flat round place. Tack stands at the Operculum with both hands on the post.
+- **both hands on** (5) from narration 5
+  - [0305pma] narration: Four people stand at the arms. Cinch stands at the post with both hands on it.
+  - [10oi5b0] narration: Cinch stands at the Operculum with both hands on the post. Cinch is old and does not move.
+  - [1cg4lkd] narration: Ouro puts both hands on the post. The Operculum stops.
+  - [1tpmuo3] narration: The top is a flat round place. Tack stands at the Operculum with both hands on the post.
+  - [1aiumkj] narration: Ouro puts both hands on the post.
+- **stands beside ouro** (5) from narration 5
+  - [0ib6i19] narration: Cinch lowers its hands. It comes round slowly and stands beside Ouro.
+  - [1hyvd01] narration: Small Gran climbs down. She stands beside Ouro with her back to everyone.
+  - [1mz03d3] narration: Small Gran stands beside Ouro, facing the other way.
+  - [1l7h29s] narration: Small Gran stands beside Ouro, facing the other way, very still, as she always is.
+  - [0sxaivr] narration: Ouro stands by the empty square. X stands beside Ouro, out of its horn, very still.
+- **the other side** (5) from narration 3, Bell-striker 1, Register entry: Sluice 1
+  - [1laqpzn] Bell-striker: I hit the bells with a stick. The ropes are up the other side of the ground, so. Stick.
+  - [1htnc0h] narration: Ouro climbs up the shell's back and down the other side.
+  - [1lv9a3e] narration: Ouro sits on the floor on the other side.
+  - [11kdev4] narration: Tack sits down too, on the other side of the post.
+  - [0s45zx4] Register entry: Sluice: Gate, between two Nautilus rooms. Lets one side through and never says which. Three cowries, or the other side of three.
+- **nautilus horn and** (5) from look 5
+  - [1jxktiy] look: On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [1w1rd1x] look: Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.
+  - [1atmmmx] look: Past the fifth tooth, in the packed sand, a nautilus horn and a notion.
+  - [0ozb8mz] look: Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+- **a nautilus horn and** (5) from look 5
+  - [1jxktiy] look: On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [1w1rd1x] look: Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.
+  - [1atmmmx] look: Past the fifth tooth, in the packed sand, a nautilus horn and a notion.
+  - [0ozb8mz] look: Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+- **nautilus horn and a** (5) from look 5
+  - [1jxktiy] look: On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [1w1rd1x] look: Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.
+  - [1atmmmx] look: Past the fifth tooth, in the packed sand, a nautilus horn and a notion.
+  - [0ozb8mz] look: Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+- **a nautilus horn and a** (5) from look 5
+  - [1jxktiy] look: On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [1w1rd1x] look: Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.
+  - [1atmmmx] look: Past the fifth tooth, in the packed sand, a nautilus horn and a notion.
+  - [0ozb8mz] look: Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+- **six foot one** (5) from The Upright Man 5
+  - [09t7l11] The Upright Man: One whole inch since you came!! And one inch is, six foot one, an enormous amount.
+  - [0z7nx2m] The Upright Man: Six foot one. That was me in the spring. A splendid spring, vertically speaking.
+  - [0rgbyyi] The Upright Man: Holding at, six foot one, and thirsty at the ankle.
+  - [0ti9kqi] The Upright Man: Six foot one. Ah.
+  - [1t9n1b4] The Upright Man: Six foot one and a bit!! A BIT!! Somebody measure me!!
+- **at high tide the** (5) from narration 5
+  - [0gu8qb2] narration: (At high tide the middle row is wet as well.)
+  - [022excz] narration: (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+  - [0c3eyem] narration: (At high tide the Nautilus tips toward whichever end holds more water.)
+  - [0ds8ypb] narration: At high tide the sound of the sea comes up from below, loud, going round and round.
+  - [1aulzbl] narration: (Ring a tide bell to turn the tide. At high tide the low sand is under water.)
+- **the line of hollows** (5) from narration 5
+  - [0cuuo0q] narration: The stars in the line of hollows go out one by one.
+  - [1sxkola] narration: The line of hollows goes past it close on the seaward side.
+  - [0kat90h] narration: The line of hollows runs past the foot of a high dune.
+  - [1uj86md] narration: Down the beach the line of hollows runs to the sea, then turns east along the low-water line.
+  - [0gysjtw] narration: The line of hollows is already there along the old water's edge, empty, waiting for the stars.
+- **low tide the** (5) from narration 5
+  - [1ye40os] narration: (At low tide the sand is open, and stars fall in a line.)
+  - [0wlfts5] narration: (At low tide the Auger lies on its left side. At high tide it floats and rolls onto its right.)
+  - [0r2g6bb] narration: (At low tide the pool starts empty, and every fourth round a star falls and adds 2.)
+  - [15xufbf] narration: At low tide the Conch is quiet. The line goes into the opening and does not come out.
+  - [1wmntl2] narration: (At low tide the sand is open, and stars fall in a line.)
+- **at low tide the** (5) from narration 5
+  - [1ye40os] narration: (At low tide the sand is open, and stars fall in a line.)
+  - [0wlfts5] narration: (At low tide the Auger lies on its left side. At high tide it floats and rolls onto its right.)
+  - [0r2g6bb] narration: (At low tide the pool starts empty, and every fourth round a star falls and adds 2.)
+  - [15xufbf] narration: At low tide the Conch is quiet. The line goes into the opening and does not come out.
+  - [1wmntl2] narration: (At low tide the sand is open, and stars fall in a line.)
+- **a driftwood post** (5) from narration 5
+  - [11nxpuo] narration: A driftwood post stuck in the sand, leaning toward the sea.
+  - [1hl13su] narration: A driftwood post with letters pressed in it, in front of the mouth.
+  - [0ef5waw] narration: In front of the mouth is a driftwood post with letters pressed in it.
+  - [1j5quru] narration: One finger comes down and pushes a driftwood post into the sand next to her.
+  - [0pp5ijc] narration: One finger comes down and pushes a driftwood post into the sand next to it.
+- **a shell lies** (5) from narration 3, ? 2
+  - [0pgnhuo] ?: A shell lies in the pool where a bridge would go. It rocks in the deep water.
+  - [0oimwye] ?: A shell lies across the pool where a bridge would go.
+  - [0idrkdy] narration: A shell lies up the side of the dune. It is long and narrow and turned in tight ridges.
+  - [0ocxdwf] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+  - [1ye6kos] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+- **x climbs out** (5) from narration 5
+  - [1ht02x8] narration: X climbs out and comes back to Ouro's four.
+  - [12w7p8v] narration: X climbs out and goes to the Midden.
+  - [0xyikvu] narration: X climbs out of the whelk and comes back.
+  - [1iw98p5] narration: X climbs out and comes back to X's four.
+  - [0ml9vot] narration: X climbs out and goes to the Midden.
+- **than the rest** (5) from look 3, narration 1, Register entry: Fiddler 1
+  - [1lv2v4g] look: The lowest mark is older than the rest, and very small.
+  - [151apyo] look: The highest one is a little higher than the rest.
+  - [1d0mi4f] narration: There is a star by one of them, cut deeper than the rest.
+  - [10dwipf] look: The top mark is a little higher than the rest.
+  - [1g1qeap] Register entry: Fiddler: A fiddler crab, one claw bigger than the rest. Hit the claw and the claw hits back. Three cowries, claw extra.
+- **three grains of** (5) from The Sifter 2, narration 2, look 1
+  - [01l2v5y] The Sifter: Three grains of star in that last handful, and one of you. Highly irregular.
+  - [0m4xvx8] The Sifter: Three grains of nacre, a sack of cowries, a glommet of thanks. Fair measure.
+  - [07nt2m1] narration: Behind the door only the reflection opens, three grains of nacre in a dish of polish.
+  - [04wn4ie] narration: An old plug is wedged in vent 5. Ouro works it loose. Three grains of nacre fall out of it.
+  - [0pgeje0] look: In a crack where the septum meets the floor, three grains of nacre.
+- **grains of nacre** (5) from narration 2, look 2, The Sifter 1
+  - [0m4xvx8] The Sifter: Three grains of nacre, a sack of cowries, a glommet of thanks. Fair measure.
+  - [07nt2m1] narration: Behind the door only the reflection opens, three grains of nacre in a dish of polish.
+  - [04wn4ie] narration: An old plug is wedged in vent 5. Ouro works it loose. Three grains of nacre fall out of it.
+  - [0pgeje0] look: In a crack where the septum meets the floor, three grains of nacre.
+  - [0flui5e] look: In the child's room, in a box under the bed, five grains of nacre.
+- **a star lands** (5) from narration 4, Register entry: Razor 1
+  - [17olqs7] narration: Wide wet sand, very dark. A star lands out on the flats and lights a ring of it.
+  - [0jf737a] narration: A star lands outside the mouth and rings of light come in across the glaze.
+  - [0e0yz49] narration: The left foot lifts out of a hollow. A star lands in the hollow it just left.
+  - [1ksmf04] narration: A star lands in the Knucklebones' dust, beyond the thumb.
+  - [08zasg1] Register entry: Razor: Razor clam. Digs straight down whenever a star lands near it, which out here is every night. Three cowries, if you can dig it up.
+- **edge of the sea** (5) from narration 5
+  - [0zxcguk] narration: The Auger lies on wet sand at the edge of the sea. The sea is right there, flat.
+  - [0ocxdwf] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+  - [1jzzxsw] narration: The Auger lies on wet sand at the edge of the sea.
+  - [1ye6kos] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+  - [1wvg0zy] narration: The striped shell lies a little way along the edge of the sea. It is coiled flat, as big as a hill.
+- **the edge of the sea** (5) from narration 5
+  - [0zxcguk] narration: The Auger lies on wet sand at the edge of the sea. The sea is right there, flat.
+  - [0ocxdwf] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+  - [1jzzxsw] narration: The Auger lies on wet sand at the edge of the sea.
+  - [1ye6kos] narration: A little way along the edge of the sea a shell lies half sunk in the water.
+  - [1wvg0zy] narration: The striped shell lies a little way along the edge of the sea. It is coiled flat, as big as a hill.
+- **a spring low** (5) from Tide-reader 2, narration 1, ? 1, Register entry: Bolide 1
+  - [1xy0mvj] narration: (Tide table: the next low goes out four notches, with a star. A spring low.)
+  - [0iwtb0b] ?:  A spring low.
+  - [1doruxh] Tide-reader: At the next low, the sea goes out as far as it ever goes. A spring low, greatest of lows!!
+  - [15lfevq] Tide-reader: At a spring low, the Gleaner walks the whole beach.
+  - [1jcf3d2] Register entry: Bolide: Star that came down bright at a spring low and kept burning. Not in your pocket! Four cowries, and a new pocket.
+- **the wet sand** (5) from look 3, narration 2
+  - [0n5nbh3] look: Under the anchor stone, pressed into the wet sand, a notion.
+  - [1o8cq0f] look: A hollow in the wet sand where something lay until last low. A few small crabs walk round the rim.
+  - [0n5t51j] narration: Ouro watches from the wet sand.
+  - [1ddxstn] narration: A label stuck in the wet sand where the shallows were.
+  - [1ve9gbm] look: A label in the wet sand, leaning toward the sea.
+- **the whole beach** (5) from narration 3, Tide-reader 1, Register entry: Albatross 1
+  - [15lfevq] Tide-reader: At a spring low, the Gleaner walks the whole beach.
+  - [0iwwdkg] narration: Across the whole beach, very faint, comes music.
+  - [13f3960] narration: It goes out of the Conch's spire and over the whole beach.
+  - [04zbzby] narration: It goes out across the whole beach.
+  - [16g37pi] Register entry: Albatross: Bird. Flew over the whole beach once and never came down. Its shell came down. Seven cowries. The bird's still up there if you want it.
+- **at dead low** (5) from Mudlark 3, Tide-reader 1, narration 1
+  - [1gcw9wd] Tide-reader: At dead low, it's back at the rows. It sets something in a row.
+  - [19b7dpx] Mudlark: Nope. Not coming out. Not at dead low, and not for just anybody.
+  - [1e1k58d] Mudlark: Rules, if you're sticking round. No labeled ones. No standing up at dead low.
+  - [05er1jh] narration: (At dead low the Gleaner works in the Tray. Its feet are dangerous. Keep out of the rows it is in.)
+  - [09nyqys] Mudlark: Told you. No labeled ones. No standing up at dead low.
+- **the last room** (5) from narration 4, Mudlark 1
+  - [1qwsh95] narration: The last room is round, with a door in the far septum.
+  - [0g0xeml] Mudlark: Here. I don't keep keys I can't use. Opens the last room in the top one.
+  - [1inzpno] narration: The last room. The bed is made. The shoes face the door.
+  - [0gnsrtn] narration: The last room. A bed made, and a pair of small shoes under it, facing the door.
+  - [0g0gvkv] narration: The Mudlark's key turns. The door opens on the last room.
+- **edge of the tray** (5) from narration 4, goal 1
+  - [0xc8lox] narration: At the edge of the Tray five small shells lie in a short row.
+  - [0h3a882] narration: In a square near the edge of the Tray lies a pale old shell, hollow, half full of sand.
+  - [062bu9x] goal: Something moves in one of the small shells at the north edge of the Tray.
+  - [1kidk37] narration: Tack is crouched at the edge of the Tray behind a post, with his slate. (the slate is full)
+  - [1j1azp6] narration: The Mudlark leads Ouro along the edge of the Tray, flat on her elbows the whole way.
+- **comes down and** (5) from narration 5
+  - [1j5quru] narration: One finger comes down and pushes a driftwood post into the sand next to her.
+  - [0pp5ijc] narration: One finger comes down and pushes a driftwood post into the sand next to it.
+  - [19j1rpc] narration: One finger comes down and pushes a new driftwood post into the sand between them.
+  - [1l66cus] narration: The hand comes down and lifts Ouro's lead whorl, and holds it up, and listens.
+  - [1w7skgd] narration: One finger comes down and pushes a last driftwood post into the sand beside it.
+- **into the sand** (5) from narration 5
+  - [1j5quru] narration: One finger comes down and pushes a driftwood post into the sand next to her.
+  - [0pp5ijc] narration: One finger comes down and pushes a driftwood post into the sand next to it.
+  - [1cht7fu] narration: At the far end is a door into the sand.
+  - [19j1rpc] narration: One finger comes down and pushes a new driftwood post into the sand between them.
+  - [1w7skgd] narration: One finger comes down and pushes a last driftwood post into the sand beside it.
+- **five cowries and** (5) from Register entry: Menhir 1, Register entry: Destrier 1, Register entry: Siderite 1, Register entry: Columella 1, Register entry: Aphelion 1
+  - [11m0cvy] Register entry: Menhir: Which is a standing stone's cast. Stands. Stood before the Stays went in. Five cowries, and I'd not ask it to sit.
+  - [1xaoz48] Register entry: Destrier: Plus a war horse with the barding still on. Throw it and it gets up and climbs back on itself. Five cowries and a brush.
+  - [0hcmoup] Register entry: Siderite: An iron stone off the fallen star. Walk past it and your buckles try to stay. Five cowries, and whatever buckles it keeps.
+  - [0yvmuzm] Register entry: Columella: The post down the middle of the Auger. Climbed itself! Everything leans on it, me included. Five cowries, and it leans back.
+  - [11asujy] Register entry: Aphelion: Star that went out as far as it could and is on its way back. Quicker the closer it comes. Five cowries, and stand to one side.
+- **three cowries i** (5) from Register entry: Eddy 1, Register entry: Debris 1, Register entry: Spawn 1, Register entry: Cache 1, Register entry: Strombus 1
+  - [1u7rv5n] Register entry: Eddy: Off a river bend. Turns in one place and makes you turn. Three cowries. I went dizzy counting them.
+  - [16xu0ba] Register entry: Debris: Hull scrap fused into one lump, one eye bigger than the other. Runs hot and has to sit down. Three cowries. I know the feeling.
+  - [0wyn1nf] Register entry: Spawn: And a frog with its mouth on its belly. Turns other things into frogs for a while. Three cowries. I was a frog Tuesday.
+  - [05ycdjq] Register entry: Cache: Hole where the Mudlark hides finds. Keeps whatever falls in, people included, for a while. Three cowries. I fell in. Lost an afternoon.
+  - [0febdcq] Register entry: Strombus: Eye on a stalk, off a conch lip. Hasn't blinked in the three years I've had it. Three cowries. I blink first, every time.
+- **it two cowries** (5) from Register entry: Thicket 1, Register entry: Bramble 1, Register entry: Mawkin 1, Register entry: Talus 1, Register entry: Marram 1
+  - [1w0ksgp] Register entry: Thicket: A hedge. Grew across my road while I was looking at it. Two cowries for the hedge. The road's not for sale.
+  - [1fhl1hd] Register entry: Bramble: Off a briar by the mill. Catches, holds, bleeds you slow. Mill folk hate it. Two cowries or eleven thorns.
+  - [0tm5tla] Register entry: Mawkin: A scarecrow's shell, from a March. Crows still won't land near it. Two cowries, or one brave crow.
+  - [1a8z4nw] Register entry: Talus: Off the Knucklebones. A giant's knucklebone, hollow, mouth over its eyes. Throw it and it lands twice. Call it two cowries.
+  - [1cexk69] Register entry: Marram: Dune grass. Its roots hold the Long Strand together, and one root walked off, and this is it. Two cowries. The Strand wants it back.
+- **three cowries and** (5) from Register entry: Yoke 1, Register entry: Taproot 1, Register entry: Pennon 1, Register entry: Skipper 1, Register entry: Saltline 1
+  - [1lc42p7] Register entry: Yoke: Off an ox team. Pulls whatever it's tied to. Doesn't stop when you untie it. Three cowries, and one fence.
+  - [04sexw6] Register entry: Taproot: Off the Bole, a taproot walking on its leaves. Roots things where they stand, and drinks. Three cowries and a drink.
+  - [13zkspl] Register entry: Pennon: And a battle banner, pole for a backbone. Snaps once before it does anything. Hand it three cowries and it snaps at those too.
+  - [1j9rcc7] Register entry: Skipper: A mudskipper. Hops when you look at it. Something bigger follows it about in the mud. Three cowries, and I'm not asking what.
+  - [1c9ee4v] Register entry: Saltline: Which is the white line the tide leaves on the Auger's walls, a little higher every roll. Three cowries and rising.
+- **three cowries a** (5) from Register entry: Chirr 1, Register entry: Peat 1, Register entry: Faience 1, Register entry: Spoor 1, Register entry: Flood 1
+  - [0rkotvz] Register entry: Chirr: A cave cricket with its knees on backward. Chirps three times, quietly. Three cowries, a cowrie a chirp.
+  - [0mybaza] Register entry: Peat: Off the marsh, a cut of peat looking up out of its top. Keeps what falls in. Three cowries a brick. I've lost a spoon.
+  - [0guhbj3] Register entry: Faience: Out of a Cowrie window box, a flower that grew glazed. Rings when touched. Ting! That was me. Three cowries a flower, tings free.
+  - [008o8je] Register entry: Spoor: One of the Gleaner's footprints, long as a house. Stars land in it on purpose. Three cowries a footprint. The foot's not mine to sell.
+  - [0yqnkch] Register entry: Flood: Top of a high tide that came into the Conch and stayed. Wets whatever's lowest. Three cowries a puddle.
+
+## Line openings used in 8 or more lines
+
+- **tell the** (31) from Gran 31
+  - [1ju7zdd] Gran: Tell my little turnip it's today. The day of all its days.
+  - [0aq8b8o] Gran: Tell my little turnip to present itself in the square and remain there until it comes.
+  - [1nd5u8j] Gran: Tell my little turnip porridge, of the yesterday variety.
+  - [084po7m] Gran: Tell my little turnip the square lies in that direction. That one. Where I am pointing.
+- **it is** (24) from narration 21, choice 2, look 1
+  - [1f5p4n3] narration: It is wider than Tackle was, pale green at the edges, crusted white.
+  - [1msm6kv] narration: It is a thin pale shell the shape of the moon and the size of a house. Its edges move.
+  - [0x1sk2l] narration: It is Ouro's height and Ouro's shape, and lighter.
+  - [1084np9] look: It is somebody's name, too big to read from here.
+- **off the** (23) from Plank-walker 1, Register entry: Undertow 1, Register entry: Furnace 1, Register entry: Dynamo 1, Register entry: Carrion 1, Register entry: Talus 1, Register entry: Urchin 1, Register entry: Fluke 1, Register entry: Breaker 1, Register entry: Bloom 1, Register entry: Peat 1, Register entry: Taproot 1, Register entry: Dish 1, Register entry: Berg 1, Register entry: Auk 1, Register entry: Lune 1, Register entry: Cullet 1, Register entry: Shears 1, Register entry: Murk 1, Register entry: Rumple 1, Register entry: Acorn 1, Register entry: Fucus 1, Register entry: Macula 1
+  - [1kqzj6c] Plank-walker: Off the end I go. Wheee.
+  - [0rutzkj] Register entry: Undertow: Off the bottom of a bay. You can't see it from the shore. You find out. Three cowries, paid in wet socks.
+  - [0qp82zy] Register entry: Furnace: Off the old works. Warm all through for a hundred years. Sleep near it. Three cowries, or two and your blanket.
+  - [06cm3qj] Register entry: Dynamo: Off the old pump. Hums when it's turned. Two cowries and a sandwich, the going rate for sandwiches.
+- **at the** (21) from narration 12, Tide-reader 8, look 1
+  - [1j13z7s] narration: At the Tusk's foot the snow is dug away. The ground is cut in a ring, deep. The Tusk leans.
+  - [1vqxnvf] look: At the foot of the gray, an oyster as big as a plate, thick with nacre.
+  - [18se0bx] narration: At the bottom of the crater, a flat plate, still warm. A picture is baked into it.
+  - [0ouphzr] narration: At the bottom of town the polish stops. Past it the floor is pale and empty and has no shine at all.
+- **in the** (19) from look 11, narration 8
+  - [1t7xbnw] look: In the dust where the ring meets the bone, something someone dropped long ago.
+  - [0vheoqy] look: In the only tide pool with water in it, a notion, perfectly dry.
+  - [02tp47y] look: In the middle of the roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.
+  - [02oqwx8] look: In the trench, under a plank, a tin of nacre nobody came back for.
+- **this room** (16) from Siphon 8, ? () 5, ? 3
+  - [17s1soe] Siphon: This room is a hole in its back wall. That is all this room will say on the matter.
+  - [1hwgezw] ?: This room is my first bowl now!! This room is a great deal bigger than that bowl was.
+  - [089t0xe] ?: This room has my old mat in it. This room smells most powerfully of being four.
+  - [19as3nc] ?: This room now holds a drawing of this room. Drawn small, by a smaller me.
+- **a label** (16) from look 13, narration 3
+  - [1bnusyo] look: A label stuck in a dune, driftwood, pressed with big letters that lean and grow toward the end.
+  - [13dbdfy] narration: A label in the shallows, with the sea round its foot.
+  - [1ddxstn] narration: A label stuck in the wet sand where the shallows were.
+  - [0x19iln] look: A label on a tall post, its top cut to point upward.
+- **low water** (15) from ? (low) 2, sign or spot in The living chamber (folk) 2, Woman in a whelk 1, Weed-raker 1, Woman with a basin 1, Old man 1, Boy 1, Woman 1, Man by the fire 1, Girl 1, ? 1, Nautilus doorkeeper 1, Label-reader 1
+  - [1riy5x6] Woman in a whelk: Low water, so we're in. Hi. Can't stop.
+  - [02m5kan] Weed-raker: Low water. I'm in my barrow, rocking it. Don't watch me.
+  - [066ipm6] Woman with a basin: Low water! Shaking my sieve. Sand's going in your shoes, sorry.
+  - [0aatn5m] Old man: Low water. Chair, then kick. Kick, kick. Seventy years I've done this.
+- **under the** (14) from narration 8, look 5, Silt-wife 1
+  - [0b0n4am] narration: Under the town a bell rings once.
+  - [1b2azwb] Silt-wife: Under the water was cold. Under the silt's warm. So I live under the silt now. Obviously.
+  - [1t0l6y0] look: Under the glass, footprints from before the sand melted. They are walking away from the star.
+  - [1sc0eug] look: Under the big tree, where the Hands sit to eat, a notion and a nautilus horn.
+- **at low** (14) from narration 11, Tide-reader 2, ? (base) 1
+  - [1ye40os] narration: (At low tide the sand is open, and stars fall in a line.)
+  - [0ue52lq] narration: (At low water a shell with nothing moving in it is gone when the shadow passes.)
+  - [0zjpmh3] narration: (At low water you see only inside the rings of landed stars. Soft sand shows only in a ring.)
+  - [17jo4kq] ? (base): At low water we all stamp at once. It's the only dance we've got. It's a good dance.
+- **off a** (14) from Register entry: Cairn 1, Register entry: Grotesque 1, Register entry: Squall 1, Register entry: Eddy 1, Register entry: Burr 1, Register entry: Puffball 1, Register entry: Bramble 1, Register entry: Crane 1, Register entry: Hare 1, Register entry: Halo 1, Register entry: Fleam 1, Register entry: Wain 1, Register entry: Cellar 1, Register entry: Pod 1
+  - [0kavr4v] Register entry: Cairn: Off a hill path, a stone from every walker who passed. Hit it and it gets taller faster. Two cowries, plus your stone.
+  - [07aktxx] Register entry: Grotesque: Off a church gutter. Same face six hundred years. It's pulling it at you now. Two cowries, face included.
+  - [1l0cc5q] Register entry: Squall: Off a rain that came sideways. Still does. Hits twice. Two cowries, which is a cowrie a hit.
+  - [1u7rv5n] Register entry: Eddy: Off a river bend. Turns in one place and makes you turn. Three cowries. I went dizzy counting them.
+- **and a** (13) from Strandmonger 2, Conjoiner 1, Register entry: Fogbank 1, Register entry: Hatch 1, Register entry: Prow 1, Register entry: Skua 1, Register entry: Pennon 1, Register entry: Spawn 1, Register entry: Glove 1, Register entry: Lip 1, Register entry: Sag 1, Register entry: Bollard 1
+  - [10nq5lt] Strandmonger: And a late one! Which means the Lip walk, then.
+  - [14froec] Conjoiner: And a person's second cast won't join with anything. I've tried. It won't take.
+  - [0c31ibn] Strandmonger: And a letter, from your friend at the post. One cowrie postage due. I paid. Now you're due.
+  - [1bwppkw] Register entry: Fogbank: And a fog off the low places. Hides what's in them. Two cowries, if you can find it. I can't find it.
+- **which is** (13) from Strandmonger 1, Register entry: Menhir 1, Register entry: Mycel 1, Register entry: Atlas 1, Register entry: Gnarl 1, Register entry: Image 1, Register entry: Erg 1, Register entry: Halite 1, Register entry: Mote 1, Register entry: Enamel 1, Register entry: Saltline 1, Register entry: Ostium 1, Register entry: Ballast 1
+  - [0kex16m] Strandmonger: Which is less than it's worth to you. That's trade.
+  - [11m0cvy] Register entry: Menhir: Which is a standing stone's cast. Stands. Stood before the Stays went in. Five cowries, and I'd not ask it to sit.
+  - [1olj9v5] Register entry: Mycel: Which is the white under a wood. Spreads. Feeds. It has had some of my counter. Three cowries, less the counter.
+  - [10iai4o] Register entry: Atlas: Which is the top bone of a giant's neck. Held a head up three hundred years. Now it holds a grudge. Holds out for four cowries, too.
+- **ouro gets** (12) from narration 12
+  - [0ongrip] narration: Ouro gets the Rib pearl.
+  - [1hbvubo] narration: Ouro gets the Mast pearl.
+  - [0lji8dt] narration: Ouro gets the Spire pearl.
+  - [0gvdesb] narration: Ouro gets the Bole pearl.
+- **a round** (12) from narration 10, look 1, Register entry: Buckler 1
+  - [1jkcb1d] narration: A round black lake below the Hilt.
+  - [0fi8e4i] narration: A round hole goes through the shell. Its rim is soft and pink.
+  - [1d5iyvs] narration: A round hole with a black rim, where a point stuck out once.
+  - [0nq3ruf] narration: A round hole near the top of the dome, as wide as a door. Its edge is beveled smooth.
+- **ouro puts** (11) from narration 11
+  - [1cg4lkd] narration: Ouro puts both hands on the post. The Operculum stops.
+  - [1ctyn1a] narration: Ouro puts a hand flat on the outside of the Volute. It is warm.
+  - [1luxo96] narration: Ouro puts head and shoulders out of the point into the night.
+  - [1orkaq3] narration: Ouro puts it down by the fire.
+- **the hand** (11) from narration 11
+  - [14gy38i] narration: The hand sets the Auger down.
+  - [1c0ufx8] narration: The hand holds the Volute up to where an ear would be.
+  - [1u9bmlo] narration: The hand sets the Volute back down in its place.
+  - [16ztfpb] narration: The hand stops. It lifts them both, high, up beside the dark where an ear would be.
+- **the tide** (10) from narration 7, Salt-scraper 1, ? (full) 1, Register entry: Astrolabe 1
+  - [14bdcgq] narration: The tide turns and comes in, and turns again.
+  - [1gfv2sk] narration: The tide goes out. The hall gets bright with starlight through the open mouth.
+  - [0dfvv5v] narration: The tide is coming back. Ouro comes out of the mouth onto wet sand.
+  - [0nqfsah] Salt-scraper: The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!
+- **the hermits** (9) from narration 6, goal 2, Grafton 1
+  - [0yiam2s] narration: The Hermits go down the road. The halter goes slack.
+  - [1fyh6sg] narration: The Hermits go. Bare goes last. She does not look at Ouro.
+  - [0jjjz07] narration: The Hermits lead their team away north.
+  - [02nfrq1] goal: The Hermits went north to the machine fields and Hum.
+- **the ground** (9) from narration 9
+  - [1nkvyoa] narration: The ground booms. The floor of the trunk moves upward a foot. Dust comes down.
+  - [1cxjsb2] narration: The ground tilts toward it from every side. Walking in is fast. Walking out is slow.
+  - [1jnfmdv] narration: The ground around the star is crazed through. The star has tipped. A Hermit stands with a haul.
+  - [0k34lyj] narration: The ground curves up toward the middle of the Volute. The shell is very tight here.
+- **the sifter** (9) from narration 5, choice prompt 3, goal 1
+  - [18s7gy8] narration: The Sifter rocks in the door of the whelk, a sieve in both hands.
+  - [148ck7b] goal: The Sifter is in the middle of the town, among the doves.
+  - [177msax] choice prompt: The Sifter holds out a stack of shells.
+  - [13hwhr6] narration: The Sifter stands among the five doves with a sieve as wide as a table.
+- **small gran** (9) from narration 9
+  - [159mzjz] narration: Small Gran is sitting in it, facing the other way.
+  - [1hyvd01] narration: Small Gran climbs down. She stands beside Ouro with her back to everyone.
+  - [0e4wu72] narration: (Small Gran joins your four. If the four are full, she waits in the Midden.)
+  - [00kxc12] narration: Small Gran is not up here. Small Gran is in her horn, and her next line comes out of it anyway.
+- **plus a** (9) from Register entry: Brine 1, Register entry: Leech 1, Register entry: Dandle 1, Register entry: Vat 1, Register entry: Elver 1, Register entry: Serac 1, Register entry: Destrier 1, Register entry: Rung 1, Register entry: Seaglass 1
+  - [11ib0tu] Register entry: Brine: Plus a salt pan's crust, out walking. Dries out everything it sits on, wounds too. Two thirsty cowries.
+  - [10d6z4w] Register entry: Leech: Plus a leech. Holds on until it's full. Then holds on. Costs two cowries to start.
+  - [09ealty] Register entry: Dandle: Plus a dandelion gone to seed. Plants seeds in whoever it argues with. Two cowries. It's arguing with me now.
+  - [0dj58ru] Register entry: Vat: Plus a curing vat that walked off half full. What's in it is still curing. Three cowries for the vat. What's in it, I'd not price.
+- **the sea** (8) from narration 7, Child 1
+  - [1vofjc0] Child: The sea comes every night and I wave and it doesn't wave back yet!
+  - [0r0da5m] narration: The sea comes back in. It fills the hollows and covers the lower sand.
+  - [1ppxi18] narration: The sea comes in while Ouro walks.
+  - [0zayulu] narration: The sea is far out. The last stars of the low water are going out down the beach.
+- **go on** (8) from Bare 4, Tack 1, Wall-toucher 1, Turnwise 1, Mudlark 1
+  - [0g12awp] Bare: Go on, send out your first.
+  - [1qz06pb] Bare: Go on, then. Save another one.
+  - [19hhw2k] Bare: Go on up to the Hilt.
+  - [1d0dxb3] Tack: Go on up. 1 at a time. Me first.
+- **the volute** (8) from ? (add) 4, narration 3, Old Amber 1
+  - [02phv20] narration: "The Volute has to hold. You will not be thanked twice. Cinch."
+  - [1fl9031] Old Amber: The Volute turned. Its old shell lifted off whole, in one magnificent piece.
+  - [017tsir] narration: "The Volute has to hold. You will not be thanked twice. Cinch."
+  - [08yh7b3] narration: The Volute lies in the sand where it has always lain, with the white posts round it.
+- **it goes** (8) from narration 8
+  - [1gl3sga] narration: It goes back out through the mouth.
+  - [08zaf0z] narration: It goes in at a slant, toward the teeth.
+  - [06qsafx] narration: It goes still. Then it is gone into the wall, the way water goes.
+  - [0t4jau8] narration: It goes still, and then it is not there. Nothing moves in its street.
+
+## Line endings used in 8 or more lines
+
+- **in it** (19) from narration 14, look 2, Pew-sitter 1, ? 1, Cinch 1
+  - [0eutp5k] narration: The well is dry. The bucket comes up with dust in it.
+  - [1t910q8] narration: Somewhere east, a bucket comes up with dust in it.
+  - [1kdc6ts] Pew-sitter: The pew's just above me now. Same pew. Same dent in it.
+  - [0l6bnmr] look: The word has a circle in it.
+- **of it** (18) from narration 10, goal 2, Bare 1, Cartographer 1, ? 1, Kelp-cutter 1, Label-reader 1, Register entry: Terminus 1
+  - [0fxn97q] narration: (Big moves cost tide. Your four share one pool of it.)
+  - [1y2vn0e] narration: The hole where the Bole was. Cold air comes up out of it.
+  - [020xs9r] goal: Ohm keeps the Pylon. The workshop is west of it.
+  - [16pppvt] Bare: Enough. Tools down. All of it.
+- **the sand** (18) from narration 14, look 1, goal 1, Grain-picker 1, Tooth-sitter 1
+  - [05p8y4c] narration: The Mast tips and lies down across the sand.
+  - [1a25ji6] narration: Leeward carries a blanket outside and lies down on the sand.
+  - [0ls4pn7] look: The shell curls away under Ouro's feet, ridge after ridge, down to the sand.
+  - [1r4ybkx] narration: (Walk down the ridges to the sand.)
+- **the beach** (15) from narration 7, Cinch 2, look 1, Shell-sitter 1, Tide-reader 1, Mudlark 1, goal 1, Gran 1
+  - [135hhg9] look: A bottle in the sand. The paper inside says: KEEP THE BEACH.
+  - [0a6llqj] Shell-sitter: Fine. This shell's taken. Plenty more on the beach.
+  - [0zayulu] narration: The sea is far out. The last stars of the low water are going out down the beach.
+  - [07xf1uw] narration: The shaking goes away along the beach.
+- **the mouth** (12) from narration 11, goal 1
+  - [1hl13su] narration: A driftwood post with letters pressed in it, in front of the mouth.
+  - [1kimsmw] narration: (Open the first four teeth to open the mouth.)
+  - [10ozk0s] narration: Stars come down outside in a line. One lands right in front of the mouth.
+  - [0vywo3i] narration: Something comes in through the mouth.
+- **the door** (10) from narration 5, Hermit 2, Gran 1, Guard on drill 1, ? 1
+  - [0k83zad] Gran: Tell my little turnip the craze has come calling at the door.
+  - [1twk1ap] Hermit: Bare's down at the water. Murex is on the door.
+  - [042kv0c] Hermit: Murex is still on the door. Murex is always on the door.
+  - [0l5o933] Guard on drill: Oi. You. Back to the door.
+- **on it** (10) from narration 6, Shell girl 1, Child 1, Tack 1, Register entry: Telson 1
+  - [1d5eh6y] Shell girl: Don't step on it.
+  - [1r246ja] narration: The Tusk. Old ivory gone black. Snow does not settle on it.
+  - [0305pma] narration: Four people stand at the arms. Cinch stands at the post with both hands on it.
+  - [1k3bcc1] Child: That pale bit's the blank. It's where the Cowrie never finished. You can't walk on it.
+- **not move** (8) from narration 7, look 1
+  - [10oi5b0] narration: Cinch stands at the Operculum with both hands on the post. Cinch is old and does not move.
+  - [0gb2584] narration: Tooth X grinds and will not move.
+  - [0luxrdq] narration: The disc gives a little underfoot. The door does not move.
+  - [1yf3bri] look: A row of washing over a wall, dry for years. It does not move.
+- **nautilus horn** (8) from look 7, narration 1
+  - [07v5b5k] look: Down in a hold, wedged where the ballast was, a nautilus horn.
+  - [02sc395] narration: Inside the hatch, packed in something soft, a notion and a nautilus horn.
+  - [1sc0eug] look: Under the big tree, where the Hands sit to eat, a notion and a nautilus horn.
+  - [0dhqywg] look: In the runnel, under an inch of cold water, a nautilus horn.
+- **the sea** (8) from narration 7, look 1
+  - [11nxpuo] narration: A driftwood post stuck in the sand, leaning toward the sea.
+  - [05tgjwf] narration: Label: KEEP THE SEA.
+  - [0r64ytl] narration: Past the rows, at the end of the beach, a great pink shell lies with its mouth to the sea.
+  - [0g56i60] narration: The Auger slides off the dune and into the sea.
+- **three cowries** (8) from Register entry: Bore 1, Register entry: Nail 1, Register entry: Macula 1, Register entry: Tain 1, Register entry: Gyre 1, Register entry: Albedo 1, Register entry: Medusa 1, Register entry: Crabwise 1
+  - [0sgnl5r] Register entry: Bore: The wave that runs up rivers the wrong way, quicker every time. Catch it on the way down and it's three cowries.
+  - [1l5pm8m] Register entry: Nail: A giant's fingernail, a third eye in the white. Every third scratch goes deep. I sell it unfiled, at three cowries.
+  - [04b1eis] Register entry: Macula: Off the Cowrie's dome, one of the dark spots. Moves when nobody looks up. I've never seen it move, so it's honest. Three cowries.
+  - [1sp1hr2] Register entry: Tain: Back of a mirror, the silver bit. Shows nothing on its own. Hold it up to me and it shows three cowries.
+
+## Short last sentences (three words or fewer) used in 3 or more lines
+
+- **tack** (4) from Letter 4
+  - [0mard05] Letter: Day 1. Turned 1 time. Heavy. You owe 1 chair. Tack.
+  - [0i9n7sp] Letter: Day 9. 9 turns. Lug says close in here. Fid says post 19 spans round. Knew already. Tack.
+  - [068hyjx] Letter: Day 17. 17 turns. Hasp asked about hands 3 times. Purchase charged for 1 chair. Tack.
+  - [0aa30vr] Letter: Hasp asked if hands steady. Were not. 0 days off. Tack.
+- **three cowries** (4) from Register entry: Macula 1, Register entry: Albedo 1, Register entry: Medusa 1, Register entry: Crabwise 1
+  - [04b1eis] Register entry: Macula: Off the Cowrie's dome, one of the dark spots. Moves when nobody looks up. I've never seen it move, so it's honest. Three cowries.
+  - [0d5cbuc] Register entry: Albedo: White glare off a salt flat at night. Look at it and you see less of everything else, the price included. Three cowries.
+  - [1y6llgx] Register entry: Medusa: A jelly the spring low left. Ripples when anyone talks near it, so I am writing this one very quietly. Three cowries.
+  - [0ey7y4e] Register entry: Crabwise: Crab, crusted white with salt. Walks between the slots and never into one. Sideways about the price, too. Three cowries.
+- **that's it** (3) from Bare 1, Man in a whelk 1, Woman 1
+  - [044q6k3] Bare: Arms in first. Then the head. That's it.
+  - [1u91qmy] Man in a whelk: Keep rocking, Mim. Good. Big rocks. That's it.
+  - [0k3xir0] Woman: Low water. The Gleaner's out on the flats. Hear that? That's it.
+- **it is warm** (3) from narration 3
+  - [005gp9a] narration: The Fall. A star, black, half in the ground. It is warm.
+  - [1ctyn1a] narration: Ouro puts a hand flat on the outside of the Volute. It is warm.
+  - [02p602c] narration: On the lip, a pink pearl as big as a melon, with fine wavy marks across it. It is warm.
+- **four cowries** (3) from Register entry: Strix 1, Register entry: Slackwater 1, Register entry: Hood 1
+  - [1v6n9h3] Register entry: Strix: And an owl, more eyes painted on its wings. Nothing it looks at can make a sound. I'd say the price, but it's looking. Four cowries.
+  - [0vc6k54] Register entry: Slackwater: The still minute between tides, in a shell. Nothing near it moves. Sold one once, and the buyer's still standing there. Four cowries.
+  - [1vlf0m3] Register entry: Hood: The hood a nautilus shuts its door with. Shuts any door. Mine hasn't opened since! Writing this through the window. Four cowries.

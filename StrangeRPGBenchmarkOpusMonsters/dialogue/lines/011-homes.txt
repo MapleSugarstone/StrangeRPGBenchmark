@@ -1,0 +1,343 @@
+# WHORL game text, chunk 11 of 15. Files: src/content/homes.ts, src/content/lesson.ts, src/content/minigames.ts, src/content/postgame.ts, src/content/ring.ts, src/content/ring1.ts
+# Speakers: look (24), choice (21), Islander (16), ? (12), hint (11), Old woman (6), Carver (6), Strandmonger (6), sign or spot in The Exuvia (5), Cinch (5), Stackkeeper (5), Old man (4), r.name (4), Shellwright (4), Woman (3), choice prompt (3), ? (lore_kettle) (3), ? (lore_door) (3), ? (lore_window) (3), ? (lore_chair) (3), ? (lore_vane) (3), ? (lore_tub) (3), ? (lore_step) (3), ? (lore_gate) (3), notice (3), Weaver (2), Baker (2), Dad (2), Twin (2), Net-mender (2), Shell-sorter (2), Sailor (2), Bell-tuner (2), Grafter (2), Spoon-carver (2), Child (2), Tinker (2), Guard (2), Polisher (2), Man (2), Star-counter (2), Woodcutter (2), The Boardmaster (2), monger ? 'Strandmonger' : 'Shellwright' (2), Woman with a basket (2), Bone-dealer (1), Salt-card (1), Verger's clerk (1), Moss-player (1), Ohm's apprentice (1), Tally-keeper (1), Card-sharp (1), Star-reader (1), sign or spot in The Shallows (1), ? (prisingiron) (1), ? (stilts) (1), ? (jingle) (1), ? (haul) (1), ? (letter) (1), ? (whelk) (1), ? (beachglass) (1), ? (saltcake) (1), ? (ridertin) (1), ? (bellchip) (1), ? (rainjar) (1), ? (moonsilt) (1), ? (starglass) (1), ? (ambergris) (1), sign or spot in Cockle Cove (giveKeyItem) (1), ? (giveKeyItem) (1), sign or spot in The Brook Wood (1), Boy (1), ? (shut) (1), ? (read) (1), ? (open) (1), Porch man (1), Porch kid (1), ? (listMenu) (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/homes.ts
+
+== scene: homes
+[0nmbfrb] Weaver | Weaving a coat for my cast. It stands in that corner all winter.
+[133sm2o] Weaver | Cold, I bet. It never says.
+[02ubpn1] Baker | Bread's Midden Road wheat. Crust's got a bit of shell in it.
+[0h5jr3z] Baker | Good for your teeth. Probably.
+[1q0hq8l] look | In the chest, under a cloth, two sea biscuits somebody saved.
+[1q35xcs] Dad | Baby turned last week. Cast's smaller than a teacup.
+[1hjdm73] Dad | We keep it in the cradle. Baby sleeps on the floor. Babies, huh.
+[0i7wxth] Old man | The Rib hums at night. You get used to it.
+[1bzqjki] Old man | Well. I didn't. I just got old.
+[0qrjyrf] look | Eight little bone Stays on the shelf, each with a name scratched under it.
+[0xjef70] Twin | We're turning on the same day. We decided.
+[15gwg61] Twin | She decided. I just said okay.
+[1t72mun] Old woman | Sit by the fire if you like. It's for my cast, mostly.
+[0o93oni] Old woman | Gets stiff in the cold. Like me. Like me exactly.
+[0wj80rm] Net-mender | Mending nets for a sea that isn't there.
+[0tjvniv] Net-mender | Good practice. For when it is.
+[1xooqyi] Shell-sorter | Every shell here came off the Dry Sea floor.
+[0ojm1e6] Shell-sorter | I sort them by how sad they look. That row's the saddest.
+[1q49f61] Sailor | Three beds and no ship. We take turns being the watch.
+[0nrx37y] Sailor | Nothing's happened yet. Very well watched, though.
+[1s1n2f8] look | A pot of something with seaweed in it, bubbling. It smells better than it looks.
+[0fqultp] look | In the chest, a jar of sea glass sorted by color.
+[1k9946v] Woman | Spire's quiet hours are most of the hours.
+[1f987jy] Bell-tuner | I tune Spire's bells by ear. My ears are bad.
+[0m6v0nh] Bell-tuner | They're all a bit wrong now. Nobody's said anything.
+[04t2j9b] look | Bell clappers wrapped in cloth, so they can't ring by accident.
+[0enj6qh] Grafter | Roots come up through the floor every spring.
+[1t4idao] Grafter | We just move the table. Table's been all over.
+[08dgrye] Old woman | Buckets catch the rain that falls up. Then I put a lid on.
+[0u63xg8] Old woman | Then I lose the lid. Then the rain goes.
+[1fquhqw] Spoon-carver | I carve spoons out of the bark the Bole drops.
+[0x1gdhd] Spoon-carver | They taste a bit like tree. People are fine with it.
+[1dvhr36] look | A note on the pillow: "Gone to watch the Bole. Back by dark. Don't eat the jam."
+[1tfr7mc] Child | I'm raising a whorl in a crate. It's a snail right now.
+[1961nim] Child | Snails grow shells. Then it's a whorl. I'm very patient.
+[1n742am] Tinker | Rider parts. Every one still ticks.
+[07zrljw] Tinker | I count the ticks, so they know someone's listening.
+[1k0y79f] Woman | The Pylon shines through the wall at night. Blue, then less blue.
+[0eztz8v] Woman | Good for sleeping. Sort of.
+[1nr0e86] look | A Rider's helmet, upside down, used as a fruit bowl. The fruit is also a bit metal.
+[1cvd7mz] look | In the chest, a Rider tin with the seal still on.
+[19t6g85] Old man | Tusk winters, you keep the fire in and the cast out.
+[0npjp0i] Old man | Casts don't mind cold. They mind fires.
+[0nzqm22] Carver | I carve the Tusk's chips into combs.
+[0rtr44f] Carver | The Tusk doesn't mind. Or it's being polite.
+[1q5y04b] Guard | Off duty. Still guarding the sword in my sleep.
+[0efj6ou] Guard | Sword's very still. So am I. We're good at it.
+[055a4lm] Old woman | My husband guarded that sword forty years. Never saw the blade.
+[1qap0ps] Old woman | He saw it this week. Says it's fine. Bit plain.
+[007o6qs] Polisher | I polish the guards' buttons. Lot of guards.
+[1x2cukg] Polisher | Lot of buttons. I've never been bored. I've been close.
+[1h824ih] Man | Everything in here rolls east. The chairs too.
+[0x8vez7] Man | I just sit wherever the chair stopped.
+[078uyr3] Star-counter | I count the stars that land. Two thousand and six this year.
+[0qwknkd] Star-counter | I might've counted some twice. Stars look alike.
+[0awfsuv] Woodcutter | The brook talks all night. I talk back.
+[0eeh95w] Woodcutter | One of us is learning something. Not sure who.
+
+==== file: src/content/lesson.ts
+
+== scene: lesson
+[19319zz] Strandmonger | Lesson? Lessons are free. I have a boot out back nobody will buy. One boot.
+
+== scene: c
+[13ybz40] choice | Show me
+[1hrk7bv] choice | I know how
+
+== scene: lesson
+[0v988nk] Strandmonger | Then the lesson cost nothing and you got all of it.
+[0t3k0vg] Strandmonger | Knock it down a bit, then sound it. Weaker means surer. Then it's yours, and I stop feeding a boot.
+
+== scene: r
+[0aglz4t] ? | (Your whorl fights the boot. You pick one action each turn.)
+[13pud40] ? | (Attack never runs out. A move hits harder. Then it rests a few turns before you can use it again.)
+[13nb49k] ? | (Look at a choice before you pick it. It says what it does, and if the foe is weak to it.)
+[0pxv9cx] ? | (Guard cuts the damage you take in half until your next turn.)
+[18eg53h] ? | (Switch sends out a whorl from your reserve. You only have one whorl for now.)
+[0lu8esj] ? | (A horn can sound a whorl at any HP. The lower its HP, the better the chance.)
+[03zuv1o] ? | (The boot is under the line on its HP bar now. Under the line, the horn never fails.)
+[1mjg8kk] ? | (Pick Sound and blow a horn. A sounded whorl joins you. Knock it out and it gets away.)
+
+== scene: lesson
+[1n2qld1] Strandmonger | Sold, for nothing!! Don't tell anyone. I have a name to keep.
+[1ezfd2z] Strandmonger | Flat, and off it walks. Weaken it, then the horn. The boot knew that.
+[0mc9hpu] Strandmonger | The boot won. First thing it ever won. I'm raising its price.
+
+==== file: src/content/minigames.ts
+
+== scene: RIVALS
+[0f4oyl9] Bone-dealer | A cowrie a game. I deal in bone, so if I lose, you get paid in bone. Sorry in advance.
+[11nr2lz] Salt-card | Cards dry out quick round here. Dry cards play faster. Faster than you, anyway.
+[14b0yjo] Verger's clerk | I keep the Verger's scores!! The Verger never plays, so I play the Verger's cards, most dutifully.
+[0tviic7] Moss-player | Slow game, slow players. Waited so long there's moss on my left hand. Your go. Whenever.
+[0faexnk] Ohm's apprentice | I counted every card in the Volute. Ohm says not to tell people that. Oops.
+[04knl42] Tally-keeper | Tusk's played Shellboard longer than anywhere. Lost longer too. We're really good at losing.
+[1ymk65f] Card-sharp | Hilt rules. No crying, no counting out loud, no peeking at the bottom.
+[0lrs2sj] Star-reader | These cards fell with the star, y'know. I just shuffle 'em.
+
+== scene: c
+[04zecbb] choice | Best five
+[0ncpcjg] choice | Choose five
+[060l75k] choice prompt | Which cards?
+
+== scene: playShellboard
+[16kc52b] hint | (Shellboard: take turns laying cards on a three by three board.)
+[1h68bwg] hint | (A card takes a touching rival card when its touching number is higher. Type advantage adds 1.)
+[157znf7] hint | (Your cards are the kinds you have sounded. Most cards on the board at the end wins.)
+[1t2s5qf] choice | Play
+[0q289lq] choice | Not now
+[1any0tb] r.name | Huh. Well played. Take this, I won it off someone worse.
+[1ekrifd] r.name | Again? Fine. Fine!
+[04lh40y] r.name | Even. Nobody pays, nobody sulks.
+[00sduij] r.name | Ha, mine. Come back with better cards.
+
+== scene: pegmaster
+[0994nou] The Boardmaster | WELCOME, challenger. Vanquish the eight town players first. Thus far you have vanquished {beaten}.
+[17tc0nc] The Boardmaster | Every card in the Register has passed through these hands of mine. Five elected to remain!!
+
+== scene: scrapeAtTannery
+[1r8piwt] Shellwright | Prise this rock for me, yeah? Shells in it are plain, good, very good, or cracked.
+[0ywvh20] Shellwright | Numbers on the edge add up each row and column. The x counts the cracked ones.
+[0x73vh0] Shellwright | Get every good one out and I pay. Prise a cracked one and the whole rock's spoiled.
+[0y3uwri] Shellwright | You get one feel with your thumb per rock. Tells smooth from rough. Just the one, okay?
+
+==== file: src/content/postgame.ts
+
+== scene: map slack
+[0v90yxd] sign or spot in The Shallows | Past the Lip. Nothing is held here. Mind your hat.
+
+== scene: map oldrind
+[0mika2r] sign or spot in The Exuvia | A Rider's cast, sitting where it sat.
+[0vuwo3v] sign or spot in The Exuvia | A Rider's cast. It faces south.
+[0pgrxpo] sign or spot in The Exuvia | Two Rider casts, one sitting in the other's lap. Neither is a child.
+[1uv61iv] sign or spot in The Exuvia | A Rider's cast with its hand out, palm up.
+[0qacbdm] sign or spot in The Exuvia | Old Amber's grandmother's grandmother's cast, sitting beside the others.
+
+== scene: slackEnter
+[1799b2h] hint | The crazes out here move when you are not looking at them.
+
+== scene: realCinch
+[1aw03vp] Cinch | Sit down.
+[197fz17] choice | You're Cinch.
+[1op0ln4] Cinch | Sat down forty years ago. Best thing I ever did.
+[15ou6qh] Cinch | Somebody's at the Operculum, then. Good. Forgot I left one up there.
+[04p9buh] Cinch | Sit. Ground goes up and down out here with the tide. You get used to it.
+[1gk636f] Cinch | Sit, if you're stopping. The fire's for anyone.
+
+== scene: stack
+[021qfrl] Stackkeeper | Every floor is a fight!! Your whorls stand at fifty, all of them. Conjoined foes only, up here.
+[0shkvct] Stackkeeper | Victory, upward, one floor!! Defeat, downward, the very bottom.
+[1mff6t9] Stackkeeper | The loftiest so far is floor {G.stackBest}. Where it ends, nobody has ever informed me.
+[14dizmi] choice | Go up
+[1ezh2i4] choice | Not now
+[0k0sg8q] Stackkeeper | Floor {floor}. Down, bottom, again.
+[1gt3e21] choice | Floor {#1}
+[1nhjx87] choice | Come down
+[1uzkici] choice prompt | Floor {floor} done. {#2} cowries.
+[1yl1j0x] Stackkeeper | The loftiest is now {G.stackBest}!! I shall require a fourth hat.
+
+==== file: src/content/ring.ts
+
+== scene: ring
+[1jaqp40] ? (prisingiron) | A flat bar of iron with a bent end. Face a crust of old shells and press to prise it off.
+[0tx4i4u] ? (stilts) | Two poles with steps on them. Ouro wades shallows on them. Deep water still wants a TIDE whorl.
+[0i2x4ej] ? (jingle) | A hoop of thin jingle shells. Face a big sleeper and press, and it wakes.
+[1ci9uw9] ? (haul) | A harness and a rope. Press at a haul stone to take hold, and back away to drag it.
+[1p2o98b] ? (letter) | A letter sealed with a black spiral. A gatekeeper of the Gate Ring opens for it.
+[06bm0g0] ? (whelk) | An empty whelk shell, big enough for a crab to live in. It rattles.
+[0eds3kv] ? (lore_kettle) | Salt grew on the spout in a frill. It boiled on the back of an island that never stopped walking.
+[0c8jp1w] ? (lore_door) | It fell in the bay the year before the sea turned. The knocker is a scallop. (it still knocks)
+[0kn3gi7] ? (lore_window) | Four panes. Three show the Lip. The fourth is cracked and shows it twice.
+[1vwmzz6] ? (lore_chair) | A sleeper slept on it for some years. One leg is shorter now.
+[0jogtsa] ? (lore_vane) | A tin fish on a pole. It points at the Lipwater whichever way the wind is.
+[0swibwu] ? (lore_tub) | Frozen in a cold year with the washing still in it. The washing is fine.
+[0irwhju] ? (lore_step) | A flat stone worn into a dip by one pair of feet over fifty years.
+[15ppa0n] ? (lore_gate) | It rolled to the star with everything else. It still latches.
+
+== scene: giveKeyItem
+[0mdnje2] notice | Ouro gets {#1}.
+
+== scene: ring
+[09rawxp] hint | Too heavy to shift by hand. A harness would do it.
+[0479czv] hint | (Ouro has hold of the stone. Back away and it follows. Turn aside or press again to let go.)
+[1l67lbg] hint | (Step toward a held stone with deep water past it, and it tips in and sinks.)
+
+== scene: c
+[1b3jtgd] choice | Sound it
+[175bs9b] choice | Let it walk off
+
+== scene: PRICED
+[0efu5yl] ? (beachglass) | And beach glass. Green, so fifty. Clear I'd have said forty and meant it.
+[01q4r2p] ? (saltcake) | Plus a salt cake. Seventy-five, less what I licked.
+[1ucr8gu] ? (ridertin) | Which is a Rider tin. Sealed. One fifty, and I'll never open it.
+[0bhofwg] ? (bellchip) | And a bell chip. Hums in the hand. One eighty-seven, and the hum's extra.
+[1fgyahw] ? (rainjar) | Plus a jar of upward rain! Four hundred. There'll be no more of these.
+[0qzo1dx] ? (moonsilt) | Which is moon silt. Three hundred and twelve. It sinks upward, so mind the lid.
+[1l16om9] ? (starglass) | And star glass. Five hundred. I can see my whole stall in it, and the debts.
+[1goz7rr] ? (ambergris) | Plus ambergris. Seven fifty. It smells of a very big afternoon.
+
+== scene: sellMenu
+[0be8pe2] monger ? 'Strandmonger' : 'Shellwright' | And that's the lot. Lovely.
+[0n11aj2] monger ? 'Strandmonger' : 'Shellwright' | That's all of it. Ta.
+
+== scene: n
+[0qo8t2h] choice | One
+[15y9okr] choice | All of them
+[06j8dld] choice prompt | {#1}: {#2} cowries each.
+
+== scene: sellMenu
+[0htq9yr] notice | {k} sold for {#2} cowries.
+
+== scene: ring
+[12aylpp] hint | (Nothing wild lives here to keep off.)
+[1hohv1n] hint | (Nothing wild lives here to lure.)
+[10ttbj4] hint | (The cart can't come here. It needs a road, or at least a beach.)
+[1x7yw4o] hint | (The cart only goes between towns Ouro has been to.)
+
+== scene: standingWild
+[1lcr2c8] choice | Fight it
+[0w08nz1] choice | Leave it
+
+==== file: src/content/ring1.ts
+
+== scene: map cocklecove
+[1l6xbvx] sign or spot in Cockle Cove (giveKeyItem) | Ouro gets a big empty whelk shell.
+[0n95oat] look | On the sand bar in the inlet, a nautilus horn rolled up in weed, and beach glass.
+[0jeoqpm] look | On the shelf at the back of the sea cave, out of the water: nacre, and a tide jar.
+[1u1d3hb] look | The end of the jetty. The Lip stands across the water, pale, a long way off.
+[0hg7q71] look | The jetty was built for a boat. The boat was an island. (it left)
+[09qw9zg] look | The Islander's hut. Driftwood, rope, and one good window someone gave her.
+
+== scene: HINTS
+[0n8jqyr] ? (lore_kettle) | Kettle went over right here, the last night. A crab moved into it.
+[0ua4uol] ? (lore_kettle) | Can't blame the crab really. Good kettle. Crab wants a better shell, I'd say.
+[0x6d3tn] ? (lore_door) | Door fell in the bay the year before the sea went. Deepest bit of the bay, so.
+[122wid5] ? (lore_door) | Ship man up the Wrecks had a chart of the deep bits. Ask him nice.
+[0qvnnl2] ? (lore_window) | Window's at the salt pans, past Mast. They keep the pans full.
+[1fxkogw] ? (lore_window) | Pans full, so I couldn't wade it. You've got legs for it now, I see.
+[0q0fl5b] ? (lore_chair) | Chair's in the kelp past Spire. Big ones sleep on that beach.
+[1wxyv43] ? (lore_chair) | Big ones sleep on anything. Sleeping on my chair, I'd bet. Wake one.
+[0gjhrq5] ? (lore_vane) | Vane's on the crane shore past Bole. An old crane picked it out of the water.
+[0oza9gz] ? (lore_vane) | Crane never put it down. Somebody wearing a gear sort might turn it.
+[1gtm2gi] ? (lore_tub) | Tub froze in up north, the cold year. On a floe.
+[0s12rwg] ? (lore_tub) | Floes go where they want. Step on one and you go where it wants too.
+[1avfmh4] ? (lore_step) | Step's a stone. Heavy. It's under the long stones south of Tusk.
+[0z0bmpu] ? (lore_step) | Long stones need moving first. Takes a harness, that.
+[125j1sw] ? (lore_gate) | Gate's at Fall. Everything rolls to the star down there.
+[02elrig] ? (lore_gate) | My gate too, apparently. Rolled off and kept rolling.
+
+== scene: islander
+[0hkhdop] Islander | Those, there. Next to each other. Like old times, sort of.
+[11faaih] Islander | That, there. On the sand. Thanks, you.
+[0lom244] Islander | House was here. Right here, on the back of an island, for fifty years.
+[1adm4fg] Islander | Island walked off with it one evening. I'd gone up for flour.
+[144q59c] Islander | Things fell off it, one by one, all round the Lip. I watched. Couldn't reach any.
+[12dv03i] Islander | House stands right, so. Now we wait for dusk.
+[10f55ol] Islander | Floor's laid. Stakes where things stood. Can't lift them myself any more.
+[10gi8bt] Islander | Door faced the water. Step in front of the door. Gate at the end of the path, toward the water.
+[0n9dg9h] Islander | Window in the wall left of the door, when you stand in the door looking out.
+[1fnob4x] Islander | Chair under the window. Kettle on the stove at your right hand, sat in the chair looking out.
+[0gv5t2f] Islander | Vane on the ridge, over the door. Tub out back. That's the lot.
+
+== scene: stakeTalk
+[1rwl5kd] choice | Pick up {#1}
+[10vie5u] choice | Leave it
+[0vntym3] Islander | Something's off, that. Not how it stood. Try again, you.
+
+== scene: houseStands
+[0cm45cr] Islander | There. That's it. That's my house, near enough.
+
+== scene: holm
+[0630bq1] Islander | Holm. That's what I called it. Never answered to it. Doesn't now.
+
+== scene: c
+[17zl7ra] choice | Sound it
+[115hzut] choice | Leave it
+
+== scene: islanderAfter
+[0shrnbu] Islander | House on sand now. Doesn't go anywhere. Strange, that. Nice.
+[0wvbrsl] Islander | Holm's back, so. We'll see where it walks tomorrow. Probably here.
+
+== scene: kettlecrab
+[0pwcymo] ? (giveKeyItem) | Ouro gets the kettle.
+
+== scene: map brookwood
+[0l0xywi] sign or spot in The Brook Wood | A board nailed to a tree. In Tack's writing: 1 then 2. Easy.
+[0t54qs2] Boy | Tack says he crossed the stones when he was six. I've crossed them zero times. Tack counts it.
+[1wvzcwa] look | Tack's old den. On the wall, a tally: one mark. Under it, in a small hand: "me".
+[0j7u8n3] look | In the back of Tack's den, under his first tally, a cork on a string.
+[0mzhw92] look | Under a root on the east bank, a smelling salt in a twist of paper.
+[146u1ye] look | A gate in a wall of fitted stones. Past it the trees get older and the ground starts to climb.
+
+== scene: gateS
+[0tc07b2] ? (shut) | Gate's shut. Shut by the Apex, nine spans of oak. No seal, no gate, no matter how far you came.
+[1h2uur3] ? (read) | Black spiral. Apex seal, sure as a span is a span. Stand back three.
+[18t5tr3] ? (open) | Open from this side now. The Gate Ring's past it, a long walk round, and every step a span.
+
+== scene: map tackhouse
+[1xdha8y] look | A wall of tally marks, four and a slash, counting down to Turning Day.
+[0go7zsk] look | The last mark is pressed in so hard it went through the plaster.
+[0jcmsi3] look | More marks. These count up. They start the day after Turning Day and do not stop.
+
+== scene: tackMum
+[1e38vtl] ? | He's been in the square since before light. Don't tell him I said he's nervous.
+[14uefsw] ? | He writes you down every night. {n} so far, he says. I don't ask what of.
+[1pp5no0] ? | Letter came. Two lines. One was a number. That's my boy, that is.
+[0nnwcnv] ? | He counts the crazes now. Says they're ahead. I said what of. He said everything.
+
+== scene: map shellhouse
+[0q6gnh2] Woman with a basket | Oh, the basket? Shells. I dust every one so they know somebody still lives here.
+[1a90oew] Woman with a basket | That one's my mother's. That one's my mother. She turned late, like you.
+[1jf46no] look | Shells on a shelf, dusted, each with a name on a scrap of paper. The names are of people.
+
+== scene: map oldshell
+[13byihw] look | The inside of the old man's first house. It is very quiet, and smells of him, younger.
+
+== scene: map ribhouse
+[1h04hth] Porch man | Mum's cast sits up on the porch. Mum sits in the yard. Tea goes to both. Saves arguing.
+[124pmkm] Porch kid | I'm not allowed on the porch. The porch is full. Of grandma. Both of her.
+
+== scene: carver
+[07uh56q] Carver | I carve names in shell. A cowrie a letter. A good name's cheap, on it.
+
+== scene: i
+[1u7xf48] ? (listMenu) | Rename which?
+
+== scene: carver
+[1c4uoc0] Carver | What name, on it? I'll carve it right on its back.
+[0fmcima] Carver | Keep the old one, then. It's wearing in nice, on it.
+[1wcahl4] Carver | {cost} cowries, that. You've {G.rind}. Shorter name, on it?
+[13ls53u] notice | {old} is {name} now, for {cost} cowries.
+
+== scene: map islanderhut
+[0yalzxm] look | A table made from a door that is not her door. One bowl. One cup.
+[1rrw6q6] look | A window someone gave her. It looks the wrong way, at the hill, so she has hung a shell over it.

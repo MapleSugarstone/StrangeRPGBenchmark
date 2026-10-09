@@ -1,0 +1,6 @@
+{ "name": "B burr lock 2", "charm": "tusk", "team": [
+  { "fit": ["burr", "talus"], "moves": ["catch", "prickle", "talus_tossup", "talus_bonechip"], "passives": ["talus_twice", "talus_shaken"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "tor"], "moves": ["catch", "prickle", "heave", "quake"], "passives": ["bedrock", "aftershock"], "types": ["ROOT", "STONE"], "basic": "P", "notion": "longshin", "tan": { "atk": 6, "agi": 6 } },
+  { "fit": ["burr", "vat"], "moves": ["catch", "prickle", "vat_bodyslam", "vat_rollcask"], "passives": ["vat_ferment", "vat_hops"], "types": ["ROOT", "TIDE"], "basic": "P", "notion": "heartstone", "tan": { "hp": 6, "agi": 6 } },
+  { "fit": ["burr", "perigee"], "moves": ["catch", "prickle", "ping", "fix"], "passives": ["telemetry", "orbit"], "types": ["ROOT", "GEAR"], "basic": "P", "notion": "whetstone", "tan": { "atk": 6, "agi": 6 } }
+] }

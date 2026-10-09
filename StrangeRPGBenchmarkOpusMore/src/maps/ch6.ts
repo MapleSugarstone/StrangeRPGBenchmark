@@ -16,7 +16,7 @@ registerSpeaker('hushspk', 'The Hush', P('flyer', 'hushowl', 'dusk', 'lilac'), '
 
 const WOODS = {
   '.': t.floor('paper', 'silt', 'speck'), Z: t.solid('tree', 'paper', 'slate'), X: t.solid('bush', 'paper', 'rose'), m: t.deco('cloud', 'paper', 'white'),
-  Q: t.deco('vent', 'paper', 'gold'), g: t.floor('mint', 'moss', 'grass'), Y: t.solid('bush', 'mint', 'moss'), c: t.solid('crate', 'mint', 'brown'),
+  Q: t.deco('plain', 'paper', 'silt'), g: t.floor('mint', 'moss', 'grass'), Y: t.solid('bush', 'mint', 'moss'), c: t.solid('crate', 'mint', 'brown'),
   L: t.solid('pillar', 'grey', 'slate'), H: t.deco('stairs', 'grey', 'slate'),
 };
 
@@ -104,6 +104,22 @@ w.rect(1, 12, 38, 1, 'X').rect(1, 3, 38, 9, 'X').rect(10, 3, 1, 10, '.').rect(29
 w.rect(1, 1, 38, 2, '.').rect(19, 0, 2, 1, '.');
 w.put(10, 10, 'Q').put(29, 5, 'Q');
 
+const PLATES: [number, number][] = [[10, 10], [29, 5]];
+
+// A raised stone slab. Pressed, it sinks into a dark socket wide enough to show around the feet.
+function drawPlate(g: import('../core/gfx').Gfx, px: number, py: number, down: boolean) {
+  if (down) {
+    g.rect(px - 1, py, 10, 9, 'ink');
+    g.rect(px + 1, py + 3, 6, 4, 'grey');
+    g.rect(px + 3, py + 4, 2, 2, 'ink');
+  } else {
+    g.rect(px, py - 1, 8, 9, 'ink');
+    g.rect(px + 1, py, 6, 5, 'white');
+    g.rect(px + 1, py + 5, 6, 2, 'grey');
+    g.rect(px + 3, py + 1, 2, 2, 'ink');
+  }
+}
+
 const WOOD: MapDef = {
   id: 'wood', name: 'The Unspoken Wood', chapter: 6, music: undefined, bg: 'paper', battleBg: ['paper', 'silt'], hush: 'c6_hush', mode: (c) => (c.flag('c6_hush') ? null : 'blank'), weather: 'ash',
   rows: w.rows(), legend: WOODS,
@@ -140,14 +156,10 @@ const WOOD: MapDef = {
     { x: 9, y: 30, id: 'u_firstlast', slip: 'firstlast' },
     { x: 3, y: 2, id: 'u_honey', item: 'honey', n: 2 },
   ],
+  draw: (g, cx, cy, c) => { for (const [x, y] of PLATES) drawPlate(g, x * 8 - cx, y * 8 - cy, c.standing(x, y)); },
   triggers: [
-    {
-      x: 10, y: 11, once: 'c6_platehint',
-      run: async (c) => {
-        await c.say(null, '(A pale plate is set in the ground. Further up, a gate of thorns. Far to the right there is another corridor just like this one.)');
-        if (!c.field.partner) await c.say(null, '(The gates do not move for one person alone.)');
-      },
-    },
+    { x: 10, y: 10, run: async (c) => { c.sfx('door'); } },
+    { x: 29, y: 5, run: async (c) => { c.sfx('door'); } },
   ],
   exits: [
     { x: 0, y: 17, h: 2, to: 'wood_edge', tx: 24, ty: 11, dir: 3, blocked: async (c) => { if (c.field.partner) { await c.say(null, '(Not without Both.)'); await c.walk('hero', 'r', 6); return; } await c.goto('wood_edge', 24, 11, 3); } },
@@ -163,6 +175,14 @@ const WOOD: MapDef = {
   ],
   enter: async (c) => {
     c.music(null);
+    // Both's separate position is not saved, so a reload or a return trip puts Both back.
+    if (c.flag('c6_both') && !c.flag('c6_hush') && !c.field.partner) {
+      const hero = c.field.hero;
+      // Past Hello's gate there is no way back down, so Both starts past its own gate too.
+      if (hero.y <= 2) c.split(BOTH, hero.x + 1, hero.y);
+      else if (hero.y < 9) c.split(BOTH, 29, 4);
+      else c.split(BOTH, 29, 13);
+    }
     if (c.flag('c6_woodin')) return;
     c.set('c6_woodin');
     await c.wait(30);

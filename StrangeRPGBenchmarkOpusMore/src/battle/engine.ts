@@ -724,7 +724,8 @@ export class Battle {
         dst.windup = undefined;
         this.pushBack(dst, 0.6, true);
       } else {
-        this.ev.push({ k: 'msg', text: `${dst.name} wavers. (${dst.windup.got}/${dst.windup.need})` });
+        const left = dst.windup.need - dst.windup.got;
+        this.ev.push({ k: 'msg', text: `${dst.name} wavers. ${left} more ${dst.windup.breakElem.join(' or ')} hit${left === 1 ? '' : 's'} will break it.` });
       }
     }
   }
@@ -837,23 +838,25 @@ export class Battle {
     if (!t || !t.alive || t.side !== 1) return;
     const def = ENEMIES[t.id];
     if (!def || def.noAnswer) {
-      this.ev.push({ k: 'msg', text: `${t.name} cannot hear anything over itself.` });
+      this.ev.push({ k: 'msg', hold: true, text: `${t.name} cannot hear anything over itself.` });
       return;
     }
     t.answerTries = (t.answerTries ?? 0) + 1;
     if (def.ask !== verb) {
       this.ev.push({ k: 'answer', uid: t.uid, ok: false });
-      this.ev.push({ k: 'msg', text: `That is not what ${t.name} asked for. It is offended.` });
+      this.ev.push({ k: 'msg', hold: true, text: `That is not what ${t.name} asked for. It is offended. Read its prayer again.` });
       this.addStatus(t, 'offended', 2);
       t.offended = 2;
       return;
     }
+    // The right answer at the wrong time never offends. It names what has to happen first.
+    t.knownAsk = true;
     if (verb === 'hello' && !this.extra.finalPhase) {
-      this.ev.push({ k: 'msg', text: 'Not yet. It is not listening yet.' });
+      this.ev.push({ k: 'msg', hold: true, text: `That is the right word. ${t.name} is not listening yet. Keep going.` });
       return;
     }
     if (def.needItem && !(this.inv[def.needItem] > 0)) {
-      this.ev.push({ k: 'msg', text: `${t.name} wants that, but you have nothing to do it with.` });
+      this.ev.push({ k: 'msg', hold: true, text: `${t.name} wants that, but you have nothing to do it with. Bring ${ITEMS[def.needItem]?.name ?? 'the right item'}.` });
       return;
     }
     const need = def.askNeed ?? 'none';
@@ -864,8 +867,11 @@ export class Battle {
       (need === 'alone' && this.foes().length === 1) ||
       (need === 'late' && (t.turns ?? 0) >= 2);
     if (!ready) {
-      const hint = need === 'listened' ? 'It wants to be heard first.' : need === 'low' ? 'It is still too sure of itself.' : need === 'alone' ? 'Not in front of the others.' : 'Not yet. Give it a moment.';
-      this.ev.push({ k: 'msg', text: `${t.name} almost listens. ${hint}` });
+      const hint = need === 'listened' ? 'It wants to be heard first. Use Listen on it.'
+        : need === 'low' ? 'It is still too sure of itself. Wear it down below half HP.'
+        : need === 'alone' ? 'Not in front of the others. Deal with the other foes first.'
+        : 'Not yet. Let it take another turn.';
+      this.ev.push({ k: 'msg', hold: true, text: `That is what ${t.name} asked for. ${hint}` });
       return;
     }
     t.alive = false;
@@ -873,7 +879,7 @@ export class Battle {
     t.windup = undefined;
     this.answered.push(t.id);
     this.ev.push({ k: 'answer', uid: t.uid, ok: true });
-    this.ev.push({ k: 'msg', text: def.answered ?? `${t.name} has what it asked for. It leaves in peace.` });
+    this.ev.push({ k: 'msg', hold: true, text: def.answered ?? `${t.name} has what it asked for. It leaves in peace.` });
     this.ev.push({ k: 'leave', uid: t.uid });
   }
 
