@@ -86,7 +86,7 @@ function pickLook(a: SpriteData, b: SpriteData): Promise<SpriteData | null> {
         const x = 10 + col * 44, y = 20 + row * 44;
         const sel = (idx === pos);
         rect(x - 2, y - 2, 36, 36, sel ? SEL : '#2a2632');
-        rect(x, y, 32, 32, INK);
+        rect(x, y, 32, 32, '#2a2632');
         drawSprite(looks[idx], x, y, 4);
       }
       const si = pos % 2;
