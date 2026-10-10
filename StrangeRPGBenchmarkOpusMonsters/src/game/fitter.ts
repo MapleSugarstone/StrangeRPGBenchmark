@@ -58,31 +58,40 @@ function pickMany(title: string, items: { label: string; color?: string; detail:
 }
 
 function pickLook(a: SpriteData, b: SpriteData): Promise<SpriteData | null> {
-  let sx = 0, sy = 0;
-  const looks: SpriteData[][] = [];
-  for (let p = 0; p < 3; p++) { looks.push([]); for (let s = 0; s < 4; s++) looks[p].push({ px: shapeOf(a, b, s), c: paletteOf(a, b, p) }); }
+  // 3 rows × 4 columns layout: each row = 2 shapes × 2 palette-groups
+  // Palette 0 (parent A) and 1 (parent B) shown as a pair; palettes 2–5 each as their own.
+  // Grid index: row 0 = [s0p0, s1p0, s0p1, s1p1], row 1 = [s0p2, s1p2, s0p3, s1p3],
+  //             row 2 = [s0p4, s1p4, s0p5, s1p5]
+  let pos = 0;
+  const COLS = 4, ROWS = 3;
+  // Build flat list: [s0p0, s1p0, s0p1, s1p1, s0p2, s1p2, ...]
+  const looks: SpriteData[] = [];
+  for (let p = 0; p < 6; p++) { looks.push({ px: shapeOf(a, b, 0), c: paletteOf(a, b, p) }); looks.push({ px: shapeOf(a, b, 1), c: paletteOf(a, b, p) }); }
   const m: Mode = {
     opaque: true,
     update() {
-      if (input.hit('left')) { sx = (sx + 3) % 4; sfx('move'); }
-      if (input.hit('right')) { sx = (sx + 1) % 4; sfx('move'); }
-      if (input.hit('up')) { sy = (sy + 2) % 3; sfx('move'); }
-      if (input.hit('down')) { sy = (sy + 1) % 3; sfx('move'); }
-      if (input.hit('ok')) { sfx('ok'); close(m, looks[sy][sx]); }
+      if (input.hit('left')) { pos = (pos + COLS * ROWS - 1) % (COLS * ROWS); sfx('move'); }
+      if (input.hit('right')) { pos = (pos + 1) % (COLS * ROWS); sfx('move'); }
+      if (input.hit('up')) { pos = (pos - COLS + COLS * ROWS) % (COLS * ROWS); sfx('move'); }
+      if (input.hit('down')) { pos = (pos + COLS) % (COLS * ROWS); sfx('move'); }
+      if (input.hit('ok')) { sfx('ok'); close(m, looks[pos]); }
       if (input.hit('back')) { sfx('back'); close(m, null); }
     },
     draw() {
       rect(0, 0, 192, 192, '#17151d');
       box(2, 2, 188, 188);
       text('How should it look?', 6, 6, SEL);
-      for (let p = 0; p < 3; p++) for (let s = 0; s < 4; s++) {
-        const x = 10 + s * 44, y = 20 + p * 44;
-        rect(x - 2, y - 2, 36, 36, p === sy && s === sx ? SEL : '#2a2632');
+      for (let idx = 0; idx < COLS * ROWS; idx++) {
+        const col = idx % COLS, row = Math.floor(idx / COLS);
+        const x = 10 + col * 44, y = 20 + row * 44;
+        const sel = (idx === pos);
+        rect(x - 2, y - 2, 36, 36, sel ? SEL : '#2a2632');
         rect(x, y, 32, 32, INK);
-        drawSprite(looks[p][s], x, y, 4);
+        drawSprite(looks[idx], x, y, 4);
       }
-      text(SHAPES[sx], 8, 156, PAPER);
-      text(['Colors of the first', 'Colors of the second', 'Colors of both'][sy], 8, 166, DIM);
+      const si = pos % 2;
+      text(SHAPES[si], 8, 156, PAPER);
+      text('Pick a look', 8, 166, DIM);
       text('Parents', 120, 156, DIM);
       drawSprite(a, 120, 166, 2);
       drawSprite(b, 142, 166, 2);

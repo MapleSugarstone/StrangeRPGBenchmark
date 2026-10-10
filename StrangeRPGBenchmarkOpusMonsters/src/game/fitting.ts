@@ -33,7 +33,7 @@ export function ensureSeam(g: string[][]): string[][] {
   return g;
 }
 
-export const SHAPES = ['Left and right', 'Top and bottom', 'First body, second face', 'Second body, first face'];
+export const SHAPES = ['Top and bottom', 'Bottom and top'];
 
 const N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 const N8 = [...N4, [1, 1], [1, -1], [-1, 1], [-1, -1]];
@@ -121,20 +121,31 @@ export function neckRow(A: string[][]): number {
   return Math.max(3, Math.min(5, best));
 }
 
+/**
+ * Shape 0: A on top, B on bottom (split at A's neck).
+ * Shape 1: B on top, A on bottom (split at B's neck, B's top half replaces A's).
+ */
 export function shapeOf(a: SpriteData, b: SpriteData, shape: number): string[] {
   const A = rows(a), B = rows(b);
   let g: string[][], keep: Set<number>;
-  if (shape === 2 || shape === 3) ({ g, keep } = shape === 2 ? wearing(A, B) : wearing(B, A));
-  else {
+  if (shape === 0) {
+    // A on top, B on bottom: A's top half + B's bottom half
     const neck = neckRow(A);
-    const fromA = (x: number, y: number) => (shape === 0 ? x < 4 : y < neck);
+    const fromA = (x: number, y: number) => y < neck;
     g = A.map((r, y) => r.map((c, x) => (fromA(x, y) ? c : B[y][x])));
     const iA = interiorInk(A), iB = interiorInk(B);
     keep = new Set([...iA].filter(i => fromA(i & 7, i >> 3)).concat([...iB].filter(i => !fromA(i & 7, i >> 3))));
-    const seam = shape === 0 ? (x: number) => x >= 3 && x <= 4 : (_x: number, y: number) => y >= neck - 1 && y <= neck;
+    const seam = (_x: number, y: number) => y >= neck - 1 && y <= neck;
     return ensureSeam(cleanInk(g, keep, seam)).map(r => r.join(''));
   }
-  return ensureSeam(cleanInk(g, keep)).map(r => r.join(''));
+  // shape === 1: B on top, A on bottom: B's top half + A's bottom half
+  const neckB = neckRow(B);
+  const fromB = (x: number, y: number) => y < neckB;
+  g = B.map((r, y) => r.map((c, x) => (fromB(x, y) ? c : A[y][x])));
+  const iA = interiorInk(A), iB = interiorInk(B);
+  keep = new Set([...iB].filter(i => fromB(i & 7, i >> 3)).concat([...iA].filter(i => !fromB(i & 7, i >> 3))));
+  const seam = (_x: number, y: number) => y >= neckB - 1 && y <= neckB;
+  return ensureSeam(cleanInk(g, keep, seam)).map(r => r.join(''));
 }
 
 function lum(hex: string): number {
@@ -150,18 +161,66 @@ function hueGap(p: string, q: string): number {
 const three = (s: SpriteData): [string, string, string] => [s.c[0], s.c[1], s.c[2] || s.c[1]];
 
 /**
- * Palettes 0 and 1 are one parent's own three colors. Palette 2 takes its first two colors one from each parent, the pair that differs most
- * while both stay clear of the ink, and its third from the four left over, the one that stands furthest from both.
+ * Palette index 0–11 picks 3 colors from the union of both parents' palettes.
+ * Index 0 = first parent's own palette, index 1 = second parent's own palette.
+ * Indices 2–11 = mixed palettes: each takes one color from the first parent and two from the second,
+ * or two from the first and one from the second, trying all combinations and picking those with
+ * the best contrast and hue diversity. The first two colors are chosen for maximum lightness/hue gap,
+ * and the third is the most distant color from the remaining pool.
  */
 export function paletteOf(a: SpriteData, b: SpriteData, p: number): [string, string, string] {
-  if (p === 0) return three(a);
-  if (p === 1) return three(b);
-  const pairs: [string, string][] = [[a.c[0], b.c[1]], [b.c[0], a.c[1]], [a.c[0], b.c[0]], [b.c[0], a.c[0]]];
-  const score = ([m, s]: [string, string]) => Math.abs(lum(m) - lum(s)) + hueGap(m, s) - (lum(m) < 0.25 ? 1 : 0) - (lum(s) < 0.2 ? 0.5 : 0);
-  const [m, s] = pairs.reduce((best, q) => (score(q) > score(best) ? q : best));
-  const apart = (c: string) => Math.min(hueGap(m, c) + Math.abs(lum(m) - lum(c)), hueGap(s, c) + Math.abs(lum(s) - lum(c))) - (lum(c) < 0.2 ? 0.5 : 0);
-  const rest = [...three(a), ...three(b)].filter(c => c !== m && c !== s);
-  return [m, s, rest.length ? rest.reduce((best, c) => (apart(c) > apart(best) ? c : best)) : s];
+  const ta = three(a), tb = three(b);
+  if (p === 0) return ta;
+  if (p === 1) return tb;
+
+  // p >= 2: generate mixed palettes
+  // Build all candidate palettes by picking 3 colors from the 6 total (up to 6 unique),
+  // constrained to at least 1 from each parent.
+  // We enumerate: pick k from A and 3-k from B, for k=1 and k=2.
+  // Then pick palette index p-2 from the scored candidates.
+
+  type Entry = [string, string, string];
+  const all: Entry[] = [];
+
+  // k=1 from A, 2 from B
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (i === j) continue;
+      all.push([ta[i], tb[j], tb[(j + 1) % 3]]);
+    }
+  }
+  // k=2 from A, 1 from B
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (i === j) continue;
+      all.push([ta[i], ta[(i + 1) % 3], tb[j]]);
+    }
+  }
+
+  // Deduplicate
+  const seen = new Set<string>();
+  const unique: Entry[] = [];
+  for (const c of all) {
+    const key = c.join(',');
+    if (!seen.has(key)) { seen.add(key); unique.push(c); }
+  }
+
+  // Score each candidate: first two colors should differ in lightness and hue,
+  // third should be distinct from both.
+  function scorePalette([c0, c1, c2]: Entry): number {
+    const gap01 = Math.abs(lum(c0) - lum(c1)) + hueGap(c0, c1) - (lum(c0) < 0.25 ? 1 : 0) - (lum(c1) < 0.2 ? 0.5 : 0);
+    const d02 = hueGap(c0, c2) + Math.abs(lum(c0) - lum(c2));
+    const d12 = hueGap(c1, c2) + Math.abs(lum(c1) - lum(c2));
+    const minDist = Math.min(d02, d12);
+    return gap01 + minDist - (lum(c2) < 0.2 ? 0.5 : 0);
+  }
+
+  // Sort by score descending
+  unique.sort((a, b) => scorePalette(b) - scorePalette(a));
+
+  // Pick the requested index, wrapping around
+  const pick = unique[(p - 2) % unique.length];
+  return pick;
 }
 
 const VOWELS = 'aeiouy';
