@@ -6,7 +6,7 @@ import { defProp } from '../game/props';
 import { chapter, save } from '../game/state';
 import { isSolid } from '../game/tiles';
 import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
-import { PUZZLE_DATA } from '../tools/worldcheck';
+import { GRAPH_PUZZLES, PUZZLE_DATA, type Move } from '../tools/worldcheck';
 import { kinds, look, reward, stash } from './areakit';
 import { giveKeyItem, hasKey, room, roomDoor } from './ring';
 
@@ -53,68 +53,60 @@ defScript('leanman', async () => {
   await say('Basin-keeper', 'One: the gate\'s past the holes. Two: haul stones stop a roll. Three: walk out and it all rolls back.');
 });
 
-PUZZLE_DATA.extra.push(() => {
-  // Round stones roll east, north, or south until stopped, never west. A hole swallows one and becomes ground. Haul stones are dragged.
+// The lean for the puzzle checks: the lowest tile of the ground Ouro can walk to, and where the round stones, haul
+// stones, and holes are. Round stones roll east, north, or south until stopped and never west, and a hole swallows one
+// and becomes ground. A haul stone follows Ouro one tile as Ouro backs away from it. Each roll and each drag is a move.
+// Walking out of the basin by the way in rolls everything back.
+{
+  type LeanState = { o: number; bl: number[]; s: number[]; h: number[] };
   const m = MAPS.fall, b = m.basin!;
   const W = m.rows[0].length;
   const at = (i: number) => m.rows[Math.floor(i / W)]?.[i % W] ?? '#';
   const inB = (i: number) => { const x = i % W, y = Math.floor(i / W); return x >= b.x && y >= b.y && x < b.x + b.w && y < b.y + b.h; };
   const wall = (i: number) => !inB(i) || (isSolid(at(i)) && !'o@O'.includes(at(i)));
-  const balls: number[] = [], stones: number[] = [], holes: number[] = [];
+  const bl0: number[] = [], s0: number[] = [], h0: number[] = [];
   for (let y = b.y; y < b.y + b.h; y++) for (let x = b.x; x < b.x + b.w; x++) {
     const i = y * W + x, ch = at(i);
-    if (ch === 'o') balls.push(i); if (ch === '@') stones.push(i); if (ch === 'O') holes.push(i);
+    if (ch === 'o') bl0.push(i); if (ch === '@') s0.push(i); if (ch === 'O') h0.push(i);
   }
-  const solve = (drag: boolean): number => {
-    const key = (o: number, bl: number[], s: number[], h: number[]) => [o, [...bl].sort().join(), [...s].sort().join(), [...h].sort().join()].join('|');
-    const o0 = LEAN_START[1] * W + LEAN_START[0];
-    const seen = new Set([key(o0, balls, stones, holes)]);
-    let frontier: [number, number[], number[], number[]][] = [[o0, balls, stones, holes]];
-    const D = [1, -1, W, -W];
-    for (let d = 0; frontier.length && d < 200; d++) {
-      const next: typeof frontier = [];
-      for (const [o, bl, s, h] of frontier) {
-        if (b.done(o % W, Math.floor(o / W))) return d;
-        for (const step of D) {
-          const n = o + step;
-          if (wall(n)) continue;
-          const bi = bl.indexOf(n);
-          if (bi >= 0) {
-            if (step === -1) continue;
-            let c = n, nb = bl.slice(), nh = h, gone = false;
-            for (;;) {
-              const t = c + step;
-              if (wall(t) || bl.includes(t) || s.includes(t)) break;
-              if (h.includes(t)) { nb.splice(bi, 1); nh = h.filter(x => x !== t); gone = true; break; }
-              c = t;
-            }
-            if (!gone && c === n) continue;
-            if (!gone) nb[bi] = c;
-            const k = key(o, nb, s, nh);
-            if (!seen.has(k)) { seen.add(k); next.push([o, nb, s, nh]); }
-            continue;
-          }
-          if (s.includes(n) || h.includes(n)) continue;
-          const k1 = key(n, bl, s, h);
-          if (!seen.has(k1)) { seen.add(k1); next.push([n, bl, s, h]); }
-          if (!drag) continue;
-          const si = s.indexOf(o - step);
-          if (si >= 0) {
-            const ns = s.slice(); ns[si] = o;
-            const k2 = key(n, bl, ns, h);
-            if (!seen.has(k2)) { seen.add(k2); next.push([n, bl, ns, h]); }
-          }
-        }
+  const DOOR = LEAN_START[1] * W + LEAN_START[0];
+  const free = (st: LeanState, i: number) => !wall(i) && !st.bl.includes(i) && !st.s.includes(i) && !st.h.includes(i);
+  const ground = (st: LeanState, o: number) => { const seen = new Set([o]), q = [o]; while (q.length) { const c = q.pop()!; for (const d of [1, -1, W, -W]) if (free(st, c + d) && !seen.has(c + d)) { seen.add(c + d); q.push(c + d); } } return seen; };
+  const at0 = (st: LeanState, o: number): LeanState => ({ ...st, o: Math.min(...ground(st, o)) });
+  const start = at0({ o: DOOR, bl: bl0, s: s0, h: h0 }, DOOR);
+  const moves = (st: LeanState, drag = true): Move<LeanState>[] => {
+    const out: Move<LeanState>[] = [];
+    const here = ground(st, st.o);
+    if (here.has(DOOR)) out.push({ to: start, cost: 0, reset: true });
+    for (const c of here) for (const d of [1, -1, W, -W]) {
+      const n = c + d, bi = st.bl.indexOf(n);
+      if (bi >= 0 && d !== -1) {
+        let e = n, gone = false;
+        for (;;) { const t = e + d; if (st.h.includes(t)) { gone = true; break; } if (!free(st, t)) break; e = t; }
+        if (!gone && e === n) continue;
+        const bl = st.bl.filter((_, k) => k !== bi);
+        out.push({ to: at0({ ...st, bl: gone ? bl : [...bl, e], h: gone ? st.h.filter(x => x !== e + d) : st.h }, c), cost: 1 });
       }
-      if (seen.size > 200000) return -2;
-      frontier = next;
+      const si = st.s.indexOf(c - d);
+      if (drag && si >= 0 && free(st, n)) {
+        const s = st.s.slice(); s[si] = c;
+        out.push({ to: at0({ ...st, s }, n), cost: 1 });
+      }
     }
-    return -1;
+    return out;
   };
-  if (solve(true) < 0) return 'puzzle 11: the lean cannot be crossed';
-  if (solve(false) >= 0) return 'puzzle 11: the lean can be crossed without the haul stones';
-  return null;
-});
+  const sorted = (a: number[]) => [...a].sort((x, y) => x - y).join();
+  GRAPH_PUZZLES.push({
+    name: 'The lean', floor: 10, start,
+    key: (st: LeanState) => `${st.o}|${sorted(st.bl)}|${sorted(st.s)}|${sorted(st.h)}`,
+    moves: (st: LeanState) => moves(st),
+    goal: (st: LeanState) => [...ground(st, st.o)].some(i => b.done(i % W, Math.floor(i / W))),
+    exit: (st: LeanState) => ground(st, st.o).has(DOOR),
+    without: [['without dragging the haul stone', (st: LeanState) => moves(st, false)]],
+    show: (st: LeanState) => `Ouro by ${st.o % W},${Math.floor(st.o / W)} stones ${st.bl.map(i => `${i % W},${Math.floor(i / W)}`).join(' ')} haul ${st.s.map(i => `${i % W},${Math.floor(i / W)}`).join(' ')}`,
+    prize: { map: 'fall', at: [10, 7], view: LEAN_START },
+  });
+}
 
 MAPS.glassdesert.spots = [...(MAPS.glassdesert.spots || []), stash('gd_bead', 32, 19, 'By the south way, a bead of star glass fused to a loose lump of it.', { notion: 'glassbead', items: [['starglass', 1]] })];
 

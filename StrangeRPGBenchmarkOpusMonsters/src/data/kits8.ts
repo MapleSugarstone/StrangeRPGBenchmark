@@ -17,11 +17,11 @@ function setStacks(b: Battle, f: Fighter, id: string, n: number, max: number): v
 }
 
 // ---------------------------------------------------------------- Full
-// The moon's first cast keeps a Moon on one foe or on itself, and its tides happen where the Moon is. The kit draws on
-// a fighter whose spells start from a ball sent to friend or foe, and one who sends foes back along their path and fences them in.
+// The moon's first cast keeps a Moon on one foe or on itself, and its tides happen where the Moon is: its hits reach
+// that foe in reserve, and its tide flows to Full. Called home, the Moon falls on its foe and sits heavy on Full.
 
 const MOON = 'full_moon', HOME = 'full_home';
-export const N_FULL = { lift: 140, neap: 85, neapDelay: 30, tide: 90, shield: 40, syzygy: 190, home: 0.8 };
+export const N_FULL = { lift: 185, neap: 120, neapDelay: 30, tide: 130, shield: 60, syzygy: 240, home: 0.7 };
 
 /** The foe holding Full's Moon, or null when the Moon is home. */
 export function moonFoe(b: Battle, f: Fighter): Fighter | null {
@@ -40,33 +40,38 @@ defMark({ id: MOON, name: 'moon', negative: true, clock: 'own', value: -0.1, col
 defMark({ id: HOME, name: 'moon', clock: 'own', value: 0.05, color: '#fcf8ec' });
 
 defPassive({ id: 'pull', name: 'Moon', owner: 'full',
-  text: 'Moon: a mark it keeps on one foe, or at home on itself, where it starts. Its single-target moves can target a foe in reserve.',
+  text: 'Moon: a mark on one foe, or home on itself, where it starts. Its single-target moves can target a foe in reserve.',
   comeOut(b, f) { if (!moonFoe(b, f)) moonTo(b, f, null); },
   turnStart(b, f) { if (!moonFoe(b, f) && !marked(f, HOME)) moonTo(b, f, null); } });
 defPassive({ id: 'massive', name: 'Tidal Lock', owner: 'full',
-  text: `A foe with the Moon cannot switch out. With the Moon home: takes ${N_FULL.home}x damage and cannot be moved or delayed.`,
+  text: `A foe with the Moon can't switch out. Moon home: takes ${N_FULL.home}x damage, can't be moved or delayed.`,
   immovable(f) { return !!marked(f, HOME); }, noDelay(f) { return !!marked(f, HOME); },
   inMul(b, f) { return moonFoe(b, f) ? 1 : N_FULL.home; } });
-defMove({ id: 'tidelift', name: 'Tide Lift', type: 'STAR', owner: 'full', reach: 'single', tags: ['spell'], cd: 1,
+defMove({ id: 'tidelift', name: 'Tide Lift', type: 'STAR', owner: 'full', reach: 'single', tags: ['spell'], cd: 1, fx: 'lift | moon arc | ring sparkle',
   text: `Hits for ${N_FULL.lift}% MGK. The Moon moves to that foe.`,
   run(c) { c.hit(c.tgt, { mgk: N_FULL.lift / 100 }); if (!c.preview && !c.tgt.ko) moonTo(c.b, c.u, c.tgt); } });
-defMove({ id: 'neap', name: 'Neap', type: 'TIDE', owner: 'full', reach: 'self', cd: 2,
-  text: `Moon on a foe: hits it for ${N_FULL.neap}% MGK, delays it ${N_FULL.neapDelay}%. Else: Haste 2.`,
+defMove({ id: 'neap', name: 'Neap', type: 'TIDE', owner: 'full', reach: 'self', tags: ['spell'], cd: 2, fx: 'sway | drop*3 rain | splash foe',
+  fxOpts: ['sway | drop*3 rain | splash foe', 'sway | moon orbit | sparkle self'],
+  fxPick(b, f) { return moonFoe(b, f) ? 0 : 1; },
+  text: `Hits the Moon's foe for ${N_FULL.neap}% MGK, delays it ${N_FULL.neapDelay}%, steals 1 tide. Else: Haste 2.`,
   run(c) {
     const t = moonFoe(c.b, c.u);
     if (!t) { c.st(c.u, 'haste', 2); return; }
     c.hit(t, { mgk: N_FULL.neap / 100 });
     if (!t.ko && t.idx === c.them.out) c.delay(t, N_FULL.neapDelay);
+    if (c.them.nerve > 0 && !c.blocked(t)) { c.nerve(c.them, -1); c.nerve(c.me, 1); }
   } });
-defMove({ id: 'springtide', name: 'Spring Tide', type: 'TIDE', owner: 'full', reach: 'self', cd: 3,
-  text: `Calls the Moon home: shield of ${N_FULL.shield}% CHA for 3 turns. Its foe: ${N_FULL.tide}% MGK.`,
+defMove({ id: 'springtide', name: 'Moonfall', type: 'STONE', owner: 'full', reach: 'self', tags: ['projectile'], cd: 3, fx: 'lift | moon rain | crack quake foe',
+  fxOpts: ['lift | moon rain | crack quake foe', 'lift | moon orbit | ring self'],
+  fxPick(b, f) { return moonFoe(b, f) ? 0 : 1; },
+  text: `The Moon falls on its foe for ${N_FULL.tide}% MGK and comes home. Shield ${N_FULL.shield}% CHA for 3 turns.`,
   run(c) {
     const t = moonFoe(c.b, c.u);
     if (t) c.hit(t, { mgk: N_FULL.tide / 100 });
     if (!c.preview) moonTo(c.b, c.u, null);
     c.shield(c.u, c.cha(N_FULL.shield / 100), 3);
   } });
-defMove({ id: 'syzygy', name: 'Syzygy', type: 'STAR', owner: 'full', reach: 'self', tags: ['spell'], cd: 6, nerve: 6,
+defMove({ id: 'syzygy', name: 'Syzygy', type: 'STAR', owner: 'full', reach: 'self', tags: ['spell'], cd: 6, nerve: 6, fx: 'swell big | moon*3 line | pillar sparkle foe',
   text: `Hits the Moon's foe, else the foe, for ${N_FULL.syzygy}% MGK. Drags it in. Stun 1.`,
   run(c) {
     let t = moonFoe(c.b, c.u) || c.them.f[c.them.out];
@@ -77,11 +82,11 @@ defMove({ id: 'syzygy', name: 'Syzygy', type: 'STAR', owner: 'full', reach: 'sel
   } });
 
 // ---------------------------------------------------------------- Knot
-// The Holdfast's cast ties one foe to itself, the tie tightens every turn, and it spends the tension. The kit draws on
-// a rider who binds to one foe and crashes down on it, and a warrior who walls everyone into an arena.
+// The Holdfast's cast ties one foe to itself, the tie tightens every turn, and it spends the tension. A holdfast is the
+// root a kelp grips the rock with, so its Tie is ROOT. It keeps doing what it was doing: Crank twice in a row tightens too.
 
 const BOUND = 'knot_bound', TENSION = 'knot_tension';
-export const N_KNOT = { crank: 120, per: 28, tie: 85, shield: 10, operculum: 130, holdfast: 0.8 };
+export const N_KNOT = { crank: 200, per: 46, tie: 165, shield: 20, operculum: 215, holdfast: 0.65 };
 
 export function boundFoe(b: Battle, f: Fighter): Fighter | null {
   const t = fighterAt(b, f.k.bound || 0);
@@ -97,24 +102,29 @@ defMark({ id: BOUND, name: 'bound', negative: true, volatile: true, clock: 'own'
 defMark({ id: TENSION, name: 'tension', max: 3, clock: 'own', value: 0.04, spend: 'stand', color: '#e8903a' });
 
 defPassive({ id: 'habit', name: 'Tension', owner: 'knot',
-  text: 'Turn start, with a foe Bound: +1 Tension, up to 3. Bound: a mark. A Bound foe cannot switch out. It comes off when either leaves.',
+  text: 'Turn start with a foe Bound: +1 Tension, up to 3. Bound: a mark. The foe can\'t switch out, and it ends when either leaves.',
   turnStart(b, f) { if (boundFoe(b, f)) setStacks(b, f, TENSION, marked(f, TENSION) + 1, 3); },
   leave(b, f) { const t = boundFoe(b, f); if (t) unmark(t, BOUND); f.k.bound = 0; } });
 defPassive({ id: 'holdfast', name: 'Holdfast', owner: 'knot',
   text: `Cannot be forced out, dragged in, or delayed. Takes ${N_KNOT.holdfast}x damage from a Bound foe.`,
   immovable() { return true; }, noDelay() { return true; },
   inMul(b, f, src) { return src && src === boundFoe(b, f) ? N_KNOT.holdfast : 1; } });
-defMove({ id: 'turnkey', name: 'Crank', type: 'GEAR', owner: 'knot', reach: 'single', cd: 1,
-  text: `Hits for ${N_KNOT.crank}% ATK + ${N_KNOT.per}% ATK per Tension.`,
-  run(c) { c.hit(c.tgt, { atk: (N_KNOT.crank + N_KNOT.per * marked(c.u, TENSION)) / 100 }); } });
-defMove({ id: 'tension', name: 'Tie', type: 'GEAR', owner: 'knot', reach: 'single', cd: 3,
+defMove({ id: 'turnkey', name: 'Crank', type: 'GEAR', owner: 'knot', reach: 'single', tags: ['dash'], cd: 1, fx: 'spin | lunge | burst',
+  text: `Hits for ${N_KNOT.crank}% ATK + ${N_KNOT.per}% ATK per Tension. Twice in a row: +1 Tension.`,
+  run(c) {
+    c.hit(c.tgt, { atk: (N_KNOT.crank + N_KNOT.per * marked(c.u, TENSION)) / 100 });
+    if (c.preview) return;
+    if (c.u.k.cranked && c.u.k.cranked === c.u.movesUsed - 1) setStacks(c.b, c.u, TENSION, marked(c.u, TENSION) + 1, 3);
+    c.u.k.cranked = c.u.movesUsed;
+  } });
+defMove({ id: 'tension', name: 'Tie', type: 'ROOT', owner: 'knot', reach: 'single', cd: 3, fx: 'sway | kelp*3 converge | vortex',
   text: `Hits for ${N_KNOT.tie}% ATK. Binds the foe. Slow 1.`,
   run(c) {
     if (c.blocked(c.tgt)) return;
     c.hit(c.tgt, { atk: N_KNOT.tie / 100 });
     if (!c.tgt.ko) { bind(c, c.tgt); c.st(c.tgt, 'slow', 1); }
   } });
-defMove({ id: 'stand', name: 'Tighten', type: 'STONE', owner: 'knot', reach: 'single', cd: 3,
+defMove({ id: 'stand', name: 'Tighten', type: 'STONE', owner: 'knot', reach: 'single', cd: 3, fx: 'shake | vortex ring',
   text: `Spends Tension: shield of ${N_KNOT.shield}% max HP each for 3 turns. 2+: Stun 1.`,
   run(c) {
     const n = marked(c.u, TENSION);
@@ -123,8 +133,8 @@ defMove({ id: 'stand', name: 'Tighten', type: 'STONE', owner: 'knot', reach: 'si
     if (n >= 2 && !c.tgt.ko) c.st(c.tgt, 'stun', 1);
     if (!c.preview) setStacks(c.b, c.u, TENSION, 0, 3);
   } });
-defMove({ id: 'thekey', name: 'The Operculum', type: 'GEAR', owner: 'knot', reach: 'spread', cd: 6, nerve: 5,
-  text: `Hits every foe for ${N_KNOT.operculum}% ATK. Binds the foe. Its Tension goes to 3.`,
+defMove({ id: 'thekey', name: 'The Operculum', type: 'GEAR', owner: 'knot', reach: 'spread', cd: 6, nerve: 5, fx: 'stomp big | shell*4 rain | quake crack all jolt',
+  text: `Hits for ${N_KNOT.operculum}% ATK. Splash 35%. Binds the foe. Its Tension goes to 3.`,
   run(c) {
     c.spread({ atk: N_KNOT.operculum / 100 });
     if (!c.tgt.ko) bind(c, c.tgt);
@@ -136,7 +146,7 @@ defMove({ id: 'thekey', name: 'The Operculum', type: 'GEAR', owner: 'knot', reac
 // draws on a tank who sheds his armor to go all out, and a warrior whose war cry hardens him.
 
 const LAYER = 'mundane_layer', BARE = 'mundane_bare';
-export const N_MUND = { start: 4, per: 0.94, plate: 120, platePer: 2, heal: 10, peel: 70, peelPer: 30, bareOut: 1.3, bareIn: 1.15 };
+export const N_MUND = { start: 5, per: 0.92, plate: 195, platePer: 4, fold: 120, heal: 24, peel: 120, peelPer: 45, bareOut: 1.4, bareIn: 1.15 };
 
 defMark({ id: LAYER, name: 'layer', max: 6, clock: 'own', value: 0.04, spend: 'peel', color: '#d0a870' });
 defMark({ id: BARE, name: 'bare', clock: 'own', value: 0.1, color: '#f4e0c8',
@@ -144,28 +154,29 @@ defMark({ id: BARE, name: 'bare', clock: 'own', value: 0.1, color: '#f4e0c8',
 const layers = (f: Fighter) => marked(f, LAYER);
 
 defPassive({ id: 'overdue', name: 'Layers', owner: 'mundane',
-  text: `Layer: a mark, up to 6. It starts with ${N_MUND.start}. Takes ${N_MUND.per}x damage for each Layer. Every 3rd turn start: +1 Layer.`,
+  text: `Layer: a mark, up to 6, starting at ${N_MUND.start}. Takes ${N_MUND.per}x damage per Layer. Every 3rd turn start: +1 Layer.`,
   start(b, f) { setStacks(b, f, LAYER, N_MUND.start, 6); },
-  inMul(b, f) { return Math.pow(N_MUND.per, layers(f)); },
+  inMul(b, f) { let m = 1; for (let n = layers(f); n > 0; n--) m *= N_MUND.per; return m; },
   turnStart(b, f) { f.k.od = (f.k.od || 0) + 1; if (f.k.od % 3 === 0) { setStacks(b, f, LAYER, layers(f) + 1, 6); msg(b, `${label(b, f)} grows a layer.`); } } });
 defPassive({ id: 'oldground', name: 'Old Ground', owner: 'mundane',
-  text: `Cannot be forced out or dragged in. A crest that hits it takes off a Layer. Bare: deals ${N_MUND.bareOut}x damage, takes ${N_MUND.bareIn}x.`,
+  text: `Can't be forced out or dragged in. A crest that hits it takes off a Layer. Bare: deals ${N_MUND.bareOut}x, takes ${N_MUND.bareIn}x.`,
   immovable() { return true; },
   afterTake(b, f, src, dealt, d) { if (d.move?.nerve && src && src.side !== f.side && layers(f)) setStacks(b, f, LAYER, layers(f) - 1, 6); } });
-defMove({ id: 'plate', name: 'Plate', type: 'STONE', owner: 'mundane', reach: 'single', cd: 1,
+defMove({ id: 'plate', name: 'Plate', type: 'STONE', owner: 'mundane', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge | crack quake',
   text: `Hits for ${N_MUND.plate}% ATK + ${N_MUND.platePer}% of its max HP per Layer.`,
   run(c) { c.hit(c.tgt, { atk: N_MUND.plate / 100, selfHp: N_MUND.platePer / 100 * layers(c.u) }); } });
-defMove({ id: 'fold', name: 'Fold', type: 'BEAST', owner: 'mundane', reach: 'single', cd: 3,
-  text: 'Forces the foe out. Its replacement: Expose 2. +1 Layer.',
+defMove({ id: 'fold', name: 'Undertow', type: 'TIDE', owner: 'mundane', reach: 'single', cd: 3, fx: 'sway | crest*3 sweep | vortex splash',
+  text: `Hits for ${N_MUND.fold}% ATK. Forces the foe out. Its replacement: Expose 2. +1 Layer.`,
   run(c) {
-    if (c.forceOut()) c.st(c.them.f[c.them.out], 'expose', 2);
+    c.hit(c.tgt, { atk: N_MUND.fold / 100 });
+    if (!c.tgt.ko && c.forceOut()) c.st(c.them.f[c.them.out], 'expose', 2);
     if (!c.preview) setStacks(c.b, c.u, LAYER, layers(c.u) + 1, 6);
   } });
-defMove({ id: 'settle', name: 'Settle', type: 'STONE', owner: 'mundane', reach: 'self', cd: 3,
+defMove({ id: 'settle', name: 'Settle', type: 'STONE', owner: 'mundane', reach: 'self', cd: 3, fx: 'sink | sand*4 rain | ring self',
   text: `+2 Layers. Heals ${N_MUND.heal}% of its max HP.`,
   run(c) { if (!c.preview) setStacks(c.b, c.u, LAYER, layers(c.u) + 2, 6); c.heal(c.u, c.u.maxHp * N_MUND.heal / 100); } });
-defMove({ id: 'peel', name: 'Peel', type: 'BEAST', owner: 'mundane', reach: 'spread', cd: 6, nerve: 6,
-  text: `Sheds its Layers: hits every foe for ${N_MUND.peel}% ATK + ${N_MUND.peelPer}% ATK each. Bare 2.`,
+defMove({ id: 'peel', name: 'Peel', type: 'BEAST', owner: 'mundane', reach: 'spread', cd: 6, nerve: 6, fx: 'shake big | shell*6 line | shatter burst all jolt',
+  text: `Sheds every Layer: hits for ${N_MUND.peel}% ATK + ${N_MUND.peelPer}% ATK per Layer. Splash 35%. Bare 2.`,
   run(c) {
     const n = layers(c.u);
     c.spread({ atk: (N_MUND.peel + N_MUND.peelPer * n) / 100 });
@@ -173,11 +184,11 @@ defMove({ id: 'peel', name: 'Peel', type: 'BEAST', owner: 'mundane', reach: 'spr
   } });
 
 // ---------------------------------------------------------------- Holm
-// The island that walked off with a house on its back carries one whorl from its reserve and sets it ashore. The kit
-// draws on a druid whose bear carries what he gives it, and a healer whose warm hug shields and speeds an ally.
+// The island that walked off with a house on its back carries one whorl from its reserve and sets it ashore. The house
+// keeps what a heal leaves over on its side, and the next whorl to come ashore drinks it. Its wake is SALT, the brine.
 
 const RIDER = 'holm_rider';
-export const N_HOLM = { island: 5, islandMax: 15, heal: 2, spread: 0.5, shoulder: 90, carry: 20, wake: 80, wakeHeal: 8, land: 25, landRider: 35 };
+export const N_HOLM = { island: 8, islandMax: 24, heal: 5, spread: 0.5, house: 25, shoulder: 145, carry: 40, wake: 135, wakeHeal: 15, land: 45, landRider: 60 };
 
 defMark({ id: RIDER, name: 'riding', clock: 'own', value: 0.1, color: '#c8906a',
   inMul(b, f, src, d) { return d.reserve ? N_HOLM.spread : 1; },
@@ -196,15 +207,16 @@ defPassive({ id: 'holm_island', name: 'Island', owner: 'holm',
   inMul(b, f) { return 1 - Math.min(N_HOLM.islandMax, N_HOLM.island * Math.max(0, (f.k.outs || 1) - 1)) / 100; },
   immovable(f) { return (f.k.outs || 0) >= 3; } });
 defPassive({ id: 'holm_house', name: 'House on Its Back', owner: 'holm',
-  text: `Rider: a mark on one whorl in its reserve. When it comes out with no Rider, the first boards. The Rider heals ${N_HOLM.heal}% of its max HP each turn and takes ${N_HOLM.spread}x damage from spread hits.`,
+  text: `Rider: a reserve ally it carries. It heals ${N_HOLM.heal}% max HP a turn and takes ${N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house (${N_HOLM.house}% of its max HP) for the next whorl out.`,
+  pools(b, f) { return f.maxHp * N_HOLM.house / 100; },
   comeOut(b, f) { if (!riderOf(b, f)) { const r = reserves(b.s[f.side])[0]; if (r) board(b, f, r); } } });
-defMove({ id: 'holm_shoulder', name: 'Shoulder', type: 'STONE', owner: 'holm', reach: 'single', cd: 1,
+defMove({ id: 'holm_shoulder', name: 'Shoulder', type: 'STONE', owner: 'holm', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge | quake',
   text: `Hits for ${N_HOLM.shoulder}% ATK + 4% of its max HP.`,
   run(c) { c.hit(c.tgt, { atk: N_HOLM.shoulder / 100, selfHp: 0.04 }); } });
-defMove({ id: 'holm_carry', name: 'Carry Them', type: 'TIDE', owner: 'holm', reach: 'reserveAlly', cd: 3,
+defMove({ id: 'holm_carry', name: 'Carry Them', type: 'TIDE', owner: 'holm', reach: 'reserveAlly', cd: 3, fx: 'lift | shell rise | ring ally',
   text: `An ally in reserve boards as its Rider. Shield of ${N_HOLM.carry}% CHA for 3 turns.`,
   run(c) { const a = c.ally; if (!a || a.ko) return; if (!c.preview) board(c.b, c.u, a); c.shield(a, c.cha(N_HOLM.carry / 100), 3); } });
-defMove({ id: 'holm_wake', name: 'Long Wake', type: 'TIDE', owner: 'holm', reach: 'single', cd: 2,
+defMove({ id: 'holm_wake', name: 'Long Wake', type: 'SALT', owner: 'holm', reach: 'single', cd: 2, fx: 'sway | salt*3 wave | frost',
   text: `Hits for ${N_HOLM.wake}% ATK. Slow 2. Its Rider heals ${N_HOLM.wakeHeal}% of its max HP.`,
   run(c) {
     c.hit(c.tgt, { atk: N_HOLM.wake / 100 });
@@ -212,7 +224,7 @@ defMove({ id: 'holm_wake', name: 'Long Wake', type: 'TIDE', owner: 'holm', reach
     const r = riderOf(c.b, c.u);
     if (r) c.heal(r, r.maxHp * N_HOLM.wakeHeal / 100);
   } });
-defMove({ id: 'holm_lap', name: 'Make Landfall', type: 'TIDE', owner: 'holm', reach: 'reserveAlly', tag: true, cd: 6, nerve: 5,
+defMove({ id: 'holm_lap', name: 'Make Landfall', type: 'TIDE', owner: 'holm', reach: 'reserveAlly', tag: true, cd: 6, nerve: 5, fx: 'lift big | crest*4 sweep | splash ally tint',
   text: `Swaps in a reserve ally: Haste 1, shield of ${N_HOLM.land}% CHA, ${N_HOLM.landRider}% if its Rider.`,
   run(c) {
     const a = c.ally;

@@ -11,16 +11,19 @@ import { choose, hint, notice, say } from './dialogue';
 import { offerName } from './files';
 import { close, run, type Mode } from './modes';
 import { G, HERO, STRAND_START, addMon, loosened, save, scaleNow, seen, wearingUnlocked } from './state';
-import { drawTile, isSolid, LEDGE, REGIONS, type Pal } from './tiles';
+import { drawTile, drawTiles, isSolid, LEDGE, REGIONS, type Pal } from './tiles';
 import { backdropKey, sceneNow } from './backdrops';
 import { drawFieldFx, type Figure } from './fieldfx';
 import { ringLit } from './strandfx';
 import { drawProp, PROPS } from './props';
 import { MAPS, SCRIPTS, SPAWNS, type MapDef, type NpcDef, type TrainerDef } from './world';
-import { box, PAPER, SEL } from './ui';
+import { panel, PAPER, SEL } from './ui';
 import { wildFit } from './wildfit';
 import { drawAura, rollStarborn } from '../data/starborn';
-import { bend, drawOver, drawPrints, drawUnder, idleLook, puff, ripple, walked, withEyes } from './feel';
+import { bend, blinkEyes, drawOver, drawPrints, drawUnder, idleLook, npcBlinks, puff, ripple, walked, withEyes } from './feel';
+
+/** A small number from an id, so each person blinks on a beat of their own. */
+const seedOf = (id: string): number => { let h = 0; for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 997; return h; };
 
 const DX = [0, 1, 0, -1];
 const DY = [1, 0, -1, 0];
@@ -704,6 +707,11 @@ export class Field implements Mode {
     if (r.result === 'win') {
       G.beaten[this.trainerKey(n)] = 1;
       await say(tr.speaker || n.def.name || null, tr.defeat);
+      if (tr.nacre) {
+        sfx('level');
+        G.tan += tr.nacre;
+        await notice(`${tr.nacre} nacre. Any grotto will layer it on.`);
+      }
       save();
     }
   }
@@ -1109,6 +1117,7 @@ export class Field implements Mode {
     this.cam = [cx, cy];
     if (this.shakeT > 0) cx += (this.shakeT % 4 < 2 ? -2 : 2);
     // The world draws into its own layer, because the light pass reads every pixel back and that is cheap only off screen.
+    // Every canvas drawn into it is made with willReadFrequently: one GPU canvas moves the layer to the GPU, and each read then waits on it.
     layer('field', 192, 192, 0, 0, 1, () => this.drawWorld(cx, cy), true);
     this.drawOverlays(cx, cy);
   }
@@ -1121,15 +1130,10 @@ export class Field implements Mode {
   private drawWorld(cx: number, cy: number): void {
     const p = REGIONS[this.map.region] || REGIONS[0];
     clear(INK);
-    const W = this.map.rows[0].length, H = this.map.rows.length;
+    const W = this.map.rows[0].length;
     const slack = loosened();
-    const x0 = Math.floor(cx / 8), y0 = Math.floor(cy / 8);
-    for (let ty = y0; ty <= y0 + 25; ty++) for (let tx = x0; tx <= x0 + 25; tx++) {
-      if (ty < 0 || tx < 0 || ty >= H || tx >= W) continue;
-      if (this.map.fog && !this.seenTiles.has(ty * W + tx)) continue;
-      if (this.map.fogRings && !ringLit(tx, ty, this.x, this.y)) continue;
-      drawTile(this.tile(tx, ty), tx * 8 - cx, ty * 8 - cy, tx, ty, p, slack, this.t);
-    }
+    const fog = this.map.fog, rings = this.map.fogRings;
+    drawTiles((tx, ty) => (fog && !this.seenTiles.has(ty * W + tx)) || (rings && !ringLit(tx, ty, this.x, this.y)) ? null : this.tile(tx, ty), cx, cy, p, slack, this.t);
     if (!this.map.fogRings) { drawPrints([cx, cy], p, this.t); drawUnder([cx, cy], p, this.t); }
     for (const pr of this.map.props || []) if (this.onScreen(pr.x * 8, pr.y * 8, 8, 8, cx, cy, 40) && (!pr.when || pr.when())) drawProp(pr.pic, pr.x * 8 - cx, pr.y * 8 - cy, this.t);
     for (const sp of this.sceneProps) if (this.onScreen(sp.x * 8, sp.y * 8, 8, 8, cx, cy, 40)) drawSceneProp(sp, sp.x * 8 - cx, sp.y * 8 - cy, p, slack, this.t);
@@ -1153,7 +1157,9 @@ export class Field implements Mode {
     for (const n of this.npcs) {
       if (!this.onScreen(n.px, n.py, 8, 8, cx, cy) || !this.npcVisible(n) || n.hidden) continue;
       ents.push({ y: n.py, draw: () => {
-        const spr = n.def.img ? n.def.img() : n.def.mon ? { px: SPECIES[n.def.mon].sprite, c: SPECIES[n.def.mon].c } as SpriteData : PEOPLE[n.def.sprite] || PEOPLE.villager;
+        const body = n.def.img ? n.def.img() : n.def.mon ? { px: SPECIES[n.def.mon].sprite, c: SPECIES[n.def.mon].c } as SpriteData : PEOPLE[n.def.sprite] || PEOPLE.villager;
+        // People blink now and then, each on their own beat.
+        const spr = !n.def.img && !n.def.mon && npcBlinks(this.t, seedOf(n.def.id)) ? blinkEyes(body) : body;
         const [ox, oy] = this.actOffset(n.def.id);
         const fd = this.fades.get(n.def.id);
         if (fd && fd.a < 1) faded(8, 8, n.px - cx + ox, n.py - cy + oy, fd.a, () => drawSprite(spr, 0, 0, 1, facesLeft(n, n.dir)));
@@ -1184,7 +1190,7 @@ export class Field implements Mode {
     ents.sort((a, b) => a.y - b.y).forEach(e => e.draw());
     drawOver([cx, cy], p, this.t);
     const star: [number, number] | null = !starLead ? null : this.wearing ? [this.px - cx + 4, this.py - cy + 4] : folShown ? [fol.px - cx + 4, fol.py - cy + 4] : null;
-    drawFieldFx({ map: this.map, t: this.t, cam: [cx, cy], px: this.px - cx + 4, py: this.py - cy + 4, dark: !!this.map.dark && !(this.wearing && starLead), loose: slack, dusk: sceneNow.dusk, star, figures });
+    drawFieldFx({ map: this.map, t: this.t, cam: [cx, cy], px: this.px - cx + 4, py: this.py - cy + 4, dark: !!this.map.dark && !(this.wearing && starLead), loose: slack, dusk: sceneNow.dusk, star, figures, hidden: this.dimOut >= 12 || this.fade >= 12 });
   }
 
   private drawOverlays(cx: number, cy: number): void {
@@ -1200,12 +1206,12 @@ export class Field implements Mode {
     if (this.flashT > 0) dither(0, 0, 192, 192, '#f8f4e8', this.flashT / 20);
     if (this.banner > 0 && this.banner < 88) {
       const w = textWidth(this.map.name) + 12;
-      box(96 - w / 2, 4, w, 13);
+      panel(96 - w / 2, 4, w, 13);
       textCenter(this.map.name, 96, 7, PAPER);
     }
     if (this.wearing) text('wearing ' + (G.party[0]?.name || ''), 3, 183, SEL, INK);
     if (this.goalT > 0 && this.goalText) {
-      box(4, 20, 184, 22);
+      panel(4, 20, 184, 22);
       text('Goal', 8, 23, SEL);
       text(this.goalText, 8, 32, PAPER);
     }

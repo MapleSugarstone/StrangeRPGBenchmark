@@ -1,12 +1,13 @@
 import { defMap, defScript } from '../game/world';
 import { G, flag, setFlag, vellumPulls } from '../game/state';
 import { battle } from '../game/battleView';
-import { act, emote, face, faceToward, field, fightTrainer, giveScale, goal, hint, moveNpc, narr, notice, offstage, pan, panBack, say, tannery, wait, walkIn, walkOff } from '../game/api';
+import { act, emote, face, faceToward, field, fightTrainer, giveScale, goal, hint, moveNpc, narr, notice, offstage, pan, panBack, say, tannery, wait, walkIn, walkOff, walkTo } from '../game/api';
 import { SPAWNS } from '../game/world';
 import { music } from '../engine/music';
 import { makeMon } from '../data/species';
 import { brack } from './ch3';
 import { packGround, stayChoice, STOCK_6 } from './ch6';
+import { countTack, tackTally, tackTries, tackWinsLine } from './tack';
 
 const has = (s: string) => G.scales.includes(s);
 const fallDown = () => G.pulled.includes('fall');
@@ -53,10 +54,10 @@ defMap({
   ],
   zone: { kinds: [['flare', 3], ['tor', 3], ['bramble', 2], ['squall', 2], ['dynamo', 2], ['coma', 1]], lv: [44, 48], n: 14, area: 'slope', fitted: 0.3 },
   npcs: [
-    { id: 'rock', x: 18, y: 6, sprite: 'villager2', name: 'Rock walker', dir: 1, trainer: { name: 'Rock walker', team: [['tor', 45], ['scree', 45]], intro: 'Everything out here rolls toward the Fall. Rocks, carts, me. You\'re rolling a bit right now.', defeat: 'Eh. I was rolling to the middle anyway.', sight: 4 } },
+    { id: 'rock', x: 18, y: 6, sprite: 'villager2', name: 'Rock walker', dir: 1, trainer: { nacre: 1, name: 'Rock walker', team: [['tor', 45], ['scree', 45]], intro: 'Everything out here rolls toward the Fall. Rocks, carts, me. You\'re rolling a bit right now.', defeat: 'Eh. I was rolling to the middle anyway.', sight: 4 } },
     { id: 'sky', x: 26, y: 10, sprite: 'starwalker', name: 'Sky watcher', dir: 3, trainer: { name: 'Sky watcher', team: [['flare', 45], ['coma', 45]], intro: 'The star fell, but it\'s still a star! It\'s just down there now, being one. Doing great.', defeat: 'Go touch it. It\'s warm. Like a mug.', sight: 4 } },
     { id: 'peel8', x: 21, y: 20, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['bramble', 46], ['dynamo', 46]], intro: 'Last Stay before the Apex. Then she\'s going up. She\'s got her good boots on.', defeat: 'Doesn\'t matter. She\'ll go up anyway.', sight: 2 } },
-    { id: 'synced', x: 14, y: 22, sprite: 'keeper', name: 'Synced keeper', dir: 1, trainer: { name: 'Synced keeper', team: [['squall', 50], ['howl', 50], ['orrery', 50]], intro: 'I fight at fifty. Everybody\'s the same then. That\'s when you find out who\'s actually good.', defeat: 'Found out.', sight: 4, sync: true } },
+    { id: 'synced', x: 14, y: 22, sprite: 'keeper', name: 'Synced keeper', dir: 1, trainer: { nacre: 1, name: 'Synced keeper', team: [['squall', 50], ['howl', 50], ['orrery', 50]], intro: 'I fight at twenty-five. Everybody\'s the same then. That\'s when you find out who\'s actually good.', defeat: 'Found out.', sight: 4, sync: true } },
   ],
   enter: 'route8Enter',
 });
@@ -69,11 +70,11 @@ defMap({
     '#...................=..................#',
     '#...................=.....rrrrrr..rrr..#',
     '############.rrrrr..=.....rrrrrr..rrr..#',
-    '##....@.O..#.rrrrr..=.....hhdhhh..hhh..#',
-    '##o....@O..#.hhhhh..=..................#',
-    '##.....o#.p#........=..................#',
-    '##o.....O..#........=..................#',
-    '##......#..#........=..................#',
+    '##.oo...O..#.rrrrr..=.....hhdhhh..hhh..#',
+    '##.#oo..#..#.hhhhh..=..................#',
+    '###@....#.p#........=..................#',
+    '##......O..#........=..................#',
+    '##....#.#..#........=..................#',
     '###.########........=..................#',
     '#..=................=..................#',
     '#..=................=..................#',
@@ -177,7 +178,7 @@ defScript('fallEnter', async () => {
 defScript('fallTannery', async () => {
   setFlag('fitter_fall');
   if (!flag('rematches')) {
-    await say('Shellwright', 'Oh, rematches are on. Every keeper\'s taking them now. Synced at fifty, so it\'s fair. Yeah?');
+    await say('Shellwright', 'Oh, rematches are on. Every keeper\'s taking them now. Synced at twenty-five, so it\'s fair. Yeah?');
     setFlag('rematches');
     await hint('(You can fight a keeper again once you have their pearl. Both teams fight at level 25.)');
   }
@@ -193,16 +194,26 @@ defScript('fallHole', async () => {
 
 defScript('tack4', async () => {
   face('tackfall', 3);
-  await say('Tack', `4th time. I've got $${G.scales.length} pearls, you've got $${G.scales.length}. Still even. Still hate it.`);
-  await say('Tack', 'I counted what it cost. Did it 2 times to be sure.');
-  await say('Tack', '1 cast, that\'s all you get. Tackle had my walk. Brack\'s got 2 walks. Neither\'s mine.');
-  await say('Tack', '0 regrets. That\'s the number, okay? Fight me.');
+  const tries = tackTries('4');
+  if (tries) await say('Tack', `Try ${tries + 1}. Still 0 regrets. Still counting.`);
+  else {
+    await say('Tack', `4th time. I've got ${G.scales.length} pearls, you've got ${G.scales.length}. Still even. Still hate it.`);
+    await say('Tack', 'I counted what it cost. Did it 2 times to be sure.');
+    await say('Tack', '1 cast, that\'s all you get. Tackle had my walk. Brack\'s got 2 walks. Neither\'s mine.');
+    await say('Tack', '0 regrets. That\'s the number, okay? Fight me.');
+  }
   const r = await battle({ enemy: [brack(44), makeMon('howl', 43), makeMon('turbine', 43), makeMon('quarry', 44)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   music.play('fall');
-  if (r.result === 'win') {
-    G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-    await say('Tack', `${G.flags.tackWins} losses. Stopped counting my wins. Not enough of them to bother.`);
-  } else await say('Tack', '1 more than I had. I\'ll take it. I\'m taking it.');
+  countTack('4', r.result === 'win');
+  if (r.result !== 'win') {
+    // Tack keeps the star's door until Ouro wins. Ouro steps back out of the trigger.
+    await say('Tack', `${tackWinsLine()} I'll take it. I'm standing by this star till you win 1.`);
+    await walkTo('ouro', 20, 20);
+    face('tackfall', 3);
+    return;
+  }
+  const t = tackTally();
+  await say('Tack', `${t.ouro} losses now. ${t.tack} wins. I count both. The 2nd number's just shorter.`);
   setFlag('tack4');
 });
 

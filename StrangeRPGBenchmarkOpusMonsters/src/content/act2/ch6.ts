@@ -5,16 +5,18 @@ import { sfx } from '../../engine/audio';
 import { bigText, bigWidth, textCenter } from '../../engine/font';
 import { input } from '../../engine/input';
 import { music } from '../../engine/music';
-import { clear } from '../../engine/screen';
+import { clear, rect } from '../../engine/screen';
 import { drawSprite, PEOPLE } from '../../engine/sprites';
 import type { Mon, SpriteData } from '../../battle/model';
 import { makeMon, SPECIES, WILD_KINDS } from '../../data/species';
-import { act, bell, choose, emote, evening, face, faceToward, fadeWho, field, fightWild, giveMon, goal, hint, liftOff, mon, morphTo, narr, notice, npcAt, offstage, pan, panBack, prop, say, shake, sound, tint, unprop, wait, walkIn, walkTo, walkUp, warp } from '../../game/api';
+import { act, bell, choose, emote, evening, face, faceToward, fadeWho, field, fightWild, giveMon, goal, hint, liftOff, mon, morphTo, narr, nearPlayer, notice, npcAt, offstage, pan, panBack, prop, say, shake, sound, tint, unprop, wait, walkIn, walkTo, walkUp, warp } from '../../game/api';
 import { battle } from '../../game/battleView';
 import { listMenu, monLine } from '../../game/menus';
 import { close, run, type Mode } from '../../game/modes';
 import { G, flag, loosened, save, setFlag } from '../../game/state';
+import { defProp } from '../../game/props';
 import { isSolid } from '../../game/tiles';
+import { GRAPH_PUZZLES, type Move } from '../../tools/worldcheck';
 import { strandFx } from '../../game/strandfx';
 import { DIM, PAPER, SEL } from '../../game/ui';
 import { defMap, defScript, MAPS, SCRIPTS, type MapDef, type NpcDef } from '../../game/world';
@@ -71,7 +73,7 @@ defMap({
   ],
   warps: [
     { x: 0, y: 9, to: 'tray', tx: 44, ty: 16, dir: 3 }, { x: 0, y: 10, to: 'tray', tx: 44, ty: 17, dir: 3 },
-    { x: 16, y: 7, to: 'conchpink', tx: 1, ty: 4, dir: 1 },
+    { x: 16, y: 7, to: 'conchpink', tx: 1, ty: 2, dir: 1 },
   ],
   enter: 'lipEnter',
   zone: {
@@ -107,7 +109,7 @@ async function gleanerHolds(): Promise<void> {
   await wait(40);
   sound('boom');
   await shake(20);
-  const r = await fightWild(mon('gleaner', 70), { canRun: true, bossHp: 2.4, ai: 'champion', area: 'conch', music: 'collector' });
+  const r = await fightWild(mon('gleaner', nearPlayer(0)), { canRun: true, bossHp: 2.4, ai: 'champion', area: 'conch', music: 'collector' });
   if (r.pegged.length) {
     setFlag('gleanerCaught');
     await giveMon(r.pegged[0]);
@@ -148,23 +150,38 @@ defScript('lipCinch', async () => {
 
 // ---------------------------------------------------------------- the Pink: don't scratch
 
-// A corridor whose walls stand in and out. Brushing a wall at high tide (stepping through a gap one tile wide)
-// rings it, and three rings bring the sea up the spiral to wash Ouro back to the lip. The count resets only then.
-// 'A' cells stand in at high tide, 'B' cells pinch shut at low, and the door to the Turn opens only at high tide.
-// Solved with scratchpad pink.mjs: all at high tide fails (four gaps in the first half), all at low fails (the
-// second half pinches shut). Shortest: walk the first half at low, ring high past the wide place, then the second
-// half at high (32 moves with the bell). The first half at high costs a ring at every gap.
-const PK_W = 34, PK_H = 9;
+// A corridor folded in two whose walls move with the tide. 'A' columns stand in to a one-tile gap at high tide, 'B'
+// columns pinch shut at low, and 'N' columns are always a one-tile gap. Stepping into a one-tile gap at high tide rings
+// the walls, and the third ring brings the sea up the spiral to wash Ouro back to the lip. A wall that closes on Ouro
+// pushes Ouro on the way Ouro faces, and at low tide nothing hears it. The door to the Turn opens only at high tide.
+// The insight: stand in a pinch as the tide goes out and the wall pushes you into the gap past it, then turn the tide
+// back while you stand in the gap and its walls close beside you without a ring. The gaps that follow a pinch need
+// seven rings without the push. Fewest turns of the tide: 11 ('The Pink' in worldcheck).
+const PK_TOP = '.AA.B.BAAA.B.N.B...';
+// The bottom arm as Ouro walks it, west from the turn.
+const PK_BOTTOM = '.BNB.BAAB.NB.BNB.N.';
+const PK_L = PK_TOP.length, PK_W = PK_L + 5, PK_H = 9;
 const pk = new Canvas(PK_W, PK_H, '#');
-pk.rect(1, 3, 30, 3, '.').rect(14, 1, 3, 7, ',').put(0, 4, '.');
-for (const [x, y] of [[8, 3], [10, 5], [27, 3], [24, 5]]) pk.put(x, y, ',');
+pk.rect(1, 1, PK_L + 3, 3, '.').rect(1, 5, PK_L + 3, 3, '.').put(0, 2, '.');
+// Wild whorls keep to the wide place at the turn, off the gaps.
+pk.rect(PK_L + 1, 1, 3, 7, ',');
 const PK_A: [number, number][] = [], PK_B: [number, number][] = [];
-for (const x of [3, 6, 9, 12]) for (const y of [3, 5]) { PK_A.push([x, y]); pk.put(x, y, '#'); }
-for (const x of [19, 25]) for (let y = 3; y <= 5; y++) { PK_B.push([x, y]); pk.put(x, y, '#'); }
-for (const x of [22, 28]) { pk.put(x, 3, '#'); pk.put(x, 5, '#'); }
-pk.put(31, 4, 'j');
-const PK_DOOR = { x: 31, y: 4 };
+const pkColumn = (x: number, y0: number, kind: string) => {
+  if (kind === 'A') for (const y of [y0, y0 + 2]) { PK_A.push([x, y]); pk.put(x, y, '#'); }
+  if (kind === 'B') for (let y = y0; y <= y0 + 2; y++) { PK_B.push([x, y]); pk.put(x, y, '#'); }
+  if (kind === 'N') { pk.put(x, y0, '#'); pk.put(x, y0 + 2, '#'); }
+};
+[...PK_TOP].forEach((k, i) => pkColumn(1 + i, 1, k));
+[...PK_BOTTOM].forEach((k, j) => pkColumn(PK_L - j, 5, k));
+const PK_ENTRY = { x: 1, y: 2 };
+const PK_DOOR = { x: 0, y: 6 };
+pk.put(PK_DOOR.x, PK_DOOR.y, 'j');
 const rings = () => flag('pinkRings');
+
+defProp('pinkSeam', {
+  w: 1, h: 1,
+  paint(x: number, y: number) { for (let k = 0; k < 8; k += 2) { rect(x + 3, y + k, 2, 1, '#c06a8a'); rect(x + 3, y + k + 1, 2, 1, '#ffc0d2'); } },
+});
 
 defMap({
   id: 'conchpink', name: 'The Pink', region: 31, music: 'conch', strand: true, indoor: true,
@@ -174,8 +191,13 @@ defMap({
     ...PK_B.map(([x, y]) => ({ x, y, ch: '.', when: highTide })),
     { x: PK_DOOR.x, y: PK_DOOR.y, ch: '_', when: highTide },
   ],
+  // A seam in the floor marks where a wall stands at the other tide.
+  props: [
+    ...PK_A.map(([x, y]) => ({ x, y, pic: 'pinkSeam', when: lowWater })),
+    ...PK_B.map(([x, y]) => ({ x, y, pic: 'pinkSeam', when: highTide })),
+  ],
   warps: [
-    { x: 0, y: 4, to: 'conchlip', tx: 16, ty: 8, dir: 0 },
+    { x: 0, y: 2, to: 'conchlip', tx: 16, ty: 8, dir: 0 },
     { x: PK_DOOR.x, y: PK_DOOR.y, to: 'conchturn', tx: 4, ty: 17, dir: 2, when: highTide },
   ],
   enter: 'pinkEnter',
@@ -192,9 +214,16 @@ field.stepHooks.push(f => {
 });
 tideHooks.push(async high => {
   if (field.map?.id !== 'conchpink' || !solidAt(field.x, field.y)) return;
-  // The wall closes on Ouro, and Ouro squeezes out to the nearest open tile.
-  const out = [0, 1, 2, 3].find(d => !solidAt(field.x + DX[d], field.y + DY[d]));
-  if (out !== undefined) { await act('ouro', 'shiver'); field.stepWho('ouro', out); await wait(9); }
+  // The wall closes on Ouro and pushes Ouro on the way Ouro faces, or else out to the nearest open tile.
+  const out = [field.dir, 0, 1, 2, 3].find(d => !solidAt(field.x + DX[d], field.y + DY[d]));
+  if (out !== undefined) {
+    await act('ouro', 'shiver');
+    // The push is not a step, so it never brushes the walls it lands between.
+    field.lastStep = -1;
+    field.stepWho('ouro', out);
+    await wait(9);
+    if (!flag('pinkPushTold')) { setFlag('pinkPushTold'); await hint('(A wall that closes on you pushes you on the way you face.)'); }
+  }
   if (high) await brush();
 });
 
@@ -208,7 +237,7 @@ async function brush(): Promise<void> {
     await emote('ouro', 'surprise');
     if (smallGranOut() && granNext() === 1) await smallGranLine();
     await hint('(Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)');
-    await hint('(At low tide nothing listens, and the walls stand wider. The way on opens only at high tide.)');
+    await hint('(At low tide nothing listens. The way on opens only at high tide.)');
   }
   if (rings() < 3) return;
   // The third ring wakes the sea far below. It comes up the Conch in a surge and carries Ouro round and out onto the lip.
@@ -231,6 +260,55 @@ defScript('pinkEnter', async () => {
     await tint('#f4a0b8', 0.25, 30);
     await tint('#f4a0b8', 0, 60);
   }
+});
+
+// The Pink for the puzzle checks: where Ouro stands, the tide, the rings, and which way Ouro faces.
+type PinkState = { x: number; y: number; t: number; r: number; d: number };
+const PK_ROWS = pk.rows();
+const pkA = new Set(PK_A.map(([x, y]) => y * PK_W + x)), pkB = new Set(PK_B.map(([x, y]) => y * PK_W + x));
+const pkTile = (x: number, y: number, t: number): string => {
+  const k = y * PK_W + x;
+  if (pkA.has(k)) return t ? '#' : '.';
+  if (pkB.has(k)) return t ? '.' : '#';
+  if (x === PK_DOOR.x && y === PK_DOOR.y) return t ? '_' : 'j';
+  return PK_ROWS[y]?.[x] ?? '#';
+};
+const pkSolid = (x: number, y: number, t: number) => isSolid(pkTile(x, y, t));
+const pkAtDoor = (s: PinkState) => s.x === PK_DOOR.x && s.y === PK_DOOR.y;
+// The third ring washes Ouro out, and walking back in starts the count again.
+const pkRing = (s: PinkState): [PinkState, boolean] => (s.r + 1 >= 3 ? [{ ...PK_ENTRY, t: s.t, r: 0, d: 1 }, true] : [{ ...s, r: s.r + 1 }, false]);
+function pinkMoves(s: PinkState, push = true): Move<PinkState>[] {
+  if (pkAtDoor(s)) return [];
+  const out: Move<PinkState>[] = [];
+  for (let d = 0; d < 4; d++) {
+    const nx = s.x + DX[d], ny = s.y + DY[d];
+    if (nx === 0 && ny === PK_ENTRY.y) { out.push({ to: { ...PK_ENTRY, t: s.t, r: 0, d: 1 }, cost: 0, reset: true }); continue; }
+    if (pkSolid(nx, ny, s.t)) { if (d !== s.d) out.push({ to: { ...s, d }, cost: 0 }); continue; }
+    const to = { x: nx, y: ny, t: s.t, r: s.r, d };
+    const brushes = s.t === 1 && !pkAtDoor(to) && pkSolid(nx + DY[d], ny + DX[d], 1) && pkSolid(nx - DY[d], ny - DX[d], 1);
+    if (brushes) { const [w, wash] = pkRing(to); out.push({ to: w, cost: 0, reset: wash, oneWay: true }); } else out.push({ to, cost: 0 });
+  }
+  const t = 1 - s.t;
+  let to: PinkState = { ...s, t }, wash = false;
+  if (pkSolid(s.x, s.y, t)) {
+    if (!push) return out;
+    const o = [s.d, 0, 1, 2, 3].find(d => !pkSolid(s.x + DX[d], s.y + DY[d], t));
+    if (o !== undefined) to = { ...to, x: s.x + DX[o], y: s.y + DY[o], d: o };
+    if (t) [to, wash] = pkRing(to);
+  }
+  out.push({ to, cost: 1, reset: wash });
+  return out;
+}
+GRAPH_PUZZLES.push({
+  name: 'The Pink', floor: 10,
+  start: { ...PK_ENTRY, t: 0, r: 0, d: 1 },
+  key: (s: PinkState) => (((s.y * PK_W + s.x) * 2 + s.t) * 3 + s.r) * 4 + s.d,
+  moves: (s: PinkState) => pinkMoves(s),
+  goal: pkAtDoor,
+  exit: (s: PinkState) => (s.x === PK_ENTRY.x && s.y === PK_ENTRY.y) || pkAtDoor(s),
+  without: [['without the push', (s: PinkState) => pinkMoves(s, false)]],
+  show: (s: PinkState) => `${s.x},${s.y} ${s.t ? 'high' : 'low'} rings ${s.r} facing ${s.d}`,
+  prize: { map: 'conchpink', at: [PK_DOOR.x, PK_DOOR.y], view: [PK_ENTRY.x, PK_ENTRY.y] },
 });
 
 // ---------------------------------------------------------------- the Turn: don't look
@@ -296,7 +374,7 @@ defMap({
   rows: tn.rows(),
   mods: T_DOORS.map(d => ({ x: d.x, y: d.y, ch: '_', when: () => !!tOpen[d.id] })),
   warps: [
-    { x: 4, y: 18, to: 'conchpink', tx: 30, ty: 4, dir: 3 },
+    { x: 4, y: 18, to: 'conchpink', tx: 1, ty: 6, dir: 1 },
     { x: 13, y: 3, to: 'conchroar', tx: 10, ty: 20, dir: 2, when: () => !!tOpen[4] },
   ],
   enter: 'turnEnter',
@@ -495,8 +573,8 @@ async function lastLine(): Promise<void> {
   await wake();
 }
 
-/** The Gleaner, the last fight. Strand level 65. */
-export const gleanerTeam = (): Mon[] => [mon('ammonite', 62), mon('lodestar', 63), mon('heirloom', 64), mon('gleaner', 65)];
+/** The Gleaner, the last fight. Strand level 31. */
+export const gleanerTeam = (): Mon[] => [mon('ammonite', 58), mon('lodestar', 59), mon('heirloom', 60), mon('gleaner', 61)];
 /** The Gleaner's four are a giant's: each has this much more HP than its level gives. */
 export const GLEANER_HP = 1.15;
 
@@ -779,6 +857,7 @@ async function kitchen(): Promise<void> {
   await tint('#0b0a10', 0, 30);
   // The boot goes on the table by the good bowl, and sand runs out of it.
   const putBoot = async () => { await walkTo('ouro', 5, 3); face('ouro', 3); await act('ouro', 'bow'); sound('step'); await prop('boot', 'mon:brogue', 4, 3, 20); };
+  let named = false;
   if (gave(SMALL_GRAN_KIND)) {
     // Gran turns toward the empty place by the window, and stops, and turns to Ouro.
     face('gran', 1);
@@ -801,18 +880,19 @@ async function kitchen(): Promise<void> {
     face('smallgran', 2);
     await smallGranLine();
     await say('Gran', 'Tell my little turnip she has come home, then.');
-    await say('Gran', 'Tell my little turnip she is redolent of salt.');
+    named = true;
+    await say('Gran', 'Tell them she is redolent of salt.');
     if (boot) {
       await putBoot();
-      await say('Gran', 'Tell my little turnip that my boot.');
+      await say('Gran', 'Tell them that is my boot.');
       await smallGranLine();
-      await say('Gran', 'Tell my little turnip it was the left one. I hopped home, the entire distance.');
+      await say('Gran', 'Tell them it was the left one. I hopped home, the entire distance.');
     }
   }
   if (gave('vellumslip') && release()) {
     faceToward('gran', 'ouro');
     await wait(30);
-    await say('Gran', 'Tell my little turnip it looks a good deal lighter.');
+    await say('Gran', named ? 'Tell them they look a good deal lighter.' : 'Tell my little turnip they look a good deal lighter.');
   }
   const wellFull = !!flag('wellingHome') || !flag('wellingGone');
   if (gave('welling')) await say('Man at the well', 'Dry. They say she\'s gone to the beach. She always did frighten easy.');
@@ -833,7 +913,7 @@ async function kitchen(): Promise<void> {
   setFlag('a2done');
   save();
   goal('The Strand stays open, through the Margin or the gray at the Shoreline.');
-  await hint('(The Strand stays open. Keepers on the Strand take rematches at Strand level 35.)');
+  await hint('(The Strand stays open. Keepers on the Strand take rematches. Both teams fight at level 35.)');
 }
 
 // ---------------------------------------------------------------- the Act 2 credits

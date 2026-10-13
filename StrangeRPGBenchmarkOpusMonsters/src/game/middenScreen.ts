@@ -5,13 +5,13 @@ import { NOTIONS } from '../battle/registry';
 import { text, textCenter, textRight, textWidth } from '../engine/font';
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
-import { dither, frame, mix, rect, INK } from '../engine/screen';
+import { dither, mix, rect, INK } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { renameMon } from './files';
 import { monPage, statParts } from './menus';
 import { close, run, type Mode } from './modes';
-import { G, levelOf, save } from './state';
-import { DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, miniSigil, typeBadge } from './ui';
+import { G, levelOf, refundNacre, save } from './state';
+import { bevel, DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, miniSigil, typeBadge } from './ui';
 
 const BG = '#17151d', TEAM_C = '#7ab0d8', RACK_C = '#c8a060';
 const ROW = 13, LIST_Y = 38, ROWS = 6, TEAM_MAX = 4;
@@ -111,8 +111,9 @@ class MiddenMode implements Mode {
         if (!sub.yes || !m) { sfx('back'); return; }
         G.rack.splice(memory.rack, 1);
         if (m.notion) G.notions[m.notion] = (G.notions[m.notion] || 0) + 1;
+        const back = refundNacre(m);
         sfx('back');
-        this.note(`${m.name} walks off.`);
+        this.note(back ? `${m.name} walks off. +${back} nacre.` : `${m.name} walks off.`);
         this.clamp();
         save();
       }
@@ -150,7 +151,7 @@ class MiddenMode implements Mode {
 
   drawColumn(col: number): void {
     const x = COL_X[col], list = col === 0 ? G.party : G.rack, on = memory.col === col, c = col === 0 ? TEAM_C : RACK_C;
-    frame(x, 24, COL_W, 102, on ? mix(c, BG, 0.85) : '#1b1822', on ? c : '#3a3442');
+    bevel(x, 24, COL_W, 102, on ? mix(c, BG, 0.85) : '#1b1822', on ? c : '#3a3442');
     text(col === 0 ? 'Team' : 'Midden', x + 5, 28, on ? c : DIM);
     textRight(col === 0 ? `${list.length}/${TEAM_MAX}` : String(list.length), x + COL_W - 5, 28, DIM);
     if (col === 1) {
@@ -164,9 +165,9 @@ class MiddenMode implements Mode {
     for (let k = 0; k < (col === 0 ? TEAM_MAX : ROWS); k++) {
       const m = list[top + k];
       const y = LIST_Y + k * ROW;
-      if (!m) { if (col === 0) frame(x + 3, y - 2, COL_W - 6, ROW - 1, '#1b1822', '#2a2632'); continue; }
+      if (!m) { if (col === 0) bevel(x + 3, y - 2, COL_W - 6, ROW - 1, '#1b1822', '#2a2632'); continue; }
       const here = (on && top + k === (col === 0 ? memory.team : memory.rack)) || swapping === k;
-      if (here) frame(x + 3, y - 2, COL_W - 6, ROW - 1, swapping === k ? '#3a3346' : mix(c, BG, 0.7), swapping === k ? SEL : c);
+      if (here) bevel(x + 3, y - 2, COL_W - 6, ROW - 1, swapping === k ? '#3a3346' : mix(c, BG, 0.7), swapping === k ? SEL : c);
       drawSprite(m.sprite, x + 5, y, 1);
       const lv = `L${levelOf(m)}`, lw = textWidth(lv);
       const sx = x + COL_W - 6 - lw - 2 - m.types.length * 6;
@@ -180,7 +181,7 @@ class MiddenMode implements Mode {
 
   draw(): void {
     rect(0, 0, 192, 192, BG);
-    frame(2, 2, 188, 19, '#211e2a', RACK_C);
+    bevel(2, 2, 188, 19, '#211e2a', RACK_C);
     text('The Midden', 8, 8, RACK_C);
     // The head's right side gives the swap prompt, a note after a move, or the move key.
     const head = this.sub.kind === 'swap' ? ['Swap with which team whorl?', SEL] : this.toastT > 0 ? [this.toast, SEL] : ['C: move across', DIM];
@@ -190,10 +191,10 @@ class MiddenMode implements Mode {
     // The summary: the picked whorl large, its level, types, held notion, and stats. The actions and the farewell take
     // its place while they are open, so nothing lies on top of the lists.
     const m = this.picked, py = 132;
-    frame(2, py - 4, 188, 60, '#1e1b26', this.sub.kind === 'acts' || this.sub.kind === 'letgo' ? SEL : memory.col === 0 ? TEAM_C : RACK_C);
+    bevel(2, py - 4, 188, 60, '#1e1b26', this.sub.kind === 'acts' || this.sub.kind === 'letgo' ? SEL : memory.col === 0 ? TEAM_C : RACK_C);
     if (m && (this.sub.kind === 'acts' || this.sub.kind === 'letgo')) this.drawSub(m, py);
     else if (m) {
-      frame(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
+      bevel(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
       drawSprite(m.sprite, 8, py + 2, 3);
       text(fit(m.name, 66), 38, py, SEL);
       text(`Level ${levelOf(m)}`, 38, py + 10, PAPER);
@@ -216,7 +217,7 @@ class MiddenMode implements Mode {
   /** The actions or the farewell, in the summary panel beside the picked whorl's picture. */
   drawSub(m: Mon, py: number): void {
     const sub = this.sub;
-    frame(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
+    bevel(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
     drawSprite(m.sprite, 8, py + 2, 3);
     text(fit(m.name, 140), 40, py, SEL);
     if (sub.kind === 'acts') {
@@ -227,7 +228,7 @@ class MiddenMode implements Mode {
       text('come back.', 40, py + 20, PAPER);
       ['Let it go', 'Keep it'].forEach((o, k) => {
         const x = 40 + k * 64, on = sub.yes === (k === 0);
-        if (on) frame(x - 4, py + 33, 58, 13, '#3a3346', SEL);
+        if (on) bevel(x - 4, py + 33, 58, 13, '#3a3346', SEL);
         textCenter(o, x + 25, py + 36, on ? SEL : PAPER);
       });
     }

@@ -18,7 +18,7 @@ import { CONTENTS_LEFT, drawContents, drawSheet, layout, type Book, type Sheet }
 
 // Paper, ink, and binding.
 const DESK = '#0b0a10', DESK2 = '#17121f';
-const COVER = '#3a2232', COVER_HI = '#5c3648', COVER_LO = '#24131e', STITCH = '#b48c58';
+const COVER = '#3a2232', COVER_HI = '#5c3648', COVER_LO = '#24131e';
 const PAPER = '#e6dbbf', PAPER_SH = '#cdbd99', EDGE = '#b5a27e', EDGE_LO = '#8c7a5c';
 const INK = '#2c2236', PENCIL = '#8c7d66', FAINT = '#b0a186';
 const RED = '#a8423a', BLUE = '#3c5a92', PLATE = '#d8c9a5';
@@ -61,7 +61,7 @@ const L = (() => { const v = [-0.55, 0.62, 0.56], n = Math.hypot(v[0], v[1], v[2
  * sprite's light map, and an ordered dither mixes its lit and unlit hue by how much it faces the lamp. A kind only seen
  * is a dark shape with a rim where the lamp catches its edge.
  */
-function plate(s: SpriteData, scale: number, sounded: boolean): HTMLCanvasElement {
+export function plate(s: SpriteData, scale: number, sounded: boolean): HTMLCanvasElement {
   const key = s.px.join('') + s.c.join('') + scale + (sounded ? 's' : 'h');
   let cv = plates.get(key);
   if (cv) return cv;
@@ -220,7 +220,7 @@ class RegisterBook implements Mode {
     if (input.hit('up')) { this.gSel = (this.gSel + n - 1) % n; sfx('move'); }
     else if (input.hit('down')) { this.gSel = (this.gSel + 1) % n; sfx('move'); }
     else if (input.hit('left') || input.hit('right')) {
-      this.gSel = this.gSel < CONTENTS_LEFT ? Math.min(n - 1, this.gSel + CONTENTS_LEFT) : this.gSel - CONTENTS_LEFT;
+      this.gSel = this.gSel < CONTENTS_LEFT ? Math.min(n - 1, this.gSel + CONTENTS_LEFT) : Math.min(CONTENTS_LEFT - 1, this.gSel - CONTENTS_LEFT);
       sfx('move');
     } else if (input.hit('ok')) {
       if (!GUIDE[this.gSel].open()) { sfx('back'); return; }
@@ -323,12 +323,6 @@ class RegisterBook implements Mode {
     dither(RX, PY, 6, PH, PAPER_SH, 0.5);
     dither(RX, PY, 2, PH, PAPER_SH, 1);
     rect(LX + PW, PY - 1, RX - LX - PW, PH + 2, COVER_LO);
-    // Stitches in the gutter.
-    for (let y = PY + 6; y < PY + PH - 4; y += 12) rect(LX + PW, y, 2, 3, STITCH);
-    // A ribbon from the top of the spine, hanging past the bottom edge.
-    const rib = this.type ? TYPE_COLOR[this.type] : RED;
-    rect(LX + PW + 4, PY, 2, PH + 4, rib);
-    rect(LX + PW + 4, PY + PH + 4, 1, 1, rib);
   }
 
   /** The index tabs that stick out of the top edge: type, area, and the number slip, each with its key. */

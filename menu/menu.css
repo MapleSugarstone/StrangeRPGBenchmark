@@ -761,6 +761,7 @@ dialog { -webkit-user-select: none; user-select: none; }
   line-height: 1.05;
   color: #fff;
 }
+.pv-title.long { font-size: clamp(26px, 3.2vw, 40px); }
 .pv-author { margin: 0; font-size: 19px; font-weight: 700; color: var(--accent); }
 .pv-author span { color: rgba(255, 255, 255, 0.6); font-weight: 500; }
 .pv-wip {

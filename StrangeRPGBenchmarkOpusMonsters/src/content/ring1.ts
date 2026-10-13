@@ -4,13 +4,13 @@ import { SPECIES } from '../data/species';
 import { rect } from '../engine/screen';
 import { run } from '../game/modes';
 import { NameEntry } from '../game/files';
-import { act, choose, emote, evening, face, fadeWho, field, fightWild, flag, giveMon, mon, moveNpc, narr, notice, offstage, say, setFlag, standAt, wait, walkAway, walkIn, walkTo } from '../game/api';
+import { act, choose, emote, evening, face, fadeWho, field, fightWild, flag, giveMon, mon, moveNpc, nearPlayer, narr, notice, offstage, say, setFlag, standAt, wait, walkAway, walkIn, walkTo } from '../game/api';
 import { chapter, G, save, HERO } from '../game/state';
 import { listMenu, monLine } from '../game/menus';
 import { defProp } from '../game/props';
-import { defMap, defScript, SPAWNS } from '../game/world';
+import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
 import { kinds, look, stash } from './areakit';
-import { PUZZLE_DATA } from '../tools/worldcheck';
+import { GRAPH_PUZZLES, PUZZLE_DATA, type Move } from '../tools/worldcheck';
 import { CRUST_FINDS, gatekeeper, giveKeyItem, hasKey, LORE, room, roomDoor, standingWild } from './ring';
 
 // ---------------------------------------------------------------- Cockle Cove
@@ -27,6 +27,16 @@ const isBack = (id: string) => !!flag('back_' + id);
 const allBack = () => LORE.every(isBack);
 const houseRight = () => LORE.every(id => { const i = STAKE_LIST.findIndex(([x, y]) => x === STAKES[id][0] && y === STAKES[id][1]); return onStake(i) === LORE.indexOf(id) + 1; });
 
+// The crab in the kettle sits on the rock shelf (x 3 to 12, y 11 to 15). Poked, it runs straight away from Ouro over the
+// shelf floor until a rock or the wall stops it. A crab that runs into the whelk's pool in the west wall takes the whelk
+// and leaves the kettle. When Ouro walks off the shelf, the crab walks back to where it sat.
+// The insight: work back from the pool. The crab has to run up the west wall from row 13, and only the rock at the east
+// end of row 12 stops it on row 13, so the rock in the bottom corner is used twice to set that up. Fewest pokes: 8.
+const CRAB_HOME: [number, number] = [11, 12];
+const WHELK_POOL: [number, number] = [2, 11];
+const SHELF = { x: 3, y: 11, w: 10, h: 5 };
+const XY4 = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+
 defMap({
   id: 'cocklecove', name: 'Cockle Cove', region: 33, music: 'cove',
   rows: [
@@ -40,13 +50,13 @@ defMap({
     'Tssssssssssssssssssssssssssss~~ss#s#ss#T',
     'Tsssssssssssssssss_______ssss~~ss#%#ss#T',
     'Tsssssssssssssssss_______sss::::s#s~~~#T',
-    'Ts##########ssssss_______sss::::s#s~~~#T',
-    'Ts#.:....:.#ssssss_______sss::::s#s~~~#T',
-    'Ts#....:...#ssssss_______sss::::s#s~~~#T',
-    'Ts#..:.....#sssssssssssssss:::::s#s~~~#T',
-    'ss#......:.#sssssssssssssss:::::s#s####T',
-    'Ts####...###sssssssssssssss::ss:sssssssT',
-    'Ts##:sssssssssssssssssssxss::ss:sssssssT',
+    'Ts############ssss_______sss::::s#s~~~#T',
+    'Ts:..#....#..#ssss_______sss::::s#s~~~#T',
+    'Ts#.......#..#ssss_______sss::::s#s~~~#T',
+    'Ts#..........#sssssssssssss:::::s#s~~~#T',
+    'ss#..#.......#sssssssssssss:::::s#s####T',
+    'Ts#........#.#sssssssssssss::ss:sssssssT',
+    'Ts#######ss###ssssssssssxss::ss:sssssssT',
     'Tsssssssssssxsss==sssssxsss:::::sssssssT',
     'Tssxssssssssssss==sssssssss:::::sssssssT',
     'Tssss~ssss~ssss~==ss~ssss~s:::::sss~sssT',
@@ -69,13 +79,12 @@ defMap({
   props: [{ x: 0, y: 0, pic: 'cocktracks' }, { x: 18, y: 7, pic: 'islandfloor' }],
   npcs: [
     { id: 'islander', x: 17, y: 13, sprite: 'oldwoman', name: 'Islander', dir: 1, talk: 'islander', when: () => !flag('holmChoice') },
-    { id: 'kettlecrab', x: 24, y: 18, sprite: 'stone', mon: 'fiddler', name: 'Crab', dir: 3, talk: 'kettlecrab', when: () => !flag('crabMoved') },
+    { id: 'kettlecrab', x: CRAB_HOME[0], y: CRAB_HOME[1], sprite: 'stone', mon: 'fiddler', name: 'Crab', dir: 3, talk: 'kettlecrab', when: () => !flag('crabMoved') },
     { id: 'holm', x: 26, y: 11, sprite: 'stone', mon: 'holm', name: 'Holm', dir: 3, talk: 'holm', when: () => !!flag('holmHere') && !flag('holmSounded') },
     { id: 'islanderhome', x: 21, y: 13, sprite: 'oldwoman', name: 'Islander', dir: 0, talk: 'islanderAfter', when: () => !!flag('holmSounded') },
     { id: 'islanderholm', x: 26, y: 11, sprite: 'oldwoman', name: 'Islander', dir: 0, ghost: true, talk: 'islanderAfter', when: () => !!flag('holmChoice') && !flag('holmSounded') },
   ],
   spots: [
-    { x: 4, y: 16, when: () => !hasKey('whelk') && !flag('crabMoved'), script: async () => { await giveKeyItem('whelk', 'Ouro gets a big empty whelk shell.'); } },
     ...STAKE_LIST.map(([x, y], i) => ({ x, y, when: allBack, script: () => stakeTalk(i) })),
     stash('cc_bar', 29, 15, 'On the sand bar in the inlet, a nautilus horn rolled up in weed, and beach glass.', { pegs: ['iron', 1], items: [['beachglass', 2]] }),
     stash('cc_cave', 37, 7, 'On the shelf at the back of the sea cave, out of the water: nacre, and a tide jar.', { tan: 4, notions: [['tidejar', 1]] }),
@@ -93,7 +102,7 @@ const LORE_NAME: Record<string, string> = {
 
 /** The Islander begins each line on the thing she means, as if pointing at it first. */
 const HINTS: Record<string, string[]> = {
-  lore_kettle: ['Kettle went over right here, the last night. A crab moved into it.', 'Can\'t blame the crab really. Good kettle. Crab wants a better shell, I\'d say.'],
+  lore_kettle: ['Kettle went over right here, the last night. A crab moved into it.', 'Crab took it up on the rock shelf. Whelk in the shelf pool would suit it better, I\'d say.'],
   lore_door: ['Door fell in the bay the year before the sea went. Deepest bit of the bay, so.', 'Ship man up the Wrecks had a chart of the deep bits. Ask him nice.'],
   lore_window: ['Window\'s at the salt pans, past Mast. They keep the pans full.', 'Pans full, so I couldn\'t wade it. You\'ve got legs for it now, I see.'],
   lore_chair: ['Chair\'s in the kelp past Spire. Big ones sleep on that beach.', 'Big ones sleep on anything. Sleeping on my chair, I\'d bet. Wake one.'],
@@ -190,7 +199,7 @@ defScript('holm', async () => {
   if (!flag('holmChoice')) await say('Islander', 'Holm. That\'s what I called it. Never answered to it. Doesn\'t now.');
   const c = await choose(['Sound it', 'Leave it']);
   if (c === 0) {
-    const r = await fightWild(mon('holm', 66), { bossHp: 4.4, ai: 'keeper', area: 'shallows', music: 'holm' });
+    const r = await fightWild(mon('holm', nearPlayer(-1)), { bossHp: 4.4, ai: 'keeper', area: 'shallows', music: 'holm' });
     if (r.pegged.length) {
       await giveMon(r.pegged[0]);
       // She walks up the step into the house on the sand.
@@ -214,39 +223,111 @@ defScript('islanderAfter', async () => {
   else await say('Islander', 'Holm\'s back, so. We\'ll see where it walks tomorrow. Probably here.');
 });
 
+const onShelfFloor = (rows: string[], x: number, y: number) => x >= SHELF.x && x < SHELF.x + SHELF.w && y >= SHELF.y && y < SHELF.y + SHELF.h && rows[y][x] === '.';
+
+/** Where a crab poked going `d` from x, y stops, and whether it ran into the whelk's pool. */
+function crabRun(rows: string[], x: number, y: number, d: number): [number, number, boolean] {
+  for (;;) {
+    const nx = x + XY4[d][0], ny = y + XY4[d][1];
+    if (nx === WHELK_POOL[0] && ny === WHELK_POOL[1]) return [nx, ny, true];
+    if (!onShelfFloor(rows, nx, ny)) return [x, y, false];
+    x = nx; y = ny;
+  }
+}
+
 defScript('kettlecrab', async () => {
-  if (!hasKey('whelk')) { await emote('kettlecrab', 'anger'); return; }
-  // Ouro sets the whelk down. The crab looks, swaps shells, and walks off sideways along the beach and out of the cove.
-  G.keys = G.keys.filter(k => k !== 'whelk');
-  sfx('ok');
-  face('kettlecrab', 2);
-  await wait(50);
+  const n = field.npc('kettlecrab');
+  if (!n) return;
+  const d = field.dir;
+  const [x, y, won] = crabRun(field.map.rows, n.x, n.y, d);
+  const steps = Math.abs(x - n.x) + Math.abs(y - n.y);
+  if (!steps) { sfx('bump'); await emote('kettlecrab', 'anger'); return; }
+  sfx('move');
+  await moveNpc('kettlecrab', 'drul'[d].repeat(steps));
+  if (!won) return;
+  // In the pool the crab backs out of the kettle and into the whelk, and goes off down the pool with it on.
   sfx('switch');
-  await wait(20);
-  await walkAway('kettlecrab');
+  field.shakeT = 4;
+  await emote('kettlecrab', 'heart');
+  await fadeWho('kettlecrab', false, 20);
   setFlag('crabMoved');
+  await wait(30);
   await giveKeyItem('lore_kettle', 'Ouro gets the kettle.');
+});
+
+// Left alone, the crab walks back to where it sat.
+field.stepHooks.push(f => {
+  if (f.map.id !== 'cocklecove' || flag('crabMoved')) return;
+  const n = f.npc('kettlecrab');
+  if (!n || (n.x === CRAB_HOME[0] && n.y === CRAB_HOME[1])) return;
+  if (f.x >= SHELF.x && f.x < SHELF.x + SHELF.w && f.y >= SHELF.y && f.y <= SHELF.y + SHELF.h) return;
+  void f.runBusy(async () => { await walkTo('kettlecrab', CRAB_HOME[0], CRAB_HOME[1]); });
 });
 
 defScript('coveEnter', async () => {
   G.flags.visited_cove = 1;
+  // The whelk lies in its pool on the shelf now. A save from before carries it, so it goes back.
+  if (hasKey('whelk')) G.keys = G.keys.filter(k => k !== 'whelk');
+});
+
+// The crab for the puzzle checks: where it sits, and the lowest tile of the ground Ouro can walk to.
+type CrabState = { x: number; y: number; o: number };
+const COVE_W = 40;
+function crabArea(rows: string[], cx: number, cy: number, fx: number, fy: number): Set<number> {
+  const ground = (x: number, y: number) => x >= 1 && x <= 15 && y >= 10 && y <= 17 && !(x === cx && y === cy) && (rows[y][x] === '.' || rows[y][x] === 's');
+  const seen = new Set([fy * COVE_W + fx]), q = [[fx, fy]];
+  while (q.length) {
+    const [x, y] = q.pop()!;
+    for (const [dx, dy] of XY4) { const nx = x + dx, ny = y + dy, k = ny * COVE_W + nx; if (!seen.has(k) && ground(nx, ny)) { seen.add(k); q.push([nx, ny]); } }
+  }
+  return seen;
+}
+const crabFrom = (rows: string[]): CrabState => ({ x: CRAB_HOME[0], y: CRAB_HOME[1], o: Math.min(...crabArea(rows, CRAB_HOME[0], CRAB_HOME[1], 9, 17)) });
+const crabWon = (s: CrabState) => s.x === WHELK_POOL[0] && s.y === WHELK_POOL[1];
+function crabMoves(s: CrabState): Move<CrabState>[] {
+  if (crabWon(s)) return [];
+  const rows = MAPS.cocklecove.rows;
+  const area = crabArea(rows, s.x, s.y, s.o % COVE_W, Math.floor(s.o / COVE_W));
+  const out: Move<CrabState>[] = [];
+  if ([...area].some(k => k >= 17 * COVE_W)) out.push({ to: crabFrom(rows), cost: 0, reset: true });
+  for (let d = 0; d < 4; d++) {
+    const ox = s.x - XY4[d][0], oy = s.y - XY4[d][1];
+    if (!area.has(oy * COVE_W + ox)) continue;
+    const [x, y, won] = crabRun(rows, s.x, s.y, d);
+    if (won) out.push({ to: { x, y, o: 0 }, cost: 1 });
+    else if (x !== s.x || y !== s.y) out.push({ to: { x, y, o: Math.min(...crabArea(rows, x, y, ox, oy)) }, cost: 1 });
+  }
+  return out;
+}
+GRAPH_PUZZLES.push({
+  name: 'The crab', floor: 6,
+  start: crabFrom(MAPS.cocklecove.rows),
+  key: (s: CrabState) => `${s.x},${s.y},${s.o}`,
+  moves: crabMoves,
+  goal: crabWon,
+  exit: (s: CrabState) => crabWon(s) || [...crabArea(MAPS.cocklecove.rows, s.x, s.y, s.o % COVE_W, Math.floor(s.o / COVE_W))].some(k => k >= 17 * COVE_W),
+  show: (s: CrabState) => `crab ${s.x},${s.y} Ouro by ${s.o % COVE_W},${Math.floor(s.o / COVE_W)}`,
+  prize: { map: 'cocklecove', at: CRAB_HOME, view: [9, 17] },
 });
 
 /** Crab tracks: the fresh line is dark and wet and wanders back on itself to the crab, the old lines are pale and dry. */
-const FRESH: [number, number][] = [[6, 18], [7, 17], [8, 18], [9, 17], [10, 18], [11, 17], [12, 18], [13, 17], [14, 16], [15, 15], [14, 14], [13, 13], [14, 12],
-  [15, 13], [16, 14], [17, 15], [18, 16], [19, 15], [20, 16], [21, 17], [20, 18], [19, 17], [20, 16], [21, 15], [22, 16], [23, 17], [23, 18]];
+const FRESH: [number, number][] = [[20, 18], [19, 17], [18, 18], [15, 18], [14, 17], [13, 18], [12, 17], [11, 18], [10, 17], [10, 16], [9, 15], [10, 14], [11, 13]];
 const OLD: [number, number][][] = [
   [[3, 9], [4, 8], [5, 9], [6, 8], [7, 9], [8, 8], [9, 9], [10, 8]],
-  [[12, 14], [13, 15], [14, 16], [15, 17], [16, 16], [17, 17]],
   [[22, 14], [23, 15], [24, 14], [25, 15], [26, 14], [27, 13]],
   [[2, 19], [3, 18], [4, 19], [5, 18]],
 ];
 defProp('cocktracks', {
   w: 40, h: 28,
   paint(x, y) {
-    if (flag('crabMoved')) return;
-    // The big whelk shell lying in the last tide pool on the rock shelf.
-    if (!hasKey('whelk')) { const wx = x + 4 * 8, wy = y + 16 * 8; rect(wx + 2, wy + 2, 4, 4, '#f4e8d0'); rect(wx + 3, wy + 3, 2, 2, '#c8906a'); rect(wx + 5, wy + 5, 2, 1, '#f4e8d0'); rect(wx + 2, wy + 2, 1, 1, '#ffffff'); }
+    if (flag('crabMoved')) {
+      // The kettle the crab left at the mouth of the pool, until Ouro has it.
+      if (!hasKey('lore_kettle') && !flag('back_lore_kettle')) LORE_PIC.lore_kettle(x + (WHELK_POOL[0] + 1) * 8, y + WHELK_POOL[1] * 8);
+      return;
+    }
+    // The big whelk shell lying in the pool in the shelf's west wall.
+    const wx = x + WHELK_POOL[0] * 8, wy = y + WHELK_POOL[1] * 8;
+    rect(wx + 2, wy + 2, 4, 4, '#f4e8d0'); rect(wx + 3, wy + 3, 2, 2, '#c8906a'); rect(wx + 5, wy + 5, 2, 1, '#f4e8d0'); rect(wx + 2, wy + 2, 1, 1, '#ffffff');
     const mark = (tx: number, ty: number, c: string) => { rect(x + tx * 8 + 1, y + ty * 8 + 3, 1, 1, c); rect(x + tx * 8 + 3, y + ty * 8 + 5, 1, 1, c); rect(x + tx * 8 + 5, y + ty * 8 + 3, 1, 1, c); rect(x + tx * 8 + 6, y + ty * 8 + 5, 1, 1, c); };
     for (const line of OLD) for (const [tx, ty] of line) mark(tx, ty, '#fff4d8');
     for (const [tx, ty] of FRESH) mark(tx, ty, '#6a4a2a');
@@ -294,7 +375,7 @@ field.stepHooks.push(f => {
   if (f.map.id !== 'brookwood') return;
   const n = STONES[`${f.x},${f.y}`];
   if (!n) { countPrev = 0; return; }
-  if (n === countPrev + 1) { countPrev = n; return; }
+  if (n === countPrev + 1) { countPrev = n; if (n === 7) setFlag('stonesCrossed'); return; }
   countPrev = 0;
   // The stone tips, and Ouro wades back to the near bank through the water.
   void f.runBusy(async () => {

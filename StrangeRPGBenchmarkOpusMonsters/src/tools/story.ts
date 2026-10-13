@@ -9,7 +9,7 @@ g.localStorage = { getItem: () => null, setItem: () => {} };
 
 async function main(): Promise<void> {
   const { act, advance, newBattle } = await import('../battle/engine');
-  const { choose, chooseReplacement } = await import('../battle/ai');
+  const { aiTurn, chooseReplacement } = await import('../battle/ai');
   const { makeMon } = await import('../data/species');
   const { randomFit } = await import('../game/wildfit');
   const { graftonTeam } = await import('../content/ch4');
@@ -85,7 +85,7 @@ async function main(): Promise<void> {
     for (let i = 0; i < 400; i++) {
       const d = advance(b, chooseReplacement);
       if (d.kind === 'over') break;
-      if (d.kind === 'act') act(b, choose(b));
+      aiTurn(b);
     }
     return b.over === 0;
   }
@@ -110,9 +110,13 @@ async function main(): Promise<void> {
     { name: 'Tack 4', ch: 8, lv: 46, fits: 3, team: () => [brack(44), ...team(43, [['howl', 0], ['turbine', 0], ['quarry', 1]])], nerve: true, ai: 'trainer' },
     { name: 'Perihel', ch: 8, lv: 48, fits: 3, team: () => team(41, [['orrery', 0], ['fulgur', 0], ['dynamo', 0], ['coma', 1]]), nerve: true, ai: 'keeper' },
     // Optional legendaries, at about the chapter a player meets them, with the level, boss HP, and AI of their encounter.
-    { name: 'Holm', ch: 9, lv: 52, fits: 3, team: () => [makeMon('holm', 66)], nerve: true, ai: 'keeper', bossHp: 4.4 },
-    { name: 'Carcanet', ch: 9, lv: 52, fits: 3, team: () => [makeMon('carcanet', 58)], nerve: true, ai: 'keeper', bossHp: 2.8 },
-    { name: 'Mundane', ch: 9, lv: 66, fits: 3, team: () => [makeMon('mundane', 68)], nerve: true, ai: 'champion', bossHp: 2.4 },
+    { name: 'Holm', ch: 9, lv: 52, fits: 3, team: () => [makeMon('holm', 50)], nerve: true, ai: 'keeper', bossHp: 4.4 },
+    { name: 'Carcanet', ch: 9, lv: 52, fits: 3, team: () => [makeMon('carcanet', 34)], nerve: true, ai: 'keeper', bossHp: 2.8 },
+    { name: 'Mundane', ch: 9, lv: 66, fits: 3, team: () => [makeMon('mundane', 50)], nerve: true, ai: 'champion', bossHp: 2.4 },
+    // The same three met late by a team at the level cap. Their level follows the player's (nearPlayer in src/game/api.ts).
+    { name: 'Holm late', ch: 9, lv: 100, fits: 3, team: () => [makeMon('holm', 98)], nerve: true, ai: 'keeper', bossHp: 4.4 },
+    { name: 'Carcanet late', ch: 9, lv: 100, fits: 3, team: () => [makeMon('carcanet', 82)], nerve: true, ai: 'keeper', bossHp: 2.8 },
+    { name: 'Mundane late', ch: 9, lv: 100, fits: 3, team: () => [makeMon('mundane', 84)], nerve: true, ai: 'champion', bossHp: 2.4 },
     { name: 'Climb (Bare)', ch: 9, lv: 53, fits: 3, team: bareFinal, nerve: true, ai: 'champion' },
     { name: 'Climb (Tack)', ch: 9, lv: 53, fits: 3, team: tackFinal, nerve: true, ai: 'keeper' },
     { name: 'Fid', ch: 9, lv: 55, fits: 3, team: () => team(47, [['menhir', 0], ['tor', 0], ['gore', 0], ['thumb', 1]]), nerve: true, ai: 'champion' },
@@ -128,21 +132,28 @@ async function main(): Promise<void> {
     { name: 'Mudlark', ch: 15, lv: 55, fits: 3, team: mudTeam, nerve: true, ai: 'keeper' },
     { name: 'Cinch\'s cast', ch: 15, lv: 55, fits: 3, team: castTeam, nerve: true, ai: 'champion' },
     { name: 'Gleaner', ch: 16, lv: 70, fits: 3, team: gleanerTeam, nerve: true, ai: 'champion', bossHp: GLEANER_HP },
+    // The Gleaner called after Act 2, met at the Strand cap Act 2 ends on and at the last cap. Its level follows the player's.
+    { name: 'Called Gleaner', ch: 16, lv: 70, fits: 3, team: () => [makeMon('gleaner', 70)], nerve: true, ai: 'champion', bossHp: 2.4 },
+    { name: 'Called Gleaner late', ch: 16, lv: 100, fits: 3, team: () => [makeMon('gleaner', 100)], nerve: true, ai: 'champion', bossHp: 2.4 },
   ];
 
   console.log(`${N} battles per fight. Player: random kinds from routes so far, AI 'keeper' on both sides.`);
   const only = process.argv.find(a => a.startsWith('--only='))?.slice(7).toLowerCase();
   const hpArg = Number(process.argv.find(a => a.startsWith('--bosshp='))?.slice(9) || 0);
+  // --lvoff=N shifts every foe's level by N, to find the level a fight wants.
+  const lvOff = Number(process.argv.find(a => a.startsWith('--lvoff='))?.slice(8) || 0);
   for (const f of FIGHTS) {
     if (only && !f.name.toLowerCase().includes(only)) continue;
     if (hpArg && f.bossHp) f.bossHp = hpArg;
     let w = 0;
     for (let i = 0; i < N; i++) {
       const p = playerTeam(f.ch > 10 ? f.ch : f.ch + 1, f.lv, f.fits).slice(0, f.size ?? 4);
-      if (fight(p, f.team(), f.nerve, 'keeper', f.ai, f.ch, f.bossHp)) w++;
+      const z = f.team();
+      if (lvOff) for (const m of z) m.level = Math.max(1, m.level + lvOff);
+      if (fight(p, z, f.nerve, 'keeper', f.ai, f.ch, f.bossHp)) w++;
     }
     const pct = (100 * w / N).toFixed(0).padStart(3);
-    console.log(`${f.name.padEnd(14)} L${String(f.lv).padEnd(3)} player wins ${pct}%`);
+    console.log(`${f.name.padEnd(14)} L${String(f.lv).padEnd(3)} player wins ${pct}%${lvOff ? ` (foes ${lvOff > 0 ? '+' : ''}${lvOff} levels)` : ''}`);
   }
 }
 

@@ -19,6 +19,22 @@ Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens t
 - Act 2, the Strand, starts after Act 1 ends. It has six chapters on a night beach where the shells of whole worlds lie in the sand. Your whorls start low again on a separate level scale, and a tide turns between high and low water. At low water stars fall, and every empty shell left out on the sand is gone.
 - Thirteen optional areas with side missions and hidden finds. Each Staykeeper's hall has a puzzle, and most optional areas have one too: sliding floors, wind, mirrored walkers, moon pools, light beams, patrols, and a map you draw by walking it. Every Act 2 chapter has its own puzzles built on the tide and the falling stars.
 - Minigames: Prise, a deduction game at every grotto. Shellboard, a card duel played with the whorls you have sounded, with a wet-row rule on the Strand. Starfall, played under the falling stars in Act 2.
+- Byssus is online play. At a grotto counter, once you own six whorls, you can queue for a match or share a code with a friend. Each player brings six whorls and picks four, and every whorl fights at level 25. A match gives no prizes. The save keeps a tally of wins and losses and nothing else.
+
+## Online play
+
+A Byssus match has two players and a small relay server. The server pairs players in a public queue or through private codes, keeps each side's choice secret until both are in, owns every clock, and holds a dropped player's seat for 90 seconds. It runs no game code, so a change to kits, species, or the battle engine needs no server deploy. Both browsers run the same battle from the released choices and compare a hash of it after every decision. A match ends with no result at the first decision where they differ.
+
+The build fingerprint is a hash of the battle, data, and net code. The queue pairs only players with the same fingerprint, so players on different builds never meet.
+
+From `server/`:
+
+- `npm ci` installs the server's tools.
+- `npm test` runs the room tests, and `npm run fuzz` sends malformed messages at the rooms.
+- `npm run dev` serves the rooms on port 8787. A game opened from localhost always uses that port, so two tabs of a local game can play each other.
+- `npm run deploy` publishes the server to the account you are signed in to.
+
+To point a build at a deployed server, set `BYSSUS_URL` to its address before `npm run build`. The server and the game ship together. Raise `PROTOCOL` in `src/net/protocol.ts` with any change to the messages, deploy the server, and then publish the game.
 
 ## Tools
 
@@ -28,6 +44,7 @@ Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens t
 - `node dist-tools/story.js` runs every story fight with a typical team for that chapter.
 - `node dist-tools/music-check.js` renders every track for ten minutes and checks ranges, channels, and repetition.
 - `node dist-tools/maps.js <map>` prints a map with coordinates.
+- `node dist-tools/lockstep.js [battles] [seed]` plays AI battles through two copies of an online match and stops at any decision where the copies differ.
 
 ## Source
 
@@ -36,3 +53,5 @@ Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens t
 - `src/game`: the field, battle view, menus, minigames, art for tiles and battle scenes, and field effects.
 - `src/content`: chapters, optional areas, puzzle halls, and minigame rivals.
 - `src/engine`: screen, font, input, sprites, sound effects, and the music engine and score.
+- `src/net`: the online messages and their checks, the room's rules, the lockstep copy of a battle, and the client's link to a room.
+- `server/`: the relay server for online play, with its own tests.

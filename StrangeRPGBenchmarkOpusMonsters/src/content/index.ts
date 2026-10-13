@@ -28,6 +28,7 @@ import './townlife';
 import './minigames';
 import './gems';
 import './geode';
+import './puzzlenacre';
 import './gyms';
 import './act2/ch1';
 import './act2/ch2';

@@ -142,10 +142,72 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${polys}</svg>`;
   }
 
+  /** Pixels of a loaded sprite image, or null when the page cannot read them (a file:// page taints the canvas). */
+  function spritePixels(img) {
+    try {
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth; c.height = img.naturalHeight;
+      const g = c.getContext('2d');
+      g.drawImage(img, 0, 0);
+      return g.getImageData(0, 0, c.width, c.height);
+    } catch { return null; }
+  }
+
+  const BAYER4 = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+
+  /**
+   * Each hover moves a hero with several `forms` to its next form through an ordered dither.
+   * Frames are data URLs, built once per pair of forms.
+   */
+  function heroMorph(img, forms) {
+    let at = 0, timer = 0;
+    const images = forms.map((src) => { const i = new Image(); i.src = src; return i; });
+    const cache = new Map();
+    const framesFor = (a, b) => {
+      const key = `${a}>${b}`;
+      if (cache.has(key)) return cache.get(key);
+      const pa = spritePixels(images[a]), pb = spritePixels(images[b]);
+      let frames = [forms[b]];
+      if (pa && pb && pa.width === pb.width && pa.height === pb.height) {
+        frames = [0.25, 0.5, 0.75].map((amt) => {
+          const c = document.createElement('canvas');
+          c.width = pa.width; c.height = pa.height;
+          const g = c.getContext('2d');
+          const out = g.createImageData(pa.width, pa.height);
+          for (let y = 0; y < pa.height; y++) {
+            for (let x = 0; x < pa.width; x++) {
+              const src = BAYER4[(y & 3) * 4 + (x & 3)] < amt * 16 ? pb : pa;
+              const o = (y * pa.width + x) * 4;
+              for (let k = 0; k < 4; k++) out.data[o + k] = src.data[o + k];
+            }
+          }
+          g.putImageData(out, 0, 0);
+          return c.toDataURL();
+        }).concat(forms[b]);
+      }
+      cache.set(key, frames);
+      return frames;
+    };
+    return () => {
+      if (timer || !images.every((i) => i.complete && i.naturalWidth)) return;
+      const next = (at + 1) % forms.length;
+      const frames = framesFor(at, next);
+      at = next;
+      let k = 0;
+      const tick = () => {
+        img.src = frames[k++];
+        timer = k < frames.length ? setTimeout(tick, 70) : 0;
+      };
+      tick();
+    };
+  }
+
   function cartridge(game, index) {
     const wip = game.status === 'wip';
+    const hero = el('img', { class: 'label-hero', src: game.hero.sprite, alt: '', draggable: 'false' });
+    const morph = game.hero.forms?.length > 1 ? heroMorph(hero, game.hero.forms) : null;
     const tier = tierOf(game);
-    const label = `${game.title}, by ${game.model}, ${game.effort}${game.polish ? `, polished by ${game.polish}` : ''}${tier ? `, ${tier} cartridge` : ''}${wip ? ', work in progress' : ''}`;
+    const label = `${game.title}, by ${game.model}, ${game.effort}${game.polish ? `, ${(game.polishVerb || 'Polished').toLowerCase()} by ${game.polish}` : ''}${tier ? `, ${tier} cartridge` : ''}${wip ? ', work in progress' : ''}`;
     const sparkles = tier === 'diamond' ? GLINTS.map(([x, y, d, s, c]) =>
       el('span', { class: 'sparkle', 'aria-hidden': 'true', style: { '--x': `${x}%`, '--y': `${y}%`, '--d': `${d}s`, '--s': `${s}cqw`, '--c': c } }))
       : tier === 'golden' ? SPARKLES.map(([x, y, d, s]) =>
@@ -157,7 +219,8 @@
       'aria-label': label,
       style: { '--accent': game.colors.accent, '--ink': game.colors.ink },
       onclick: (e) => openGame(game, e.currentTarget),
-      onmouseenter: () => sfx.hover(),
+      onmouseenter: () => { sfx.hover(); morph?.(); },
+      onfocus: () => morph?.(),
     },
       el('span', { class: 'cart-wrap' },
         el('span', { class: 'cart' },
@@ -167,12 +230,12 @@
               el('span', { class: 'label-title' }, game.title),
               el('span', { class: 'label-art' },
                 el('img', { class: 'label-scene', src: game.scene, alt: '', draggable: 'false' }),
-                el('img', { class: 'label-hero', src: game.hero.sprite, alt: '', draggable: 'false' }),
+                hero,
               ),
               el('span', { class: 'label-author' },
                 el('span', { class: 'label-model' }, game.model),
                 el('span', { class: 'label-effort' }, game.effort),
-                game.polish ? el('span', { class: 'label-polish' }, `Polished by: ${game.polish}`) : null,
+                game.polish ? el('span', { class: 'label-polish' }, `${game.polishVerb || 'Polished'} by: ${game.polish}`) : null,
               ),
             ),
           ),
@@ -381,9 +444,10 @@
     banner.style.setProperty('--accent', game.colors.accent);
     banner.style.setProperty('--ink', game.colors.ink);
     $('pv-title').textContent = game.title;
+    $('pv-title').classList.toggle('long', game.title.length > 18);
     $('pv-author').replaceChildren(el('span', {}, 'by '), game.model, el('span', {}, ` · ${game.effort}`));
     if (game.agent) $('pv-author').append(el('span', {}, ` · through ${game.agent}`));
-    if (game.polish) $('pv-author').append(el('span', {}, ` · polished by ${game.polish}`));
+    if (game.polish) $('pv-author').append(el('span', {}, ` · ${(game.polishVerb || 'Polished').toLowerCase()} by ${game.polish}`));
     $('pv-wip').hidden = game.status !== 'wip';
     $('pv-blurb').textContent = game.blurb;
     $('pv-hero').src = game.hero.sprite;

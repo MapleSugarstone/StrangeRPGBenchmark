@@ -5,7 +5,7 @@ import { choose, emote, field, flag, narr, say, setFlag, tint, wait } from '../g
 import { defProp } from '../game/props';
 import { chapter, G, save } from '../game/state';
 import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
-import { PUZZLE_DATA } from '../tools/worldcheck';
+import { GRAPH_PUZZLES, type Move } from '../tools/worldcheck';
 import { kinds, look, reward, stash } from './areakit';
 import { gatekeeper, giveKeyItem, hasKey, room, roomDoor } from './ring';
 
@@ -27,17 +27,19 @@ export const holmSeen = (ch: number) => () => chapter() === ch && !flag('holmHer
 
 /**
  * Two columns of four pans: column A on the land side (x 16 to 18) and column B on the sea side (x 12 to 14), pan 0 the southernmost.
- * Boards between A pans open to the east bank, boards between B pans open to the west strip and the salt works, and boards between
- * an A pan and its B pan are reached only from inside a pan. A lifted board levels its two pans, and the odd measure stays in the pan
- * nearer the sea: the seaward pan, or the southern one. The pump on the bank puts every pan and board back.
+ * Boards join A pans (T), B pans (U), and an A pan to its B pan (V). Only board T0 opens from the east bank and only board U0 reaches
+ * the west strip and the salt works. Every other board is lifted from inside a pan. A lifted board levels its two pans, and the odd
+ * measure stays in the pan nearer the sea: the seaward pan, or the southern one. The pump on the bank puts every pan and board back.
  */
-const PAN_START = [0, 2, 3, 0, 1, 3, 0, 3];
+// The two sea pans beside the way out start full. The insight: a full pan drains only by halves, so B1 goes into the empty A1 first
+// (3 to 2) and later into the empty B2 (2 to 1), and B2 is reached only the long way round by the north. Fewest lifts: 8.
+const PAN_START = [0, 1, 1, 0, 3, 3, 0, 0];
 const panTop = (i: number) => 21 - 4 * (i % 4);
 const panX = (i: number) => (i < 4 ? 16 : 12);
-interface Board { id: string; x: number; y: number; a: number; b: number; sea: number }
+interface Board { id: string; x: number; y: number; a: number; b: number; sea: number; bank?: boolean; strip?: boolean }
 const BOARDS: Board[] = [
-  ...[0, 1, 2].map(c => ({ id: 'T' + c, x: 18, y: 20 - 4 * c, a: c, b: c + 1, sea: c })),
-  ...[0, 1, 2].map(c => ({ id: 'U' + c, x: 12, y: 20 - 4 * c, a: 4 + c, b: 5 + c, sea: 4 + c })),
+  ...[0, 1, 2].map(c => ({ id: 'T' + c, x: 18, y: 20 - 4 * c, a: c, b: c + 1, sea: c, bank: c === 0 })),
+  ...[0, 1, 2].map(c => ({ id: 'U' + c, x: 12, y: 20 - 4 * c, a: 4 + c, b: 5 + c, sea: 4 + c, strip: c === 0 })),
   ...[0, 1, 2, 3].map(c => ({ id: 'V' + c, x: 15, y: 22 - 4 * c, a: c, b: 4 + c, sea: 4 + c })),
 ];
 const level = (i: number) => (flag('pan' + i) ? flag('pan' + i) - 1 : PAN_START[i]);
@@ -45,6 +47,9 @@ const lifted = (b: Board) => !!flag('board' + b.id);
 
 const PAN_MODS = Array.from({ length: 8 }, (_, i) => [0, 1, 2].map(dy => ({ x: panX(i), y: panTop(i) + dy, w: 3, ch: '~', when: () => level(i) >= 2 }))).flat();
 const BOARD_MODS = BOARDS.map(b => ({ x: b.x, y: b.y, ch: ':', when: () => lifted(b) }));
+// Brine is too heavy to swim, so a full pan stops a TIDE whorl worn as it stops everyone.
+const inPan = (x: number, y: number) => Array.from({ length: 8 }, (_, i) => i).some(i => x >= panX(i) && x < panX(i) + 3 && y >= panTop(i) && y < panTop(i) + 3);
+field.passHooks.push((f, x, y, ch) => (f.map.id === 'saltings' && ch === '~' && inPan(x, y) ? false : null));
 
 /** Lifts the board Ouro faces: its two pans level, and its channel opens. A pan that turns deep under Ouro sends Ouro up onto the board. */
 defScript('sluiceBoard', async () => {
@@ -59,7 +64,7 @@ defScript('sluiceBoard', async () => {
   field.shakeT = 4;
   await wait(20);
   sfx('wind');
-  if (field.tile(field.x, field.y) === '~' && !(field.wearing && field.leadTypes().includes('TIDE'))) await field.walkPlayer('drul'[field.dir]);
+  if (field.tile(field.x, field.y) === '~') await field.walkPlayer('drul'[field.dir]);
   if (!canLeavePans()) {
     // Shut in by deep pans: a salt worker hooks Ouro out with a rake, under a fade, and the pans are pumped back.
     await tint('#0b0a10', 1, 20);
@@ -99,6 +104,12 @@ defScript('saltPump', async () => {
   save();
 });
 
+/** The Islander's window, leaning in the salt works past the pans, so the pans' reward is in view across them. */
+defProp('lorewindow', {
+  w: 1, h: 1,
+  paint(x, y) { rect(x + 1, y + 1, 6, 5, '#6a4a2a'); rect(x + 2, y + 2, 2, 1, '#bfe8f8'); rect(x + 5, y + 2, 1, 1, '#bfe8f8'); rect(x + 2, y + 4, 4, 1, '#bfe8f8'); },
+});
+
 /** A post in each pan, marked 0 to 3, with the water up to its measure. */
 defProp('panposts', {
   w: 8, h: 16,
@@ -111,33 +122,55 @@ defProp('panposts', {
   },
 });
 
-PUZZLE_DATA.extra.push(() => {
-  // Ouro starts on the east bank and must reach the west strip. Breadth first over pan levels and lifted boards.
-  const start = PAN_START.slice();
-  const seen = new Set<string>();
-  const q: [number[], number][] = [[start, 0]];
-  while (q.length) {
-    const [lv, up] = q.shift()!;
-    const reach = new Set<number>();
-    const stack: number[] = [];
-    BOARDS.forEach((b, i) => { if (b.id[0] === 'T' && up & (1 << i)) for (const p of [b.a, b.b]) if (lv[p] <= 1 && !reach.has(p)) { reach.add(p); stack.push(p); } });
-    while (stack.length) {
-      const p = stack.pop()!;
-      BOARDS.forEach((b, i) => { if (!(up & (1 << i))) return; const o = b.a === p ? b.b : b.b === p ? b.a : -1; if (o >= 0 && lv[o] <= 1 && !reach.has(o)) { reach.add(o); stack.push(o); } });
+// The pans for the puzzle checks: pan levels, lifted boards, and the part Ouro can walk in, named by its lowest node.
+// Node 0 is the east bank, nodes 1 to 8 the pans, and the rest the boards.
+type PanState = { lv: number[]; up: number; at: number };
+const PAN_NODES = 9 + BOARDS.length;
+const panNode = (p: number) => 1 + p, boardNode = (i: number) => 9 + i;
+function panParts(lv: number[], up: number): (i: number) => number {
+  const par = Array.from({ length: PAN_NODES }, (_, i) => i);
+  const f = (i: number): number => { while (par[i] !== i) i = par[i] = par[par[i]]; return i; };
+  BOARDS.forEach((b, i) => {
+    if (!(up >> i & 1)) return;
+    if (b.bank) par[f(boardNode(i))] = f(0);
+    for (const p of [b.a, b.b]) if (lv[p] <= 1) par[f(boardNode(i))] = f(panNode(p));
+  });
+  return f;
+}
+const onStrip = (f: (i: number) => number, up: number, at: number) => BOARDS.some((b, i) => b.strip && up >> i & 1 && f(boardNode(i)) === f(at));
+const PAN_FROM: PanState = { lv: PAN_START.slice(), up: 0, at: 0 };
+function panMoves(s: PanState): Move<PanState>[] {
+  const f = panParts(s.lv, s.up), here = f(s.at), out: Move<PanState>[] = [];
+  if (onStrip(f, s.up, s.at)) return out;
+  if (here === f(0)) out.push({ to: PAN_FROM, cost: 0, reset: true });
+  BOARDS.forEach((b, i) => {
+    if (s.up >> i & 1) return;
+    const stands: number[] = [];
+    if (b.bank && f(0) === here) stands.push(0);
+    for (const p of [b.a, b.b]) if (s.lv[p] <= 1 && f(panNode(p)) === here) stands.push(panNode(p));
+    for (const st of stands) {
+      const lv = s.lv.slice(), t = lv[b.a] + lv[b.b], o = b.sea === b.a ? b.b : b.a;
+      lv[b.sea] = Math.ceil(t / 2); lv[o] = Math.floor(t / 2);
+      const up = s.up | (1 << i);
+      const at = st && lv[st - 1] >= 2 ? boardNode(i) : st;
+      const g = panParts(lv, up);
+      if (g(at) !== g(0) && !onStrip(g, up, at)) { out.push({ to: PAN_FROM, cost: 1, reset: true }); continue; }
+      let m = at;
+      for (let k = PAN_NODES - 1; k >= 0; k--) if (g(k) === g(at)) m = k;
+      out.push({ to: { lv, up, at: m }, cost: 1 });
     }
-    if (BOARDS.some((b, i) => b.id[0] === 'U' && up & (1 << i) && (reach.has(b.a) || reach.has(b.b)))) return null;
-    BOARDS.forEach((b, i) => {
-      if (up & (1 << i)) return;
-      if (b.id[0] !== 'T' && !reach.has(b.a) && !reach.has(b.b)) return;
-      const nl = lv.slice(), t = nl[b.a] + nl[b.b], o = b.sea === b.a ? b.b : b.a;
-      nl[b.sea] = Math.ceil(t / 2); nl[o] = Math.floor(t / 2);
-      const k = nl.join('') + (up | (1 << i));
-      if (seen.has(k)) return;
-      seen.add(k);
-      q.push([nl, up | (1 << i)]);
-    });
-  }
-  return 'puzzle 5: the salt pans cannot be crossed from their start';
+  });
+  return out;
+}
+GRAPH_PUZZLES.push({
+  name: 'The salt pans', floor: 8,
+  start: PAN_FROM,
+  key: (s: PanState) => `${s.lv.join('')},${s.up},${s.at}`,
+  moves: panMoves,
+  goal: (s: PanState) => onStrip(panParts(s.lv, s.up), s.up, s.at),
+  exit: (s: PanState) => { const f = panParts(s.lv, s.up); return f(s.at) === f(0) || onStrip(f, s.up, s.at); },
+  show: (s: PanState) => `pans ${s.lv.join('')} boards ${s.up.toString(2)} at ${s.at}`,
+  prize: { map: 'saltings', at: [8, 11], view: [19, 20] },
 });
 
 defMap({
@@ -155,11 +188,11 @@ defMap({
     'T~~~~~rrrrr#:::#:::#..........=.,,,,,..T',
     'T~~~~~rrrrr#:::+:::#..........=..,,,...T',
     'T~~~~~hhqhh#:::#:::#..........=........T',
-    'T~~~~~ssssss+#####+...........=........T',
+    'T~~~~~sssss#+#####+#..........=........T',
     'T~~~~~sssss#:::#:::#.w........=...:::::T',
     'T~~~~~#O#ss#:::+:::#..........=...:::::T',
     'T~~~~~s@sss#:::#:::#..........=...::::s:',
-    'T~~~~~ssssss+#####+...........=...:::::T',
+    'T~~~~~sssss#+#####+#..........=...:::::T',
     'T~=========#:::#:::#..........=...:::::T',
     'T~~~~~sssss#:::+:::#..........=........T',
     'T~~~~~sssss#:::#:::#..........=........T',
@@ -182,7 +215,7 @@ defMap({
   ],
   tileTalk: { '+': 'sluiceBoard' },
   zone: { kinds: kinds([['brine', 3], ['eddy', 2], ['heron', 3], ['elver', 2], ['siren', 1]]), lv: [15, 19], n: 9, area: 'saltwort' },
-  props: [{ x: 12, y: 9, pic: 'panposts' }, { x: 1, y: 5, pic: 'holmfar', when: holmSeen(3) }],
+  props: [{ x: 12, y: 9, pic: 'panposts' }, { x: 1, y: 5, pic: 'holmfar', when: holmSeen(3) }, { x: 8, y: 11, pic: 'lorewindow', when: () => !hasKey('lore_window') && !flag('back_lore_window') }],
   npcs: [
     { id: 'saltworker1', x: 22, y: 9, sprite: 'tanner', name: 'Salt worker', dir: 3, lines: () => saltLines(0) },
     { id: 'saltworker2', x: 25, y: 20, sprite: 'villager', name: 'Salt worker', dir: 3, lines: () => saltLines(1) },

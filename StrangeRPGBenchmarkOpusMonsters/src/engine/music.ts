@@ -1,6 +1,6 @@
 // Music engine: a lookahead scheduler over the generators in score.ts, voiced like a small console sound chip.
 // Safe to import in Node: nothing touches Web Audio until a track is wanted and audio() hands back a context.
-import { audio, muted } from './audio';
+import { audio, mainOut, muted } from './audio';
 import { Rng, TRACKS, hash, slipSec, swingSec, vary, wrong } from './score';
 import type { Ctx, Ev, Section, TrackDef, Voice } from './score';
 
@@ -286,7 +286,7 @@ function buildKit(ac: AudioContext): Kit {
   bendSrc.connect(pitch); bendSrc.start();
   const out = ac.createGain();
   out.gain.value = 0;
-  out.connect(ac.destination);
+  out.connect(mainOut(ac));
   const bus = ac.createGain();
   bus.connect(out);
   const echoIn = ac.createGain();
@@ -687,6 +687,18 @@ export const music = {
   setVolume(v: number): void {
     volume = Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0.6;
     applyLevel();
+  },
+  /** Lowers the music to `level` of its volume within 30 ms, holds it `secs` seconds, and brings it back over 0.6 seconds. */
+  duck(level: number, secs: number): void {
+    if (!kit) return;
+    try {
+      const g = kit.bus.gain, now = kit.ac.currentTime, lv = Math.max(0, Math.min(1, level)), hold = now + 0.03 + Math.max(0, secs);
+      g.cancelScheduledValues(now);
+      g.setValueAtTime(g.value, now);
+      g.linearRampToValueAtTime(lv, now + 0.03);
+      g.setValueAtTime(lv, hold);
+      g.linearRampToValueAtTime(1, hold + 0.6);
+    } catch { /* ignore */ }
   },
   /** Called every frame. The scheduler runs on its own timer, so this only starts the voices once audio exists. */
   update(): void {

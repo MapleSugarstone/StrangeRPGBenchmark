@@ -50,7 +50,7 @@ sp({ id: 'berg', name: 'Gevuori', types: ['TIDE'], basic: 'P', area: 'iceshelf',
 sp({ id: 'narwhal', name: 'Sarkaku', types: ['TIDE'], basic: 'P', area: 'iceshelf', moves: ['narwhal_lance', 'narwhal_breach', 'narwhal_podrush', 'narwhal_hornshot'], passives: ['narwhal_sighting', 'narwhal_ivory'],
   sprite: ['44443444', '44443444', '....3...', '..2232..', '.222222.', '21222212', '222.2222', '.222222.'], c: ['#808e9e', '#f1e7cd', '#a7c2d2'],
   fit: 'waits and lines up its horn', pegs: 4, entry: 'Which waits under the shelf lining its tusk up on you. The longer it waits the worse. Four cowries, before it\'s lined up.' });
-sp({ id: 'rime', name: 'Puikria', types: ['ROOT'], basic: 'M', area: 'iceshelf', moves: ['rime_petal', 'rime_grip', 'rime_bloom', 'rime_field'], passives: ['rime_clearair', 'rime_cracked'],
+sp({ id: 'rime', name: 'Puikria', types: ['TIDE'], basic: 'M', area: 'iceshelf', moves: ['rime_petal', 'rime_grip', 'rime_bloom', 'rime_field'], passives: ['rime_clearair', 'rime_cracked'],
   sprite: ['.2.22.2.', '21122112', '14122141', '24133142', '.222222.', '.334433.', '.244442.', '...23...'], c: ['#e4eff8', '#7bd0ec', '#ffffff'],
   fit: 'brings its own cold air', pegs: 3, entry: 'Off the eaves of a house, an icicle that fell in love with whoever lived there and came to life over it. Three cowries. It still melts a little when they pass.' });
 sp({ id: 'auk', name: 'Ruokme', types: ['BEAST'], basic: 'P', area: 'iceshelf', moves: ['auk_flurry', 'auk_carom', 'auk_bellyflop', 'auk_toboggan'], passives: ['auk_ricochet', 'auk_lastpair'],

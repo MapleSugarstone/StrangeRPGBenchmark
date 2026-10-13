@@ -12,6 +12,18 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/serve.mjs", "8743"],
       "port": 8743
+    },
+    {
+      "name": "moveart",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8744"],
+      "port": 8744
+    },
+    {
+      "name": "byssus",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server/node_modules/wrangler/bin/wrangler.js", "dev", "--config", "server/wrangler.toml", "--port", "8787", "--persist-to", "server/.wrangler/state"],
+      "port": 8787
     }
   ]
 }

@@ -1,33 +1,36 @@
 // Setting: the machine puzzle's rules. Arms on a small board carry stones between stations on looping tapes.
 // This file has no drawing in it, so the content test can run every puzzle's reference machine in Node.
 
-/** Rough stones come out of inputs. The polisher turns each into its polished stone. */
-export type Stone = 'nacre' | 'pearl' | 'resin' | 'amber' | 'pebble' | 'glass' | 'chip' | 'star';
+/** Rough stones come out of inputs. The polisher turns each into its polished stone. Paste takes the kind of a stone a mold copies. */
+export type Stone = 'nacre' | 'pearl' | 'resin' | 'amber' | 'pebble' | 'glass' | 'chip' | 'star' | 'paste';
 export const POLISH: Partial<Record<Stone, Stone>> = { nacre: 'pearl', resin: 'amber', pebble: 'glass', chip: 'star' };
 export const STONE_NAME: Record<Stone, string> = {
-  nacre: 'Rough nacre', pearl: 'Pearl', resin: 'Resin', amber: 'Amber', pebble: 'Sea pebble', glass: 'Beach glass', chip: 'Star chip', star: 'Star glass',
+  nacre: 'Rough nacre', pearl: 'Pearl', resin: 'Resin', amber: 'Amber', pebble: 'Sea pebble', glass: 'Beach glass', chip: 'Star chip', star: 'Star glass', paste: 'Paste',
 };
 
 /** Directions: 0 east, 1 south, 2 west, 3 north. Turning right goes clockwise on the screen. */
 export const DX = [1, 0, -1, 0];
 export const DY = [0, 1, 0, -1];
 
-/** Tape steps: grab, drop, turn left, turn right, reach out, pull in, and wait. */
-export type Step = 'G' | 'D' | 'L' | 'R' | 'O' | 'I' | '.';
-export const STEPS: Step[] = ['G', 'D', 'L', 'R', 'O', 'I', '.'];
-export const STEP_NAME: Record<Step, string> = { G: 'Grab', D: 'Drop', L: 'Turn left', R: 'Turn right', O: 'Reach out', I: 'Pull in', '.': 'Wait' };
+/** Tape steps: grab, drop, turn left, turn right, reach out, pull in, pivot left, pivot right, and wait. */
+export type Step = 'G' | 'D' | 'L' | 'R' | 'O' | 'I' | '<' | '>' | '.';
+export const STEPS: Step[] = ['G', 'D', 'L', 'R', 'O', 'I', '<', '>', '.'];
+/** Steps that only puzzles with `pivot` offer. */
+export const PIVOTS: Step[] = ['<', '>'];
+export const STEP_NAME: Record<Step, string> = { G: 'Grab', D: 'Drop', L: 'Turn left', R: 'Turn right', O: 'Reach out', I: 'Pull in', '<': 'Pivot left', '>': 'Pivot right', '.': 'Wait' };
 export const TAPE_LEN = 16;
 
-export type StationKind = 'polish' | 'set' | 'split';
+export type StationKind = 'polish' | 'set' | 'split' | 'mold' | 'chute';
 export interface ArmPart { kind: 'arm'; x: number; y: number; dir: number; tape: string }
-/** A setter or splitter covers its own cell and the next one in its direction. A polisher covers one cell. */
+/** A setter, splitter, or mold covers its own cell and the next one in its direction. A polisher or chute covers one cell. */
 export interface StationPart { kind: StationKind; x: number; y: number; dir: number }
 export type Part = ArmPart | StationPart;
 export interface Machine { parts: Part[] }
 
 /** A shape of stones relative to a cell, with bonds between atom indices. */
 export interface Shape { atoms: [number, number, Stone][]; bonds: [number, number][] }
-export interface Io { x: number; y: number; shape: Shape }
+/** `count` caps how many pieces an input gives in all. Without it the input refills forever. */
+export interface Io { x: number; y: number; shape: Shape; count?: number }
 
 export interface Puzzle {
   id: string;
@@ -41,12 +44,15 @@ export interface Puzzle {
   /** Pieces each output must take. */
   need: number;
   /** The most of each part the player may place. */
-  limit: { arm: number; polish: number; set: number; split: number };
+  limit: Record<Part['kind'], number>;
+  /** Whether the tapes offer the pivot steps. */
+  pivot?: boolean;
   /** The machine the test runs to prove the puzzle can be solved. */
   ref: Machine;
 }
 
-export const COST: Record<Part['kind'], number> = { arm: 20, polish: 10, set: 10, split: 10 };
+export const COST: Record<Part['kind'], number> = { arm: 20, polish: 10, set: 10, split: 10, mold: 20, chute: 10 };
+export const PART_KINDS: Part['kind'][] = ['arm', 'polish', 'set', 'split', 'mold', 'chute'];
 
 export interface Atom { x: number; y: number; s: Stone }
 export interface Piece { id: number; atoms: Atom[]; bonds: [number, number][] }
@@ -57,6 +63,8 @@ export interface Sim {
   arms: ArmState[];
   /** Pieces each output has taken. */
   got: number[];
+  /** Pieces each input has given. */
+  given: number[];
   err: string | null;
   errAt: [number, number] | null;
   done: boolean;
@@ -65,7 +73,9 @@ export interface Sim {
 }
 
 export const cellsOf = (p: StationPart): [number, number][] =>
-  p.kind === 'polish' ? [[p.x, p.y]] : [[p.x, p.y], [p.x + DX[p.dir], p.y + DY[p.dir]]];
+  p.kind === 'polish' || p.kind === 'chute' ? [[p.x, p.y]] : [[p.x, p.y], [p.x + DX[p.dir], p.y + DY[p.dir]]];
+/** Whether turning a part changes anything. */
+export const turns = (k: Part['kind']): boolean => k !== 'polish' && k !== 'chute';
 
 /** The tapes' shared loop length: the last step any tape uses. Blank steps before it are waits. */
 export function period(m: Machine): number {
@@ -81,7 +91,7 @@ export function checkMachine(pz: Puzzle, m: Machine): string | null {
   const used = new Map<number, string>();
   const key = (x: number, y: number) => y * 64 + x;
   for (const io of [...pz.inputs, ...pz.outputs]) for (const [dx, dy] of io.shape.atoms) used.set(key(io.x + dx, io.y + dy), 'io');
-  const n = { arm: 0, polish: 0, set: 0, split: 0 };
+  const n: Record<Part['kind'], number> = { arm: 0, polish: 0, set: 0, split: 0, mold: 0, chute: 0 };
   for (const p of m.parts) {
     n[p.kind]++;
     const cells: [number, number][] = p.kind === 'arm' ? [[p.x, p.y]] : cellsOf(p);
@@ -93,8 +103,9 @@ export function checkMachine(pz: Puzzle, m: Machine): string | null {
       used.set(k, p.kind);
     }
     if (p.kind === 'arm' && p.tape.length > TAPE_LEN) return 'A tape is too long.';
+    if (p.kind === 'arm' && !pz.pivot && PIVOTS.some(s => p.tape.includes(s))) return 'This board\'s arms cannot pivot.';
   }
-  for (const k of Object.keys(n) as (keyof typeof n)[]) if (n[k] > pz.limit[k]) return `Too many parts of one kind.`;
+  for (const k of PART_KINDS) if (n[k] > (pz.limit[k] || 0)) return `Too many parts of one kind.`;
   return null;
 }
 
@@ -104,7 +115,7 @@ function spawn(s: Sim, io: Io): Piece {
 
 export function start(pz: Puzzle, m: Machine): Sim {
   const arms = m.parts.filter((p): p is ArmPart => p.kind === 'arm').map(a => ({ x: a.x, y: a.y, dir: a.dir, len: 1, hold: null }));
-  const s: Sim = { cycle: 0, pieces: [], arms, got: pz.outputs.map(() => 0), err: null, errAt: null, done: false, seen: new Set(), nextId: 1 };
+  const s: Sim = { cycle: 0, pieces: [], arms, got: pz.outputs.map(() => 0), given: pz.inputs.map(() => 0), err: null, errAt: null, done: false, seen: new Set(), nextId: 1 };
   for (const p of m.parts) {
     const cells: [number, number][] = p.kind === 'arm' ? [[p.x, p.y]] : cellsOf(p);
     for (const [x, y] of cells) s.seen.add(y * 64 + x);
@@ -137,6 +148,7 @@ function components(p: Piece, nextId: () => number): Piece[] {
 }
 
 const fail = (s: Sim, why: string, at: [number, number] | null): void => { s.err = why; s.errAt = at; };
+const STATION_ORDER: StationKind[] = ['split', 'set', 'polish', 'mold', 'chute'];
 
 /** Whether a resting piece is exactly the output's shape at the output's cell. */
 function matches(p: Piece, io: Io): boolean {
@@ -156,8 +168,11 @@ function matches(p: Piece, io: Io): boolean {
 export function step(pz: Puzzle, m: Machine, s: Sim): void {
   if (s.err || s.done) return;
   const per = period(m);
-  // Inputs refill when every cell of their shape is clear.
-  for (const io of pz.inputs) if (io.shape.atoms.every(([dx, dy]) => !atomAt(s, io.x + dx, io.y + dy))) s.pieces.push(spawn(s, io));
+  // Inputs refill when every cell of their shape is clear, until they have given their count.
+  pz.inputs.forEach((io, k) => {
+    if (io.count !== undefined && s.given[k] >= io.count) return;
+    if (io.shape.atoms.every(([dx, dy]) => !atomAt(s, io.x + dx, io.y + dy))) { s.pieces.push(spawn(s, io)); s.given[k]++; }
+  });
   const tapes = m.parts.filter((p): p is ArmPart => p.kind === 'arm').map(a => a.tape);
   s.arms.forEach((a, i) => {
     if (s.err) return;
@@ -174,32 +189,51 @@ export function step(pz: Puzzle, m: Machine, s: Sim): void {
     else if (st === 'L') { a.dir = (a.dir + 3) % 4; move((x, y) => [a.x + (y - a.y), a.y - (x - a.x)]); }
     else if (st === 'O' && a.len < 2) { a.len = 2; move((x, y) => [x + DX[a.dir], y + DY[a.dir]]); }
     else if (st === 'I' && a.len > 1) { a.len = 1; move((x, y) => [x - DX[a.dir], y - DY[a.dir]]); }
+    else if (st === '>' || st === '<') {
+      // A pivot turns the held piece a quarter turn about the claw. The arm itself stays put.
+      const [cx, cy] = gripOf(a);
+      if (st === '>') move((x, y) => [cx - (y - cy), cy + (x - cx)]);
+      else move((x, y) => [cx + (y - cy), cy - (x - cx)]);
+    }
     const [gx, gy] = gripOf(a);
     s.seen.add(gy * 64 + gx);
   });
   if (s.err) return;
-  // Stones may not share a cell or leave the board.
+  // Stones may not share a cell, sit on an arm's base, or leave the board.
   const where = new Map<number, number>();
+  const bases = new Set(s.arms.map(a => a.y * 64 + a.x));
   for (const p of s.pieces) for (const at of p.atoms) {
     if (at.x < 0 || at.y < 0 || at.x >= pz.w || at.y >= pz.h) { fail(s, 'A stone went off the board.', [Math.max(0, Math.min(pz.w - 1, at.x)), Math.max(0, Math.min(pz.h - 1, at.y))]); return; }
     const k = at.y * 64 + at.x;
+    if (bases.has(k)) { fail(s, 'A stone ran into an arm.', [at.x, at.y]); return; }
     if (where.has(k)) { fail(s, 'Two stones ran into each other.', [at.x, at.y]); return; }
     where.set(k, p.id);
     s.seen.add(k);
   }
-  // Stations work on stones nobody holds.
-  for (const part of m.parts) {
-    if (part.kind === 'arm') continue;
+  // Stations work on stones nobody holds: splitters, then setters, polishers, molds, and chutes last.
+  const stations = m.parts.filter((p): p is StationPart => p.kind !== 'arm').sort((a, b) => STATION_ORDER.indexOf(a.kind) - STATION_ORDER.indexOf(b.kind));
+  for (const part of stations) {
     const cells = cellsOf(part);
     if (part.kind === 'polish') {
       const p = atomAt(s, part.x, part.y);
       if (p && !held(s, p.id)) for (const at of p.atoms) if (at.x === part.x && at.y === part.y && POLISH[at.s]) at.s = POLISH[at.s]!;
       continue;
     }
+    if (part.kind === 'chute') {
+      // A chute takes the whole piece, however little of it rests there.
+      const p = atomAt(s, part.x, part.y);
+      if (p && !held(s, p.id)) s.pieces = s.pieces.filter(q => q !== p);
+      continue;
+    }
     const [[ax, ay], [bx, by]] = cells;
     const pa = atomAt(s, ax, ay), pb = atomAt(s, bx, by);
     if (!pa || !pb || held(s, pa.id) || held(s, pb.id)) continue;
     const ia = pa.atoms.findIndex(t => t.x === ax && t.y === ay), ib = pb.atoms.findIndex(t => t.x === bx && t.y === by);
+    if (part.kind === 'mold') {
+      // The first cell holds the model. Paste on the second cell becomes a stone of the model's kind.
+      if (pa.atoms[ia].s !== 'paste' && pb.atoms[ib].s === 'paste') pb.atoms[ib].s = pa.atoms[ia].s;
+      continue;
+    }
     if (part.kind === 'set') {
       if (pa === pb) { if (!pa.bonds.some(([x, y]) => (x === ia && y === ib) || (x === ib && y === ia))) pa.bonds.push([ia, ib]); continue; }
       const off = pa.atoms.length;

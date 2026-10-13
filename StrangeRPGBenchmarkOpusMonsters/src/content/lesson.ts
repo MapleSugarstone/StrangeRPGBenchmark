@@ -17,16 +17,17 @@ defScript('lesson', async () => {
     tips: [
       { when: () => true, lines: [
         '(Your whorl fights the boot. You pick one action each turn.)',
+        '(When your turns come close, you and the foe pick at the same time. Then both happen in order.)',
         '(Attack never runs out. A move hits harder. Then it rests a few turns before you can use it again.)',
         '(Look at a choice before you pick it. It says what it does, and if the foe is weak to it.)',
       ] },
       { when: b => b.turnNo >= 3, lines: [
-        '(Guard cuts the damage you take in half until your next turn.)',
-        '(Switch sends out a whorl from your reserve. You only have one whorl for now.)',
+        '(Guard goes first. It cuts the damage you take in half until your next turn.)',
+        '(Switch goes first too. It sends out a whorl from your reserve. You only have one whorl for now.)',
       ] },
       { when: b => { const me = out(b, 0), foe = out(b, 1); return !foe.ko && G.pegs.twig > 0 && foe.hp <= foe.maxHp * pegLine(b, me, foe, 'twig'); }, lines: [
         '(A horn can sound a whorl at any HP. The lower its HP, the better the chance.)',
-        '(The boot is under the line on its HP bar now. Under the line, the horn never fails.)',
+        '(The boot is weak enough now. When you pick Sound, the horn list says sure: it cannot fail.)',
         '(Pick Sound and blow a horn. A sounded whorl joins you. Knock it out and it gets away.)',
       ] },
     ],

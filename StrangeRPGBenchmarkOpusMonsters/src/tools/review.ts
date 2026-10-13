@@ -27,7 +27,7 @@ interface Pic { px: string[]; c: string[] }
 async function main(): Promise<void> {
   const fs = await import('node:fs');
   const { SPECIES, WILD_KINDS } = await import('../data/species');
-  const { MOVES, PASSIVES, SUMMONS } = await import('../battle/registry');
+  const { DROPS, MOVES, PASSIVES, SUMMONS } = await import('../battle/registry');
 
   // One-line concepts and looks from the kit theme pass, when it has written them.
   let concepts: { kinds?: Record<string, string>; summons?: Record<string, string>; forms?: Record<string, string> } = {};
@@ -63,6 +63,11 @@ async function main(): Promise<void> {
     const parts = [
       ...Object.values(SUMMONS).filter((d: any) => d.owner === id).map((d: any) => ({
         id: `summon:${d.id}`, part: 'summon', name: d.name, text: d.text || '', look: concepts.summons?.[d.id] || '',
+        sprite: d.sprite ? { px: d.sprite.px, c: d.sprite.c } : token(s.c), token: !d.sprite,
+      })),
+      // Drops carry no owner, so they belong to the kind their id starts with, as in espalier_pear.
+      ...Object.values(DROPS).filter((d: any) => d.id.startsWith(`${id}_`)).map((d: any) => ({
+        id: `drop:${d.id}`, part: 'drop', name: d.name, text: d.text || '', look: '',
         sprite: d.sprite ? { px: d.sprite.px, c: d.sprite.c } : token(s.c), token: !d.sprite,
       })),
       ...(forms[id] || []).filter(f => consts[f.constName]).map(f => ({

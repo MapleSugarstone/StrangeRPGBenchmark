@@ -4,7 +4,7 @@ import { text, textWidth, wrap, LINE } from '../engine/font';
 import { input } from '../engine/input';
 import { rect } from '../engine/screen';
 import { close, run, type Mode } from './modes';
-import { box, cursor, DIM, PAPER, PORTRAIT_BG, SEL } from './ui';
+import { bevel, BOX, cursor, DIM, edgeTones, PAPER, panel, PEARL_EDGE, PORTRAIT_BG, rowBar, SEL } from './ui';
 import { sfx } from '../engine/audio';
 import { Babble } from './voices';
 
@@ -55,16 +55,11 @@ export function say(speaker: string | null, line: string, portrait?: SpriteData,
       }
     },
     draw() {
-      box(0, BOX_Y, 192, BOX_H);
+      panel(0, BOX_Y, 192, BOX_H, PEARL_EDGE, { shadow: false });
       const label = speaker || tab;
-      if (label) {
-        const w = textWidth(label) + 8;
-        // Tall enough that a descender keeps a clear pixel above the box's edge.
-        box(2, BOX_Y - 11, w, 12);
-        text(label, 6, BOX_Y - 9, speaker ? SEL : DIM);
-      }
+      if (label) nameTab(label, speaker ? SEL : DIM);
       if (p) {
-        rect(5, BOX_Y + 5, 18, 18, PORTRAIT_BG);
+        bevel(4, BOX_Y + 4, 20, 20, PORTRAIT_BG, '#5a5070');
         drawSprite(p, 6, BOX_Y + 6, 2);
       }
       let left = shown;
@@ -74,7 +69,8 @@ export function say(speaker: string | null, line: string, portrait?: SpriteData,
         text(part, textX, BOX_Y + 5 + i * LINE, PAPER);
       });
       const total = pages[page].join('').length;
-      if (shown >= total && Math.floor(performance.now() / 300) % 2 === 0) text('\u0002', 182, BOX_Y + BOX_H - 9, DIM);
+      // The continue mark bobs a pixel and brightens on the way up.
+      if (shown >= total) { const up = Math.floor(performance.now() / 300) % 2 === 0; text('\u0002', 182, BOX_Y + BOX_H - 9 - (up ? 1 : 0), up ? SEL : DIM); }
     },
   };
   return run(m);
@@ -97,17 +93,27 @@ export function choose(options: string[], cancel = false, prompt?: string): Prom
     },
     draw() {
       if (prompt) {
-        box(0, BOX_Y, 192, BOX_H);
+        panel(0, BOX_Y, 192, BOX_H, PEARL_EDGE, { shadow: false });
         wrap(prompt, 180).forEach((ln, k) => text(ln, 6, BOX_Y + 5 + k * LINE, PAPER));
       }
-      box(x, y, w, h);
+      panel(x, y, w, h);
       options.forEach((o, k) => {
-        if (k === i) cursor(x + 3, y + 3 + k * LINE);
+        if (k === i) { rowBar(x + 2, y + 3 + k * LINE, w - 4); cursor(x + 3, y + 3 + k * LINE); }
         text(o, x + 10, y + 3 + k * LINE, k === i ? SEL : PAPER);
       });
     },
   };
   return run(m);
+}
+
+/** The speaker's name on a tab that stands on the text box's top edge and opens into it, tall enough that a descender keeps a clear pixel above the box. */
+function nameTab(label: string, c: string): void {
+  const w = textWidth(label) + 8, y = BOX_Y - 11, edge = c === SEL ? SEL : PEARL_EDGE, [lit] = edgeTones(edge);
+  rect(1, y - 1, w + 2, 12, '#0b0a10');
+  bevel(2, y, w, 12, BOX, edge);
+  rect(3, BOX_Y, w - 3, 1, BOX);
+  rect(2, y, 2, 2, lit); rect(w, y, 2, 2, lit);
+  text(label, 6, BOX_Y - 9, c);
 }
 
 /** A system notice, such as an item received, in a strip at the top of the screen. It goes after two seconds or a press. */
@@ -118,7 +124,7 @@ export function notice(line: string): Promise<void> {
     update() { t++; if (t > 120 || (t > 10 && (input.hit('ok') || input.hit('back')))) close(m); },
     draw() {
       const h = ls.length * LINE + 7, y = t < 6 ? -h + (h + 4) * t / 6 : 4;
-      box(6, y, 180, h);
+      panel(6, y, 180, h, SEL);
       ls.forEach((ln, i) => text(ln, 96 - textWidth(ln) / 2, y + 4 + i * LINE, PAPER));
     },
   };

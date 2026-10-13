@@ -4,11 +4,19 @@ import type { Btn } from '../engine/input';
 import { input } from '../engine/input';
 import { drawAll, modes, tickAll, top } from './modes';
 import { field } from './field';
-import { G, fresh, setGame } from './state';
+import { G, fresh, setGame, useSlot } from './state';
+
+/** Test runs save here. The file screen shows slots 1 to 3 only, so a test never touches the player's files. */
+const TEST_SLOT = 9;
 import { replaceAll } from './modes';
 import { makeMon } from '../data/species';
 import { startMenu } from './menus';
+import { fitterMenu } from './fitter';
+import { practice } from './practice';
+import { FileSelect, NameEntry } from './files';
+import { run } from './modes';
 import './uicheck';
+import './onlinecheck';
 
 const flush = async () => { for (let k = 0; k < 10; k++) await Promise.resolve(); };
 
@@ -34,7 +42,7 @@ export const harness = {
     for (let i = 0; i < max; i++) {
       const v: any = top();
       if (!v || !v.b) return 'done';
-      if (v.phase === 'menu') { const a = aiChoose(v.b); v.commit(a); await harness.run(2); continue; }
+      if (v.phase === 'menu') { const a = aiChoose(v.b, 0); v.commit(a); await harness.run(2); continue; }
       if (v.phase === 'replace') { await harness.tap('ok'); continue; }
       if (v.phase === 'target' || v.phase === 'tagto' || v.phase === 'switch' || v.phase === 'peg') { await harness.tap('ok'); continue; }
       await harness.tap('ok');
@@ -95,7 +103,7 @@ export const harness = {
   where(): string { return `${field.map.id} ${field.x},${field.y} busy${field.busy} modes${modes().length}`; },
   G: () => G,
   setup(scales: string[], flags: Record<string, number>, kinds: string[], lv: number, map: string, x: number, y: number, pulled: string[] = []): void {
-    try { localStorage.clear(); } catch { /* ignore */ }
+    useSlot(TEST_SLOT);
     setGame(fresh());
     replaceAll(field);
     field.busy = 0;
@@ -105,6 +113,13 @@ export const harness = {
     G.party = kinds.map(k => makeMon(k, lv)); G.pegs.brass = 10; G.rind = 5000;
     for (const k of kinds) G.register[k] = 2;
     field.load(map, x, y, 0);
+  },
+  /** Opens a screen directly for a look after `setup`: the Conjoiner, Practice, the file screen, or the name screen. */
+  open(which: 'conjoiner' | 'practice' | 'files' | 'name'): void {
+    if (which === 'conjoiner') void fitterMenu();
+    if (which === 'practice') void practice();
+    if (which === 'files') void run(new FileSelect('new'));
+    if (which === 'name') void run(new NameEntry());
   },
 };
 (window as any).__h = harness;

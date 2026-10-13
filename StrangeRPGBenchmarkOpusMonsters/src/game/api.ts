@@ -1,6 +1,7 @@
 // The toolbox story scripts use.
 import type { Mon } from '../battle/model';
 import { makeMon } from '../data/species';
+import { LEVEL_MAX } from '../data/types';
 import { bellTone, sfx, type Sfx } from '../engine/audio';
 import { music } from '../engine/music';
 import type { TrackId } from '../engine/score';
@@ -12,7 +13,7 @@ import { field, giveMon, type ActKind, type EmoteKind } from './field';
 import { fitterMenu } from './fitter';
 import { joinJingle } from './jingles';
 import { listMenu, rack, shop, tanMenu } from './menus';
-import { G, fittingUnlocked, loosened, notionsUnlocked, save } from './state';
+import { G, fittingUnlocked, levelOf, loosened, notionsUnlocked, save } from './state';
 import { SPAWNS, type TrainerDef } from './world';
 import { FIELD_ITEMS } from './items';
 
@@ -227,6 +228,8 @@ const SPENT_STOCK = ['seabiscuit', 'smellingsalt'];
 /** The tannery counter in every town. */
 /** Extra tannery options that content adds, such as minigames. */
 export const tanneryExtras: { label: string; when: () => boolean; run: () => Promise<void> }[] = [];
+/** Extra wares that content adds to a town's Buy list, such as Setting sketches. Each returns the ids it sells there. */
+export const tanneryStock: ((town: string) => string[])[] = [];
 
 export async function tannery(town: string, stock: string[]): Promise<void> {
   G.lastTannery = { map: field.map.id, x: field.x, y: field.y };
@@ -242,7 +245,7 @@ export async function tannery(town: string, stock: string[]): Promise<void> {
     const k = opts[i];
     if (i < 0 || k === 'Leave') return;
     if (k === 'Buy') {
-      const extra = [...FIELD_ITEMS.filter(id => id !== 'lure' || LURE_TOWNS.includes(town)), ...(notionsUnlocked() ? SPENT_STOCK : [])];
+      const extra = [...FIELD_ITEMS.filter(id => id !== 'lure' || LURE_TOWNS.includes(town)), ...(notionsUnlocked() ? SPENT_STOCK : []), ...tanneryStock.flatMap(f => f(town))];
       await shop([...(notionsUnlocked() ? stock : stock.filter(s => ['twig', 'brass', 'bone'].includes(s))), ...extra.filter(s => !stock.includes(s))]);
     }
     if (k === 'The Midden') await rack();
@@ -255,3 +258,10 @@ export async function tannery(town: string, stock: string[]): Promise<void> {
 }
 
 export function mon(kind: string, level: number): Mon { return makeMon(kind, level); }
+
+/** A level for `mon` near the player's: the mean of the four highest levels the team fights at here plus `over`, on the doubled scale `mon` halves. */
+export function nearPlayer(over: number): number {
+  const top = G.party.filter(m => m).map(m => levelOf(m)).sort((a, z) => z - a).slice(0, 4);
+  const mean = top.length ? top.reduce((s, x) => s + x, 0) / top.length : 1;
+  return 2 * Math.max(1, Math.min(LEVEL_MAX, Math.round(mean + over)));
+}

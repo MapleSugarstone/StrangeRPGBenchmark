@@ -8,12 +8,12 @@ import { hint } from '../dialogue';
 import { listMenu } from '../menus';
 import { close, run, type Mode } from '../modes';
 import { G, flag, save, setFlag } from '../state';
-import { box, DIM, GOOD, PAPER, SEL, BADC } from '../ui';
+import { box, DIM, GOOD, PAPER, panel, SEL, BADC } from '../ui';
 import {
-  cellsOf, checkMachine, cost, period, start, step, STEP_NAME, STEPS, TAPE_LEN,
+  cellsOf, checkMachine, cost, DX, DY, PART_KINDS, period, PIVOTS, start, step, STEP_NAME, STEPS, TAPE_LEN, turns,
   type ArmPart, type Machine, type Part, type Piece, type Puzzle, type Shape, type Sim, type Step, type Stone,
 } from '../setting/core';
-import { PUZZLES } from '../setting/puzzles';
+import { ALL_PUZZLES, baseSolved, FIRST_SET_NACRE, PUZZLES, SHOP_PUZZLES } from '../setting/puzzles';
 import * as snd from '../setting/sounds';
 import type { Mon } from '../../battle/model';
 import { CARCANET_TAPE } from '../../data/kits7';
@@ -25,10 +25,16 @@ const LAP = '#43384d', LAP_DARK = '#30263a', LAP_MARK = '#7a6888', LAP_TRAIL = '
 /** A station tray's floor, its shaded near wall, and its lit far lip, all a step off the felt. */
 const TRAY = '#241a2c', TRAY_WALL = '#170f1c', TRAY_LIP = '#4c3c5a';
 const COPPER = '#c0806a', COPPER_D = '#6a3a30';
+/** The outline and pips of an input that gives a fixed number of pieces. */
+const GOLD = '#d8b850';
+/** A mold's pewter brackets and their shade. */
+const PEWTER = '#a8b0c4', PEWTER_D = '#4c5266';
+/** A chute's iron rim, its lit lip, and the dark below the board. */
+const IRON = '#3a3444', IRON_LIP = '#6a6078', PIT = '#08060c';
 const ARM_C = ['#e8b860', '#70c8e8', '#e880b0'];
-const STEP_C: Record<Step, string> = { G: '#7ad870', D: '#e8a050', L: '#70b8e8', R: '#70b8e8', O: '#c890f0', I: '#c890f0', '.': DIM };
-const NAME: Record<Part['kind'], string> = { arm: 'Arm', polish: 'Polisher', set: 'Setter', split: 'Splitter' };
-const KINDS: Part['kind'][] = ['arm', 'polish', 'set', 'split'];
+const STEP_C: Record<Step, string> = { G: '#7ad870', D: '#e8a050', L: '#70b8e8', R: '#70b8e8', O: '#c890f0', I: '#c890f0', '<': '#70d8b8', '>': '#70d8b8', '.': DIM };
+const NAME: Record<Part['kind'], string> = { arm: 'Arm', polish: 'Polisher', set: 'Setter', split: 'Splitter', mold: 'Mold', chute: 'Chute' };
+const KINDS = PART_KINDS;
 const BUTTONS = ['Run', 'Step', 'Reset', 'Help', 'Leave'];
 
 const clone = <T>(v: T): T => JSON.parse(JSON.stringify(v));
@@ -146,16 +152,19 @@ const ROUGH: Partial<Record<Stone, { v: string[]; accent: string[] }>> = {
   resin: { v: ['#2e1606', '#5e3414', '#86562a', '#a87a44'], accent: ['#c8782a', '#e09a40'] },
   pebble: { v: ['#1e2622', '#3e4a44', '#687870', '#8ca096'], accent: ['#2e3832', '#b0c2b6'] },
   chip: { v: ['#16122a', '#322a4a', '#584e74', '#7c72a0'], accent: ['#9888c8', '#d8ccff'] },
+  paste: { v: ['#3c3e4c', '#8e92a6', '#b8bccc', '#dee0ec'], accent: ['#f4f6ff', '#c4cce4'] },
 };
 
 /** A rough stone: an uneven lump shaded in three flat values by its side to the lamp, with a texture of its own kind.
- * Nacre is a flat layered flake, resin a lump with a dull glow at its core, pebble a speckled oval, and chip an angular shard. */
+ * Nacre is a flat layered flake, resin a lump with a dull glow at its core, pebble a speckled oval, chip an angular shard,
+ * and paste a smooth milky drop with a soft streak of light across it. */
 function roughStone(s: Stone, cx: number, cy: number, r: number): void {
   const { v, accent } = ROUGH[s]!;
   const [lx, ly] = lightDir(cx, cy), t = frame(), phase = (cx * 37 + cy * 61) & 255;
   const inside = s === 'nacre' ? (dx: number, dy: number) => (dx / (r + 1)) ** 2 + (dy / Math.max(1, r - 1)) ** 2 <= 1.05 && !(dx >= r - 1 && dy <= -1)
     : s === 'resin' ? (dx: number, dy: number) => Math.hypot(dx, dy) <= r * (1 - 0.13 * Math.cos(3 * Math.atan2(dy, dx) + 1)) + 0.3
     : s === 'pebble' ? (dx: number, dy: number) => (dx / r) ** 2 + (dy / Math.max(1, r - 0.6)) ** 2 <= 1.08
+    : s === 'paste' ? (dx: number, dy: number) => (dx / r) ** 2 + ((dy + 0.4) / r) ** 2 <= 1.02
     : (dx: number, dy: number) => [0.3, 1.5, 2.7, 3.9, 5.1].every((a, i) => dx * Math.cos(a) + dy * Math.sin(a) <= r * (i % 2 ? 0.8 : 0.95));
   for (let dy = -r - 1; dy <= r + 1; dy++) for (let dx = -r - 2; dx <= r + 2; dx++) {
     if (!inside(dx, dy)) continue;
@@ -170,6 +179,7 @@ function roughStone(s: Stone, cx: number, cy: number, r: number): void {
     if (s === 'resin' && dx * dx + dy * dy <= (r * 0.45) ** 2 && lit > -0.5) c = accent[(t + phase) % 150 < 75 ? 0 : 1];
     if (s === 'pebble' && h < 2) c = accent[h === 0 && lit > 0 ? 1 : 0];
     if (s === 'chip' && dx === Math.round(dy * 0.4) && Math.abs(dy) < r - 1) c = v[3];
+    if (s === 'paste' && Math.abs(dx * ly - dy * lx) < 0.8 && lit > 0.1) c = accent[(t + phase) % 240 < 120 ? 0 : 1];
     px(cx + dx, cy + dy, c);
   }
   // A dull highlight on the lamp's side, and on a chip now and then a single spark.
@@ -225,8 +235,12 @@ export function drawShape(sh: Shape, x: number, y: number, cs = 9): void {
 
 const shapeSize = (sh: Shape): [number, number] => [Math.max(...sh.atoms.map(a => a[0])) + 1, Math.max(...sh.atoms.map(a => a[1])) + 1];
 
+/** How many of the bought sketches are set. */
+export const shopSolved = (): number => SHOP_PUZZLES.filter(p => G.gem.solved.includes(p.id)).length;
+
 /** Plays one puzzle. Resolves when Ouro leaves the board. */
 export function playSetting(pz: Puzzle): Promise<void> {
+  const shop = SHOP_PUZZLES.includes(pz);
   let mach: Machine = { parts: [] };
   const kept = G.gem.mach[pz.id];
   if (kept && !checkMachine(pz, kept)) mach = clone(kept);
@@ -241,13 +255,15 @@ export function playSetting(pz: Puzzle): Promise<void> {
   let sim: Sim | null = null, running = false, anim = 0, busy = false, clock = 0;
   let note = '';
   let moving: { idx: number; was: Part } | null = null;
-  let result: { c: number; k: number; a: number; best: [boolean, boolean, boolean] } | null = null;
+  let result: { c: number; k: number; a: number; best: [boolean, boolean, boolean]; nacre: number } | null = null;
   let prevArms: { dir: number; len: number }[] = [];
   let prevPos = new Map<number, [number, number][]>();
   let did: Step[] = [];
   const SPEED = 12;
 
   const arms = () => mach.parts.filter((p): p is ArmPart => p.kind === 'arm');
+  /** Pieces input k has left to give, for an input with a count. */
+  const inputLeft = (k: number): number => (pz.inputs[k].count ?? 0) - (sim ? sim.given[k] : 0);
   const used = (k: Part['kind']) => mach.parts.filter(p => p.kind === k).length;
   const armAt = (x: number, y: number) => mach.parts.findIndex(p => p.kind === 'arm' && p.x === x && p.y === y);
   const stationAt = (x: number, y: number) => mach.parts.findIndex(p => p.kind !== 'arm' && cellsOf(p).some(([a, b]) => a === x && b === y));
@@ -273,7 +289,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
     const before = snd.snapshot(sim);
     step(pz, mach, sim);
     anim = SPEED;
-    snd.stepSounds(before, sim, did, pz.need, running && input.held('fast'));
+    snd.stepSounds(before, sim, did, pz.need, running && input.held('fast'), pz.outputs.map(o => o.shape.atoms.length));
     if (sim.err) { running = false; note = sim.err; }
     else if (sim.done) finish();
   }
@@ -285,11 +301,14 @@ export function playSetting(pz: Puzzle): Promise<void> {
     const old = G.gem.best[pz.id];
     const best: [boolean, boolean, boolean] = [!old || c < old.c, !old || k < old.k, !old || a < old.a];
     G.gem.best[pz.id] = old ? { c: Math.min(old.c, c), k: Math.min(old.k, k), a: Math.min(old.a, a) } : { c, k, a };
-    if (!G.gem.solved.includes(pz.id)) G.gem.solved.push(pz.id);
+    const nacre = G.gem.solved.includes(pz.id) ? 0 : FIRST_SET_NACRE[pz.id] || 1;
+    if (nacre) { G.gem.solved.push(pz.id); G.tan += nacre; }
+    // Marks this file as paid under the per-sketch rule, so loading it never pays these sketches a second time.
+    G.flags.setNacre = 1;
     G.gem.wins++;
     keep();
     save();
-    result = { c, k, a, best };
+    result = { c, k, a, best, nacre };
     snd.solvedSound();
   }
 
@@ -307,7 +326,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
 
   function turn(idx: number): void {
     const p = mach.parts[idx];
-    if (p.kind === 'polish') return;
+    if (!turns(p.kind)) return;
     const was = p.dir;
     for (let d = 1; d <= 4; d++) {
       p.dir = (was + d) % 4;
@@ -321,7 +340,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
     busy = true;
     if (idx >= 0) {
       const p = mach.parts[idx];
-      const items = p.kind === 'polish' ? ['Move', 'Remove'] : ['Turn', 'Move', 'Remove'];
+      const items = turns(p.kind) ? ['Turn', 'Move', 'Remove'] : ['Move', 'Remove'];
       void listMenu(NAME[p.kind], items, { x: 126, y: 14, w: 62 }).then(i => {
         busy = false;
         const k = items[i];
@@ -347,14 +366,15 @@ export function playSetting(pz: Puzzle): Promise<void> {
     keep();
   }
 
+  const steps = STEPS.filter(s => pz.pivot || !PIVOTS.includes(s));
   function stepMenu(): void {
     busy = true;
-    const items = STEPS.map(s => STEP_NAME[s]);
-    void listMenu(`Arm ${tr + 1}, step ${tc + 1}`, items, { x: 112, y: 14, w: 76, start: Math.max(0, STEPS.indexOf((arms()[tr]?.tape[tc] || 'G') as Step)) }).then(i => {
+    const items = steps.map(s => STEP_NAME[s]);
+    void listMenu(`Arm ${tr + 1}, step ${tc + 1}`, items, { x: 112, y: 14, w: 76, start: Math.max(0, steps.indexOf((arms()[tr]?.tape[tc] || 'G') as Step)) }).then(i => {
       busy = false;
       if (i < 0) return;
-      setStep(STEPS[i]);
-      snd.writeSound(STEPS[i], tr);
+      setStep(steps[i]);
+      snd.writeSound(steps[i], tr);
       tc = Math.min(TAPE_LEN - 1, tc + 1);
     });
   }
@@ -364,7 +384,12 @@ export function playSetting(pz: Puzzle): Promise<void> {
     await hint(pz.idea);
     await hint('Each arm follows its tape, one step every cycle. All the tapes loop together, at the length of the longest.');
     await hint('Grab takes the stone at the claw. Turning swings the arm and what it holds. Reach out and pull in change its length.');
+    if (pz.pivot) await hint('Pivot turns the piece the arm holds a quarter turn about the claw. The arm itself stays where it is.');
     await hint('A polisher shines a rough stone that rests on it. A setter bonds two stones that rest on it. A splitter breaks their bond.');
+    if (pz.limit.mold) await hint('A mold has a model cell, marked with a dot, and a copy cell. Paste on the copy cell becomes a stone like the one on the model cell.');
+    if (pz.limit.chute) await hint('A chute takes away any piece that rests on it, all of it, even if only one stone touches the chute.');
+    if (pz.inputs.some(i => i.count !== undefined)) await hint('An input outlined in gold gives one piece for each gold dot on it, and then no more.');
+    await hint('A stone cannot rest on an arm\'s base.');
     await hint('C turns the part under the cursor, or clears a tape step. Hold Shift to run faster.');
     busy = false;
   }
@@ -460,7 +485,8 @@ export function playSetting(pz: Puzzle): Promise<void> {
       drawLamp();
       text(pz.name, 4, 2, SEL);
       if (sim) textRight(`Cycle ${sim.cycle}`, 188, 2, sim.err ? BADC : sim.done ? GOOD : PAPER);
-      else textRight(`${G.gem.solved.length} of ${PUZZLES.length} set`, 188, 2, DIM);
+      else if (shop) textRight(`${shopSolved()}/${SHOP_PUZZLES.length} bought`, 188, 2, DIM);
+      else textRight(`${baseSolved(G.gem.solved)} of ${PUZZLES.length} set`, 188, 2, DIM);
       lampAt = [LAMP_X, LAMP_Y];
       drawBoard();
       lampAt = null;
@@ -486,6 +512,10 @@ export function playSetting(pz: Puzzle): Promise<void> {
       const th = (d === 'R' ? 1 : -1) * tt * Math.PI / 2, dx = x0 - a.x, dy = y0 - a.y;
       return [a.x + Math.cos(th) * dx - Math.sin(th) * dy, a.y + Math.sin(th) * dx + Math.cos(th) * dy];
     }
+    if (d === '>' || d === '<') {
+      const th = (d === '>' ? 1 : -1) * tt * Math.PI / 2, gx = a.x + DX[a.dir] * a.len, gy = a.y + DY[a.dir] * a.len, dx = x0 - gx, dy = y0 - gy;
+      return [gx + Math.cos(th) * dx - Math.sin(th) * dy, gy + Math.sin(th) * dx + Math.cos(th) * dy];
+    }
     return [x0 + (at.x - x0) * tt, y0 + (at.y - y0) * tt];
   }
 
@@ -500,7 +530,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
 
   /** The lamp hangs over the board's upper right corner, clear of the title on the left and the count on the right. Its
    * flame is at (LAMP_X, LAMP_Y). */
-  const LAMP_X = Math.max(4 + textWidth(pz.name) + 12, Math.min(118, ox + pz.w * cs - 6)), LAMP_Y = 6;
+  const LAMP_X = Math.max(4 + textWidth(pz.name) + 12, Math.min(118, ox + pz.w * cs - 6, 180 - textWidth(shop ? '12/12 bought' : '12 of 12 set'))), LAMP_Y = 6;
   /** Ring radii from the outside in. Past the outer ring the felt is in shade. */
   const LAMP_RINGS = [120, 80, 46];
   const flicker = (): number => Math.sin(clock * 0.07) + Math.sin(clock * 0.19) > 1.2 ? 1 : 0;
@@ -660,9 +690,20 @@ export function playSetting(pz: Puzzle): Promise<void> {
           }
         }
         lit(ccx, ccy, BRASS_D);
+      } else if (p.kind === 'chute') {
+        // A square hole in the felt with an iron rim. The hole's near wall is in shade, its far wall catches a line of the
+        // lamp, and the middle is dark all the way down.
+        const [x, y] = cells[0], x0 = ox + x * cs + 2, y0 = oy + y * cs + 2, w = cs - 4;
+        for (let yy = 0; yy < w; yy++) for (let xx = 0; xx < w; xx++) {
+          const rim = xx === 0 || yy === 0 || xx === w - 1 || yy === w - 1;
+          if (rim) lit(x0 + xx, y0 + yy, (yy === 0 || xx === 0) ? IRON_LIP : IRON);
+          else px(x0 + xx, y0 + yy, yy === w - 2 ? IRON : PIT);
+        }
+        for (const [qx, qy] of [[x0, y0], [x0 + w - 1, y0], [x0, y0 + w - 1], [x0 + w - 1, y0 + w - 1]]) lit(qx, qy, BRASS_D);
       } else {
         // A shallow tray across both squares: its near wall is in shade and its far lip catches the lamp. A setter has
         // brass corner brackets and a brass bar where the bond forms. A splitter has copper brackets and a copper cut line.
+        // A mold has pewter brackets, a dot on its model cell, a ring on its copy cell, and a chevron from one to the other.
         const [[ax, ay], [bx, by]] = cells;
         const x0 = ox + Math.min(ax, bx) * cs + 2, y0 = oy + Math.min(ay, by) * cs + 2;
         const w = (Math.abs(bx - ax) + 1) * cs - 4, h = (Math.abs(by - ay) + 1) * cs - 4;
@@ -671,7 +712,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
           const edge = yy === 0 ? 'near' : yy === h - 1 ? 'far' : xx === 0 ? (lx < -0.2 ? 'near' : 'far') : xx === w - 1 ? (lx > 0.2 ? 'near' : 'far') : '';
           lit(x0 + xx, y0 + yy, edge === 'near' ? TRAY_WALL : edge === 'far' ? TRAY_LIP : TRAY);
         }
-        const c = p.kind === 'set' ? BRASS : COPPER, cd = p.kind === 'set' ? BRASS_D : COPPER_D;
+        const c = p.kind === 'set' ? BRASS : p.kind === 'mold' ? PEWTER : COPPER, cd = p.kind === 'set' ? BRASS_D : p.kind === 'mold' ? PEWTER_D : COPPER_D;
         for (const [x, y] of cells) {
           const x1 = ox + x * cs + 3, y1 = oy + y * cs + 3, e = cs - 7;
           for (const [qx, qy, hx, hy] of [[x1, y1, 1, 1], [x1 + e, y1, -1, 1], [x1, y1 + e, 1, -1], [x1 + e, y1 + e, -1, -1]]) {
@@ -679,14 +720,28 @@ export function playSetting(pz: Puzzle): Promise<void> {
           }
         }
         const mx = Math.round((cellX(ax) + cellX(bx)) / 2), my = Math.round((cellY(ay) + cellY(by)) / 2);
-        for (let k = -3; k <= 3; k++) {
+        if (p.kind === 'mold') {
+          const ux = DX[p.dir], uy = DY[p.dir], vx = -uy, vy = ux;
+          for (let k = -2; k <= 2; k++) {
+            const back = Math.abs(k);
+            lit(mx - ux * back + vx * k, my - uy * back + vy * k, c);
+            lit(mx - ux * (back + 1) + vx * k, my - uy * (back + 1) + vy * k, cd);
+          }
+          const mcx = cellX(ax), mcy = cellY(ay), ccx = cellX(bx), ccy = cellY(by);
+          lit(mcx, mcy, c); lit(mcx - 1, mcy, cd); lit(mcx + 1, mcy, cd); lit(mcx, mcy - 1, cd); lit(mcx, mcy + 1, cd);
+          for (const [qx, qy] of [[-2, 0], [2, 0], [0, -2], [0, 2], [-1, -1], [1, -1], [-1, 1], [1, 1]]) lit(ccx + qx, ccy + qy, cd);
+        } else for (let k = -3; k <= 3; k++) {
           if (p.kind === 'set') { if (ax === bx) { lit(mx + k, my - 1, c); lit(mx + k, my, cd); } else { lit(mx - 1, my + k, c); lit(mx, my + k, cd); } }
           else if (ax === bx) lit(mx + k, my + (k & 1 ? 1 : 0), c);
           else lit(mx + (k & 1 ? 1 : 0), my + k, c);
         }
       }
     }
-    for (const io of pz.inputs) for (const [dx, dy] of io.shape.atoms) dashed(ox + (io.x + dx) * cs, oy + (io.y + dy) * cs, cs, cs, '#6ac080');
+    // An input that gives a fixed number of pieces is outlined in gold until it runs out.
+    pz.inputs.forEach((io, k) => {
+      const c = io.count === undefined ? '#6ac080' : inputLeft(k) > 0 ? GOLD : '#3a3442';
+      for (const [dx, dy] of io.shape.atoms) dashed(ox + (io.x + dx) * cs, oy + (io.y + dy) * cs, cs, cs, c);
+    });
     for (const io of pz.outputs) {
       const at = io.shape.atoms.map(([dx, dy]) => [cellX(io.x + dx), cellY(io.y + dy)]);
       for (const [a, b] of io.shape.bonds) line(at[a][0], at[a][1], at[b][0], at[b][1], '#5a4a30', 2);
@@ -735,6 +790,12 @@ export function playSetting(pz: Puzzle): Promise<void> {
       const d = hold ? gemR : gemR + 2, nx = -Math.sin(r), ny = Math.cos(r);
       for (const s of [-1, 1]) line(gx + nx * d * s - Math.cos(r) * 2, gy + ny * d * s - Math.sin(r) * 2, gx + nx * d * s + Math.cos(r) * 2, gy + ny * d * s + Math.sin(r) * 2, ARM_C[i], 2);
     });
+    // A gold input shows the pieces it has left as pips along its top edge, above any stone that sits there.
+    pz.inputs.forEach((io, k) => {
+      if (io.count === undefined) return;
+      const x = ox + io.x * cs + 2, y = oy + io.y * cs + 1;
+      for (let n = 0; n < inputLeft(k); n++) { rect(x + n * 3, y, 2, 2, GOLD); px(x + n * 3, y, '#fff4c0'); }
+    });
     if (sim?.err && sim.errAt && clock % 30 < 20) dashed(ox + sim.errAt[0] * cs, oy + sim.errAt[1] * cs, cs, cs, BADC);
     if (zone === 'board' && (clock % 40 < 30 || moving)) {
       const x = ox + cx * cs, y = oy + cy * cs, c = moving ? GOOD : SEL;
@@ -746,10 +807,14 @@ export function playSetting(pz: Puzzle): Promise<void> {
     const x = 134;
     // Rows sit 9 apart, so a descender keeps a clear pixel. The panel ends above the tapes, which start at 115 at the latest.
     text('Make', x, 13, DIM);
-    const sh = pz.outputs[0].shape, [w, h] = shapeSize(sh);
-    drawShape(sh, x + 2, 22, 8);
-    text(`x${pz.need}`, x + 5 + w * 8, 22 + h * 4 - 4, PAPER);
-    let y = 24 + h * 8;
+    let y = 22;
+    // A board with two outputs shows both pieces, one under the other.
+    for (const out of pz.outputs) {
+      const [w, h] = shapeSize(out.shape);
+      drawShape(out.shape, x + 2, y, 8);
+      text(`x${pz.need}`, x + 5 + w * 8, y + h * 4 - 4, PAPER);
+      y += h * 8 + 2;
+    }
     if (sim) {
       pz.outputs.forEach((_, k) => { text(`Set ${sim!.got[k]}/${pz.need}`, x, y, sim!.done ? GOOD : PAPER); y += 9; });
       text(`Cost ${cost(mach)}`, x, y, DIM);
@@ -798,12 +863,13 @@ export function playSetting(pz: Puzzle): Promise<void> {
 
   function drawResult(): void {
     if (!result) return;
-    rect(39, 56, 120, 62, SHADOW);
-    box(36, 52, 120, 62, SEL);
+    const extra = result.nacre ? 10 : 0, side = 60 + extra, edges = 244 + 2 * side;
+    rect(39, 56, 120, 62 + extra, SHADOW);
+    box(36, 52, 120, 62 + extra, SEL);
     // Twinkles come and go round the box's edge.
     for (let k = 0; k < 14; k++) {
-      const ph = (clock + k * 23) % 60, at = (k * 0.618) % 1, edge = at * 364;
-      const [x, y] = edge < 122 ? [35 + edge, 49] : edge < 182 ? [158, 52 + edge - 122] : edge < 304 ? [156 - (edge - 182), 117] : [33, 112 - (edge - 304)];
+      const ph = (clock + k * 23) % 60, at = (k * 0.618) % 1, edge = at * edges;
+      const [x, y] = edge < 122 ? [35 + edge, 49] : edge < 122 + side ? [158, 52 + edge - 122] : edge < 244 + side ? [156 - (edge - 122 - side), 117 + extra] : [33, 112 + extra - (edge - 244 - side)];
       if (ph < 16) twinkle(Math.round(x), Math.round(y), ph < 8 ? 1 + (ph >> 2) : 1 + ((16 - ph) >> 2), '#ffffff', ['#ffd468', '#acf0da', '#e0d0ff'][k % 3]);
     }
     textCenter('Set!', 96, 57, GOOD);
@@ -813,7 +879,8 @@ export function playSetting(pz: Puzzle): Promise<void> {
       textRight(String(v), 120, 70 + i * 10, SEL);
       if (nb) text('best', 124, 70 + i * 10, GOOD);
     });
-    textCenter('Z to go on', 96, 102, DIM);
+    if (result.nacre) { text('Nacre', 46, 100, PAPER); textRight(`+${result.nacre}`, 120, 100, GOOD); }
+    textCenter('Z to go on', 96, 102 + extra, DIM);
   }
 
   music.play('gempuzzle');
@@ -828,21 +895,32 @@ export async function settingMenu(): Promise<void> {
     await hint('Every puzzle comes from a sketch. Find more sketches around the world.');
     setFlag('gemTold');
   }
-  let at = 0;
+  if (!flag('gemShopTold') && SHOP_PUZZLES.some(p => G.gem.found.includes(p.id))) {
+    await hint('Bought sketches come after the found ones in this list. They are harder, and some bring parts of their own.');
+    setFlag('gemShopTold');
+  }
+  let at = Math.max(0, ALL_PUZZLES.filter(p => G.gem.found.includes(p.id)).findIndex(p => p.id === lastPuzzle));
   for (;;) {
-    const list = PUZZLES.filter(p => G.gem.found.includes(p.id));
+    // The twelve found sketches come first, then the bought ones, each in its own order.
+    const list = ALL_PUZZLES.filter(p => G.gem.found.includes(p.id));
     const items = list.map(p => p.name + (G.gem.solved.includes(p.id) ? ' *' : ''));
     const carc = [...G.party, ...G.rack].find(m => m.kind === 'carcanet');
     if (carc) items.push(`${carc.name}'s Tape`);
-    const i = await listMenu(`Setting  ${G.gem.solved.length}/${PUZZLES.length}`, items, {
+    const i = await listMenu(`Setting  ${baseSolved(G.gem.solved)}/${PUZZLES.length}`, items, {
       w: 104, start: at,
       detail: k => {
         const p = list[k];
         if (!p) return;
-        box(110, 4, 78, 80);
-        drawShape(p.outputs[0].shape, 116, 10, 10);
+        panel(110, 4, 78, 80);
+        const rows = p.outputs.reduce((n, o) => n + shapeSize(o.shape)[1], 0), cs = Math.min(10, Math.floor((34 - (p.outputs.length - 1) * 2) / rows));
+        let sy = 10;
+        for (const o of p.outputs) { drawShape(o.shape, 116, sy, cs); sy += shapeSize(o.shape)[1] * cs + 2; }
         const b = G.gem.best[p.id];
-        if (!b) { text('Not set yet', 114, 46, DIM); return; }
+        if (!b) {
+          text('Not set yet', 114, 46, DIM);
+          text('Nacre', 114, 56, PAPER); textRight(`+${FIRST_SET_NACRE[p.id] || 1}`, 184, 56, GOOD);
+          return;
+        }
         text('Cycles', 114, 46, PAPER); textRight(String(b.c), 184, 46, SEL);
         text('Cost', 114, 56, PAPER); textRight(String(b.k), 184, 56, SEL);
         text('Area', 114, 66, PAPER); textRight(String(b.a), 184, 66, SEL);
@@ -851,10 +929,13 @@ export async function settingMenu(): Promise<void> {
     if (i < 0) break;
     at = i;
     if (carc && i === list.length) await tapeMenu(carc);
-    else await playSetting(list[i]);
+    else { lastPuzzle = list[i].id; await playSetting(list[i]); }
   }
   save();
 }
+
+/** The puzzle last opened, so the list opens on it next time. */
+let lastPuzzle = '';
 
 const TAPE_STONE: Record<string, [Stone, string]> = { p: ['pearl', 'Pearl'], a: ['amber', 'Amber'], g: ['glass', 'Beach glass'], s: ['star', 'Star glass'] };
 
@@ -872,7 +953,7 @@ async function tapeMenu(m: Mon): Promise<void> {
     const i = await listMenu(`${m.name}'s Tape`, tape.map((c, k) => `${k + 1}  ${TAPE_STONE[c][1]}`), {
       w: 104, start: at,
       detail: () => {
-        box(110, 4, 78, 40);
+        panel(110, 4, 78, 40);
         tape.forEach((c, k) => drawStone(TAPE_STONE[c][0], 122 + k * 18, 24, 5));
       },
     });

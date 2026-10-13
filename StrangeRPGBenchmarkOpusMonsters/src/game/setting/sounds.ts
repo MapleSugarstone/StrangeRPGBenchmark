@@ -57,6 +57,26 @@ function cutSound(at: number, v: number): void {
   tone({ w: 'triangle', f: ct(0, 5), dur: 0.08, vol: 0.03 * v, at: at + 0.08 });
 }
 
+/** A held piece pivots on the claw: one soft click, and a note that bends a tone toward its chord tone. */
+function pivotSound(i: number, right: boolean, at: number, v: number): void {
+  hiss({ f: 2900, q: 5, dur: 0.016, vol: 0.04 * v, at });
+  const f = ct(i + 1, 5);
+  tone({ w: 'triangle', f: f * Math.pow(2, (right ? 3 : -3) / 12), to: f, dur: 0.12, vol: 0.024 * v, at: at + 0.01 });
+}
+
+/** A mold presses paste into a copy: a dull press, then the copy's note rings out of it. */
+function moldSound(k: number, at: number, v: number): void {
+  hiss({ f: 500, kind: 'lowpass', q: 0.9, dur: 0.07, vol: 0.1 * v, at });
+  tone({ f: ct(k + 2, 5), dur: 0.22, vol: 0.022 * v, at: at + 0.05, fm: [2.76, 1.3] });
+}
+
+/** A piece drops down a chute: a short rattle, and a note that falls away under the board. */
+function chuteSound(at: number, v: number): void {
+  for (let k = 0; k < 3; k++) hiss({ f: 1600 - k * 350, q: 3, dur: 0.02, vol: 0.04 * v, at: at + k * 0.03 });
+  const f = ct(0, 4);
+  tone({ w: 'triangle', f, to: f * 0.5, dur: 0.3, vol: 0.03 * v, at: at + 0.04 });
+}
+
 /** A fresh stone wells up at an input: a low bubble that rises onto a note of the scale. */
 function appearSound(k: number, at: number, v: number): void {
   const f = deg(k * 2, 4);
@@ -112,15 +132,17 @@ export function snapshot(sim: Sim): Before {
 
 /** What one step did. Arm actions count only when they changed something, and `arms` holds one entry per arm. */
 export interface StepEvents {
-  arms: ('turnL' | 'turnR' | 'out' | 'in' | 'grab' | 'miss' | 'drop' | null)[];
-  fresh: number; polished: number; bonds: number; cuts: number;
+  arms: ('turnL' | 'turnR' | 'pivotL' | 'pivotR' | 'out' | 'in' | 'grab' | 'miss' | 'drop' | null)[];
+  fresh: number; polished: number; molded: number; bonds: number; cuts: number;
+  /** Stones that left the board without an output taking them, which only a chute does. */
+  gone: number;
   /** Each output's count after the step, for the outputs that took a piece. */
   delivered: { output: number; n: number }[];
   jam: boolean;
 }
 
 /** Reads what one step did by comparing the machine with its state before the step. */
-export function readStep(b: Before, sim: Sim, did: Step[]): StepEvents {
+export function readStep(b: Before, sim: Sim, did: Step[], sizes: number[] = []): StepEvents {
   const now = new Set<Atom>();
   let fresh = 0;
   for (const p of sim.pieces) {
@@ -132,31 +154,35 @@ export function readStep(b: Before, sim: Sim, did: Step[]): StepEvents {
     const p = b.arms[i], d = did[i];
     if (!p) return null;
     if ((d === 'L' || d === 'R') && a.dir !== p.dir) return d === 'R' ? 'turnR' : 'turnL';
+    if ((d === '<' || d === '>') && p.hold !== null) return d === '>' ? 'pivotR' : 'pivotL';
     if (d === 'O' && a.len > p.len) return 'out';
     if (d === 'I' && a.len < p.len) return 'in';
     if (d === 'G' && p.hold === null) return a.hold !== null ? 'grab' : 'miss';
     if (d === 'D' && p.hold !== null) return 'drop';
     return null;
   });
-  let polished = 0, bonds = 0, cuts = 0;
-  for (const [a, s] of b.stones) if (a.s !== s) polished++;
+  let polished = 0, molded = 0, bonds = 0, cuts = 0;
+  for (const [a, s] of b.stones) if (a.s !== s) { if (s === 'paste') molded++; else polished++; }
   const after = pairsOf(sim), old = new Set([...b.stones.keys()].map(sid)), alive = new Set([...now].map(sid));
   for (const k of after) if (!b.pairs.has(k) && k.split(',').every(n => old.has(Number(n)))) bonds++;
   for (const k of b.pairs) if (!after.has(k) && k.split(',').every(n => alive.has(Number(n)))) cuts++;
   const delivered = sim.got.map((n, output) => ({ output, n })).filter(({ output, n }) => n > (b.got[output] ?? 0));
-  return { arms, fresh, polished, bonds, cuts, delivered, jam: !!sim.err };
+  let gone = [...b.stones.keys()].filter(a => !now.has(a)).length;
+  for (const d of delivered) gone -= (sizes[d.output] ?? 0) * (d.n - (b.got[d.output] ?? 0));
+  return { arms, fresh, polished, molded, bonds, cuts, gone: Math.max(0, gone), delivered, jam: !!sim.err };
 }
 
 /**
  * Plays one machine step: new stones at the inputs, then each arm's action as a quick arpeggio up the chord, then the
  * stations' work, then deliveries, or a jam. Running fast drops the turns and reaches so the steps do not blur.
  */
-export function stepSounds(b: Before, sim: Sim, did: Step[], need: number, fast: boolean): void {
-  const e = readStep(b, sim, did), v = fast ? 0.7 : 1;
+export function stepSounds(b: Before, sim: Sim, did: Step[], need: number, fast: boolean, sizes: number[] = []): void {
+  const e = readStep(b, sim, did, sizes), v = fast ? 0.7 : 1;
   for (let k = 0; k < Math.min(2, e.fresh); k++) appearSound(k, k * 0.03, v);
   e.arms.forEach((ev, i) => {
     const at = 0.02 + i * 0.035;
     if (ev === 'turnL' || ev === 'turnR') { if (!fast) turnSound(i, ev === 'turnR', at, v); }
+    else if (ev === 'pivotL' || ev === 'pivotR') { if (!fast) pivotSound(i, ev === 'pivotR', at, v); }
     else if (ev === 'out' || ev === 'in') { if (!fast) reachSound(i, ev === 'out', at, v); }
     else if (ev === 'grab') grabSound(i, at, v);
     else if (ev === 'miss') emptySound(at, v);
@@ -164,6 +190,8 @@ export function stepSounds(b: Before, sim: Sim, did: Step[], need: number, fast:
   });
   if (e.jam) { jamSound(0.08); return; }
   for (let k = 0; k < Math.min(2, e.polished); k++) polishSound(k, 0.12 + k * 0.05, v);
+  for (let k = 0; k < Math.min(2, e.molded); k++) moldSound(k, 0.12 + k * 0.05, v);
+  if (e.gone) chuteSound(0.14, v);
   if (e.bonds) bondSound(0.12, v);
   if (e.cuts) cutSound(0.12, v);
   for (const d of e.delivered) deliverSound(d.n, need, 0.16 + d.output * 0.06, v);
@@ -187,7 +215,7 @@ export function rowSound(row: number): void {
   tone({ f: ct(row, 5), dur: 0.05, vol: 0.02, at: 0.04, fm: [2, 0.6] });
 }
 
-const KIND_TONE: Record<Part['kind'], number> = { arm: 0, polish: 1, set: 2, split: 3 };
+const KIND_TONE: Record<Part['kind'], number> = { arm: 0, polish: 1, set: 2, split: 3, mold: 4, chute: 5 };
 
 /** A part set on the board: a felt thud, a wooden knock in the part's own chord tone, and a faint brass ping. */
 export function placeSound(kind: Part['kind']): void {
@@ -215,6 +243,7 @@ export function writeSound(s: Step, row: number): void {
   else if (s === 'D') dropSound(row, 0, v);
   else if (s === 'L' || s === 'R') turnSound(row, s === 'R', 0, v);
   else if (s === 'O' || s === 'I') reachSound(row, s === 'O', 0, v);
+  else if (s === '<' || s === '>') pivotSound(row, s === '>', 0, v);
   else hiss({ f: 1500, q: 3, dur: 0.018, vol: 0.03 });
 }
 

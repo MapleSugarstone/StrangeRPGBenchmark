@@ -2,6 +2,8 @@
 import { sfx } from '../engine/audio';
 import { field, flag, say, setFlag, wait } from '../game/api';
 import { shop } from '../game/menus';
+import { defProp } from '../game/props';
+import { rect } from '../engine/screen';
 import { save } from '../game/state';
 import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
 import { PUZZLE_DATA } from '../tools/worldcheck';
@@ -10,6 +12,9 @@ import { gatekeeper, giveKeyItem, hasKey, room, roomDoor } from './ring';
 import { holmSeen } from './ring3';
 
 // ---------------------------------------------------------------- the Shingle and puzzle 10
+
+/** The front step, a flat stone worn into a dip, at the back of the cut where the drag's reward waits in view. */
+defProp('lorestep', { w: 1, h: 1, paint(x, y) { rect(x + 1, y + 4, 6, 3, '#9a9890'); rect(x + 3, y + 4, 2, 1, '#6a6862'); } });
 
 defMap({
   id: 'shingle', name: 'The Shingle', region: 41, music: 'shingle',
@@ -46,10 +51,10 @@ defMap({
     { x: 6, y: 25, to: 'hilt', tx: 38, ty: 4, dir: 0 },
   ],
   zone: { kinds: kinds([['tang', 3], ['buckler', 2], ['sallet', 2], ['gore', 2], ['quarry', 2]]), lv: [39, 43], n: 10, area: 'shingle' },
-  props: [{ x: 38, y: 9, pic: 'holmfar', when: holmSeen(7) }],
+  props: [{ x: 38, y: 9, pic: 'holmfar', when: holmSeen(7) }, { x: 23, y: 7, pic: 'lorestep', when: () => !hasKey('lore_step') && !flag('back_lore_step') }],
   npcs: [
     { id: 'stonesorter', x: 14, y: 17, sprite: 'elder', name: 'Stone-sorter', dir: 1, lines: ['Three stones in the cut and a cave behind. You can\'t push a stone. You walk away and it follows.'] },
-    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { name: 'Blade-picker', team: [['tang', 41], ['buckler', 41], ['sallet', 42]], intro: 'Every stone here\'s the shape of a blade. Not one of them\'s sharp. I check them all. Daily.', defeat: 'Still not sharp. Same as you.', sight: 3 } },
+    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { nacre: 1, name: 'Blade-picker', team: [['tang', 41], ['buckler', 41], ['sallet', 42]], intro: 'Every stone here\'s the shape of a blade. Not one of them\'s sharp. I check them all. Daily.', defeat: 'Still not sharp. Same as you.', sight: 3 } },
   ],
   spots: [
     { x: 23, y: 7, when: () => !field.objAt(23, 8) && !hasKey('lore_step') && !flag('back_lore_step'), script: async () => { sfx('guard'); await wait(16); await giveKeyItem('lore_step', 'Ouro drags out a flat stone worn into a dip. It is the front step.'); } },

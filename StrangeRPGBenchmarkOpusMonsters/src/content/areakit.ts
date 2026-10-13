@@ -45,13 +45,14 @@ export function look(x: number, y: number, ...lines: string[]): NonNullable<MapD
 
 export type Reward = { pegs?: [Parameters<typeof givePegs>[0], number]; notion?: string; notions?: [string, number][]; items?: [string, number][]; rind?: number; tan?: number };
 
-/** Gives a reward and says what it was. */
+/** Gives a reward and says what it was and what it is for. */
 export async function reward(r: Reward): Promise<void> {
   sfx('level');
-  if (r.pegs) { givePegs(r.pegs[0], r.pegs[1]); await notice(`${r.pegs[1]} ${HORN_NAME[r.pegs[0]]}${r.pegs[1] > 1 ? 's' : ''}.`); }
-  if (r.notion) { giveNotion(r.notion); await notice(`A notion: ${NOTIONS[r.notion]?.name || r.notion}.`); }
-  for (const [id, n] of r.notions || []) { giveNotion(id, n); await notice(`${n > 1 ? n + ' x ' : 'A notion: '}${NOTIONS[id]?.name || id}.`); }
-  for (const [id, n] of r.items || []) { giveItem(id, n); await notice(`${n > 1 ? n + ' x ' : ''}${ITEMS[id]?.name || id}.`); }
+  const does = (id: string) => (NOTIONS[id]?.text ? ' ' + NOTIONS[id].text : '');
+  if (r.pegs) { givePegs(r.pegs[0], r.pegs[1]); await notice(`${r.pegs[1]} ${HORN_NAME[r.pegs[0]]}${r.pegs[1] > 1 ? 's' : ''}, for sounding a weak wild whorl.`); }
+  if (r.notion) { giveNotion(r.notion); await notice(`A notion: ${NOTIONS[r.notion]?.name || r.notion}.${does(r.notion)}`); }
+  for (const [id, n] of r.notions || []) { giveNotion(id, n); await notice(`${n > 1 ? n + ' x ' : 'A notion: '}${NOTIONS[id]?.name || id}.${does(id)}`); }
+  for (const [id, n] of r.items || []) { giveItem(id, n); await notice(`${n > 1 ? n + ' x ' : ''}${ITEMS[id]?.name || id}.${ITEMS[id]?.text ? ' ' + ITEMS[id].text : ''}`); }
   if (r.rind) { G.rind += r.rind; await notice(`${r.rind} cowries.`); }
   if (r.tan) { G.tan += r.tan; await notice(`${r.tan} nacre. Any grotto will layer it on.`); }
   save();

@@ -1,0 +1,18 @@
+{
+  "name": "void-pilgrim-chronicles",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A tile-based role-playing game where you fight by stripping shells and extracting memories, emotions, and names.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "sim": "node scripts/build.mjs --tools && node dist-tools/sim.js",
+    "playtest": "node scripts/build.mjs --tools && node dist-tools/playtest.js 30 --out Notes/playtest.md"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}

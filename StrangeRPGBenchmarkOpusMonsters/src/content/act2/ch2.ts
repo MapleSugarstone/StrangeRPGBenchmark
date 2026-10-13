@@ -14,6 +14,7 @@ import { Canvas, highTide, kinds, look, reward, stash } from '../areakit';
 import { smallGranLine } from '../ch1';
 import { brack } from '../ch3';
 import { FOOTPRINTS, giveGrain } from './kit';
+import { countTack, tackTally, tackTries, tackWinsLine } from '../tack';
 import {
   cinch, grains, keeperFight, low, person, release, sayAll, scriptedHigh, scriptedLow, strandBoard, strandmongerHooks, tideRuns, tideWatch,
 } from './ch1';
@@ -27,22 +28,28 @@ const smallGranHere = () => G.party.some(m => m.kind === 'smallgranw');
 // ---------------------------------------------------------------- the Flats, release: Tack
 
 MAPS.flats.npcs.push(person('a2TackFlats', 24, 9, 'tack', 'Tack', 0, { when: () => release() && grains() >= 1 && !flag('tackFlats') && low() }));
-/** Tack's four on the Flats (release only). Ouro arrives with the Strand cap at 25. */
+/** Tack's four on the Flats (release only). Ouro arrives with the Strand cap at 13. */
 export const tackFlatsTeam = () => [brack(28), ...([['razor', 27], ['mote', 27], ['skitter', 26]] as const).map(([k, l]) => makeMon(k, l))];
 // Tack says a number in every line.
 defScript('a2TackFlats', async () => {
   face('a2TackFlats', 0);
   await act('a2TackFlats', 'nod');
   faceToward('a2TackFlats', 'ouro');
-  await say('Tack', '47 footprints from the big shell to here. Each 1\'s the size of a pond. Walked round all of them.');
-  await say('Tack', '2nd battle out here, 1st real one. Brack\'s at Strand level 14. I checked twice.');
-  await say('Tack', '1 of us is going home wet. Not me.');
+  const tries = tackTries('flats');
+  if (tries) await say('Tack', `Try ${tries + 1}. Same 47 footprints. Same tide.`);
+  else {
+    await say('Tack', '47 footprints from the big shell to here. Each 1\'s the size of a pond. Walked round all of them.');
+    await say('Tack', '2nd battle out here, 1st real one. Brack\'s at Strand level 14. I checked twice.');
+    await say('Tack', '1 of us is going home wet. Not me.');
+  }
   const r = await battle({ enemy: tackFlatsTeam(), name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   field.playMapMusic();
-  if (r.result !== 'win') { await say('Tack', '1 for me. Go on, count it.'); await field.lose(); return; }
+  countTack('flats', r.result === 'win');
+  // Tack stays on the Flats until Ouro wins. Talking to him again starts the rematch.
+  if (r.result !== 'win') { await say('Tack', `${tackWinsLine()} Go on, count it. I'll be right here.`); return; }
   setFlag('tackFlats');
-  G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-  await say('Tack', `${G.flags.tackWins} losses. Even out here. Great.`);
+  const t = tackTally();
+  await say('Tack', `${t.ouro} losses. ${t.tack} wins. Even out here. Great.`);
   await say('Tack', 'Footprints keep going. 1 every 30 steps. I\'m counting the rest. Don\'t wait up.');
 });
 
@@ -98,7 +105,7 @@ defMap({
     tideKinds: { high: kinds([['seiche', 3], ['pallium', 2], ['scud', 2]]), low: kinds([['macula', 3], ['scud', 2], ['skitter', 2]]) },
   },
   npcs: [
-    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { name: 'Spot-counter', team: [['macula', 18], ['pallium', 18]], intro: 'I count the Cowrie\'s spots. They move when I blink. So I don\'t blink. Ow.', defeat: 'Lost count. Blinked. From the top.', sight: 3 } }),
+    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { nacre: 1, name: 'Spot-counter', team: [['macula', 18], ['pallium', 18]], intro: 'I count the Cowrie\'s spots. They move when I blink. So I don\'t blink. Ow.', defeat: 'Lost count. Blinked. From the top.', sight: 3 } }),
     person('a2SeicheStander', 12, 24, 'cowrie2', 'Seiche-stander', 2, { when: highTide, trainer: { name: 'Seiche-stander', team: [['seiche', 19], ['scud', 19]], intro: 'I stand in the gray at high water. It\'s super warm in there. Nobody believes me.', defeat: 'Back in the gray. It\'s warm in there, I swear.', sight: 2 } }),
     person('a2CinchPosts', 8, 22, 'realcinch', 'Cinch', 3, { when: () => marked() && !flag('cinchLeftPosts') }),
   ],
@@ -207,7 +214,7 @@ defMap({
     person('a2PoOldWoman', 30, 18, 'cowrie1', 'Old woman', 3),
     person('a2Clerk', 18, 12, 'villager2', 'Gloss\'s clerk', 0),
     person('a2Polisher', 32, 5, 'cowrie2', 'Polisher', 3, { trainer: { name: 'Polisher', team: [['enamel', 20], ['emery', 20]], intro: 'I polish the sky. All of it. You\'re next, you\'ve got smudges.', defeat: 'Smudged. Leave it. Don\'t you dare wipe it.', sight: 3 } }),
-    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { name: 'Pig-keeper', team: [['porcella', 20], ['specie', 21]], intro: 'My pig\'s glazed. So\'s my purse. So\'s my other pig.', defeat: 'Glaze cracks. Yeah. I knew that.', sight: 3 } }),
+    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { nacre: 1, name: 'Pig-keeper', team: [['porcella', 20], ['specie', 21]], intro: 'My pig\'s glazed. So\'s my purse. So\'s my other pig.', defeat: 'Glaze cracks. Yeah. I knew that.', sight: 3 } }),
     person('a2MaculaChild', 20, 21, 'cowrie1', 'Child', 0),
     { id: 'a2ChildMacula', x: 20, y: 22, sprite: 'stone', name: 'Madaku', mon: SPECIES.macula ? 'macula' : undefined, lines: ['A small dark spot stands on the blank, on nothing at all.'] },
   ],
@@ -576,7 +583,7 @@ field.stepHooks.push(f => {
   });
 });
 
-/** Gloss's four. Ouro arrives with the Strand cap at 25. */
+/** Gloss's four. Ouro arrives with the Strand cap at 13. */
 export const GLOSS_TEAM: [string, number][] = [['laggard', 22], ['tain', 22], ['luster', 22], ['macula', 23]];
 defScript('a2Gloss', async () => {
   if (grains() >= 2) {

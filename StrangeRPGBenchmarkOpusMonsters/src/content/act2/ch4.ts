@@ -18,6 +18,7 @@ import { brack } from '../ch3';
 import { smallGranLine } from '../ch1';
 import { playShellboard } from '../minigames';
 import { FOOTPRINTS, defineShells, giveGrain, tideHooks, washAll } from './kit';
+import { countTack, tackTally, tackTries, tackWinsLine } from '../tack';
 
 // ---------------------------------------------------------------- shared by chapters 4 to 6
 
@@ -63,17 +64,17 @@ export const pale = (id: string, c: [string, string] = ['#ece6d6', '#c8c2b4']) =
 /** A whorl drawn as a person in the field, with a plain stand-in until its kind exists. */
 export const kindSprite = (kind: string) => (): SpriteData => SPECIES[kind] ? { px: SPECIES[kind].sprite, c: SPECIES[kind].c } : { px: PEOPLE.stone.px, c: ['#c8c0d8', '#8a84a0'] };
 /** Runs a fight without the field's walk back to the grotto on a loss. Resolves true on a win. */
-export async function keeperFight(name: string, team: () => Mon[], ai: 'keeper' | 'champion' = 'keeper', music = 'keeperStrand'): Promise<boolean> {
-  const r = await battle({ enemy: team(), name, ai, wild: false, bg: field.bg(), music });
+export async function keeperFight(name: string, team: () => Mon[], ai: 'keeper' | 'champion' = 'keeper', music = 'keeperStrand', sync?: number): Promise<boolean> {
+  const r = await battle({ enemy: team(), name, ai, wild: false, bg: field.bg(), music, ...(sync ? { sync, noXp: true } : {}) });
   field.playMapMusic();
   return r.result === 'win';
 }
-/** Strand keepers take rematches at Strand level 70 once Act 2 is over. */
+/** Strand keepers take rematches once Act 2 is over, with both teams synced at level 35. */
 export async function strandRematch(name: string, kindsList: string[], who: string): Promise<boolean> {
   if (!flag('a2done')) return false;
-  const c = await choose(['Fight again at 35', 'Talk'], true, `${name} will fight again, all four at level 35.`);
+  const c = await choose(['Fight again at 35', 'Talk'], true, `${name} will fight again. Both teams at level 35.`);
   if (c !== 0) return c < 0;
-  if (await keeperFight(name, () => kindsList.map(k => makeMon(k, 70)))) {
+  if (await keeperFight(name, () => kindsList.map(k => makeMon(k, 70)), 'keeper', 'keeperStrand', 35)) {
     G.rind += 500;
     G.flags['a2rematch_' + who] = (G.flags['a2rematch_' + who] || 0) + 1;
     await notice('(500 cowries.)');
@@ -154,7 +155,7 @@ const AFTER_LOW = ['I\'m just out on the sand, at low! Feels weird. Good weird.'
 /** After Act 2 every townsperson on the Strand says one of three things at low water. */
 export const afterLow = (i: number) => AFTER_LOW[i % 3];
 
-/** Tack on the Low Line, release only. Strand level 43. */
+/** Tack on the Low Line, release only. Strand level 22. */
 export const tackTeam = () => [brack(43), mon('razor', 42), mon('asterias', 42), mon('swift', 42)];
 
 defMap({
@@ -193,7 +194,7 @@ defMap({
     { id: 'kelpcutter', x: 24, y: 10, sprite: 'beach2', name: 'Kelp-cutter', dir: 3, when: lowWater,
       trainer: { name: 'Kelp-cutter', team: [['laminaria', 38], ['eelgrass', 38]], intro: 'I cut kelp at low. It stands right up when the sea goes out. Very polite of it.', defeat: 'Alright. Lie down, then.', sight: 3 } },
     { id: 'deepfisher', x: 31, y: 15, sprite: 'nautilus2', name: 'Deep-fisher', dir: 1, when: lowWater,
-      trainer: { name: 'Deep-fisher', team: [['grenadier', 39], ['cirrus', 39]], intro: 'Deep ones come up at low. I wait right at the edge. Very patient. Very wet.', defeat: 'Back down deep, then. Bye.', sight: 3 } },
+      trainer: { nacre: 1, name: 'Deep-fisher', team: [['grenadier', 39], ['cirrus', 39]], intro: 'Deep ones come up at low. I wait right at the edge. Very patient. Very wet.', defeat: 'Back down deep, then. Bye.', sight: 3 } },
     { id: 'starpicker', x: 50, y: 8, sprite: 'beach3', name: 'Star-picker', dir: 3, when: lowWater,
       trainer: { name: 'Star-picker', team: [['asterias', 39], ['transit', 40]], intro: 'My gran says starfish fell out of the sky. I pick them up anyway. They don\'t mind.', defeat: 'Fell again.', sight: 3 } },
     { id: 'brinediver', x: 27, y: 7, sprite: 'beach2', name: 'Brine-diver', dir: 0, when: highTide,
@@ -242,14 +243,19 @@ defScript('llTack', async () => {
   if (flag('tackLow')) { await say('Tack', '1 hollow, 1 slate. Crabs on the rim now. 11. Hold still, crabs.'); return; }
   await act('lltack', 'nod');
   faceToward('lltack', 'ouro');
-  await say('Tack', '3 lows since we came down. 3 times it walked right past the Auger. Right past.');
-  await say('Tack', 'Battle 3 out here. After this I\'m counting something else. Something that holds still.');
+  const tries = tackTries('low');
+  if (tries) await say('Tack', `Try ${tries + 1}. The lows don't stop. Neither do I.`);
+  else {
+    await say('Tack', '3 lows since we came down. 3 times it walked right past the Auger. Right past.');
+    await say('Tack', 'Battle 3 out here. After this I\'m counting something else. Something that holds still.');
+  }
   const won = await keeperFight('Tack', tackTeam, 'keeper', 'rival');
+  countTack('low', won);
+  // Tack stays by the hollow until Ouro wins. Talking to him again starts the rematch.
+  if (!won) { await say('Tack', `${tackWinsLine()} I'm counting that 1 twice. Come back.`); save(); return; }
   setFlag('tackLow');
-  if (won) {
-    G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-    await say('Tack', `${G.flags.tackWins}. I'll count them on the Auger stair. 4,000 steps, 1 per loss. Plenty of room.`);
-  } else await say('Tack', '1 back! I\'m counting that twice.');
+  const t = tackTally();
+  await say('Tack', `${t.ouro} losses, ${t.tack} wins. I'll count them on the Auger stair. 4,000 steps. Plenty of room.`);
   save();
 });
 
@@ -316,7 +322,7 @@ defMap({
     { id: 'lcwindow', onSolid: true, x: 16, y: 1, sprite: 'realcinch', name: 'Cinch', dir: 0, talk: 'cinchWindow', when: () => taken() && !flag('springHigh') },
     { id: 'ballastgirl', x: 19, y: 5, sprite: 'nautilus1', name: 'Ballast-girl', dir: 2, talk: 'ballastgirl' },
     { id: 'pumper', x: 4, y: 3, sprite: 'nautilus2', name: 'Pumper', dir: 0,
-      trainer: { name: 'Pumper', team: [['ballast', 40], ['sluice', 40]], intro: 'I pump the siphon at low. One of my arms is huge now. The other one\'s fine.', defeat: 'Other arm next time, then.', sight: 2 } },
+      trainer: { nacre: 1, name: 'Pumper', team: [['ballast', 40], ['sluice', 40]], intro: 'I pump the siphon at low. One of my arms is huge now. The other one\'s fine.', defeat: 'Other arm next time, then.', sight: 2 } },
     { id: 'doorkeeper', x: 10, y: 11, sprite: 'nautilus2', name: 'Nautilus doorkeeper', dir: 1,
       lines: () => (hoodShut() ? ['Hood\'s shut for the big low. Only Siphon opens it. Sorry.'] : lowWater() ? ['Low water, hood\'s shut. Knock and I\'ll open it. Knock nice.'] : ['High water. Hood\'s up. Mind your feet, it\'s wet.']) },
     folk('lcwoman', 3, 6, 'nautilus1', 'Woman', 'We all live in the big room now. The small rooms are where we grew up. Cozy, back then.', 'Pump, pump. Pump, pump.',
@@ -385,7 +391,7 @@ defScript('siphonBack', async () => {
   }
 });
 
-/** Siphon, the fourth keeper. Strand level 42. */
+/** Siphon, the fourth keeper. Strand level 20. */
 export const siphonTeam = () => [mon('hood', 38), mon('septum', 38), mon('hyponome', 39), mon('vacuole', 40)];
 const SIPHON_THINGS: [string, string, string][] = [
   ['sbowl', 'siphonBowl', 'This room is my first bowl now!! This room is a great deal bigger than that bowl was.'],
@@ -602,10 +608,11 @@ defScript('protoconch', async () => {
 
 // ---------------------------------------------------------------- the Tide-reader's chamber (room 5)
 
-// The scraped marks. The wall reads, oldest first: 2, 1, 1, 2, 3, 4*, 4*, 3, 2, 1, then three blanks, then the
-// next low. The round goes up by one to four, stays one more, comes down to one, stays one more. The blanks
-// sit on the stay at one, so counting up and down without the stay gives 2, 3, 4. The answer is 1, 2, 3.
-const MARKS_ANSWER = [1, 2, 3];
+// The scraped marks. The wall reads, oldest first: 2, _, 1, 2, _, 4*, _, 3, 2, 1, _, _, _, then the next low. The
+// round goes up by one to four, stays one more, comes down to one, stays one more, and a stay at four is a spring
+// low with a star. Six places are blank, each with five ways to cut (one to four notches, or four and a star), so
+// guessing takes thousands of tries and the round has to be read. The answer is 1, 3, 4*, 1, 2, 3.
+const MARKS_ANSWER = [1, 3, 5, 1, 2, 3];
 
 const tc = new Canvas(13, 11, '#');
 tc.rect(1, 1, 11, 9, '_').put(1, 1, '#').put(11, 1, '#').put(1, 9, '#').put(11, 9, '#');
@@ -686,24 +693,29 @@ defScript('tidereader', async () => {
     await say('Tide-reader', 'At half tide, you came in through the back!! Nobody does. Nobody ever has.');
     await say('Tide-reader', 'At high water, soup. At low, the wall. At flood, at ebb, at slack, at neap, at spr-');
     await say('Tide-reader', 'At every low since this room was the big room, I have cut one mark. Faithfully.');
-    await say('Tide-reader', 'At some high water, a pot hit the top three marks. Scraped clean off!! A calamitous pot.');
+    await say('Tide-reader', 'At some high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.');
     await say('Tide-reader', 'At any tide you like, cut them back for me. Here\'s the knife, my second-best.');
-    await hint('(One to four notches for how far the sea went out. Find the pattern and cut the three blanks.)');
+    await hint('(One to four notches for how far the sea went out. Find the pattern and cut the six blanks.)');
     setFlag('knifeGiven');
     return;
   }
-  await say('Tide-reader', 'At the top, near the point. Three blank places. The knife\'s yours till they\'re cut.');
+  await say('Tide-reader', 'At six places, blank. Three by the point, three down the wall. The knife\'s yours till then.');
 });
 
 async function marks(): Promise<void> {
-  await say('Marks', 'Newest, near the point, oldest first: two notches. One. One. Two. Three.');
-  await say('Marks', 'Four, and a star. Four, and a star. Three. Two. One.');
-  if (flag('marksDone')) { await say('Marks', 'Then one, two, three, cut fresh. Then a place for the next.'); return; }
+  if (flag('marksDone')) {
+    await say('Marks', 'Newest, near the point, oldest first: two notches. One. One. Two. Three.');
+    await say('Marks', 'Four, and a star. Four, and a star. Three. Two. One.');
+    await say('Marks', 'Then one, two, three, cut fresh. Then a place for the next.');
+    return;
+  }
+  await say('Marks', 'Newest, near the point, oldest first: two notches. Scraped. One. Two. Scraped.');
+  await say('Marks', 'Four, and a star. Scraped. Three. Two. One.');
   await say('Marks', 'Then three places scraped smooth.');
   if (!flag('knifeGiven')) return;
   const cut: number[] = [];
-  for (let i = 0; i < 3; i++) {
-    const k = await listMenu(`Scraped place ${i + 1} of 3`, ['One notch', 'Two notches', 'Three notches', 'Four notches'], { w: 120 });
+  for (let i = 0; i < 6; i++) {
+    const k = await listMenu(`Scraped place ${i + 1} of 6`, ['One notch', 'Two notches', 'Three notches', 'Four notches', 'Four and a star'], { w: 120 });
     if (k < 0) return;
     cut.push(k + 1);
     sfx('cut');

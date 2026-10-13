@@ -212,7 +212,7 @@ defMap({
     { id: 'marramcutter', x: 12, y: 5, sprite: 'beach2', name: 'Marram-cutter', dir: 1,
       trainer: { name: 'Marram-cutter', team: [['marram', 48], ['saltwort', 48]], intro: 'Cutting dune grass for thatch. I go round the labels. Feels rude to cut a label.', defeat: 'Eh. Thatch\'ll keep.', sight: 3 } },
     { id: 'starchaser', x: 30, y: 10, sprite: 'beach3', name: 'Star-chaser', dir: 3, when: lowWater,
-      trainer: { name: 'Star-chaser', team: [['bolide', 49], ['spoor', 49]], intro: 'Big low! Once a year you get to run right behind the stars! Come on, come on!', defeat: 'Aw. Fine, you win. Now run!', sight: 3 } },
+      trainer: { nacre: 1, name: 'Star-chaser', team: [['bolide', 49], ['spoor', 49]], intro: 'Big low! Once a year you get to run right behind the stars! Come on, come on!', defeat: 'Aw. Fine, you win. Now run!', sight: 3 } },
     { id: 'jellyturner', x: 38, y: 13, sprite: 'beach1', name: 'Jelly-turner', dir: 3, when: lowWater,
       trainer: { name: 'Jelly-turner', team: [['medusa', 49], ['cuttle', 49]], intro: 'I turn the jellies over so they don\'t dry out. Do they say thanks? They do not.', defeat: 'Yeah, they\'re not gonna thank you either.', sight: 3 } },
   ],
@@ -742,7 +742,7 @@ defScript('yardEnter', async () => {
   }
 });
 
-/** The Mudlark, the fifth keeper. Strand level 51. */
+/** The Mudlark, the fifth keeper. Strand level 26. */
 export const mudTeam = () => [mon('magpie', 49), mon('cache', 49), mon('docket', 50), mon('crabwise', 51)];
 defScript('yardDoor', async () => {
   await say('Mudlark', 'Don\'t fight fair. Don\'t fight long. Get down here.');
@@ -899,7 +899,7 @@ defMap({
       sound('step');
       await wait(60);
       await emote('ouro', 'silence');
-      await reward({ pegs: ['iron', 2], tan: 4 });
+      await reward({ pegs: ['iron', 2], tan: 6 });
     } },
   ],
 });
@@ -971,8 +971,8 @@ defScript('oaCinch', async () => {
   if (flag('castBeaten')) { await cinch('There. Both of us sitting. Only took forty years.'); return; }
   await cinch('Sit and watch me a while. Funny. Never stops, does it.');
 });
-/** Cinch's cast in the old Apex, release only. Strand level 48. */
-export const castTeam = () => [mon('knot', 62), mon('menhir', 47), mon('halo', 47), mon('orrery', 47)];
+/** Cinch's cast in the old Apex, release only. Strand level 29. */
+export const castTeam = () => [mon('knot', 58), mon('menhir', 43), mon('halo', 43), mon('orrery', 43)];
 defScript('oaCast', async () => {
   await say('Cinch\'s cast', 'THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE POST HAS TO TURN ONCE A DAY');
   await say('Cinch\'s cast', 'AND ONCE A DAY AND ONCE A DAY AND ONCE A-');

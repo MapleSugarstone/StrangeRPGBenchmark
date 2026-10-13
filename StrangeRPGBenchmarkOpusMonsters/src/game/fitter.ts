@@ -4,16 +4,26 @@ import { MOVES, PASSIVES } from '../battle/registry';
 import { TYPE_COLOR, type Type } from '../data/types';
 import { text, textRight, wrap } from '../engine/font';
 import { input } from '../engine/input';
-import { rect, INK } from '../engine/screen';
+import { rect } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { sfx } from '../engine/audio';
 import { close, run, type Mode } from './modes';
-import { box, cursor, DIM, GOOD, NERVE, PAPER, SEL, sigil, typeBadge, WARN, BADC } from './ui';
-import { G, save } from './state';
+import { bevel, panel, cursor, DIM, GOOD, motes, NERVE, PAPER, PORTRAIT_BG, rowBar, SEL, sigil, typeBadge, WARN, BADC } from './ui';
+import { G, refundNacre, save } from './state';
 import { choose, say } from './dialogue';
 import { listMenu, monLine, monPage } from './menus';
 import { bigCount, canFit, fitCost, makeFit, nameOptions, NO_FIT_HABITS, paletteOf, SHAPES, shapeOf, typeOptions, type FitPlan } from './fitting';
 import { baseSprite, rollStarborn } from '../data/starborn';
+
+/** The Conjoiner's screens share a dark room with specks of light drifting through it. */
+let roomT = 0;
+function backdrop(): void { rect(0, 0, 192, 192, '#17151d'); motes(roomT++); }
+
+/** A pick's mark: a knot of green thread once tied, and an open eyelet before. */
+function knot(x: number, y: number, tied: boolean): void {
+  if (!tied) { rect(x + 1, y, 4, 1, '#6a6080'); rect(x, y + 1, 1, 4, '#6a6080'); rect(x + 5, y + 1, 1, 4, '#3a3442'); rect(x + 1, y + 5, 4, 1, '#3a3442'); rect(x + 1, y + 1, 4, 4, '#0f0d14'); return; }
+  rect(x + 1, y, 4, 6, GOOD); rect(x, y + 1, 6, 4, GOOD); rect(x + 1, y + 1, 2, 1, '#d8f8c8'); rect(x + 4, y + 4, 1, 1, '#3a6a30');
+}
 
 /** Pick `need` items from a list. Returns indices or null if backed out. */
 function pickMany(title: string, items: { label: string; color?: string; detail: string; big?: boolean }[], need: number, maxBig: number): Promise<number[] | null> {
@@ -36,28 +46,28 @@ function pickMany(title: string, items: { label: string; color?: string; detail:
       if (input.hit('back')) { sfx('back'); close(m, null); }
     },
     draw() {
-      rect(0, 0, 192, 192, '#17151d');
-      box(2, 2, 188, 188);
-      text(title, 6, 6, SEL);
-      textRight(`${on.size}/${need}`, 186, 6, DIM);
+      backdrop();
+      panel(2, 2, 188, 188, undefined, { head: 12 });
+      text(title, 6, 5, SEL);
+      textRight(`${on.size}/${need}`, 186, 5, on.size === need ? GOOD : DIM);
       items.forEach((it, k) => {
         const y = 18 + k * 10;
-        if (k === i) cursor(5, y);
-        rect(12, y + 1, 6, 6, on.has(k) ? GOOD : '#3a3442');
+        if (k === i) { rowBar(4, y, 184); cursor(5, y); }
+        knot(12, y + 1, on.has(k));
         if (it.color) rect(21, y + 2, 4, 4, it.color);
         text(it.label, 28, y, k === i ? SEL : PAPER);
         if (it.big) textRight('crest', 186, y, NERVE);
       });
       const y0 = 22 + items.length * 10;
-      box(4, y0, 184, 186 - y0);
+      panel(4, y0, 184, 186 - y0, '#5a5070', { shadow: false, glint: false });
       wrap(items[i]?.detail || '', 176).forEach((l, n) => text(l, 8, y0 + 4 + n * 9, PAPER));
-      if (maxBig < 9) text(`At most ${maxBig} ${maxBig === 1 ? 'crest' : 'crests'}.`, 8, 178, DIM);
+      if (maxBig < 9) text(`At most ${maxBig} ${maxBig === 1 ? 'crest' : 'crests'}.`, 8, 176, DIM);
     },
   };
   return run(m);
 }
 
-function pickLook(a: SpriteData, b: SpriteData): Promise<SpriteData | null> {
+function pickLook(a: SpriteData, b: SpriteData): Promise<{ sprite: SpriteData; shape: number; palette: number } | null> {
   // 3 rows × 4 columns layout: each row = 2 shapes × 2 palette-groups
   // Palette 0 (parent A) and 1 (parent B) shown as a pair; palettes 2–5 each as their own.
   // Grid index: row 0 = [s0p0, s1p0, s0p1, s1p1], row 1 = [s0p2, s1p2, s0p3, s1p3],
@@ -74,19 +84,18 @@ function pickLook(a: SpriteData, b: SpriteData): Promise<SpriteData | null> {
       if (input.hit('right')) { pos = (pos + 1) % (COLS * ROWS); sfx('move'); }
       if (input.hit('up')) { pos = (pos - COLS + COLS * ROWS) % (COLS * ROWS); sfx('move'); }
       if (input.hit('down')) { pos = (pos + COLS) % (COLS * ROWS); sfx('move'); }
-      if (input.hit('ok')) { sfx('ok'); close(m, looks[pos]); }
+      if (input.hit('ok')) { sfx('ok'); close(m, { sprite: looks[pos], shape: pos % 2, palette: Math.floor(pos / 2) }); }
       if (input.hit('back')) { sfx('back'); close(m, null); }
     },
     draw() {
-      rect(0, 0, 192, 192, '#17151d');
-      box(2, 2, 188, 188);
-      text('How should it look?', 6, 6, SEL);
+      backdrop();
+      panel(2, 2, 188, 188, undefined, { head: 12 });
+      text('How should it look?', 6, 5, SEL);
       for (let idx = 0; idx < COLS * ROWS; idx++) {
         const col = idx % COLS, row = Math.floor(idx / COLS);
         const x = 10 + col * 44, y = 20 + row * 44;
         const sel = (idx === pos);
-        rect(x - 2, y - 2, 36, 36, sel ? SEL : '#2a2632');
-        rect(x, y, 32, 32, '#2a2632');
+        bevel(x - 2, y - 2, 36, 36, sel ? '#3a3346' : '#221e2b', sel ? SEL : '#3a3442');
         drawSprite(looks[idx], x, y, 4);
       }
       const si = pos % 2;
@@ -105,12 +114,12 @@ export async function fitterMenu(): Promise<void> {
   if (pool().length < 2) { await say('Conjoiner', 'Two whorls. You need two. You have the one.'); return; }
   const all = pool();
   const ia = await listMenu('Fit which first?', all.map(monLine), { w: 120, disabled: k => !!canFit(all[k]),
-    detail: k => { const m = all[k]; box(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
+    detail: k => { const m = all[k]; panel(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
   if (ia < 0) return;
   const A = all[ia];
   const rest = all.filter(m => m !== A);
   const ib = await listMenu(`Fit ${A.name} with?`, rest.map(monLine), { w: 120, disabled: k => !!canFit(rest[k]),
-    detail: k => { const m = rest[k]; box(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
+    detail: k => { const m = rest[k]; panel(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
   if (ib < 0) return;
   const B = rest[ib];
   const cost = fitCost(A, B);
@@ -125,6 +134,7 @@ export async function fitterMenu(): Promise<void> {
   G.fitCount++;
   G.fits.push({ name: result.name, a: A.name, b: B.name });
   for (const p of [A, B]) if (p.notion) { G.notions[p.notion] = (G.notions[p.notion] || 0) + 1; p.notion = null; }
+  const nacreBack = refundNacre(A) + refundNacre(B);
   const ai = G.party.indexOf(A);
   G.party = G.party.filter(m => m !== A && m !== B);
   G.rack = G.rack.filter(m => m !== A && m !== B);
@@ -133,6 +143,7 @@ export async function fitterMenu(): Promise<void> {
   sfx('fit');
   save();
   await say('Conjoiner', `There. ${result.name}. It won't come apart.`);
+  if (nacreBack) await say('Conjoiner', `The old nacre flaked off in the join. ${nacreBack} layers. Yours.`);
   await monPage(result);
 }
 
@@ -159,7 +170,7 @@ export async function designFit(A: Mon, B: Mon): Promise<FitPlan | null> {
 
   const tops = typeOptions(A, B);
   const ti = await listMenu('Which types?', tops.map(t => t.join(' and ')), { w: 150,
-    detail: () => { box(4, 150, 184, 36); wrap('Two types means more moves get the same-type bonus, and more weaknesses.', 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } });
+    detail: () => { panel(4, 150, 184, 36); wrap('Two types means more moves get the same-type bonus, and more weaknesses.', 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } });
   if (ti < 0) return null;
   const types = tops[ti];
 
@@ -185,9 +196,9 @@ export async function designFit(A: Mon, B: Mon): Promise<FitPlan | null> {
   if (!look) return null;
   const names = nameOptions(A.name, B.name);
   const ni = await listMenu('What is it called?', names, { w: 100,
-    detail: () => { box(110, 4, 40, 40); drawSprite(look, 114, 8, 4); } });
+    detail: () => { panel(110, 4, 40, 40); drawSprite(look.sprite, 114, 8, 4); } });
   if (ni < 0) return null;
-  return { moves, passives, types: types as Type[], basic, retune, sprite: look, name: names[ni] };
+  return { moves, passives, types: types as Type[], basic, retune, sprite: look.sprite, name: names[ni], look: { shape: look.shape, palette: look.palette } };
 }
 
 function confirm(A: Mon, B: Mon, p: FitPlan, cost: number): Promise<boolean> {
@@ -200,9 +211,9 @@ function confirm(A: Mon, B: Mon, p: FitPlan, cost: number): Promise<boolean> {
       if (input.hit('back')) { sfx('back'); close(m, false); }
     },
     draw() {
-      rect(0, 0, 192, 192, '#17151d');
-      box(2, 2, 188, 188);
-      rect(6, 6, 34, 34, INK);
+      backdrop();
+      panel(2, 2, 188, 188);
+      bevel(5, 5, 36, 36, PORTRAIT_BG, '#5a5070');
       drawSprite(p.sprite, 7, 7, 4);
       text(p.name, 46, 8, SEL);
       let tx = 46;
@@ -224,7 +235,7 @@ function confirm(A: Mon, B: Mon, p: FitPlan, cost: number): Promise<boolean> {
       text(`The seam costs it ${Math.round((1 - FIT_STAT) * 100)}% of every stat.`, 8, 141, DIM);
       text(`Cost ${cost} cowries. You have ${G.rind}.`, 8, 150, G.rind >= cost ? PAPER : BADC);
       text('Both parents are gone after this.', 8, 160, WARN);
-      ['Fit them', 'Not yet'].forEach((o, k) => { if (k === i) cursor(8, 170 + k * 9); text(o, 16, 170 + k * 9, k === i ? SEL : PAPER); });
+      ['Fit them', 'Not yet'].forEach((o, k) => { if (k === i) { rowBar(6, 170 + k * 9, 60); cursor(8, 170 + k * 9); } text(o, 16, 170 + k * 9, k === i ? SEL : PAPER); });
       void bigCount;
     },
   };

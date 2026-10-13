@@ -13,6 +13,8 @@ export interface TrainerDef {
   sync?: boolean;
   /** Battle track. Defaults by who is fighting. */
   music?: string;
+  /** Nacre the trainer gives on the first win. */
+  nacre?: number;
 }
 
 export interface NpcDef {

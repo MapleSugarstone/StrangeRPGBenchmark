@@ -3,20 +3,21 @@ import { stash } from './areakit';
 import { giveKeyItem } from './ring';
 import { G, flag, setFlag } from '../game/state';
 import { battle } from '../game/battleView';
-import { act, bell, emote, face, faceToward, field, fightTrainer, giveScale, goal, hint, morphTo, moveNpc, narr, notice, npcAt, offstage, pan, panBack, say, tannery, wait, walkIn, walkOff } from '../game/api';
+import { act, bell, emote, face, faceToward, field, fightTrainer, giveScale, goal, hint, morphTo, moveNpc, narr, notice, npcAt, offstage, pan, panBack, say, tannery, wait, walkIn, walkOff, walkTo } from '../game/api';
 import { fitterMenu } from '../game/fitter';
 import { music } from '../engine/music';
 import { makeMon } from '../data/species';
 import { sfx } from '../engine/audio';
 import { PEOPLE } from '../engine/sprites';
 import { fitted } from '../game/wildfit';
+import { countTack, tackLosesLine, tackTries, tackWinsLine } from './tack';
 
 const has = (s: string) => G.scales.includes(s);
 
 /** Tack's conjoined whorl. Its look is drawn by hand in src/engine/sprites.ts rather than conjoined, so the review page can redraw it. */
 export function brack(level: number) {
   const m = fitted('tackle', 'brine', level, ['shove', 'pickle', 'rush', 'evaporate'], ['tally', 'salt'], 'Brack', 1, 2);
-  if (PEOPLE.brack) m.sprite = PEOPLE.brack;
+  if (PEOPLE.brack) { m.sprite = PEOPLE.brack; m.art = 'brack'; }
   return m;
 }
 
@@ -71,7 +72,7 @@ defMap({
   ],
   zone: { kinds: [['fogbank', 3], ['undertow', 3], ['leech', 2], ['mycel', 2], ['grotesque', 2], ['siren', 2], ['brine', 1]], lv: [14, 18], n: 16, area: 'marsh' },
   npcs: [
-    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { name: 'Reeve', team: [['fogbank', 16], ['undertow', 16]], intro: 'Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!', defeat: 'Two foot.', sight: 4 } },
+    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { nacre: 1, name: 'Reeve', team: [['fogbank', 16], ['undertow', 16]], intro: 'Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!', defeat: 'Two foot.', sight: 4 } },
     { id: 'eelboy', x: 26, y: 14, sprite: 'boy', name: 'Eel boy', dir: 1, trainer: { name: 'Eel boy', team: [['leech', 16], ['mycel', 16], ['siren', 17]], intro: 'Found a leech cast! That\'s good luck. A leech is the other kind.', defeat: 'Oh. Bad luck for you, then.', sight: 4 } },
     { id: 'cutter', x: 21, y: 6, sprite: 'tanner', name: 'Cutter', dir: 3, trainer: { name: 'Cutter', team: [['grotesque', 17], ['brine', 16]], intro: 'I cut reeds for Spire. They stuff \'em in the bells so the bells shut up.', defeat: 'Yeah, mine are quiet now.', sight: 3 } },
   ],
@@ -186,7 +187,7 @@ defMap({
   tileTalk: { K: 'bellRope' },
   npcs: [
     { id: 'verger', x: 7, y: 1, sprite: 'verger', name: 'Verger', talk: 'verger' },
-    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { name: 'Ringer', team: [['siren', 18], ['grotesque', 18]], intro: 'hear that? yeah that\'s a wind-up. stop it or eat it.', defeat: 'huh. i didn\'t stop it.', sight: 4 } },
+    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { nacre: 1, name: 'Ringer', team: [['siren', 18], ['grotesque', 18]], intro: 'hear that? yeah that\'s a wind-up. stop it or eat it.', defeat: 'huh. i didn\'t stop it.', sight: 4 } },
     { id: 'ring2', x: 12, y: 12, sprite: 'ringer', name: 'Ringer', dir: 2, trainer: { name: 'Ringer', team: [['flare', 18], ['fogbank', 18], ['mycel', 19]], intro: 'some big ones can\'t be stopped though. the line on top tells you which.', defeat: 'the line did tell me. i just didn\'t read it.', sight: 3 } },
     { id: 'note', x: 13, y: 13, sprite: 'sign', name: null as any, lines: ['A card pinned to the pew: "top. bottom. middle. softly." Under it, in other ink: "SOFTER"'] },
   ],
@@ -232,6 +233,13 @@ defScript('fitter', async () => {
 
 defScript('tack3', async () => {
   faceToward('tackspire', 'ouro');
+  // A rematch skips the walk to the crypt: Brack is already out.
+  if (flag('brackOut')) {
+    faceToward('brackspire', 'ouro');
+    await say('Tack', `Try ${tackTries('3') + 1}. Brack's warmed up. That's 1 of us.`);
+    await tack3Battle();
+    return;
+  }
   await say('Tack', '3rd time. I\'ve got 2 pearls, you\'ve got 2. Even. I hate even.');
   await say('Tack', 'Hang on. 1 minute.');
   // Tack walks across town and down the crypt steps, and comes back up with Brack beside him.
@@ -247,25 +255,33 @@ defScript('tack3', async () => {
   faceToward('tackspire', 'ouro');
   faceToward('brackspire', 'ouro');
   await say('Tack', 'It\'s fine. It\'s Brack now. 2 of Tackle\'s moves, 2 of a salt pan\'s.');
+  await tack3Battle();
+});
+
+/** Tack and Brack fight until Ouro wins. After a loss they stay by the crypt steps, and Ouro steps back out of the trigger. */
+async function tack3Battle(): Promise<void> {
   const r = await battle({ enemy: [brack(18), makeMon('hare', 17), makeMon('paring', 17), makeMon('eddy', 17)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   music.play('spire');
-  if (r.result === 'win') {
-    G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-    await say('Tack', `${G.flags.tackWins} loss${G.flags.tackWins === 1 ? '' : 'es'}.`);
-    await act('tackspire', 'nod');
-    faceToward('brackspire', 'tackspire');
-    await say('Tack', 'Still even. 2 pearls each. Ugh.');
-  } else {
-    await say('Tack', '2 to 1.');
+  countTack('3', r.result === 'win');
+  if (r.result !== 'win') {
+    await say('Tack', `${tackWinsLine()} I'm not going anywhere. 1 more, whenever.`);
     faceToward('brackspire', 'tackspire');
     await emote('brackspire', 'question');
+    await walkTo('ouro', 4, 10);
+    faceToward('tackspire', 'ouro');
+    faceToward('brackspire', 'ouro');
+    return;
   }
+  await say('Tack', tackLosesLine());
+  await act('tackspire', 'nod');
+  faceToward('brackspire', 'tackspire');
+  await say('Tack', 'Still even. 2 pearls each. Ugh.');
   // Tack and Brack walk off round the church and out of the south gate.
   await Promise.all([walkOff('tackspire', 16, 24), (async () => { await wait(10); await walkOff('brackspire', 16, 24); })()]);
   setFlag('tack3');
   bell(-5);
   await emote('ouro', 'music');
-});
+}
 
 const ROPE_ORDER = [8, 12, 10];
 defScript('bellRope', async () => {

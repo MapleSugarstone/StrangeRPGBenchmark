@@ -2,9 +2,12 @@
 // Numbers come from the code where the code names them, so the Guide changes when the rules do.
 // src/tools/readability.ts scores every chapter and writes Notes/guide.md.
 import { FATIGUE_ROUND, FIT_STAT, HORN_CHA_MAX, HORN_FLOOR, HORN_HELD, HORN_LINE, NERVE_MAX, SUMMON_CAP, TAN_PER_STAT, TAN_TOTAL, tanBonus, tanPerLayer, tanText } from '../battle/engine';
+import { SPECIES } from '../data/species';
 import { STARBORN_ODDS } from '../data/starborn';
 import { LEVEL_MAX } from '../data/types';
-import { G, HORN_PRICE } from '../game/state';
+import { byssusUnlocked, G, HORN_PRICE } from '../game/state';
+import { CHOICE_SECONDS, HOLD_SECONDS, REPLACE_SECONDS, ROSTER_SIZE, TEAM_SIZE, TIMEOUTS_TO_LOSE } from '../net/protocol';
+import { LEGENDARY_MAX, SYNC_LEVEL } from '../net/wire';
 
 /**
  * A paragraph, a small heading, a picture the Register draws, or a row with a small icon before one line.
@@ -20,6 +23,8 @@ export type Block =
 export interface Chapter { id: string; title: string; short?: string; icon: string; open: () => boolean; blocks: Block[] }
 
 const pct = (x: number): number => Math.round(x * 100);
+/** How many kinds are legendary, counted from the species. */
+const LEGENDS = Object.values(SPECIES).filter(s => s.legendary).length;
 const all = () => [...G.party, ...G.rack];
 const hasTeam = () => all().length > 0;
 const battled = () => hasTeam() && Object.keys(G.register).length > 0;
@@ -33,7 +38,7 @@ export const GUIDE: Chapter[] = [
       { pic: 'team' },
       { p: 'One whorl fights at a time. It is your out whorl. The others wait in reserve.' },
       { h: 'Switching' },
-      { p: 'Pick Switch in a battle to send out a whorl from reserve. A switch is quick. It takes half as long as an Attack.' },
+      { p: 'Pick Switch in a battle to send out a whorl from reserve. A switch is quick. The whorl you send out waits less than after an Attack. More CHA makes its wait even shorter.' },
       { p: 'A whorl that is rooted or taunted cannot switch out.' },
       { h: 'Knocked out' },
       { p: 'A whorl with 0 HP is knocked out. The game also says it is down, or calls it a KO. It cannot fight again in that battle. Then you pick the next whorl to send out.' },
@@ -54,7 +59,7 @@ export const GUIDE: Chapter[] = [
       { icon: 'word:DEF', s: 'DEF makes physical hits do less.' },
       { icon: 'word:RES', s: 'RES makes magic hits do less.' },
       { icon: 'word:AGI', s: 'AGI is speed. A whorl with more AGI gets more turns.' },
-      { icon: 'word:CHA', s: 'CHA helps a horn catch a whorl. Some moves use it too.' },
+      { icon: 'word:CHA', s: 'CHA helps a horn catch a whorl. A whorl with more CHA waits less after a Switch. Some moves use CHA too.' },
       { h: 'Each kind is different' },
       { p: 'Each kind has its own strengths. One kind may have more ATK. Another may have more DEF. Kinds are also different in their moves, habits, and types.' },
       { p: 'Every kind gets the same number of stat points. Each kind puts them in different places. So a fast kind has less DEF, and a tough kind gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.' },
@@ -75,23 +80,32 @@ export const GUIDE: Chapter[] = [
   {
     id: 'turns', title: 'Turns and time', short: 'Turns', icon: 'turns', open: battled,
     blocks: [
-      { p: 'In a battle, whorls do not just take turns one by one. After a whorl acts, it has to wait. The whorl whose wait ends first moves next.' },
-      { p: 'AGI makes the wait shorter. So a fast whorl can move twice before a slow one moves once.' },
-      { p: 'Here is an example. Your whorl has 69 AGI. The foe has 51 AGI. Your whorl moves first. Over the whole battle, it gets about 9 turns for every 8 the foe gets.' },
+      { p: 'In a battle, a whorl waits after it acts. AGI makes the wait shorter. So a fast whorl gets more turns.' },
+      { p: 'Here is an example. Your whorl has 69 AGI. The foe has 51 AGI. Over the whole battle, your whorl gets about 9 turns for every 8 the foe gets.' },
       { pic: 'timeline' },
+      { h: 'Both pick at once' },
+      { p: 'Most of the time, your turn and the foe\'s turn come close together. Then you both pick at the same time. You do not see the foe\'s pick. The foe does not see yours.' },
+      { p: 'Then the two actions happen in order. The whorl whose turn comes first goes first. The top line tells you who goes first.' },
+      { p: 'Guard and Switch always go first. A Quick move goes next. A Late move waits until the foe has moved.' },
+      { p: 'So try to guess what the foe will do. If a big hit is coming, Guard. If the foe will Guard, use a dash. If the foe will use a TIDE move, switch to a whorl that takes less from it.' },
+      { h: 'Moving twice' },
+      { p: 'Sometimes one turn comes much sooner than the other. Then that side picks alone and moves. So a fast whorl can move twice before a slow one moves once. The top line tells you when this will happen.' },
       { h: 'Quick actions' },
-      { p: 'Some actions have a short wait. After a Guard, a whorl waits 80% as long as after an Attack. After a Switch, it waits half as long.' },
-      { p: 'Slow makes a whorl wait 30% longer. Haste makes it wait 30% less.' },
+      { p: 'Some actions have a short wait. A whorl waits 80% as long after a Guard as after an Attack. The whorl you switch in waits about 70% as long. More CHA makes that wait shorter. The Switch list shows the wait for each whorl.' },
+      { h: 'Slow and Haste' },
+      { p: 'Slow 1 pushes the whorl\'s next turn back. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.' },
+      { p: 'Haste works the other way. Each turn comes 30% of a turn sooner.' },
+      { p: 'A slowed foe often goes last. Slow it twice, and you may get a turn of your own.' },
       { h: 'Comes sooner' },
       { p: 'Some texts say its next turn comes 40% sooner. This means the whorl waits less before it moves again. The wait gets about 40% shorter.' },
-      { h: 'Moving twice' },
-      { p: 'Look at the top line of the battle. It tells you when a whorl will move twice in a row.' },
+      { h: 'The field' },
+      { p: 'Some moves change the whole field for a few rounds. Sea Fog and High Tide are two of them. The field works on both sides, so it can help the foe too.' },
       { h: 'Wind-ups' },
       { p: 'A wind-up is a move that lands later. A ! shows over a whorl while it winds up. The top line tells you how many moves you get first.' },
       { p: 'You can stop a foe\'s wind-up. Stun, Silence, Sleep, or Taunt cuts it off. So does forcing the foe out.' },
       { p: 'You can also switch to a whorl that takes less from the move. An Unstoppable wind-up cannot be cut off.' },
       { h: 'Rounds' },
-      { p: 'A round is one turn for each side. The game counts rounds in very long battles.' },
+      { p: 'A round is one turn for each side. The field counts rounds. So does a very long battle.' },
     ],
   },
   {
@@ -100,6 +114,7 @@ export const GUIDE: Chapter[] = [
       { p: 'On your turn, you pick one action. You can Attack, use a move, Guard, or Switch.' },
       { h: 'Attack' },
       { p: 'Attack is your whorl\'s plain hit. You can use it every turn. It never runs out. An Attack has no type, so it hits every type the same.' },
+      { p: 'Some Attacks hit more than once. A habit that works after an Attack still works once for the whole Attack. A habit that says hits works on each hit.' },
       { h: 'Moves' },
       { p: 'Each whorl has four moves. A move hits harder, or it does something special. Before you pick a move, look at it. Its text tells you what it does.' },
       { p: 'The text is short. Hits for 110% ATK means a hit with 1.1 times the whorl\'s ATK. Slow 1 means the foe is slowed for 1 turn.' },
@@ -110,11 +125,19 @@ export const GUIDE: Chapter[] = [
       { p: 'A cooldown counts your side\'s turns. It keeps going down while the whorl waits in reserve.' },
       { h: 'Same type' },
       { p: 'A move of the whorl\'s own type hits 20% harder. Squall is a TIDE whorl. So its TIDE moves hit 20% harder.' },
-      { h: 'Moves that hit every foe' },
-      { p: 'Some moves hit every foe. The out foe takes the full hit. Each foe in reserve takes a smaller part. It is often about one third.' },
+      { h: 'Splash' },
+      { p: 'Some moves splash. The out foe takes the full hit. Each foe in reserve takes a part of it too. The move says how big a part.' },
+      { p: 'Splash 35% means each foe in reserve takes 35% of the hit. A small splash is a spray. Splash 100% hits the whole team the same.' },
       { h: 'Guard' },
-      { p: 'Guard cuts the damage your whorl takes in half. It lasts until your whorl\'s next turn.' },
+      { p: 'Guard cuts the damage your whorl takes in half. It lasts until your whorl\'s next turn. A Guard always goes first in a round.' },
+      { p: 'A Guard stops more of a projectile. It does not stop a dash at all.' },
       { p: 'You cannot Guard two turns in a row. A Guard is quick, too.' },
+      { h: 'Kinds of moves' },
+      { p: 'Many moves have a kind. A small icon by the move shows it. Each kind has one rule.' },
+      { icon: 'kind:dash', s: 'A dash rushes in. Till its next turn, the whorl takes 10% less damage. Guard does not stop a dash. A rooted whorl cannot dash.' },
+      { icon: 'kind:projectile', s: 'A projectile is thrown or shot. A whorl that guards takes only one quarter of it.' },
+      { icon: 'kind:spell', s: 'A spell goes over walls that summons put up. A silenced whorl cannot cast a spell.' },
+      { icon: 'kind:channel', s: 'A channel keeps going on the next turns. Stun, Silence, Sleep, or a Switch stops it.' },
       { h: 'Habits' },
       { p: 'Each whorl has two habits. A habit works by itself. You do not pick it. In a battle, press left or right on the menu to read the habits.' },
     ],
@@ -159,10 +182,10 @@ export const GUIDE: Chapter[] = [
       { h: 'Bad statuses' },
       { icon: 'status:stun', s: 'Stun. The whorl loses its next turn. A stun also cuts off a wind-up.' },
       { icon: 'status:sleep', s: 'Sleep. The whorl loses its turns. A hit wakes it up.' },
-      { icon: 'status:silence', s: 'Silence. The whorl cannot use moves. It can still Attack, Guard, or Switch.' },
+      { icon: 'status:silence', s: 'Silence. The whorl cannot cast spells. Its other moves still work.' },
       { icon: 'status:taunt', s: 'Taunt. The whorl can only Attack.' },
-      { icon: 'status:root', s: 'Root. The whorl cannot switch out.' },
-      { icon: 'status:slow', s: 'Slow. The whorl waits 30% longer between turns.' },
+      { icon: 'status:root', s: 'Root. The whorl cannot switch out or use a dash.' },
+      { icon: 'status:slow', s: 'Slow. Each of the whorl\'s next turns comes 30% of a turn later.' },
       { icon: 'status:burn', s: 'Burn. The whorl takes magic damage at the start of each turn.' },
       { icon: 'status:bleed', s: 'Bleed. The whorl takes physical damage at the start of each turn. Then it loses one stack.' },
       { icon: 'status:poison', s: 'Poison. The whorl loses 3% of its max HP for each stack at the start of each turn. Then it loses one stack.' },
@@ -170,17 +193,22 @@ export const GUIDE: Chapter[] = [
       { icon: 'status:expose', s: 'Expose. The whorl takes 25% more damage.' },
       { icon: 'status:weaken', s: 'Weaken. The whorl deals 25% less damage.' },
       { icon: 'status:doom', s: 'Doom. The whorl takes damage each turn. It cannot heal or use moves.' },
+      { h: 'Lost turns do not chain' },
+      { p: 'A foe\'s Stun, Sleep, Stasis, forced skip, or forced switch makes a whorl lose a turn. Then it is steady against that effect. The same effect cannot land on it again until it acts.' },
+      { p: 'One other effect can still land before it acts. When both are over, the whorl is stalwart. For its next 2 turns, nothing can make it lose a turn.' },
+      { p: 'A forced switch is any switch a foe makes a whorl take. The whorl may be forced out, dragged in, spun round, or made to switch at its next turn. The whorl that comes out in its place counts as forced too.' },
       { h: 'Good statuses' },
-      { icon: 'status:haste', s: 'Haste. The whorl waits 30% less between turns.' },
+      { icon: 'status:haste', s: 'Haste. Each of the whorl\'s next turns comes 30% of a turn sooner.' },
+      { icon: 'status:dashing', s: 'Dashing. The whorl used a dash. It takes 10% less damage till its next turn.' },
       { icon: 'status:empower', s: 'Empower. The whorl deals 25% more damage.' },
       { icon: 'status:fortify', s: 'Fortify. The whorl takes 25% less damage.' },
       { icon: 'status:regen', s: 'Regen. The whorl heals a little at the start of each turn.' },
       { icon: 'status:ward', s: 'Ward. It stops the next move a foe uses on the whorl. If nothing comes, it fades after 2 turns.' },
       { icon: 'status:thorns', s: 'Thorns. When the whorl is hit, it hits back for part of the damage.' },
-      { icon: 'status:invuln', s: 'Untouchable. The whorl takes no damage.' },
+      { icon: 'status:invuln', s: 'Untouchable. The whorl takes no damage. Another Untouchable does not make it last longer. The whorl is Seen through its next turn after Untouchable ends. Until then it cannot become Untouchable or Hidden.' },
       { icon: 'status:unstop', s: 'Unstoppable. Stun, Silence, Sleep, Root, Taunt, and Slow do not work on it.' },
       { icon: 'status:stasis', s: 'Stasis. The whorl skips its turns. Nothing can hurt it or give it a status.' },
-      { icon: 'status:hidden', s: 'Hidden. A foe\'s single hits cannot find it. Its own next hit goes through Guard.' },
+      { icon: 'status:hidden', s: 'Hidden. A foe\'s single hits cannot find it. Its own next hit goes through Guard. The whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.' },
       { icon: 'status:monument', s: 'Monument. The whorl cannot be knocked out. It stays at 1 HP.' },
       { h: 'Switching clears statuses' },
       { p: 'When a whorl switches out, it drops most statuses. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden stay on it.' },
@@ -211,7 +239,8 @@ export const GUIDE: Chapter[] = [
     blocks: [
       { p: 'You can catch a wild whorl with a horn. The game calls this sounding. A sounded whorl joins your team.' },
       { p: 'In a battle with a wild whorl, pick Sound. Then pick a horn. You can only sound wild whorls.' },
-      { p: 'Each horn puts a line on the foe\'s HP bar. If the foe\'s HP is at the line or under it, the horn always works.' },
+      { p: 'Each horn has a line. It is a part of the foe\'s max HP. If the foe\'s HP is at the line or under it, the horn always works.' },
+      { p: 'When you pick Sound, the list shows each horn\'s chance. Sure means it cannot fail.' },
       { pic: 'horn' },
       { icon: 'horn:twig', s: `Periwinkle horn. The line is at ${pct(HORN_LINE.twig)}%. It costs ${HORN_PRICE.twig} cowries.` },
       { icon: 'horn:brass', s: `Whelk horn. The line is at ${pct(HORN_LINE.brass)}%. It costs ${HORN_PRICE.brass} cowries.` },
@@ -230,11 +259,11 @@ export const GUIDE: Chapter[] = [
     id: 'notions', title: 'Notions', icon: 'notions', open: () => !!G.flags.notions,
     blocks: [
       { p: 'A notion is a small thing that a whorl holds. Each whorl can hold one notion.' },
-      { p: 'Some notions raise a stat. A Whetstone adds 5% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl a little each time it deals damage.' },
+      { p: 'Some notions raise a stat. A Whetstone adds 11% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl a little each time it deals damage.' },
       { p: 'To give a notion, press X for the menu. Pick Team, then a whorl, then Give notion. Take notion puts it back in the Bag.' },
       { h: 'Actions' },
       { p: 'Some notions have an action. The action is a choice in the battle menu. It works once each battle. It is quick, like a Switch.' },
-      { p: 'Some notions get used up. A Sea Biscuit heals 20% of the whorl\'s HP. After that battle, the Sea Biscuit is gone.' },
+      { p: 'Some notions get used up. A Sea Biscuit heals 35% of the whorl\'s HP. After that battle, the Sea Biscuit is gone.' },
       { p: 'You can buy notions at a grotto. Read each one in the Bag before you give it.' },
     ],
   },
@@ -242,7 +271,7 @@ export const GUIDE: Chapter[] = [
     id: 'nacre', title: 'Nacre', icon: 'nacre',
     open: () => G.tan > 0 || all().some(m => Object.values(m.tan || {}).some(n => (n || 0) > 0)),
     blocks: [
-      { p: 'Nacre is the shiny lining of a shell. You find it in hidden spots. One piece of nacre is one layer.' },
+      { p: 'Nacre is the shiny lining of a shell. You find it in hidden spots. Some trainers give you a piece when you win. One piece of nacre is one layer.' },
       { p: 'At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds the same points to any stat. So it helps a weak stat as much as a strong one.' },
       { p: `A layer adds more as a whorl grows. It adds ${tanText(tanPerLayer(LEVEL_MAX).stat)} to a stat at level ${LEVEL_MAX}. HP numbers are bigger, so it adds ${tanText(tanPerLayer(LEVEL_MAX).hp)} to HP. The Nacre menu shows what a layer adds at your whorl's level.` },
       { p: `A whorl can take ${TAN_PER_STAT} layers in one stat. It can take ${TAN_TOTAL} layers in all.` },
@@ -371,6 +400,11 @@ export const GUIDE: Chapter[] = [
       { p: 'Grab picks up the stone at the claw. Turning swings the arm. A polisher shines a stone. A setter joins two stones. A splitter breaks them apart.' },
       { p: 'Pick Run to watch the machine go. Pick Step to go one step at a time. Pick Help to read the rules again.' },
       { p: 'A puzzle you solve keeps your best score. Try to use fewer cycles, less cost, or less room.' },
+      { p: 'A stone cannot rest on the base of an arm. Plan room for every swing.' },
+      { p: 'Shellwrights sell harder sketches at the counter. A town sells its own sketches and the ones from towns before it.' },
+      { p: 'Some bought sketches use new parts. A mold turns paste into a copy of the stone on its model cell. A chute takes away a whole piece.' },
+      { p: 'Some let arms pivot. A pivot turns the piece an arm holds a quarter turn about the claw.' },
+      { p: 'An input with a gold outline gives one piece for each gold dot, and then no more.' },
     ],
   },
   {
@@ -379,9 +413,25 @@ export const GUIDE: Chapter[] = [
       { p: 'Practice is on the title screen. It is a place to try out teams. Nothing you do there is saved.' },
       { p: 'You make two teams of 3. Your team is on the left. The foe\'s team is on the right.' },
       { p: 'Pick a slot to change it. You can get a random whorl, find any kind by its name, or conjoin two kinds.' },
+      { p: 'A team can hold each kind only once. A conjoined whorl uses up both of its kinds. So if you conjoin a kind, you cannot use it alone or in another conjoined whorl on that team.' },
       { p: 'Practice battles have tide. Every whorl is level 25 unless you change it.' },
       { p: 'In a practice battle, press V to open the debug menu. It shows the stats of every whorl. It also shows the foe\'s last choice. You can change HP and tide there too.' },
       { p: 'When the battle ends, you go back to the teams. Press Start again to play the same battle.' },
+    ],
+  },
+  {
+    id: 'byssus', title: 'Byssus', icon: 'byssus', open: byssusUnlocked,
+    blocks: [
+      { p: `Byssus is online play. You fight another player. It opens at a grotto counter once you have ${ROSTER_SIZE} whorls.` },
+      { p: 'Pick Find someone to meet a player. To play a friend, pick Make a code. Your friend picks Use a code.' },
+      { p: `Bring ${ROSTER_SIZE} whorls. Pick ${TEAM_SIZE} to fight. The Roster screen tells you what breaks a rule.` },
+      { h: 'The rules' },
+      { icon: 'dot', s: 'Each kind once. Each notion once.' },
+      { icon: 'dot', s: `At most ${LEGENDARY_MAX} legendary. A legendary is one of the ${LEGENDS} rarest whorls.` },
+      { icon: 'dot', s: `No charms. Every whorl fights at level ${SYNC_LEVEL}.` },
+      { h: 'In a match' },
+      { p: `You get ${CHOICE_SECONDS} seconds a turn. You get ${REPLACE_SECONDS} seconds to pick your next whorl. If time runs out, the game picks for you. ${TIMEOUTS_TO_LOSE} timeouts in a row lose the match.` },
+      { p: `If your link drops, pick Rejoin within ${HOLD_SECONDS} seconds.` },
     ],
   },
   {

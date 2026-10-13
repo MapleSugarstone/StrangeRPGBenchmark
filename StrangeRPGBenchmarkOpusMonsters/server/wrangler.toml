@@ -1,0 +1,29 @@
+name = "whorl-byssus"
+main = "worker/index.ts"
+compatibility_date = "2026-01-01"
+# The dev tools send no usage reports from this project.
+send_metrics = false
+
+# The Origin header the browser sends from the published game: no path, and the account name in lowercase.
+# Any localhost port is allowed as well, for `wrangler dev`.
+[vars]
+ALLOWED_ORIGINS = "https://maplesugarstone.github.io"
+# The most rooms the lobby opens in a UTC day. The free plan's 100,000 storage rows written a day cover about 600 matches.
+ROOMS_PER_DAY = "500"
+
+# Keeps the room logs, so a match that went wrong while nobody watched still left a record.
+[observability]
+enabled = true
+
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[durable_objects.bindings]]
+name = "LOBBY"
+class_name = "Lobby"
+
+# The free plan needs Durable Objects backed by SQLite.
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room", "Lobby"]

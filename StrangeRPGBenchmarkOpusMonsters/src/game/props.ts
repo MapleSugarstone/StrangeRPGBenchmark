@@ -72,7 +72,7 @@ function still(key: string, w: number, h: number, paint: () => void): HTMLCanvas
     cv = document.createElement('canvas');
     cv.width = w; cv.height = h;
     const prev = T, px = OX, py = OY;
-    T = cv.getContext('2d')!; OX = 0; OY = 0;
+    T = cv.getContext('2d', { willReadFrequently: true })!; OX = 0; OY = 0;
     paint();
     T = prev; OX = px; OY = py;
     stills.set(key, cv);

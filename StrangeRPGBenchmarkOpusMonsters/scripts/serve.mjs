@@ -56,6 +56,22 @@ http.createServer((req, res) => {
     fs.createReadStream(file).pipe(res);
     return;
   }
+  // POST /__sheet?name=<file> with a PNG data URL saves a move contact sheet from review/sheet.html into Notes/shots/move-art/.
+  if (req.method === 'POST' && url === '/__sheet') {
+    const name = new URLSearchParams(query).get('name') || '';
+    if (!/^[a-z0-9-]+\.png$/.test(name)) { res.writeHead(400); res.end('bad name'); return; }
+    let body = '';
+    req.on('data', c => { body += c; if (body.length > 2.4e7) req.destroy(); });
+    req.on('end', () => {
+      const m = body.match(/^data:image\/png;base64,(.+)$/);
+      if (!m) { res.writeHead(400); res.end('bad data'); return; }
+      const dir = path.resolve(here, '..', 'Notes', 'shots', 'move-art');
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, name), Buffer.from(m[1], 'base64'));
+      res.writeHead(200); res.end('saved');
+    });
+    return;
+  }
   if (req.method === 'POST' && url === '/__shot') {
     const name = new URLSearchParams(query).get('name') || '';
     if (!/^[a-z0-9-]+\.(png|wav)$/.test(name)) { res.writeHead(400); res.end('bad name'); return; }

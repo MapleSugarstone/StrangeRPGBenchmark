@@ -16,6 +16,7 @@ import { Canvas, highTide, kinds, link, look, reward, stash } from '../areakit';
 import { smallGranLine } from '../ch1';
 import { STOCK_6 } from '../ch6';
 import { playShellboard } from '../minigames';
+import { hallTop } from '../puzzlekit';
 import { FOOTPRINTS, defineShells, giveGrain, gleanerWalk, shellMon, shellThere, sweepAll, tideHooks, turnTide, washAll } from './kit';
 
 type Spot = NonNullable<MapDef['spots']>[number];
@@ -146,7 +147,7 @@ defScript('gran', async () => {
     face('gran', 1);
     await emote('gran', 'silence');
     await say('Gran', 'Tell my little turnip soup.');
-    await say('Gran', 'Tell my little turnip she is to be brought home of a Sunday. Every Sunday.');
+    await say('Gran', 'Tell them she is to be brought home of a Sunday. Every Sunday.');
     await act('gran', 'look');
     await act('gran', 'nod');
     await act('gran', 'nod');
@@ -471,7 +472,7 @@ defMap({
     person('a2WrackSign', 45, 3, 'sign', undefined as unknown as string),
     person('a2BottleGirl', 33, 3, 'bottlegirl', 'Bottle girl', 0),
     person('a2Raker', 41, 6, 'beach2', 'Weed-raker', 0, { wander: true }),
-    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { name: 'Shell-sitter', team: [['skitter', 6], ['fucus', 7]], intro: 'Different shell every low, that\'s my rule. Yesterday was a whelk. Drafty.', defeat: 'Fine. This shell\'s taken. Plenty more on the beach.', sight: 3 } }),
+    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { nacre: 1, name: 'Shell-sitter', team: [['skitter', 6], ['fucus', 7]], intro: 'Different shell every low, that\'s my rule. Yesterday was a whelk. Drafty.', defeat: 'Fine. This shell\'s taken. Plenty more on the beach.', sight: 3 } }),
     person('a2GrainPicker', 23, 7, 'beach1', 'Grain-picker', 3, { trainer: { name: 'Grain-picker', team: [['mote', 7], ['kipper', 7]], intro: 'Grains go to the Sifter. You\'re going in the sand.', defeat: 'Ugh. The Sifter\'s gonna hear about this. And weigh it.', sight: 3 } }),
     person('a2Driftwood', 9, 8, 'beach3', 'Driftwood boy', 0, { trainer: { name: 'Driftwood boy', team: [['flotsam', 8], ['seaglass', 8]], intro: 'Everything floats in. Some of it floats back out. I wanna see where it goes.', defeat: 'I\'m floating back. Don\'t follow, you\'d sink.', sight: 3 } }),
   ],
@@ -923,6 +924,12 @@ defMap({
   ],
 });
 
+// Reaching the row in front of the Sifter lands a star on Ouro, and she looks up.
+field.stepHooks.push(f => {
+  if (f.map.id !== 'doves' || grains() >= 1 || flag('top_doves')) return;
+  if (cellAt(f.x, f.y)?.[0] === 0) void f.runBusy(hallTop('doves', 'a2Sifter'));
+});
+
 function drawSand(f: typeof field): void {
   if (f.map.id !== 'doves' || grains() >= 1) return;
   const [cx, cy] = f.cam;
@@ -988,7 +995,7 @@ field.stepHooks.push(f => {
   if (here && sand[here[0]][here[1]] < 2) void f.runBusy(sink);
 });
 
-/** The Sifter's four. Ouro arrives with the Strand cap at 15. */
+/** The Sifter's four. Ouro arrives with the Strand cap at 8. */
 export const SIFTER_TEAM: [string, number][] = [['kipper', 11], ['mote', 12], ['halite', 12], ['columba', 13]];
 defScript('a2Sifter', async () => {
   const here = cellAt(field.x, field.y);

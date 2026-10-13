@@ -5,6 +5,9 @@ export let sfxVolume = 0.6;
 export let muted = false;
 /** Effects play at this share of the volume setting, so a full setting sits under the music. */
 const TRIM = 0.72;
+/** Everything the game plays, music included, runs this much louder than its settings, because players found the game too quiet (2026-10-11). */
+const BOOST = 1.3;
+let boostIn: GainNode | null = null;
 /** Effects start this many seconds after the call. Scheduling at the current time loses the first few milliseconds while the audio thread catches up, which swallowed the shortest sounds. */
 const LEAD = 0.03;
 
@@ -12,13 +15,25 @@ export function audio(): AudioContext | null {
   if (!ac) {
     try {
       ac = new AudioContext();
+      // A limiter after the boost keeps the loudest moments from clipping.
+      boostIn = ac.createGain();
+      boostIn.gain.value = BOOST;
+      const limit = ac.createDynamicsCompressor();
+      limit.threshold.value = -1; limit.knee.value = 0; limit.ratio.value = 20; limit.attack.value = 0.002; limit.release.value = 0.12;
+      boostIn.connect(limit);
+      limit.connect(ac.destination);
       sfxGain = ac.createGain();
       sfxGain.gain.value = sfxVolume * TRIM;
-      sfxGain.connect(ac.destination);
+      sfxGain.connect(boostIn);
     } catch { return null; }
   }
   if (ac.state === 'suspended') ac.resume();
   return ac;
+}
+
+/** Where a sound chain on context `a` ends: the shared boost and limiter on the game's own context, or the plain output elsewhere. */
+export function mainOut(a: BaseAudioContext): AudioNode {
+  return a === ac && boostIn ? boostIn : a.destination;
 }
 
 export function setSfxVolume(v: number): void {
@@ -178,7 +193,7 @@ function voice(v: Voice): void {
 /** A value nudged up or down by up to `amt` of itself, so repeated effects never sound identical. */
 const jit = (x: number, amt = 0.04): number => x * (1 + (Math.random() * 2 - 1) * amt);
 
-export const SFX = ['blip', 'move', 'ok', 'back', 'hit', 'hitBig', 'heal', 'shield', 'ko', 'peg', 'pegFail', 'wind', 'cut', 'status', 'switch', 'nerve', 'step', 'bump', 'level', 'boom', 'fit', 'guard', 'spot', 'page'] as const;
+export const SFX = ['blip', 'move', 'ok', 'back', 'hit', 'hitBig', 'heal', 'shield', 'ko', 'peg', 'pegFail', 'wind', 'cut', 'status', 'switch', 'nerve', 'step', 'bump', 'level', 'boom', 'fit', 'guard', 'spot', 'page', 'link'] as const;
 export type Sfx = typeof SFX[number];
 
 /** A bell struck far below, `semi` semitones above a low C, with an inharmonic ring that dies away. */
@@ -217,6 +232,14 @@ export function sfx(k: Sfx): void {
     case 'level':
       [523, 659, 784, 1046].forEach((f, i) => voice({ w: 'sine', f: [f, f * 1.01], dur: 0.22, vol: 0.06, at: i * 0.085, fm: [2.01, 1.6, 0.2], vib: [6, 25], trem: [11, 0.25] }));
       voice({ w: 'triangle', f: [1046, 1568], dur: 0.35, vol: 0.04, at: 0.34, vib: [9, 45, 3] });
+      break;
+    // A byssus taking hold: a thread paying out, a taut pluck, and three bells up an open fifth that ring on after it.
+    case 'link':
+      voice({ w: 'noise', f: [600, 3800], dur: 0.32, vol: 0.5, a: 0.12, q: 2.5 });
+      voice({ w: 'triangle', f: [440, 410], dur: 0.14, vol: 0.08, at: 0.28, lp: [[3200, 800], 3] });
+      bellTone(19, { at: 0.32, vol: 0.1 });
+      bellTone(26, { at: 0.48, vol: 0.09 });
+      bellTone(31, { at: 0.64, vol: 0.1 });
       break;
     // Two shells sliding together, wobbling faster until they ring as one.
     case 'fit':

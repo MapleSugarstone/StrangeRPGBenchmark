@@ -1,10 +1,10 @@
 import type { Mon, SpriteData } from '../battle/model';
-import { MOVES } from '../battle/registry';
+import { MOVES, PASSIVES } from '../battle/registry';
 import { nextUid, SPECIES } from '../data/species';
 import type { Type } from '../data/types';
 
-/** Habits a fit cannot keep: on a fitted whorl they stack or lock the foe (Notes/fusion-exploits.md). Only their own kind carries them. */
-export const NO_FIT_HABITS = new Set(['atlas_turnedback', 'habit']);
+/** Habits a fit cannot keep, for a habit that breaks a fitted whorl (Notes/fusion-exploits.md). None today. */
+export const NO_FIT_HABITS = new Set<string>();
 
 export interface FitPlan {
   moves: string[];
@@ -14,6 +14,8 @@ export interface FitPlan {
   retune: { move: string; type: Type } | null;
   sprite: SpriteData;
   name: string;
+  /** The shape and palette the sprite was made with. */
+  look?: { shape: number; palette: number };
 }
 
 export function rows(s: SpriteData): string[][] { return s.px.map(r => r.split('')); }
@@ -281,6 +283,32 @@ export function fitCost(a: Mon, b: Mon): number {
   return Math.max(a.level, b.level) * 10;
 }
 
+/**
+ * A fit's two kinds. A fit made before they were kept names only its parents' names, which the player may have changed, so
+ * its kinds come from the owners of its moves and habits (two moves from each parent), the first move's owner first.
+ */
+export function parentKindsOf(m: Mon): [string, string] | null {
+  if (!m.fitted) return null;
+  if (m.parentKinds) return m.parentKinds;
+  const score = new Map<string, number>(), first: string[] = [];
+  const add = (owner: string | undefined, n: number) => {
+    if (!owner || !SPECIES[owner]) return;
+    score.set(owner, (score.get(owner) || 0) + n);
+    if (!first.includes(owner)) first.push(owner);
+  };
+  for (const id of m.moves) add(MOVES[id]?.owner, 2);
+  for (const id of m.passives) add(PASSIVES[id]?.owner, 1);
+  const two = [...score.keys()].sort((a, z) => score.get(z)! - score.get(a)! || first.indexOf(a) - first.indexOf(z)).slice(0, 2);
+  if (two.length < 2) return null;
+  two.sort((a, z) => first.indexOf(a) - first.indexOf(z));
+  return [two[0], two[1]];
+}
+
+/** The kinds a whorl uses up on a team: its own, or both of a fit's. */
+export function kindsOf(m: Mon): string[] {
+  return m.fitted ? parentKindsOf(m) ?? [] : [m.kind];
+}
+
 export function canFit(m: Mon): string | null {
   if (m.person) return 'A person\'s cast conjoins with nothing.';
   if (m.fitted) return 'That one\'s conjoined already. Once is all a cast takes.';
@@ -297,7 +325,7 @@ export function makeFit(a: Mon, b: Mon, plan: FitPlan, order: number): Mon {
   const m: Mon = {
     uid: nextUid(), kind: 'fit', name: plan.name, types: plan.types, basic: plan.basic, moves: plan.moves, passives: plan.passives,
     retune: plan.retune, level: Math.max(a.level, b.level), xp: a.level >= b.level ? a.xp : b.xp, notion: null, sprite: plan.sprite,
-    fitted: true, parents: [a.name, b.name], entry, legendary: a.legendary || b.legendary, fitOrder: order,
+    fitted: true, parents: [a.name, b.name], parentKinds: [a.kind, b.kind], fitLook: plan.look, entry, legendary: a.legendary || b.legendary, fitOrder: order,
   };
   (m as any).phrase = phraseOf(a);
   (m as any).pegs = pegs;

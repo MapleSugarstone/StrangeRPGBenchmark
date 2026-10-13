@@ -4,7 +4,7 @@ import { rect } from '../engine/screen';
 import { field, flag, say, setFlag, wait } from '../game/api';
 import { defProp } from '../game/props';
 import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
-import { PUZZLE_DATA } from '../tools/worldcheck';
+import { GRAPH_PUZZLES, type Move } from '../tools/worldcheck';
 import { kinds, look, reward, stash } from './areakit';
 import { giveKeyItem, hasKey, room, roomDoor } from './ring';
 import { holmSeen } from './ring3';
@@ -18,13 +18,13 @@ defMap({
     '#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#',
     '#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#',
     '#~~~~~~~~~~~~~~~#####p#####~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~~~~.~~~~#~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~#~~~~~~~#~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~~*~~*~~~#~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~~~~*#~#~#~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~~#~~~~~~#~~~~~~~~~~~~~~~~#',
-    '#~~~~~~~~~~~~~~~#~~~~~~~~~#~~~~~~~~~~~~~~~~#',
-    '#IIIIIIIIIIIIIII#~*~~~~~~~#IIIIIIIIIIIIIIII#',
+    '#~~~~~~~~~~~~~~~#*~~*.~~*~#~~~~~~~~~~~~~~~~#',
+    '#~~~~~~~~~~~~~~~#*~~~~*~~*#~~~~~~~~~~~~~~~~#',
+    '#~~~~~~~~~~~~~~~#~**#~~~~##~~~~~~~~~~~~~~~~#',
+    '#~~~~~~~~~~~~~~~#~~~#*~~**#~~~~~~~~~~~~~~~~#',
+    '#~~~~~~~~~~~~~~~#~~~~~~#**#~~~~~~~~~~~~~~~~#',
+    '#~~~~~~~~~~~~~~~#~*~~#*~~~#~~~~~~~~~~~~~~~~#',
+    '#IIIIIIIIIIIIIII#~~~~~~*#~#IIIIIIIIIIIIIIII#',
     '#IIIIIIIIIIIIIII#.........#IIIIIIIIIIIIIIII#',
     '#nnnnnnnnnnnnnnnnnnnn=nnnnnnnnnnnnnnnnnnnnn#',
     '#nnnnnnTnnTnnnnnnnnnn=nnnnTTnnnnnnnnnnnnnnn#',
@@ -50,7 +50,7 @@ defMap({
   zone: { kinds: kinds([['floe', 3], ['selkie', 2], ['walrus', 2], ['auk', 3], ['rime', 1]]), lv: [33, 37], n: 10, area: 'drift' },
   props: [{ x: 21, y: 3, pic: 'frozentub', when: () => !hasKey('lore_tub') && !flag('back_lore_tub') }, { x: 34, y: 4, pic: 'holmfar', when: holmSeen(6) }],
   npcs: [
-    { id: 'icefisher2', x: 12, y: 14, sprite: 'veryold', name: 'Floe-watcher', dir: 1, lines: ['Step on a floe and it goes where you stepped till it hits something. Then it stays. Then it\'s a floor.'] },
+    { id: 'icefisher2', x: 12, y: 14, sprite: 'veryold', name: 'Floe-watcher', dir: 1, lines: ['Step on a floe and it goes where you stepped till it hits something. Then it stays. Then it\'s a floor.', 'Swim it? That slush? Nothing swims that slush. Not even the ones that swim.'] },
     { id: 'floetrainer', x: 31, y: 19, sprite: 'villager2', name: 'Sealer', dir: 2, trainer: { name: 'Sealer', team: [['selkie', 35], ['walrus', 35]], intro: 'I count seals. These ones are casts. They count too, I reckon. Mostly they count me.', defeat: 'Seventeen, then. And you.', sight: 3 } },
   ],
   spots: [
@@ -61,47 +61,56 @@ defMap({
 });
 SPAWNS.floes = [1, 18];
 
+// The field's water is slush, so a TIDE whorl worn cannot swim to the tub. Only the floes cross it.
+field.passHooks.push((f, x, y, ch) => (f.map.id === 'floes' && ch === '~' && x > 16 && x < 26 && y > 3 && y < 11 ? false : null));
+
 defProp('frozentub', {
   w: 1, h: 1,
   paint(x, y) { rect(x + 1, y + 3, 6, 4, '#a8b8c8'); rect(x + 1, y + 3, 6, 1, '#e8f0f8'); rect(x + 3, y + 2, 2, 1, '#f4f4f4'); rect(x, y + 6, 8, 2, '#dcecf8'); },
 });
 
-PUZZLE_DATA.extra.push(() => {
-  // Ouro starts anywhere on the shore under the field and must stand on the tub's rock. Breadth first over Ouro and the floes.
-  const m = MAPS.floes;
-  const X0 = 16, Y0 = 3, rock = [21, 4], shoreY = 11;
-  const water = (x: number, y: number) => m.rows[y]?.[x] === '~' || m.rows[y]?.[x] === '*';
-  const land = (x: number, y: number) => m.rows[y]?.[x] === '.';
-  const floes0: [number, number][] = [];
-  m.rows.forEach((r, y) => { for (let x = 0; x < r.length; x++) if (r[x] === '*') floes0.push([x, y]); });
-  const solve = (start: [number, number]) => {
-    const key = (o: number[], fl: number[][]) => o.join() + '|' + fl.map(p => p.join()).sort().join(';');
-    const seen = new Set([key(start, floes0)]);
-    let frontier: [number[], number[][]][] = [[start, floes0]];
-    for (let d = 0; frontier.length && d < 40; d++) {
-      const next: [number[], number[][]][] = [];
-      for (const [o, fl] of frontier) {
-        if (o[0] === rock[0] && o[1] === rock[1]) return d;
-        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-          let nx = o[0] + dx, ny = o[1] + dy, f2 = fl;
-          const fi = fl.findIndex(p => p[0] === nx && p[1] === ny);
-          if (fi >= 0) {
-            f2 = fl.map(p => p.slice());
-            while (water(nx + dx, ny + dy) && !f2.some(p => p[0] === nx + dx && p[1] === ny + dy)) { nx += dx; ny += dy; }
-            f2[fi] = [nx, ny];
-          } else if (!land(nx, ny) || ny > shoreY || nx < X0 || nx > X0 + 10 || ny < Y0) continue;
-          const k = key([nx, ny], f2);
-          if (seen.has(k)) continue;
-          seen.add(k); next.push([[nx, ny], f2]);
-        }
-      }
-      frontier = next;
+// The floes for the puzzle checks: where Ouro stands (the lowest tile of the land Ouro is on, or the floe Ouro is on)
+// and where each floe lies. A step onto a floe that carries it is a ride and costs a move. Walking out of the map puts
+// every floe back, so the shore can always start over.
+{
+  type FloeState = { o: number; fl: number[] };
+  const m = MAPS.floes, W = m.rows[0].length;
+  const X0 = 16, Y0 = 3, X1 = 26, SHORE = 11, ROCK = 4 * W + 21;
+  const at = (i: number) => m.rows[Math.floor(i / W)]?.[i % W] ?? '#';
+  const inField = (i: number) => { const x = i % W, y = Math.floor(i / W); return x >= X0 && x <= X1 && y >= Y0 && y <= SHORE; };
+  const water = (i: number) => inField(i) && (at(i) === '~' || at(i) === '*');
+  const land = (i: number) => inField(i) && at(i) === '.';
+  const fl0: number[] = [];
+  for (let i = 0; i < W * m.rows.length; i++) if (at(i) === '*') fl0.push(i);
+  const landOf = (i: number) => { const seen = new Set([i]), q = [i]; while (q.length) { const c = q.pop()!; for (const s of [1, -1, W, -W]) if (land(c + s) && !seen.has(c + s)) { seen.add(c + s); q.push(c + s); } } return seen; };
+  const place = (o: number) => (land(o) ? Math.min(...landOf(o)) : o);
+  const start: FloeState = { o: place(SHORE * W + 21), fl: fl0 };
+  const moves = (s: FloeState, ride = true): Move<FloeState>[] => {
+    const out: Move<FloeState>[] = [];
+    const here = land(s.o) ? [...landOf(s.o)] : [s.o];
+    if (here.some(i => Math.floor(i / W) === SHORE)) out.push({ to: start, cost: 0, reset: true });
+    for (const c of here) for (const step of [1, -1, W, -W]) {
+      const n = c + step, fi = s.fl.indexOf(n);
+      if (fi < 0) { if (land(n) && !land(s.o)) out.push({ to: { o: place(n), fl: s.fl }, cost: 0 }); continue; }
+      let e = n;
+      while (water(e + step) && !s.fl.includes(e + step)) e += step;
+      if (e !== n && !ride) continue;
+      const fl = s.fl.slice(); fl[fi] = e;
+      out.push({ to: { o: e, fl }, cost: e === n ? 0 : 1 });
     }
-    return -1;
+    return out;
   };
-  for (let x = X0 + 1; x < X0 + 10; x++) if (solve([x, shoreY]) < 0) return `puzzle 8: the tub's rock cannot be reached from the shore at ${x},${shoreY}`;
-  return null;
-});
+  GRAPH_PUZZLES.push({
+    name: 'The Floes', floor: 10, start,
+    key: (s: FloeState) => `${s.o}|${[...s.fl].sort((a, b) => a - b).join()}`,
+    moves: (s: FloeState) => moves(s),
+    goal: (s: FloeState) => s.o === ROCK,
+    exit: (s: FloeState) => land(s.o) && [...landOf(s.o)].some(i => Math.floor(i / W) === SHORE),
+    without: [['with the floes fixed', (s: FloeState) => moves(s, false)]],
+    show: (s: FloeState) => `Ouro ${s.o % W},${Math.floor(s.o / W)} floes ${s.fl.map(i => `${i % W},${Math.floor(i / W)}`).join(' ')}`,
+    prize: { map: 'floes', at: [21, 3], view: [21, 11] },
+  });
+}
 
 // ---------------------------------------------------------------- Tusk's snowfield and puzzle 9
 
@@ -109,14 +118,20 @@ PUZZLE_DATA.extra.push(() => {
 const WAY: [number, number][] = [[20, 16], [20, 15], [20, 14], [20, 13], [20, 12], [20, 11], [20, 10], [21, 10], [22, 10], [23, 10], [24, 10], [25, 10], [26, 10],
   [27, 10], [28, 10], [29, 10], [30, 10], [31, 10], [31, 9], [31, 8], [31, 7], [31, 6], [31, 5], [32, 5]];
 const onWay = (x: number, y: number) => WAY.some(([a, b]) => a === x && b === y);
+/** The steps of the way that stand by a landmark the directions name: the turn east, the stick, the capped stone, the first pine. */
+const WAY_MARKS = [0, 6, 10, 15, 19];
+let wayFar = 0;
 
-// A wrong turn in the drifts walks Ouro back to the edge of town, under a fade.
+// A wrong turn in the drifts takes Ouro back, under a fade, to the last landmark Ouro reached on the way.
 field.stepHooks.push(f => {
-  if (f.map.id !== 'tusk' || f.y > 16 || f.y < 1 || onWay(f.x, f.y)) return;
+  if (f.map.id !== 'tusk' || f.y > 16 || f.y < 1) { if (f.map.id === 'tusk' && f.y > 16) wayFar = 0; return; }
+  const i = WAY.findIndex(([a, b]) => a === f.x && b === f.y);
+  if (i >= 0) { wayFar = Math.max(wayFar, i); return; }
+  const mark = WAY_MARKS.filter(k => k <= wayFar).pop() ?? 0, [mx, my] = WAY[mark];
   void f.runBusy(async () => {
     sfx('wind');
     f.fade = 12;
-    f.x = 20; f.y = 18; f.px = 160; f.py = 144; f.dir = 2; f.placeFollower();
+    f.x = mx; f.y = my; f.px = mx * 8; f.py = my * 8; f.placeFollower();
     await wait(14);
   });
 });
@@ -137,7 +152,7 @@ defProp('tuskway', {
 });
 MAPS.tusk.props = [...(MAPS.tusk.props || []), { x: 20, y: 10, pic: 'tuskway' }];
 (MAPS.tusk.spots ||= []).push(
-  { x: 33, y: 5, when: () => !flag('found_tusk_spoons'), script: async () => { setFlag('found_tusk_spoons'); sfx('cut'); await wait(20); await reward({ notion: 'riderspoon', items: [['ambergris', 1]] }); } },
+  { x: 33, y: 5, when: () => !flag('found_tusk_spoons'), script: async () => { setFlag('found_tusk_spoons'); sfx('cut'); await wait(20); await reward({ notion: 'riderspoon', items: [['ambergris', 1]], tan: 4 }); } },
 );
 
 // The rememberer says "and then" between every part of a memory, as if reading it off a list.

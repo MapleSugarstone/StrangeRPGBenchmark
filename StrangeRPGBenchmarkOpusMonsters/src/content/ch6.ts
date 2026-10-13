@@ -71,7 +71,7 @@ defMap({
   zone: { kinds: [['floe', 3], ['yoke', 3], ['menhir', 2], ['halo', 2], ['curtain', 2], ['squall', 1], ['coma', 1]], lv: [32, 36], n: 16, area: 'snow' },
   npcs: [
     { id: 'trapper', x: 8, y: 27, sprite: 'villager2', name: 'Trapper', dir: 0, trainer: { name: 'Trapper', team: [['floe', 33], ['squall', 33]], intro: 'Hyolau whorls drift down from the north on their own. We wait at the edge. It\'s a lot of waiting.', defeat: 'Right. More waiting.', sight: 4 } },
-    { id: 'herder', x: 24, y: 20, sprite: 'villager2', name: 'Herder', dir: 3, trainer: { name: 'Herder', team: [['yoke', 34], ['menhir', 33]], intro: 'An ox cast\'ll pull a sledge forever. I keep meaning to tell it to stop.', defeat: 'Oh. Mine stopped.', sight: 4 } },
+    { id: 'herder', x: 24, y: 20, sprite: 'villager2', name: 'Herder', dir: 3, trainer: { nacre: 1, name: 'Herder', team: [['yoke', 34], ['menhir', 33]], intro: 'An ox cast\'ll pull a sledge forever. I keep meaning to tell it to stop.', defeat: 'Oh. Mine stopped.', sight: 4 } },
     { id: 'peel6', x: 20, y: 13, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['quarry', 34], ['carrion', 34]], intro: 'We\'re undercutting the Tusk. Oldest one there is. Should go easy. Probably.', defeat: 'Eh. Doesn\'t matter. Old shells walk off the beach. Nobody sees them again.', sight: 3 } },
     { id: 'pilgrim', x: 24, y: 6, sprite: 'elder', name: 'Pilgrim', dir: 3, trainer: { name: 'Pilgrim', team: [['halo', 34], ['curtain', 34], ['floe', 35]], intro: 'Every year I walk out to the saint\'s halo. The saint\'s still out there somewhere, bareheaded.', defeat: 'Aw. Now the halo\'s somewhere else too.', sight: 4 } },
   ],
@@ -170,7 +170,7 @@ defMap({
   warps: [{ x: 6, y: 9, to: 'tusk', tx: 13, ty: 25, dir: 0 }, { x: 7, y: 9, to: 'tusk', tx: 13, ty: 25, dir: 0 }],
   npcs: [
     { id: 'tallow', x: 6, y: 1, sprite: 'tallow', name: 'Old Amber', talk: 'tallow' },
-    { id: 'tg1', x: 10, y: 6, sprite: 'veryold', name: 'Hall keeper', dir: 3, trainer: { name: 'Hall keeper', team: [['menhir', 34], ['curtain', 34], ['yoke', 35]], intro: 'Our keeper was a most formidable terror at fights!! She has told us so, at length.', defeat: 'She was, it transpires, entirely and lamentably correct.', sight: 5 } },
+    { id: 'tg1', x: 10, y: 6, sprite: 'veryold', name: 'Hall keeper', dir: 3, trainer: { nacre: 1, name: 'Hall keeper', team: [['menhir', 34], ['curtain', 34], ['yoke', 35]], intro: 'Our keeper was a most formidable terror at fights!! She has told us so, at length.', defeat: 'She was, it transpires, entirely and lamentably correct.', sight: 5 } },
   ],
 });
 

@@ -104,6 +104,12 @@ const BY_MAP: Record<string, Partial<Sky>> = {
   sanddollar: { lamps: { ...GLOW, x: 16 } },
   // The bottom of the geode, where the crystal turns teal.
   geodeheart: { lampTint: '#70f0d8', amb: 0.16 },
+  // The wind's streaks on the Iceshelf carry loose snow that holds the starlight, so the puzzle's gusts show at night.
+  iceshelf: { lamps: { ...GLOW, N: 10, E: 10, S: 10, W: 10 }, lampTint: '#cfe6ff' },
+  // Light comes through the Bole's bark, so the puzzle's grooves and saplings show at night.
+  bolegym: { amb: 0.45 },
+  // Old Amber's hall keeps its lamps low, but the pens, plates, and doors must read at night.
+  tuskgym: { amb: 0.45 },
 };
 
 const cache = new Map<string, Sky>();

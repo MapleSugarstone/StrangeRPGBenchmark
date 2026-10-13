@@ -3,6 +3,7 @@ import { sp, SPECIES, WILD_KINDS, type Species } from './speciesdb';
 import { halveLevel } from './types';
 import { PROFILE_TABLE } from './profileTable';
 import { profileFrom } from './profiles';
+import './fields';
 import './kits1';
 import './kits2';
 import './kits8';

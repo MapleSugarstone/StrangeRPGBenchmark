@@ -1,4 +1,4 @@
-import { ctx, frame, rect, INK } from '../engine/screen';
+import { ctx, dither, frame, mix, px, rect, INK } from '../engine/screen';
 import { text } from '../engine/font';
 import { TYPE_COLOR, type Type } from '../data/types';
 
@@ -19,6 +19,86 @@ export const PORTRAIT_BG = '#4a4560';
 export function box(x: number, y: number, w: number, h: number, edge = PAPER): void {
   frame(x, y, w, h, BOX, edge);
 }
+
+// ---------------------------------------------------------------- the pearl-lined panels the menus share
+
+/** Cast down and to the right of a panel, away from the light at the upper left. */
+export const SHADOW = '#07060a';
+/** The pearl lining of a panel's edge, the default for menus and text boxes. */
+export const PEARL_EDGE = '#a48fb6';
+/** The colors nacre turns as the light moves over it, as on the Nacre screen. */
+export const SHEEN = ['#f4c4dc', '#bcecd8', '#f2e2b0'];
+/** Hint lines at the foot of a screen, and hints for keys that do nothing just now. */
+export const HINT = '#6a6478', HINT_OFF = '#46425a';
+
+const tones = new Map<string, [string, string]>();
+/** An edge color's lit side, facing the light at the upper left, and its side in shade. */
+export function edgeTones(c: string): [string, string] {
+  let v = tones.get(c);
+  if (!v) { v = [mix(c, '#ffffff', 0.38), mix(c, INK, 0.5)]; tones.set(c, v); }
+  return v;
+}
+
+const heads = new Map<string, string>();
+/** The title band of a panel with this edge: a dark wash of the edge color. */
+export function headOf(c: string): string {
+  let v = heads.get(c);
+  if (!v) { v = mix(c, BOX, 0.76); heads.set(c, v); }
+  return v;
+}
+
+/** A frame lit on its top and left edges and shaded on its bottom and right ones, around a fill. */
+export function bevel(x: number, y: number, w: number, h: number, fill: string, edge: string): void {
+  const [lit, shade] = edgeTones(edge);
+  rect(x, y, w, h, edge);
+  rect(x, y, w - 1, 1, lit); rect(x, y, 1, h - 1, lit);
+  rect(x + 1, y + h - 1, w - 1, 1, shade); rect(x + w - 1, y + 1, 1, h - 1, shade);
+  rect(x + 1, y + 1, w - 2, h - 2, fill);
+}
+
+/**
+ * A menu panel: a shadow cast down and to the right, a dark outline, an edge lit on the top and left and shaded on the bottom
+ * and right, a pearl set at each corner, and a glint that runs along the top edge every few seconds. The edge stays one
+ * pixel wide, so text two pixels in keeps its clear pixel.
+ */
+export function panel(x: number, y: number, w: number, h: number, edge = PEARL_EDGE, opts: { shadow?: boolean; fill?: string; glint?: boolean; head?: number } = {}): void {
+  if (opts.shadow !== false) rect(x + 2, y + 2, w, h, SHADOW);
+  rect(x - 1, y - 1, w + 2, h + 2, INK);
+  bevel(x, y, w, h, opts.fill || BOX, edge);
+  const [lit, shade] = edgeTones(edge);
+  // A pearl edge catches the light as nacre does: its lit top and left edges run through bands of pink, green, and cream
+  // that creep slowly along them.
+  if (edge === PEARL_EDGE) {
+    const shift = Math.floor(performance.now() / 160);
+    for (let i = 2; i < w - 2; i++) { const k = Math.floor((i + shift) / 7) % 6; if (k < 3) px(x + i, y, SHEEN[k]); }
+    for (let j = 2; j < h - 2; j++) { const k = Math.floor((j + shift + 3) / 7) % 6; if (k < 3) px(x, y + j, SHEEN[k]); }
+  }
+  // A title band across the top `head` rows, in a dark wash of the edge, with a rule under it.
+  if (opts.head) { rect(x + 1, y + 1, w - 2, opts.head, headOf(edge)); rect(x + 1, y + opts.head + 1, w - 2, 1, shade); }
+  for (const [cx, cy] of [[x, y], [x + w - 2, y], [x, y + h - 2], [x + w - 2, y + h - 2]]) { rect(cx, cy, 2, 2, lit); px(cx, cy, '#ffffff'); }
+  if (opts.glint === false) return;
+  // The glint: three pixels that cross the top edge, then rest a while. Each panel starts at its own place in the round.
+  const run = Math.floor(performance.now() / 24 + x * 7 + y * 3) % (w + 260);
+  for (let k = 0; k < 3; k++) { const d = run - k; if (d >= 2 && d < w - 2) px(x + d, y, k ? lit : '#ffffff'); }
+}
+
+/** The bar behind a picked row of a list, in a dark wash of the accent. It covers the row's own eight rows only, so the rows above and below keep their clear pixel. */
+export function rowBar(x: number, y: number, w: number, accent = SEL): void {
+  rect(x, y, w, 8, mix(accent, BOX, 0.82));
+}
+
+/** Specks of light drifting slowly up a dark screen and twinkling now and then, as dust drifts in the Setting's lamplight. */
+export function motes(t: number, n = 22, c1 = '#2a2236', c2 = '#3a3048', glint = '#b8a8d8'): void {
+  for (let k = 0; k < n; k++) {
+    const x = Math.round((k * 67 + Math.sin(t * 0.012 + k) * 6 + 400) % 192);
+    const y = Math.round((((k * 41) - t * (0.06 + (k % 5) * 0.02)) % 192 + 192) % 192);
+    const tw = (t + k * 37) % 180;
+    px(x, y, tw < 6 ? glint : k % 3 ? c1 : c2);
+  }
+}
+
+/** A screen fading in from black through the ordered dither over its first frames. */
+export function fadeIn(t: number, len = 10): void { if (t < len) dither(0, 0, 192, 192, INK, 1 - t / len); }
 
 export function hpColor(f: number): string {
   return f > 0.5 ? GOOD : f > 0.25 ? WARN : BADC;
@@ -182,6 +262,7 @@ const ICONS: Record<string, [number[], string]> = {
   stasis: [[31, 17, 17, 17, 31], '#d0d0e0'], hidden: [[21, 0, 17, 0, 21], '#8a84b0'], revealed: [[0, 14, 27, 14, 0], '#e0d8a0'],unstop: [[8, 12, 31, 12, 8], '#e0c080'], ward: [[4, 10, 17, 10, 4], '#a0d0f0'],
   thorns: [[21, 14, 31, 14, 21], '#6aa04a'], regen: [[4, 4, 31, 4, 4], '#7ad07a'], invuln: [[14, 17, 0, 4, 14], '#f8e8a0'],
   doom: [[14, 31, 21, 14, 10], '#b03a5a'], monument: [[31, 14, 14, 14, 31], '#d8d4c8'], guard: [[31, 31, 17, 10, 4], '#e8e2d0'],
+  dashing: [[20, 10, 5, 10, 20], '#d8e0f0'],
 };
 
 export function statusIcon(id: string, x: number, y: number): boolean {

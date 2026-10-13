@@ -6,7 +6,9 @@ import { rect } from '../engine/screen';
 import { defProp } from '../game/props';
 import { flag, setFlag } from '../game/state';
 import { defMap, defScript, MAPS } from '../game/world';
+import { GRAPH_PUZZLES, type Move } from '../tools/worldcheck';
 import { addKinds, kinds, link, look, reward, rows, stash } from './areakit';
+import { prize } from './puzzlekit';
 
 // ---------------------------------------------------------------- new kinds in the old zones
 
@@ -71,7 +73,7 @@ defMap({
   warps: [{ x: 8, y: 1, to: 'fellside', tx: 36, ty: 5, dir: 0 }, { x: 33, y: 13, to: 'cocklecove', tx: 34, ty: 7, dir: 0 }],
   zone: { kinds: kinds([['talpa', 3], ['cellar', 2], ['lumbric', 3], ['brogue', 2], ['pod', 2], ['hatch', 1], ['chirr', 2], ['welling', 1]]), lv: [4, 8], n: 9, area: 'dark' },
   npcs: [
-    { id: 'moleman', x: 12, y: 5, sprite: 'tanner', name: 'Mole-catcher', dir: 2, trainer: { name: 'Mole-catcher', team: [['talpa', 6], ['lumbric', 6]], intro: 'Moles dig, I follow. Twenty years. Haven\'t met one yet. I think they know.', defeat: 'Down the hole I go. Moles first.', sight: 3 } },
+    { id: 'moleman', x: 12, y: 5, sprite: 'tanner', name: 'Mole-catcher', dir: 2, trainer: { nacre: 1, name: 'Mole-catcher', team: [['talpa', 6], ['lumbric', 6]], intro: 'Moles dig, I follow. Twenty years. Haven\'t met one yet. I think they know.', defeat: 'Down the hole I go. Moles first.', sight: 3 } },
     { id: 'cellargirl', x: 25, y: 12, sprite: 'child', name: 'Cellar girl', dir: 3, trainer: { name: 'Cellar girl', team: [['cellar', 7], ['pod', 7]], intro: 'Mum keeps the jam down here. Kept. The jam\'s gone now. I\'m guarding where it was.', defeat: 'Don\'t tell Mum about the jam. Please. It wasn\'t me. Mostly.', sight: 3 } },
     { id: 'bootless', x: 16, y: 15, sprite: 'villager2', name: 'Bootless', dir: 0, trainer: { name: 'Bootless', team: [['brogue', 7], ['chirr', 7], ['hatch', 8]], intro: 'Lost a boot down here on my Turning Day. It turned too, I reckon. Walks about now.', defeat: 'If you see it, it\'s the right one. Tell it I\'m not mad.', sight: 3 } },
     { id: 'pellslip', x: 7, y: 16, sprite: 'child', name: 'Pell\'s cast', dir: 3, img: () => PEOPLE.pellcast, talk: 'pellSlip', when: () => !flag('pellHome') },
@@ -123,12 +125,12 @@ defScript('pellSlip', async () => {
 const KNUCKLES: [number, number][] = [[10, 16], [15, 16], [20, 16], [25, 16], [34, 9]];
 const counted = () => KNUCKLES.filter((_, i) => flag('knuckle' + i)).length;
 
-// The surge pool fills the palm from the near side to the shelf, round a dry callus in the middle.
-const SURGE_ROWS: [number, number, number][] = [];
-for (let y = 6; y <= 14; y++) {
-  if (y === 10 || y === 11) SURGE_ROWS.push([12, y, 6], [20, y, 5]);
-  else SURGE_ROWS.push([12, y, 13]);
-}
+// The surge pool fills the palm from the near side to the shelf, round dry calluses and lines of bone. Each ebb lasts
+// eight steps. The callus near the top leads nowhere: past the bones, the rest is more than one ebb away. The low
+// callus is one ebb from the wrist, the high one by the shelf one ebb from it, and the shelf one ebb on. Fewest moves: 36.
+const PALM = ['::::::u::::::', '::..::u::::::', '::::::u:..:::', '::::::u::::::', '::::::u::::::', ':::::::::::u:', ':::::..::::u:', ':::::::::::::', ':::::::::::::'];
+const PALM_X = 12, PALM_Y = 6;
+const SURGE_ROWS: [number, number, number][] = PALM.flatMap((r, j) => [...r].flatMap((c, i) => (c === ':' ? [[PALM_X + i, PALM_Y + j, 1] as [number, number, number]] : [])));
 const surgeIn = () => field.map?.id === 'knucklebones' && Math.floor(field.mapSteps / 8) % 2 === 1;
 const inSurge = (x: number, y: number) => SURGE_ROWS.some(([sx, sy, w]) => y === sy && x >= sx && x < sx + w);
 
@@ -136,12 +138,14 @@ const inSurge = (x: number, y: number) => SURGE_ROWS.some(([sx, sy, w]) => y ===
 field.stepHooks.push(f => {
   if (f.map.id !== 'knucklebones' || f.mapSteps % 8 !== 0 || !surgeIn() || !inSurge(f.x, f.y)) return;
   if (f.wearing && f.leadTypes().includes('TIDE')) return;
-  // The surge washes Ouro back across the palm to the near side.
+  // The surge carries Ouro off the palm and leaves Ouro at the wrist. Bones stand in the palm, so it is a fade, not a walk.
   void f.runBusy(async () => {
     sfx('hitBig');
     f.flashT = 10;
-    await f.walkPlayer((f.y < 10 ? 'd'.repeat(10 - f.y) : 'u'.repeat(f.y - 10)) + 'l'.repeat(Math.max(0, f.x - 10)));
-    f.dir = 1;
+    f.fade = 12;
+    await wait(8);
+    f.x = 10; f.y = 10; f.px = 80; f.py = 80; f.dir = 1;
+    f.placeFollower();
   });
 });
 
@@ -167,13 +171,13 @@ defMap({
     '#.,,,,,.........................,,,,,..#',
     '#,,,,,,,.......................,,,,,,,.#',
     '#.,,,,,.uu.uuuuuuuuuuuuuuuuuu...,,,,,..#',
-    '#..,,,..u...:::::::::::::...u....,,,...#',
-    '#.......u...:::::::::::::...u..........#',
-    '#.......u...:::::::::::::...u..........#',
-    '#.......u...:::::::::::::...uuuuuuu....#',
-    '#.......u...::::::..:::::...uuuuuuu....#',
-    '#.......u...::::::..:::::...u..........#',
-    '#.......u...:::::::::::::...u..........#',
+    '#..,,,..u...::::::u::::::...u....,,,...#',
+    '#.......u...::..::u::::::...u..........#',
+    '#.......u...::::::u:..:::...u..........#',
+    '#.......u...::::::u::::::...uuuuuuu....#',
+    '#.......u...::::::u::::::...uuuuuuu....#',
+    '#.......u...:::::::::::u:...u..........#',
+    '#.......u...:::::..::::u:...u..........#',
     '#.......u...:::::::::::::...u.......:::#',
     '#.......u...:::::::::::::...u.......:::#',
     '#.......uuuuuuuuuuuuuuuuuuuuu...,,,.::s:',
@@ -201,7 +205,7 @@ defMap({
   zone: { kinds: kinds([['talus', 3], ['molar', 2], ['atlas', 2], ['nail', 2], ['socket', 2], ['furcula', 1]]), lv: [6, 10], n: 10, area: 'bones' },
   npcs: [
     { id: 'counter', x: 7, y: 2, sprite: 'elder', name: 'Counter', dir: 0, talk: 'counter' },
-    { id: 'bonesetter', x: 12, y: 3, sprite: 'elder', name: 'Bonesetter', dir: 1, trainer: { name: 'Bonesetter', team: [['talus', 8], ['atlas', 8]], intro: 'I set bones for a living. These are too big to set. I\'m trying anyway. It\'s been a slow year.', defeat: 'Ow. That one\'s out of joint too.', sight: 3 } },
+    { id: 'bonesetter', x: 12, y: 3, sprite: 'elder', name: 'Bonesetter', dir: 1, trainer: { nacre: 1, name: 'Bonesetter', team: [['talus', 8], ['atlas', 8]], intro: 'I set bones for a living. These are too big to set. I\'m trying anyway. It\'s been a slow year.', defeat: 'Ow. That one\'s out of joint too.', sight: 3 } },
     { id: 'ringpolish', x: 6, y: 22, sprite: 'villager', name: 'Ring polisher', dir: 1, trainer: { name: 'Ring polisher', team: [['socket', 9], ['furcula', 9]], intro: 'I polish the ring! It was gold once. It\'s getting there. See that bit? :-]', defeat: 'Mind the shine on your way out. It\'s fresh.', sight: 3 } },
     { id: 'nailbiter', x: 31, y: 19, sprite: 'child', name: 'Nail biter', dir: 3, trainer: { name: 'Nail biter', team: [['nail', 9], ['molar', 8]], intro: 'I bit my nails so much one of them turned. Its shell follows me everywhere. It\'s kinda clingy.', defeat: 'Ugh. It\'s chewing again.', sight: 4 } },
   ],
@@ -220,10 +224,32 @@ defMap({
     stash('kb_ring', 17, 22, 'In the dust where the ring meets the bone, something someone dropped long ago.', { notion: 'heartstone' }),
     stash('kb_palm', 10, 7, 'In a line of the palm, out of the wind, three whelk horns.', { pegs: ['brass', 3] }),
     look(2, 9, 'The giant\'s rib stands in the town to the north.', 'The giant\'s hand lies here, palm up, fingers in the sea.', 'Nobody has found the rest.'),
-    stash('kb_shelf', 26, 10, 'On the shelf past the palm, where the surge leaves things, a little heap of what it left.', { items: [['beachglass', 3]], notions: [['tidejar', 2]], tan: 3 }),
     stash('kb_reef', 29, 25, 'On the finger reef, wedged in a crack, a cuttlebone and a nautilus horn.', { notions: [['cuttlebone', 1]], pegs: ['iron', 1] }),
   ],
 });
+
+MAPS.knucklebones.npcs.push({ id: 'kbsign', x: 9, y: 6, sprite: 'sign', name: undefined, lines: ['Scratched on a knuckle: "the surge leaves things on the far shelf. eight steps out, eight in."'] });
+MAPS.knucklebones.npcs.push(prize('kb_shelf', 26, 10, 'On the shelf past the palm, where the surge leaves things, a little heap of what it left.', { items: [['beachglass', 3]], notions: [['tidejar', 2]], tan: 5 }));
+{
+  // The palm as the surge plays it: a state is a tile and the step of the surge's sixteen-step turn.
+  type SurgeS = { x: number; y: number; t: number };
+  const tile = (x: number, y: number) => (x === PALM_X - 1 || x === PALM_X + 13) && y >= PALM_Y && y < PALM_Y + 9 ? '.' : PALM[y - PALM_Y]?.[x - PALM_X] ?? 'u';
+  const start: SurgeS = { x: PALM_X - 1, y: 10, t: 0 };
+  const moves = (s: SurgeS): Move<SurgeS>[] => {
+    const out: Move<SurgeS>[] = [], inNow = Math.floor(s.t / 8) % 2 === 1;
+    for (const [dx, dy] of [[0, 1], [1, 0], [0, -1], [-1, 0]]) {
+      const x = s.x + dx, y = s.y + dy, c = tile(x, y), t = (s.t + 1) % 16;
+      if (c === 'u' || (c === ':' && inNow)) continue;
+      out.push({ to: c === ':' && t === 8 ? { ...start, t } : { x, y, t }, cost: 1 });
+    }
+    return out;
+  };
+  GRAPH_PUZZLES.push({
+    name: 'The surge', floor: 6, start, key: (s: SurgeS) => `${s.x},${s.y},${s.t}`, moves, goal: (s: SurgeS) => s.x === PALM_X + 13,
+    exit: (s: SurgeS) => s.x === PALM_X - 1, without: [['without the calluses', (s: SurgeS) => moves(s).filter(m => tile(m.to.x, m.to.y) !== '.' || m.to.x === PALM_X - 1 || m.to.x === PALM_X + 13)]],
+    show: (s: SurgeS) => `${s.x},${s.y} at step ${s.t}`, prize: { map: 'knucklebones', at: [26, 10], view: [11, 10], named: 'kbsign' },
+  });
+}
 
 // Counter starts every line with a number.
 defScript('counter', async () => {
@@ -243,7 +269,7 @@ defScript('counter', async () => {
   sound('page');
   await act('counter', 'nod');
   setFlag('countDone');
-  await reward({ notion: 'toothnecklace', tan: 2 });
+  await reward({ notion: 'toothnecklace', tan: 4 });
 });
 
 // ---------------------------------------------------------------- the Wrecks
@@ -278,7 +304,7 @@ defMap({
   zone: { kinds: kinds([['fluke', 2], ['prow', 2], ['bilge', 2], ['sail', 3], ['keel', 2], ['bombard', 1]]), lv: [10, 14], n: 11, area: 'wreckage' },
   npcs: [
     { id: 'master', x: 9, y: 13, sprite: 'keeper', name: 'The Master', dir: 0, talk: 'master' },
-    { id: 'plankwalk', x: 20, y: 7, sprite: 'villager', name: 'Plank-walker', dir: 2, trainer: { name: 'Plank-walker', team: [['sail', 12], ['fluke', 12]], intro: 'Every morning I walk the plank. Practice, for when the sea comes back. I\'m great at the end bit.', defeat: 'Off the end I go. Wheee.', sight: 3 } },
+    { id: 'plankwalk', x: 20, y: 7, sprite: 'villager', name: 'Plank-walker', dir: 2, trainer: { nacre: 1, name: 'Plank-walker', team: [['sail', 12], ['fluke', 12]], intro: 'Every morning I walk the plank. Practice, for when the sea comes back. I\'m great at the end bit.', defeat: 'Off the end I go. Wheee.', sight: 3 } },
     { id: 'bilgeboy', x: 31, y: 13, sprite: 'child', name: 'Bilge boy', dir: 3, trainer: { name: 'Bilge boy', team: [['bilge', 12], ['keel', 13]], intro: 'I pump the bilge! There\'s no water in it. Not a drop. You\'re welcome.', defeat: 'Still dry.', sight: 3 } },
     { id: 'gunner', x: 7, y: 6, sprite: 'keeper', name: 'Gunner', dir: 1, trainer: { name: 'Gunner', team: [['bombard', 13], ['prow', 13]], intro: 'Every cannon out here\'s still got a ball in it. Nobody\'s brave enough to check. Including me.', defeat: 'Don\'t touch the touch-holes. I know what they\'re called. Just don\'t.', sight: 3 } },
   ],
@@ -344,7 +370,7 @@ defMap({
   zone: { kinds: kinds([['breaker', 2], ['skua', 2], ['bloom', 2], ['drift', 3], ['spume', 2], ['ebb', 1]]), lv: [12, 16], n: 11, area: 'foam' },
   npcs: [
     { id: 'swimmer', x: 12, y: 15, sprite: 'villager', name: 'Swimmer', dir: 3, lines: ['Tomorrow I\'m swimming. The sea\'ll be back by tomorrow. Definitely.', 'I\'ve said that for nine years. I\'m really, really good at tomorrow.'] },
-    { id: 'beachcomber', x: 22, y: 2, sprite: 'elder', name: 'Beachcomber', dir: 2, trainer: { name: 'Beachcomber', team: [['drift', 14], ['skua', 14]], intro: 'I pick up everything the sea dropped. It dropped a lot. Then it left. Typical.', defeat: 'Eh. I\'ll pick you up some other time.', sight: 3 } },
+    { id: 'beachcomber', x: 22, y: 2, sprite: 'elder', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['drift', 14], ['skua', 14]], intro: 'I pick up everything the sea dropped. It dropped a lot. Then it left. Typical.', defeat: 'Eh. I\'ll pick you up some other time.', sight: 3 } },
     { id: 'walltoucher', x: 6, y: 11, sprite: 'villager2', name: 'Wall-toucher', dir: 3, trainer: { name: 'Wall-toucher', team: [['bloom', 15], ['breaker', 14]], intro: 'Put your ear to the gray. You can hear the sea in there. Honest.', defeat: 'Go on. Listen. It\'s still going in there.', sight: 3 } },
     { id: 'foamboy', x: 28, y: 16, sprite: 'child', name: 'Foam boy', dir: 1, trainer: { name: 'Foam boy', team: [['spume', 15], ['ebb', 15]], intro: 'Foam stays where the waves were. I sweep it into piles! This is my biggest pile.', defeat: 'You knocked my pile over :-(', sight: 4 } },
   ],

@@ -66,7 +66,7 @@ export async function playShellboard(r: (typeof RIVALS)[number] | (Rival & { pri
     const first = !flag('pegWon_' + r.id);
     setFlag('pegWon_' + r.id);
     await say(r.name, first ? 'Huh. Well played. Take this, I won it off someone worse.' : 'Again? Fine. Fine!');
-    await reward({ rind: 80 * r.tier, tan: Math.ceil(r.tier / 2), ...(first ? { notion: r.prize } : {}) });
+    await reward({ rind: 80 * r.tier, ...(first ? { tan: Math.ceil(r.tier / 2), notion: r.prize } : {}) });
   } else if (res === 0) await say(r.name, 'Even. Nobody pays, nobody sulks.');
   else await say(r.name, 'Ha, mine. Come back with better cards.');
 }
@@ -92,10 +92,10 @@ defScript('pegmaster', async () => {
 // Prise is offered at every grotto. The first time, the Shellwright explains it.
 async function scrapeAtTannery(): Promise<void> {
   if (!flag('scrapeTold')) {
-    await say('Shellwright', 'Prise this rock for me, yeah? Shells in it are plain, good, very good, or cracked.');
-    await say('Shellwright', 'Numbers on the edge add up each row and column. The x counts the cracked ones.');
-    await say('Shellwright', 'Get every good one out and I pay. Prise a cracked one and the whole rock\'s spoiled.');
-    await say('Shellwright', 'You get one feel with your thumb per rock. Tells smooth from rough. Just the one, okay?');
+    await say('Shellwright', 'Prise this bed of clams for me, yeah? Each clam\'s plain, good, very good, or cracked.');
+    await say('Shellwright', 'Numbers on the edge add up each row and column. The little crack counts the cracked ones.');
+    await say('Shellwright', 'Get every good one open and I pay. Prise a cracked one and the whole bed\'s spoiled.');
+    await say('Shellwright', 'You get one feel with your thumb per bed. Tells smooth from rough. Just the one, okay?');
     setFlag('scrapeTold');
   }
   await scrape();

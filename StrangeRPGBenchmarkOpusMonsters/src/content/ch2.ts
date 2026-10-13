@@ -9,6 +9,7 @@ import { CHART_HOLLOW, standingWild } from './ring';
 import { SPAWNS } from '../game/world';
 import { makeMon } from '../data/species';
 import { sfx } from '../engine/audio';
+import { countTack, tackLosesLine, tackTries, tackWinsLine } from './tack';
 
 const has = (s: string) => G.scales.includes(s);
 const fell = () => !!flag('mastFell');
@@ -61,7 +62,7 @@ defMap({
   npcs: [
     { id: 'salter', x: 16, y: 11, sprite: 'tanner', name: 'Salter', dir: 0, trainer: { name: 'Salter', team: [['brine', 10], ['scree', 10]], intro: 'Sea\'s been gone forty years and I still salt the fish. They\'re already dry. I just like doing it.', defeat: 'Fine. I\'ll go salt a rock.', sight: 3 } },
     { id: 'wrecker', x: 27, y: 14, sprite: 'villager2', name: 'Wrecker', dir: 2, trainer: { name: 'Wrecker', team: [['bore', 11], ['carrion', 10]], intro: 'I live in a boat on the sand. Love it. Never sunk once.', defeat: 'Gonna go sit in my boat now.', sight: 3 } },
-    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { name: 'Shell girl', team: [['paring', 10], ['eddy', 11]], intro: 'Every shell out here used to have someone in it. The pink one\'s mine. I called it, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
+    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { nacre: 1, name: 'Shell girl', team: [['paring', 10], ['eddy', 11]], intro: 'Every shell out here used to have someone in it. The pink one\'s mine. I called it, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
     { id: 'fisher', x: 20, y: 28, sprite: 'elder', name: 'Old fisher', lines: ['That gray\'s the sea\'s old shell. Every dusk it comes back and stands there, staring at my house.', 'Never comes in. If I were younger I\'d walk out there and have a word with it.'] },
     { id: 'tackds', x: 2, y: 12, sprite: 'tack', name: 'Tack', dir: 1, when: () => !flag('tack2') },
     { id: 'dssleeper', x: 48, y: 24, sprite: 'stone', mon: 'scree', name: 'Jarira', sleeper: { kind: 'scree', lv: 22, flag: 'sl_drysea' } },
@@ -186,20 +187,24 @@ defScript('tack2', async () => {
   // Tack walks up the corridor to meet Ouro, and walks on west to Mast when it is done.
   await emote('tackds', 'surprise');
   await walkUp('tackds');
-  await say('Tack', 'Hey, 2nd time. There\'s 11 Hermits at the Mast, I counted.');
-  await say('Tack', 'They\'ve dug 3 holes already. Like, big holes.');
-  await say('Tack', 'Leeward\'s 1 keeper and there\'s 11 of them. So I\'m gonna help. After I beat you.');
+  const tries = tackTries('2');
+  if (tries) await say('Tack', `Try ${tries + 1}. Still 11 Hermits. Still in the road.`);
+  else {
+    await say('Tack', 'Hey, 2nd time. There\'s 11 Hermits at the Mast, I counted.');
+    await say('Tack', 'They\'ve dug 3 holes already. Like, big holes.');
+    await say('Tack', 'Leeward\'s 1 keeper and there\'s 11 of them. So I\'m gonna help. After I beat you.');
+  }
   const r = await battle({ enemy: [makeMon('tackle', 17), makeMon('hare', 16), makeMon('paring', 16)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 1.15 });
   music.play('drysea');
+  countTack('2', r.result === 'win');
   if (r.result !== 'win') {
     // Tack keeps the road to the Mast until Ouro wins. He goes back to his spot, and Ouro steps back out of the trigger.
-    await say('Tack', '1 more for me. And I\'m still in the road. You don\'t get by till it\'s 1 for you.');
+    await say('Tack', `${tackWinsLine()} I'm still in the road. You get by when it's 1 more for you.`);
     await Promise.all([walkTo('tackds', 2, 12), walkTo('ouro', 9, 12)]);
     faceToward('tackds', 'ouro');
     return;
   }
-  G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-  await say('Tack', `${2 - (G.flags.tackWins || 0)} wins for me. ${G.flags.tackWins} for you. 11 Hermits still.`);
+  await say('Tack', `${tackLosesLine()} 11 Hermits still.`);
   await walkOff('tackds', 0, 12);
   setFlag('tack2');
 });

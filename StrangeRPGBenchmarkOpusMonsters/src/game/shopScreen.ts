@@ -4,14 +4,21 @@ import { NOTIONS } from '../battle/registry';
 import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
-import { dither, frame, mix, rect, INK } from '../engine/screen';
+import { dither, mix, rect, INK } from '../engine/screen';
 import { drawIcon, HORN_TEXT, iconOf, type Entry } from './bag';
 import { ITEMS } from './items';
 import { close, run, type Mode } from './modes';
 import { G, HORN_NAME, HORN_PRICE, save } from './state';
-import { BADC, DIM, PAPER, SEL } from './ui';
+import { BADC, bevel, DIM, PAPER, SEL } from './ui';
 
-interface Ware { id: string; name: string; price: number; text: string; kind: Entry['kind'] }
+interface Ware { id: string; name: string; price: number; text: string; kind: Entry['kind']; max?: number }
+
+/** Wares that content adds beyond horns, items, and notions, such as Setting sketches. `max` caps how many Ouro can own. */
+export const EXTRA_WARES: Record<string, {
+  name: string; price: number; text: string; kind: Entry['kind']; max: number; held: () => number; give: (n: number) => void;
+  /** The note after buying one, in place of "Bought the" and the name. */
+  toast?: string;
+}> = {};
 
 const BG = '#17151d', ACCENT = '#e8b040';
 const ROW = 11, LIST_Y = 27, ROWS = 8;
@@ -21,6 +28,8 @@ const MAX_BUY = 99;
 let lastId = '';
 
 function wareOf(id: string): Ware {
+  const x = EXTRA_WARES[id];
+  if (x) return { id, name: x.name, price: x.price, text: x.text, kind: x.kind, max: x.max };
   if (id in HORN_PRICE) return { id, name: HORN_NAME[id as keyof typeof HORN_NAME], price: HORN_PRICE[id as keyof typeof HORN_PRICE], text: HORN_TEXT[id] || '', kind: 'horn' };
   if (ITEMS[id]) return { id, name: ITEMS[id].name, price: ITEMS[id].price, text: ITEMS[id].text, kind: 'item' };
   const n = NOTIONS[id];
@@ -28,13 +37,15 @@ function wareOf(id: string): Ware {
 }
 
 function heldOf(w: Ware): number {
+  if (EXTRA_WARES[w.id]) return EXTRA_WARES[w.id].held();
   if (w.kind === 'horn') return G.pegs[w.id as keyof typeof G.pegs] || 0;
   if (w.kind === 'item') return G.items[w.id] || 0;
   return G.notions[w.id] || 0;
 }
 
 function give(w: Ware, n: number): void {
-  if (w.kind === 'horn') G.pegs[w.id as keyof typeof G.pegs] += n;
+  if (EXTRA_WARES[w.id]) EXTRA_WARES[w.id].give(n);
+  else if (w.kind === 'horn') G.pegs[w.id as keyof typeof G.pegs] += n;
   else if (w.kind === 'item') G.items[w.id] = (G.items[w.id] || 0) + n;
   else G.notions[w.id] = (G.notions[w.id] || 0) + n;
 }
@@ -87,7 +98,7 @@ class ShopMode implements Mode {
         give(w, sub.n);
         save();
         sfx('spot');
-        this.note(sub.n > 1 ? `Bought ${w.name} x${sub.n}.` : `Bought the ${w.name}.`);
+        this.note(sub.n > 1 ? `Bought ${w.name} x${sub.n}.` : EXTRA_WARES[w.id]?.toast ?? `Bought the ${w.name}.`);
       }
       return;
     }
@@ -97,21 +108,25 @@ class ShopMode implements Mode {
     lastId = this.wares[this.sel]?.id || '';
     if (input.hit('back')) { sfx('back'); close(this); this.done(); return; }
     if (input.hit('ok') && w) {
-      const max = Math.min(MAX_BUY, Math.floor(G.rind / Math.max(1, w.price)));
+      const room = w.max === undefined ? MAX_BUY : w.max - heldOf(w);
+      if (room < 1) { sfx('bump'); this.note('You have it already.'); return; }
+      const max = Math.min(MAX_BUY, room, Math.floor(G.rind / Math.max(1, w.price)));
       if (max < 1) { sfx('bump'); this.note('Not enough cowries.'); return; }
       sfx('ok');
-      this.sub = { kind: 'count', n: 1, max };
+      this.sub = w.max === 1 ? { kind: 'confirm', n: 1, yes: true } : { kind: 'count', n: 1, max };
     }
   }
 
   draw(): void {
     rect(0, 0, 192, 192, BG);
     // The counter's head: what this screen is, and the cowries in hand.
-    frame(2, 2, 188, 19, '#211e2a', ACCENT);
+    bevel(2, 2, 188, 19, '#211e2a', ACCENT);
     text('Buy', 8, 8, ACCENT);
     // A note after a purchase takes the middle of the head for two seconds.
-    textCenter(this.toastT > 0 ? this.toast : 'Shellwright\'s counter', 96, 8, this.toastT > 0 ? SEL : DIM);
-    const purse = String(G.rind);
+    const purse = String(G.rind), left = 8 + textWidth('Buy') + 4, right = 184 - textWidth(purse) - 12;
+    let head = this.toastT > 0 ? this.toast : 'Shellwright\'s counter';
+    while (head.length > 1 && textWidth(head) > right - left) head = head.slice(0, -1);
+    textCenter(head, Math.round((left + right) / 2), 8, this.toastT > 0 ? SEL : DIM);
     textRight(purse, 184, 8, PAPER);
     cowrie(184 - textWidth(purse) - 8, 9);
     // The stock, with a highlight that glides to the picked row.
@@ -137,16 +152,16 @@ class ShopMode implements Mode {
     // The panel: the picked item large and its name. Below them it shows what the item does, then the quantity picker,
     // then the confirmation, so nothing ever lies on top of the list.
     const py = 130, sub = this.sub;
-    frame(2, py - 4, 188, 62, '#1e1b26', sub.kind === 'list' ? ACCENT : SEL);
+    bevel(2, py - 4, 188, 62, '#1e1b26', sub.kind === 'list' ? ACCENT : SEL);
     const w = list[sel];
     if (w) {
-      frame(6, py, 20, 20, mix(ACCENT, BG, 0.75), '#3a3442');
+      bevel(6, py, 20, 20, mix(ACCENT, BG, 0.75), '#3a3442');
       drawIcon(iconOf(w.id, w.kind), 8, py + 2, 2);
       text(w.name, 30, py, ACCENT);
       if (sub.kind === 'list') {
         wrap(w.text, 154).slice(0, 4).forEach((l, j) => text(l, 30, py + 10 + j * 9, PAPER));
         const held = heldOf(w), team = w.kind === 'notion' || w.kind === 'spent' ? G.party.filter(m => m.notion === w.id).length : 0;
-        text(`You have ${held}${team ? `, ${team} on your team` : ''}`, 8, py + 47, DIM);
+        text(w.max === 1 ? (held ? 'You have it' : 'You do not have it') : `You have ${held}${team ? `, ${team} on your team` : ''}`, 8, py + 47, DIM);
         textRight(`${w.price} each`, 186, py + 47, G.rind >= w.price ? DIM : BADC);
       } else this.drawSub(w, py);
     }
@@ -166,7 +181,7 @@ class ShopMode implements Mode {
       text(what, 30, py + 11, PAPER);
       ['Buy', 'Cancel'].forEach((o, k) => {
         const x = 52 + k * 56, on = sub.yes === (k === 0);
-        if (on) frame(x - 6, py + 25, 44, 13, '#3a3346', SEL);
+        if (on) bevel(x - 6, py + 25, 44, 13, '#3a3346', SEL);
         textCenter(o, x + 16, py + 28, on ? SEL : PAPER);
       });
       text('Z picks, X goes back', 8, py + 47, DIM);

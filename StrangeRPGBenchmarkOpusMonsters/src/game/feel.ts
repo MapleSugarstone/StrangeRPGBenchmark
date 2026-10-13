@@ -285,5 +285,38 @@ export function withEyes(s: SpriteData, look: 'blink' | 'left' | 'right' | null)
   return out;
 }
 
+// ---------------------------------------------------------------- people's eyes
+
+/** Whether a person with this seed is mid-blink: about once every 3 to 4 seconds, each person on their own beat. */
+export function npcBlinks(t: number, seed: number): boolean {
+  return (t + seed * 37) % (190 + seed % 61) < 6;
+}
+
+const blinkCache = new Map<string, SpriteData>();
+/**
+ * A person's sprite with the eyes shut. The eyes are the first pair of ink pixels inside the edges of one row with only face
+ * between them (columns 2 and 5 on most heads), or failing that one ink pixel with face on both sides (a one-eyed head).
+ * A 2-tall eye closes its top pixel, and a 1-tall eye closes whole. A sprite with neither comes back as it is.
+ */
+export function blinkEyes(s: SpriteData): SpriteData {
+  const key = s.px.join('');
+  const hit = blinkCache.get(key);
+  if (hit) return hit;
+  let out = s;
+  for (const re of [/1(2{1,3})1/, /21(2)/]) {
+    for (let r = 1; r < 7 && out === s; r++) {
+      const m = re.exec(s.px[r].slice(1, 7));
+      if (!m) continue;
+      const rows = s.px.map(row => row.split(''));
+      if (re.source.startsWith('1')) { const a = m.index + 1; rows[r][a] = '2'; rows[r][a + m[0].length - 1] = '2'; } else rows[r][m.index + 2] = '2';
+      out = { px: rows.map(row => row.join('')), c: s.c };
+    }
+    if (out !== s) break;
+  }
+  if (blinkCache.size > 200) blinkCache.clear();
+  blinkCache.set(key, out);
+  return out;
+}
+
 /** For the debug handle: prints alive, and the cap. */
 export const feelStats = () => ({ prints: prints.length, cap: PRINT_CAP, sways: sways.length, rings: rings.length, motes: motes.length, last: prints[prints.length - 1] });

@@ -75,7 +75,7 @@ defMap({
   zone: { kinds: [['thicket', 3], ['orchard', 2], ['hemlock', 2], ['stump', 2], ['howl', 2], ['umbra', 1], ['mycel', 1]], lv: [20, 24], n: 16, area: 'brush' },
   npcs: [
     { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 22], ['stump', 22]], intro: 'Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.', defeat: 'Aaand there goes my hat. Up.', sight: 4 } },
-    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['crane', 22], ['yoke', 22]], intro: 'Kid, you\'re standing in the haul. We\'re hauling the Bole here.', defeat: 'Whatever. Haul\'s still going.', sight: 4 } },
+    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 22], ['yoke', 22]], intro: 'Kid, you\'re standing in the haul. We\'re hauling the Bole here.', defeat: 'Whatever. Haul\'s still going.', sight: 4 } },
     { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 22], ['hemlock', 23]], intro: 'Tarhaju whorls drop fruit, same as real orchards. Same fruit too. I\'ve done a lot of tasting.', defeat: 'Bruised.', sight: 3 } },
     { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 22], ['thumb', 22]], intro: 'She says ease it, don\'t yank it. So we\'re easing. Very slowly. All day.', defeat: 'Eased off.', sight: 4 } },
     { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke whorl in harness, waiting to pull. It has the patience of a gate.'] },
@@ -182,7 +182,7 @@ defMap({
   warps: [{ x: 5, y: 13, to: 'bole', tx: 21, ty: 13, dir: 0 }, { x: 6, y: 13, to: 'bole', tx: 21, ty: 13, dir: 0 }],
   npcs: [
     { id: 'grafton', x: 5, y: 1, sprite: 'grafton', name: 'Grafton', talk: 'grafton' },
-    { id: 'graft1', x: 8, y: 5, sprite: 'grafter', name: 'Grafter', dir: 3, trainer: { name: 'Grafter', sight: 4, intro: 'Made my four out of eight. I miss two of \'em. Which two changes day to day.', defeat: 'Okay, now I miss three.',
+    { id: 'graft1', x: 8, y: 5, sprite: 'grafter', name: 'Grafter', dir: 3, trainer: { nacre: 1, name: 'Grafter', sight: 4, intro: 'Made my four out of eight. I miss two of \'em. Which two changes day to day.', defeat: 'Okay, now I miss three.',
       team: () => [fitted('hemlock', 'mycel', 23, ['dose', 'spore', 'wilt', 'mycorrhiza'], ['tincture', 'fruiting'], 'Mycelock'), fitted('stump', 'orchard', 23, ['splinter', 'pick', 'sap', 'harvest'], ['rings', 'overripe'], 'Stumpchard')] } },
     { id: 'graft2', x: 3, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { name: 'Grafter', sight: 4, intro: 'Sure, there\'s the Conjoiner in Spire. But Grafton\'s here, and Grafton\'s better. Ask anybody.', defeat: 'Grafton\'s better than me too. Obviously.',
       team: () => [fitted('howl', 'thicket', 23, ['bite', 'snag', 'tangle', 'pindown'], ['bloodscent', 'thorned'], 'Howlet'), fitted('umbra', 'hemlock', 24, ['shade', 'dose', 'wilt', 'paranoia'], ['corona', 'cup'], 'Umblock')] } },

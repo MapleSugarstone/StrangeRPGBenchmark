@@ -6,21 +6,23 @@ import { statsAt, TYPE_COLOR, xpToNext, type Type } from '../data/types';
 import { profileOf } from '../data/profiles';
 import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
-import { ctx, frame, rect, INK } from '../engine/screen';
+import { ctx, px, rect, INK } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { sfx, setSfxVolume } from '../engine/audio';
 import { music } from '../engine/music';
 import { close, run, type Mode } from './modes';
-import { box, cursor, DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, sigil, statChart, typeBadge, WARN, BADC } from './ui';
-import { G, HERO, HORN_NAME, HORN_PRICE, DIFFICULTY_NAMES, DIFFICULTY_TEXT, charmsUnlocked, levelOf, notionsUnlocked, save } from './state';
+import { bevel, cursor, DIM, GOOD, HINT, motes, NERVE, PAPER, panel, PEARL_EDGE, PORTRAIT_BG, rowBar, SEL, sigil, statChart, typeBadge, WARN, BADC } from './ui';
+import { G, HERO, HORN_NAME, HORN_PRICE, DIFFICULTY_NAMES, DIFFICULTY_TEXT, charmsUnlocked, levelOf, notionsUnlocked, save, slotNow } from './state';
 import { FIT_STAT, HORN_LINE, moveKinds, moveText, TAN_PER_STAT, TAN_TOTAL, tanBonus, tanPerLayer, tanText } from '../battle/engine';
 import { choose, say } from './dialogue';
+import { downloadSlot } from './saveFile';
 import { renameMon } from './files';
 import { MAPS } from './world';
 import { registerMenu } from './register';
 import { ITEMS } from './items';
 import { bagScreen } from './bag';
 import { middenScreen } from './middenScreen';
+import { nacreScreen } from './nacreScreen';
 import { shopScreen } from './shopScreen';
 import { STARLIGHT } from '../data/starborn';
 
@@ -47,15 +49,19 @@ export function listMenu(title: string, items: string[], opts: { x?: number; y?:
     },
     draw() {
       const h = rowsVis * 9 + 16;
-      box(x, y, w, h);
-      text(title, x + 4, y + 3, SEL);
+      // The title sits on a band of its own over a rule, and the picked row on a bar.
+      panel(x, y, w, h, PEARL_EDGE, { head: 10 });
+      text(title, x + 4, y + 2, SEL);
       for (let k = 0; k < rowsVis; k++) {
         const idx = k + scroll;
         if (idx >= items.length) break;
         const yy = y + 13 + k * 9;
-        if (idx === i) cursor(x + 3, yy);
+        if (idx === i) { rowBar(x + 2, yy, w - 4); cursor(x + 3, yy); }
         text(items[idx], x + 10, yy, opts.disabled?.(idx) ? DIM : idx === i ? SEL : PAPER);
       }
+      // Small arrows at the right when the list runs past what shows.
+      if (scroll > 0) { rect(x + w - 6, y + 4, 1, 1, DIM); rect(x + w - 7, y + 5, 3, 1, DIM); rect(x + w - 8, y + 6, 5, 1, DIM); }
+      if (scroll + rowsVis < items.length) { rect(x + w - 8, y + h - 3, 5, 1, DIM); rect(x + w - 7, y + h - 2, 3, 1, DIM); }
       if (!items.length) text('Nothing.', x + 10, y + 13, DIM);
       opts.detail?.(i);
     },
@@ -80,15 +86,18 @@ export function starMark(x: number, y: number, t: number): void {
   if (long) { rect(x, y + 2, 5, 1, STARLIGHT); rect(x + 2, y, 1, 5, STARLIGHT); rect(x + 2, y + 2, 1, 1, '#ffffff'); }
 }
 
-/** Each stat as the battle builds it: the level's base, what the held notion adds, what nacre adds, and what the seam takes. */
-export function statParts(m: Mon): { k: string; base: number; held: number; nacre: number; seam: number; total: number }[] {
-  const base = statsAt(m.level, profileOf(m)) as unknown as Record<string, number>;
+/**
+ * Each stat as the battle builds it: the level's base, what the held notion adds, what nacre adds, and what the seam takes.
+ * `level` and `tan` stand in for the whorl's own level and layers.
+ */
+export function statParts(m: Mon, level = m.level, tan: Mon['tan'] = m.tan): { k: string; base: number; held: number; nacre: number; seam: number; total: number }[] {
+  const base = statsAt(level, profileOf(m)) as unknown as Record<string, number>;
   const n = m.notion ? NOTIONS[m.notion] : null;
   return STAT_KEYS.map(k => {
     let v = base[k] + ((n?.flat as Record<string, number> | undefined)?.[k] || 0);
     v = Math.round(v * (1 + ((n?.pct as Record<string, number> | undefined)?.[k] || 0)));
     const afterHeld = v;
-    v += tanBonus(m.level, k, (m.tan as Record<string, number> | undefined)?.[k] || 0);
+    v += tanBonus(level, k, (tan as Record<string, number> | undefined)?.[k] || 0);
     const afterNacre = v;
     if (m.fitted) v = Math.round(v * FIT_STAT);
     // Graft Wax adds to a conjoined whorl's attack stats in battle, on top of the rest.
@@ -98,6 +107,8 @@ export function statParts(m: Mon): { k: string; base: number; held: number; nacr
 }
 
 const TABS = ['Moves', 'Habits', 'Stats'] as const;
+/** The whorl page's card behind the header, its page under the tabs, and the dim edge they share. */
+const CARD = '#1e1b26', PAGE = '#1b1822', EDGE_DIM = '#3a3442';
 const TOP = 60, BOTTOM = 175;
 /** Where the stat chart sits on the Stats tab's chart view, from the top of the page. */
 const CHART_X = 128, CHART_Y = 49;
@@ -105,8 +116,9 @@ const CHART_X = 128, CHART_Y = 49;
 /**
  * Full page about one whorl: a header, then Moves, Habits, and Stats tabs that scroll when they run long.
  * The Stats tab has two views, the chart and the breakdown, and left and right step through them as if they were tabs.
+ * `noXp` leaves out the experience bar, and `over` draws on top of the page each frame.
  */
-export function monPage(m: Mon): Promise<void> {
+export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}): Promise<void> {
   let tab = 0, view = 0, scroll = 0, tick = 0;
   const rowsOf = (): PageRow[] => {
     const out: PageRow[] = [];
@@ -207,33 +219,41 @@ export function monPage(m: Mon): Promise<void> {
     },
     draw() {
       rect(0, 0, 192, 192, '#17151d');
-      box(2, 2, 188, 188);
-      frame(6, 6, 36, 36, PORTRAIT_BG, DIM);
+      motes(tick);
+      panel(2, 2, 188, 188);
+      // The card: the whorl lit large in a frame, its name, level, types, how it attacks, and its experience.
+      bevel(4, 4, 184, 40, CARD, EDGE_DIM);
+      bevel(6, 6, 36, 36, PORTRAIT_BG, EDGE_DIM);
       drawSprite(m.sprite, 8, 8, 4);
       text(m.name, 48, 8, SEL);
-      if (m.starborn) starMark(50 + textWidth(m.name), 9, tick++);
-      textRight(`Lv ${m.level}`, 186, 8, PAPER);
+      if (m.starborn) starMark(50 + textWidth(m.name), 9, tick);
+      tick++;
+      textRight(`Lv ${m.level}`, 184, 8, PAPER);
       let tx = 48;
       for (const t of m.types) tx = typeBadge(t as Type, tx, 18);
       text(m.basic === 'P' ? 'Physical attacks' : 'Magic attacks', 48, 30, DIM);
-      const need = xpToNext(m.level);
-      textRight(`${m.xp}/${need} xp`, 186, 30, DIM);
-      rect(48, 40, 138, 2, '#2a2632');
-      rect(48, 40, Math.round(138 * Math.min(1, m.xp / Math.max(1, need))), 2, GOOD);
-      // Tabs: the open one is a raised box joined to the page line, the others sit dim behind it.
+      if (!opts.noXp) {
+        const need = xpToNext(m.level), fw = Math.round(136 * Math.min(1, m.xp / Math.max(1, need)));
+        textRight(`${m.xp}/${need} xp`, 184, 30, DIM);
+        // The experience bar as a groove pressed into the card, filled with a lit strip.
+        rect(48, 39, 136, 1, '#0f0d14'); rect(48, 40, 136, 2, '#262230');
+        if (fw > 0) { rect(48, 40, fw, 2, GOOD); rect(48, 40, fw, 1, '#b8f0a8'); }
+      }
+      // The page, and the tabs on its top edge: the open one raised and joined to the page, the others dark plates behind it.
+      bevel(4, 57, 184, 120, PAGE, EDGE_DIM);
       TABS.forEach((name, k) => {
         const x = 8 + k * 46, on = k === tab;
-        if (on) { rect(x, 46, 44, 11, '#2a2632'); rect(x, 46, 44, 1, SEL); }
+        if (on) { bevel(x, 46, 44, 12, PAGE, SEL); rect(x + 1, 57, 42, 1, PAGE); }
+        else bevel(x, 46, 44, 11, '#1b1822', '#2e2a38');
         textCenter(name, x + 22, 48, on ? SEL : DIM);
       });
-      rect(4, 57, 184, 1, '#3a3442');
       const rows = rowsOf();
       for (const r of rows) {
         const y = TOP + r.y - scroll;
         if (y < TOP - 1 || y > BOTTOM - 8) continue;
         if (r.sig) sigil(r.sig, 6, y + 1);
         text(r.s, r.x, y, r.c);
-        if (r.right) textRight(r.right, r.rx ?? 186, y, r.rc || DIM);
+        if (r.right) textRight(r.right, r.rx ?? 184, y, r.rc || DIM);
         for (const c of r.cols || []) if (c.s) textRight(c.s, c.rx, y, c.c);
         // A faint rule under the stat table's header, and a line under the open view's name.
         if (r.cols && !r.s) rect(8, y + 8, 178, 1, '#2a2632');
@@ -250,12 +270,12 @@ export function monPage(m: Mon): Promise<void> {
         ctx.restore();
       }
       const end = rows.length ? rows[rows.length - 1].y + 9 : 0;
-      // Scroll arrows: small triangles at the right edge.
-      if (scroll > 0) for (let k = 0; k < 3; k++) rect(184 - k, TOP - 3 + k, 1 + k * 2, 1, DIM);
-      if (scroll < end - (BOTTOM - TOP)) for (let k = 0; k < 3; k++) rect(184 - k, BOTTOM - 1 - k, 1 + k * 2, 1, DIM);
-      rect(4, 177, 184, 1, '#3a3442');
+      // Scroll arrows: small triangles beside the tabs and beside the hints.
+      if (scroll > 0) for (let k = 0; k < 3; k++) rect(184 - k, 49 + k, 1 + k * 2, 1, SEL);
+      if (scroll < end - (BOTTOM - TOP)) for (let k = 0; k < 3; k++) rect(184 - k, 181 - k, 1 + k * 2, 1, SEL);
       const lr = tab === 2 ? 'L/R views.' : 'L/R tabs.';
-      textCenter(end > BOTTOM - TOP ? `${lr} Up/down scroll. X back.` : `${lr} X back.`, 96, 179, '#6a6478');
+      textCenter(end > BOTTOM - TOP ? `${lr} Up/down scroll. X back.` : `${lr} X back.`, 96, 179, HINT);
+      opts.over?.();
     },
   };
   return run(mm);
@@ -271,7 +291,7 @@ async function fourMenu(): Promise<void> {
       detail: (k) => {
         const m = G.party[k];
         if (!m) return;
-        box(128, 4, 60, 60);
+        panel(128, 4, 60, 60);
         drawSprite(m.sprite, 140, 12, 4);
         let y = 48;
         for (const t of m.types) { typeBadge(t as Type, 132, y); y += 9; }
@@ -300,7 +320,7 @@ export async function giveNotion(m: Mon): Promise<void> {
   if (!have.length) { await say(null, `${HERO} has no notions.`); return; }
   const k = await listMenu('Give which?', have.map(id => `${NOTIONS[id].name} x${G.notions[id]}`), {
     w: 120,
-    detail: (j) => { box(4, 130, 184, 30); wrap(NOTIONS[have[j]].text, 176).forEach((l, n) => text(l, 8, 134 + n * 9, PAPER)); },
+    detail: (j) => { panel(4, 130, 184, 30); wrap(NOTIONS[have[j]].text, 176).forEach((l, n) => text(l, 8, 134 + n * 9, PAPER)); },
   });
   if (k < 0) return;
   G.notions[have[k]]--;
@@ -345,11 +365,17 @@ async function charmMenu(): Promise<void> {
   G.charm = i === 0 ? null : opts[i];
 }
 
+/** One step of a setting: a small pearl, lit when the setting reaches it, or an empty socket. */
+function pearl(x: number, y: number, lit: boolean, on: boolean): void {
+  if (!lit) { rect(x + 1, y + 1, 2, 3, '#2a2634'); rect(x + 1, y + 1, 2, 1, '#0f0d14'); return; }
+  rect(x + 1, y, 2, 1, on ? '#fff4d0' : '#f4ecf8'); rect(x, y + 1, 4, 3, on ? SEL : '#c8b4d8'); rect(x + 1, y + 4, 2, 1, on ? '#a07828' : '#7a6890'); px(x + 1, y + 1, '#ffffff');
+}
+
 /** Options stay open while they change: left and right step a value, and Z steps it up and wraps round. */
 function optionsMenu(): Promise<void> {
   let i = 0;
-  const x = 4, y = 4, w = 140;
-  const rows = () => [`Music ${Math.round(G.opts.music * 10)}`, `Sounds ${Math.round(G.opts.sfx * 10)}`, `Battle speed ${G.opts.speed}`, `Difficulty: ${DIFFICULTY_NAMES[G.opts.difficulty || 0]}`];
+  const x = 4, y = 4, w = 168;
+  const LABELS = ['Music', 'Sounds', 'Battle speed', 'Difficulty'];
   const step = (n: number, max: number, dir: number, wrapAround: boolean) => {
     const v = n + dir;
     return wrapAround ? (v + max + 1) % (max + 1) : Math.max(0, Math.min(max, v));
@@ -370,14 +396,21 @@ function optionsMenu(): Promise<void> {
       if (input.hit('back')) { sfx('back'); close(m); }
     },
     draw() {
-      const items = rows();
-      box(x, y, w, items.length * 9 + 16);
-      text('Options', x + 4, y + 3, SEL);
-      items.forEach((s, k) => {
-        if (k === i) cursor(x + 3, y + 13 + k * 9);
-        text(s, x + 10, y + 13 + k * 9, k === i ? SEL : PAPER);
+      // Each setting's name on the left, and its level on the right as a row of pearls with the number after them.
+      panel(x, y, w, LABELS.length * 9 + 16, PEARL_EDGE, { head: 10 });
+      text('Options', x + 4, y + 2, SEL);
+      const vals: [number, number][] = [[Math.round(G.opts.music * 10), 10], [Math.round(G.opts.sfx * 10), 10], [G.opts.speed, 3]];
+      LABELS.forEach((s, k) => {
+        const yy = y + 13 + k * 9, on = k === i;
+        if (on) { rowBar(x + 2, yy, w - 4); cursor(x + 3, yy); }
+        text(s, x + 10, yy, on ? SEL : PAPER);
+        if (k < 3) {
+          const [v, max] = vals[k];
+          for (let n = 0; n < max; n++) pearl(x + 86 + n * 5, yy + 1, n < v, on);
+          textRight(String(v), x + w - 5, yy, on ? SEL : PAPER);
+        } else textRight(DIFFICULTY_NAMES[G.opts.difficulty || 0], x + w - 5, yy, on ? SEL : PAPER);
       });
-      if (i === 3) { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[G.opts.difficulty || 0], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); }
+      if (i === 3) { panel(4, 150, 184, 36, SEL); wrap(DIFFICULTY_TEXT[G.opts.difficulty || 0], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); }
     },
   };
   return run<void>(m);
@@ -400,7 +433,7 @@ export async function startMenu(): Promise<void> {
     if (k === 'Register') await registerMenu();
     if (k === 'Bag' && await bagMenu()) return;
     if (k === 'Charm') await charmMenu();
-    if (k === 'Save') { save(); await say(null, 'Saved.'); }
+    if (k === 'Save') { save(); if (await choose(['Done', 'Export to a file'], true, 'Saved.') === 1) downloadSlot(slotNow()); }
     if (k === 'Options') await optionsMenu();
     const extra = menuExtras.find(x => x.label === k);
     if (extra) { await extra.run(); return; }
@@ -423,36 +456,7 @@ export function rack(): Promise<void> {
 
 void textCenter; void textWidth; void BADC;
 
-const TAN_STATS = ['hp', 'atk', 'def', 'res', 'mgk', 'agi', 'cha'] as const;
-
-/** Layer nacre at a grotto: one layer adds flat points to one stat of one whorl. Layers can be prised back for free. */
-export async function tanMenu(): Promise<void> {
-  for (;;) {
-    const all = [...G.party, ...G.rack];
-    const used = (m: Mon) => Object.values(m.tan || {}).reduce((a, b) => a + (b || 0), 0);
-    const i = await listMenu(`Layer nacre on which? (${G.tan} nacre)`, all.map(m => `${monLine(m)}  ${used(m)}/${TAN_TOTAL}`), { w: 150 });
-    if (i < 0) return;
-    const m = all[i];
-    for (;;) {
-      const t = m.tan || (m.tan = {});
-      const items = TAN_STATS.map(k => `${k.toUpperCase().padEnd(4)} ${'#'.repeat(t[k] || 0)}${'.'.repeat(TAN_PER_STAT - (t[k] || 0))}`);
-      items.push('Take all layers off');
-      const k = await listMenu(`${m.name}: ${used(m)}/${TAN_TOTAL}, ${G.tan} nacre left`, items, { w: 150,
-        detail: () => { const per = tanPerLayer(m.level); box(4, 150, 184, 36); wrap(`Each layer adds ${tanText(per.stat)} to one stat or ${tanText(per.hp)} to HP at level ${m.level}. A whorl takes ${TAN_PER_STAT} layers in one stat and ${TAN_TOTAL} in all.`, 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } });
-      if (k < 0) break;
-      if (k === TAN_STATS.length) {
-        G.tan += used(m);
-        m.tan = {};
-        sfx('back');
-        continue;
-      }
-      const st = TAN_STATS[k];
-      if (G.tan <= 0) { await say('Shellwright', 'No nacre. Win some, or find some.'); break; }
-      if ((t[st] || 0) >= TAN_PER_STAT || used(m) >= TAN_TOTAL) { sfx('back'); continue; }
-      t[st] = (t[st] || 0) + 1;
-      G.tan--;
-      sfx('heal');
-    }
-    save();
-  }
+/** The Nacre screen (src/game/nacreScreen.ts): layers of nacre on a whorl's stats, which can be taken back off for free. */
+export function tanMenu(): Promise<void> {
+  return nacreScreen();
 }

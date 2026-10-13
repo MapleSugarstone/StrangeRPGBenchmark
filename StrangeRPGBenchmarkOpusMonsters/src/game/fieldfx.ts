@@ -33,6 +33,8 @@ export interface FieldFxState {
   star: [number, number] | null;
   /** Every sprite drawn this frame, in draw order. */
   figures: Figure[];
+  /** True while a fade covers the whole screen, so nothing needs lighting. */
+  hidden?: boolean;
 }
 
 /** A sprite on the field that takes light by its light map and casts shadows. `y` is where it was drawn, `bob` how far it was lifted. */
@@ -63,10 +65,12 @@ export function drawFieldFx(s: FieldFxState): void {
   const dbg = (window as any).__slough;
   if (dbg && !dbg.strandFx) Object.assign(dbg, { strandFx, lightStats, skies: skyTables });
   if (lastMap !== s.map.id) { stars.length = 0; glows.length = 0; specks.length = 0; lastMap = s.map.id; lastSpawn = s.t; hushUntil = 0; lampKey = ''; }
+  const hop = ageStrand();
+  // A new map's first frames draw under a full fade, so its light pass waits for the first frame that shows and the work is split.
+  if (s.hidden) return;
   // The world's own weather draws first, so it takes the lit and unlit hues like the ground under it.
   if (!s.dark) weather(s, p);
   marks(s);
-  const hop = ageStrand();
   if (hop >= 0) hopSand(s, p, hop);
   const t0 = performance.now();
   light(s, sky, p);
@@ -189,7 +193,16 @@ function scanTiles(s: FieldFxState, sky: Sky): void {
     const size = PROPS[pr.pic];
     if (r && size && (!pr.when || pr.when())) lamps.push({ x: pr.x * 8 + size.w * 4, y: pr.y * 8 + size.h * 4, r, show: r * 2 });
   }
-  surfaceLight(s, tx0, ty0);
+  tileCodes.clear();
+  tallFeet.clear();
+  for (const pr of s.map.props || []) {
+    const size = PROPS[pr.pic];
+    if (!size || (pr.when && !pr.when()) || size.h < 2) continue;
+    // A tall prop blocks light at its foot row, where it stands on the ground.
+    for (let k = 0; k < size.w; k++) tallFeet.add(tileKey(pr.x + k, pr.y + size.h - 1));
+  }
+  nearLights = [];
+  for (const l of lamps) if (l.r) nearLights.push(lampLight(l));
 }
 
 // ---------------------------------------------------------------- lamps on surfaces
@@ -206,82 +219,94 @@ const FACING: [number, number, number, number][] = [[0, 0, 1, 0], [0, 0, 1, 0], 
 /** Water is a mirror, so it shows little of a lamp's light as diffuse light and catches it in glints instead. */
 const WATER_TAKE = 0.35;
 
-/** The scan window in tiles, and the lamp light on its surfaces in world pixels, rebuilt with the window. */
-const WIN = 31, WPX = WIN * 8;
-const LAMPW = new Float32Array(WPX * WPX);
-const surf = new Int8Array(WIN * WIN), block = new Uint8Array(WIN * WIN);
-let winX = 0, winY = 0;
+/** A lamp's light on the surfaces round it, in world pixels from x, y, w by h. */
+interface LampLight { x: number; y: number; w: number; h: number; v: Float32Array }
+/** Lamp lights by the lamp and the tiles in its reach, so a lamp is worked out again only when a tile near it changes. */
+const lampLights = new Map<string, LampLight>();
+/** The lights of the lamps found by the last scan. */
+let nearLights: LampLight[] = [];
+/** Each tile's surface times 2, plus 1 when it blocks lamp light, read once per scan. */
+const tileCodes = new Map<number, number>();
+/** Tiles where a tall prop stands, which block lamp light. */
+const tallFeet = new Set<number>();
+const tileKey = (tx: number, ty: number) => (ty + 64) * 16384 + tx + 64;
 
-/** Lights every surface in the window from each lamp: by distance, by the lamp's height, and by how squarely the surface faces it. A wall or tall prop between the lamp and a 4 pixel block keeps the lamp's light off that block. */
-function surfaceLight(s: FieldFxState, tx0: number, ty0: number): void {
-  winX = tx0; winY = ty0;
-  LAMPW.fill(0);
-  for (let ty = 0; ty < WIN; ty++) for (let tx = 0; tx < WIN; tx++) {
-    const ch = field.tile(tx0 + tx, ty0 + ty), i = ty * WIN + tx;
-    surf[i] = surfaceOf(ch);
-    block[i] = isSolid(ch) && !NOT_BLOCKING.has(ch) ? 1 : 0;
+function codeAt(tx: number, ty: number): number {
+  const k = tileKey(tx, ty);
+  let c = tileCodes.get(k);
+  if (c === undefined) {
+    const ch = field.tile(tx, ty);
+    c = surfaceOf(ch) * 2 + ((isSolid(ch) && !NOT_BLOCKING.has(ch)) || tallFeet.has(k) ? 1 : 0);
+    tileCodes.set(k, c);
   }
-  for (const pr of s.map.props || []) {
-    const size = PROPS[pr.pic];
-    if (!size || (pr.when && !pr.when()) || size.h < 2) continue;
-    // A tall prop blocks light at its foot row, where it stands on the ground.
-    for (let k = 0; k < size.w; k++) { const gx = pr.x + k - tx0, gy = pr.y + size.h - 1 - ty0; if (gx >= 0 && gy >= 0 && gx < WIN && gy < WIN) block[gy * WIN + gx] = 1; }
-  }
-  for (const l of lamps) {
-    if (!l.r) continue;
-    const lx = l.x - tx0 * 8, ly = l.y - ty0 * 8, z = Z_LAMP, peak = 2, r = l.r;
-    const own = Math.floor(ly / 8) * WIN + Math.floor(lx / 8);
-    const x0 = Math.max(0, Math.floor(lx - r)) & ~3, x1 = Math.min(WPX - 1, Math.ceil(lx + r));
-    const y0 = Math.max(0, Math.floor(ly - r)) & ~3, y1 = Math.min(WPX - 1, Math.ceil(ly + r));
-    for (let by = y0; by <= y1; by += 4) for (let bx = x0; bx <= x1; bx += 4) {
-      const cxb = bx + 2, cyb = by + 2, d0 = Math.hypot(cxb - lx, cyb - ly);
-      if (d0 >= r + 3) continue;
-      // Walk the tiles from the lamp to this block, and stop at the first wall that is not the block's own tile or the lamp's.
-      const target = Math.floor(cyb / 8) * WIN + Math.floor(cxb / 8);
-      let seen = true;
-      for (let t = 4; t < d0 - 2; t += 4) {
-        const q = Math.floor((ly + (cyb - ly) * t / d0) / 8) * WIN + Math.floor((lx + (cxb - lx) * t / d0) / 8);
-        if (q !== own && q !== target && q >= 0 && q < WIN * WIN && block[q]) { seen = false; break; }
+  return c;
+}
+
+/** Lights every surface near a lamp: by distance, by the lamp's height, and by how squarely the surface faces it. A wall or tall prop between the lamp and a 4 pixel block keeps the lamp's light off that block. */
+function lampLight(l: Lamp): LampLight {
+  const r = l.r, lx = l.x, ly = l.y, ltx = Math.floor(lx / 8), lty = Math.floor(ly / 8);
+  const tx0 = Math.floor((lx - r - 4) / 8), tx1 = Math.floor((lx + r + 4) / 8), ty0 = Math.floor((ly - r - 4) / 8), ty1 = Math.floor((ly + r + 4) / 8);
+  let key = `${lx},${ly},${r}:`;
+  for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) key += codeAt(tx, ty);
+  let L = lampLights.get(key);
+  if (L) return L;
+  const z = Z_LAMP, peak = 2;
+  const x0 = Math.floor(lx - r) & ~3, x1 = Math.ceil(lx + r), y0 = Math.floor(ly - r) & ~3, y1 = Math.ceil(ly + r);
+  const w = (((x1 - x0) >> 2) + 1) * 4, h = (((y1 - y0) >> 2) + 1) * 4, v = new Float32Array(w * h);
+  for (let by = y0; by <= y1; by += 4) for (let bx = x0; bx <= x1; bx += 4) {
+    const cxb = bx + 2, cyb = by + 2, d0 = Math.hypot(cxb - lx, cyb - ly);
+    if (d0 >= r + 3) continue;
+    // Walk the tiles from the lamp to this block, and stop at the first wall that is not the block's own tile or the lamp's.
+    const btx = Math.floor(cxb / 8), bty = Math.floor(cyb / 8);
+    let seen = true;
+    for (let t = 4; t < d0 - 2; t += 4) {
+      const qx = Math.floor((lx + (cxb - lx) * t / d0) / 8), qy = Math.floor((ly + (cyb - ly) * t / d0) / 8);
+      if ((qx !== ltx || qy !== lty) && (qx !== btx || qy !== bty) && codeAt(qx, qy) & 1) { seen = false; break; }
+    }
+    if (!seen) continue;
+    for (let y = by; y < by + 4; y++) for (let x = bx; x < bx + 4; x++) {
+      const d = Math.hypot(x + 0.5 - lx, y + 0.5 - ly);
+      if (d >= r) continue;
+      const ptx = Math.floor(x / 8), pty = Math.floor(y / 8);
+      // The lamp's own tile glows.
+      let val: number;
+      if (ptx === ltx && pty === lty) val = 32;
+      else {
+        const kind = codeAt(ptx, pty) >> 1, f = FACING[kind];
+        const lxv = lx - x - 0.5, lyv = ly - y - 0.5, lzv = z - f[3];
+        const dot = (f[0] * lxv + f[1] * lyv + f[2] * lzv) / Math.sqrt(lxv * lxv + lyv * lyv + lzv * lzv);
+        if (dot <= 0) continue;
+        val = 16 * peak * (1 - d / r) * Math.pow(dot, 0.6) * 1.25 * (kind === 1 ? WATER_TAKE : 1);
       }
-      if (!seen) continue;
-      for (let y = by; y < Math.min(by + 4, WPX); y++) for (let x = bx; x < Math.min(bx + 4, WPX); x++) {
-        const d = Math.hypot(x + 0.5 - lx, y + 0.5 - ly);
-        if (d >= r) continue;
-        const ti = Math.floor(y / 8) * WIN + Math.floor(x / 8), kind = surf[ti], f = FACING[kind];
-        // The lamp's own tile glows.
-        let v: number;
-        if (ti === own) v = 32;
-        else {
-          const lxv = lx - x - 0.5, lyv = ly - y - 0.5, lzv = z - f[3];
-          const dot = (f[0] * lxv + f[1] * lyv + f[2] * lzv) / Math.sqrt(lxv * lxv + lyv * lyv + lzv * lzv);
-          if (dot <= 0) continue;
-          v = 16 * peak * (1 - d / r) * Math.pow(dot, 0.6) * 1.25 * (kind === 1 ? WATER_TAKE : 1);
-        }
-        const k = y * WPX + x;
-        if (v > LAMPW[k]) LAMPW[k] = v;
-      }
+      v[(y - y0) * w + x - x0] = val;
     }
   }
+  if (lampLights.size >= 256) lampLights.clear();
+  L = { x: x0, y: y0, w, h, v };
+  lampLights.set(key, L);
+  return L;
 }
 
 /** The box on screen the lamp light covers this frame, as x0, y0, x1, y1, or x1 below x0 when there is none. */
 const lampBox = [0, 0, -1, -1];
 
-/** Copies the lamp light on the window's surfaces into this frame's lamp buffer, and finds the box it covers. */
+/** Puts the light of each lamp near the screen into this frame's lamp buffer, keeping the brighter where two meet, and finds the box it covers. */
 function applyLamps(s: FieldFxState): void {
-  const dx = s.cam[0] - winX * 8, dy = s.cam[1] - winY * 8;
+  const cx = s.cam[0], cy = s.cam[1];
   let x0 = SW, y0 = SH, x1 = -1, y1 = -1;
-  if (!lamps.some(l => l.r)) { lampBox[0] = x0; lampBox[1] = y0; lampBox[2] = x1; lampBox[3] = y1; return; }
-  for (let y = 0; y < SH; y++) {
-    const wy = y + dy;
-    if (wy < 0 || wy >= WPX) continue;
-    const row = wy * WPX, out = y * SW;
-    for (let x = 0; x < SW; x++) {
-      const wx = x + dx;
-      if (wx < 0 || wx >= WPX) continue;
-      const v = LAMPW[row + wx];
-      lamp[out + x] = v;
-      if (v > 0) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; y1 = y; }
+  for (const L of nearLights) {
+    const sx0 = Math.max(0, L.x - cx), sx1 = Math.min(SW, L.x + L.w - cx), sy0 = Math.max(0, L.y - cy), sy1 = Math.min(SH, L.y + L.h - cy);
+    for (let y = sy0; y < sy1; y++) {
+      const row = (y + cy - L.y) * L.w + cx - L.x, out = y * SW;
+      for (let x = sx0; x < sx1; x++) {
+        const v = L.v[row + x];
+        if (v <= 0) continue;
+        if (v > lamp[out + x]) lamp[out + x] = v;
+        if (x < x0) x0 = x;
+        if (x > x1) x1 = x;
+        if (y < y0) y0 = y;
+        if (y > y1) y1 = y;
+      }
     }
   }
   lampBox[0] = x0; lampBox[1] = y0; lampBox[2] = x1; lampBox[3] = y1;
@@ -372,10 +397,10 @@ function wetTile(tx: number, ty: number): number {
   return wetGrid[i];
 }
 
-/** The middle of a map's water tiles across the map, in pixels, cached per map and tide. */
+/** The middle of a map's water tiles across the map, in pixels, found again when the tide turns and every two seconds. */
 let waterMidKey = '', waterMidX = 0, waterMidY = 0;
 function waterMid(s: FieldFxState): number {
-  const key = `${s.map.id}|${lampKey}`;
+  const key = `${s.map.id}|${G.flags.tide ? 1 : 0}|${s.t >> 7}`;
   if (key === waterMidKey) return waterMidX;
   waterMidKey = key;
   let sum = 0, sumY = 0, n = 0;
@@ -560,30 +585,47 @@ function clearFig(): void {
 
 const word = (rgb: number) => (0xff000000 | ((rgb & 255) << 16) | (rgb & 0xff00) | ((rgb >>> 16) & 255)) >>> 0;
 
-/** Each sprite's colors per pixel as drawn on screen, in blocks of 64: the dim fill, the moon rim, the lamp-lit form, and for thin ink pixels the dark tone of the body they join. Cached per sprite, sky, and moon. */
+/** Each sprite color's dim fill, moon rim, lamp-lit form, and thin-limb tone as pixel words, by sky. The moon's color comes from the sky, so the sky is the whole key. */
+const colorForms = new Map<Sky, Map<number, Uint32Array>>();
+
+function formsOf(rgb: number, sky: Sky, tint: number): Uint32Array {
+  let bySky = colorForms.get(sky);
+  if (!bySky) {
+    if (colorForms.size >= 48) colorForms.clear();
+    bySky = new Map();
+    colorForms.set(sky, bySky);
+  }
+  let f = bySky.get(rgb);
+  if (!f) {
+    const lit = twoHues(rgb, sky)[1], fill = backFill(rgb, BACK_FILL);
+    // A thin limb shows as a darker tone of the body it joins, so it stands out from the dark ground rather than vanishing into it.
+    f = Uint32Array.of(word(fill), word(lean(lit, tint, RIM_LEAN)), word(lampCore(lit, parseInt(sky.lampTint.slice(1), 16))), word(sunk(fill, 0.7)));
+    bySky.set(rgb, f);
+  }
+  return f;
+}
+
+/** Each sprite's colors per pixel as drawn on screen, in blocks of 64: the dim fill, the moon rim, the lamp-lit form, and for thin ink pixels the dark tone of the body they join. Cached per sprite and sky. */
 const spriteColCache = new Map<string, Uint32Array>();
-let colSky: Sky | null = null, colTint = -1;
+let colSky: Sky | null = null;
 
 function spriteCols(f: Figure, m: LightMap): Uint32Array {
   const mn = moonNow!;
-  if (colSky !== mn.sky || colTint !== mn.tint || spriteColCache.size > 600) { spriteColCache.clear(); colSky = mn.sky; colTint = mn.tint; }
+  if (colSky !== mn.sky || spriteColCache.size > 600) { spriteColCache.clear(); colSky = mn.sky; }
   const key = f.s.px.join('') + f.s.c.join('') + (f.flip ? 'f' : '');
   let out = spriteColCache.get(key);
   if (out) return out;
   out = new Uint32Array(256);
-  const lampT = parseInt(mn.sky.lampTint.slice(1), 16);
-  const rgbAt = (i: number): number => {
+  const c = f.s.c, forms = [INK, c[0], c[1], c[2] || c[1]].map(h => formsOf(parseInt(h.slice(1), 16), mn.sky, mn.tint));
+  const formAt = (i: number): Uint32Array => {
     const ch = (f.s.px[i >> 3] || '')[f.flip ? 7 - (i & 7) : i & 7];
-    return parseInt((ch === '1' ? INK : ch === '2' ? f.s.c[0] : ch === '4' ? f.s.c[2] || f.s.c[1] : f.s.c[1])!.slice(1), 16);
+    return forms[ch === '1' ? 0 : ch === '2' ? 1 : ch === '4' ? 3 : 2];
   };
   for (let i = 0; i < 64; i++) {
     if (!m.solid[i]) continue;
-    const rgb = rgbAt(i), lit = twoHues(rgb, mn.sky)[1];
-    out[i] = word(backFill(rgb, BACK_FILL));
-    out[64 + i] = word(lean(lit, mn.tint, RIM_LEAN));
-    out[128 + i] = word(lampCore(lit, lampT));
-    // A thin limb shows as a darker tone of the body it joins, so it stands out from the dark ground rather than vanishing into it.
-    if (m.thin[i]) out[192 + i] = word(sunk(backFill(m.next[i] >= 0 ? rgbAt(m.next[i]) : rgb, BACK_FILL), 0.7));
+    const fm = formAt(i);
+    out[i] = fm[0]; out[64 + i] = fm[1]; out[128 + i] = fm[2];
+    if (m.thin[i]) out[192 + i] = (m.next[i] >= 0 ? formAt(m.next[i]) : fm)[3];
   }
   spriteColCache.set(key, out);
   return out;
@@ -914,6 +956,8 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
   const [er, eg, eb] = f.edge;
   // The dither is fixed to the world, so it scrolls with the ground instead of crawling over it.
   const ox = ((s.cam[0] % 4) + 4) % 4, oy = ((s.cam[1] % 4) + 4) % 4;
+  // Pixel art runs in long stretches of one color, so the last result of each mapping is kept in front of its cache.
+  let litC = -1, litO = 0, coreC = -1, coreO = 0, dimC = -1, dimO = 0, wetC = -1, wetO = 0, edgeC = -1, edgeO = 0;
   for (let y = 0, i = 0; y < SH; y++) {
     const br = ((y + oy) & 3) * 4, lampRow = y >= ly0 && y <= ly1;
     for (let x = 0; x < SW; x++, i++) {
@@ -931,12 +975,14 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
       if (c === INK32) continue;
       let o: number;
       if (isLit) {
-        o = litOf ? cached(f.litOf, c, litOf) : c;
-        if (core) o = cached(f.coreOf, o, coreOf);
+        if (c !== litC) { litC = c; litO = litOf ? cached(f.litOf, c, litOf) : c; }
+        o = litO;
+        if (core) { if (o !== coreC) { coreC = o; coreO = cached(f.coreOf, o, coreOf); } o = coreO; }
       } else {
-        o = wet && WETPX[i] ? cached(f.waterOf, c, waterOf) : cached(f.dimOf, c, dimOf);
+        if (wet && WETPX[i]) { if (c !== wetC) { wetC = c; wetO = cached(f.waterOf, c, waterOf); } o = wetO; }
+        else { if (c !== dimC) { dimC = c; dimO = cached(f.dimOf, c, dimOf); } o = dimO; }
         // The edge of each lamp's pool: the night with a little of the lamp's color added.
-        if (edge) o = rgbWord((o & 255) / 255 + er, ((o >>> 8) & 255) / 255 + eg, ((o >>> 16) & 255) / 255 + eb);
+        if (edge) { if (o !== edgeC) { edgeC = o; edgeO = rgbWord((o & 255) / 255 + er, ((o >>> 8) & 255) / 255 + eg, ((o >>> 16) & 255) / 255 + eb); } o = edgeO; }
       }
       if (inked) { const k = fog && vis[i] <= th ? INK32 : FIG[i] ? FIG[i] : shade[i] > th ? INK32 : 0; if (k) o = k; }
       u[i] = o;

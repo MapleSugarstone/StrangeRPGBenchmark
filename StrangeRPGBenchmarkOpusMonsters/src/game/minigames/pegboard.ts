@@ -11,7 +11,7 @@ import { SPECIES, WILD_KINDS } from '../../data/species';
 import { TYPE_COLOR, typeMult, type Type } from '../../data/types';
 import { close, run, type Mode } from '../modes';
 import { G, save } from '../state';
-import { box, DIM, GOOD, MINE, PAPER, SEL, THEIRS, WARN } from '../ui';
+import { panel, DIM, GOOD, MINE, PAPER, SEL, THEIRS, WARN } from '../ui';
 
 export interface Card { kind: string; e: [number, number, number, number]; type: Type }
 type Slot = { card: Card; owner: 0 | 1 } | null;
@@ -179,7 +179,7 @@ export function pegboard(rival: Rival, hand0: Card[]): Promise<1 | 0 | -1 | null
         if (phase !== 'wait' && phase !== 'end' && i === pick) text('\u0001', x + 15, y - 9, SEL);
       });
       if (note) { rect(0, 134, 192, 11, INK); textCenter(note, 96, 136, phase === 'end' ? (result === 1 ? GOOD : result === -1 ? THEIRS : WARN) : PAPER); }
-      if (phase === 'end') { box(30, 60, 132, 30, SEL); textCenter(note, 96, 66, PAPER); textCenter('Z to finish', 96, 77, DIM); }
+      if (phase === 'end') { panel(30, 60, 132, 30, SEL); textCenter(note, 96, 66, PAPER); textCenter('Z to finish', 96, 77, DIM); }
     },
   };
   return run(m);

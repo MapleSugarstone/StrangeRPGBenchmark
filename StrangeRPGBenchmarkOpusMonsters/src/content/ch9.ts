@@ -10,10 +10,11 @@ import { TYPES, type Type } from '../data/types';
 import { brack } from './ch3';
 import { fitted } from '../game/wildfit';
 import { listMenu } from '../game/menus';
-import { vellumSprite } from '../engine/sprites';
+import { castOfOuro } from '../engine/sprites';
 import { smallGranLine } from './ch1';
 import { credits } from './credits';
 import type { Mon } from '../battle/model';
+import { countTack, tackTally, tackTries, tackWinsLine } from './tack';
 
 const hold = () => vellumPulls() <= 1;
 const ROW = (inner: string) => '#' + inner + '#';
@@ -25,7 +26,7 @@ export function bareFinal(): Mon[] {
     fitted('quarry', 'carrion', 45, ['cut', 'peck', 'mob', 'excavate'], ['dugout', 'gather'], 'Quarrion')];
 }
 export function tackFinal(): Mon[] { return [brack(48), makeMon('howl', 47), makeMon('turbine', 47), makeMon('quarry', 48)]; }
-export function cinchTeam(): Mon[] { return [makeMon('knot', 74), makeMon('menhir', 58), makeMon('halo', 58), makeMon('orrery', 58)]; }
+export function cinchTeam(): Mon[] { return [makeMon('knot', 66), makeMon('menhir', 50), makeMon('halo', 50), makeMon('orrery', 50)]; }
 export function purchaseTeam(): Mon[] {
   return [
     withNotion(fitted('perigee', 'hemlock', 54, ['ping', 'fix', 'wilt', 'lastcup'], ['telemetry', 'cup'], 'Perilock'), 'bodkin'),
@@ -121,14 +122,25 @@ defScript('climbBlock', async () => {
     face('climbBare', 0);
     await act('climbBare', 'bow');
   } else {
-    await say('Tack', '5th time. You\'re loose. I can see it from ten steps up.');
-    await say('Tack', `Your back's crazed ${loosened()} fingers long. I counted. Then I counted again.`);
-    await say('Tack', 'No loose ones up to the Operculum. That\'s my 1 rule. I\'ve only got the one.');
+    const tries = tackTries('climb');
+    if (tries) await say('Tack', `Try ${tries + 1}. Still loose. Still 1 rule.`);
+    else {
+      await say('Tack', '5th time. You\'re loose. I can see it from 10 steps up.');
+      await say('Tack', `Your back's crazed ${loosened()} fingers long. I counted. Then I counted again.`);
+      await say('Tack', 'No loose ones up to the Operculum. That\'s my 1 rule. I\'ve only got the 1.');
+    }
     const r = await battle({ enemy: tackFinal(), name: 'Tack', ai: 'keeper', wild: false, bg: field.bg(), music: 'rival' });
     music.play('climb');
-    if (r.result !== 'win') { await say('Tack', '1 more for me. Go count, then come back up.'); return; }
-    G.flags.tackWins = (G.flags.tackWins || 0) + 1;
-    await say('Tack', `${G.flags.tackWins} losses. Fine. That's fine.`);
+    countTack('climb', r.result === 'win');
+    if (r.result !== 'win') {
+      // Tack holds the stair until Ouro wins. Ouro steps back down out of the trigger.
+      await say('Tack', `${tackWinsLine()} Go count, then come back up.`);
+      await walkTo('ouro', field.x, 21);
+      face('climbTack', 2);
+      return;
+    }
+    const t = tackTally();
+    await say('Tack', `${t.ouro} losses. ${t.tack} wins. Fine. That's fine.`);
     await say('Tack', 'Go on up. 1 at a time. Me first.');
     await walkOff('climbTack', 8, 6);
   }
@@ -309,10 +321,9 @@ async function makeVellumSlip(): Promise<Mon> {
   const types: Type[] = ['BEAST'];
   if (ti >= 0 && TYPES[ti] !== 'BEAST') types.push(TYPES[ti]);
   const level = Math.max(...G.party.map(m => m.level));
-  const sp = vellumSprite(0);
   return {
     uid: nextUid(), kind: 'vellumslip', name: 'Ouro\'s cast', types, basic: 'P', moves, passives, level, xp: 0, notion: null,
-    sprite: { px: sp.px.map((r, y) => (y === 4 ? r.slice(0, 4) + '.' + r.slice(5) : r)), c: ['#e8dcc8', '#c8c0b0'] },
+    sprite: castOfOuro(),
     person: true, entry: 'Off Ouro, in one piece, a bit lighter. No price. Which you know what it cost. Not writing that in.',
   };
 }
@@ -326,8 +337,8 @@ async function epilogue(): Promise<void> {
   if (flag('endHold')) {
     await smallGranLine();
     await say('Gran', 'Tell my little turnip still my little turnip.');
-    await say('Gran', 'Tell my little turnip that this is quite all right.');
-    await say('Gran', 'Tell my little turnip to come home of a Sunday, for soup.');
+    await say('Gran', 'Tell them that this is quite all right.');
+    await say('Gran', 'Tell them to come home of a Sunday, for soup.');
   } else {
     await say('Small Gran', 'There. Now you.');
     faceToward('gran', 'smallgran');

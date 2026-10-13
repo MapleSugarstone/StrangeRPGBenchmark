@@ -20,17 +20,18 @@ const valid = d => d && Array.isArray(d.px) && d.px.length === 8 && d.px.every(r
   && Array.isArray(d.c) && d.c.length >= 2 && d.c.every(c => /^#[0-9a-fA-F]{6}$/.test(c));
 const lit = arr => `[${arr.map(s => `'${s}'`).join(', ')}]`;
 
-// Summon and form sprites live in the kits files: `summon:<id>` in its defSummon, `form:<const>` in its SpriteData constant.
+// Summon, drop, and form sprites live in the kits files: `summon:<id>` in its defSummon, `drop:<id>` in its defDrop, `form:<const>` in its SpriteData constant.
 const kitFiles = fs.readdirSync(path.join(root, 'src', 'data')).filter(f => /^kits\d*\.ts$/.test(f)).map(f => path.join(root, 'src', 'data', f));
 for (const f of kitFiles) text[f] = fs.readFileSync(f, 'utf8');
 const pic = d => `{ px: ${lit(d.px)}, c: ${lit(d.c.slice(0, 3))} }`;
 
 function applyPart(id, design) {
-  if (id.startsWith('summon:')) {
-    const sid = id.slice(7);
-    const file = kitFiles.find(f => text[f].includes(`defSummon({ id: '${sid}',`));
-    if (!file) return `${id}: no defSummon found`;
-    const start = text[file].indexOf(`defSummon({ id: '${sid}',`);
+  if (id.startsWith('summon:') || id.startsWith('drop:')) {
+    const drop = id.startsWith('drop:');
+    const sid = id.slice(drop ? 5 : 7), call = `${drop ? 'defDrop' : 'defSummon'}({ id: '${sid}',`;
+    const file = kitFiles.find(f => text[f].includes(call));
+    if (!file) return `${id}: no ${drop ? 'defDrop' : 'defSummon'} found`;
+    const start = text[file].indexOf(call);
     const ends = ['\ndef', '\nconst ', '\nexport ', '\n//'].map(s => text[file].indexOf(s, start + 1)).filter(n => n > 0);
     const end = ends.length ? Math.min(...ends) : text[file].length;
     const block = text[file].slice(start, end);
@@ -41,8 +42,8 @@ function applyPart(id, design) {
     if (inline.test(block)) next = block.replace(inline, `sprite: ${pic(design)}`);
     else if (shared) return applyPart(`form:${shared[1].toLowerCase()}`, design);
     else {
-      next = block.replace(/(owner: '[a-z0-9]+', )/, `$1sprite: ${pic(design)}, `);
-      if (next === block) return `${id}: could not place the sprite in its defSummon`;
+      next = drop ? block.replace(call, `${call} sprite: ${pic(design)},`) : block.replace(/(owner: '[a-z0-9]+', )/, `$1sprite: ${pic(design)}, `);
+      if (next === block) return `${id}: could not place the sprite in its ${drop ? 'defDrop' : 'defSummon'}`;
     }
     text[file] = text[file].slice(0, start) + next + text[file].slice(end);
     return null;
@@ -74,7 +75,7 @@ for (const [id, ch] of Object.entries(choices)) {
   const design = ch.pick === 'custom' ? ch.custom : cands[id]?.designs?.[ch.pick];
   if (!valid(design)) { problems.push(`${id}: the kept design is missing or malformed`); continue; }
   if (id.startsWith('person:')) { const p = applyPerson(id, design); if (p) problems.push(p); else done++; continue; }
-  if (id.startsWith('summon:') || id.startsWith('form:')) { const p = applyPart(id, design); if (p) problems.push(p); else done++; continue; }
+  if (id.startsWith('summon:') || id.startsWith('form:') || id.startsWith('drop:')) { const p = applyPart(id, design); if (p) problems.push(p); else done++; continue; }
   const file = files.find(f => text[f].includes(`sp({ id: '${id}',`));
   if (!file) { problems.push(`${id}: no species entry found`); continue; }
   const start = text[file].indexOf(`sp({ id: '${id}',`);
@@ -87,7 +88,8 @@ for (const [id, ch] of Object.entries(choices)) {
   text[file] = text[file].slice(0, start) + next + text[file].slice(end);
   done++;
 }
-if (!dry) for (const f of [...files, ...kitFiles, spritesFile]) fs.writeFileSync(f, text[f]);
+// Only changed files are written, so a file someone else is editing is left alone when none of its sprites moved.
+if (!dry) for (const f of [...files, ...kitFiles, spritesFile]) if (text[f] !== fs.readFileSync(f, 'utf8')) fs.writeFileSync(f, text[f]);
 // With --dry and --choices, print what the sprites file would hold for each person, so a test can check it without writing.
 if (dry && ci > 0) for (const id of Object.keys(choices).filter(k => k.startsWith('person:'))) console.log(text[spritesFile].match(new RegExp(`person\\('${id.slice(7)}', [^\\n]*`))?.[0] || `${id}: not found`);
 console.log(`${dry ? 'Would apply' : 'Applied'} ${done} kept sprites.`);

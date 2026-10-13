@@ -6,7 +6,7 @@ import { NOTION_IDS } from '../data/notions';
 import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
-import { dither, frame, mix, rect, INK } from '../engine/screen';
+import { dither, mix, rect, INK } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { say } from './dialogue';
 import { FIELD_ITEMS, ITEMS } from './items';
@@ -14,7 +14,7 @@ import { KEY_NAMES, KEY_TEXT, KEY_USE } from './menus';
 import { close, run, type Mode } from './modes';
 import { PUZZLE_BY_ID } from './setting/puzzles';
 import { G, HORN_NAME, levelOf, save } from './state';
-import { DIM, PAPER, SEL } from './ui';
+import { bevel, DIM, PAPER, SEL } from './ui';
 
 // ---------------------------------------------------------------- icons
 
@@ -299,7 +299,7 @@ class BagMode implements Mode {
     // Pocket tabs across the top. The open one rises and takes its pocket's color.
     POCKETS.forEach((p, k) => {
       const x = 4 + k * 31, on = k === memory.pocket, y = on ? 2 : 4;
-      frame(x, y, 29, 20, on ? mix(p.color, BG, 0.65) : '#211e2a', on ? p.color : '#3a3442');
+      bevel(x, y, 29, 20, on ? mix(p.color, BG, 0.65) : '#211e2a', on ? p.color : '#3a3442');
       drawIcon(p.icon, x + 7, y + 3 + (on && Math.floor(this.t / 30) % 2 ? -1 : 0), 2);
     });
     rect(0, 23, 192, 1, P.color);
@@ -331,10 +331,10 @@ class BagMode implements Mode {
     textCenter(`${G.rind} cowries    ${G.tan} nacre`, 96, LIST_Y + ROWS * ROW + 2, '#6a6478');
     // The panel: the picked item's icon large, its name, its text, and what a grotto pays for it.
     const py = 140;
-    frame(2, py - 4, 188, 54, '#1e1b26', P.color);
+    bevel(2, py - 4, 188, 54, '#1e1b26', P.color);
     const e = list[sel];
     if (e) {
-      frame(6, py, 20, 20, mix(P.color, BG, 0.7), '#3a3442');
+      bevel(6, py, 20, 20, mix(P.color, BG, 0.7), '#3a3442');
       drawIcon(iconOf(e.id, e.kind), 8, py + 2, 2);
       text(e.name, 30, py, P.color);
       // A price or a held count takes the last line, so the text keeps to three lines then.
@@ -345,7 +345,7 @@ class BagMode implements Mode {
     }
     if (this.toastT > 0) {
       const w = textWidth(this.toast) + 10;
-      frame(96 - w / 2, py - 18, w, 13, '#2a2632', SEL);
+      bevel(96 - w / 2, py - 18, w, 13, '#2a2632', SEL);
       textCenter(this.toast, 96, py - 15, PAPER);
     }
     this.drawSub(e);
@@ -356,17 +356,17 @@ class BagMode implements Mode {
   drawSub(e: Entry | undefined): void {
     const sub = this.sub;
     if (sub.kind === 'acts') {
-      const w = 56, h = sub.acts.length * 10 + 6, x = 130, y = 128 - h;
-      frame(x, y, w, h, '#211e2a', SEL);
+      const w = 56, h = sub.acts.length * 10 + 6, x = 130, y = 126 - h;
+      bevel(x, y, w, h, '#211e2a', SEL);
       sub.acts.forEach((a, k) => text(a, x + 12, y + 4 + k * 10, k === sub.i ? SEL : PAPER));
       text('\u0001', x + 4, y + 4 + sub.i * 10, SEL);
     } else if (sub.kind === 'count' && e) {
-      frame(40, 92, 112, 34, '#211e2a', SEL);
+      bevel(40, 92, 112, 34, '#211e2a', SEL);
       textCenter(`Toss how many ${e.name}?`.length > 22 ? 'Toss how many?' : `Toss how many ${e.name}?`, 96, 97, PAPER);
       textCenter(`< ${sub.n} >`, 96, 110, SEL);
     } else if (sub.kind === 'team') {
       const team = G.party, h = team.length * 14 + 18;
-      frame(20, 40, 152, h, '#211e2a', SEL);
+      bevel(20, 40, 152, h, '#211e2a', SEL);
       text(sub.take ? 'Take from which whorl?' : 'Give to which whorl?', 26, 44, SEL);
       team.forEach((m, k) => {
         const y = 56 + k * 14, on = k === sub.i;

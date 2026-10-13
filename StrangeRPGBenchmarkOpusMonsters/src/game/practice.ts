@@ -11,7 +11,7 @@ import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
 import { music } from '../engine/music';
-import { dither, frame, rect, INK } from '../engine/screen';
+import { dither, rect, INK } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { battle } from './battleView';
 import { designFit } from './fitter';
@@ -21,7 +21,7 @@ import { listMenu, monPage } from './menus';
 import { close, run, type Mode } from './modes';
 import { debugMenu } from './practiceDebug';
 import { drawNight, nightFrame } from './title';
-import { box, DIM, MINE, miniSigil, NERVE, PAPER, SEL, THEIRS, typeName, WARN } from './ui';
+import { bevel, panel, DIM, MINE, miniSigil, NERVE, PAPER, SEL, THEIRS, typeName, WARN } from './ui';
 import { plannedKit, randomFit } from './wildfit';
 
 const PANEL = '#1e1b26', EDGE = '#3a3442', HILITE = '#2a2632';
@@ -50,7 +50,7 @@ function randomSlot(avoid: string[], level: number): Slot {
   while (avoid.includes(k)) k = pick(WILD_KINDS);
   let s: Slot;
   if (rnd() < 0.5) {
-    const k2 = pick(WILD_KINDS.filter(x => x !== k));
+    const k2 = pick(WILD_KINDS.filter(x => x !== k && !avoid.includes(x)));
     s = { m: randomFit(rnd, k, k2, 50), kinds: [k, k2] };
   } else s = { m: makeMon(k, 50), kinds: [k] };
   plannedKit(rnd, s.m);
@@ -63,16 +63,23 @@ let foeAi: AiLevel = 'champion';
 
 function randomTeam(): Slot[] {
   const out: Slot[] = [];
-  while (out.length < 3) out.push(randomSlot(out.map(s => s.kinds[0]), SYNC));
+  while (out.length < 3) out.push(randomSlot(out.flatMap(s => s.kinds), SYNC));
   return out;
+}
+
+/** A kind used twice on a team, counting both kinds of every fit, or null. A team holds each kind once. */
+export function repeatedKind(team: { kinds: string[] }[]): string | null {
+  const seen = new Set<string>();
+  for (const k of team.flatMap(s => s.kinds)) { if (seen.has(k)) return k; seen.add(k); }
+  return null;
 }
 
 // ---------------------------------------------------------------- kind search
 
-interface Hit { id: string; why: string; rank: number }
+interface Hit { id: string; why: string; rank: number; taken?: boolean }
 
-/** Every allowed kind matching the query by name, former name, id, or type, best matches first. */
-function search(q: string, allow: (id: string) => boolean): Hit[] {
+/** Every allowed kind matching the query by name, former name, id, or type, best matches first and kinds already on the team last. */
+function search(q: string, allow: (id: string) => boolean, taken: (id: string) => boolean = () => false): Hit[] {
   q = q.trim().toLowerCase();
   const hits: Hit[] = [];
   const type = q.length >= 2 ? TYPES.find(t => t.toLowerCase().startsWith(q)) : undefined;
@@ -89,9 +96,9 @@ function search(q: string, allow: (id: string) => boolean): Hit[] {
     else if (old && old.includes(q)) { rank = 2; why = `was ${FORMER_NAMES[id]}`; }
     else if (id.includes(q)) { rank = 2; why = `id ${id}`; }
     else if (type && sp.types.includes(type)) { rank = 3; why = typeName(type); }
-    if (rank >= 0) hits.push({ id, why, rank });
+    if (rank >= 0) hits.push(taken(id) ? { id, why: 'on this team', rank, taken: true } : { id, why, rank });
   }
-  return hits.sort((a, b) => a.rank - b.rank || SPECIES[a.id].name.localeCompare(SPECIES[b.id].name));
+  return hits.sort((a, b) => +!!a.taken - +!!b.taken || a.rank - b.rank || SPECIES[a.id].name.localeCompare(SPECIES[b.id].name));
 }
 
 const ROWS = 6, ROW_H = 11, LIST_Y = 31;
@@ -107,12 +114,12 @@ class FindKind implements Mode {
   scroll = 0;
   onList = false;
 
-  constructor(readonly title: string, readonly allow: (id: string) => boolean) {
+  constructor(readonly title: string, readonly allow: (id: string) => boolean, readonly taken: (id: string) => boolean) {
     this.grid.page = 1;
-    this.hits = search('', allow);
+    this.hits = search('', allow, taken);
   }
 
-  retype(q: string): void { this.q = q; this.hits = search(q, this.allow); this.sel = 0; this.scroll = 0; }
+  retype(q: string): void { this.q = q; this.hits = search(q, this.allow, this.taken); this.sel = 0; this.scroll = 0; }
 
   update(): void {
     this.t++;
@@ -123,7 +130,10 @@ class FindKind implements Mode {
       if (this.sel < this.scroll) this.scroll = this.sel;
       if (this.sel >= this.scroll + ROWS) this.scroll = this.sel - ROWS + 1;
       if (input.hit('back') || input.hit('menu')) { this.onList = false; sfx('back'); return; }
-      if (input.hit('ok') && n) { sfx('ok'); close(this, this.hits[this.sel].id); }
+      if (input.hit('ok') && n) {
+        if (this.hits[this.sel].taken) { sfx('bump'); return; }
+        sfx('ok'); close(this, this.hits[this.sel].id);
+      }
       return;
     }
     const g = this.grid;
@@ -147,17 +157,17 @@ class FindKind implements Mode {
     backdrop();
     text(this.title, 6, 4, SEL, INK);
     textRight(`${this.hits.length} found`, 186, 4, DIM, INK);
-    frame(4, 14, 184, 13, PANEL, this.onList ? EDGE : SEL);
+    bevel(4, 14, 184, 13, PANEL, this.onList ? EDGE : SEL);
     if (this.q) text(this.q, 8, 17, PAPER);
     else text('Name, old name, id, or type', 8, 17, '#5a5468');
     if (!this.onList && (this.t >> 4) % 2) rect(8 + (this.q ? textWidth(this.q) + 1 : 0), 16, 1, 9, SEL);
-    frame(4, LIST_Y - 3, 184, ROWS * ROW_H + 4, PANEL, this.onList ? SEL : EDGE);
+    bevel(4, LIST_Y - 3, 184, ROWS * ROW_H + 4, PANEL, this.onList ? SEL : EDGE);
     if (!this.hits.length) textCenter('No kind matches.', 96, LIST_Y + 25, DIM);
     this.hits.slice(this.scroll, this.scroll + ROWS).forEach((h, k) => {
       const y = LIST_Y + k * ROW_H, on = this.scroll + k === this.sel, sp = SPECIES[h.id];
       if (on) rect(6, y - 2, 180, ROW_H, this.onList ? HILITE : '#24212d');
       drawSprite(makeSprite(h.id), 8, y - 1, 1);
-      text(fit(sp.name, 60), 20, y, on && this.onList ? SEL : PAPER);
+      text(fit(sp.name, 60), 20, y, h.taken ? DIM : on && this.onList ? SEL : PAPER);
       if (h.why) text(fit(h.why, 70), 84, y, DIM);
       sp.types.forEach((t, j) => miniSigil(t, 168 + j * 7, y + 1));
     });
@@ -177,8 +187,8 @@ function makeSprite(id: string): Mon['sprite'] {
   return s;
 }
 
-function findKind(title: string, allow: (id: string) => boolean = () => true): Promise<string | null> {
-  return run<string | null>(new FindKind(title, allow));
+function findKind(title: string, allow: (id: string) => boolean = () => true, taken: (id: string) => boolean = () => false): Promise<string | null> {
+  return run<string | null>(new FindKind(title, allow, taken));
 }
 
 const fittable = (id: string) => !SPECIES[id].person;
@@ -252,6 +262,10 @@ class Builder implements Mode {
   }
 
   async start(): Promise<void> {
+    for (const side of [0, 1] as const) {
+      const twice = repeatedKind(teams[side]);
+      if (twice) { sfx('bump'); this.say(`${SPECIES[twice].name} is on ${side === 0 ? 'your' : 'the foe\'s'} team twice. A team holds each kind once, fits too.`); return; }
+    }
     lastChoice.top = [];
     const copy = (side: 0 | 1) => teams[side].map(s => structuredClone(s.m));
     const r = await battle({
@@ -264,19 +278,21 @@ class Builder implements Mode {
 
   act(a: string): void {
     const side = this.cx, row = this.cy, s = this.slot(), level = s.m.level;
-    const others = teams[side].filter((_, k) => k !== row).map(o => o.kinds[0]);
+    // A team holds each kind once, and a fit uses up both of its kinds.
+    const others = teams[side].filter((_, k) => k !== row).flatMap(o => o.kinds);
+    const taken = (id: string) => others.includes(id);
     const put = (n: Slot) => { n.m.level = level; teams[side][row] = n; };
     if (a === 'Random kit') { put(randomSlot(others, level)); sfx('switch'); return; }
     if (a === 'Level') { this.sub = { kind: 'level', v: level }; return; }
     if (a === 'Look') { this.wait(monPage(s.m)); return; }
     this.wait((async () => {
       if (a === 'Pick a kind') {
-        const id = await findKind('Pick a kind');
+        const id = await findKind('Pick a kind', () => true, taken);
         if (id) put({ m: plannedKit(rnd, makeMon(id, 50)), kinds: [id] });
       } else if (a === 'Random fit' || a === 'Fit by hand') {
-        const k1 = await findKind('Fit which kind first?', fittable);
+        const k1 = await findKind('Fit which kind first?', fittable, taken);
         if (!k1) return;
-        const k2 = await findKind(`Fit ${SPECIES[k1].name} with?`, id => fittable(id) && id !== k1);
+        const k2 = await findKind(`Fit ${SPECIES[k1].name} with?`, id => fittable(id) && id !== k1, taken);
         if (!k2) return;
         if (a === 'Random fit') put({ m: plannedKit(rnd, randomFit(rnd, k1, k2, 50)), kinds: [k1, k2] });
         else {
@@ -290,7 +306,7 @@ class Builder implements Mode {
           w: 104, start: Math.max(0, ids.indexOf(s.m.notion ?? null)),
           detail: i => {
             const id = ids[i];
-            box(112, 4, 76, 104);
+            panel(112, 4, 76, 104);
             wrap(id ? NOTIONS[id]?.text || '' : 'Holds nothing.', 68).slice(0, 11).forEach((l, n) => text(l, 116, 8 + n * 9, PAPER));
           },
         });
@@ -309,7 +325,7 @@ class Builder implements Mode {
     for (const side of [0, 1] as const) teams[side].forEach((s, r) => this.card(s, 2 + side * 96, 26 + r * 42, !this.busy && this.cx === side && this.cy === r));
     const btn = (label: string, col: number, row: number, hot = false) => {
       const x = 2 + col * 96, y = 154 + row * 13, on = !this.busy && this.cx === col && this.cy === 3 + row;
-      frame(x, y, 92, 12, on ? HILITE : PANEL, on ? SEL : hot ? NERVE : EDGE);
+      bevel(x, y, 92, 12, on ? HILITE : PANEL, on ? SEL : hot ? NERVE : EDGE);
       textCenter(label, x + 46, y + 2, on ? SEL : hot ? NERVE : PAPER);
     };
     btn('Randomize all', 0, 0);
@@ -325,7 +341,7 @@ class Builder implements Mode {
   /** One slot: the whorl's sprite, name, types, level, held notion, and whether it is fitted. */
   card(s: Slot, x: number, y: number, on: boolean): void {
     const m = s.m;
-    frame(x, y, 92, 40, on ? HILITE : PANEL, on ? SEL : EDGE);
+    bevel(x, y, 92, 40, on ? HILITE : PANEL, on ? SEL : EDGE);
     rect(x + 3, y + 3, 26, 26, INK);
     drawSprite(m.sprite, x + 4, y + 4, 3);
     text(fit(m.name, 58), x + 32, y + 4, on ? SEL : PAPER);
@@ -340,12 +356,13 @@ class Builder implements Mode {
   drawSub(): void {
     const sub = this.sub;
     if (sub.kind === 'acts') {
-      const w = 84, h = ACTS.length * 10 + 8, x = this.cx === 0 ? 100 : 8, y = Math.min(26 + this.cy * 42, 150 - h);
-      frame(x, y, w, h, '#211e2a', SEL);
+      // The list covers two whole cards of the other column, so no card shows half under it.
+      const w = 92, h = Math.max(ACTS.length * 10 + 8, 82), x = this.cx === 0 ? 98 : 2, y = Math.min(26 + this.cy * 42, 150 - h);
+      panel(x, y, w, h, SEL);
       ACTS.forEach((a, k) => text(a, x + 12, y + 5 + k * 10, k === sub.i ? SEL : PAPER));
       text('\u0001', x + 4, y + 5 + sub.i * 10, SEL);
     } else if (sub.kind === 'level') {
-      frame(36, 70, 120, 44, '#211e2a', SEL);
+      bevel(36, 70, 120, 44, '#211e2a', SEL);
       textCenter('Level', 96, 75, PAPER);
       textCenter(`< ${sub.v} >`, 96, 88, SEL);
       textCenter(sub.v === SYNC ? 'The synced level' : 'Up and down move 5', 96, 101, DIM);

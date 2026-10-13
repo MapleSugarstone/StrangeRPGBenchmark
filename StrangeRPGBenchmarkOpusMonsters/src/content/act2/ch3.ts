@@ -2,15 +2,20 @@
 // Turnwise's landing, and the point. The Take slides the Auger down to the low-water line.
 // Side missions: the voice over the beach (begins), and Tack's count (release). See Notes/act2-script.md.
 import { sfx } from '../../engine/audio';
+import { text } from '../../engine/font';
+import { rect } from '../../engine/screen';
 import { PEOPLE } from '../../engine/sprites';
 import { SPECIES } from '../../data/species';
 import { act, choose, emote, face, faceToward, field, fightWild, giveKey, giveMon, goal, hint, mon, narr, notice, offstage, pan, panBack, prop, say, sound, tint, unprop, wait, walkIn, walkOff, walkTo } from '../../game/api';
 import { starfall } from '../../game/minigames/starfall';
 import { G, flag, setFlag } from '../../game/state';
 import { bell as ringBell } from '../../game/api';
+import { DIM, SEL } from '../../game/ui';
 import { defMap, defScript, MAPS, type MapDef } from '../../game/world';
+import { GRAPH_PUZZLES, type Move } from '../../tools/worldcheck';
 import { Canvas, highTide, kinds, look, reward, stash } from '../areakit';
 import { smallGranLine } from '../ch1';
+import { hallTop } from '../puzzlekit';
 import { FOOTPRINTS, giveGrain } from './kit';
 import { bell, cinch, eldestHooks, grains, keeperFight, low, person, release, sayAll, strandBoard, tideRuns, tideWatch } from './ch1';
 
@@ -284,7 +289,7 @@ defMap({
   enter: 'a2RollEnter',
   npcs: [
     { id: 'a2Weed', x: WEED.x, y: WEED.y, sprite: 'stone', name: 'Kokieri', img: weedImg, when: highTide, lines: ['A Kokieri has rolled into the gap and fills it.'] },
-    person('a2Tumbler', 13, 2, 'climber2', 'Tumbler', 2, { trainer: { name: 'Tumbler', team: [['tumbleweed', 30], ['riser', 30]], intro: 'Every roll I end up on the other wall. My lunch too. My lunch gets there first.', defeat: 'Rolled. Over.', sight: 2 } }),
+    person('a2Tumbler', 13, 2, 'climber2', 'Tumbler', 2, { trainer: { nacre: 1, name: 'Tumbler', team: [['tumbleweed', 30], ['riser', 30]], intro: 'Every roll I end up on the other wall. My lunch too. My lunch gets there first.', defeat: 'Rolled. Over.', sight: 2 } }),
   ],
   spots: [
     bell(2, 8), bell(8, 1), bell(16, 5), bell(22, 2), bell(24, 2), bell(35, 3), bell(38, 1), bell(41, 5), bell(46, 6),
@@ -326,19 +331,36 @@ tideWatch.push(async () => {
 
 // ---------------------------------------------------------------- the stair, and the vents
 
-// The lower stair winds up to Turnwise's landing. The upper stair, past the landing, has six vents in its walls.
+// The lower stair winds up to Turnwise's landing. The upper stair, past the landing, has six vents in its walls, counted
+// up from the bottom. The west wall is the floor at low tide and the east wall at high tide, so Ouro reaches the west
+// vents at low water and the east vents at high water. When the tide comes in, and whenever a plug goes in or out at high
+// water, the air leaves by the first open vent and sounds it. Ouro has three plugs. The tip opens when the vents sound
+// the groove's notches in a row: four, two, four, one, four. A wrong note starts the groove over.
+// The insight: with plugs in west vents one and three, the plug in east vent two alone moves the note between two and
+// four at high water, so one tide plays the first three notches. Vent one's plug comes out at low water for the fourth
+// notch and goes back for the fifth.
+// Fewest moves: 12, counting each plug, pull, and turn of the tide ('The vents' in worldcheck).
 const as = new Canvas(24, 20, '#');
 as.rect(1, 17, 22, 2, '_').rect(20, 16, 2, 1, '_').rect(1, 15, 22, 1, '_').rect(1, 14, 2, 1, '_').rect(1, 13, 22, 1, '_');
 as.put(2, 19, 'q').put(21, 12, 'q');
 as.rect(10, 2, 4, 9, '_').put(12, 1, 'q');
 for (const [x, y, w, h] of [[6, 17, 4, 2], [14, 13, 4, 1], [11, 9, 2, 1]]) as.rect(x, y, w, h, ',');
-// vent k: wall tile, and the tide its wall is the floor at (null for out of reach)
-const VENTS: { x: number; y: number; high: boolean | null }[] = [
+// A tide bell at the foot of the vents, so the tide can be turned where the notes are heard.
+const VENT_BELL = { x: 13, y: 10 };
+as.put(VENT_BELL.x, VENT_BELL.y, 'U');
+// vent k: its wall tile, and whether its wall is the floor at high tide (east) or low tide (west)
+const VENTS: { x: number; y: number; high: boolean }[] = [
   { x: 9, y: 9, high: false }, { x: 14, y: 8, high: true }, { x: 9, y: 7, high: false },
-  { x: 14, y: 6, high: null }, { x: 9, y: 5, high: true }, { x: 14, y: 4, high: null },
+  { x: 14, y: 6, high: true }, { x: 9, y: 5, high: false }, { x: 14, y: 4, high: true },
 ];
+const SONG = [3, 1, 3, 0, 3];
+const PLUGS = 3;
 const ventPlugged = (k: number) => !!flag('vent' + k);
-const plugsLeft = () => (flag('plugsGot') ? 3 - [0, 1, 2, 3, 4, 5].filter(k => k !== 4 && ventPlugged(k)).length : 0);
+const plugsLeft = () => (flag('plugsGot') ? PLUGS - VENTS.filter((_, k) => ventPlugged(k)).length : 0);
+const VENT_WORD = ['one', 'two', 'three', 'four', 'five', 'six'];
+const firstOpen = (plugged: (k: number) => boolean) => VENTS.findIndex((_, k) => !plugged(k));
+/** The groove's progress after vent `note` sounds with `p` notches already played in a row. */
+const sing = (p: number, note: number) => (note === SONG[p] ? p + 1 : note === SONG[0] ? 1 : 0);
 defMap({
   id: 'augerstair', name: 'The Stair', region: 28, music: 'auger', strand: true,
   rows: as.rows(),
@@ -352,19 +374,39 @@ defMap({
   npcs: [
     person('a2StairSleeper', 12, 18, 'climber2', 'Stair-sleeper', 2, { trainer: { name: 'Stair-sleeper', team: [['columella', 30], ['chalk', 31]], intro: 'Wha. I sleep on the stair facing up. Great for the neck. Go away.', defeat: 'Back to sleep. Facing up. Night.', sight: 2 } }),
     person('a2SwiftKeeper', 9, 15, 'climber1', 'Swift-keeper', 1, { trainer: { name: 'Swift-keeper', team: [['swift', 29], ['gyre', 29]], intro: 'My swift never lands. Me neither, really. I\'m up here a lot.', defeat: 'We landed. Both of us. Huh.', sight: 3 } }),
-    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { name: 'Salt-scraper', team: [['saltline', 30], ['groundswell', 30]], intro: 'The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!', defeat: 'Higher every roll. Ugh.', sight: 2 } }),
+    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { nacre: 1, name: 'Salt-scraper', team: [['saltline', 30], ['groundswell', 30]], intro: 'The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!', defeat: 'Higher every roll. Ugh.', sight: 2 } }),
     person('a2PointWatcher', 11, 2, 'climber1', 'Point-watcher', 0, { talk: 'a2PointWatcher', trainer: { name: 'Point-watcher', team: [['zenith', 32], ['bourdon', 31]], intro: 'I sit beneath the point and listen to it not open. It does so with great consistency.', defeat: 'It might open. Some low, at three quavelings past the turn.', sight: 2 } }),
   ],
-  spots: VENTS.map((v, k) => ({ x: v.x, y: v.y, script: () => ventScript(k) })),
+  spots: [...VENTS.map((v, k) => ({ x: v.x, y: v.y, script: () => ventScript(k) })), bell(VENT_BELL.x, VENT_BELL.y)],
 });
 
+/** The vents in the walls, with their plugs, and the groove's notches in the corner as they are played. */
+function ventOverlay(f: typeof field): void {
+  if (f.map.id !== 'augerstair' || flag('tipOpen')) return;
+  const [cx, cy] = f.cam;
+  VENTS.forEach((v, k) => {
+    const x = v.x * 8 - cx, y = v.y * 8 - cy;
+    rect(x + 2, y + 2, 4, 4, '#1a1008');
+    if (ventPlugged(k)) { rect(x + 2, y + 2, 4, 4, '#3a6a2a'); rect(x + 3, y + 3, 2, 1, '#6aa84a'); }
+  });
+  if (!flag('plugsGot')) return;
+  const p = flag('ventSong');
+  SONG.forEach((n, i) => text(String(n + 1), 3 + i * 7, 3, i < p ? SEL : DIM, '#0b0a10'));
+}
+
+// A loaded game skips the enter script, so the first step puts the vents back on the walls.
+field.stepHooks.push(f => { if (f.map.id === 'augerstair' && f.overlay !== ventOverlay) f.overlay = ventOverlay; });
+
 defScript('a2StairEnter', async () => {
+  // Walking out and back starts the groove over.
+  setFlag('ventSong', 0);
+  field.overlay = ventOverlay;
   if (highTide() && field.y < 11 && !flag('humTold')) { setFlag('humTold'); sound('wind'); await emote('ouro', 'music'); }
 });
 
 async function ventScript(k: number): Promise<void> {
   const v = VENTS[k];
-  if (v.high === null || v.high !== highTide()) {
+  if (v.high !== highTide()) {
     face('ouro', 2);
     await emote('ouro', 'question');
     return;
@@ -388,12 +430,14 @@ async function ventScript(k: number): Promise<void> {
   if (highTide()) await playVent();
 }
 
-/** At high tide the air leaves by the first open vent, and the Auger plays that vent's note. */
+/** At high tide the air leaves by the first open vent, the Auger plays that vent's note, and the groove counts it. */
 async function playVent(): Promise<void> {
   if (flag('tipOpen')) return;
-  const first = [0, 1, 2, 3, 4, 5].find(k => !ventPlugged(k));
-  if (first === undefined) return;
-  if (first === 3) {
+  const first = firstOpen(ventPlugged);
+  if (first < 0) return;
+  const was = flag('ventSong'), p = sing(was, first);
+  setFlag('ventSong', p);
+  if (p === SONG.length) {
     setFlag('tipOpen');
     field.shakeT = 40;
     sfx('boom');
@@ -410,15 +454,45 @@ async function playVent(): Promise<void> {
   sfx('wind');
   ringBell(first * 2);
   await emote('ouro', 'music');
-  const word = ['one', 'two', 'three', 'four', 'five', 'six'][first];
-  await say('Point-watcher', `That was hole ${word}. Low, but not low enough, by some two grumbles.`);
+  const word = VENT_WORD[first];
+  if (p > was || p === 1) await say('Point-watcher', `Vent ${word}!! Notch ${p} of five. Onward, melodiously.`);
+  else if (was) await say('Point-watcher', `Vent ${word}. The groove has no such notch there. From the start.`);
+  else await say('Point-watcher', `Vent ${word}. Not the groove's first notch, by some two grumbles.`);
 }
 tideWatch.push(async () => { if (field.map.id === 'augerstair' && highTide() && field.y < 11) await playVent(); });
 
+// The vents for the puzzle checks: which vents hold plugs (a bit each), the tide, and the notches sounded in a row.
+type VentState = { pl: number; t: number; p: number };
+function ventMoves(s: VentState): Move<VentState>[] {
+  if (s.p === SONG.length) return [];
+  const sounds = (pl: number) => sing(s.p, firstOpen(k => !!(pl >> k & 1)));
+  const out: Move<VentState>[] = [{ to: { pl: s.pl, t: 1 - s.t, p: s.t ? s.p : sounds(s.pl) }, cost: 1 }];
+  const used = VENTS.filter((_, k) => s.pl >> k & 1).length;
+  VENTS.forEach((v, k) => {
+    if (v.high !== !!s.t) return;
+    const on = s.pl >> k & 1;
+    if (!on && used >= PLUGS) return;
+    const pl = s.pl ^ (1 << k);
+    out.push({ to: { pl, t: s.t, p: s.t ? sounds(pl) : s.p }, cost: 1 });
+  });
+  return out;
+}
+GRAPH_PUZZLES.push({
+  name: 'The vents', floor: 10,
+  start: { pl: 0, t: 0, p: 0 },
+  key: (s: VentState) => (s.pl * 2 + s.t) * (SONG.length + 1) + s.p,
+  moves: ventMoves,
+  goal: (s: VentState) => s.p === SONG.length,
+  exit: () => true,
+  show: (s: VentState) => `plugs ${s.pl.toString(2)} ${s.t ? 'high' : 'low'} notches ${s.p}`,
+  prize: { map: 'augerstair', at: [12, 1], view: [11, 10], named: 'a2PointWatcher' },
+});
+
 defScript('a2PointWatcher', async () => {
   if (flag('tipOpen')) { await say('Point-watcher', 'Up you go!! You fit. I exceed the narrow way by six and one quarter shoulders.'); return; }
-  await say('Point-watcher', 'Three plugs. Six holes. The tip bears a groove four holes long, the apical furrow.');
-  await say('Point-watcher', 'Air leaves by the first open hole. That hole is the note it plays. Elementary ventistics.');
+  await say('Point-watcher', 'Three plugs. Six vents, counted up from the bottom. The tip above bears a notched groove.');
+  await say('Point-watcher', 'The notches read four, two, four, one, four. Sound that in a row and the tip opens.');
+  await say('Point-watcher', 'When the tide comes in, air leaves by the first open vent, and that vent sounds. Ventistics.');
   if (!flag('plugsGot')) { setFlag('plugsGot'); await notice('(The point-watcher hands Ouro three plugs of packed weed.)'); }
 });
 
@@ -492,11 +566,11 @@ field.stepHooks.push(f => {
   }
   runsDone++;
   run++;
-  if (f.x === GOAL.x && f.y === GOAL.y && runsDone === 6) { setFlag('strideDone'); sfx('level'); return; }
+  if (f.x === GOAL.x && f.y === GOAL.y && runsDone === 6) { setFlag('strideDone'); void f.runBusy(hallTop('turnwise', 'a2Turnwise')); return; }
   if (runsDone >= 6) void f.runBusy(strideFail);
 });
 
-/** Turnwise's four. Ouro arrives with the Strand cap at 35. */
+/** Turnwise's four. Ouro arrives with the Strand cap at 18. */
 export const TURNWISE_TEAM: [string, number][] = [['crimp', 27], ['chamois', 27], ['zenith', 28], ['gyre', 29]];
 defScript('a2Turnwise', async () => {
   if (flag('turnwiseGrain')) {
@@ -545,7 +619,7 @@ defMap({
   npcs: [person('a2TurnwisePoint', 6, 4, 'turnwise', 'Turnwise', 2, { when: () => !!flag('slideScene'), talk: undefined, movable: true })],
   spots: [
     { x: TIP.x, y: TIP.y, when: () => !flag('tipOpen'), script: async () => {
-      await say('Groove', 'A groove round the sealed tip, as long as four vents.');
+      await say('Groove', 'A groove round the sealed tip, notched: four, two, four, one, four.');
     } },
     { x: 7, y: 1, script: 'a2PointBoard' },
     { x: 5, y: 1, script: 'a2Albatross' },

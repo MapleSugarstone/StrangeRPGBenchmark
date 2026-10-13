@@ -280,6 +280,6 @@ sp({ id: 'protoconch', name: 'Alkume', types: ['TIDE'], basic: 'M', area: 'oldch
 // ================================================================ special
 sp({ id: 'smallgranw', name: 'Small Gran', types: ['BEAST'], basic: 'P', area: 'sanddollar', wild: false,
   moves: ['smallgranw_today', 'smallgranw_scratch', 'smallgranw_feel', 'smallgranw_look', 'smallgranw_there'], passives: ['smallgranw_next', 'smallgranw_away'],
-  sprite: ['..444...', '.44444..', '.22222..', '.21212.3', '.22222.3', '..444..3', '.4.444.3', '..1.1..3'], c: ['#e4dcd0', '#a87a50', '#b0a0d0'],
+  sprite: ['.4....4.', '.44..44.', '14444441', '14444441', '41444414', '4.1331.4', '3.13.313', '..1..1..'], c: ['#e8dcd0', '#f4eef8', '#b890d0'],
   fit: 'says her next line', pegs: 0,
   entry: 'Gran\'s cast. Came out in my bundle, on top of the cowries. No price. I carried her. I never bought her, and I\'d not sell her.' });

@@ -55,7 +55,7 @@ defMap({
   npcs: [
     { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 39], ['gore', 39]], intro: 'The Hilt\'s guarded. I\'m the guard. All of it. The whole guard is me.', defeat: 'Okay. Was the whole guard.', sight: 4 } },
     { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 39], ['portent', 40]], intro: 'There\'s conjoined whorls walking wild out here now. Two shells grown into one. All on their own!', defeat: 'Both halves lost. Bad day for halves.', sight: 4 } },
-    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { name: 'Hermit', team: [['grotto', 40], ['quarry', 40]], intro: 'Moonwater tonight. Everybody\'s going. Bring a towel.', defeat: 'Fine. You\'re going too, then.', sight: 3 } },
+    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 40], ['quarry', 40]], intro: 'Moonwater tonight. Everybody\'s going. Bring a towel.', defeat: 'Fine. You\'re going too, then.', sight: 3 } },
     { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 40], ['gore', 40], ['crane', 40]], intro: 'Everyone asks if the sword\'s sharp. It\'s a Stay! Sharp\'s not the point! I\'m the smith, I\'d know.', defeat: 'Go look at it yourself, then.', sight: 4 } },
     { id: 'mwguard', blocks: true, x: 16, y: 28, sprite: 'peeler', name: 'Hermit', when: () => !flag('pithBeaten'), lines: ['Moonwater\'s closed. Murex says. You want to argue, Murex is in the Hermitage.'] },
   ],
@@ -87,7 +87,7 @@ defMap({
     { id: 'pith', x: 8, y: 1, sprite: 'pith', name: 'Murex', talk: 'pith' },
     { id: 'wall', x: 15, y: 1, sprite: 'sign', name: null as any, lines: ['On the wall, painted: a spiral shell with a dark crack down the front. Under it, smaller: WIPE FEET.'] },
     { id: 'ph1', x: 5, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['leech', 39], ['carrion', 39]], intro: 'We prise old shells off the rocks in here. The late ones watch. So they know how it comes off.', defeat: 'See? That\'s how it comes off.', sight: 5 } },
-    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['portent', 39], ['mycel', 39], ['undertow', 40]], intro: 'Bare\'s down at the water. Murex is on the door.', defeat: 'Murex is still on the door. Murex is always on the door.', sight: 5 } },
+    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['portent', 39], ['mycel', 39], ['undertow', 40]], intro: 'Bare\'s down at the water. Murex is on the door.', defeat: 'Murex is still on the door. Murex is always on the door.', sight: 5 } },
   ],
 });
 

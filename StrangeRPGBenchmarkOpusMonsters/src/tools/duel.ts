@@ -4,8 +4,12 @@
 //   { "fit": ["quarry", "carrion"], "moves": ["cut", "excavate", "peck", "mob"], "passives": ["dugout", "gather"],
 //     "types": ["STONE", "BEAST"], "basic": "P", "notion": "bodkin" } ] }
 // Every slough fights at level 25. Both sides use the strongest AI. The build takes each side half the time.
+// [--workers=N] [--progress=file] [--stop=file] [--minutes=N]: the progress file (default Notes/duel-progress.txt) shows
+// battles done, an ETA, and the win rate so far, and the stop file (default dist-tools/duel.stop) or the time limit ends
+// the run early with a partial report.
+import { clearParts, clearStop, ownFlags, partFile, progressHead, readPart, runCtl, workerArgs, writeText } from './runctl';
 import { act, advance, newBattle, roundOf, TAN_PER_STAT, TAN_TOTAL } from '../battle/engine';
-import { choose, chooseReplacement } from '../battle/ai';
+import { aiTurn, choose, chooseReplacement } from '../battle/ai';
 import type { Battle, Mon } from '../battle/model';
 import { MOVES, NOTIONS, PASSIVES } from '../battle/registry';
 import { SPECIES, WILD_KINDS, makeMon } from '../data/species';
@@ -15,7 +19,7 @@ import { makeFit, nameOptions, NO_FIT_HABITS, paletteOf, shapeOf } from '../game
 import type { Type } from '../data/types';
 import { readFileSync } from 'node:fs';
 
-declare const process: { argv: string[]; exit(n: number): never };
+declare const process: { argv: string[]; exit(n: number): never; execPath: string };
 
 interface Entry { kind?: string; fit?: [string, string]; moves?: string[]; passives?: string[]; types?: Type[]; basic?: 'P' | 'M'; notion?: string; tan?: Record<string, number>; tape?: string }
 interface Build { name: string; charm?: string | null; team: Entry[] }
@@ -45,7 +49,7 @@ function monOf(e: Entry, where: string): Mon {
     const types = e.types || [A.types[0]];
     if (types.length < 1 || types.length > 2 || types.some(t => !A.types.includes(t) && !B.types.includes(t))) fail(`${where}: one or two types from the parents`);
     const basic = e.basic || A.basic;
-    m = makeFit(A, B, { moves, passives, types, basic, retune: null, sprite: { px: shapeOf(A.sprite, B.sprite, 0), c: paletteOf(A.sprite, B.sprite, 0) }, name: nameOptions(A.name, B.name)[0] }, 0);
+    m = makeFit(A, B, { moves, passives, types, basic, retune: null, sprite: { px: shapeOf(A.sprite, B.sprite, 0), c: paletteOf(A.sprite, B.sprite, 0) }, name: nameOptions(A.name, B.name)[0], look: { shape: 0, palette: 0 } }, 0);
   } else {
     if (!e.kind || !SPECIES[e.kind]) fail(`${where}: unknown kind ${e.kind}`);
     m = makeMon(e.kind, 50);
@@ -88,7 +92,10 @@ function fieldTeam(kind: 'resourced' | 'plain' | 'planned'): { mons: Mon[]; char
     const k = pick(WILD_KINDS);
     if (used.has(k)) continue;
     used.add(k);
-    const m = kind !== 'plain' && mons.length < 2 ? randomFit(rnd, k, pick(WILD_KINDS.filter(x => x !== k)), 50) : makeMon(k, 50);
+    // Both kinds of a fit count toward the team's one of each kind.
+    const k2 = kind !== 'plain' && mons.length < 2 ? pick(WILD_KINDS.filter(x => !used.has(x))) : null;
+    if (k2) used.add(k2);
+    const m = k2 ? randomFit(rnd, k, k2, 50) : makeMon(k, 50);
     if (kind === 'planned') plannedKit(rnd, m);
     else if (kind === 'resourced') {
       m.notion = pick(NOTION_IDS);
@@ -108,13 +115,14 @@ function fight(a: { mons: Mon[]; charm: string | null }, z: { mons: Mon[]; charm
   for (let i = 0; i < 600; i++) {
     const d = advance(b, chooseReplacement);
     if (d.kind === 'over') break;
-    if (d.kind === 'act') act(b, choose(b));
+    aiTurn(b);
   }
   return { winner: b.over === 0 ? 0 : b.over === 1 ? 1 : 'draw', rounds: roundOf(b), fatigued: !!b.fatigued };
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const args = process.argv.slice(2);
+  const workers = Number((args.find(a => a.startsWith('--workers=')) || '--workers=1').slice(10));
   const file = args.find(a => a.endsWith('.json'));
   if (!file) fail('Give a build file.');
   const N = Number(args.find(a => /^\d+$/.test(a)) || 300);
@@ -123,10 +131,54 @@ function main(): void {
   const fieldKind = ((args.find(a => a.startsWith('--field='))?.slice(8)) || 'planned') as 'resourced' | 'plain' | 'planned';
   const build = load(file);
   const vs = vsFile ? load(vsFile) : null;
-  const team = (bd: Build) => ({ mons: bd.team.map((e, i) => monOf(e, `${bd.name} slot ${i + 1}`)), charm: bd.charm ?? null });
+  const team = (bd: Build) => {
+    // A team holds each kind once, counting both kinds of a fit, as in practice, online play, and the balance sims.
+    const seen = new Set<string>();
+    for (const k of bd.team.flatMap(e => (e.fit ? [...e.fit] : [e.kind || '']))) {
+      if (seen.has(k)) fail(`${bd.name}: ${k} is on the team twice. A team holds each kind once, counting both kinds of a fit.`);
+      seen.add(k);
+    }
+    return { mons: bd.team.map((e, i) => monOf(e, `${bd.name} slot ${i + 1}`)), charm: bd.charm ?? null };
+  };
 
-  let wins = 0, draws = 0, rounds = 0, fatigued = 0;
-  for (let g = 0; g < N; g++) {
+  let wins = 0, draws = 0, rounds = 0, fatigued = 0, done = 0;
+  const ctl = runCtl(args, 'duel');
+  if (ctl.part < 0) clearStop(ctl);
+  const progressText = (n: number, total: number, w: number, state: string) =>
+    `${progressHead(ctl, n, total, state)}\n${build.name}: ${w} wins of ${n} so far${n ? ` (${(100 * w / n).toFixed(1)}%)` : ''}\n`;
+  let lastTick = 0;
+  const tick = (force = false) => {
+    if (!force && Date.now() - lastTick < 3000) return;
+    lastTick = Date.now();
+    if (ctl.part >= 0) writeText(partFile(ctl, ctl.part), JSON.stringify({ done, total: N, wins }));
+    else writeText(ctl.progress, progressText(done, N, wins, force ? (ctl.halted() ? 'stopped early' : 'finished') : 'running'));
+  };
+  if (workers > 1) {
+    // Each child runs a share of the battles on its own seed, and the totals are summed here.
+    const { spawn } = await import('node:child_process');
+    const share = Math.ceil(N / workers);
+    const rest = ownFlags(args.filter(a => !/^\d+$/.test(a) && !a.startsWith('--seed=') && !a.startsWith('--workers=')));
+    const write = (state: string) => {
+      let n = 0, w = 0;
+      for (let k = 0; k < workers; k++) { const q = readPart<{ done: number; wins: number }>(ctl, k); if (q) { n += q.done; w += q.wins; } }
+      writeText(ctl.progress, progressText(n, share * workers, w, state));
+    };
+    write('running');
+    const timer = setInterval(() => write('running'), 3000);
+    const parts = await Promise.all(Array.from({ length: workers }, (_, k) => new Promise<number[]>(resolve => {
+      const child = spawn(process.execPath, [process.argv[1], String(share), `--seed=${seed + k * 7919}`, '--part', ...workerArgs(ctl, k), ...rest]);
+      let out = '';
+      child.stdout.on('data', (c: unknown) => { out += String(c); });
+      child.on('close', () => { try { resolve(JSON.parse(out.trim().split('\n').pop() || '[0,0,0,0,0]')); } catch { resolve([0, 0, 0, 0, 0]); } });
+    })));
+    clearInterval(timer);
+    write(ctl.halted() ? 'stopped early' : 'finished');
+    clearParts(ctl, workers);
+    for (const [w, d, r, f, n] of parts) { wins += w; draws += d; rounds += r; fatigued += f; done += n ?? share; }
+    report(done, share * workers);
+    return;
+  }
+  for (let g = 0; g < N && !ctl.halted(); g++) {
     const mine = team(build);
     const other = vs ? team(vs) : fieldTeam(fieldKind);
     const swap = g % 2 === 1;
@@ -136,7 +188,16 @@ function main(): void {
     else if (myWin) wins++;
     rounds += r.rounds;
     if (r.fatigued) fatigued++;
+    done++;
+    tick();
   }
+  tick(true);
+  if (args.includes('--part')) { console.log(JSON.stringify([wins, draws, rounds, fatigued, done])); return; }
+  report(done, N);
+
+  function report(N: number, asked: number): void {
+  if (!N) { console.log(`${build.name}: stopped before any battle finished (${asked} asked).`); return; }
+  if (N < asked) console.log(`PARTIAL: stopped early after ${N} of ${asked} battles.`);
   const p = wins / N;
   const ci = 1.96 * Math.sqrt(p * (1 - p) / N);
   const pct = (x: number) => (100 * x).toFixed(1) + '%';
@@ -145,6 +206,7 @@ function main(): void {
   if (p - ci > 0.75) console.log('OVER THE LINE: this build wins more than 75% even at the low end of its interval.');
   const names = build.team.map((e, i) => { const m = monOf(e, `slot ${i + 1}`); return `${m.name} [${m.moves.map(id => MOVES[id].name).join(', ')}] {${m.passives.map(id => PASSIVES[id].name).join(', ')}}${m.notion ? ` holding ${NOTIONS[m.notion].name}` : ''}`; });
   for (const n of names) console.log('  ' + n);
+  }
 }
 
-main();
+void main();

@@ -1,11 +1,13 @@
-// Setting, the machine puzzle: Bezel in Rib gives the board, sketches around the Volute add puzzles, and Druse in Hum tells of the geode.
+// Setting, the machine puzzle: Bezel in Rib gives the board, sketches around the Volute add puzzles, Shellwright counters sell
+// harder ones, and Druse in Hum tells of the geode.
 import { rect, px } from '../engine/screen';
-import { act, emote, face, faceToward, field, flag, G, giveKey, hint, notice, say, setFlag, sound, wait } from '../game/api';
+import { act, emote, face, faceToward, field, flag, G, giveKey, hint, notice, say, setFlag, sound, tanneryStock, TOWNS, wait } from '../game/api';
 import { KEY_NAMES, KEY_TEXT, KEY_USE, menuExtras } from '../game/menus';
 import { settingMenu } from '../game/minigames/setting';
 import { defProp } from '../game/props';
 import { runAll } from '../game/setting/core';
-import { PUZZLE_BY_ID, PUZZLES } from '../game/setting/puzzles';
+import { ALL_PUZZLES, baseSolved, PUZZLE_BY_ID, SHOP_PUZZLES } from '../game/setting/puzzles';
+import { EXTRA_WARES } from '../game/shopScreen';
 import { save } from '../game/state';
 import { defScript, MAPS } from '../game/world';
 import { reward } from './areakit';
@@ -70,6 +72,40 @@ for (const s of SKETCHES) {
   (m.spots ||= []).push({ x: s.x, y: s.y, when: () => !G.gem.found.includes(s.id), script: () => findSketch(s.id) });
 }
 
+// ---------------------------------------------------------------- sketches for sale
+
+/** The town whose Shellwright first sells each bought sketch, and its price. A counter also sells every sketch of the towns
+ * before it on the road, and one in a town off that road sells them all. */
+export const SKETCH_SALE: { id: string; town: string; price: number }[] = [
+  { id: 's1', town: 'rib', price: 200 },
+  { id: 's2', town: 'mast', price: 250 },
+  { id: 's3', town: 'spire', price: 300 },
+  { id: 's4', town: 'spire', price: 300 },
+  { id: 's5', town: 'bole', price: 400 },
+  { id: 's6', town: 'hum', price: 500 },
+  { id: 's7', town: 'hum', price: 500 },
+  { id: 's8', town: 'tusk', price: 600 },
+  { id: 's9', town: 'hilt', price: 700 },
+  { id: 's10', town: 'hilt', price: 700 },
+  { id: 's11', town: 'fall', price: 900 },
+  { id: 's12', town: 'fall', price: 1200 },
+];
+const ROAD = Object.keys(TOWNS);
+const roadAt = (town: string): number => { const i = ROAD.indexOf(town); return i < 0 ? ROAD.length : i; };
+
+for (const sale of SKETCH_SALE) {
+  const pz = PUZZLE_BY_ID[sale.id];
+  EXTRA_WARES['sketch:' + sale.id] = {
+    name: pz.name, price: sale.price, kind: 'sketch', max: 1, toast: 'Bought the sketch.',
+    text: `A Setting sketch. ${pz.idea}`,
+    held: () => (G.gem.found.includes(sale.id) ? 1 : 0),
+    give: () => { if (!G.gem.found.includes(sale.id)) G.gem.found.push(sale.id); },
+  };
+}
+tanneryStock.push(town => (G.keys.includes('gemboard')
+  ? SKETCH_SALE.filter(s => roadAt(s.town) <= roadAt(town) && !G.gem.found.includes(s.id)).map(s => 'sketch:' + s.id)
+  : []));
+
 // ---------------------------------------------------------------- Bezel, the gem setter in Rib
 
 const BEZEL = 'Bezel';
@@ -84,11 +120,12 @@ MAPS.hum?.npcs.push({
   img: () => ({ px: ['.4.44.4.', '.444444.', '14444441', '12122121', '12122121', '.133331.', '13333331', '.1....1.'], c: ['#8a5a3a', '#6a6a5a', '#b48cf0'] }),
 });
 
-const solved = () => G.gem.solved.length;
+const solved = () => baseSolved(G.gem.solved);
+const shopSolved = () => SHOP_PUZZLES.filter(p => G.gem.solved.includes(p.id)).length;
 let refCycles: Record<string, number> | null = null;
 /** The cycles each puzzle's own reference machine takes, worked out once. */
 function refOf(id: string): number {
-  refCycles ||= Object.fromEntries(PUZZLES.map(p => [p.id, runAll(p, p.ref).cycles]));
+  refCycles ||= Object.fromEntries(ALL_PUZZLES.map(p => [p.id, runAll(p, p.ref).cycles]));
   return refCycles[id];
 }
 
@@ -99,6 +136,14 @@ const BEZEL_TIERS: { n: number; lines: string[]; gift: Parameters<typeof reward>
   { n: 6, gift: { rind: 500, tan: 2 }, lines: ['Six! Half the sketches, set most immaculately.', 'There is a geode-cracker in Hum named Druse who collects people like you. Go and be collected.'] },
   { n: 9, gift: { rind: 800, tan: 3 }, lines: ['Nine set. My bench grows jealous of yours. It pinched my thumb this morning out of spite.'] },
   { n: 12, gift: { rind: 1500, notion: 'polishedring' }, lines: ['EVERY sketch set. I have nothing left to teach you, which is a most unaccustomable feeling!!', 'Take this ring. I set it at your age and it has never fit a single finger since.'] },
+];
+
+/** Lines and a gift for the first talk after each count of bought sketches set. */
+const BEZEL_SHOP_TIERS: typeof BEZEL_TIERS = [
+  { n: 1, gift: { rind: 100 }, lines: ['A counter sketch, set! Shellwrights sell the hard ones to people they dislike.', 'To people they admire, I mean.'] },
+  { n: 4, gift: { rind: 400, tan: 2 }, lines: ['Four counter sketches set. Those are not drawn for children.', 'For apprentices, I mean, which is worse.'] },
+  { n: 8, gift: { rind: 800, tan: 3 }, lines: ['Eight! I tried the strand of four one winter. My bench and I did not speak until spring.'] },
+  { n: 12, gift: { rind: 1500, notion: 'tallystone' }, lines: ['All twelve counter sketches. The tiara as well?! Mine has never once stood up.', 'This stone kept the tally of my tiara runs. Take it, it has given up on me most thoroughly.'] },
 ];
 
 defScript('bezel', async () => {
@@ -132,6 +177,15 @@ defScript('bezel', async () => {
     await reward(tier.gift);
     return;
   }
+  const ns = shopSolved();
+  const shopTier = [...BEZEL_SHOP_TIERS].reverse().find(t => ns >= t.n);
+  if (shopTier && shopTier.n > flag('bezelShopTier')) {
+    setFlag('bezelShopTier', shopTier.n);
+    await act('bezel', 'hop');
+    for (const l of shopTier.lines) await say(BEZEL, l);
+    await reward(shopTier.gift);
+    return;
+  }
   // A machine faster than the bench's own gets one remark.
   const quick = G.gem.solved.map(id => ({ id, by: refOf(id) - (G.gem.best[id]?.c ?? 1e9) })).filter(q => q.by > 0).sort((a, b) => b.by - a.by)[0];
   if (quick && !flag('bezelQuick')) {
@@ -142,8 +196,14 @@ defScript('bezel', async () => {
     await say(BEZEL, 'You have out-set the setter. That is quick work. Indecent, I mean, but in the good way.');
     return;
   }
+  if (n >= 3 && !flag('bezelShopTold') && !SHOP_PUZZLES.some(p => G.gem.found.includes(p.id))) {
+    setFlag('bezelShopTold');
+    await say(BEZEL, 'The Shellwrights sell sketches over the counter now. Hard ones. Vicious ones, I mean.');
+    await say(BEZEL, 'Buy one and suffer splendidly.');
+    return;
+  }
   if (n === 0) await say(BEZEL, 'The first sketch needs one arm. Grab the pearl, swing it round, and let go over the setting.');
-  else if (n < 6) await say(BEZEL, `${n} set of ${G.gem.found.length} found. A sketch left unset is a stone left rough!!`);
+  else if (n < 6) await say(BEZEL, `${n} set of ${baseSolved(G.gem.found)} found. A sketch left unset is a stone left rough!!`);
   else if (n < 12) await say(BEZEL, `${n} set. Druse in Hum talks of a geode that wants all twelve. I find geodes vulgar, personally.`);
   else await say(BEZEL, `All twelve, and ${G.gem.runs} machines set running. I have counted, I am a setter.`);
 });
@@ -174,6 +234,7 @@ defScript('druse', async () => {
     await emote('druse', 'silence');
     await say(DRUSE, 'All twelve set. Inside the crater fields, the geode just opened. I heard it from here.');
     await say(DRUSE, 'The east crater, north of Fall. Its south rim. Bring something soft for your ears.');
+    if (n + shopSolved() < ALL_PUZZLES.length) await say(DRUSE, 'Inside the Hollow the whorl is still counting. It wants every sketch, the Shellwrights\' too.');
     faceToward('druse', 'ouro');
     setFlag('geodeTold');
     return;

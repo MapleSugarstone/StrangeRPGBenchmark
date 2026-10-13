@@ -157,40 +157,80 @@ export function groundKit(style: Style): { base: string; grass: string; path: st
 
 // ---------------------------------------------------------------- the atlas
 
-const CELLS_X = 256, CELLS_Y = 128;
-let atlas: HTMLCanvasElement | null = null;
-let A: CanvasRenderingContext2D;
+// Cells are painted into pixel buffers and reach a canvas only when something is drawn from them. The pages are small and
+// kept off the GPU: drawing from a canvas and then painting into it copies the whole canvas, and the field layer that these
+// cells are drawn into lives in memory, so a GPU page would also be read back.
+
+/** Cells per side of one atlas page, and the most cells kept before the atlas starts over. */
+const PAGE = 16, PAGE_PX = PAGE * 8, PAGE_CELLS = PAGE * PAGE, MAX_CELLS = 32768;
+interface Page { cv: HTMLCanvasElement; g: CanvasRenderingContext2D; img: ImageData; u: Uint32Array; dirty: boolean }
+const pages: Page[] = [];
 let nextCell = 0;
 const cells = new Map<string, number>();
-/** Where the cell being painted sits in the atlas. */
+/** The page being painted, and where the cell being painted sits on it. */
+let PG: Page;
 let OX = 0, OY = 0;
+
+function pageOf(c: number): Page {
+  const i = Math.floor(c / PAGE_CELLS);
+  let pg = pages[i];
+  if (!pg) {
+    const cv = document.createElement('canvas');
+    cv.width = PAGE_PX; cv.height = PAGE_PX;
+    const g = cv.getContext('2d', { willReadFrequently: true })!;
+    const img = g.createImageData(PAGE_PX, PAGE_PX);
+    pg = pages[i] = { cv, g, img, u: new Uint32Array(img.data.buffer), dirty: false };
+  }
+  return pg;
+}
+
+function resetAtlas(): void {
+  cells.clear(); nextCell = 0;
+  for (const pg of pages) { pg.u.fill(0); pg.dirty = true; }
+}
 
 function cell(key: string, paint: () => void): number {
   let c = cells.get(key);
   if (c !== undefined) return c;
-  if (!atlas) {
-    atlas = document.createElement('canvas');
-    atlas.width = CELLS_X * 8; atlas.height = CELLS_Y * 8;
-    A = atlas.getContext('2d')!;
-  }
-  if (nextCell >= CELLS_X * CELLS_Y) { cells.clear(); nextCell = 0; A.clearRect(0, 0, atlas.width, atlas.height); }
+  if (nextCell >= MAX_CELLS) resetAtlas();
   c = nextCell++;
-  OX = (c % CELLS_X) * 8; OY = Math.floor(c / CELLS_X) * 8;
+  PG = pageOf(c);
+  const k = c % PAGE_CELLS;
+  OX = (k % PAGE) * 8; OY = Math.floor(k / PAGE) * 8;
   paint();
+  PG.dirty = true;
   cells.set(key, c);
   return c;
 }
 
+/** Pixel words by color, as the bytes of an RGBA buffer read on a little-endian machine. */
+const WORDS = new Map<string, number>();
+function wordOf(c: string): number {
+  let w = WORDS.get(c);
+  if (w === undefined) {
+    const v = parseInt(c.slice(1), 16);
+    w = (0xff000000 | ((v & 255) << 16) | (v & 0xff00) | ((v >>> 16) & 255)) >>> 0;
+    WORDS.set(c, w);
+  }
+  return w;
+}
+
 const BAY = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+let lastColor = '', lastWord = 0;
 
 /** A rectangle inside the current 8 by 8 cell. Anything outside the cell is cut off. */
 function R(x: number, y: number, w: number, h: number, c: string): void {
   const x0 = Math.max(0, x), y0 = Math.max(0, y), x1 = Math.min(8, x + w), y1 = Math.min(8, y + h);
   if (x1 <= x0 || y1 <= y0) return;
-  A.fillStyle = c;
-  A.fillRect(OX + x0, OY + y0, x1 - x0, y1 - y0);
+  if (c !== lastColor) { lastColor = c; lastWord = wordOf(c); }
+  const v = lastWord, u = PG.u;
+  for (let j = y0; j < y1; j++) { const row = (OY + j) * PAGE_PX + OX; u.fill(v, row + x0, row + x1); }
 }
-function P(x: number, y: number, c: string): void { R(x, y, 1, 1, c); }
+function P(x: number, y: number, c: string): void {
+  if (x < 0 || y < 0 || x >= 8 || y >= 8) return;
+  if (c !== lastColor) { lastColor = c; lastWord = wordOf(c); }
+  PG.u[(OY + y) * PAGE_PX + OX + x] = lastWord;
+}
 /** Ordered dither inside the cell. The pattern lines up across cells because cells sit on the world's 8 pixel grid. */
 function D(x: number, y: number, w: number, h: number, c: string, lv: number): void {
   for (let j = y; j < y + h; j++) for (let i = x; i < x + w; i++) if (BAY[(j & 3) * 4 + (i & 3)] < lv * 16) P(i, j, c);
@@ -1035,6 +1075,17 @@ function tree(p: Pal, k: Kit, nb: number, v: number, gx: number, gy: number, sl:
   }
 }
 
+/** Waxed heartwood in the Bole hall and the Rootfall: dark grain under the same hard diagonal shine as the Rib's polished bone. */
+function heartwood(p: Pal, gx: number, gy: number): void {
+  R(0, 0, 8, 8, p.w);
+  for (let x = 0; x < 8; x++) P(x, 2 + WAVE16[(x * 2 + gx * 16) & 15], p.w2);
+  for (let x = 0; x < 8; x++) P(x, 6 + WAVE16[(x * 2 + gx * 16 + 6) & 15], p.w2);
+  for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
+    const s = ((x + gx * 8) - (y + gy * 8) + 64) % 16;
+    if (s < 2) P(x, y, p.path); else if (s === 2) P(x, y, p.a);
+  }
+}
+
 function bush(p: Pal, k: Kit, v: number): void {
   switch (k.bush) {
     case 'coral': bm(p, ['........', '.a..a.a.', '.a.aa.a.', 'aaa.aaa.', '.aaaaa..', '..aWa...', '.WWWWW..'], 0, 1, !!(v & 1)); P(1, 1, p.hi); break;
@@ -1556,6 +1607,7 @@ function paintTile(ch: string, p: Pal, v: number, inf: number, gx: number, gy: n
         if (v % 4 === 0) P(5, 4, p.a);
         break;
       }
+      if (p.style === 'bole' || p.style === 'root') { heartwood(p, gx, gy); break; }
       // Slippery clear ice: glassy pale blue, a diagonal sheen, hard white glints, and dark cracks.
       R(0, 0, 8, 8, p.style === 'ice' || p.style === 'tusk' ? p.g2 : p.wt2);
       for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
@@ -1667,6 +1719,12 @@ function paintTile(ch: string, p: Pal, v: number, inf: number, gx: number, gy: n
         if (!(nb & 4)) R(0, 7, 8, 1, '#6a4c24');
         if (!(nb & 8)) R(0, 0, 1, 8, '#d0a860');
         if (!(nb & 2)) R(7, 0, 1, 8, '#6a4c24');
+      }
+      else if (p.style === 'bole' || p.style === 'root') {
+        // A sapling's root grown across the waxed floor, running on into the root tiles beside it.
+        heartwood(p, gx, gy);
+        if (nb & 10 || !(nb & 5)) { R(0, 1, 8, 6, p.w2); R(0, 2, 8, 4, p.path); R(0, 4, 8, 1, p.w); P(1 + (v % 6), 2, p.g3); }
+        else { R(1, 0, 6, 8, p.w2); R(2, 0, 4, 8, p.path); R(4, 0, 1, 8, p.w); P(2, 1 + (v % 6), p.g3); }
       }
       else { R(0, 0, 8, 8, p.path); R(2, 0, 4, 8, p.w2); R(3, 0, 1, 8, p.a); P(4, 2, p.hi); }
       break;
@@ -1791,7 +1849,8 @@ function beam(p: Pal, k: Kit, inf: number, v: number, net: number, gx: number, g
  * and the pattern repeats every 8 pixels so a run of tiles reads as one moving current.
  */
 function wind(p: Pal, k: Kit, ch: string, v: number, gx: number, gy: number, ph: number): void {
-  floor(p, k, v, gx, gy);
+  // A gust on an ice field blows over bare ice, so it keeps the ice's color under its streaks.
+  if (p.style === 'ice' || p.style === 'tusk') R(0, 0, 8, 8, p.g2); else floor(p, k, v, gx, gy);
   const put = (u: number, w: number, c: string) => {
     const uu = ((u % 8) + 8) % 8;
     if (ch === 'E') P(uu, w, c); else if (ch === 'W') P(7 - uu, w, c);
@@ -1965,80 +2024,134 @@ function phaseOf(ch: string, p: Pal, t: number): number {
   return -1;
 }
 
+/** A number for each palette. Several regions share a style, so a cell's key names its palette rather than its style. */
+const palIds = new WeakMap<Pal, number>();
+let palCount = 0;
+function palId(p: Pal): number {
+  let n = palIds.get(p);
+  if (n === undefined) { n = palCount++; palIds.set(p, n); }
+  return n;
+}
+
 /** Finds or paints the atlas cell for one tile at one animation step. */
 function tileCell(ch: string, tx: number, ty: number, p: Pal, slack: number, t: number, ph: number): number {
   const v = ch === '~' ? 0 : hh(tx, ty) & 31;
   const gx = tx & 1, gy = ty & 1;
   const sl = Math.min(3, slack);
-  let inf = NEEDS_NB.has(ch) ? info(ch, tx, ty, t) : 0;
+  let inf = NEEDS_NB.has(ch) || (ch === 'j' && (p.style === 'bole' || p.style === 'root')) ? info(ch, tx, ty, t) : 0;
   const wet = STRAND.has(p.style) && WETTABLE.has(ch) ? wetBits(tx, ty) : 0;
   inf |= wet << 20;
   const k = KIT[p.style];
   const net = NETTED.has(k.base) || ch === 'I' || ch === 'G' || ch === 's' ? netBits(tx, ty) : 0;
-  const key = `${p.style}${ch}${v}.${inf}.${gx}${gy}.${sl}.${ph}.${net}`;
+  const key = `${palId(p)}:${ch}${v}.${inf}.${gx}${gy}.${sl}.${ph}.${net}`;
   return cell(key, () => { paintTile(ch, p, v, inf, gx, gy, sl, Math.max(0, ph), net); if (wet) wetEdge(p, wet); });
 }
 
+/** Copies a cell onto a canvas, after putting its page's newest pixels on the page's canvas. */
 function blitCell(g: CanvasRenderingContext2D, c: number, x: number, y: number): void {
-  g.drawImage(atlas!, (c % CELLS_X) * 8, Math.floor(c / CELLS_X) * 8, 8, 8, x, y, 8, 8);
+  const pg = pageOf(c), k = c % PAGE_CELLS;
+  if (pg.dirty) { pg.g.putImageData(pg.img, 0, 0); pg.dirty = false; }
+  g.drawImage(pg.cv, (k % PAGE) * 8, Math.floor(k / PAGE) * 8, 8, 8, x, y, 8, 8);
 }
 
-// The still tiles of the current map live in one map-sized canvas. The first tile drawn in a frame copies the
-// whole of it to the screen, and later calls only paint tiles that moved or changed.
+// The still tiles of the current map live in one map-sized pixel buffer. A tile goes into it the first time it shows and
+// again when it changes, the changed part goes to the buffer's canvas, and that canvas goes to the screen in one copy.
 let lay: HTMLCanvasElement | null = null;
 let LG: CanvasRenderingContext2D;
+let layImg: ImageData;
+let layU: Uint32Array;
 let layMap: unknown = null, laySlack = -1, layPal: Pal | null = null, layW = 0;
 let layChars: (string | undefined)[] = [];
-let lastIdx = Infinity, lastT = -1;
+/** The part of the buffer, in pixels, that changed since it last went to the canvas. */
+let dx0 = Infinity, dy0 = Infinity, dx1 = -1, dy1 = -1;
 
 function resetLayer(w: number, h: number, slack: number, p: Pal): void {
   if (!lay || lay.width !== w * 8 || lay.height !== h * 8) {
     lay = document.createElement('canvas');
     lay.width = w * 8; lay.height = h * 8;
-    LG = lay.getContext('2d')!;
-  } else LG.clearRect(0, 0, lay.width, lay.height);
+    LG = lay.getContext('2d', { willReadFrequently: true })!;
+    layImg = LG.createImageData(w * 8, h * 8);
+    layU = new Uint32Array(layImg.data.buffer);
+  } else { LG.clearRect(0, 0, lay.width, lay.height); layU.fill(0); }
   layMap = field.map; laySlack = slack; layPal = p; layW = w;
   layChars = new Array(w * h);
-  lastIdx = Infinity;
+  dx0 = dy0 = Infinity; dx1 = dy1 = -1;
 }
 
-export function drawTile(ch: string, x: number, y: number, tx: number, ty: number, p: Pal, slack: number, t: number): void {
-  x = Math.round(x); y = Math.round(y);
-  const rows = field.map.rows, mw = rows[0].length;
-  if (field.map !== layMap || slack !== laySlack || p !== layPal || !lay) resetLayer(mw, rows.length, slack, p);
-  const idx = ty * layW + tx;
-  if (idx <= lastIdx || t !== lastT) ctx.drawImage(lay!, x - tx * 8, y - ty * 8);
-  lastIdx = idx; lastT = t;
-  const ph = phaseOf(ch, p, t);
-  const prev = layChars[idx];
-  if (prev !== ch) {
+/** Copies a cell into the map's buffer at tile tx, ty. */
+function putCell(c: number, tx: number, ty: number): void {
+  const src = pageOf(c).u, k = c % PAGE_CELLS, stride = layW * 8;
+  let s = Math.floor(k / PAGE) * 8 * PAGE_PX + (k % PAGE) * 8, d = ty * 8 * stride + tx * 8;
+  for (let j = 0; j < 8; j++, s += PAGE_PX - 8, d += stride - 8) for (let i = 0; i < 8; i++) layU[d++] = src[s++];
+  dx0 = Math.min(dx0, tx * 8); dy0 = Math.min(dy0, ty * 8); dx1 = Math.max(dx1, tx * 8 + 7); dy1 = Math.max(dy1, ty * 8 + 7);
+}
+
+const crazedAt = (ch: string, p: Pal, slack: number) => slack > 0 && GROUND.has(ch) && !UNHELD.has(p.style);
+
+/** Map indexes and characters of the tiles on screen this frame, and the moving tiles' cells with where they go. */
+const shownIdx: number[] = [], shownCh: string[] = [], moving: number[] = [];
+
+/**
+ * Draws the tiles on screen with the camera at cx, cy. `at` gives the character a tile shows, or null to leave it dark.
+ * Every new look is painted before anything is drawn from the atlas, so painting never makes a canvas copy itself.
+ */
+export function drawTiles(at: (tx: number, ty: number) => string | null, cx: number, cy: number, p: Pal, slack: number, t: number): void {
+  const rows = field.map.rows, mw = rows[0].length, mh = rows.length;
+  if (field.map !== layMap || slack !== laySlack || p !== layPal || !lay) resetLayer(mw, mh, slack, p);
+  // A frame paints at most two cells for each tile on screen, so the atlas starts over before a frame rather than during one.
+  if (nextCell > MAX_CELLS - 2048) resetAtlas();
+  cx = Math.round(cx); cy = Math.round(cy);
+  const x0 = Math.floor(cx / 8), y0 = Math.floor(cy / 8);
+  shownIdx.length = 0; shownCh.length = 0; moving.length = 0;
+  for (let ty = Math.max(0, y0); ty <= Math.min(mh - 1, y0 + 24); ty++) for (let tx = Math.max(0, x0); tx <= Math.min(mw - 1, x0 + 24); tx++) {
+    const ch = at(tx, ty);
+    if (ch === null) continue;
+    const idx = ty * mw + tx, prev = layChars[idx];
     // A tile that changed under a story flag makes its neighbors repaint too, since their edges may depend on it.
-    if (prev) {
+    if (prev && prev !== ch) {
       memo.clear();
       for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) {
-        const n = (ty + j) * layW + tx + i;
+        const n = idx + j * mw + i;
         if ((i || j) && n >= 0 && n < layChars.length && layChars[n]) layChars[n] = '';
       }
     }
-    layChars[idx] = ch;
-    const c = tileCell(ch, tx, ty, p, slack, t, ph < 0 ? -1 : 0);
-    blitCell(LG, c, tx * 8, ty * 8);
-    const crazed = slack > 0 && GROUND.has(ch) && !UNHELD.has(p.style);
-    if (crazed) creases(LG, tx * 8, ty * 8, tx, ty, p, slack);
-    if (ph < 0) {
-      blitCell(ctx, c, x, y);
-      if (crazed) creases(ctx, x, y, tx, ty, p, slack);
-    }
+    shownIdx.push(idx); shownCh.push(ch);
   }
-  if (ph >= 0) blitCell(ctx, tileCell(ch, tx, ty, p, slack, t, ph), x, y);
+  for (let k = 0; k < shownIdx.length; k++) {
+    const idx = shownIdx[k], ch = shownCh[k], tx = idx % mw, ty = (idx - tx) / mw;
+    const ph = phaseOf(ch, p, t);
+    if (layChars[idx] !== ch) {
+      layChars[idx] = ch;
+      putCell(tileCell(ch, tx, ty, p, slack, t, ph < 0 ? -1 : 0), tx, ty);
+      if (crazedAt(ch, p, slack)) {
+        const stride = mw * 8, base = ty * 8 * stride + tx * 8;
+        creases((i, y, h, c) => { const w = wordOf(c); for (let r = y; r < y + h; r++) layU[base + r * stride + i] = w; }, tx, ty, p, slack);
+      }
+    }
+    if (ph >= 0) moving.push(tileCell(ch, tx, ty, p, slack, t, ph), tx * 8 - cx, ty * 8 - cy);
+  }
+  if (dx1 >= 0) {
+    LG.putImageData(layImg, 0, 0, dx0, dy0, dx1 - dx0 + 1, dy1 - dy0 + 1);
+    dx0 = dy0 = Infinity; dx1 = dy1 = -1;
+  }
+  ctx.drawImage(lay!, -cx, -cy);
+  for (let k = 0; k < moving.length; k += 3) blitCell(ctx, moving[k], moving[k + 1], moving[k + 2]);
+}
+
+/** Draws one tile's look at x, y on its own, as a scene fades a tile in. The map's buffer is left alone. */
+export function drawTile(ch: string, x: number, y: number, tx: number, ty: number, p: Pal, slack: number, t: number): void {
+  x = Math.round(x); y = Math.round(y);
+  const ph = phaseOf(ch, p, t);
+  blitCell(ctx, tileCell(ch, tx, ty, p, slack, t, ph < 0 ? -1 : ph), x, y);
+  if (ph < 0 && crazedAt(ch, p, slack)) creases((i, yy, h, c) => { ctx.fillStyle = c; ctx.fillRect(x + i, y + yy, 1, h); }, tx, ty, p, slack);
 }
 
 /**
  * Visual law: every loosened Stay adds a wavy black crease to every map.
  * Crease k runs on a slant across the world, repeats every few tiles down, and breaks into separate cracks along its length.
+ * `put` fills column i of the tile from row y for h rows.
  */
-function creases(g: CanvasRenderingContext2D, x: number, y: number, tx: number, ty: number, p: Pal, slack: number): void {
-  const ctx = g;
+function creases(put: (i: number, y: number, h: number, c: string) => void, tx: number, ty: number, p: Pal, slack: number): void {
   const wy0 = ty * 8;
   for (let k = 0; k < Math.min(slack, 8); k++) {
     const per = (9 + ((k * 5) % 6)) * 8, run = k & 1 ? 4 : -5, off = k * 37 + 11;
@@ -2054,8 +2167,8 @@ function creases(g: CanvasRenderingContext2D, x: number, y: number, tx: number, 
       if (hh(k * 31 + seg, rep * 17 + k) % 10 >= 6) continue;
       const thick = along > 10 && along < 37 ? 2 : 1;
       const y0 = Math.max(0, ly), y1 = Math.min(8, ly + thick);
-      if (y1 > y0) { ctx.fillStyle = INK; ctx.fillRect(x + i, y + y0, 1, y1 - y0); }
-      if (thick === 2 && ly >= 1 && (wx & 3) === 0) { ctx.fillStyle = p.g3; ctx.fillRect(x + i, y + ly - 1, 1, 1); }
+      if (y1 > y0) put(i, y0, y1 - y0, INK);
+      if (thick === 2 && ly >= 1 && (wx & 3) === 0) put(i, ly - 1, 1, p.g3);
     }
   }
 }

@@ -3,7 +3,7 @@ import { scrape } from './game/minigames/scrape';
 import { drawStone, playSetting } from './game/minigames/setting';
 import { shopScreen } from './game/shopScreen';
 import { middenScreen } from './game/middenScreen';
-import { PUZZLES } from './game/setting/puzzles';
+import { ALL_PUZZLES as PUZZLES } from './game/setting/puzzles';
 import { cardOf, pegboard } from './game/minigames/pegboard';
 import { battle } from './game/battleView';
 import { BACKDROP_KEYS, contactSheet, drawFighter, paintBackdrop, SCENE_H, SCENE_W, sceneNow } from './game/backdrops';
@@ -24,14 +24,15 @@ import { registerPortraits } from './game/dialogue';
 import { drawAll, fadeToBlack, modes, replaceAll, run, top, close, tickAll, type Mode } from './game/modes';
 import { field, safeSpot } from './game/field';
 import { startMenu } from './game/menus';
-import { DIFFICULTY_NAMES, DIFFICULTY_TEXT, G, HERO, hasSave, load, setGame, fresh, loosened, useSlot } from './game/state';
+import { DIFFICULTY_NAMES, DIFFICULTY_TEXT, G, HERO, hasSave, load, save, setGame, fresh, loosened, useSlot, exportText, importText } from './game/state';
 import { listMenu } from './game/menus';
-import { box } from './game/ui';
+import { panel } from './game/ui';
 import { wrap } from './engine/font';
 import { FileSelect, NameEntry } from './game/files';
 import { inPractice, practice } from './game/practice';
 import { MOVES, NOTIONS, PASSIVES, SUMMONS } from './battle/registry';
 import { nerveUnlocked } from './game/state';
+import { refreshSave } from './game/refresh';
 
 /**
  * Until tide opens, every sentence of an ability text that mentions tide reads "???", so a new player isn't told about a
@@ -50,6 +51,8 @@ import { setTextFilter } from './engine/font';
 import { DIM, PAPER, SEL } from './game/ui';
 import { MAPS, SCRIPTS } from './game/world';
 import './content';
+import { rejoinMatch } from './game/online';
+import { heldSeat } from './net/client';
 import './game/harness';
 import { choose as aiChoose } from './battle/ai';
 import { makeMon, SPECIES } from './data/species';
@@ -76,7 +79,7 @@ class Title implements Mode {
   /** Frames left in the fade to black after a pick, and in the fade back up after a file screen closes. */
   leave = 0;
   back = 0;
-  constructor() { this.opts = hasSave() ? ['Continue', 'New game', 'Practice'] : ['New game', 'Practice']; music.play('title'); }
+  constructor() { this.opts = titleOpts(); music.play('title'); }
   busy = false;
   update(): void {
     this.t++;
@@ -85,7 +88,12 @@ class Title implements Mode {
       if (--this.leave === 0) {
         this.busy = true;
         const o = this.opts[this.i];
-        void (o === 'Continue' ? continueGame() : o === 'Practice' ? practice() : newGame()).finally(() => { this.busy = false; this.back = BACK; });
+        // An import on a file screen can add the first save, so the menu is built again on the way back.
+        void (o === 'Continue' ? continueGame() : o === 'Practice' ? practice() : o === 'Rejoin match' ? rejoinGame() : newGame()).finally(() => {
+          this.busy = false; this.back = BACK;
+          const opts = titleOpts();
+          if (opts.join() !== this.opts.join()) { this.opts = opts; this.i = 0; }
+        });
       }
       return;
     }
@@ -104,11 +112,31 @@ class Title implements Mode {
   }
 }
 
+/** The title's choices. A page reloaded during an online match offers to rejoin it first while the room may still hold the seat. */
+function titleOpts(): string[] {
+  return [...(heldSeat() ? ['Rejoin match'] : []), ...(hasSave() ? ['Continue', 'New game', 'Practice'] : ['New game', 'Practice'])];
+}
+
+/** Takes back the online match this page left: loads the file it was played from, plays the match out, and goes on in that file. */
+async function rejoinGame(): Promise<void> {
+  const seat = heldSeat();
+  if (!seat) return;
+  const s = load(seat.slot);
+  if (s) { useSlot(seat.slot); refreshSave(s); setGame(s); }
+  await rejoinMatch(seat);
+  if (!s) return;
+  // The match's result went on the tally of the file it was played from.
+  save();
+  await fadeToBlack();
+  startField(false);
+}
+
 async function continueGame(): Promise<void> {
   const n = await run<number | null>(new FileSelect('load'));
   const s = n ? load(n) : null;
   if (!n || !s) return;
   useSlot(n);
+  refreshSave(s);
   setGame(s);
   await fadeToBlack();
   startField(false);
@@ -126,7 +154,7 @@ async function newGame(): Promise<void> {
     setGame(g);
     const d = await listMenu('How hard?', DIFFICULTY_NAMES, {
       w: 120,
-      detail: (k) => { box(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[k], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); },
+      detail: (k) => { panel(4, 150, 184, 36); wrap(DIFFICULTY_TEXT[k], 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); },
     });
     g.opts.difficulty = Math.max(0, d);
     await fadeToBlack();
@@ -192,6 +220,7 @@ setInterval(() => { if (performance.now() - last > 60) loop(performance.now()); 
 (window as any).__slough = {
   G: () => G, sfx, sfxWav, field, modes, close, top, input, aiChoose, makeMon, scripts: SCR, startField, SPECIES, PEOPLE, shapeOf, paletteOf, fitVariants, battle, sceneNow, BACKDROP_KEYS, scrape, pegboard, cardOf, playSetting, drawStone, PUZZLES, shopScreen, middenScreen, starfall, drawFighter,
   feel: { stats: feelStats, openRegisterAt, voiceFor, playKindCry, speciesCry },
+  saveFile: { exportText, importText },
   /** Shows six battle backdrops at a time for art review. Any key closes it. */
   sheet(page: number, loose = 0, dusk = 0): void {
     let t = 0;

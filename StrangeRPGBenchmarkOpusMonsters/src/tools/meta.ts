@@ -2,8 +2,9 @@
 // Usage: node dist-tools/meta.js <rounds> [--seed=N] [--out=file] [--workers=N] [--field=N]
 //        node dist-tools/meta.js --analyze run-1.json run-2.json [--report=Notes/meta-lab.md]
 // Every unit fights at level 25 with no charm. Both sides use the strongest AI. A battle is deterministic, so a worker pool changes only the speed.
+import { clearStop, progressHead, runCtl, writeText } from './runctl';
 import { act, advance, newBattle, TAN_PER_STAT, TAN_TOTAL } from '../battle/engine';
-import { choose, chooseReplacement } from '../battle/ai';
+import { aiTurn, choose, chooseReplacement } from '../battle/ai';
 import type { Mon } from '../battle/model';
 import { MOVES, NOTIONS, PASSIVES } from '../battle/registry';
 import { SPECIES, WILD_KINDS, makeMon } from '../data/species';
@@ -48,7 +49,7 @@ function fight(a: Mon[], z: Mon[], ca: string | null, cz: string | null): Result
   for (let i = 0; i < 600; i++) {
     const d = advance(b, chooseReplacement);
     if (d.kind === 'over') break;
-    if (d.kind === 'act') act(b, choose(b));
+    aiTurn(b);
   }
   return b.over === 0 ? 0 : b.over === 1 ? 1 : 'draw';
 }
@@ -154,7 +155,10 @@ function fieldTeam(rnd: Rnd): { mons: Mon[]; charm: string } {
     const k = pick(WILD_KINDS);
     if (used.has(k)) continue;
     used.add(k);
-    const m = mons.length < 2 ? randomFit(rnd, k, pick(WILD_KINDS.filter(x => x !== k)), LEVEL) : makeMon(k, LEVEL);
+    // Both kinds of a fit count toward the team's one of each kind.
+    const k2 = mons.length < 2 ? pick(WILD_KINDS.filter(x => !used.has(x))) : null;
+    if (k2) used.add(k2);
+    const m = k2 ? randomFit(rnd, k, k2, LEVEL) : makeMon(k, LEVEL);
     m.notion = pick(PLANNED_NOTIONS[m.basic]);
     m.tan = { [m.basic === 'P' ? 'atk' : 'mgk']: TAN_PER_STAT, hp: TAN_TOTAL - TAN_PER_STAT };
     mons.push(m);
@@ -176,6 +180,11 @@ async function ladder(args: string[]): Promise<void> {
   const gauss = (): number => Math.sqrt(-2 * Math.log(1 - rnd())) * Math.cos(2 * Math.PI * rnd());
   const pool = new Pool(nWorkers);
   const started = Date.now();
+  // --progress=file (default Notes/meta-progress.txt) shows rounds done and an ETA. The stop file (default
+  // dist-tools/meta.stop) or --minutes=N ends the ladder after the round in hand, skips the field test, and saves.
+  const ctl = runCtl(args, 'meta');
+  clearStop(ctl);
+  let stopped = 0;
 
   const mons = new Map<number, Mon>();
   const units: Unit[] = [];
@@ -232,6 +241,7 @@ async function ladder(args: string[]): Promise<void> {
   };
 
   for (let round = 1; round <= rounds; round++) {
+    if (ctl.halted()) { stopped = round - 1; console.log(`Stopped early after round ${stopped} of ${rounds}.`); break; }
     const order = players.map(p => ({ p, key: p.elo + gauss() * JITTER })).sort((x, y) => y.key - x.key).map(x => x.p);
     const matches: { a: Player; z: Player }[] = [];
     for (let i = 0; i < order.length; i += 2) matches.push(rnd() < 0.5 ? { a: order[i], z: order[i + 1] } : { a: order[i + 1], z: order[i] });
@@ -269,11 +279,12 @@ async function ladder(args: string[]): Promise<void> {
     }
     if (round % 100 === 0 && round < rounds) save();
     if (round % CHECK_EVERY === 0 && round < rounds) strategy(round, players, ranked, make, rnd);
+    writeText(ctl.progress, `${progressHead(ctl, round, rounds, 'running', 'rounds')}\nbattles ${battles} (${hits} cached), fusions on the field ${(100 * pop[round - 1]).toFixed(0)}%, in the top 8 ${(100 * top[round - 1]).toFixed(0)}%\n`);
   }
 
   const bestPlayers = players.slice().sort((x, y) => y.elo - x.elo).slice(0, TOP);
   const fieldTest: { player: number; battles: number; wins: number; draws: number }[] = [];
-  if (fieldN > 0) {
+  if (fieldN > 0 && !stopped) {
     console.log(`Testing the top ${TOP} teams against ${fieldN} planned-field teams each.`);
     for (const p of bestPlayers) {
       const mine = p.team.map(u => mons.get(u.id)!);
@@ -285,7 +296,8 @@ async function ladder(args: string[]): Promise<void> {
       fieldTest.push({ player: p.id, battles: fieldN, wins: scores.filter(s => s === 1).length, draws: scores.filter(s => s === 0.5).length });
     }
   }
-  save({ finalTop: bestPlayers.map(p => p.id), fieldTest });
+  save({ finalTop: bestPlayers.map(p => p.id), fieldTest, ...(stopped ? { partial: { rounds: stopped, asked: rounds } } : {}) });
+  writeText(ctl.progress, `${progressHead(ctl, stopped || rounds, rounds, stopped ? 'stopped early' : 'finished', 'rounds')}\n`);
   pool.close();
   console.log(`Done in ${((Date.now() - started) / 60000).toFixed(1)} minutes. Log written to ${outFile}.`);
 }

@@ -1,14 +1,19 @@
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
-import { dither, frame, rect, INK } from '../engine/screen';
+import { dither, mix, rect, INK } from '../engine/screen';
 import { text, textCenter, textRight, textWidth } from '../engine/font';
 import { drawSprite, PEOPLE } from '../engine/sprites';
 import { close, run, type Mode } from './modes';
 import type { Mon, SpriteData } from '../battle/model';
 import { choose } from './dialogue';
 import { HERO, SLOTS, slotInfo } from './state';
+import { refreshMon } from './refresh';
+import { downloadSlot, pickInto } from './saveFile';
 import { drawNight, nightFrame } from './title';
-import { box, DIM, PAPER, PORTRAIT_BG, SEL, WARN } from './ui';
+import { bevel, BOX, panel, DIM, PAPER, PORTRAIT_BG, SEL, WARN } from './ui';
+
+/** A slot's card, with its lead redrawn from the current art. */
+const freshInfo = (n: number) => { const s = slotInfo(n); if (s?.lead) refreshMon(s.lead); return s; };
 
 /** Both screens sit on the title's night scene, dimmed, and come up out of black over their first frames. */
 const FADE = 12;
@@ -19,7 +24,7 @@ const fadeIn = (t: number) => { if (t < FADE) dither(0, 0, 192, 192, INK, 1 - t 
 export class FileSelect implements Mode {
   opaque = true;
   i = 0;
-  info = Array.from({ length: SLOTS }, (_, n) => slotInfo(n + 1));
+  info = Array.from({ length: SLOTS }, (_, n) => freshInfo(n + 1));
   /** Set while asking whether to start over in a slot that holds a save. */
   confirm: { yes: boolean } | null = null;
 
@@ -31,9 +36,34 @@ export class FileSelect implements Mode {
   usable(n: number): boolean { return this.purpose === 'new' || !!this.info[n]; }
 
   t = 0;
+  /** Set while the file menu or the browser's file picker is open. */
+  busy = false;
+  /** A short line after an export or an import, and the frames it stays up. */
+  note = '';
+  noteT = 0;
+
+  /** Export or import for the file under the cursor. Import asks before it replaces a save. */
+  async fileMenu(): Promise<void> {
+    this.busy = true;
+    const n = this.i + 1, has = !!this.info[this.i];
+    const opts = has ? ['Export to a file', 'Import a file', 'Cancel'] : ['Import a file', 'Cancel'];
+    const c = await choose(opts, true, `File ${n}`);
+    const pick = c < 0 ? 'Cancel' : opts[c];
+    if (pick === 'Export to a file') this.note = downloadSlot(n) ? `File ${n} is saved as a .whorl file.` : 'File is empty.';
+    if (pick === 'Import a file' && (!has || await choose(['No', 'Yes'], true, `Replace file ${n}? Its save will be lost.`) === 1)) {
+      const r = await pickInto(n);
+      this.info = Array.from({ length: SLOTS }, (_, k) => freshInfo(k + 1));
+      this.note = r === 'done' ? `The file is in file ${n} now.` : r === 'bad' ? 'That is not a WHORL save.' : '';
+      if (r === 'done') sfx('ok');
+    }
+    this.noteT = this.note ? 150 : 0;
+    this.busy = false;
+  }
 
   update(): void {
     this.t++;
+    if (this.noteT > 0) this.noteT--;
+    if (this.busy) return;
     if (this.confirm) {
       if (input.hit('left') || input.hit('right') || input.hit('up') || input.hit('down')) { this.confirm.yes = !this.confirm.yes; sfx('move'); }
       if (input.hit('back')) { this.confirm = null; sfx('back'); return; }
@@ -42,12 +72,13 @@ export class FileSelect implements Mode {
       }
       return;
     }
-    const step = (d: number) => {
-      for (let k = 1; k <= SLOTS; k++) { const n = (this.i + d * k + SLOTS * 2) % SLOTS; if (this.usable(n)) { this.i = n; sfx('move'); return; } }
-    };
+    // The cursor reaches every file, so an empty one can take an import. Only usable files open.
+    const step = (d: number) => { this.i = (this.i + d + SLOTS) % SLOTS; sfx('move'); };
     if (input.hit('up')) step(-1);
     if (input.hit('down')) step(1);
     if (input.hit('back')) { sfx('back'); close(this, null); return; }
+    if (input.hit('wear')) { sfx('ok'); void this.fileMenu(); return; }
+    if (input.hit('ok') && !this.usable(this.i)) { sfx('bump'); return; }
     if (input.hit('ok') && this.usable(this.i)) {
       if (this.purpose === 'new' && this.info[this.i]) { this.confirm = { yes: false }; sfx('move'); return; }
       sfx('ok');
@@ -62,7 +93,7 @@ export class FileSelect implements Mode {
       // The cards slide in from the right one after another as the screen comes up.
       const x = 8 + Math.max(0, 14 + n * 4 - this.t) ** 2;
       const y = 26 + n * 44, s = this.info[n], on = n === this.i;
-      box(x, y, 176, 38, on ? SEL : this.usable(n) ? DIM : '#3a3442');
+      panel(x, y, 176, 38, on ? SEL : this.usable(n) ? DIM : '#3a3442');
       if (on) rect(x + 1, y + 1, 2, 36, SEL);
       text(`File ${n + 1}`, x + 6, y + 5, on ? SEL : DIM);
       if (!s) { text('Empty', x + 6, y + 18, this.usable(n) ? PAPER : DIM); continue; }
@@ -73,14 +104,16 @@ export class FileSelect implements Mode {
       textRight(`${h}:${String(m).padStart(2, '0')}`, x + 132, y + 5, DIM);
     }
     if (this.confirm) {
-      box(20, 70, 152, 52, WARN);
+      panel(20, 70, 152, 52, WARN);
       textCenter(`Start over in file ${this.i + 1}?`, 96, 78, PAPER);
       textCenter('Its save will be lost.', 96, 89, DIM);
       textCenter('No', 70, 104, this.confirm.yes ? DIM : SEL);
       textCenter('Yes', 122, 104, this.confirm.yes ? SEL : DIM);
       return;
     }
-    textCenter('Z picks. Arrows move. X goes back.', 96, 178, DIM, INK);
+    if (this.noteT > 0) textCenter(this.note, 96, 160, SEL, INK);
+    textCenter('Z picks. Arrows move. X goes back.', 96, 171, DIM, INK);
+    textCenter('C exports or imports a .whorl file.', 96, 181, DIM, INK);
     fadeIn(this.t);
   }
 }
@@ -92,6 +125,8 @@ const PAGES: { label: string; rows: string[] }[] = [
   { label: '123', rows: ['123456789', "0.'-!?&~ ", '()+=*/#% '] },
 ];
 const COLS = 9, CELL_W = 18, CELL_H = 15, GX = 15, GY = 82;
+/** The key under the cursor: a dark wash of gold. */
+const KEY_ON = mix(SEL, BOX, 0.8);
 const BUTTONS = ['page', 'Del', 'Done'] as const;
 
 /** The name screen's letter grid: three pages of keys over a row of page, Del, and Done buttons. */
@@ -121,18 +156,18 @@ export class LetterGrid {
 
   draw(): void {
     const gy = this.gy, by = gy + 3 * CELL_H + 8;
-    box(GX - 6, gy - 6, COLS * CELL_W + 12, 3 * CELL_H + 30, DIM);
+    panel(GX - 6, gy - 6, COLS * CELL_W + 12, 3 * CELL_H + 30, DIM);
     const rows = PAGES[this.page].rows;
     rows.forEach((row, r) => [...row].forEach((ch, c) => {
       const x = GX + c * CELL_W, y = gy + r * CELL_H, on = this.cy === r && this.cx === c;
-      if (on) rect(x - 2, y - 3, CELL_W - 2, CELL_H - 1, '#2e2a3a');
+      if (on) bevel(x - 2, y - 3, CELL_W - 2, CELL_H - 1, KEY_ON, SEL);
       if (ch === ' ') rect(x + 3, y + 6, 6, 1, on ? SEL : DIM);
       else text(ch, x + Math.round((CELL_W - 4 - textWidth(ch)) / 2), y, on ? SEL : PAPER);
     }));
     BUTTONS.forEach((b, k) => {
       const x = GX + k * 3 * CELL_W, on = this.cy === 3 && Math.floor(this.cx / 3) === k;
       const label = b === 'page' ? PAGES[(this.page + 1) % PAGES.length].label : b === 'Done' ? this.doneLabel : b;
-      if (on) rect(x - 2, by - 3, 3 * CELL_W - 4, CELL_H - 1, '#2e2a3a');
+      if (on) bevel(x - 2, by - 3, 3 * CELL_W - 4, CELL_H - 1, KEY_ON, SEL);
       textCenter(label, x + 3 * CELL_W / 2 - 3, by, on ? SEL : b === 'Done' ? PAPER : DIM);
     });
   }
@@ -184,7 +219,7 @@ export class NameEntry implements Mode {
   draw(): void {
     backdrop();
     textCenter(this.title, 96, 10, PAPER, INK);
-    frame(26, 24, 32, 32, PORTRAIT_BG, DIM);
+    panel(26, 24, 32, 32, '#5a5070', { fill: PORTRAIT_BG, glint: false });
     drawSprite(this.sprite, 30, 28, 3);
     // The name field: one slot per letter, with the default name shown faintly while it is empty.
     const fx = 66, fy = 44;

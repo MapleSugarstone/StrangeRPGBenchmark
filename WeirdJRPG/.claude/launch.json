@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "void-pilgrim",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8751"],
+      "port": 8751
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import type { Mon } from '../battle/model';
 import { setUidFloor, SPECIES } from '../data/species';
 import { halveLevel, LEVEL_MAX, xpToNext } from '../data/types';
 import { FORMER_NAMES } from '../data/formernames';
+import { ROSTER_SIZE } from '../net/protocol';
 import type { Machine } from './setting/core';
 
 export type PegKind = 'twig' | 'brass' | 'bone' | 'iron';
@@ -47,6 +48,8 @@ export interface Save {
   /** difficulty: 0 Normal, 1 Challenge, 2 Hard. Older saves have none and play Normal. */
   opts: { music: number; sfx: number; speed: number; difficulty?: number };
   gem: GemSave;
+  /** Online play: the roster by uid in slot order (-1 for an empty slot), the last choice on the Byssus menu, and the tally of matches won and lost. Older saves have none. */
+  online?: { roster: number[]; menu: number; won?: number; lost?: number };
 }
 
 /** The Setting board: sketches found, puzzles solved, best scores, the machine left on each puzzle, and how often Ouro played. */
@@ -77,6 +80,7 @@ export function fresh(): Save {
     flags: {}, register: {}, scales: [], charm: null, pulled: [], fitCount: 0, fits: [], time: 0, stackBest: 0, beaten: {},
     lastTannery: { map: 'home', x: 4, y: 4 }, opts: { music: 0.6, sfx: 0.7, speed: 1 },
     gem: { found: [], solved: [], best: {}, mach: {}, runs: 0, wins: 0 },
+    online: { roster: [], menu: 0, won: 0, lost: 0 },
   };
 }
 
@@ -91,6 +95,13 @@ export function setGame(s: Save): void {
 
 export function save(): void {
   try { localStorage.setItem(keyOf(slot), JSON.stringify(G)); } catch { /* storage may be blocked */ }
+}
+
+/** Gives back every nacre layer on a whorl the player lets go or conjoins, and returns how many came back. */
+export function refundNacre(m: Mon): number {
+  const n = Object.values(m.tan || {}).reduce((s: number, v) => s + (v || 0), 0);
+  if (n) { G.tan += n; m.tan = {}; }
+  return n;
 }
 
 /** Saves from before version 2 hold levels on the old 1 to 100 scale. */
@@ -128,6 +139,30 @@ export function load(n = slot): Save | null {
     renameSave(s);
     return { ...fresh(), ...s, opts: { ...fresh().opts, ...(s.opts || {}) }, gem: { ...fresh().gem, ...(s.gem || {}) } };
   } catch { return null; }
+}
+
+/** The text of a .whorl file for a slot: a header the game checks on import, then the save as it is stored. */
+export function exportText(n: number): string | null {
+  try {
+    const raw = localStorage.getItem(keyOf(n));
+    if (!raw) return null;
+    return JSON.stringify({ whorl: 1, exported: new Date().toISOString(), save: JSON.parse(raw) });
+  } catch { return null; }
+}
+
+/** Reads a .whorl file's text into a slot. A file the game cannot load leaves the slot as it was and gives false. */
+export function importText(n: number, text: string): boolean {
+  let before: string | null = null;
+  try {
+    const doc = JSON.parse(text);
+    const s = doc && typeof doc === 'object' && 'whorl' in doc ? doc.save : doc;
+    if (!s || typeof s !== 'object' || !Array.isArray(s.party) || !Array.isArray(s.rack) || typeof s.flags !== 'object' || typeof s.map !== 'string') return false;
+    before = localStorage.getItem(keyOf(n));
+    localStorage.setItem(keyOf(n), JSON.stringify(s));
+    if (load(n)) return true;
+  } catch { /* a bad file falls through to the restore */ }
+  try { if (before === null) localStorage.removeItem(keyOf(n)); else localStorage.setItem(keyOf(n), before); } catch { /* storage may be blocked */ }
+  return false;
 }
 
 export function hasSave(): boolean {
@@ -202,6 +237,23 @@ export function fittingUnlocked(): boolean { return !!G.flags.fitting; }
 export function notionsUnlocked(): boolean { return !!G.flags.notions; }
 export function wearingUnlocked(): boolean { return !!G.flags.wearing; }
 export function charmsUnlocked(): boolean { return !!G.flags.charms; }
+/** Online play opens at the grotto counter once the player owns a full roster. */
+export function byssusUnlocked(): boolean { return [...G.party, ...G.rack].filter(Boolean).length >= ROSTER_SIZE; }
+
+const count = (n: unknown): number => (typeof n === 'number' && Number.isFinite(n) && n > 0 ? Math.floor(n) : 0);
+
+/** The online matches won and lost, which is all online play keeps. */
+export function onlineTally(): { won: number; lost: number } {
+  return { won: count(G.online?.won), lost: count(G.online?.lost) };
+}
+
+/** Adds one finished online match to the tally. */
+export function addToTally(won: boolean): void {
+  const o = (G.online ??= { roster: [], menu: 0 });
+  const t = onlineTally();
+  o.won = t.won + (won ? 1 : 0);
+  o.lost = t.lost + (won ? 0 : 1);
+}
 
 export function addMon(m: Mon): 'party' | 'rack' {
   owned(m.kind);

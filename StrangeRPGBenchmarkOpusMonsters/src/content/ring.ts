@@ -42,10 +42,22 @@ Object.assign(KEY_TEXT, {
 /** The eight things that fell off Holm's back, in the order Ouro can reach them. */
 export const LORE = ['lore_kettle', 'lore_door', 'lore_window', 'lore_chair', 'lore_vane', 'lore_tub', 'lore_step', 'lore_gate'];
 
+/** What each key item opens or where it goes, said once when Ouro gets it. */
+const KEY_FOR: Record<string, string> = {
+  prisingiron: 'It prises crusts of old shell off rocks and doorways.',
+  stilts: 'They wade shallows, though not deep water.',
+  jingle: 'It wakes a big sleeper lying across a path.',
+  haul: 'It drags the big haul stones.',
+  chart: 'Pick it in the Bag to read the bay before the dry.',
+  whelk: 'A crab looking for a home might want it.',
+};
+for (const k of LORE) KEY_FOR[k] = 'It goes back to the Islander in Cockle Cove.';
+
 export async function giveKeyItem(k: string, line?: string): Promise<void> {
   if (!G.keys.includes(k)) G.keys.push(k);
   sfx('level');
-  await notice(line || `Ouro gets ${KEY_NAMES[k] ? KEY_NAMES[k].replace(/^The /, 'the ') : k}.`);
+  const said = line || `Ouro gets ${KEY_NAMES[k] ? KEY_NAMES[k].replace(/^The /, 'the ') : k}.`;
+  await notice(KEY_FOR[k] ? `${said} ${KEY_FOR[k]}` : said);
   save();
 }
 

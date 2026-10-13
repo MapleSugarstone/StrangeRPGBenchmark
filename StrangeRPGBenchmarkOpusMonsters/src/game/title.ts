@@ -4,7 +4,7 @@ import { text, textCenter, textWidth } from '../engine/font';
 import type { SpriteData } from '../battle/model';
 import { drawSprite, PEOPLE } from '../engine/sprites';
 import { dither, mix, rect, INK } from '../engine/screen';
-import { PAPER, SEL } from './ui';
+import { PAPER, SEL, SHEEN } from './ui';
 
 const hash = (n: number) => { const s = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
 
@@ -290,8 +290,18 @@ function cursorShell(x: number, y: number, t: number, flip: boolean): void {
 /** The menu items under the scene. `show` fades them in from 0 to 1. `flash` blinks the chosen item while it is picked. */
 export function drawMenu(opts: string[], sel: number, t: number, show: number, flash: boolean): void {
   if (show <= 0) return;
-  const top = 160 - (opts.length - 1) * 6;
-  dither(40, top - 5, 112, opts.length * 12 + 8, INK, 0.5 * show);
+  // The plate's bottom edge stays 1 pixel above the hint line at 184, however many choices there are.
+  const top = Math.min(160 - (opts.length - 1) * 6, 180 - opts.length * 12);
+  // A dark plate with a pearl edge top and bottom, the edge's lit runs creeping through the nacre sheens, and a pearl at
+  // each corner. It comes up through the dither as the menu fades in.
+  const px0 = 40, py0 = top - 5, pw = 112, ph = opts.length * 12 + 8, shift = Math.floor(t / 10);
+  dither(px0, py0, pw, ph, INK, 0.625 * show);
+  for (let i = 2; i < pw - 2; i++) {
+    const k = Math.floor((i + shift) / 7) % 6;
+    dither(px0 + i, py0, 1, 1, k < 3 ? SHEEN[k] : '#c8b8d8', show);
+    dither(px0 + i, py0 + ph - 1, 1, 1, '#5e4e70', show);
+  }
+  for (const [cx, cy] of [[px0, py0], [px0 + pw - 2, py0], [px0, py0 + ph - 2], [px0 + pw - 2, py0 + ph - 2]]) { dither(cx, cy, 2, 2, '#c8b8d8', show); dither(cx, cy, 1, 1, '#ffffff', show); }
   opts.forEach((o, n) => {
     const y = top + n * 12, on = n === sel;
     if (on && flash && Math.floor(t / 3) % 2) return;

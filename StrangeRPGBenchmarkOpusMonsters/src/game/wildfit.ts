@@ -12,7 +12,7 @@ export function fitted(a: string, b: string, level: number, moves: string[], pas
   if (moves.length !== 4 || fromA !== 2 || fromB !== 2) throw new Error(`fitting ${a}+${b} must keep two moves from each parent`);
   const types = [...new Set([...A.types, ...B.types])].slice(0, 2);
   const sprite = { px: shapeOf(A.sprite, B.sprite, shape), c: paletteOf(A.sprite, B.sprite, pal) };
-  return makeFit(A, B, { moves, passives, types: types as any, basic: A.basic, retune: null, sprite, name: name || nameOptions(A.name, B.name)[0] }, 0);
+  return makeFit(A, B, { moves, passives, types: types as any, basic: A.basic, retune: null, sprite, name: name || nameOptions(A.name, B.name)[0], look: { shape: shape ? 1 : 0, palette: pal } }, 0);
 }
 
 /** A random fitting with two moves from each parent and exactly one crest when either parent has one. */
@@ -35,8 +35,9 @@ export function randomFit(rnd: () => number, a: string, b: string, level: number
   const tos = typeOptions(A, B);
   const types = tos[Math.floor(rnd() * tos.length)];
   const names = nameOptions(A.name, B.name);
-  const sprite = { px: shapeOf(A.sprite, B.sprite, Math.floor(rnd() * 4)), c: paletteOf(A.sprite, B.sprite, Math.floor(rnd() * 3)) };
-  return makeFit(A, B, { moves, passives, types, basic: rnd() < 0.5 ? A.basic : B.basic, retune: null, sprite, name: names[Math.floor(rnd() * names.length)] || A.name }, 0);
+  const shape = Math.floor(rnd() * 4), palette = Math.floor(rnd() * 3);
+  const sprite = { px: shapeOf(A.sprite, B.sprite, shape), c: paletteOf(A.sprite, B.sprite, palette) };
+  return makeFit(A, B, { moves, passives, types, basic: rnd() < 0.5 ? A.basic : B.basic, retune: null, sprite, name: names[Math.floor(rnd() * names.length)] || A.name, look: { shape: shape ? 1 : 0, palette } }, 0);
 }
 
 /** Notions a player would pick for a whorl whose damage comes from this stat. */

@@ -30,6 +30,7 @@ export function credits(): Promise<void> {
   add(`Kinds in the Register: ${pegged} of ${WILD_KINDS.length}`, PAPER);
   add(`Stays Ouro pulled: ${vellumPulls()}`, PAPER);
   add(`Wins against Tack: ${G.flags.tackWins || 0}`, PAPER);
+  add(`Wins for Tack: ${G.flags.tackBeat || 0}`, PAPER);
   const h = Math.floor(G.time / 3600), mm = Math.floor((G.time % 3600) / 60);
   add(`Time on the Lip: ${h}:${String(mm).padStart(2, '0')}`, PAPER);
   add(''); add(''); add('');

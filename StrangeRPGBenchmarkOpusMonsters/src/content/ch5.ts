@@ -53,7 +53,7 @@ defMap({
   zone: { kinds: [['crane', 3], ['turbine', 3], ['furnace', 3], ['orrery', 2], ['perigee', 1], ['fulgur', 2], ['piston', 2]], lv: [26, 30], n: 17, area: 'scrap' },
   npcs: [
     { id: 'tinker', x: 8, y: 14, sprite: 'tanner', name: 'Tinker', dir: 0, trainer: { name: 'Tinker', team: [['piston', 27], ['orrery', 27]], intro: 'These machines were the Riders\'. They turned ages ago. The casts are still on shift.', defeat: 'Huh. They\'re still working. I\'m not.', sight: 3 } },
-    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { name: 'Coaler', team: [['furnace', 28], ['crane', 27]], intro: 'A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.', defeat: 'Great. Cold sleep tonight.', sight: 3 } },
+    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { nacre: 1, name: 'Coaler', team: [['furnace', 28], ['crane', 27]], intro: 'A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.', defeat: 'Great. Cold sleep tonight.', sight: 3 } },
     { id: 'peel5', x: 30, y: 14, sprite: 'peeler', name: 'Hermit', dir: 0, trainer: { name: 'Hermit', team: [['gore', 28], ['quarry', 28]], intro: 'Pylon\'s next. She says that one\'ll be hard. She\'s usually right about hard.', defeat: 'It\'s hard.', sight: 3 } },
     { id: 'watcher', x: 38, y: 16, sprite: 'elder', name: 'Watcher', dir: 2, trainer: { name: 'Watcher', team: [['perigee', 28], ['fulgur', 28], ['turbine', 29]], intro: 'See that? Satellite\'s cast. Fell in the winter. We call it shellfall. I said it first.', defeat: 'The rest of it\'s still up there. Going round with no shell on. Brr.', sight: 4 } },
     { id: 'gatekeeper_n', x: 25, y: 28, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateN' },
@@ -149,7 +149,7 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }, { x: 7, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }],
   npcs: [
     { id: 'ohm', x: 6, y: 1, sprite: 'ohm', name: 'Ohm', talk: 'ohm' },
-    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah okay. Me neither, now.', team: () => [withNotion('piston', 27, 'edgecharm'), withNotion('crane', 27, 'thornvest')] } },
+    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah okay. Me neither, now.', team: () => [withNotion('piston', 27, 'edgecharm'), withNotion('crane', 27, 'thornvest')] } },
     { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Put a notion on the right whorl and it\'s a whole other whorl. Ohm taught me that. Didn\'t say a word.', defeat: 'Ohm\'s gonna be quiet about this. Like, extra quiet.', team: () => [withNotion('furnace', 28, 'embercoat'), withNotion('turbine', 28, 'waxseal')] } },
   ],
 });

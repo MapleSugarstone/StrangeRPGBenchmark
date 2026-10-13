@@ -48,7 +48,7 @@ export function faded(w: number, h: number, x: number, y: number, level: number,
     return;
   }
   if (!fadeCv || fadeCv.width < w || fadeCv.height < h) { fadeCv = document.createElement('canvas'); fadeCv.width = Math.max(w, 64); fadeCv.height = Math.max(h, 64); }
-  const g = fadeCv.getContext('2d')!;
+  const g = fadeCv.getContext('2d', { willReadFrequently: true })!;
   g.imageSmoothingEnabled = false;
   g.clearRect(0, 0, fadeCv.width, fadeCv.height);
   ctx = g;
@@ -58,7 +58,7 @@ export function faded(w: number, h: number, x: number, y: number, level: number,
   if (!mask) {
     const cv = document.createElement('canvas');
     cv.width = 4; cv.height = 4;
-    const m = cv.getContext('2d')!;
+    const m = cv.getContext('2d', { willReadFrequently: true })!;
     for (let k = 0; k < 16; k++) if (BAYER[k] < steps) m.fillRect(k & 3, k >> 2, 1, 1);
     mask = g.createPattern(cv, 'repeat')!;
     fadeMasks.set(steps, mask);
@@ -116,7 +116,7 @@ function bayerPattern(c: string, steps: number): CanvasPattern {
   if (!p) {
     const cv = document.createElement('canvas');
     cv.width = 4; cv.height = 4;
-    const g = cv.getContext('2d')!;
+    const g = cv.getContext('2d', { willReadFrequently: true })!;
     g.fillStyle = c;
     for (let k = 0; k < 16; k++) if (BAYER[k] < steps) g.fillRect(k & 3, k >> 2, 1, 1);
     p = main.createPattern(cv, 'repeat')!;

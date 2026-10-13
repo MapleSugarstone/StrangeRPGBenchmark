@@ -78,6 +78,11 @@ const BITS: Record<string, string[]> = {
   setting: ['.#####.', '#o#o#o#', '#######', '.#ooo#.', '..#o#..', '...#...', '.......'],
   practice: ['#.....#', '.#...#.', '..#.#..', '...#...', '..#.#..', '##...##', '##...##'],
   strand: ['.......', '.##..##', '#..##..', '.......', '.##..##', '#..##..', '.......'],
+  byssus: ['.#####.', '#ooooo#', '#ooooo#', '.#ooo#.', '..#o#..', '.#.#.#.', '#..#..#'],
+  k_dash: ['#......', '.#..#..', '..#..#.', '...#..#', '..#..#.', '.#..#..', '#......'],
+  k_projectile: ['.......', '.....#.', '....#o#', '##.#ooo', '....#o#', '.....#.', '.......'],
+  k_spell: ['...#...', '..#.#..', '.#.o.#.', '#.ooo.#', '.#.o.#.', '..#.#..', '...#...'],
+  k_channel: ['.......', '.......', '#.#.#.#', '.#o#o#.', '#.#.#.#', '.......', '.......'],
   team: ['.##.##.', '#oo#oo#', '#oo#oo#', '.##.##.', '..###..', '.#ooo#.', '..###..'],
   horns: ['.......', '#......', '##...#.', '###.##.', '######.', '###.##.', '##...#.'],
   key: ['.##....', '#..#...', '#..####', '.##..#.', '.....#.', '.......', '.......'],
@@ -92,7 +97,7 @@ const BITS: Record<string, string[]> = {
 /** Each chapter icon's own color. */
 const TINT: Record<string, string> = {
   turns: '#c8a040', moves: '#d07a3a', notions: '#3c5a92', nacre: '#c8b8d8', conjoin: '#a8423a', levels: '#5a8a4a', wear: '#5a8ad0',
-  bag: '#b07a4a', cowries: '#e8d0a8', charms: '#e8e0f0', setting: '#d07a9a', team: '#7ab0d8', pearl: '#e8e0f0', bottle: '#5ab08a',
+  bag: '#b07a4a', cowries: '#e8d0a8', charms: '#e8e0f0', setting: '#d07a9a', team: '#7ab0d8', pearl: '#e8e0f0', bottle: '#5ab08a', byssus: '#6a78b8',
 };
 
 function bits(name: string, x: number, y: number, ink: string): void {
@@ -132,6 +137,7 @@ function rowIcon(icon: string, x: number, y: number, b: Book): void {
   if (kind === 'mark') { markIcon(x + 1, y + 1, b.RED, 1); return; }
   if (kind === 'horn') { hornIn(x, y + 1, ({ twig: '#a08060', brass: '#b08030', bone: '#8c7d66', iron: '#a8423a' } as Record<string, string>)[arg] || b.INK); return; }
   if (kind === 'pocket') { bits(['horns', 'notions', 'key', 'bottle', 'book', 'sketch'][Number(arg)] || 'dot', x, y, b.INK); return; }
+  if (kind === 'kind') { bits('k_' + arg, x, y, b.INK); return; }
   bits(kind, x, y, b.INK);
 }
 
@@ -173,7 +179,7 @@ function drawPic(id: string, x: number, y: number, b: Book): void {
     // The lead's stats as a battle builds them, against the most a plain whorl reaches at the top level.
     const lead = G.party[0];
     const top = statsAt(LEVEL_MAX) as unknown as Record<string, number>;
-    const s = (lead ? makeFighter(lead, 0, 0, false).st : statsAt(25)) as unknown as Record<string, number>;
+    const s = (lead ? makeFighter(lead, 0, 0).st : statsAt(25)) as unknown as Record<string, number>;
     const head = lead ? `${lead.name}, level ${lead.level}` : 'Level 25';
     text(textWidth(head) <= COL ? head : lead!.name, x, y, b.PENCIL);
     ['hp', 'atk', 'def', 'res', 'mgk', 'agi', 'cha'].forEach((k, n) => {
@@ -318,8 +324,8 @@ export function drawSheet(sh: Sheet, x: number, top: number, bottom: number, scr
 }
 
 /** Chapters on the left page of the contents, under its heading. The rest go on the right page. */
-export const CONTENTS_LEFT = 10;
-const ROW_H = 12;
+export const CONTENTS_LEFT = 11;
+const ROW_H = 11;
 
 /** The contents: every chapter, with ??? for any not met yet and a dot by any not read yet. */
 export function drawContents(sel: number, lx: number, rx: number, top: number, b: Book): void {

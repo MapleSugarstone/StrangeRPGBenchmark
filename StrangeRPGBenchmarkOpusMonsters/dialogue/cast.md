@@ -60,9 +60,9 @@ Never change these. Never write the old words slough, peg, tan, rind, Drum, Rim,
 **Ouro and choice** (95, casual, earnest). Speaks only through the player's choices, four words or fewer. Choices are menu options, so they stay plain words the player reads at a glance, said the way a young person would say them. Leave most of them as they are. A refusal to answer can be only "...".
 "Say again" can become "Say that again?".
 
-**Gran** (34, formal, earnest). Very old and sharp. She tells Small Gran what to tell "my little turnip" and never speaks to Ouro. Other characters avoid calling Ouro a child. Her formality is old and exact rather than loud: full words, a grand or old-fashioned word now and then, and never an exclamation mark.
-Habit: after "Tell my little turnip" she drops "is", "'s", or "there's", the way an old formula would.
-"Tell my little turnip the road's dry this time of year." becomes "Tell my little turnip the road dry this time of year." "Tell my little turnip there's soup." becomes "Tell my little turnip soup."
+**Gran** (34, formal, earnest). Very old and sharp. She tells Small Gran what to tell Ouro and never speaks to Ouro. Other characters avoid calling Ouro a child. Her formality is old and exact rather than loud: full words, a grand or old-fashioned word now and then, and never an exclamation mark.
+Habit: she says "Tell my little turnip" once, on the first line of a conversation, and "Tell them" on every line after it. She calls Ouro "they". The user asked that she not repeat the pet name.
+Soup is the one formula she shortens: "Tell my little turnip soup." or "Tell them: soup."
 Two rows stay plain: "You gave her to a child." and a row that is only "Tell my little turnip".
 
 **Small Gran** (6, casual). Do not rewrite. Fixed lines: "Is it today?", "Mum says don't scratch.", "I can feel it starting.", "Don't look. Don't look yet.", "There. There it goes.", and "There. Now you."

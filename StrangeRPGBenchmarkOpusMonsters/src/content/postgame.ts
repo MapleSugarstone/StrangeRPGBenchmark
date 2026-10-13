@@ -1,7 +1,7 @@
 import { defMap, defScript, MAPS } from '../game/world';
 import { G, flag, setFlag, save } from '../game/state';
 import { battle } from '../game/battleView';
-import { act, choose, face, field, fightWild, giveMon, goal, hint, liftOff, mon, narr, offstage, pan, panBack, say, shake, sound, wait, walkTo } from '../game/api';
+import { act, choose, face, field, fightWild, giveMon, goal, hint, liftOff, mon, narr, nearPlayer, offstage, pan, panBack, say, shake, sound, wait, walkTo } from '../game/api';
 import { music } from '../engine/music';
 import { PEOPLE } from '../engine/sprites';
 import { WILD_KINDS } from '../data/species';
@@ -144,7 +144,7 @@ defScript('oldRindEnter', async () => {
 });
 
 defScript('mundane', async () => {
-  const r = await fightWild(mon('mundane', 68), { canRun: true, bossHp: 2.4, ai: 'champion', area: 'wrinkle' });
+  const r = await fightWild(mon('mundane', nearPlayer(-8)), { canRun: true, bossHp: 2.4, ai: 'champion', area: 'wrinkle' });
   if (r.pegged.length) {
     setFlag('mundaneCaught');
     await giveMon(r.pegged[0]);
