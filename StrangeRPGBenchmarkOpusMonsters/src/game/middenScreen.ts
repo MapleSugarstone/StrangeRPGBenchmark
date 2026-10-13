@@ -5,17 +5,20 @@ import { NOTIONS } from '../battle/registry';
 import { text, textCenter, textRight, textWidth } from '../engine/font';
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
-import { dither, mix, rect, INK } from '../engine/screen';
+import { ctx, dither, mix, rect, INK } from '../engine/screen';
 import { drawSprite } from '../engine/sprites';
 import { renameMon } from './files';
 import { monPage, statParts } from './menus';
 import { close, run, type Mode } from './modes';
+import { plate } from './register';
 import { G, levelOf, refundNacre, save } from './state';
-import { bevel, DIM, GOOD, NERVE, PAPER, PORTRAIT_BG, SEL, miniSigil, typeBadge } from './ui';
+import { bevel, DIM, GOOD, HINT, NERVE, PAPER, PORTRAIT_BG, SEL, miniSigil, typeBadge } from './ui';
 
 const BG = '#17151d', TEAM_C = '#7ab0d8', RACK_C = '#c8a060';
 const ROW = 13, LIST_Y = 38, ROWS = 6, TEAM_MAX = 4;
 const COL_X = [2, 98], COL_W = 92;
+/** Where the summary's stat columns start. The name, level, and types keep left of it. */
+const STAT_X = 107;
 
 /** The column and rows the cursor was on, kept between visits. */
 const memory = { col: 0, team: 0, rack: 0, scroll: 0 };
@@ -188,37 +191,42 @@ class MiddenMode implements Mode {
     textRight(fit(head[0], 120), 184, 8, head[1]);
     this.drawColumn(0);
     this.drawColumn(1);
-    // The summary: the picked whorl large, its level, types, held notion, and stats. The actions and the farewell take
-    // its place while they are open, so nothing lies on top of the lists.
+    // The summary: the picked whorl lit large, its name, level, and types down the left, its stats on the right, then its
+    // notion and the keys. The actions and the farewell take its place while they are open, so nothing lies on top of the lists.
     const m = this.picked, py = 132;
     bevel(2, py - 4, 188, 60, '#1e1b26', this.sub.kind === 'acts' || this.sub.kind === 'letgo' ? SEL : memory.col === 0 ? TEAM_C : RACK_C);
     if (m && (this.sub.kind === 'acts' || this.sub.kind === 'letgo')) this.drawSub(m, py);
     else if (m) {
-      bevel(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
-      drawSprite(m.sprite, 8, py + 2, 3);
-      text(fit(m.name, 66), 38, py, SEL);
-      text(`Level ${levelOf(m)}`, 38, py + 10, PAPER);
-      let tx = 38;
-      for (const t of m.types) tx += typeBadge(t, tx, py + 19);
-      const n = m.notion ? NOTIONS[m.notion] : null;
-      text(n ? fit(`Holds ${n.name}`, 146) : 'Holds no notion', 8, py + 34, n ? NERVE : DIM);
-      const parts = statParts(m).filter(p => p.k !== 'CHA');
-      parts.forEach((p, j) => {
-        const cx = 117 + (j % 2) * 36, cy = py + (j >> 1) * 9;
+      const lv = levelOf(m);
+      this.portrait(m, py);
+      text(fit(m.name, STAT_X - 42), 38, py, SEL);
+      text(`Level ${lv}`, 38, py + 9, PAPER);
+      // One type to a row, so the widest pair never reaches the stats.
+      m.types.forEach((t, j) => typeBadge(t, 38, py + 17 + j * 9));
+      // Two columns wide enough for a three-letter name and a three-digit value.
+      statParts(m, lv).filter(p => p.k !== 'CHA').forEach((p, j) => {
+        const cx = STAT_X + (j % 2) * 42, cy = py + (j >> 1) * 9;
         text(p.k, cx, cy, DIM);
-        textRight(String(p.total), cx + 31, cy, p.held || p.nacre ? GOOD : PAPER);
+        textRight(String(p.total), cx + 37, cy, p.held || p.nacre ? GOOD : PAPER);
       });
-      text('Z: options', 8, py + 44, '#6a6478');
-      textRight(memory.col === 0 ? 'C: to the Midden' : G.party.length >= TEAM_MAX ? 'C: swap in' : 'C: to the team', 186, py + 44, '#6a6478');
+      const n = m.notion ? NOTIONS[m.notion] : null;
+      text(n ? fit(`Holds ${n.name}`, 178) : 'Holds no notion', 8, py + 36, n ? NERVE : DIM);
+      text('Z: options', 8, py + 45, HINT);
+      textRight(memory.col === 0 ? 'C: to the Midden' : G.party.length >= TEAM_MAX ? 'C: swap in' : 'C: to the team', 186, py + 45, HINT);
     }
     if (this.t < 10) dither(0, 0, 192, 192, INK, 1 - this.t / 10);
+  }
+
+  /** The picked whorl lit large in its frame, as the Nacre screen shows it. */
+  portrait(m: Mon, py: number): void {
+    bevel(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
+    ctx.drawImage(plate(m.sprite, 3, true), 8, py + 2);
   }
 
   /** The actions or the farewell, in the summary panel beside the picked whorl's picture. */
   drawSub(m: Mon, py: number): void {
     const sub = this.sub;
-    bevel(6, py, 28, 28, PORTRAIT_BG, '#3a3442');
-    drawSprite(m.sprite, 8, py + 2, 3);
+    this.portrait(m, py);
     text(fit(m.name, 140), 40, py, SEL);
     if (sub.kind === 'acts') {
       sub.acts.forEach((a, k) => text(a, 52, py + 12 + k * 10, k === sub.i ? SEL : PAPER));

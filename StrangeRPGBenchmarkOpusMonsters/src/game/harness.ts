@@ -14,6 +14,7 @@ import { startMenu } from './menus';
 import { fitterMenu } from './fitter';
 import { practice } from './practice';
 import { FileSelect, NameEntry } from './files';
+import { middenScreen } from './middenScreen';
 import { run } from './modes';
 import './uicheck';
 import './onlinecheck';
@@ -114,8 +115,9 @@ export const harness = {
     for (const k of kinds) G.register[k] = 2;
     field.load(map, x, y, 0);
   },
-  /** Opens a screen directly for a look after `setup`: the Conjoiner, Practice, the file screen, or the name screen. */
-  open(which: 'conjoiner' | 'practice' | 'files' | 'name'): void {
+  /** Opens a screen directly for a look after `setup`: the Conjoiner, Practice, the file screen, the name screen, or the Midden. */
+  open(which: 'conjoiner' | 'practice' | 'files' | 'name' | 'midden'): void {
+    if (which === 'midden') void middenScreen();
     if (which === 'conjoiner') void fitterMenu();
     if (which === 'practice') void practice();
     if (which === 'files') void run(new FileSelect('new'));

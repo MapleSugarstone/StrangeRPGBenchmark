@@ -12,7 +12,7 @@ import { sfx, setSfxVolume } from '../engine/audio';
 import { music } from '../engine/music';
 import { close, run, type Mode } from './modes';
 import { bevel, cursor, DIM, GOOD, HINT, motes, NERVE, PAPER, panel, PEARL_EDGE, PORTRAIT_BG, rowBar, SEL, sigil, statChart, typeBadge, WARN, BADC } from './ui';
-import { G, HERO, HORN_NAME, HORN_PRICE, DIFFICULTY_NAMES, DIFFICULTY_TEXT, charmsUnlocked, levelOf, notionsUnlocked, save, slotNow } from './state';
+import { G, HERO, HORN_NAME, HORN_PRICE, DIFFICULTY_NAMES, DIFFICULTY_TEXT, charmsUnlocked, levelOf, notionsUnlocked, save, scaleNow, slotNow } from './state';
 import { FIT_STAT, HORN_LINE, moveKinds, moveText, TAN_PER_STAT, TAN_TOTAL, tanBonus, tanPerLayer, tanText } from '../battle/engine';
 import { choose, say } from './dialogue';
 import { downloadSlot } from './saveFile';
@@ -120,6 +120,8 @@ const CHART_X = 128, CHART_Y = 49;
  */
 export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}): Promise<void> {
   let tab = 0, view = 0, scroll = 0, tick = 0;
+  // Your own whorl shows the level and experience it fights at where Ouro is, as the lists do. A practice copy keeps its own.
+  const own = G.party.includes(m) || G.rack.includes(m), track = own && scaleNow.strand && m.strand ? m.strand : m, lv = track.level;
   const rowsOf = (): PageRow[] => {
     const out: PageRow[] = [];
     let y = 0;
@@ -149,7 +151,7 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
         para(NOTIONS[m.notion].text, 16, DIM);
       }
     } else {
-      const parts = statParts(m);
+      const parts = statParts(m, lv);
       const w1 = textWidth('Chart'), w2 = textWidth('Breakdown');
       out.push({ y, s: 'Chart', x: 8, c: view === 0 ? SEL : DIM, cols: [{ s: 'Breakdown', rx: 20 + w1 + w2, c: view === 1 ? SEL : DIM }], right: 'L/R', rc: '#6a6478', ul: view === 0 ? [8, w1] : [20 + w1, w2] });
       y += 12;
@@ -162,7 +164,7 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
     }
     if (tab === 2 && view === 1) {
       // A table: each stat's base for the level, then what the held notion, nacre, and the seam change, then the total in battle.
-      const parts = statParts(m);
+      const parts = statParts(m, lv);
       const seamCol = !!m.fitted;
       const X = seamCol ? { base: 52, held: 80, nacre: 114, seam: 147, total: 184 } : { base: 66, held: 104, nacre: 142, seam: 0, total: 184 };
       const signed = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `${v}` : '');
@@ -192,10 +194,10 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       const used = Object.values((m.tan as Record<string, number> | undefined) || {}).reduce((a, v) => a + (v || 0), 0);
       out.push({ y, s: `Nacre ${used} of ${TAN_TOTAL}`, x: 8, c: used ? GOOD : DIM });
       y += 9;
-      const gains = statParts(m).filter(p => p.nacre > 0).map(p => `+${p.nacre} ${p.k}`);
+      const gains = statParts(m, lv).filter(p => p.nacre > 0).map(p => `+${p.nacre} ${p.k}`);
       if (gains.length) { para(`It adds ${gains.join(', ')}.`, 16, DIM); y += 3; }
-      const per = tanPerLayer(m.level);
-      para(`Each layer adds ${tanText(per.stat)} to one stat or ${tanText(per.hp)} to HP at level ${m.level}, up to ${TAN_PER_STAT} layers in one stat.`, 16, DIM);
+      const per = tanPerLayer(lv);
+      para(`Each layer adds ${tanText(per.stat)} to one stat or ${tanText(per.hp)} to HP at level ${lv}, up to ${TAN_PER_STAT} layers in one stat.`, 16, DIM);
       if (m.fitted) { y += 3; para(`The seam takes ${Math.round((1 - FIT_STAT) * 100)}% from every stat.`, 8, DIM); }
       if (m.starborn) { y += 3; out.push({ y, s: 'Starborn', x: 8, c: STARLIGHT }); y += 9; para('About one wild whorl in four hundred comes out in night-sky colors, and glitters.', 16, DIM); }
       y += 6;
@@ -228,13 +230,18 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       text(m.name, 48, 8, SEL);
       if (m.starborn) starMark(50 + textWidth(m.name), 9, tick);
       tick++;
-      textRight(`Lv ${m.level}`, 184, 8, PAPER);
+      textRight(`Lv ${lv}`, 184, 8, PAPER);
       let tx = 48;
       for (const t of m.types) tx = typeBadge(t as Type, tx, 18);
-      text(m.basic === 'P' ? 'Physical attacks' : 'Magic attacks', 48, 30, DIM);
+      // The attack kind and the experience count share a row with a word's gap between them. A long count drops "xp", and a
+      // longer one shortens the attack kind.
+      const kind = m.basic === 'P' ? 'Physical' : 'Magic', need = xpToNext(lv), xp = `${track.xp}/${need}`;
+      const [label, count] = opts.noXp ? [`${kind} attacks`, '']
+        : [[`${kind} attacks`, `${xp} xp`], [`${kind} attacks`, xp], [kind, `${xp} xp`]].find(([l, c]) => textWidth(l) + textWidth(c) <= 128) ?? [kind, xp];
+      text(label, 48, 30, DIM);
       if (!opts.noXp) {
-        const need = xpToNext(m.level), fw = Math.round(136 * Math.min(1, m.xp / Math.max(1, need)));
-        textRight(`${m.xp}/${need} xp`, 184, 30, DIM);
+        const fw = Math.round(136 * Math.min(1, track.xp / Math.max(1, need)));
+        textRight(count, 184, 30, DIM);
         // The experience bar as a groove pressed into the card, filled with a lit strip.
         rect(48, 39, 136, 1, '#0f0d14'); rect(48, 40, 136, 2, '#262230');
         if (fw > 0) { rect(48, 40, fw, 2, GOOD); rect(48, 40, fw, 1, '#b8f0a8'); }
@@ -261,11 +268,11 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       }
       if (tab === 2 && view === 0) {
         // The chart scrolls with the page and is cut off at its top and bottom edges.
-        const parts = statParts(m);
+        const parts = statParts(m, lv);
         ctx.save();
         ctx.beginPath(); ctx.rect(0, TOP - 1, 192, BOTTOM - TOP + 1); ctx.clip();
         // The chart shows the kind's shape: each stat against the even spread at this level.
-        const even = statsAt(m.level) as unknown as Record<string, number>;
+        const even = statsAt(lv) as unknown as Record<string, number>;
         statChart(CHART_X, TOP + CHART_Y - scroll, 24, parts.map(p => p.total / Math.max(1, even[p.k.toLowerCase()])), parts.map(p => p.k), TYPE_COLOR[m.types[0] as Type], parts.map(p => p.nacre > 0 || p.held > 0));
         ctx.restore();
       }
