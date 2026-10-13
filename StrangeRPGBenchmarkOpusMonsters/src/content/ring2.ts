@@ -50,11 +50,11 @@ defMap({
     { x: 30, y: 22, to: 'route2', tx: 30, ty: 1, dir: 0 },
     { x: 44, y: 22, to: 'route2', tx: 44, ty: 1, dir: 0 },
   ],
-  zone: { kinds: kinds([['scree', 3], ['bore', 3], ['carrion', 2], ['fiddler', 2], ['fata', 1]]), lv: [9, 13], n: 10, area: 'weed' },
+  zone: { kinds: kinds([['scree', 3], ['bore', 3], ['carrion', 2], ['fiddler', 2], ['fata', 1]]), lv: [5, 7], n: 10, area: 'weed' },
   npcs: [
-    { id: 'hwsleeper', x: 22, y: 7, sprite: 'stone', mon: 'bore', name: 'Vuoksho', sleeper: { kind: 'bore', lv: 24, flag: 'sl_highwater' } },
+    { id: 'hwsleeper', x: 22, y: 7, sprite: 'stone', mon: 'bore', name: 'Vuoksho', sleeper: { kind: 'bore', lv: 12, flag: 'sl_highwater' } },
     { id: 'tideline', x: 12, y: 9, sprite: 'elder', name: 'Tide-liner', dir: 0, lines: ['Highest tide ever came up to this line. I put a stick in it. Stick\'s still here. Tide isn\'t, is it.'] },
-    { id: 'hwtrainer', x: 28, y: 11, sprite: 'villager2', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['fiddler', 12], ['carrion', 12]], intro: 'Everything the sea ever threw up is along this line. I\'ve combed it. Twice. Want to see?', defeat: 'Third comb tomorrow, then.', sight: 3 } },
+    { id: 'hwtrainer', x: 28, y: 11, sprite: 'villager2', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['fiddler', 6], ['carrion', 6]], intro: 'Everything the sea ever threw up is along this line. I\'ve combed it. Twice. Want to see?', defeat: 'Third comb tomorrow, then.', sight: 3 } },
   ],
   spots: [
     stash('hw_cove', 22, 3, 'In the side cove, in a nest of old weed, a tide jar someone corked and forgot.', { notions: [['tidejar', 1]] }),

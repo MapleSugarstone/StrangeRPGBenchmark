@@ -139,12 +139,12 @@ defMap({
     { x: 30, y: 0, to: 'bole', tx: 1, ty: 30, dir: 2 },
     { x: 43, y: 13, to: 'route4', tx: 1, ty: 24, dir: 1 },
   ],
-  zone: { kinds: kinds([['thicket', 3], ['undertow', 3], ['hemlock', 2], ['umbra', 1], ['skep', 2]]), lv: [20, 25], n: 10, area: 'kelp' },
+  zone: { kinds: kinds([['thicket', 3], ['undertow', 3], ['hemlock', 2], ['umbra', 1], ['skep', 2]]), lv: [10, 13], n: 10, area: 'kelp' },
   props: [{ x: 13, y: 13, pic: 'kelpchair', when: () => !hasKey('lore_chair') && !flag('back_lore_chair') }, { x: 2, y: 10, pic: 'holmfar', when: holmSeen(4) }],
   npcs: [
     ...kelpNpcs,
     { id: 'kelpcomber', x: 33, y: 17, sprite: 'villager', name: 'Kelp-cutter', dir: 3, lines: ['Big ones sleep in the kelp. They roll over when you jingle at them. Away from you, always. Rude.'] },
-    { id: 'kelptrainer', x: 27, y: 14, sprite: 'villager2', name: 'Driftwood man', dir: 0, trainer: { nacre: 1, name: 'Driftwood man', team: [['undertow', 23], ['skep', 23]], intro: 'Every stick on this beach has been somewhere. I ask them where. They mostly say the sea.', defeat: 'Fair. Off to ask a plank.', sight: 3 } },
+    { id: 'kelptrainer', x: 27, y: 14, sprite: 'villager2', name: 'Driftwood man', dir: 0, trainer: { nacre: 1, name: 'Driftwood man', team: [['undertow', 12], ['skep', 12]], intro: 'Every stick on this beach has been somewhere. I ask them where. They mostly say the sea.', defeat: 'Fair. Off to ask a plank.', sight: 3 } },
   ],
   spots: [
     { x: 13, y: 13, when: () => !hasKey('lore_chair') && !flag('back_lore_chair'), script: async () => { await giveKeyItem('lore_chair', 'Ouro gets a small wooden chair. One leg is shorter.'); } },

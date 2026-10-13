@@ -134,7 +134,10 @@ const Z_STAR = 8, Z_LAMP = 12, Z_RING = 16, Z_WHORL = 5, Z_AIR = 12, Z_EMBER = 6
 /** A pool of light on the ground that also lights the figures near it. A lamp's pool goes in the lamp buffer. */
 function pool(x: number, y: number, r: number, peak: number, z: number, cast: boolean, lampy = false): void {
   if (r <= 0 || peak <= 0) return;
-  addLight(lampy ? lamp : lit, x, y, r, peak);
+  // A light that casts shadows also leaves the ground behind houses and trees dark.
+  if (lampy) addLight(lamp, x, y, r, peak);
+  else if (cast) addLightSeen(x, y, r, peak);
+  else addLight(lit, x, y, r, peak);
   pts.push({ x, y, r, peak, z, cast, lampy });
 }
 
@@ -342,6 +345,8 @@ function light(s: FieldFxState, sky: Sky, p: Pal): void {
   }
   const fog = fogNow = s.dark || !!s.map.fogRings;
   scanTiles(s, sky);
+  findCasters(s);
+  screenBoxes(s);
   const cx = s.cam[0], cy = s.cam[1];
   if (s.dark) {
     vis.fill(0);
@@ -559,6 +564,7 @@ function figureLight(s: FieldFxState): void {
   mainLight.clear();
   let n = 0;
   const t0 = performance.now();
+  buildingShadows(s);
   for (const f of s.figures) n += castShadows(f, s);
   const t1 = performance.now();
   applyPath();
@@ -671,6 +677,160 @@ function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy
   }
 }
 
+/** A house's or tree's moon shadow runs this many pixels for each pixel it stands tall, as long for its height as a figure's. */
+const BUILDING_LONG = MOON_LONG / 8, BUILDING_MAX = 32;
+/** Lamp light at this strength fills a building's moon shadow completely, and weaker light fills it in part. */
+const LAMP_FILLS = 16;
+
+/** The house or tree whose foot is tile tx, ty: how tall it stands in pixels, how many tile rows it covers, and how many of those are walls, or null. */
+function casterAt(tx: number, ty: number): { tall: number; rows: number; walls: number } | null {
+  const ch = field.tile(tx, ty), below = field.tile(tx, ty + 1);
+  if (ch === 'h' || ch === 'd') {
+    if (below === 'h' || below === 'd') return null;
+    // A house is its wall rows plus the roof rows above them, and each roof row adds half a tile of height.
+    let walls = 1, roofs = 0;
+    while (walls < 3 && (field.tile(tx, ty - walls) === 'h' || field.tile(tx, ty - walls) === 'd')) walls++;
+    while (roofs < 4 && field.tile(tx, ty - walls - roofs) === 'r') roofs++;
+    return { tall: 8 * walls + 4 * roofs, rows: walls + roofs, walls };
+  }
+  if (ch === 'T') {
+    if (below === 'T') return null;
+    let rows = 1;
+    while (rows < 3 && field.tile(tx, ty - rows) === 'T') rows++;
+    return { tall: 10, rows, walls: 0 };
+  }
+  return null;
+}
+
+/** A house or tree near the screen: the box its tiles cover in world pixels, where its walls start, and how tall it stands. */
+interface Caster { x0: number; y0: number; x1: number; y1: number; wall: number; tall: number }
+let casters: Caster[] = [];
+let casterKey = '';
+
+/** Finds the houses and trees near the screen when the camera crosses a tile, and every half second for doors that change. A row of one height shares one box, so its parts do not shade twice where they overlap. */
+function findCasters(s: FieldFxState): void {
+  const reach = 8, tx0 = Math.floor(s.cam[0] / 8) - reach, ty0 = Math.floor(s.cam[1] / 8) - reach;
+  const key = `${s.map.id}|${tx0}|${ty0}|${s.t >> 5}`;
+  if (key === casterKey) return;
+  casterKey = key;
+  casters = [];
+  const tx1 = tx0 + SW / 8 + 2 * reach, ty1 = ty0 + SH / 8 + 2 * reach;
+  for (let ty = ty0; ty <= ty1; ty++) {
+    for (let tx = tx0; tx <= tx1;) {
+      const c = casterAt(tx, ty);
+      if (!c) { tx++; continue; }
+      let end = tx;
+      for (let n = casterAt(end + 1, ty); end < tx1 && n && n.tall === c.tall && n.rows === c.rows; n = casterAt(end + 1, ty)) end++;
+      casters.push({ x0: tx * 8, y0: (ty + 1 - c.rows) * 8, x1: (end + 1) * 8, y1: (ty + 1) * 8, wall: (ty + 1 - c.walls) * 8, tall: c.tall });
+      tx = end + 1;
+    }
+  }
+}
+
+/** Houses and trees cast the moon's shadow outdoors. */
+function buildingShadows(s: FieldFxState): void {
+  if (s.map.indoor) return;
+  const cx = s.cam[0], cy = s.cam[1];
+  for (const c of casters) {
+    if (c.x1 - cx < -BUILDING_MAX || c.x0 - cx > SW + BUILDING_MAX || c.y1 - cy < -BUILDING_MAX || c.y0 - cy > SH + BUILDING_MAX) continue;
+    layShadow(c.x0 - cx, c.y0 - cy, c.x1 - cx, c.y1 - cy, c.tall, s);
+  }
+}
+
+/** Whether the line from a to b crosses the box x0, y0 to x1, y1 on its way. */
+function crosses(ax: number, ay: number, bx: number, by: number, x0: number, y0: number, x1: number, y1: number): boolean {
+  let t0 = 0, t1 = 1;
+  const dx = bx - ax, dy = by - ay;
+  if (Math.abs(dx) < 1e-9) { if (ax < x0 || ax > x1) return false; } else {
+    let u = (x0 - ax) / dx, v = (x1 - ax) / dx;
+    if (u > v) { const w = u; u = v; v = w; }
+    t0 = Math.max(t0, u); t1 = Math.min(t1, v);
+    if (t0 > t1) return false;
+  }
+  if (Math.abs(dy) < 1e-9) { if (ay < y0 || ay > y1) return false; } else {
+    let u = (y0 - ay) / dy, v = (y1 - ay) / dy;
+    if (u > v) { const w = u; u = v; v = w; }
+    t0 = Math.max(t0, u); t1 = Math.min(t1, v);
+  }
+  return t0 <= t1 && t0 < 1;
+}
+
+/** The boxes of the houses and trees on screen this frame, in screen pixels: x0, y0, x1, y1, and the top of the walls, five to a box. */
+const boxes: number[] = [];
+function screenBoxes(s: FieldFxState): void {
+  boxes.length = 0;
+  for (const c of casters) boxes.push(c.x0 - s.cam[0], c.y0 - s.cam[1], c.x1 - s.cam[0], c.y1 - s.cam[1], c.wall - s.cam[1]);
+}
+
+/** Whether a house or tree stands between a light at lx, ly and the point x, y. A box that holds either end does not count, so a house's own face takes the light and a light inside one still shines. */
+function hidden(lx: number, ly: number, x: number, y: number): boolean {
+  for (let i = 0; i < boxes.length; i += 5) {
+    const x0 = boxes[i], y0 = boxes[i + 1], x1 = boxes[i + 2], y1 = boxes[i + 3];
+    if ((x >= x0 && x <= x1 && y >= y0 && y <= y1) || (lx >= x0 && lx <= x1 && ly >= y0 && ly <= y1)) continue;
+    if (crosses(lx, ly, x, y, x0, y0, x1, y1)) return true;
+  }
+  return false;
+}
+
+/** A starlight pool that houses and trees shade: each pixel takes the light only when no house or tree stands between it and the light. */
+function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
+  const x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(SW - 1, Math.ceil(cx + r));
+  const y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(SH - 1, Math.ceil(cy + r));
+  // Only the boxes inside the pool can shade it.
+  const mine: number[] = [];
+  for (let i = 0; i < boxes.length; i += 5) if (boxes[i + 2] > x0 && boxes[i] < x1 + 1 && boxes[i + 3] > y0 && boxes[i + 1] < y1 + 1) mine.push(boxes[i], boxes[i + 1], boxes[i + 2], boxes[i + 3], boxes[i + 4]);
+  if (!mine.length) { addLight(lit, cx, cy, r, peak); return; }
+  const k = 16 * peak / r, r2 = r * r;
+  for (let y = y0; y <= y1; y++) {
+    const qy = y + 0.5, dy = qy - cy, dy2 = dy * dy, row = y * SW;
+    for (let x = x0; x <= x1; x++) {
+      const qx = x + 0.5, dx = qx - cx, d2 = dx * dx + dy2;
+      if (d2 >= r2) continue;
+      const v = (r - Math.sqrt(d2)) * k;
+      if (v <= lit[row + x]) continue;
+      let shut = false;
+      for (let i = 0; i < mine.length && !shut; i += 5) {
+        const bx0 = mine[i], by0 = mine[i + 1], bx1 = mine[i + 2], by1 = mine[i + 3];
+        // A house's walls face the viewer, so a light above their top row does not reach them.
+        if (qx >= bx0 && qx <= bx1 && qy >= by0 && qy <= by1) { shut = qy >= mine[i + 4] && cy < mine[i + 4]; continue; }
+        if (cx >= bx0 && cx <= bx1 && cy >= by0 && cy <= by1) continue;
+        shut = crosses(cx, cy, qx, qy, bx0, by0, bx1, by1);
+      }
+      if (!shut) lit[row + x] = v;
+    }
+  }
+}
+
+/**
+ * The shadow of a caster whose tiles cover x0 to x1 and y0 to y1 on screen: everything that box sweeps over as it slides away
+ * from the moon. A pixel's ink fades with how far the box had to slide to reach it, and lamp light on the pixel fills it in.
+ */
+function layShadow(x0: number, y0: number, x1: number, y1: number, tall: number, s: FieldFxState): void {
+  const [ux, uy] = moonDirAt((x0 + x1) / 2, y1, s);
+  const len = Math.min(BUILDING_MAX, tall * BUILDING_LONG);
+  const bx0 = Math.max(0, Math.floor(Math.min(x0, x0 + len * ux))), bx1 = Math.min(SW - 1, Math.ceil(Math.max(x1, x1 + len * ux)));
+  const by0 = Math.max(0, Math.floor(Math.min(y0, y0 + len * uy))), by1 = Math.min(SH - 1, Math.ceil(Math.max(y1, y1 + len * uy)));
+  for (let Y = by0; Y <= by1; Y++) {
+    const qy = Y + 0.5;
+    // The span of slide distances that puts this row inside the box, then the same for each pixel's column.
+    let lo = 0, hi = len;
+    if (Math.abs(uy) < 1e-6) { if (qy < y0 || qy > y1) continue; } else { const a = (qy - y0) / uy, b = (qy - y1) / uy; lo = Math.max(lo, Math.min(a, b)); hi = Math.min(hi, Math.max(a, b)); }
+    if (lo > hi) continue;
+    for (let X = bx0; X <= bx1; X++) {
+      const qx = X + 0.5;
+      let t = lo, top = hi;
+      if (Math.abs(ux) < 1e-6) { if (qx < x0 || qx > x1) continue; } else { const a = (qx - x0) / ux, b = (qx - x1) / ux; t = Math.max(t, Math.min(a, b)); top = Math.min(top, Math.max(a, b)); }
+      if (t > top || t <= 0) continue;
+      if (wallAt(X, Y, s) || wallAt(qx - (t / 2) * ux, qy - (t / 2) * uy, s)) continue;
+      const k = Y * SW + X, ink = MOON_INK * (1 - t / len) * Math.max(0, 1 - lamp[k] / LAMP_FILLS);
+      if (ink <= 0) continue;
+      PATH[k] = 0;
+      shade[k] = Math.min(16, shade[k] + ink);
+      shaded = true;
+    }
+  }
+}
+
 /** Marks pixels already shaded by the shadow being cast, so overlapping steps of one shadow do not stack. */
 const stamp = new Uint32Array(SW * SH);
 let stampN = 0;
@@ -693,7 +853,7 @@ function castShadows(f: Figure, s: FieldFxState): number {
   if (fx < -24 || fx > SW + 24 || gy < -24 || gy > SH + 24) return 0;
   cands.length = 0;
   for (const p of pts) {
-    if (!p.cast || inside(p, f, gy)) continue;
+    if (!p.cast || inside(p, f, gy) || hidden(p.x, p.y, fx, by)) continue;
     const d = Math.hypot(p.x - fx, p.y - by), R = p.r * FIG_REACH;
     if (d < 2 || d >= R) continue;
     const v = 16 * p.peak * (1 - d / R);
@@ -813,7 +973,7 @@ function shadeFigure(f: Figure): void {
   const gy = f.y + f.bob + m.foot + 1, fx = f.x + 4, by = gy - BODY;
   near.length = 0; nearAtt.length = 0;
   if (!f.glow) for (const p of pts) {
-    if (inside(p, f, gy)) continue;
+    if (inside(p, f, gy) || (p.cast && hidden(p.x, p.y, fx, by))) continue;
     const R = p.r * FIG_REACH, d = Math.hypot(p.x - fx, p.y - by);
     if (d < R) { near.push(p); nearAtt.push(16 * FIG_GAIN * p.peak * (1 - d / R)); }
   }

@@ -15,7 +15,7 @@ const optsOf = (key: string): Partial<AiOpts> => {
 };
 const A = optsOf('a'), B = optsOf('b');
 const rnd = () => { seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
-const team = (): Mon[] => { const s = new Set<string>(); while (s.size < 4) s.add(WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)]); return [...s].map(k => makeMon(k, 50)); };
+const team = (): Mon[] => { const s = new Set<string>(); while (s.size < 4) s.add(WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)]); return [...s].map(k => makeMon(k, 25)); };
 
 const time = { a: 0, b: 0 }, calls = { a: 0, b: 0 };
 let winsA = 0, winsB = 0, draws = 0, rounds = 0;

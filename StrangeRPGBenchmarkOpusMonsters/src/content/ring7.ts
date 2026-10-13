@@ -50,11 +50,11 @@ defMap({
     { x: 6, y: 0, to: 'tusk', tx: 38, ty: 37, dir: 2 },
     { x: 6, y: 25, to: 'hilt', tx: 38, ty: 4, dir: 0 },
   ],
-  zone: { kinds: kinds([['tang', 3], ['buckler', 2], ['sallet', 2], ['gore', 2], ['quarry', 2]]), lv: [39, 43], n: 10, area: 'shingle' },
+  zone: { kinds: kinds([['tang', 3], ['buckler', 2], ['sallet', 2], ['gore', 2], ['quarry', 2]]), lv: [20, 22], n: 10, area: 'shingle' },
   props: [{ x: 38, y: 9, pic: 'holmfar', when: holmSeen(7) }, { x: 23, y: 7, pic: 'lorestep', when: () => !hasKey('lore_step') && !flag('back_lore_step') }],
   npcs: [
     { id: 'stonesorter', x: 14, y: 17, sprite: 'elder', name: 'Stone-sorter', dir: 1, lines: ['Three stones in the cut and a cave behind. You can\'t push a stone. You walk away and it follows.'] },
-    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { nacre: 1, name: 'Blade-picker', team: [['tang', 41], ['buckler', 41], ['sallet', 42]], intro: 'Every stone here\'s the shape of a blade. Not one of them\'s sharp. I check them all. Daily.', defeat: 'Still not sharp. Same as you.', sight: 3 } },
+    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { nacre: 1, name: 'Blade-picker', team: [['tang', 21], ['buckler', 21], ['sallet', 21]], intro: 'Every stone here\'s the shape of a blade. Not one of them\'s sharp. I check them all. Daily.', defeat: 'Still not sharp. Same as you.', sight: 3 } },
   ],
   spots: [
     { x: 23, y: 7, when: () => !field.objAt(23, 8) && !hasKey('lore_step') && !flag('back_lore_step'), script: async () => { sfx('guard'); await wait(16); await giveKeyItem('lore_step', 'Ouro drags out a flat stone worn into a dip. It is the front step.'); } },

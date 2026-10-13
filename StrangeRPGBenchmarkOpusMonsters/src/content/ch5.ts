@@ -50,12 +50,12 @@ defMap({
     { x: 0, y: 15, to: 'bole', tx: 42, ty: 3, dir: 3 },
     { x: 47, y: 15, to: 'hum', tx: 1, ty: 18, dir: 1 },
   ],
-  zone: { kinds: [['crane', 3], ['turbine', 3], ['furnace', 3], ['orrery', 2], ['perigee', 1], ['fulgur', 2], ['piston', 2]], lv: [26, 30], n: 17, area: 'scrap' },
+  zone: { kinds: [['crane', 3], ['turbine', 3], ['furnace', 3], ['orrery', 2], ['perigee', 1], ['fulgur', 2], ['piston', 2]], lv: [13, 15], n: 17, area: 'scrap' },
   npcs: [
-    { id: 'tinker', x: 8, y: 14, sprite: 'tanner', name: 'Tinker', dir: 0, trainer: { name: 'Tinker', team: [['piston', 27], ['orrery', 27]], intro: 'These machines were the Riders\'. They turned ages ago. The casts are still on shift.', defeat: 'Huh. They\'re still working. I\'m not.', sight: 3 } },
-    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { nacre: 1, name: 'Coaler', team: [['furnace', 28], ['crane', 27]], intro: 'A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.', defeat: 'Great. Cold sleep tonight.', sight: 3 } },
-    { id: 'peel5', x: 30, y: 14, sprite: 'peeler', name: 'Hermit', dir: 0, trainer: { name: 'Hermit', team: [['gore', 28], ['quarry', 28]], intro: 'Pylon\'s next. She says that one\'ll be hard. She\'s usually right about hard.', defeat: 'It\'s hard.', sight: 3 } },
-    { id: 'watcher', x: 38, y: 16, sprite: 'elder', name: 'Watcher', dir: 2, trainer: { name: 'Watcher', team: [['perigee', 28], ['fulgur', 28], ['turbine', 29]], intro: 'See that? Satellite\'s cast. Fell in the winter. We call it shellfall. I said it first.', defeat: 'The rest of it\'s still up there. Going round with no shell on. Brr.', sight: 4 } },
+    { id: 'tinker', x: 8, y: 14, sprite: 'tanner', name: 'Tinker', dir: 0, trainer: { name: 'Tinker', team: [['piston', 14], ['orrery', 14]], intro: 'These machines were the Riders\'. They turned ages ago. The casts are still on shift.', defeat: 'Huh. They\'re still working. I\'m not.', sight: 3 } },
+    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { nacre: 1, name: 'Coaler', team: [['furnace', 14], ['crane', 14]], intro: 'A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.', defeat: 'Great. Cold sleep tonight.', sight: 3 } },
+    { id: 'peel5', x: 30, y: 14, sprite: 'peeler', name: 'Hermit', dir: 0, trainer: { name: 'Hermit', team: [['gore', 14], ['quarry', 14]], intro: 'Pylon\'s next. She says that one\'ll be hard. She\'s usually right about hard.', defeat: 'It\'s hard.', sight: 3 } },
+    { id: 'watcher', x: 38, y: 16, sprite: 'elder', name: 'Watcher', dir: 2, trainer: { name: 'Watcher', team: [['perigee', 14], ['fulgur', 14], ['turbine', 15]], intro: 'See that? Satellite\'s cast. Fell in the winter. We call it shellfall. I said it first.', defeat: 'The rest of it\'s still up there. Going round with no shell on. Brr.', sight: 4 } },
     { id: 'gatekeeper_n', x: 25, y: 28, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateN' },
   ],
   spots: [
@@ -149,8 +149,8 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }, { x: 7, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }],
   npcs: [
     { id: 'ohm', x: 6, y: 1, sprite: 'ohm', name: 'Ohm', talk: 'ohm' },
-    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah okay. Me neither, now.', team: () => [withNotion('piston', 27, 'edgecharm'), withNotion('crane', 27, 'thornvest')] } },
-    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Put a notion on the right whorl and it\'s a whole other whorl. Ohm taught me that. Didn\'t say a word.', defeat: 'Ohm\'s gonna be quiet about this. Like, extra quiet.', team: () => [withNotion('furnace', 28, 'embercoat'), withNotion('turbine', 28, 'waxseal')] } },
+    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah okay. Me neither, now.', team: () => [withNotion('piston', 14, 'edgecharm'), withNotion('crane', 14, 'thornvest')] } },
+    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Put a notion on the right whorl and it\'s a whole other whorl. Ohm taught me that. Didn\'t say a word.', defeat: 'Ohm\'s gonna be quiet about this. Like, extra quiet.', team: () => [withNotion('furnace', 14, 'embercoat'), withNotion('turbine', 14, 'waxseal')] } },
   ],
 });
 
@@ -209,7 +209,7 @@ defScript('ohm', async () => {
   await say('Ohm', 'Yes.');
   await say('Ohm', 'Four. Notions. Each. Two point two six skellets.');
   const r = await fightTrainer({ name: 'Ohm', ai: 'keeper', intro: '', defeat: '',
-    team: () => [withNotion('turbine', 26, 'longshin'), withNotion('piston', 26, 'edgecharm'), withNotion('furnace', 27, 'embercoat'), withNotion('perigee', 27, 'bodkin')] });
+    team: () => [withNotion('turbine', 13, 'longshin'), withNotion('piston', 13, 'edgecharm'), withNotion('furnace', 14, 'embercoat'), withNotion('perigee', 14, 'bodkin')] });
   if (r.result !== 'win') return;
   await say('Ohm', 'Yes.');
   giveScale('pylon');
@@ -226,7 +226,7 @@ defScript('zestPylon', async () => {
   await Promise.all([act('pp1', 'shiver'), act('pp2', 'shiver'), act('pg', 'shiver')]);
   faceToward('zestp', 'ouro');
   await say('Tellin', 'Oh hey hey, you again, okay, I\'m winning, you\'re just arriving, it\'s going the way of the Bole, so.');
-  const r = await fightTrainer({ name: 'Tellin', team: [['crane', 25], ['yoke', 25], ['thumb', 25], ['gore', 26]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Tellin', team: [['crane', 16], ['yoke', 16], ['thumb', 16], ['gore', 17]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Tellin', 'Okay so I\'m losing, that\'s fine, that\'s totally fine, I\'m going round the back, nobody follow me.');
   // Tellin walks round the Pylon and out of sight.
@@ -259,7 +259,7 @@ defScript('barePylon', async () => {
   await say('Bare', 'Take that off. You\'ll want your arms for this.');
   field.wearing = false;
   await say('Bare', 'Go on, send out your first.');
-  const r = await fightTrainer({ name: 'Bare', team: [['carrion', 25], ['undertow', 25], ['hemlock', 25], ['quarry', 26]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Bare', team: [['carrion', 16], ['undertow', 16], ['hemlock', 16], ['quarry', 17]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Bare', 'Enough. Tools down. All of it.');
   await say('Bare', 'All of you, out. Watch your heads on the way.');

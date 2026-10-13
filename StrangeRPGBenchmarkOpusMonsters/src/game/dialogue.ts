@@ -3,7 +3,7 @@ import { drawSprite, PEOPLE } from '../engine/sprites';
 import { text, textWidth, wrap, LINE } from '../engine/font';
 import { input } from '../engine/input';
 import { rect } from '../engine/screen';
-import { close, run, type Mode } from './modes';
+import { close, push, run, top, type Mode } from './modes';
 import { bevel, BOX, cursor, DIM, edgeTones, PAPER, panel, PEARL_EDGE, PORTRAIT_BG, rowBar, SEL } from './ui';
 import { sfx } from '../engine/audio';
 import { Babble } from './voices';
@@ -16,6 +16,21 @@ export function portraitFor(name: string | null): SpriteData | undefined {
 
 const BOX_Y = 138;
 const BOX_H = 54;
+
+/**
+ * Keeps a finished line's box on screen until the next mode opens above it, or for one drawn frame when none does. A
+ * closed line resumes its script only after the frame is drawn, so back to back lines would otherwise leave a frame with
+ * no box.
+ */
+function linger(draw: () => void): void {
+  let drawn = false;
+  const ghost: Mode = {
+    update() { if (drawn) close(ghost); },
+    tick() { if (top() !== ghost) close(ghost); },
+    draw() { drawn = true; draw(); },
+  };
+  push(ghost);
+}
 
 /** Shows one line of dialogue in the box at the bottom of the screen. */
 export function say(speaker: string | null, line: string, portrait?: SpriteData, tab?: string): Promise<void> {
@@ -51,7 +66,7 @@ export function say(speaker: string | null, line: string, portrait?: SpriteData,
       }
       if (input.hit('ok') || input.hit('back') || (input.held('fast') && t % 4 === 0)) {
         if (page < pages.length - 1) { page++; shown = 0; voice = narrated ? null : new Babble(speaker, pages[page]); }
-        else close(m);
+        else { close(m); linger(m.draw); }
       }
     },
     draw() {
@@ -116,16 +131,19 @@ function nameTab(label: string, c: string): void {
   text(label, 6, BOX_Y - 9, c);
 }
 
-/** A system notice, such as an item received, in a strip at the top of the screen. It goes after two seconds or a press. */
+/** A system notice, such as an item received, in a strip at the top of the screen. It stays until a press, so nothing given goes by unread. */
 export function notice(line: string): Promise<void> {
-  const ls = wrap(line, 176);
+  // Lines stop short of the continue mark at the strip's right end.
+  const ls = wrap(line, 160);
   let t = 0;
   const m: Mode = {
-    update() { t++; if (t > 120 || (t > 10 && (input.hit('ok') || input.hit('back')))) close(m); },
+    update() { t++; if (t > 10 && (input.hit('ok') || input.hit('back') || (input.held('fast') && t % 4 === 0))) close(m); },
     draw() {
       const h = ls.length * LINE + 7, y = t < 6 ? -h + (h + 4) * t / 6 : 4;
       panel(6, y, 180, h, SEL);
       ls.forEach((ln, i) => text(ln, 96 - textWidth(ln) / 2, y + 4 + i * LINE, PAPER));
+      // The continue mark bobs a pixel and brightens on the way up, as in the text box.
+      if (t > 10) { const up = Math.floor(performance.now() / 300) % 2 === 0; text('\u0002', 178, y + h - 10 - (up ? 1 : 0), up ? SEL : DIM); }
     },
   };
   return run(m);

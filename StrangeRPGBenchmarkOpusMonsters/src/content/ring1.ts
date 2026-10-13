@@ -75,7 +75,7 @@ defMap({
     { x: 10, y: 6, to: 'islanderhut', tx: 4, ty: 6, dir: 2 },
     { x: 34, y: 6, to: 'undermeadow', tx: 32, ty: 13, dir: 2 },
   ],
-  zone: { kinds: kinds([['paring', 3], ['eddy', 2], ['fiddler', 3], ['urchin', 2]]), lv: [3, 6], n: 7, area: 'marram' },
+  zone: { kinds: kinds([['paring', 3], ['eddy', 2], ['fiddler', 3], ['urchin', 2]]), lv: [2, 3], n: 7, area: 'marram' },
   props: [{ x: 0, y: 0, pic: 'cocktracks' }, { x: 18, y: 7, pic: 'islandfloor' }],
   npcs: [
     { id: 'islander', x: 17, y: 13, sprite: 'oldwoman', name: 'Islander', dir: 1, talk: 'islander', when: () => !flag('holmChoice') },
@@ -448,14 +448,14 @@ defMap({
     { x: 0, y: 14, to: 'rib', tx: 21, ty: 1, dir: 3 },
     { x: 0, y: 31, to: 'route1', tx: 12, ty: 1, dir: 3 },
   ],
-  zone: { kinds: kinds([['hare', 3], ['stoat', 2], ['burr', 3], ['dandle', 2], ['mawkin', 1]]), lv: [4, 7], n: 10, area: 'ferns' },
+  zone: { kinds: kinds([['hare', 3], ['stoat', 2], ['burr', 3], ['dandle', 2], ['mawkin', 1]]), lv: [2, 4], n: 10, area: 'ferns' },
   props: [{ x: 27, y: 6, pic: 'pebbles' }],
   npcs: [
     { id: 'gatekeeper_s', x: 15, y: 1, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateS' },
     { id: 'tackboard', x: 25, y: 8, sprite: 'sign', name: null as any, lines: ['A board nailed to a tree. In Tack\'s writing: 1 then 2. Easy.'] },
-    { id: 'brooksleeper', x: 36, y: 15, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 18, flag: 'sl_brook' } },
-    standingWild('brookhart', 5, 21, 'hart', 18),
-    standingWild('brookmawkin', 38, 22, 'mawkin', 12),
+    { id: 'brooksleeper', x: 36, y: 15, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 9, flag: 'sl_brook' } },
+    standingWild('brookhart', 5, 21, 'hart', 9),
+    standingWild('brookmawkin', 38, 22, 'mawkin', 6),
     { id: 'brookboy', x: 18, y: 15, sprite: 'boy', name: 'Boy', wander: true, lines: ['Tack says he crossed the stones when he was six. I\'ve crossed them zero times. Tack counts it.'] },
   ],
   spots: [

@@ -47,11 +47,11 @@ defMap({
     { x: 0, y: 18, to: 'hum', tx: 42, ty: 8, dir: 3 },
     { x: 43, y: 18, to: 'tusk', tx: 1, ty: 26, dir: 1 },
   ],
-  zone: { kinds: kinds([['floe', 3], ['selkie', 2], ['walrus', 2], ['auk', 3], ['rime', 1]]), lv: [33, 37], n: 10, area: 'drift' },
+  zone: { kinds: kinds([['floe', 3], ['selkie', 2], ['walrus', 2], ['auk', 3], ['rime', 1]]), lv: [17, 19], n: 10, area: 'drift' },
   props: [{ x: 21, y: 3, pic: 'frozentub', when: () => !hasKey('lore_tub') && !flag('back_lore_tub') }, { x: 34, y: 4, pic: 'holmfar', when: holmSeen(6) }],
   npcs: [
     { id: 'icefisher2', x: 12, y: 14, sprite: 'veryold', name: 'Floe-watcher', dir: 1, lines: ['Step on a floe and it goes where you stepped till it hits something. Then it stays. Then it\'s a floor.', 'Swim it? That slush? Nothing swims that slush. Not even the ones that swim.'] },
-    { id: 'floetrainer', x: 31, y: 19, sprite: 'villager2', name: 'Sealer', dir: 2, trainer: { name: 'Sealer', team: [['selkie', 35], ['walrus', 35]], intro: 'I count seals. These ones are casts. They count too, I reckon. Mostly they count me.', defeat: 'Seventeen, then. And you.', sight: 3 } },
+    { id: 'floetrainer', x: 31, y: 19, sprite: 'villager2', name: 'Sealer', dir: 2, trainer: { name: 'Sealer', team: [['selkie', 18], ['walrus', 18]], intro: 'I count seals. These ones are casts. They count too, I reckon. Mostly they count me.', defeat: 'Seventeen, then. And you.', sight: 3 } },
   ],
   spots: [
     { x: 21, y: 3, when: () => !hasKey('lore_tub') && !flag('back_lore_tub'), script: async () => { sfx('cut'); field.shakeT = 6; await wait(20); await giveKeyItem('lore_tub', 'Ouro chips a washtub out of the ice. The washing in it is fine.'); } },

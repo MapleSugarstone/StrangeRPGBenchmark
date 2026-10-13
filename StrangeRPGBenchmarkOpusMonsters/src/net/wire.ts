@@ -64,7 +64,7 @@ export function monFromWire(w: WireMon, side: 0 | 1, slot: number): Mon {
       parentKinds: [f.kinds[0], f.kinds[1]], fitLook: { ...f.look }, legendary: !!(A.legendary || B.legendary),
     };
   } else {
-    m = makeMon(w.kind!, 50, { uid, name, notion: w.notion, level: SYNC_LEVEL });
+    m = makeMon(w.kind!, 25, { uid, name, notion: w.notion, level: SYNC_LEVEL });
     if (w.tape) m.tape = w.tape;
   }
   if (w.tan) m.tan = { ...w.tan };

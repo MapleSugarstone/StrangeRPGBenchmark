@@ -67,7 +67,7 @@ function whorls(force: string[]): Mon[] {
     for (const k of m.parentKinds || [m.kind]) take(k);
     out.push(kit(m));
   }
-  for (const k of force) if (out.length < ROSTER_SIZE && free(k)) { take(k); out.push(kit(makeMon(k, 50))); }
+  for (const k of force) if (out.length < ROSTER_SIZE && free(k)) { take(k); out.push(kit(makeMon(k, 25))); }
   while (out.length < ROSTER_SIZE) {
     const k = pick(rnd() < 0.08 ? LEGENDS : WILD);
     if (!free(k)) continue;
@@ -75,8 +75,8 @@ function whorls(force: string[]): Mon[] {
       const k2 = pick(WILD);
       if (k2 === k || !free(k2)) continue;
       take(k); take(k2);
-      out.push(kit(randomFit(rnd, k, k2, 50)));
-    } else { take(k); out.push(kit(makeMon(k, 50))); }
+      out.push(kit(randomFit(rnd, k, k2, 25)));
+    } else { take(k); out.push(kit(makeMon(k, 25))); }
   }
   return out;
 }

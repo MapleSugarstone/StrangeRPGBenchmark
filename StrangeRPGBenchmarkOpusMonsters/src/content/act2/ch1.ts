@@ -254,7 +254,7 @@ defMap({
   enter: 'a2OuterWhorl',
   // Ostium is found only at the star's hole. It is listed here so the Register knows where it lives.
   zone: {
-    kinds: kinds([['acorn', 3], ['varix', 3], ['mew', 3], ['halite', 2], ['ostium', 1]]), lv: [5, 9], n: 8, area: 'whorl',
+    kinds: kinds([['acorn', 3], ['varix', 3], ['mew', 3], ['halite', 2], ['ostium', 1]]), lv: [3, 5], n: 8, area: 'whorl',
     tideKinds: { high: kinds([['acorn', 3], ['varix', 3], ['mew', 3], ['halite', 2]]), low: kinds([['acorn', 3], ['varix', 3], ['mew', 3], ['halite', 2]]) },
   },
   triggers: [
@@ -405,7 +405,7 @@ defScript('a2Ostium', async () => {
   if (grains() < 1 || flag('ostiumDone')) { await emote('ouro', 'silence'); return; }
   await emote('ouro', 'surprise');
   if (!SPECIES.ostium) return;
-  const r = await fightWild(mon('ostium', 15), { canRun: true, area: 'whorl' });
+  const r = await fightWild(mon('ostium', 8), { canRun: true, area: 'whorl' });
   if (r.pegged.length) { r.pegged[0].strandBorn = true; setFlag('ostiumDone'); await giveMon(r.pegged[0]); }
   else if (r.result === 'win') setFlag('ostiumDone');
 });
@@ -465,16 +465,16 @@ defMap({
   ],
   enter: 'a2WrackEnter',
   zone: {
-    kinds: kinds([['skitter', 3], ['mote', 2], ['kipper', 2], ['lacuna', 1], ['fucus', 3], ['flotsam', 2], ['seaglass', 2], ['actinia', 2]]), lv: [5, 12], n: 10, area: 'strand',
+    kinds: kinds([['skitter', 3], ['mote', 2], ['kipper', 2], ['lacuna', 1], ['fucus', 3], ['flotsam', 2], ['seaglass', 2], ['actinia', 2]]), lv: [3, 6], n: 10, area: 'strand',
     tideKinds: { high: kinds([['fucus', 3], ['flotsam', 2], ['seaglass', 2], ['actinia', 2]]), low: kinds([['skitter', 3], ['mote', 2], ['kipper', 2], ['lacuna', 1]]) },
   },
   npcs: [
     person('a2WrackSign', 45, 3, 'sign', undefined as unknown as string),
     person('a2BottleGirl', 33, 3, 'bottlegirl', 'Bottle girl', 0),
     person('a2Raker', 41, 6, 'beach2', 'Weed-raker', 0, { wander: true }),
-    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { nacre: 1, name: 'Shell-sitter', team: [['skitter', 6], ['fucus', 7]], intro: 'Different shell every low, that\'s my rule. Yesterday was a whelk. Drafty.', defeat: 'Fine. This shell\'s taken. Plenty more on the beach.', sight: 3 } }),
-    person('a2GrainPicker', 23, 7, 'beach1', 'Grain-picker', 3, { trainer: { name: 'Grain-picker', team: [['mote', 7], ['kipper', 7]], intro: 'Grains go to the Sifter. You\'re going in the sand.', defeat: 'Ugh. The Sifter\'s gonna hear about this. And weigh it.', sight: 3 } }),
-    person('a2Driftwood', 9, 8, 'beach3', 'Driftwood boy', 0, { trainer: { name: 'Driftwood boy', team: [['flotsam', 8], ['seaglass', 8]], intro: 'Everything floats in. Some of it floats back out. I wanna see where it goes.', defeat: 'I\'m floating back. Don\'t follow, you\'d sink.', sight: 3 } }),
+    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { nacre: 1, name: 'Shell-sitter', team: [['skitter', 3], ['fucus', 4]], intro: 'Different shell every low, that\'s my rule. Yesterday was a whelk. Drafty.', defeat: 'Fine. This shell\'s taken. Plenty more on the beach.', sight: 3 } }),
+    person('a2GrainPicker', 23, 7, 'beach1', 'Grain-picker', 3, { trainer: { name: 'Grain-picker', team: [['mote', 4], ['kipper', 4]], intro: 'Grains go to the Sifter. You\'re going in the sand.', defeat: 'Ugh. The Sifter\'s gonna hear about this. And weigh it.', sight: 3 } }),
+    person('a2Driftwood', 9, 8, 'beach3', 'Driftwood boy', 0, { trainer: { name: 'Driftwood boy', team: [['flotsam', 4], ['seaglass', 4]], intro: 'Everything floats in. Some of it floats back out. I wanna see where it goes.', defeat: 'I\'m floating back. Don\'t follow, you\'d sink.', sight: 3 } }),
   ],
   spots: [
     // Climbing over the pool shell comes before the shell's own use, from either bank.
@@ -661,7 +661,7 @@ defMap({
   ],
   enter: 'a2SandDollarEnter',
   // Pallasite comes only out of Starfall on the Top.
-  zone: { kinds: kinds([['columba', 3], ['pallasite', 1]]), lv: [8, 12], n: 3, area: 'dollar', tideKinds: { high: kinds([['columba', 3]]), low: kinds([['columba', 3]]) } },
+  zone: { kinds: kinds([['columba', 3], ['pallasite', 1]]), lv: [4, 6], n: 3, area: 'dollar', tideKinds: { high: kinds([['columba', 3]]), low: kinds([['columba', 3]]) } },
   npcs: [
     person('a2Strandmonger', 26, 19, 'fellmonger', 'Strandmonger', 3),
     person('a2Shellwright', 13, 26, 'tanner', 'Shellwright', 2),
@@ -721,7 +721,7 @@ tideTalk('a2SdGirl', 'Girl', ['Don\'t sit still in an empty one at low water. Du
 // The Strandmonger prices everything.
 async function joinSmallGran(): Promise<void> {
   setFlag('smallGranOut');
-  if (!(await giveStrandMon('smallgranw', 10))) { setFlag('smallGranOwed'); return; }
+  if (!(await giveStrandMon('smallgranw', 5))) { setFlag('smallGranOwed'); return; }
   await hint('(She says her lines in order. In battle each line is a move, and she can only use the next one.)');
 }
 
@@ -850,7 +850,7 @@ defScript('a2SifterTop', async () => {
     setFlag('topPallasite');
     sound('heal');
     await emote('ouro', 'surprise');
-    if (!(await giveStrandMon('pallasite', 20))) setFlag('topPallasite', 0);
+    if (!(await giveStrandMon('pallasite', 10))) setFlag('topPallasite', 0);
   }
   if (release() && score > tackBest() && flag('tackBeat') < grains() + 1) {
     setFlag('tackBeat', grains() + 1);
@@ -996,7 +996,7 @@ field.stepHooks.push(f => {
 });
 
 /** The Sifter's four. Ouro arrives with the Strand cap at 8. */
-export const SIFTER_TEAM: [string, number][] = [['kipper', 11], ['mote', 12], ['halite', 12], ['columba', 13]];
+export const SIFTER_TEAM: [string, number][] = [['kipper', 6], ['mote', 6], ['halite', 6], ['columba', 7]];
 defScript('a2Sifter', async () => {
   const here = cellAt(field.x, field.y);
   if (!here || here[0] !== 0) { await say('The Sifter', 'Twelve measures. One path. And of help from me: not a pinch, not a dram, not a smidgelet.'); return; }
@@ -1115,7 +1115,7 @@ defMap({
   ],
   enter: 'a2FlatsEnter',
   zone: {
-    kinds: kinds([['lobworm', 3], ['razor', 2], ['annulet', 2], ['skitter', 2], ['actinia', 2], ['seaglass', 2], ['flotsam', 2]]), lv: [7, 12], n: 8, area: 'strand',
+    kinds: kinds([['lobworm', 3], ['razor', 2], ['annulet', 2], ['skitter', 2], ['actinia', 2], ['seaglass', 2], ['flotsam', 2]]), lv: [4, 6], n: 8, area: 'strand',
     tideKinds: { low: kinds([['lobworm', 3], ['razor', 2], ['annulet', 2], ['skitter', 2]]), high: kinds([['actinia', 2], ['seaglass', 2], ['flotsam', 2]]) },
   },
   npcs: [],

@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   const { makeMon } = await import('../data/species');
   const facts: [string, number, number][] = [
     ['XP from level 5 to 6', xpToNext(5), 72],
-    ['Conjoining two level 20 whorls', fitCost({ ...makeMon('cairn', 40), level: 20 }, { ...makeMon('scree', 40), level: 20 }), 200],
+    ['Conjoining two level 20 whorls', fitCost({ ...makeMon('cairn', 20), level: 20 }, { ...makeMon('scree', 20), level: 20 }), 200],
     ['DEF 42 on a 100 power hit', Math.round(100 * 100 / (100 + 42)), 70],
   ];
   for (const [what, got, says] of facts) if (got !== says) { console.log(`FACT: ${what} is ${got}, the Guide says ${says}.`); process.exitCode = 1; }

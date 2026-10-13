@@ -52,12 +52,12 @@ defMap({
     { x: 22, y: 0, to: 'hilt', tx: 12, ty: 28, dir: 2 },
     { x: 22, y: 31, to: 'fall', tx: 20, ty: 1, dir: 0 },
   ],
-  zone: { kinds: [['flare', 3], ['tor', 3], ['bramble', 2], ['squall', 2], ['dynamo', 2], ['coma', 1]], lv: [44, 48], n: 14, area: 'slope', fitted: 0.3 },
+  zone: { kinds: [['flare', 3], ['tor', 3], ['bramble', 2], ['squall', 2], ['dynamo', 2], ['coma', 1]], lv: [22, 24], n: 14, area: 'slope', fitted: 0.3 },
   npcs: [
-    { id: 'rock', x: 18, y: 6, sprite: 'villager2', name: 'Rock walker', dir: 1, trainer: { nacre: 1, name: 'Rock walker', team: [['tor', 45], ['scree', 45]], intro: 'Everything out here rolls toward the Fall. Rocks, carts, me. You\'re rolling a bit right now.', defeat: 'Eh. I was rolling to the middle anyway.', sight: 4 } },
-    { id: 'sky', x: 26, y: 10, sprite: 'starwalker', name: 'Sky watcher', dir: 3, trainer: { name: 'Sky watcher', team: [['flare', 45], ['coma', 45]], intro: 'The star fell, but it\'s still a star! It\'s just down there now, being one. Doing great.', defeat: 'Go touch it. It\'s warm. Like a mug.', sight: 4 } },
-    { id: 'peel8', x: 21, y: 20, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['bramble', 46], ['dynamo', 46]], intro: 'Last Stay before the Apex. Then she\'s going up. She\'s got her good boots on.', defeat: 'Doesn\'t matter. She\'ll go up anyway.', sight: 2 } },
-    { id: 'synced', x: 14, y: 22, sprite: 'keeper', name: 'Synced keeper', dir: 1, trainer: { nacre: 1, name: 'Synced keeper', team: [['squall', 50], ['howl', 50], ['orrery', 50]], intro: 'I fight at twenty-five. Everybody\'s the same then. That\'s when you find out who\'s actually good.', defeat: 'Found out.', sight: 4, sync: true } },
+    { id: 'rock', x: 18, y: 6, sprite: 'villager2', name: 'Rock walker', dir: 1, trainer: { nacre: 1, name: 'Rock walker', team: [['tor', 23], ['scree', 23]], intro: 'Everything out here rolls toward the Fall. Rocks, carts, me. You\'re rolling a bit right now.', defeat: 'Eh. I was rolling to the middle anyway.', sight: 4 } },
+    { id: 'sky', x: 26, y: 10, sprite: 'starwalker', name: 'Sky watcher', dir: 3, trainer: { name: 'Sky watcher', team: [['flare', 23], ['coma', 23]], intro: 'The star fell, but it\'s still a star! It\'s just down there now, being one. Doing great.', defeat: 'Go touch it. It\'s warm. Like a mug.', sight: 4 } },
+    { id: 'peel8', x: 21, y: 20, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['bramble', 23], ['dynamo', 23]], intro: 'Last Stay before the Apex. Then she\'s going up. She\'s got her good boots on.', defeat: 'Doesn\'t matter. She\'ll go up anyway.', sight: 2 } },
+    { id: 'synced', x: 14, y: 22, sprite: 'keeper', name: 'Synced keeper', dir: 1, trainer: { nacre: 1, name: 'Synced keeper', team: [['squall', 25], ['howl', 25], ['orrery', 25]], intro: 'I fight at twenty-five. Everybody\'s the same then. That\'s when you find out who\'s actually good.', defeat: 'Found out.', sight: 4, sync: true } },
   ],
   enter: 'route8Enter',
 });
@@ -152,8 +152,8 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'fall', tx: 21, ty: 18, dir: 0 }, { x: 7, y: 11, to: 'fall', tx: 21, ty: 18, dir: 0 }],
   npcs: [
     { id: 'perihel', blocks: true, x: 6, y: 1, sprite: 'perihel', name: 'Perihel', talk: 'perihel' },
-    { id: 'sw1', x: 3, y: 8, sprite: 'starwalker', name: 'Star walker', dir: 1, trainer: { name: 'Star walker', team: [['orrery', 46], ['curtain', 46]], intro: 'Your turn comes when it comes, okay? So push theirs back. That\'s the trick.', defeat: 'Mine came.', sight: 6 } },
-    { id: 'sw2', x: 10, y: 5, sprite: 'starwalker', name: 'Star walker', dir: 2, trainer: { name: 'Star walker', team: [['turbine', 46], ['eddy', 46], ['fulgur', 47]], intro: 'Speed yours up, slow theirs down. That\'s it. That\'s the whole gym.', defeat: 'Ugh. I\'m gonna be slow tomorrow.', sight: 3 } },
+    { id: 'sw1', x: 3, y: 8, sprite: 'starwalker', name: 'Star walker', dir: 1, trainer: { name: 'Star walker', team: [['orrery', 23], ['curtain', 23]], intro: 'Your turn comes when it comes, okay? So push theirs back. That\'s the trick.', defeat: 'Mine came.', sight: 6 } },
+    { id: 'sw2', x: 10, y: 5, sprite: 'starwalker', name: 'Star walker', dir: 2, trainer: { name: 'Star walker', team: [['turbine', 23], ['eddy', 23], ['fulgur', 24]], intro: 'Speed yours up, slow theirs down. That\'s it. That\'s the whole gym.', defeat: 'Ugh. I\'m gonna be slow tomorrow.', sight: 3 } },
   ],
 });
 
@@ -202,7 +202,7 @@ defScript('tack4', async () => {
     await say('Tack', '1 cast, that\'s all you get. Tackle had my walk. Brack\'s got 2 walks. Neither\'s mine.');
     await say('Tack', '0 regrets. That\'s the number, okay? Fight me.');
   }
-  const r = await battle({ enemy: [brack(44), makeMon('howl', 43), makeMon('turbine', 43), makeMon('quarry', 44)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
+  const r = await battle({ enemy: [brack(22), makeMon('howl', 22), makeMon('turbine', 22), makeMon('quarry', 22)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   music.play('fall');
   countTack('4', r.result === 'win');
   if (r.result !== 'win') {
@@ -222,7 +222,7 @@ defScript('perihel', async () => {
   await say('Perihel', 'You will win this. You will enjoy it less than you will think. Then you will go up.');
   await say('Perihel', 'The Holdfast will still be standing there after you are gone. After everyone.');
   await say('Perihel', 'Will you want to look at its hands? You will have wanted to, very much.');
-  const r = await fightTrainer({ name: 'Perihel', team: [['orrery', 41], ['fulgur', 41], ['dynamo', 41], ['coma', 42]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Perihel', team: [['orrery', 23], ['fulgur', 23], ['dynamo', 23], ['coma', 24]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Perihel', 'You will hold out your hand. You will have the Fall pearl. You will drop it once and pick it up.');
   giveScale('fall');

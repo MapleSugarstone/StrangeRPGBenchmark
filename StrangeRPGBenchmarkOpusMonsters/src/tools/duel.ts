@@ -38,7 +38,7 @@ function monOf(e: Entry, where: string): Mon {
     const [a, b] = e.fit;
     if (!SPECIES[a] || !SPECIES[b]) fail(`${where}: unknown kind in fit ${a}+${b}`);
     if (a === b) fail(`${where}: a slough cannot be fitted with its own kind`);
-    const A = makeMon(a, 50), B = makeMon(b, 50);
+    const A = makeMon(a, 25), B = makeMon(b, 25);
     const moves = e.moves || [];
     const fromA = moves.filter(id => A.moves.includes(id)).length, fromB = moves.filter(id => B.moves.includes(id) && !A.moves.includes(id)).length;
     if (moves.length !== 4 || fromA !== 2 || fromB !== 2) fail(`${where}: a fitting keeps exactly two moves from each parent`);
@@ -52,7 +52,7 @@ function monOf(e: Entry, where: string): Mon {
     m = makeFit(A, B, { moves, passives, types, basic, retune: null, sprite: { px: shapeOf(A.sprite, B.sprite, 0), c: paletteOf(A.sprite, B.sprite, 0) }, name: nameOptions(A.name, B.name)[0], look: { shape: 0, palette: 0 } }, 0);
   } else {
     if (!e.kind || !SPECIES[e.kind]) fail(`${where}: unknown kind ${e.kind}`);
-    m = makeMon(e.kind, 50);
+    m = makeMon(e.kind, 25);
   }
   if (e.tape) {
     if (!/^[pags]{4}$/.test(e.tape)) fail(`${where}: a Tape is four of p, a, g, s`);
@@ -95,7 +95,7 @@ function fieldTeam(kind: 'resourced' | 'plain' | 'planned'): { mons: Mon[]; char
     // Both kinds of a fit count toward the team's one of each kind.
     const k2 = kind !== 'plain' && mons.length < 2 ? pick(WILD_KINDS.filter(x => !used.has(x))) : null;
     if (k2) used.add(k2);
-    const m = k2 ? randomFit(rnd, k, k2, 50) : makeMon(k, 50);
+    const m = k2 ? randomFit(rnd, k, k2, 25) : makeMon(k, 25);
     if (kind === 'planned') plannedKit(rnd, m);
     else if (kind === 'resourced') {
       m.notion = pick(NOTION_IDS);

@@ -48,8 +48,10 @@ const S100: Stats = { hp: 250, atk: 100, def: 60, res: 60, mgk: 100, agi: 100, c
 
 /** The highest level. Level 50 stands where level 100 stood. */
 export const LEVEL_MAX = 50;
-/** Content and saves before version 2 write levels on the old 1 to 100 scale. This is that level on the current scale. */
+/** Saves before version 2 hold levels on the old 1 to 100 scale. This is that level on the current scale. */
 export const halveLevel = (old: number): number => Math.max(1, Math.min(LEVEL_MAX, Math.round(old / 2)));
+/** A level kept whole and inside 1 to LEVEL_MAX. */
+export const clampLevel = (level: number): number => Math.max(1, Math.min(LEVEL_MAX, Math.round(level)));
 /** Below this level stats start lower and climb faster, so a few levels decide an early fight. */
 const STEEP_TO = 5;
 const STEEP_LOW = 0.65;

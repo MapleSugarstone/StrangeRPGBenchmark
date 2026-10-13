@@ -176,12 +176,12 @@ defMap({
     { x: 55, y: 12, to: 'fall', tx: 1, ty: 26, dir: 1 },
     { x: 0, y: 12, to: 'fellside', tx: 42, ty: 15, dir: 3, when: () => !!flag('longwayOpen') },
   ],
-  zone: { kinds: kinds([['tor', 3], ['flare', 2], ['siderite', 2], ['slag', 2], ['drift', 3]]), lv: [40, 46], n: 12, area: 'shoreline' },
+  zone: { kinds: kinds([['tor', 3], ['flare', 2], ['siderite', 2], ['slag', 2], ['drift', 3]]), lv: [20, 23], n: 12, area: 'shoreline' },
   props: [{ x: 30, y: 21, pic: 'holmfar', when: () => chapter() >= 8 && !flag('holmHere') }],
   npcs: [
     { id: 'fordsitter', x: 31, y: 10, sprite: 'elder', name: 'Ford-sitter', dir: 3, talk: 'fordsitter' },
-    { id: 'dunewalker', x: 40, y: 4, sprite: 'villager2', name: 'Dune walker', dir: 0, trainer: { name: 'Dune walker', team: [['drift', 44], ['tor', 45]], intro: 'Sand goes west, I go west. Sand stops, I stop. We\'ve an understanding.', defeat: 'Sand\'s moving. I\'m moving.', sight: 3 } },
-    { id: 'tiderunner', x: 12, y: 14, sprite: 'child', name: 'Tide-runner', dir: 2, trainer: { name: 'Tide-runner', team: [['slag', 44], ['siderite', 45]], intro: 'Everything washes up here! Even you! Hi!', defeat: 'You can wash back out now! Bye!', sight: 3 } },
+    { id: 'dunewalker', x: 40, y: 4, sprite: 'villager2', name: 'Dune walker', dir: 0, trainer: { name: 'Dune walker', team: [['drift', 22], ['tor', 23]], intro: 'Sand goes west, I go west. Sand stops, I stop. We\'ve an understanding.', defeat: 'Sand\'s moving. I\'m moving.', sight: 3 } },
+    { id: 'tiderunner', x: 12, y: 14, sprite: 'child', name: 'Tide-runner', dir: 2, trainer: { name: 'Tide-runner', team: [['slag', 22], ['siderite', 23]], intro: 'Everything washes up here! Even you! Hi!', defeat: 'You can wash back out now! Bye!', sight: 3 } },
   ],
   spots: [
     { x: 1, y: 12, when: () => !flag('longwayOpen'), script: async () => {

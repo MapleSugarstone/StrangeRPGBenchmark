@@ -401,7 +401,7 @@ defMap({
     { x: 14, y: 1, to: 'route8', tx: 37, ty: 22, dir: 0 },
     { x: 22, y: 20, to: 'geodehall', tx: 16, ty: 2, dir: 0 },
   ],
-  zone: ZONE([48, 52]),
+  zone: ZONE([24, 26]),
   npcs: [],
   ...pa,
 });
@@ -422,7 +422,7 @@ defMap({
     { x: 16, y: 1, to: 'geodemouth', tx: 22, ty: 19, dir: 2 },
     { x: 16, y: 22, to: 'geodevein', tx: 12, ty: 2, dir: 0 },
   ],
-  zone: ZONE([49, 53]),
+  zone: ZONE([25, 27]),
   npcs: [],
   ...pb,
 });
@@ -444,7 +444,7 @@ defMap({
     { x: 12, y: 1, to: 'geodehall', tx: 16, ty: 20, dir: 2 },
     { x: 18, y: 24, to: 'geodeheart', tx: 13, ty: 17, dir: 2 },
   ],
-  zone: ZONE([50, 54]),
+  zone: ZONE([25, 27]),
   npcs: [],
   ...pc,
 });

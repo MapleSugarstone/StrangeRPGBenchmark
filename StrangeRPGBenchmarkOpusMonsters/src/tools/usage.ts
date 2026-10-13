@@ -30,7 +30,7 @@ const pick = <T>(a: T[]): T => a[Math.floor(rnd() * a.length)];
 const team = (lead?: string): Mon[] => {
   const s = new Set<string>(lead ? [lead] : []);
   while (s.size < 4) s.add(pick(WILD_KINDS));
-  return [...s].map(k => makeMon(k, 50));
+  return [...s].map(k => makeMon(k, 25));
 };
 const fresh = (a: Mon[], z: Mon[]): Battle => {
   const b = newBattle({ mons: a, name: 'A', ai: 'keeper' }, { mons: z, name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });

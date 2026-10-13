@@ -70,11 +70,11 @@ defMap({
     { x: 20, y: 0, to: 'spire', tx: 20, ty: 30, dir: 2 },
     { x: 0, y: 20, to: 'saltings', tx: 38, ty: 15, dir: 3 },
   ],
-  zone: { kinds: [['fogbank', 3], ['undertow', 3], ['leech', 2], ['mycel', 2], ['grotesque', 2], ['siren', 2], ['brine', 1]], lv: [14, 18], n: 16, area: 'marsh' },
+  zone: { kinds: [['fogbank', 3], ['undertow', 3], ['leech', 2], ['mycel', 2], ['grotesque', 2], ['siren', 2], ['brine', 1]], lv: [7, 9], n: 16, area: 'marsh' },
   npcs: [
-    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { nacre: 1, name: 'Reeve', team: [['fogbank', 16], ['undertow', 16]], intro: 'Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!', defeat: 'Two foot.', sight: 4 } },
-    { id: 'eelboy', x: 26, y: 14, sprite: 'boy', name: 'Eel boy', dir: 1, trainer: { name: 'Eel boy', team: [['leech', 16], ['mycel', 16], ['siren', 17]], intro: 'Found a leech cast! That\'s good luck. A leech is the other kind.', defeat: 'Oh. Bad luck for you, then.', sight: 4 } },
-    { id: 'cutter', x: 21, y: 6, sprite: 'tanner', name: 'Cutter', dir: 3, trainer: { name: 'Cutter', team: [['grotesque', 17], ['brine', 16]], intro: 'I cut reeds for Spire. They stuff \'em in the bells so the bells shut up.', defeat: 'Yeah, mine are quiet now.', sight: 3 } },
+    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { nacre: 1, name: 'Reeve', team: [['fogbank', 8], ['undertow', 8]], intro: 'Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!', defeat: 'Two foot.', sight: 4 } },
+    { id: 'eelboy', x: 26, y: 14, sprite: 'boy', name: 'Eel boy', dir: 1, trainer: { name: 'Eel boy', team: [['leech', 8], ['mycel', 8], ['siren', 9]], intro: 'Found a leech cast! That\'s good luck. A leech is the other kind.', defeat: 'Oh. Bad luck for you, then.', sight: 4 } },
+    { id: 'cutter', x: 21, y: 6, sprite: 'tanner', name: 'Cutter', dir: 3, trainer: { name: 'Cutter', team: [['grotesque', 9], ['brine', 8]], intro: 'I cut reeds for Spire. They stuff \'em in the bells so the bells shut up.', defeat: 'Yeah, mine are quiet now.', sight: 3 } },
   ],
   spots: [
     stash('rm_islet1', 8, 8, 'On a reed islet, in a heron\'s old nest, a cake of salt wrapped in a leaf.', { items: [['saltcake', 2]] }),
@@ -187,8 +187,8 @@ defMap({
   tileTalk: { K: 'bellRope' },
   npcs: [
     { id: 'verger', x: 7, y: 1, sprite: 'verger', name: 'Verger', talk: 'verger' },
-    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { nacre: 1, name: 'Ringer', team: [['siren', 18], ['grotesque', 18]], intro: 'hear that? yeah that\'s a wind-up. stop it or eat it.', defeat: 'huh. i didn\'t stop it.', sight: 4 } },
-    { id: 'ring2', x: 12, y: 12, sprite: 'ringer', name: 'Ringer', dir: 2, trainer: { name: 'Ringer', team: [['flare', 18], ['fogbank', 18], ['mycel', 19]], intro: 'some big ones can\'t be stopped though. the line on top tells you which.', defeat: 'the line did tell me. i just didn\'t read it.', sight: 3 } },
+    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { nacre: 1, name: 'Ringer', team: [['siren', 9], ['grotesque', 9]], intro: 'hear that? yeah that\'s a wind-up. stop it or eat it.', defeat: 'huh. i didn\'t stop it.', sight: 4 } },
+    { id: 'ring2', x: 12, y: 12, sprite: 'ringer', name: 'Ringer', dir: 2, trainer: { name: 'Ringer', team: [['flare', 9], ['fogbank', 9], ['mycel', 10]], intro: 'some big ones can\'t be stopped though. the line on top tells you which.', defeat: 'the line did tell me. i just didn\'t read it.', sight: 3 } },
     { id: 'note', x: 13, y: 13, sprite: 'sign', name: null as any, lines: ['A card pinned to the pew: "top. bottom. middle. softly." Under it, in other ink: "SOFTER"'] },
   ],
 });
@@ -260,7 +260,7 @@ defScript('tack3', async () => {
 
 /** Tack and Brack fight until Ouro wins. After a loss they stay by the crypt steps, and Ouro steps back out of the trigger. */
 async function tack3Battle(): Promise<void> {
-  const r = await battle({ enemy: [brack(18), makeMon('hare', 17), makeMon('paring', 17), makeMon('eddy', 17)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
+  const r = await battle({ enemy: [brack(9), makeMon('hare', 9), makeMon('paring', 9), makeMon('eddy', 9)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   music.play('spire');
   countTack('3', r.result === 'win');
   if (r.result !== 'win') {
@@ -312,7 +312,7 @@ defScript('verger', async () => {
   await say('Verger', 'when someone above speaks too loudly the bells ring, and i enter them in my ledger of loudnesses.');
   await say('Verger', 'in a fight, a wind-up is a bell you can hear coming. stop it, or get out from under it.');
   await hint('(A ! over a whorl is a wind-up. Stun, Silence, Sleep, Taunt, or forcing it out cuts it off.)');
-  const r = await fightTrainer({ name: 'Verger', team: [['grotesque', 19], ['siren', 19], ['fogbank', 20], ['flare', 20]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Verger', team: [['grotesque', 10], ['siren', 10], ['fogbank', 10], ['flare', 10]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Verger', 'it belled three!! the spire pearl is most rightfully yours');
   giveScale('spire');

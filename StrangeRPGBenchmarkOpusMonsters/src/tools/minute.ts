@@ -12,17 +12,17 @@ const testing = (id: string): boolean => {
 };
 
 /** Kinds whose own four hold a move with `has`, so fits can keep one: a swap, so the visitor can trade places, or an option to pick. */
-const holding = (kinds: string[], has: (id: string) => boolean): string[] => kinds.filter(k => makeMon(k, 50).moves.some(has));
+const holding = (kinds: string[], has: (id: string) => boolean): string[] => kinds.filter(k => makeMon(k, 25).moves.some(has));
 const swap = (id: string): boolean => !!MOVES[id]?.tag, option = (id: string): boolean => !!MOVES[id]?.options;
 
 /** Tynagi, or a fit of Tynagi and one of `kinds` that keeps Still Minute. Most fits keep at least one move of the other kind that tests the visitor's choice. */
 export function minuteHolder(rnd: () => number, kinds: string[]): Mon {
-  if (rnd() < 0.3) return makeMon('slackwater', 50);
+  if (rnd() < 0.3) return makeMon('slackwater', 25);
   const pick = <T>(arr: T[]): T => arr.splice(Math.floor(rnd() * arr.length), 1)[0];
   const r = rnd(), want = r < 0.3 ? swap : r < 0.55 ? option : null;
   const special = want ? holding(kinds, want) : [];
   const from = special.length ? special : kinds, k2 = from[Math.floor(rnd() * from.length)];
-  const A = makeMon('slackwater', 50), B = makeMon(k2, 50);
+  const A = makeMon('slackwater', 25), B = makeMon(k2, 25);
   const theirs = B.moves.slice(), odd = theirs.filter(id => (special.length && want ? want(id) : testing(id)));
   const first = odd.length && rnd() < 0.8 ? odd[Math.floor(rnd() * odd.length)] : pick(theirs.slice());
   const second = pick(theirs.filter(id => id !== first));

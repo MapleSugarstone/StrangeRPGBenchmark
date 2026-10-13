@@ -29,7 +29,7 @@ const smallGranHere = () => G.party.some(m => m.kind === 'smallgranw');
 
 MAPS.flats.npcs.push(person('a2TackFlats', 24, 9, 'tack', 'Tack', 0, { when: () => release() && grains() >= 1 && !flag('tackFlats') && low() }));
 /** Tack's four on the Flats (release only). Ouro arrives with the Strand cap at 13. */
-export const tackFlatsTeam = () => [brack(28), ...([['razor', 27], ['mote', 27], ['skitter', 26]] as const).map(([k, l]) => makeMon(k, l))];
+export const tackFlatsTeam = () => [brack(14), ...([['razor', 14], ['mote', 14], ['skitter', 13]] as const).map(([k, l]) => makeMon(k, l))];
 // Tack says a number in every line.
 defScript('a2TackFlats', async () => {
   face('a2TackFlats', 0);
@@ -101,12 +101,12 @@ defMap({
   ],
   enter: 'a2CowrieBackEnter',
   zone: {
-    kinds: kinds([['macula', 3], ['scud', 3], ['skitter', 2], ['seiche', 2], ['pallium', 2]]), lv: [14, 20], n: 9, area: 'cowrie',
+    kinds: kinds([['macula', 3], ['scud', 3], ['skitter', 2], ['seiche', 2], ['pallium', 2]]), lv: [7, 10], n: 9, area: 'cowrie',
     tideKinds: { high: kinds([['seiche', 3], ['pallium', 2], ['scud', 2]]), low: kinds([['macula', 3], ['scud', 2], ['skitter', 2]]) },
   },
   npcs: [
-    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { nacre: 1, name: 'Spot-counter', team: [['macula', 18], ['pallium', 18]], intro: 'I count the Cowrie\'s spots. They move when I blink. So I don\'t blink. Ow.', defeat: 'Lost count. Blinked. From the top.', sight: 3 } }),
-    person('a2SeicheStander', 12, 24, 'cowrie2', 'Seiche-stander', 2, { when: highTide, trainer: { name: 'Seiche-stander', team: [['seiche', 19], ['scud', 19]], intro: 'I stand in the gray at high water. It\'s super warm in there. Nobody believes me.', defeat: 'Back in the gray. It\'s warm in there, I swear.', sight: 2 } }),
+    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { nacre: 1, name: 'Spot-counter', team: [['macula', 9], ['pallium', 9]], intro: 'I count the Cowrie\'s spots. They move when I blink. So I don\'t blink. Ow.', defeat: 'Lost count. Blinked. From the top.', sight: 3 } }),
+    person('a2SeicheStander', 12, 24, 'cowrie2', 'Seiche-stander', 2, { when: highTide, trainer: { name: 'Seiche-stander', team: [['seiche', 10], ['scud', 10]], intro: 'I stand in the gray at high water. It\'s super warm in there. Nobody believes me.', defeat: 'Back in the gray. It\'s warm in there, I swear.', sight: 2 } }),
     person('a2CinchPosts', 8, 22, 'realcinch', 'Cinch', 3, { when: () => marked() && !flag('cinchLeftPosts') }),
   ],
   spots: [
@@ -202,7 +202,7 @@ defMap({
     { x: PO_W - 1, y: 12, to: 'glazehalls', tx: 8, ty: 22, dir: 2 },
   ],
   enter: 'a2PolishEnter',
-  zone: { kinds: kinds([['enamel', 3], ['porcella', 2], ['specie', 2], ['emery', 2], ['faience', 2]]), lv: [15, 21], n: 6, area: 'cowrie' },
+  zone: { kinds: kinds([['enamel', 3], ['porcella', 2], ['specie', 2], ['emery', 2], ['faience', 2]]), lv: [8, 11], n: 6, area: 'cowrie' },
   npcs: [
     { id: 'a2Refl', x: 18, y: 3, sprite: 'vellum', ghost: true, img: reflectionImg, when: () => !marked() || field.y < 13 },
     person('a2PoWoman', 9, 6, 'cowrie1', 'Woman', 0),
@@ -213,8 +213,8 @@ defMap({
     person('a2PoBoy', 12, 18, 'cowrie2', 'Boy', 0, { wander: true }),
     person('a2PoOldWoman', 30, 18, 'cowrie1', 'Old woman', 3),
     person('a2Clerk', 18, 12, 'villager2', 'Gloss\'s clerk', 0),
-    person('a2Polisher', 32, 5, 'cowrie2', 'Polisher', 3, { trainer: { name: 'Polisher', team: [['enamel', 20], ['emery', 20]], intro: 'I polish the sky. All of it. You\'re next, you\'ve got smudges.', defeat: 'Smudged. Leave it. Don\'t you dare wipe it.', sight: 3 } }),
-    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { nacre: 1, name: 'Pig-keeper', team: [['porcella', 20], ['specie', 21]], intro: 'My pig\'s glazed. So\'s my purse. So\'s my other pig.', defeat: 'Glaze cracks. Yeah. I knew that.', sight: 3 } }),
+    person('a2Polisher', 32, 5, 'cowrie2', 'Polisher', 3, { trainer: { name: 'Polisher', team: [['enamel', 10], ['emery', 10]], intro: 'I polish the sky. All of it. You\'re next, you\'ve got smudges.', defeat: 'Smudged. Leave it. Don\'t you dare wipe it.', sight: 3 } }),
+    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { nacre: 1, name: 'Pig-keeper', team: [['porcella', 10], ['specie', 11]], intro: 'My pig\'s glazed. So\'s my purse. So\'s my other pig.', defeat: 'Glaze cracks. Yeah. I knew that.', sight: 3 } }),
     person('a2MaculaChild', 20, 21, 'cowrie1', 'Child', 0),
     { id: 'a2ChildMacula', x: 20, y: 22, sprite: 'stone', name: 'Madaku', mon: SPECIES.macula ? 'macula' : undefined, lines: ['A small dark spot stands on the blank, on nothing at all.'] },
   ],
@@ -334,7 +334,7 @@ defMap({
   enter: 'a2TeethEnter',
   // Gimlet is found only at the end of the drill-hole trail.
   zone: {
-    kinds: kinds([['denticle', 3], ['diastema', 2], ['furl', 2], ['gimlet', 1]]), lv: [16, 22], n: 5, area: 'cowrie',
+    kinds: kinds([['denticle', 3], ['diastema', 2], ['furl', 2], ['gimlet', 1]]), lv: [8, 11], n: 5, area: 'cowrie',
     tideKinds: { high: kinds([['denticle', 3], ['diastema', 2], ['furl', 2]]), low: kinds([['denticle', 3], ['diastema', 2], ['furl', 2]]) },
   },
   npcs: [person('a2ToothSitter', 10, 7, 'cowrie1', 'Tooth-sitter', 0)],
@@ -386,7 +386,7 @@ defScript('a2ToothSitter', async () => {
   const k = 'underteeth:a2ToothSitter';
   if (!G.beaten[k]) {
     await say('Tooth-sitter', 'I sit between the teeth. Only gap in town. I got here first.');
-    const r = await fightTrainer({ name: 'Tooth-sitter', team: [['denticle', 21], ['diastema', 21]], intro: '', defeat: '' });
+    const r = await fightTrainer({ name: 'Tooth-sitter', team: [['denticle', 11], ['diastema', 11]], intro: '', defeat: '' });
     if (r.result === 'win') { G.beaten[k] = 1; save(); await say('Tooth-sitter', 'Okay, gap\'s yours.'); }
     return;
   }
@@ -454,10 +454,10 @@ defMap({
     { x: 8, y: 0, to: 'glosshall', tx: 7, ty: 11, dir: 2 },
   ],
   enter: 'a2GlazeEnter',
-  zone: { kinds: kinds([['laggard', 3], ['tain', 2], ['luster', 2]]), lv: [17, 22], n: 3, area: 'cowrie' },
+  zone: { kinds: kinds([['laggard', 3], ['tain', 2], ['luster', 2]]), lv: [9, 11], n: 3, area: 'cowrie' },
   npcs: [
     { id: 'a2Refl', x: 8, y: 22, sprite: 'vellum', ghost: true, img: reflectionImg, when: () => lit() && !(marked() && field.y >= 13) },
-    person('a2ReflChaser', 13, 12, 'cowrie2', 'Reflection-chaser', 3, { trainer: { name: 'Reflection-chaser', team: [['laggard', 22], ['luster', 21]], intro: 'I chase my reflection down here! It\'s always three behind. I\'m gonna get it one day.', defeat: 'Whoa. It caught up. That\'s never happened before.', sight: 3 } }),
+    person('a2ReflChaser', 13, 12, 'cowrie2', 'Reflection-chaser', 3, { trainer: { name: 'Reflection-chaser', team: [['laggard', 11], ['luster', 11]], intro: 'I chase my reflection down here! It\'s always three behind. I\'m gonna get it one day.', defeat: 'Whoa. It caught up. That\'s never happened before.', sight: 3 } }),
   ],
   spots: [
     { x: 15, y: 16, when: () => !flag('found_gh_niche'), script: async () => {
@@ -584,7 +584,7 @@ field.stepHooks.push(f => {
 });
 
 /** Gloss's four. Ouro arrives with the Strand cap at 13. */
-export const GLOSS_TEAM: [string, number][] = [['laggard', 22], ['tain', 22], ['luster', 22], ['macula', 23]];
+export const GLOSS_TEAM: [string, number][] = [['laggard', 11], ['tain', 11], ['luster', 11], ['macula', 12]];
 defScript('a2Gloss', async () => {
   if (grains() >= 2) {
     if (marked()) { await say('Gloss', 'The Cowrie is marked, alas!! Alas, marked is the Cowrie!!'); await say('Gloss', 'At every low, we stamp in unison. In unison, we stamp at every low.'); return; }
@@ -703,7 +703,7 @@ defScript('a2Gimlet', async () => {
   sound('cut');
   await emote('ouro', 'surprise');
   if (!SPECIES.gimlet) return;
-  const r = await fightWild(mon('gimlet', 24), { canRun: true, area: 'cowrie' });
+  const r = await fightWild(mon('gimlet', 12), { canRun: true, area: 'cowrie' });
   if (r.pegged.length) { r.pegged[0].strandBorn = true; setFlag('gimletDone'); await giveMon(r.pegged[0]); }
 });
 

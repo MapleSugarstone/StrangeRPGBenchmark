@@ -72,15 +72,15 @@ defMap({
     { x: 0, y: 24, to: 'kelpbeds', tx: 42, ty: 13, dir: 3 },
     { x: 43, y: 36, to: 'shoutwood', tx: 20, ty: 1, dir: 0 },
   ],
-  zone: { kinds: [['thicket', 3], ['orchard', 2], ['hemlock', 2], ['stump', 2], ['howl', 2], ['umbra', 1], ['mycel', 1]], lv: [20, 24], n: 16, area: 'brush' },
+  zone: { kinds: [['thicket', 3], ['orchard', 2], ['hemlock', 2], ['stump', 2], ['howl', 2], ['umbra', 1], ['mycel', 1]], lv: [10, 12], n: 16, area: 'brush' },
   npcs: [
-    { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 22], ['stump', 22]], intro: 'Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.', defeat: 'Aaand there goes my hat. Up.', sight: 4 } },
-    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 22], ['yoke', 22]], intro: 'Kid, you\'re standing in the haul. We\'re hauling the Bole here.', defeat: 'Whatever. Haul\'s still going.', sight: 4 } },
-    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 22], ['hemlock', 23]], intro: 'Tarhaju whorls drop fruit, same as real orchards. Same fruit too. I\'ve done a lot of tasting.', defeat: 'Bruised.', sight: 3 } },
-    { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 22], ['thumb', 22]], intro: 'She says ease it, don\'t yank it. So we\'re easing. Very slowly. All day.', defeat: 'Eased off.', sight: 4 } },
+    { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 11], ['stump', 11]], intro: 'Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.', defeat: 'Aaand there goes my hat. Up.', sight: 4 } },
+    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 11], ['yoke', 11]], intro: 'Kid, you\'re standing in the haul. We\'re hauling the Bole here.', defeat: 'Whatever. Haul\'s still going.', sight: 4 } },
+    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 11], ['hemlock', 12]], intro: 'Tarhaju whorls drop fruit, same as real orchards. Same fruit too. I\'ve done a lot of tasting.', defeat: 'Bruised.', sight: 3 } },
+    { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 11], ['thumb', 11]], intro: 'She says ease it, don\'t yank it. So we\'re easing. Very slowly. All day.', defeat: 'Eased off.', sight: 4 } },
     { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke whorl in harness, waiting to pull. It has the patience of a gate.'] },
-    { id: 'r4sleep1', x: 10, y: 13, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 34, flag: 'sl_under1' } },
-    { id: 'r4sleep2', x: 27, y: 30, sprite: 'stone', mon: 'howl', name: 'Lupusmi', sleeper: { kind: 'howl', lv: 34, flag: 'sl_under2' } },
+    { id: 'r4sleep1', x: 10, y: 13, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 17, flag: 'sl_under1' } },
+    { id: 'r4sleep2', x: 27, y: 30, sprite: 'stone', mon: 'howl', name: 'Lupusmi', sleeper: { kind: 'howl', lv: 17, flag: 'sl_under2' } },
   ],
   spots: [
     stash('us_hollow', 3, 13, 'In the hollow past the sleeping stump, a heap of acorns and a notion under them.', { notion: 'warmstone' }),
@@ -183,9 +183,9 @@ defMap({
   npcs: [
     { id: 'grafton', x: 5, y: 1, sprite: 'grafton', name: 'Grafton', talk: 'grafton' },
     { id: 'graft1', x: 8, y: 5, sprite: 'grafter', name: 'Grafter', dir: 3, trainer: { nacre: 1, name: 'Grafter', sight: 4, intro: 'Made my four out of eight. I miss two of \'em. Which two changes day to day.', defeat: 'Okay, now I miss three.',
-      team: () => [fitted('hemlock', 'mycel', 23, ['dose', 'spore', 'wilt', 'mycorrhiza'], ['tincture', 'fruiting'], 'Mycelock'), fitted('stump', 'orchard', 23, ['splinter', 'pick', 'sap', 'harvest'], ['rings', 'overripe'], 'Stumpchard')] } },
+      team: () => [fitted('hemlock', 'mycel', 12, ['dose', 'spore', 'wilt', 'mycorrhiza'], ['tincture', 'fruiting'], 'Mycelock'), fitted('stump', 'orchard', 12, ['splinter', 'pick', 'sap', 'harvest'], ['rings', 'overripe'], 'Stumpchard')] } },
     { id: 'graft2', x: 3, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { name: 'Grafter', sight: 4, intro: 'Sure, there\'s the Conjoiner in Spire. But Grafton\'s here, and Grafton\'s better. Ask anybody.', defeat: 'Grafton\'s better than me too. Obviously.',
-      team: () => [fitted('howl', 'thicket', 23, ['bite', 'snag', 'tangle', 'pindown'], ['bloodscent', 'thorned'], 'Howlet'), fitted('umbra', 'hemlock', 24, ['shade', 'dose', 'wilt', 'paranoia'], ['corona', 'cup'], 'Umblock')] } },
+      team: () => [fitted('howl', 'thicket', 12, ['bite', 'snag', 'tangle', 'pindown'], ['bloodscent', 'thorned'], 'Howlet'), fitted('umbra', 'hemlock', 12, ['shade', 'dose', 'wilt', 'paranoia'], ['corona', 'cup'], 'Umblock')] } },
   ],
 });
 
@@ -239,7 +239,7 @@ defScript('zestBole', async () => {
   await say('Tellin', 'Okay okay, I\'m pulling, you\'re watching, that\'s how this goes,');
   await say('Tellin', 'nothing\'s changing, so keep watching, yeah?');
   await say('Tellin', 'No no no, I\'m not stopping, not for a late one, not for anybody, we\'re on a schedule here, okay?');
-  const r = await fightTrainer({ name: 'Tellin', team: [['crane', 27], ['yoke', 27], ['thumb', 28]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Tellin', team: [['crane', 14], ['yoke', 14], ['thumb', 14]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') { setFlag('zestBole', 0); return; }
   await say('Tellin', 'Yeah yeah, fine, I\'m off to the trunk and you\'re off to the gym and we\'re both working so it\'s fine.');
 });
@@ -254,7 +254,7 @@ defScript('grafton', async () => {
   await say('Grafton', 'You have descended into the trunk and I am most thoroughly gladdened by it.');
   await say('Grafton', 'Every one of my four was twain and now each is a singular and splendid one. (don\'t ask which halves)');
   await say('Grafton', 'Engage them and you shall behold the doubled magnificence of what two can do.');
-  const r = await fightTrainer({ name: 'Grafton', team: () => graftonTeam(27), intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Grafton', team: () => graftonTeam(14), intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Grafton', 'You are victorious and now I bestow upon you the pearl of the Bole, which is-');
   sound('boom');

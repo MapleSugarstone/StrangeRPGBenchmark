@@ -11,7 +11,7 @@ defScript('lesson', async () => {
   if (c !== 0) { await say('Strandmonger', 'Then the lesson cost nothing and you got all of it.'); return; }
   await say('Strandmonger', 'Knock it down a bit, then sound it. Weaker means surer. Then it\'s yours, and I stop feeding a boot.');
   setFlag('lesson');
-  const r = await fightWild(makeMon('brogue', 3), {
+  const r = await fightWild(makeMon('brogue', 2), {
     canRun: false,
     area: 'back shelf',
     tips: [

@@ -38,14 +38,14 @@ defMap({
   id: 'battlefield', name: 'The Old Field', region: 20, music: 'route',
   rows: bf.rows(),
   warps: [{ x: 30, y: 21, to: 'route7', tx: 40, ty: 1, dir: 0 }],
-  zone: { kinds: kinds([['tang', 2], ['buckler', 2], ['destrier', 2], ['mangonel', 1], ['sallet', 2], ['fletch', 3]]), lv: [39, 43], n: 14, area: 'grass' },
+  zone: { kinds: kinds([['tang', 2], ['buckler', 2], ['destrier', 2], ['mangonel', 1], ['sallet', 2], ['fletch', 3]]), lv: [20, 22], n: 14, area: 'grass' },
   npcs: [
     { id: 'soldier', x: SOLDIER0.x, y: SOLDIER0.y, sprite: 'keeper', name: 'A soldier\'s cast', dir: 0, img: pale('keeper', ['#d8d4c8', '#a8a49a']), when: () => !flag('soldierDone'), talk: 'soldier' },
     { id: 'soldierbed', x: BED.x, y: BED.y, sprite: 'keeper', name: 'A soldier\'s cast', dir: 0, img: pale('keeper', ['#d8d4c8', '#a8a49a']), when: () => !!flag('soldierDone'), lines: ['(It lies on the bedroll with its arms at its sides. It is not marching.)'] },
     { id: 'lunch', x: 14, y: 5, sprite: 'villager2', name: 'Lunch-bringer', dir: 1, talk: 'lunch' },
-    { id: 'fencer', x: 4, y: 3, sprite: 'keeper', name: 'Fencer', dir: 0, trainer: { nacre: 1, name: 'Fencer', team: [['tang', 41], ['buckler', 41]], intro: 'The battle ended before my gran was born. Nobody told the swords. I\'m not gonna be the one.', defeat: 'Sheathed.', sight: 3 } },
-    { id: 'archer', x: 28, y: 3, sprite: 'villager', name: 'Arrow-finder', dir: 3, trainer: { name: 'Arrow-finder', team: [['fletch', 41], ['sallet', 42]], intro: 'One arrow never came down. I wait under it. With a hat on. I\'m not daft.', defeat: 'Still up there. Probably.', sight: 4 } },
-    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 42], ['mangonel', 42]], intro: 'I brush the war horses. They\'ve been whorls a hundred years and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
+    { id: 'fencer', x: 4, y: 3, sprite: 'keeper', name: 'Fencer', dir: 0, trainer: { nacre: 1, name: 'Fencer', team: [['tang', 21], ['buckler', 21]], intro: 'The battle ended before my gran was born. Nobody told the swords. I\'m not gonna be the one.', defeat: 'Sheathed.', sight: 3 } },
+    { id: 'archer', x: 28, y: 3, sprite: 'villager', name: 'Arrow-finder', dir: 3, trainer: { name: 'Arrow-finder', team: [['fletch', 21], ['sallet', 21]], intro: 'One arrow never came down. I wait under it. With a hat on. I\'m not daft.', defeat: 'Still up there. Probably.', sight: 4 } },
+    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 21], ['mangonel', 21]], intro: 'I brush the war horses. They\'ve been whorls a hundred years and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
   ],
   spots: [
     look(2, 11, 'A sword stands in the ground with a helmet hung on its hilt.', 'A snail has moved into the helmet. It wears it.'),
@@ -182,12 +182,12 @@ defMap({
   props: moonProps,
   warps: [{ x: 15, y: 20, to: 'moonwater', tx: 17, ty: 14, dir: 0 }],
   enter: 'moonbedEnter',
-  zone: { kinds: kinds([['image', 2], ['skipper', 3], ['silt', 2], ['spawn', 2], ['lune', 1]]), lv: [42, 46], n: 12, area: 'silt' },
+  zone: { kinds: kinds([['image', 2], ['skipper', 3], ['silt', 2], ['spawn', 2], ['lune', 1]]), lv: [21, 23], n: 12, area: 'silt' },
   npcs: [
     { id: 'reflection', x: 15, y: 3, sprite: 'elder', name: 'A reflection', dir: 0, img: pale('elder', ['#c8d0e8', '#9aa4c8']), when: () => !flag('reflectionHome'), talk: 'reflection' },
-    { id: 'flakeboy', x: 4, y: 17, sprite: 'child', name: 'Flake boy', dir: 1, trainer: { nacre: 1, name: 'Flake boy', team: [['lune', 44], ['skipper', 44]], intro: 'The moon dropped flakes when it climbed out. I\'m selling them back to it! Good price.', defeat: 'It never buys. Doesn\'t even haggle.', sight: 3 } },
-    { id: 'siltwife', x: 25, y: 17, sprite: 'villager2', name: 'Silt-wife', dir: 3, trainer: { name: 'Silt-wife', team: [['silt', 44], ['spawn', 45]], intro: 'Under the water was cold. Under the silt\'s warm. So I live under the silt now. Obviously.', defeat: 'Back under.', sight: 3 } },
-    { id: 'mirrorman', x: 25, y: 3, sprite: 'villager', name: 'Mirror-mender', dir: 3, trainer: { name: 'Mirror-mender', team: [['image', 45], ['lune', 45]], intro: 'Things the water showed are still lying about. I fix \'em. Put \'em back together.', defeat: 'Oops. That was the wrong face.', sight: 3 } },
+    { id: 'flakeboy', x: 4, y: 17, sprite: 'child', name: 'Flake boy', dir: 1, trainer: { nacre: 1, name: 'Flake boy', team: [['lune', 22], ['skipper', 22]], intro: 'The moon dropped flakes when it climbed out. I\'m selling them back to it! Good price.', defeat: 'It never buys. Doesn\'t even haggle.', sight: 3 } },
+    { id: 'siltwife', x: 25, y: 17, sprite: 'villager2', name: 'Silt-wife', dir: 3, trainer: { name: 'Silt-wife', team: [['silt', 22], ['spawn', 23]], intro: 'Under the water was cold. Under the silt\'s warm. So I live under the silt now. Obviously.', defeat: 'Back under.', sight: 3 } },
+    { id: 'mirrorman', x: 25, y: 3, sprite: 'villager', name: 'Mirror-mender', dir: 3, trainer: { name: 'Mirror-mender', team: [['image', 23], ['lune', 23]], intro: 'Things the water showed are still lying about. I fix \'em. Put \'em back together.', defeat: 'Oops. That was the wrong face.', sight: 3 } },
   ],
   spots: [
     look(5, 3, 'The silt where the moon lay is pressed into a round hollow, smooth and pearly.'),
@@ -307,12 +307,12 @@ defMap({
     { x: 30, y: 0, to: 'hilt', tx: 28, ty: 28, dir: 2 },
     { x: 30, y: 21, to: 'fall', tx: 38, ty: 16, dir: 3 },
   ],
-  zone: { kinds: kinds([['cullet', 2], ['telson', 2], ['cholla', 3], ['erg', 2], ['haze', 1], ['bonedry', 2]]), lv: [45, 49], n: 14, area: 'glass' },
+  zone: { kinds: kinds([['cullet', 2], ['telson', 2], ['cholla', 3], ['erg', 2], ['haze', 1], ['bonedry', 2]]), lv: [23, 25], n: 14, area: 'glass' },
   npcs: [
     { id: 'listener', x: 11, y: 11, sprite: 'elder', name: 'The Listener', dir: 1, talk: 'listener' },
-    { id: 'glassblower', x: 5, y: 4, sprite: 'tanner', name: 'Glass-walker', dir: 0, trainer: { nacre: 1, name: 'Glass-walker', team: [['cullet', 47], ['erg', 47]], intro: 'I walk the glass barefoot. It rings. I don\'t. I\'m very brave.', defeat: 'Ring, ring.', sight: 3 } },
-    { id: 'scorpion', x: 30, y: 4, sprite: 'villager2', name: 'Shade-seeker', dir: 3, trainer: { name: 'Shade-seeker', team: [['telson', 47], ['cholla', 47]], intro: 'There\'s no shade out here. I keep looking. That\'s the job.', defeat: 'Oh, found some. It was you. Can you stand still?', sight: 3 } },
-    { id: 'skullkid', x: 6, y: 17, sprite: 'child', name: 'Skull kid', dir: 1, trainer: { name: 'Skull kid', team: [['bonedry', 48], ['haze', 48]], intro: 'I found a skull! And it found me back!', defeat: 'Now it\'s sulking. Thanks.', sight: 4 } },
+    { id: 'glassblower', x: 5, y: 4, sprite: 'tanner', name: 'Glass-walker', dir: 0, trainer: { nacre: 1, name: 'Glass-walker', team: [['cullet', 24], ['erg', 24]], intro: 'I walk the glass barefoot. It rings. I don\'t. I\'m very brave.', defeat: 'Ring, ring.', sight: 3 } },
+    { id: 'scorpion', x: 30, y: 4, sprite: 'villager2', name: 'Shade-seeker', dir: 3, trainer: { name: 'Shade-seeker', team: [['telson', 24], ['cholla', 24]], intro: 'There\'s no shade out here. I keep looking. That\'s the job.', defeat: 'Oh, found some. It was you. Can you stand still?', sight: 3 } },
+    { id: 'skullkid', x: 6, y: 17, sprite: 'child', name: 'Skull kid', dir: 1, trainer: { name: 'Skull kid', team: [['bonedry', 24], ['haze', 24]], intro: 'I found a skull! And it found me back!', defeat: 'Now it\'s sulking. Thanks.', sight: 4 } },
   ],
   spots: [
     look(4, 13, 'Under the glass, footprints from before the sand melted. They are walking away from the star.'),
@@ -394,12 +394,12 @@ defMap({
     { x: 15, y: 4, ch: '=', when: trained },
   ],
   warps: [{ x: 0, y: 12, to: 'climb', tx: 14, ty: 21, dir: 3 }],
-  zone: { kinds: kinds([['shears', 2], ['glove', 2], ['scion', 2], ['espalier', 2], ['rung', 2]]), lv: [52, 56], n: 12, area: 'orchard' },
+  zone: { kinds: kinds([['shears', 2], ['glove', 2], ['scion', 2], ['espalier', 2], ['rung', 2]]), lv: [26, 28], n: 12, area: 'orchard' },
   npcs: [
     { id: 'pruner', x: 13, y: 18, sprite: 'keeper', name: 'The Pruner', dir: 2, talk: 'pruner' },
-    { id: 'grafter', x: 4, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { nacre: 1, name: 'Grafter', team: [['scion', 54], ['shears', 54]], intro: 'Grafton learned here. Then Grafton left. The trees are still kinda sore about it.', defeat: 'Well. Cut clean, at least.', sight: 3 } },
-    { id: 'ladder', x: 25, y: 9, sprite: 'child', name: 'Ladder girl', dir: 3, trainer: { name: 'Ladder girl', team: [['rung', 54], ['espalier', 55]], intro: 'I carry the ladder for the Hands. Nobody\'s climbed it yet. I carry it anyway.', defeat: 'Fine. Up you go, then.', sight: 3 } },
-    { id: 'glovesmith', x: 25, y: 21, sprite: 'villager2', name: 'Glovesmith', dir: 3, trainer: { name: 'Glovesmith', team: [['glove', 55], ['shears', 55]], intro: 'Every Hand wears a glove I made. Never shaken one. Not one hand. It\'s a bit sad.', defeat: 'Ooh. Firm grip.', sight: 3 } },
+    { id: 'grafter', x: 4, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { nacre: 1, name: 'Grafter', team: [['scion', 27], ['shears', 27]], intro: 'Grafton learned here. Then Grafton left. The trees are still kinda sore about it.', defeat: 'Well. Cut clean, at least.', sight: 3 } },
+    { id: 'ladder', x: 25, y: 9, sprite: 'child', name: 'Ladder girl', dir: 3, trainer: { name: 'Ladder girl', team: [['rung', 27], ['espalier', 28]], intro: 'I carry the ladder for the Hands. Nobody\'s climbed it yet. I carry it anyway.', defeat: 'Fine. Up you go, then.', sight: 3 } },
+    { id: 'glovesmith', x: 25, y: 21, sprite: 'villager2', name: 'Glovesmith', dir: 3, trainer: { name: 'Glovesmith', team: [['glove', 28], ['shears', 28]], intro: 'Every Hand wears a glove I made. Never shaken one. Not one hand. It\'s a bit sad.', defeat: 'Ooh. Firm grip.', sight: 3 } },
   ],
   spots: [
     ...TREES.map(([x, y], i) => ({ x, y, script: async () => {
@@ -454,11 +454,11 @@ defMap({
   id: 'margin', name: 'The Margin', region: 24, music: 'slack', fog: true,
   rows: mg.rows(),
   warps: [{ x: 0, y: 14, to: 'slack', tx: 38, ty: 14, dir: 3 }],
-  zone: { kinds: kinds([['nought', 2], ['terminus', 2], ['horizon', 1], ['murk', 3], ['undine', 1], ['lip', 2]]), lv: [60, 68], n: 16, area: 'blank' },
+  zone: { kinds: kinds([['nought', 2], ['terminus', 2], ['horizon', 1], ['murk', 3], ['undine', 1], ['lip', 2]]), lv: [30, 34], n: 16, area: 'blank' },
   npcs: [
     { id: 'cartographer', x: 3, y: 14, sprite: 'elder', name: 'Cartographer', dir: 1, talk: 'cartographer' },
-    { id: 'blankman', x: 20, y: 15, sprite: 'villager', name: 'Blank', dir: 2, trainer: { nacre: 1, name: 'Blank', team: [['nought', 64], ['murk', 64], ['terminus', 65]], intro: 'Nobody drew me in. So I stand where I like. Today it\'s here.', defeat: 'Draw that.', sight: 3 } },
-    { id: 'edgewalker', x: 33, y: 7, sprite: 'tanner', name: 'Edge-walker', dir: 3, trainer: { name: 'Edge-walker', team: [['lip', 65], ['undine', 65], ['horizon', 66]], intro: 'I walk the edge every day. Edge moves an inch, I move an inch. Keeping up.', defeat: 'An inch further, then.', sight: 3 } },
+    { id: 'blankman', x: 20, y: 15, sprite: 'villager', name: 'Blank', dir: 2, trainer: { nacre: 1, name: 'Blank', team: [['nought', 32], ['murk', 32], ['terminus', 33]], intro: 'Nobody drew me in. So I stand where I like. Today it\'s here.', defeat: 'Draw that.', sight: 3 } },
+    { id: 'edgewalker', x: 33, y: 7, sprite: 'tanner', name: 'Edge-walker', dir: 3, trainer: { name: 'Edge-walker', team: [['lip', 33], ['undine', 33], ['horizon', 33]], intro: 'I walk the edge every day. Edge moves an inch, I move an inch. Keeping up.', defeat: 'An inch further, then.', sight: 3 } },
   ],
   spots: CORNERS.map(([x, y], i) => ({ x, y, script: async () => {
     if (flag('corner' + i)) { await emote('ouro', 'silence'); return; }

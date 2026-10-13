@@ -121,7 +121,7 @@ function setup(): void {
   const rnd = () => { s = (Math.imul(s, 1103515245) + 12345) & 0x7fffffff; return s / 0x7fffffff; };
   h().setup([], {}, ['furcula', 'fleam', 'kiln', 'cellar'], 25, 'home', 4, 4);
   // A second Kiln waits in the Midden, so the roster check can show a kind used twice.
-  G.rack.push(makeMon('belt', 50), makeMon('slackwater', 50), makeMon('kiln', 50, { name: 'Kiln Two' }), randomFit(rnd, 'talus', 'spume', 50));
+  G.rack.push(makeMon('belt', 25), makeMon('slackwater', 25), makeMon('kiln', 25, { name: 'Kiln Two' }), randomFit(rnd, 'talus', 'spume', 25));
   [...G.party, ...G.rack].forEach((m, i) => { plannedKit(rnd, m); m.notion = NOTION_IDS[(i * 3) % NOTION_IDS.length]; });
   forgetRoster();
 }
@@ -398,10 +398,10 @@ async function scenario(s: Scenario): Promise<void> {
  * roster's problems.
  */
 function minuteTeam(partner: string, keep: string[]): string {
-  const A = makeMon('slackwater', 50), B = makeMon(partner, 50);
+  const A = makeMon('slackwater', 25), B = makeMon(partner, 25);
   const sprite = { px: shapeOf(A.sprite, B.sprite, 1), c: paletteOf(A.sprite, B.sprite, 0) };
   const fit: Mon = makeFit(A, B, { moves: ['slackwater_minute', 'slackwater_lap', ...keep], passives: ['slackwater_turn', B.passives[0]], types: typeOptions(A, B)[0], basic: A.basic, retune: null, sprite, name: nameOptions(A.name, B.name)[0] || A.name, look: { shape: 1, palette: 0 } }, 0);
-  const rest = ['furcula', 'fleam', 'cellar', 'belt', 'cairn'].filter(k => k !== partner).map(k => makeMon(k, 50));
+  const rest = ['furcula', 'fleam', 'cellar', 'belt', 'cairn'].filter(k => k !== partner).map(k => makeMon(k, 25));
   G.party = [fit, ...rest.slice(0, 3)];
   G.rack = rest.slice(3, 5);
   // Tide Mark's tide for each guard lets the fit reach Still Minute's 6 tide by the third round.

@@ -68,7 +68,7 @@ defMap({
     { x: 0, y: 24, to: 'shoutwood', tx: 38, ty: 20, dir: 3, when: open('gate_w') },
     { x: 47, y: 24, to: 'moonwater', tx: 1, ty: 14, dir: 1, when: open('gate_e') },
   ],
-  zone: { kinds: kinds([['strix', 3], ['hemlock', 2], ['thicket', 2], ['umbra', 1], ['mycel', 2], ['peat', 2]]), lv: [30, 36], n: 14, area: 'deep wood' },
+  zone: { kinds: kinds([['strix', 3], ['hemlock', 2], ['thicket', 2], ['umbra', 1], ['mycel', 2], ['peat', 2]]), lv: [15, 18], n: 14, area: 'deep wood' },
   npcs: [{ id: 'ringwalker', x: 31, y: 11, sprite: 'elder', name: 'Ring-walker', dir: 3, wander: true, talk: 'ringwalker' }],
   spots: [
     shut(24, 0, 'gate_n'), shut(24, 47, 'gate_s'), shut(0, 24, 'gate_w'), shut(47, 24, 'gate_e'),
@@ -92,7 +92,7 @@ field.loadHooks.push(f => {
   if (f.map.id !== 'gatering') return;
   if (!flag('postgame')) { f.map.zone = quiet; return; }
   const ks = POST_KINDS.flatMap(id => (MAPS[id]?.zone?.kinds || []).slice(0, 2)).map(([k]) => [k, 1] as [string, number]);
-  f.map.zone = { ...quiet, kinds: ks, lv: [50, 58] };
+  f.map.zone = { ...quiet, kinds: ks, lv: [25, 29] };
 });
 
 // Each outer gate leads in once its gatekeeper has read the letter.

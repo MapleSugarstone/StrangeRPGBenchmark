@@ -51,8 +51,8 @@ function randomSlot(avoid: string[], level: number): Slot {
   let s: Slot;
   if (rnd() < 0.5) {
     const k2 = pick(WILD_KINDS.filter(x => x !== k && !avoid.includes(x)));
-    s = { m: randomFit(rnd, k, k2, 50), kinds: [k, k2] };
-  } else s = { m: makeMon(k, 50), kinds: [k] };
+    s = { m: randomFit(rnd, k, k2, 25), kinds: [k, k2] };
+  } else s = { m: makeMon(k, 25), kinds: [k] };
   plannedKit(rnd, s.m);
   s.m.level = level;
   return s;
@@ -288,15 +288,15 @@ class Builder implements Mode {
     this.wait((async () => {
       if (a === 'Pick a kind') {
         const id = await findKind('Pick a kind', () => true, taken);
-        if (id) put({ m: plannedKit(rnd, makeMon(id, 50)), kinds: [id] });
+        if (id) put({ m: plannedKit(rnd, makeMon(id, 25)), kinds: [id] });
       } else if (a === 'Random fit' || a === 'Fit by hand') {
         const k1 = await findKind('Fit which kind first?', fittable, taken);
         if (!k1) return;
         const k2 = await findKind(`Fit ${SPECIES[k1].name} with?`, id => fittable(id) && id !== k1, taken);
         if (!k2) return;
-        if (a === 'Random fit') put({ m: plannedKit(rnd, randomFit(rnd, k1, k2, 50)), kinds: [k1, k2] });
+        if (a === 'Random fit') put({ m: plannedKit(rnd, randomFit(rnd, k1, k2, 25)), kinds: [k1, k2] });
         else {
-          const A = makeMon(k1, 50), B = makeMon(k2, 50);
+          const A = makeMon(k1, 25), B = makeMon(k2, 25);
           const plan = await designFit(A, B);
           if (plan) { put({ m: plannedKit(rnd, makeFit(A, B, plan, 0)), kinds: [k1, k2] }); sfx('fit'); }
         }

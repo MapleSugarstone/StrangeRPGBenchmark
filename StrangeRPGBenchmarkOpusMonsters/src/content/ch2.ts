@@ -58,15 +58,15 @@ defMap({
     { x: 0, y: 12, to: 'mast', tx: 42, ty: 12, dir: 3 },
     { x: 4, y: 33, to: 'wrecks', tx: 19, ty: 1, dir: 0 },
   ],
-  zone: { kinds: [['scree', 3], ['brine', 3], ['bore', 2], ['carrion', 2], ['coma', 1], ['eddy', 2], ['paring', 1]], lv: [8, 12], n: 14, area: 'sand' },
+  zone: { kinds: [['scree', 3], ['brine', 3], ['bore', 2], ['carrion', 2], ['coma', 1], ['eddy', 2], ['paring', 1]], lv: [4, 6], n: 14, area: 'sand' },
   npcs: [
-    { id: 'salter', x: 16, y: 11, sprite: 'tanner', name: 'Salter', dir: 0, trainer: { name: 'Salter', team: [['brine', 10], ['scree', 10]], intro: 'Sea\'s been gone forty years and I still salt the fish. They\'re already dry. I just like doing it.', defeat: 'Fine. I\'ll go salt a rock.', sight: 3 } },
-    { id: 'wrecker', x: 27, y: 14, sprite: 'villager2', name: 'Wrecker', dir: 2, trainer: { name: 'Wrecker', team: [['bore', 11], ['carrion', 10]], intro: 'I live in a boat on the sand. Love it. Never sunk once.', defeat: 'Gonna go sit in my boat now.', sight: 3 } },
-    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { nacre: 1, name: 'Shell girl', team: [['paring', 10], ['eddy', 11]], intro: 'Every shell out here used to have someone in it. The pink one\'s mine. I called it, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
+    { id: 'salter', x: 16, y: 11, sprite: 'tanner', name: 'Salter', dir: 0, trainer: { name: 'Salter', team: [['brine', 5], ['scree', 5]], intro: 'Sea\'s been gone forty years and I still salt the fish. They\'re already dry. I just like doing it.', defeat: 'Fine. I\'ll go salt a rock.', sight: 3 } },
+    { id: 'wrecker', x: 27, y: 14, sprite: 'villager2', name: 'Wrecker', dir: 2, trainer: { name: 'Wrecker', team: [['bore', 6], ['carrion', 5]], intro: 'I live in a boat on the sand. Love it. Never sunk once.', defeat: 'Gonna go sit in my boat now.', sight: 3 } },
+    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { nacre: 1, name: 'Shell girl', team: [['paring', 5], ['eddy', 6]], intro: 'Every shell out here used to have someone in it. The pink one\'s mine. I called it, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
     { id: 'fisher', x: 20, y: 28, sprite: 'elder', name: 'Old fisher', lines: ['That gray\'s the sea\'s old shell. Every dusk it comes back and stands there, staring at my house.', 'Never comes in. If I were younger I\'d walk out there and have a word with it.'] },
     { id: 'tackds', x: 2, y: 12, sprite: 'tack', name: 'Tack', dir: 1, when: () => !flag('tack2') },
-    { id: 'dssleeper', x: 48, y: 24, sprite: 'stone', mon: 'scree', name: 'Jarira', sleeper: { kind: 'scree', lv: 22, flag: 'sl_drysea' } },
-    standingWild('grayrare', 42, 30, 'fata', 30),
+    { id: 'dssleeper', x: 48, y: 24, sprite: 'stone', mon: 'scree', name: 'Jarira', sleeper: { kind: 'scree', lv: 11, flag: 'sl_drysea' } },
+    standingWild('grayrare', 42, 30, 'fata', 15),
   ],
   spots: [
     stash('ds_reef', 48, 22, 'Inside the reef ring, where the sleeper lay across the gap, a pepper kelp, still green.', { notions: [['pepperkelp', 1]] }),
@@ -172,8 +172,8 @@ defMap({
   warps: [{ x: 7, y: 13, to: 'mast', tx: 21, ty: 5, dir: 0 }, { x: 8, y: 13, to: 'mast', tx: 21, ty: 5, dir: 0 }],
   npcs: [
     { id: 'leeward', x: 7, y: 1, sprite: 'leeward', name: 'Leeward', talk: 'leeward', when: () => !flag('mastFell') },
-    { id: 'deck1', x: 8, y: 9, sprite: 'stilts', name: 'Deckhand', dir: 3, trainer: { name: 'Deckhand', team: [['coma', 12], ['scree', 12]], intro: 'Crests cost tide, right? You get tide from the small moves. That\'s the whole thing.', defeat: 'I did the small ones! I did so many!', sight: 4 } },
-    { id: 'deck2', x: 7, y: 5, sprite: 'villager2', name: 'Bosun', dir: 0, trainer: { name: 'Bosun', team: [['bore', 12], ['brine', 12], ['eddy', 13]], intro: 'I\'m saving all my tide for the end. Watch this. Watch.', defeat: '...Saved it too long.', sight: 3 } },
+    { id: 'deck1', x: 8, y: 9, sprite: 'stilts', name: 'Deckhand', dir: 3, trainer: { name: 'Deckhand', team: [['coma', 6], ['scree', 6]], intro: 'Crests cost tide, right? You get tide from the small moves. That\'s the whole thing.', defeat: 'I did the small ones! I did so many!', sight: 4 } },
+    { id: 'deck2', x: 7, y: 5, sprite: 'villager2', name: 'Bosun', dir: 0, trainer: { name: 'Bosun', team: [['bore', 6], ['brine', 6], ['eddy', 7]], intro: 'I\'m saving all my tide for the end. Watch this. Watch.', defeat: '...Saved it too long.', sight: 3 } },
   ],
 });
 
@@ -194,7 +194,7 @@ defScript('tack2', async () => {
     await say('Tack', 'They\'ve dug 3 holes already. Like, big holes.');
     await say('Tack', 'Leeward\'s 1 keeper and there\'s 11 of them. So I\'m gonna help. After I beat you.');
   }
-  const r = await battle({ enemy: [makeMon('tackle', 17), makeMon('hare', 16), makeMon('paring', 16)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 1.15 });
+  const r = await battle({ enemy: [makeMon('tackle', 9), makeMon('hare', 8), makeMon('paring', 8)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 1.15 });
   music.play('drysea');
   countTack('2', r.result === 'win');
   if (r.result !== 'win') {
@@ -245,7 +245,7 @@ defScript('leeward', async () => {
   setFlag('nerve');
   await hint('(A crest is a whorl\'s biggest move. A crest costs tide. Your whole team shares one pool of tide.)');
   await hint('(You get tide when an Attack lands, when a move hits your Guard, and when a whorl is knocked out.)');
-  const r = await fightTrainer({ name: 'Leeward', team: [['squall', 17], ['coma', 17], ['brine', 17], ['bore', 18]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Leeward', team: [['squall', 9], ['coma', 9], ['brine', 9], ['bore', 9]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Leeward', 'A great calm follows. The Mast pearl is bestowed upon you, under clearing skies.');
   giveScale('mast');
@@ -253,7 +253,7 @@ defScript('leeward', async () => {
   await say('Leeward', 'Gusts of Hermits at the foot. Thirteen, by the sound.');
   await choose(['Help drive them', 'Not my Stay']);
   await say('Leeward', 'Wind: Turning!! Shovels down. Here they come, from the hermitward quarter!!');
-  const r2 = await fightTrainer({ name: 'Hermit', team: [['scree', 14], ['eddy', 14]], intro: '', defeat: '' });
+  const r2 = await fightTrainer({ name: 'Hermit', team: [['scree', 7], ['eddy', 7]], intro: '', defeat: '' });
   if (r2.result !== 'win') return;
   field.warp('mast', 21, 18, 2);
   await wait(20);

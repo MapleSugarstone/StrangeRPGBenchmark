@@ -22,17 +22,17 @@ const ROW = (inner: string) => '#' + inner + '#';
 function withNotion(m: Mon, n: string): Mon { m.notion = n; return m; }
 
 export function bareFinal(): Mon[] {
-  return [makeMon('carrion', 44), makeMon('undertow', 44), makeMon('hemlock', 44),
-    fitted('quarry', 'carrion', 45, ['cut', 'peck', 'mob', 'excavate'], ['dugout', 'gather'], 'Quarrion')];
+  return [makeMon('carrion', 22), makeMon('undertow', 22), makeMon('hemlock', 22),
+    fitted('quarry', 'carrion', 23, ['cut', 'peck', 'mob', 'excavate'], ['dugout', 'gather'], 'Quarrion')];
 }
-export function tackFinal(): Mon[] { return [brack(48), makeMon('howl', 47), makeMon('turbine', 47), makeMon('quarry', 48)]; }
-export function cinchTeam(): Mon[] { return [makeMon('knot', 66), makeMon('menhir', 50), makeMon('halo', 50), makeMon('orrery', 50)]; }
+export function tackFinal(): Mon[] { return [brack(24), makeMon('howl', 24), makeMon('turbine', 24), makeMon('quarry', 24)]; }
+export function cinchTeam(): Mon[] { return [makeMon('knot', 33), makeMon('menhir', 25), makeMon('halo', 25), makeMon('orrery', 25)]; }
 export function purchaseTeam(): Mon[] {
   return [
-    withNotion(fitted('perigee', 'hemlock', 54, ['ping', 'fix', 'wilt', 'lastcup'], ['telemetry', 'cup'], 'Perilock'), 'bodkin'),
-    withNotion(fitted('stoat', 'umbra', 54, ['nip', 'shade', 'blot', 'dance'], ['weasel', 'corona'], 'Stombra'), 'edgecharm'),
-    withNotion(fitted('welling', 'halo', 54, ['bucket', 'brim', 'smite', 'intervention'], ['deepwater', 'grace'], 'Welhalo'), 'ribbon'),
-    withNotion(fitted('flare', 'dynamo', 55, ['sear', 'spark', 'arc', 'supernova'], ['ignite', 'charge'], 'Flaremo'), 'crownofhorn'),
+    withNotion(fitted('perigee', 'hemlock', 27, ['ping', 'fix', 'wilt', 'lastcup'], ['telemetry', 'cup'], 'Perilock'), 'bodkin'),
+    withNotion(fitted('stoat', 'umbra', 27, ['nip', 'shade', 'blot', 'dance'], ['weasel', 'corona'], 'Stombra'), 'edgecharm'),
+    withNotion(fitted('welling', 'halo', 27, ['bucket', 'brim', 'smite', 'intervention'], ['deepwater', 'grace'], 'Welhalo'), 'ribbon'),
+    withNotion(fitted('flare', 'dynamo', 28, ['sear', 'spark', 'arc', 'supernova'], ['ignite', 'charge'], 'Flaremo'), 'crownofhorn'),
   ];
 }
 
@@ -171,11 +171,11 @@ async function hand(id: string, before: string | null, intro: string[], team: ()
 }
 
 defScript('fid', () => hand('fid', null, ['You span four tall, young person, and one span short of a Hand.', 'The Operculum is nineteen spans round, by official measure. Walk it. Count aloud.'],
-  () => [makeMon('menhir', 47), makeMon('tor', 47), makeMon('gore', 47), makeMon('thumb', 48)], 'That fell one hand\'s width short, by my rule. Go round.', 'Fid'));
+  () => [makeMon('menhir', 24), makeMon('tor', 24), makeMon('gore', 24), makeMon('thumb', 24)], 'That fell one hand\'s width short, by my rule. Go round.', 'Fid'));
 defScript('lug', () => hand('lug', 'fid', ['Close in here. Storm by supper, inside. Rain in the soup.', 'Soup on the stairs. Stairs going up into cloud.', 'Damp up the walls already. Fight it out of the damp. Wipe your feet first.'],
-  () => [makeMon('welling', 56), makeMon('curtain', 56), makeMon('floe', 56), makeMon('halo', 57)], 'Clearing, indoors.', 'Lug'));
+  () => [makeMon('welling', 28), makeMon('curtain', 28), makeMon('floe', 28), makeMon('halo', 29)], 'Clearing, indoors.', 'Lug'));
 defScript('hasp', () => hand('hasp', 'lug', ['Do they hold still?? When nobody watches?? Your hands??', 'Did you wash them before you came up? Under the nails?', 'Can you hold on with those? For a day? For a year?'],
-  () => [makeMon('siren', 57), makeMon('grotto', 57), makeMon('fulgur', 57), makeMon('fogbank', 58)], 'Shaking?? Now?? Your hands??', 'Hasp'));
+  () => [makeMon('siren', 29), makeMon('grotto', 29), makeMon('fulgur', 29), makeMon('fogbank', 29)], 'Shaking?? Now?? Your hands??', 'Hasp'));
 defScript('purchase', () => hand('purchase', 'hasp', ['My brother sold you your first stray. Cheaply!! I would have charged thrice that, and the sandwich.', 'A Hand is worth eight pearls and a Climb. You have owed that much. Now owe it all again.'],
   purchaseTeam, 'Precisely the price, to the last cowrie. Go on to the post. Do mind the hat.', 'Purchase'));
 
@@ -237,7 +237,7 @@ async function holdEnding(): Promise<void> {
   faceToward('cinch', 'ouro');
   await act('cinch', 'bow');
   await joinOuro('cinch');
-  await giveMon(mon('knot', 61));
+  await giveMon(mon('knot', 31));
   await walkUp('tackcrown');
   await say('Tack', '1 Holdfast. 0 days off. You\'re gonna want a chair.');
   setFlag('endHold');

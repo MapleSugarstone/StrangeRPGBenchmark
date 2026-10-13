@@ -214,13 +214,13 @@ defMap({
     { x: 39, y: 15, to: 'route3', tx: 1, ty: 20, dir: 1 },
   ],
   tileTalk: { '+': 'sluiceBoard' },
-  zone: { kinds: kinds([['brine', 3], ['eddy', 2], ['heron', 3], ['elver', 2], ['siren', 1]]), lv: [15, 19], n: 9, area: 'saltwort' },
+  zone: { kinds: kinds([['brine', 3], ['eddy', 2], ['heron', 3], ['elver', 2], ['siren', 1]]), lv: [8, 10], n: 9, area: 'saltwort' },
   props: [{ x: 12, y: 9, pic: 'panposts' }, { x: 1, y: 5, pic: 'holmfar', when: holmSeen(3) }, { x: 8, y: 11, pic: 'lorewindow', when: () => !hasKey('lore_window') && !flag('back_lore_window') }],
   npcs: [
     { id: 'saltworker1', x: 22, y: 9, sprite: 'tanner', name: 'Salt worker', dir: 3, lines: () => saltLines(0) },
     { id: 'saltworker2', x: 25, y: 20, sprite: 'villager', name: 'Salt worker', dir: 3, lines: () => saltLines(1) },
     { id: 'saltsign', x: 20, y: 7, sprite: 'sign', name: null as any, lines: ['THE PANS. Lift a board, the two sides level. Odd measure goes seaward. Seaward is west, then south.'] },
-    { id: 'saltrainer', x: 33, y: 5, sprite: 'villager2', name: 'Raker', dir: 3, trainer: { name: 'Raker', team: [['brine', 18], ['heron', 18]], intro: 'Rake, rake, rake. I rake salt, sleep, rake salt. You\'re the first thing I\'ve raked that walks.', defeat: 'Back to the rake.', sight: 3 } },
+    { id: 'saltrainer', x: 33, y: 5, sprite: 'villager2', name: 'Raker', dir: 3, trainer: { name: 'Raker', team: [['brine', 9], ['heron', 9]], intro: 'Rake, rake, rake. I rake salt, sleep, rake salt. You\'re the first thing I\'ve raked that walks.', defeat: 'Back to the rake.', sight: 3 } },
   ],
   spots: [
     { x: 21, y: 13, script: 'saltPump' },
@@ -279,12 +279,12 @@ defMap({
   ],
   mods: [{ x: 39, y: 20, ch: '=', when: () => !!flag('gate_w') }],
   warps: [{ x: 0, y: 20, to: 'spire', tx: 38, ty: 22, dir: 3 }],
-  zone: { kinds: kinds([['mycel', 3], ['leech', 2], ['peat', 2], ['strix', 2], ['siren', 1]]), lv: [15, 19], n: 10, area: 'bracken' },
+  zone: { kinds: kinds([['mycel', 3], ['leech', 2], ['peat', 2], ['strix', 2], ['siren', 1]]), lv: [8, 10], n: 10, area: 'bracken' },
   npcs: [
     { id: 'shouter1', x: 9, y: 18, sprite: 'villager2', name: 'Shouter', dir: 0, lines: ['I COME OUT HERE TO SAY THINGS AT FULL SIZE. my wife says I\'m a bit much at home'] },
     { id: 'shouter2', x: 22, y: 13, sprite: 'oldwoman', name: 'Shouter', dir: 3, lines: ['FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I\'M SHOUTING THE SHOPPING LIST. eggs'] },
-    { id: 'shoutrainer', x: 23, y: 26, sprite: 'villager', name: 'Bellower', dir: 2, trainer: { name: 'Bellower', team: [['siren', 18], ['strix', 18], ['peat', 19]], intro: 'THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I\'M ALLOWED BOTH. sorry', defeat: 'I LOST. that was nice actually', sight: 4 } },
-    { id: 'swsleeper', x: 35, y: 20, sprite: 'stone', mon: 'peat', name: 'Deispes', sleeper: { kind: 'peat', lv: 26, flag: 'sl_shout' } },
+    { id: 'shoutrainer', x: 23, y: 26, sprite: 'villager', name: 'Bellower', dir: 2, trainer: { name: 'Bellower', team: [['siren', 9], ['strix', 9], ['peat', 10]], intro: 'THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I\'M ALLOWED BOTH. sorry', defeat: 'I LOST. that was nice actually', sight: 4 } },
+    { id: 'swsleeper', x: 35, y: 20, sprite: 'stone', mon: 'peat', name: 'Deispes', sleeper: { kind: 'peat', lv: 13, flag: 'sl_shout' } },
     { id: 'gatekeeper_w', x: 37, y: 19, sprite: 'keeper', name: 'Gatekeeper', dir: 0, talk: 'gateW' },
   ],
   spots: [

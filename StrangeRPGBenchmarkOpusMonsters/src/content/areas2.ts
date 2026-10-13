@@ -64,12 +64,12 @@ defMap({
   mods: [{ x: 12, y: 13, w: 2, ch: '_', when: () => !!flag('bellsDone') || loftChord(loftBells) || (field.y === 13 && LOFT_DOOR.includes(field.x)) }],
   warps: [{ x: 2, y: 1, to: 'spirecrypt', tx: 8, ty: 2, dir: 2 }],
   enter: 'underspireEnter',
-  zone: { kinds: kinds([['tenor', 2], ['glaze', 2], ['pipe', 2], ['pew', 3], ['relic', 2], ['censer', 2]]), lv: [17, 21], n: 8, area: 'nave' },
+  zone: { kinds: kinds([['tenor', 2], ['glaze', 2], ['pipe', 2], ['pew', 3], ['relic', 2], ['censer', 2]]), lv: [9, 11], n: 8, area: 'nave' },
   npcs: [
     { id: 'sexton', x: 5, y: 12, sprite: 'elder', name: 'Sexton', dir: 1, talk: 'sexton' },
-    { id: 'bellstriker', x: 20, y: 6, sprite: 'ringer', name: 'Bell-striker', dir: 3, trainer: { nacre: 1, name: 'Bell-striker', team: [['tenor', 18], ['pipe', 18]], intro: 'I hit the bells with a stick. The ropes are up the other side of the ground, so. Stick.', defeat: 'Ooh. That rang wrong.', sight: 3 } },
-    { id: 'glazier', x: 4, y: 7, sprite: 'elder', name: 'Glazier', dir: 0, trainer: { name: 'Glazier', team: [['glaze', 19], ['censer', 19]], intro: 'I mend the windows. They\'re in the floor now, so I mend them on my knees. My knees hate it.', defeat: 'Mind the glass. Mind it!', sight: 3 } },
-    { id: 'pewsitter', x: 23, y: 11, sprite: 'villager2', name: 'Pew-sitter', dir: 2, trainer: { name: 'Pew-sitter', team: [['pew', 19], ['relic', 20]], intro: 'I sat down here before the whole thing turned over. Haven\'t got up since. Didn\'t feel polite.', defeat: 'The pew\'s just above me now. Same pew. Same dent in it.', sight: 2 } },
+    { id: 'bellstriker', x: 20, y: 6, sprite: 'ringer', name: 'Bell-striker', dir: 3, trainer: { nacre: 1, name: 'Bell-striker', team: [['tenor', 9], ['pipe', 9]], intro: 'I hit the bells with a stick. The ropes are up the other side of the ground, so. Stick.', defeat: 'Ooh. That rang wrong.', sight: 3 } },
+    { id: 'glazier', x: 4, y: 7, sprite: 'elder', name: 'Glazier', dir: 0, trainer: { name: 'Glazier', team: [['glaze', 10], ['censer', 10]], intro: 'I mend the windows. They\'re in the floor now, so I mend them on my knees. My knees hate it.', defeat: 'Mind the glass. Mind it!', sight: 3 } },
+    { id: 'pewsitter', x: 23, y: 11, sprite: 'villager2', name: 'Pew-sitter', dir: 2, trainer: { name: 'Pew-sitter', team: [['pew', 10], ['relic', 10]], intro: 'I sat down here before the whole thing turned over. Haven\'t got up since. Didn\'t feel polite.', defeat: 'The pew\'s just above me now. Same pew. Same dent in it.', sight: 2 } },
   ],
   spots: [
     ...LOFT_BELLS.map((b, i) => ({ x: b.x, y: 9, script: async () => {
@@ -192,12 +192,12 @@ defMap({
   props: ROOTFALL_SAPLINGS.flatMap(sp => sp.root.map(([x, y]) => ({ x, y, pic: sp.groove, when: () => !flag(sp.flag) }))),
   tileTalk: { i: 'rootfallSapling' },
   warps: [{ x: 31, y: 9, to: 'bole', tx: 1, ty: 23, dir: 1 }],
-  zone: { kinds: kinds([['taproot', 3], ['borer', 2], ['clod', 2], ['whip', 2], ['gnarl', 1], ['upfall', 2]]), lv: [22, 26], n: 13, area: 'roots' },
+  zone: { kinds: kinds([['taproot', 3], ['borer', 2], ['clod', 2], ['whip', 2], ['gnarl', 1], ['upfall', 2]]), lv: [11, 13], n: 13, area: 'roots' },
   npcs: [
     { id: 'upright', x: 5, y: 13, sprite: 'villager', name: 'The Upright Man', dir: 1, talk: 'upright' },
-    { id: 'rootcutter', x: 4, y: 10, sprite: 'tanner', name: 'Root-cutter', dir: 0, trainer: { nacre: 1, name: 'Root-cutter', team: [['taproot', 24], ['whip', 24]], intro: 'I cut the roots back, they grow back, I come back. We\'ve been doing this a while.', defeat: 'See you tomorrow, then. Them too.', sight: 3 } },
-    { id: 'beetlegirl', x: 27, y: 12, sprite: 'child', name: 'Beetle girl', dir: 3, trainer: { name: 'Beetle girl', team: [['borer', 24], ['clod', 25]], intro: 'Beetles live in the roots and I live near the beetles! We\'re neighbors.', defeat: 'Now they\'re hiding. So I\'m hiding too.', sight: 3 } },
-    { id: 'upfaller', x: 16, y: 20, sprite: 'villager2', name: 'Upfaller', dir: 2, trainer: { name: 'Upfaller', team: [['upfall', 25], ['gnarl', 25]], intro: 'Rain goes up by the Bole. On a good day I go up with it, a little bit. Like, a toe.', defeat: 'Not a good day, then.', sight: 3 } },
+    { id: 'rootcutter', x: 4, y: 10, sprite: 'tanner', name: 'Root-cutter', dir: 0, trainer: { nacre: 1, name: 'Root-cutter', team: [['taproot', 12], ['whip', 12]], intro: 'I cut the roots back, they grow back, I come back. We\'ve been doing this a while.', defeat: 'See you tomorrow, then. Them too.', sight: 3 } },
+    { id: 'beetlegirl', x: 27, y: 12, sprite: 'child', name: 'Beetle girl', dir: 3, trainer: { name: 'Beetle girl', team: [['borer', 12], ['clod', 13]], intro: 'Beetles live in the roots and I live near the beetles! We\'re neighbors.', defeat: 'Now they\'re hiding. So I\'m hiding too.', sight: 3 } },
+    { id: 'upfaller', x: 16, y: 20, sprite: 'villager2', name: 'Upfaller', dir: 2, trainer: { name: 'Upfaller', team: [['upfall', 13], ['gnarl', 13]], intro: 'Rain goes up by the Bole. On a good day I go up with it, a little bit. Like, a toe.', defeat: 'Not a good day, then.', sight: 3 } },
   ],
   spots: [
     look(21, 1, 'A face in the roots. Its eyes are two snail shells. It has watched the slick floor a long time.'),
@@ -297,12 +297,12 @@ defMap({
     { x: 17, y: 21, to: 'route5', tx: 20, ty: 1, dir: 2 },
     { x: 18, y: 21, to: 'route5', tx: 20, ty: 1, dir: 2 },
   ],
-  zone: { kinds: kinds([['aerial', 2], ['vane', 2], ['capsule', 2], ['booster', 2], ['dish', 2], ['debris', 3]]), lv: [27, 31], n: 14, area: 'wreckage' },
+  zone: { kinds: kinds([['aerial', 2], ['vane', 2], ['capsule', 2], ['booster', 2], ['dish', 2], ['debris', 3]]), lv: [14, 16], n: 14, area: 'wreckage' },
   npcs: [
     { id: 'catcher', x: 27, y: 6, sprite: 'villager2', name: 'The Catcher', dir: 2, talk: 'catcher' },
-    { id: 'scrapper', x: 6, y: 15, sprite: 'tanner', name: 'Scrapper', dir: 1, trainer: { nacre: 1, name: 'Scrapper', team: [['aerial', 29], ['debris', 29]], intro: 'It all came down at once, back in my gran\'s time. Still sorting it. I\'ve done one pile.', defeat: 'Right. Into the pile with you.', sight: 3 } },
-    { id: 'hullsleeper', x: 26, y: 15, sprite: 'villager', name: 'Hull-sleeper', dir: 3, trainer: { name: 'Hull-sleeper', team: [['capsule', 29], ['vane', 30]], intro: 'I sleep in a hull that fell out of the sky. It\'s warm on one side. I roll over a lot.', defeat: 'Going back to bed. Warm side up.', sight: 3 } },
-    { id: 'dishturner', x: 14, y: 18, sprite: 'child', name: 'Dish-turner', dir: 0, trainer: { name: 'Dish-turner', team: [['dish', 30], ['booster', 30]], intro: 'I turn the dishes round to hear stuff. Mostly it\'s wind. Once it was a cough.', defeat: 'Shh. Listen.', sight: 3 } },
+    { id: 'scrapper', x: 6, y: 15, sprite: 'tanner', name: 'Scrapper', dir: 1, trainer: { nacre: 1, name: 'Scrapper', team: [['aerial', 15], ['debris', 15]], intro: 'It all came down at once, back in my gran\'s time. Still sorting it. I\'ve done one pile.', defeat: 'Right. Into the pile with you.', sight: 3 } },
+    { id: 'hullsleeper', x: 26, y: 15, sprite: 'villager', name: 'Hull-sleeper', dir: 3, trainer: { name: 'Hull-sleeper', team: [['capsule', 15], ['vane', 15]], intro: 'I sleep in a hull that fell out of the sky. It\'s warm on one side. I roll over a lot.', defeat: 'Going back to bed. Warm side up.', sight: 3 } },
+    { id: 'dishturner', x: 14, y: 18, sprite: 'child', name: 'Dish-turner', dir: 0, trainer: { name: 'Dish-turner', team: [['dish', 15], ['booster', 15]], intro: 'I turn the dishes round to hear stuff. Mostly it\'s wind. Once it was a cough.', defeat: 'Shh. Listen.', sight: 3 } },
   ],
   spots: [
     look(3, 3, 'A crater, and in it the casing of a machine that went up high once. It came down empty.'),
@@ -424,13 +424,13 @@ defMap({
     '##################################',
   ]),
   warps: [{ x: 0, y: 9, to: 'route6', tx: 42, ty: 14, dir: 3 }],
-  zone: { kinds: kinds([['selkie', 2], ['walrus', 2], ['berg', 2], ['narwhal', 2], ['rime', 3], ['auk', 1]]), lv: [33, 37], n: 13, area: 'drifts' },
+  zone: { kinds: kinds([['selkie', 2], ['walrus', 2], ['berg', 2], ['narwhal', 2], ['rime', 3], ['auk', 1]]), lv: [17, 19], n: 13, area: 'drifts' },
   npcs: [
     { id: 'icefisher', x: 7, y: 12, sprite: 'elder', name: 'Ice-fisher', dir: 1, talk: 'icefisher' },
     { id: 'frozenslip', onSolid: true, x: CAST[0][0], y: CAST[0][1], sprite: 'child', name: 'A cast under the ice', dir: 0, img: pale('child'), ghost: true, talk: 'frozenSlip' },
-    { id: 'icecutter', x: 5, y: 15, sprite: 'tanner', name: 'Ice-cutter', dir: 1, trainer: { nacre: 1, name: 'Ice-cutter', team: [['walrus', 35], ['berg', 35]], intro: 'I cut blocks out of the lake. Lake doesn\'t notice. Or it\'s being nice about it.', defeat: 'Here, take a block home. Keep it somewhere cold. Not your pocket.', sight: 3 } },
-    { id: 'sealwife', x: 28, y: 12, sprite: 'villager2', name: 'Seal-wife', dir: 3, trainer: { name: 'Seal-wife', team: [['selkie', 35], ['narwhal', 36]], intro: 'My other coat\'s in a chest at home. Don\'t tell my husband. He thinks it\'s blankets.', defeat: 'You won\'t tell. I can tell you won\'t.', sight: 3 } },
-    { id: 'aukkeeper', x: 29, y: 2, sprite: 'elder', name: 'Auk-keeper', dir: 2, trainer: { name: 'Auk-keeper', team: [['auk', 36], ['rime', 36]], intro: 'The last of them came here to stand on the ice. So I came and stood with them.', defeat: 'Stand with us a bit. It\'s nice. Cold, but nice.', sight: 3 } },
+    { id: 'icecutter', x: 5, y: 15, sprite: 'tanner', name: 'Ice-cutter', dir: 1, trainer: { nacre: 1, name: 'Ice-cutter', team: [['walrus', 18], ['berg', 18]], intro: 'I cut blocks out of the lake. Lake doesn\'t notice. Or it\'s being nice about it.', defeat: 'Here, take a block home. Keep it somewhere cold. Not your pocket.', sight: 3 } },
+    { id: 'sealwife', x: 28, y: 12, sprite: 'villager2', name: 'Seal-wife', dir: 3, trainer: { name: 'Seal-wife', team: [['selkie', 18], ['narwhal', 18]], intro: 'My other coat\'s in a chest at home. Don\'t tell my husband. He thinks it\'s blankets.', defeat: 'You won\'t tell. I can tell you won\'t.', sight: 3 } },
+    { id: 'aukkeeper', x: 29, y: 2, sprite: 'elder', name: 'Auk-keeper', dir: 2, trainer: { name: 'Auk-keeper', team: [['auk', 18], ['rime', 18]], intro: 'The last of them came here to stand on the ice. So I came and stood with them.', defeat: 'Stand with us a bit. It\'s nice. Cold, but nice.', sight: 3 } },
   ],
   spots: [
     ...CAST.map(([x, y]) => ({ x, y, script: 'frozenSlip' })),

@@ -28,7 +28,7 @@ defMap({
     { x: 18, y: 0, to: 'oldrind', tx: 12, ty: 22, dir: 2, when: () => G.keys.includes('riderslip') },
     { x: 19, y: 0, to: 'oldrind', tx: 13, ty: 22, dir: 2, when: () => G.keys.includes('riderslip') },
   ],
-  zone: { kinds: WILD_KINDS.map(k => [k, 1] as [string, number]), lv: [55, 68], n: 18, area: 'wrinkle', fitted: 0.4 },
+  zone: { kinds: WILD_KINDS.map(k => [k, 1] as [string, number]), lv: [28, 34], n: 18, area: 'wrinkle', fitted: 0.4 },
   npcs: [
     { id: 'realcinch', x: 20, y: 14, sprite: 'realcinch', name: 'Cinch', talk: 'realCinch' },
     { id: 'slacksign', x: 20, y: 27, sprite: 'sign', name: null as any, lines: ['Past the Lip. Nothing is held here. Mind your hat.'] },
@@ -165,7 +165,7 @@ function stackTeam(floor: number) {
     const a = WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)];
     let b = WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)];
     if (b === a) b = WILD_KINDS[(WILD_KINDS.indexOf(a) + 7) % WILD_KINDS.length];
-    team.push(randomFit(rnd, a, b, 50));
+    team.push(randomFit(rnd, a, b, 25));
   }
   return team;
 }

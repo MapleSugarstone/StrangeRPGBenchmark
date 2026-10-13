@@ -28,7 +28,7 @@ const WILD = WILD_KINDS.filter(k => SPECIES[k] && !SPECIES[k].person && !SPECIES
 const SPICE = ['socket', 'heron', 'relic', 'saltline', 'grotto', 'undertow', 'murk', 'tain', 'skua', 'erg', 'cellar', 'leech', 'vacuole', 'image', 'cuttle', 'dish', 'heirloom', 'brinicle', 'transit', 'hyponome'].filter(k => SPECIES[k]);
 
 /** Kinds whose own four hold a move that winds up. */
-const WINDERS = WILD.filter(k => makeMon(k, 50).moves.some(id => MOVES[id]?.wu));
+const WINDERS = WILD.filter(k => makeMon(k, 25).moves.some(id => MOVES[id]?.wu));
 const winders = args.includes('--winders');
 
 /** A team of four: maybe a Still Minute holder first, then spice and wild kinds. */

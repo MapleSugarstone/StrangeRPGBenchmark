@@ -740,7 +740,7 @@ export class Field implements Mode {
     if (this.lureMap === this.map.id && z && z.kinds.length) {
       this.lureMap = null;
       const rare = z.kinds.reduce((a, b) => (b[1] < a[1] ? b : a))[0];
-      w.mon = makeMon(rare, w.mon.level * 2);
+      w.mon = makeMon(rare, w.mon.level);
     }
     seen(w.mon.kind);
     if (!G.party.length) {

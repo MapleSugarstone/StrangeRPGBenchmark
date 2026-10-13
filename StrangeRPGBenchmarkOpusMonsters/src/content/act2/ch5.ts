@@ -85,7 +85,7 @@ defMap({
     { x: 50, y: 15, pic: 'gleanerFoot', when: shown('footR') },
     { x: 6, y: 5, pic: 'gleanerHand', when: shown('hand') },
   ],
-  zone: { kinds: kinds([['cuttle', 3], ['medusa', 3], ['grenadier', 2]]), lv: [44, 52], n: 10, area: 'strand' },
+  zone: { kinds: kinds([['cuttle', 3], ['medusa', 3], ['grenadier', 2]]), lv: [22, 26], n: 10, area: 'strand' },
   npcs: [
     { id: 'slgran', x: 42, y: 13, sprite: 'smallgran', name: 'Small Gran', dir: 2, when: shown('gran') },
     { id: 'slclimber', onSolid: true, x: 9, y: 7, sprite: 'climber2', name: 'Woman (climbing)', dir: 0, lines: ['Up. And down. Up. And down. My knees have opinions about the big low.'] },
@@ -201,7 +201,7 @@ defMap({
   enter: 'longEnter',
   zone: {
     kinds: kinds([['spoor', 3], ['bolide', 3], ['saltwort', 3], ['marram', 3], ['cuttle', 3], ['medusa', 3], ['albedo', 3]]),
-    lv: [44, 52], n: 12, area: 'strand',
+    lv: [22, 26], n: 12, area: 'strand',
     tideKinds: {
       low: kinds([['spoor', 3], ['bolide', 2], ['saltwort', 3], ['marram', 3]]),
       high: kinds([['cuttle', 3], ['medusa', 3], ['albedo', 2], ['marram', 2]]),
@@ -210,11 +210,11 @@ defMap({
   npcs: [
     { id: 'labelreader', x: 20, y: 9, sprite: 'beach4', name: 'Label-reader', dir: 0, wander: true, talk: 'labelReader' },
     { id: 'marramcutter', x: 12, y: 5, sprite: 'beach2', name: 'Marram-cutter', dir: 1,
-      trainer: { name: 'Marram-cutter', team: [['marram', 48], ['saltwort', 48]], intro: 'Cutting dune grass for thatch. I go round the labels. Feels rude to cut a label.', defeat: 'Eh. Thatch\'ll keep.', sight: 3 } },
+      trainer: { name: 'Marram-cutter', team: [['marram', 24], ['saltwort', 24]], intro: 'Cutting dune grass for thatch. I go round the labels. Feels rude to cut a label.', defeat: 'Eh. Thatch\'ll keep.', sight: 3 } },
     { id: 'starchaser', x: 30, y: 10, sprite: 'beach3', name: 'Star-chaser', dir: 3, when: lowWater,
-      trainer: { nacre: 1, name: 'Star-chaser', team: [['bolide', 49], ['spoor', 49]], intro: 'Big low! Once a year you get to run right behind the stars! Come on, come on!', defeat: 'Aw. Fine, you win. Now run!', sight: 3 } },
+      trainer: { nacre: 1, name: 'Star-chaser', team: [['bolide', 25], ['spoor', 25]], intro: 'Big low! Once a year you get to run right behind the stars! Come on, come on!', defeat: 'Aw. Fine, you win. Now run!', sight: 3 } },
     { id: 'jellyturner', x: 38, y: 13, sprite: 'beach1', name: 'Jelly-turner', dir: 3, when: lowWater,
-      trainer: { name: 'Jelly-turner', team: [['medusa', 49], ['cuttle', 49]], intro: 'I turn the jellies over so they don\'t dry out. Do they say thanks? They do not.', defeat: 'Yeah, they\'re not gonna thank you either.', sight: 3 } },
+      trainer: { name: 'Jelly-turner', team: [['medusa', 25], ['cuttle', 25]], intro: 'I turn the jellies over so they don\'t dry out. Do they say thanks? They do not.', defeat: 'Yeah, they\'re not gonna thank you either.', sight: 3 } },
   ],
   spots: [
     look(8, 3, 'A label stuck in a dune, driftwood, pressed with big letters that lean and grow toward the end.', 'KEEP THE SAND.'),
@@ -434,7 +434,7 @@ defMap({
   tileTalk: { D: 'trayListen' },
   zone: {
     kinds: kinds([['bollard', 3], ['docket', 3], ['vacancy', 3], ['trochus', 3], ['hopper', 3], ['crabwise', 3], ['magpie', 3], ['cache', 3], ['heirloom', 1], ['lodestar', 1], ['ammonite', 1]]),
-    lv: [44, 52], n: 12, area: 'tray',
+    lv: [22, 26], n: 12, area: 'tray',
     tideKinds: {
       high: kinds([['bollard', 3], ['docket', 3], ['vacancy', 3], ['trochus', 3], ['hopper', 2], ['crabwise', 2], ['magpie', 2], ['cache', 2]]),
       get low() {
@@ -743,7 +743,7 @@ defScript('yardEnter', async () => {
 });
 
 /** The Mudlark, the fifth keeper. Strand level 26. */
-export const mudTeam = () => [mon('magpie', 49), mon('cache', 49), mon('docket', 50), mon('crabwise', 51)];
+export const mudTeam = () => [mon('magpie', 25), mon('cache', 25), mon('docket', 25), mon('crabwise', 26)];
 defScript('yardDoor', async () => {
   await say('Mudlark', 'Don\'t fight fair. Don\'t fight long. Get down here.');
   if (!await keeperFight('The Mudlark', mudTeam)) {
@@ -911,7 +911,7 @@ MAPS.hollowtop.spots!.unshift({ x: HT_LOCKED.x, y: HT_LOCKED.y, when: () => G.ke
 } });
 
 for (const w of HT_WHORLS) defScript(w.id, async () => {
-  const r = await fightWild(mon(w.kind, 48), { canRun: true, area: 'tray' });
+  const r = await fightWild(mon(w.kind, 24), { canRun: true, area: 'tray' });
   if (r.pegged.length) { setFlag(w.id + 'gone'); await giveMon(r.pegged[0]); }
   else if (r.result === 'win') { await fadeWho(w.id, false, 40); setFlag(w.id + 'gone'); }
 });
@@ -972,7 +972,7 @@ defScript('oaCinch', async () => {
   await cinch('Sit and watch me a while. Funny. Never stops, does it.');
 });
 /** Cinch's cast in the old Apex, release only. Strand level 29. */
-export const castTeam = () => [mon('knot', 58), mon('menhir', 43), mon('halo', 43), mon('orrery', 43)];
+export const castTeam = () => [mon('knot', 29), mon('menhir', 22), mon('halo', 22), mon('orrery', 22)];
 defScript('oaCast', async () => {
   await say('Cinch\'s cast', 'THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE POST HAS TO TURN ONCE A DAY');
   await say('Cinch\'s cast', 'AND ONCE A DAY AND ONCE A DAY AND ONCE A-');
@@ -986,8 +986,8 @@ defScript('oaCast', async () => {
   await walkTo('oacast', 4, 13);
   await wait(30);
   await act('oacast', 'bow');
-  const knot = mon('knot', 61);
-  knot.strand = { level: 55, xp: 0 };
+  const knot = mon('knot', 31);
+  knot.strand = { level: 28, xp: 0 };
   await giveMon(knot);
   save();
 });

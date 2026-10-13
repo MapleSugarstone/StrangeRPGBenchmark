@@ -60,12 +60,12 @@ defMap({
   ],
   enter: 'a2DuneEnter',
   zone: {
-    kinds: kinds([['gyre', 3], ['lichen', 3], ['groundswell', 2], ['skitter', 2]]), lv: [24, 30], n: 9, area: 'strand',
+    kinds: kinds([['gyre', 3], ['lichen', 3], ['groundswell', 2], ['skitter', 2]]), lv: [12, 15], n: 9, area: 'strand',
     tideKinds: { high: kinds([['groundswell', 3], ['gyre', 2]]), low: kinds([['lichen', 3], ['gyre', 2], ['skitter', 2]]) },
   },
   npcs: [
     person('a2OutsideClimber', 19, 9, 'climber1', 'Climber on the outside', 1, { when: () => !slid() }),
-    person('a2DuneSitter', 26, 13, 'beach4', 'Dune-sitter', 3, { trainer: { name: 'Dune-sitter', team: [['lichen', 28], ['groundswell', 29]], intro: 'The dune moves a foot every tide. So I move my chair a foot. We\'re even.', defeat: 'I\'ll move my chair back a foot. Even again.', sight: 3 } }),
+    person('a2DuneSitter', 26, 13, 'beach4', 'Dune-sitter', 3, { trainer: { name: 'Dune-sitter', team: [['lichen', 14], ['groundswell', 15]], intro: 'The dune moves a foot every tide. So I move my chair a foot. We\'re even.', defeat: 'I\'ll move my chair back a foot. Even again.', sight: 3 } }),
   ],
   spots: [
     { x: 14, y: 14, script: 'a2RollTally' },
@@ -122,7 +122,7 @@ defMap({
   ],
   triggers: [{ x: 9, y: 15, w: 2, h: 1, script: 'a2Ch3Return', when: () => slid() && !flag('ch3Return') }],
   enter: 'a2MouthEnter',
-  zone: { kinds: kinds([['chalk', 3], ['saltline', 3]]), lv: [24, 30], n: 4, area: 'auger' },
+  zone: { kinds: kinds([['chalk', 3], ['saltline', 3]]), lv: [12, 15], n: 4, area: 'auger' },
   npcs: [
     person('a2CinchStep', 9, 1, 'realcinch', 'Cinch', 0, { when: () => !!flag('augerEntered') && !flag('cinchNautilus') }),
     person('a2TackStep', 11, 2, 'tack', 'Tack', 3, { when: () => release() && !flag('cinchNautilus') }),
@@ -289,7 +289,7 @@ defMap({
   enter: 'a2RollEnter',
   npcs: [
     { id: 'a2Weed', x: WEED.x, y: WEED.y, sprite: 'stone', name: 'Kokieri', img: weedImg, when: highTide, lines: ['A Kokieri has rolled into the gap and fills it.'] },
-    person('a2Tumbler', 13, 2, 'climber2', 'Tumbler', 2, { trainer: { nacre: 1, name: 'Tumbler', team: [['tumbleweed', 30], ['riser', 30]], intro: 'Every roll I end up on the other wall. My lunch too. My lunch gets there first.', defeat: 'Rolled. Over.', sight: 2 } }),
+    person('a2Tumbler', 13, 2, 'climber2', 'Tumbler', 2, { trainer: { nacre: 1, name: 'Tumbler', team: [['tumbleweed', 15], ['riser', 15]], intro: 'Every roll I end up on the other wall. My lunch too. My lunch gets there first.', defeat: 'Rolled. Over.', sight: 2 } }),
   ],
   spots: [
     bell(2, 8), bell(8, 1), bell(16, 5), bell(22, 2), bell(24, 2), bell(35, 3), bell(38, 1), bell(41, 5), bell(46, 6),
@@ -370,12 +370,12 @@ defMap({
     { x: 12, y: 1, to: 'augerpoint', tx: 6, ty: 14, dir: 2 },
   ],
   enter: 'a2StairEnter',
-  zone: { kinds: kinds([['crimp', 3], ['chamois', 3], ['swift', 2], ['torr', 2], ['tumbleweed', 1], ['riser', 1], ['columella', 1]]), lv: [26, 32], n: 7, area: 'auger' },
+  zone: { kinds: kinds([['crimp', 3], ['chamois', 3], ['swift', 2], ['torr', 2], ['tumbleweed', 1], ['riser', 1], ['columella', 1]]), lv: [13, 16], n: 7, area: 'auger' },
   npcs: [
-    person('a2StairSleeper', 12, 18, 'climber2', 'Stair-sleeper', 2, { trainer: { name: 'Stair-sleeper', team: [['columella', 30], ['chalk', 31]], intro: 'Wha. I sleep on the stair facing up. Great for the neck. Go away.', defeat: 'Back to sleep. Facing up. Night.', sight: 2 } }),
-    person('a2SwiftKeeper', 9, 15, 'climber1', 'Swift-keeper', 1, { trainer: { name: 'Swift-keeper', team: [['swift', 29], ['gyre', 29]], intro: 'My swift never lands. Me neither, really. I\'m up here a lot.', defeat: 'We landed. Both of us. Huh.', sight: 3 } }),
-    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { nacre: 1, name: 'Salt-scraper', team: [['saltline', 30], ['groundswell', 30]], intro: 'The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!', defeat: 'Higher every roll. Ugh.', sight: 2 } }),
-    person('a2PointWatcher', 11, 2, 'climber1', 'Point-watcher', 0, { talk: 'a2PointWatcher', trainer: { name: 'Point-watcher', team: [['zenith', 32], ['bourdon', 31]], intro: 'I sit beneath the point and listen to it not open. It does so with great consistency.', defeat: 'It might open. Some low, at three quavelings past the turn.', sight: 2 } }),
+    person('a2StairSleeper', 12, 18, 'climber2', 'Stair-sleeper', 2, { trainer: { name: 'Stair-sleeper', team: [['columella', 15], ['chalk', 16]], intro: 'Wha. I sleep on the stair facing up. Great for the neck. Go away.', defeat: 'Back to sleep. Facing up. Night.', sight: 2 } }),
+    person('a2SwiftKeeper', 9, 15, 'climber1', 'Swift-keeper', 1, { trainer: { name: 'Swift-keeper', team: [['swift', 15], ['gyre', 15]], intro: 'My swift never lands. Me neither, really. I\'m up here a lot.', defeat: 'We landed. Both of us. Huh.', sight: 3 } }),
+    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { nacre: 1, name: 'Salt-scraper', team: [['saltline', 15], ['groundswell', 15]], intro: 'The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!', defeat: 'Higher every roll. Ugh.', sight: 2 } }),
+    person('a2PointWatcher', 11, 2, 'climber1', 'Point-watcher', 0, { talk: 'a2PointWatcher', trainer: { name: 'Point-watcher', team: [['zenith', 16], ['bourdon', 16]], intro: 'I sit beneath the point and listen to it not open. It does so with great consistency.', defeat: 'It might open. Some low, at three quavelings past the turn.', sight: 2 } }),
   ],
   spots: [...VENTS.map((v, k) => ({ x: v.x, y: v.y, script: () => ventScript(k) })), bell(VENT_BELL.x, VENT_BELL.y)],
 });
@@ -571,7 +571,7 @@ field.stepHooks.push(f => {
 });
 
 /** Turnwise's four. Ouro arrives with the Strand cap at 18. */
-export const TURNWISE_TEAM: [string, number][] = [['crimp', 27], ['chamois', 27], ['zenith', 28], ['gyre', 29]];
+export const TURNWISE_TEAM: [string, number][] = [['crimp', 14], ['chamois', 14], ['zenith', 14], ['gyre', 15]];
 defScript('a2Turnwise', async () => {
   if (flag('turnwiseGrain')) {
     await say('Turnwise', 'Higher. Go on, higher. The point\'s up there. Only small ones fit. You\'re small.');
@@ -612,7 +612,7 @@ defMap({
   enter: 'a2PointEnter',
   // Albatross is found only at the open point.
   zone: {
-    kinds: kinds([['plummet', 3], ['zenith', 3], ['bourdon', 2], ['albatross', 1]]), lv: [28, 33], n: 3, area: 'auger',
+    kinds: kinds([['plummet', 3], ['zenith', 3], ['bourdon', 2], ['albatross', 1]]), lv: [14, 17], n: 3, area: 'auger',
     tideKinds: { high: kinds([['plummet', 3], ['zenith', 3], ['bourdon', 2]]), low: kinds([['plummet', 3], ['zenith', 3], ['bourdon', 2]]) },
   },
   // Turnwise comes up the narrow way when the Auger starts to slide.
@@ -723,7 +723,7 @@ defScript('a2Albatross', async () => {
   await emote('ouro', 'surprise');
   await unprop('albatross', 0);
   if (!SPECIES.albatross) return;
-  const r = await fightWild(mon('albatross', 32), { canRun: true, area: 'auger' });
+  const r = await fightWild(mon('albatross', 16), { canRun: true, area: 'auger' });
   if (r.pegged.length) { r.pegged[0].strandBorn = true; setFlag('albatrossDone'); await giveMon(r.pegged[0]); }
   else if (r.result === 'win') setFlag('albatrossDone');
 });

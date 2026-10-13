@@ -259,9 +259,9 @@ export async function tannery(town: string, stock: string[]): Promise<void> {
 
 export function mon(kind: string, level: number): Mon { return makeMon(kind, level); }
 
-/** A level for `mon` near the player's: the mean of the four highest levels the team fights at here plus `over`, on the doubled scale `mon` halves. */
+/** A level for `mon` near the player's: the mean of the four highest levels the team fights at here plus `over`. */
 export function nearPlayer(over: number): number {
   const top = G.party.filter(m => m).map(m => levelOf(m)).sort((a, z) => z - a).slice(0, 4);
   const mean = top.length ? top.reduce((s, x) => s + x, 0) / top.length : 1;
-  return 2 * Math.max(1, Math.min(LEVEL_MAX, Math.round(mean + over)));
+  return Math.max(1, Math.min(LEVEL_MAX, Math.round(mean + over)));
 }

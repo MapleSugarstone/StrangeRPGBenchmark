@@ -14,7 +14,7 @@ import { Worker, isMainThread, parentPort } from 'node:worker_threads';
 
 declare const process: { argv: string[]; exit(n: number): never };
 
-const PLAYERS = 32, TEAM = 4, START_ELO = 1500, K = 24, JITTER = 30, CHECK_EVERY = 8, SNAP_EVERY = 25, FUSION_RATE = 0.5, TOP = 8, LEVEL = 50;
+const PLAYERS = 32, TEAM = 4, START_ELO = 1500, K = 24, JITTER = 30, CHECK_EVERY = 8, SNAP_EVERY = 25, FUSION_RATE = 0.5, TOP = 8, LEVEL = 25;
 const CHARMS = ['rib', 'mast', 'spire', 'bole', 'pylon', 'tusk', 'hilt', 'fall'];
 
 /** Notions a player would pick for a unit whose damage comes from this stat. Copied from the duel tool. */

@@ -71,11 +71,11 @@ defMap({
     '##################################',
   ]),
   warps: [{ x: 8, y: 1, to: 'fellside', tx: 36, ty: 5, dir: 0 }, { x: 33, y: 13, to: 'cocklecove', tx: 34, ty: 7, dir: 0 }],
-  zone: { kinds: kinds([['talpa', 3], ['cellar', 2], ['lumbric', 3], ['brogue', 2], ['pod', 2], ['hatch', 1], ['chirr', 2], ['welling', 1]]), lv: [4, 8], n: 9, area: 'dark' },
+  zone: { kinds: kinds([['talpa', 3], ['cellar', 2], ['lumbric', 3], ['brogue', 2], ['pod', 2], ['hatch', 1], ['chirr', 2], ['welling', 1]]), lv: [2, 4], n: 9, area: 'dark' },
   npcs: [
-    { id: 'moleman', x: 12, y: 5, sprite: 'tanner', name: 'Mole-catcher', dir: 2, trainer: { nacre: 1, name: 'Mole-catcher', team: [['talpa', 6], ['lumbric', 6]], intro: 'Moles dig, I follow. Twenty years. Haven\'t met one yet. I think they know.', defeat: 'Down the hole I go. Moles first.', sight: 3 } },
-    { id: 'cellargirl', x: 25, y: 12, sprite: 'child', name: 'Cellar girl', dir: 3, trainer: { name: 'Cellar girl', team: [['cellar', 7], ['pod', 7]], intro: 'Mum keeps the jam down here. Kept. The jam\'s gone now. I\'m guarding where it was.', defeat: 'Don\'t tell Mum about the jam. Please. It wasn\'t me. Mostly.', sight: 3 } },
-    { id: 'bootless', x: 16, y: 15, sprite: 'villager2', name: 'Bootless', dir: 0, trainer: { name: 'Bootless', team: [['brogue', 7], ['chirr', 7], ['hatch', 8]], intro: 'Lost a boot down here on my Turning Day. It turned too, I reckon. Walks about now.', defeat: 'If you see it, it\'s the right one. Tell it I\'m not mad.', sight: 3 } },
+    { id: 'moleman', x: 12, y: 5, sprite: 'tanner', name: 'Mole-catcher', dir: 2, trainer: { nacre: 1, name: 'Mole-catcher', team: [['talpa', 3], ['lumbric', 3]], intro: 'Moles dig, I follow. Twenty years. Haven\'t met one yet. I think they know.', defeat: 'Down the hole I go. Moles first.', sight: 3 } },
+    { id: 'cellargirl', x: 25, y: 12, sprite: 'child', name: 'Cellar girl', dir: 3, trainer: { name: 'Cellar girl', team: [['cellar', 4], ['pod', 4]], intro: 'Mum keeps the jam down here. Kept. The jam\'s gone now. I\'m guarding where it was.', defeat: 'Don\'t tell Mum about the jam. Please. It wasn\'t me. Mostly.', sight: 3 } },
+    { id: 'bootless', x: 16, y: 15, sprite: 'villager2', name: 'Bootless', dir: 0, trainer: { name: 'Bootless', team: [['brogue', 4], ['chirr', 4], ['hatch', 4]], intro: 'Lost a boot down here on my Turning Day. It turned too, I reckon. Walks about now.', defeat: 'If you see it, it\'s the right one. Tell it I\'m not mad.', sight: 3 } },
     { id: 'pellslip', x: 7, y: 16, sprite: 'child', name: 'Pell\'s cast', dir: 3, img: () => PEOPLE.pellcast, talk: 'pellSlip', when: () => !flag('pellHome') },
   ],
   spots: [
@@ -202,12 +202,12 @@ defMap({
   // The surge fills the palm on every eighth step and empties it on the next eighth.
   mods: SURGE_ROWS.map(([x, y, w]) => ({ x, y, w, ch: '~', when: surgeIn })),
   props: [{ x: 12, y: 5, pic: 'surgefoam' }],
-  zone: { kinds: kinds([['talus', 3], ['molar', 2], ['atlas', 2], ['nail', 2], ['socket', 2], ['furcula', 1]]), lv: [6, 10], n: 10, area: 'bones' },
+  zone: { kinds: kinds([['talus', 3], ['molar', 2], ['atlas', 2], ['nail', 2], ['socket', 2], ['furcula', 1]]), lv: [3, 5], n: 10, area: 'bones' },
   npcs: [
     { id: 'counter', x: 7, y: 2, sprite: 'elder', name: 'Counter', dir: 0, talk: 'counter' },
-    { id: 'bonesetter', x: 12, y: 3, sprite: 'elder', name: 'Bonesetter', dir: 1, trainer: { nacre: 1, name: 'Bonesetter', team: [['talus', 8], ['atlas', 8]], intro: 'I set bones for a living. These are too big to set. I\'m trying anyway. It\'s been a slow year.', defeat: 'Ow. That one\'s out of joint too.', sight: 3 } },
-    { id: 'ringpolish', x: 6, y: 22, sprite: 'villager', name: 'Ring polisher', dir: 1, trainer: { name: 'Ring polisher', team: [['socket', 9], ['furcula', 9]], intro: 'I polish the ring! It was gold once. It\'s getting there. See that bit? :-]', defeat: 'Mind the shine on your way out. It\'s fresh.', sight: 3 } },
-    { id: 'nailbiter', x: 31, y: 19, sprite: 'child', name: 'Nail biter', dir: 3, trainer: { name: 'Nail biter', team: [['nail', 9], ['molar', 8]], intro: 'I bit my nails so much one of them turned. Its shell follows me everywhere. It\'s kinda clingy.', defeat: 'Ugh. It\'s chewing again.', sight: 4 } },
+    { id: 'bonesetter', x: 12, y: 3, sprite: 'elder', name: 'Bonesetter', dir: 1, trainer: { nacre: 1, name: 'Bonesetter', team: [['talus', 4], ['atlas', 4]], intro: 'I set bones for a living. These are too big to set. I\'m trying anyway. It\'s been a slow year.', defeat: 'Ow. That one\'s out of joint too.', sight: 3 } },
+    { id: 'ringpolish', x: 6, y: 22, sprite: 'villager', name: 'Ring polisher', dir: 1, trainer: { name: 'Ring polisher', team: [['socket', 5], ['furcula', 5]], intro: 'I polish the ring! It was gold once. It\'s getting there. See that bit? :-]', defeat: 'Mind the shine on your way out. It\'s fresh.', sight: 3 } },
+    { id: 'nailbiter', x: 31, y: 19, sprite: 'child', name: 'Nail biter', dir: 3, trainer: { name: 'Nail biter', team: [['nail', 5], ['molar', 4]], intro: 'I bit my nails so much one of them turned. Its shell follows me everywhere. It\'s kinda clingy.', defeat: 'Ugh. It\'s chewing again.', sight: 4 } },
   ],
   spots: [
     ...KNUCKLES.map(([x, y], i) => ({
@@ -301,12 +301,12 @@ defMap({
     '###################=##################',
   ]),
   warps: [{ x: 19, y: 20, to: 'route2', tx: 20, ty: 1, dir: 2 }],
-  zone: { kinds: kinds([['fluke', 2], ['prow', 2], ['bilge', 2], ['sail', 3], ['keel', 2], ['bombard', 1]]), lv: [10, 14], n: 11, area: 'wreckage' },
+  zone: { kinds: kinds([['fluke', 2], ['prow', 2], ['bilge', 2], ['sail', 3], ['keel', 2], ['bombard', 1]]), lv: [5, 7], n: 11, area: 'wreckage' },
   npcs: [
     { id: 'master', x: 9, y: 13, sprite: 'keeper', name: 'The Master', dir: 0, talk: 'master' },
-    { id: 'plankwalk', x: 20, y: 7, sprite: 'villager', name: 'Plank-walker', dir: 2, trainer: { nacre: 1, name: 'Plank-walker', team: [['sail', 12], ['fluke', 12]], intro: 'Every morning I walk the plank. Practice, for when the sea comes back. I\'m great at the end bit.', defeat: 'Off the end I go. Wheee.', sight: 3 } },
-    { id: 'bilgeboy', x: 31, y: 13, sprite: 'child', name: 'Bilge boy', dir: 3, trainer: { name: 'Bilge boy', team: [['bilge', 12], ['keel', 13]], intro: 'I pump the bilge! There\'s no water in it. Not a drop. You\'re welcome.', defeat: 'Still dry.', sight: 3 } },
-    { id: 'gunner', x: 7, y: 6, sprite: 'keeper', name: 'Gunner', dir: 1, trainer: { name: 'Gunner', team: [['bombard', 13], ['prow', 13]], intro: 'Every cannon out here\'s still got a ball in it. Nobody\'s brave enough to check. Including me.', defeat: 'Don\'t touch the touch-holes. I know what they\'re called. Just don\'t.', sight: 3 } },
+    { id: 'plankwalk', x: 20, y: 7, sprite: 'villager', name: 'Plank-walker', dir: 2, trainer: { nacre: 1, name: 'Plank-walker', team: [['sail', 6], ['fluke', 6]], intro: 'Every morning I walk the plank. Practice, for when the sea comes back. I\'m great at the end bit.', defeat: 'Off the end I go. Wheee.', sight: 3 } },
+    { id: 'bilgeboy', x: 31, y: 13, sprite: 'child', name: 'Bilge boy', dir: 3, trainer: { name: 'Bilge boy', team: [['bilge', 6], ['keel', 7]], intro: 'I pump the bilge! There\'s no water in it. Not a drop. You\'re welcome.', defeat: 'Still dry.', sight: 3 } },
+    { id: 'gunner', x: 7, y: 6, sprite: 'keeper', name: 'Gunner', dir: 1, trainer: { name: 'Gunner', team: [['bombard', 7], ['prow', 7]], intro: 'Every cannon out here\'s still got a ball in it. Nobody\'s brave enough to check. Including me.', defeat: 'Don\'t touch the touch-holes. I know what they\'re called. Just don\'t.', sight: 3 } },
   ],
   spots: [
     look(5, 5, 'A carved woman on a prow, looking out to sea. The sea is forty years gone. She is still looking.'),
@@ -367,12 +367,12 @@ defMap({
     '####################################',
   ]),
   warps: [{ x: 35, y: 13, to: 'mast', tx: 1, ty: 26, dir: 1 }],
-  zone: { kinds: kinds([['breaker', 2], ['skua', 2], ['bloom', 2], ['drift', 3], ['spume', 2], ['ebb', 1]]), lv: [12, 16], n: 11, area: 'foam' },
+  zone: { kinds: kinds([['breaker', 2], ['skua', 2], ['bloom', 2], ['drift', 3], ['spume', 2], ['ebb', 1]]), lv: [6, 8], n: 11, area: 'foam' },
   npcs: [
     { id: 'swimmer', x: 12, y: 15, sprite: 'villager', name: 'Swimmer', dir: 3, lines: ['Tomorrow I\'m swimming. The sea\'ll be back by tomorrow. Definitely.', 'I\'ve said that for nine years. I\'m really, really good at tomorrow.'] },
-    { id: 'beachcomber', x: 22, y: 2, sprite: 'elder', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['drift', 14], ['skua', 14]], intro: 'I pick up everything the sea dropped. It dropped a lot. Then it left. Typical.', defeat: 'Eh. I\'ll pick you up some other time.', sight: 3 } },
-    { id: 'walltoucher', x: 6, y: 11, sprite: 'villager2', name: 'Wall-toucher', dir: 3, trainer: { name: 'Wall-toucher', team: [['bloom', 15], ['breaker', 14]], intro: 'Put your ear to the gray. You can hear the sea in there. Honest.', defeat: 'Go on. Listen. It\'s still going in there.', sight: 3 } },
-    { id: 'foamboy', x: 28, y: 16, sprite: 'child', name: 'Foam boy', dir: 1, trainer: { name: 'Foam boy', team: [['spume', 15], ['ebb', 15]], intro: 'Foam stays where the waves were. I sweep it into piles! This is my biggest pile.', defeat: 'You knocked my pile over :-(', sight: 4 } },
+    { id: 'beachcomber', x: 22, y: 2, sprite: 'elder', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['drift', 7], ['skua', 7]], intro: 'I pick up everything the sea dropped. It dropped a lot. Then it left. Typical.', defeat: 'Eh. I\'ll pick you up some other time.', sight: 3 } },
+    { id: 'walltoucher', x: 6, y: 11, sprite: 'villager2', name: 'Wall-toucher', dir: 3, trainer: { name: 'Wall-toucher', team: [['bloom', 8], ['breaker', 7]], intro: 'Put your ear to the gray. You can hear the sea in there. Honest.', defeat: 'Go on. Listen. It\'s still going in there.', sight: 3 } },
+    { id: 'foamboy', x: 28, y: 16, sprite: 'child', name: 'Foam boy', dir: 1, trainer: { name: 'Foam boy', team: [['spume', 8], ['ebb', 8]], intro: 'Foam stays where the waves were. I sweep it into piles! This is my biggest pile.', defeat: 'You knocked my pile over :-(', sight: 4 } },
   ],
   spots: [
     { x: 8, y: 9, script: async () => {

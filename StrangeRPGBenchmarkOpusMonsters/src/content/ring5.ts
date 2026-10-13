@@ -116,11 +116,11 @@ defMap({
     { x: 47, y: 14, to: 'hum', tx: 1, ty: 8, dir: 1 },
   ],
   tileTalk: { m: 'gantryCrane' },
-  zone: { kinds: kinds([['crane', 3], ['turbine', 2], ['piston', 3], ['aerial', 2], ['vane', 1]]), lv: [27, 31], n: 9, area: 'wire grass' },
+  zone: { kinds: kinds([['crane', 3], ['turbine', 2], ['piston', 3], ['aerial', 2], ['vane', 1]]), lv: [14, 16], n: 9, area: 'wire grass' },
   props: [{ x: 10, y: 9, pic: 'gantryarms' }, { x: 20, y: 3, pic: 'holmfar', when: holmSeen(5) }],
   npcs: [
     { id: 'craneman', x: 14, y: 12, sprite: 'tanner', name: 'Crane-minder', dir: 2, lines: ['Four cranes, all on shift since the Riders turned. Turn one, the next ones turn back. Union rules.'] },
-    { id: 'gantrytrainer', x: 30, y: 15, sprite: 'villager2', name: 'Rigger', dir: 2, trainer: { name: 'Rigger', team: [['crane', 29], ['aerial', 29]], intro: 'I climb the cranes for the view. The view\'s the Lip. Same as yesterday. I keep checking.', defeat: 'Still the Lip. Good.', sight: 3 } },
+    { id: 'gantrytrainer', x: 30, y: 15, sprite: 'villager2', name: 'Rigger', dir: 2, trainer: { name: 'Rigger', team: [['crane', 15], ['aerial', 15]], intro: 'I climb the cranes for the view. The view\'s the Lip. Same as yesterday. I keep checking.', defeat: 'Still the Lip. Good.', sight: 3 } },
   ],
   spots: [
     { x: 38, y: 11, when: () => caged() && !hasKey('lore_vane') && !flag('back_lore_vane'), script: async () => { await giveKeyItem('lore_vane', 'Ouro takes a tin fish on a pole out of the cage.'); } },

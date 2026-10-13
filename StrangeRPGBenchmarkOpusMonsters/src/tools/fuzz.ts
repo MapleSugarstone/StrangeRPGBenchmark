@@ -9,7 +9,7 @@ import { WILD_KINDS, makeMon } from '../data/species';
 declare const process: { argv: string[]; exitCode: number };
 let seed = Number(process.argv[2] || 1);
 const rnd = () => { seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
-const team = () => { const s = new Set<string>(); while (s.size < 4) s.add(WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)]); return [...s].map(k => makeMon(k, 50)); };
+const team = () => { const s = new Set<string>(); while (s.size < 4) s.add(WILD_KINDS[Math.floor(rnd() * WILD_KINDS.length)]); return [...s].map(k => makeMon(k, 25)); };
 const lines = (b: Battle) => b.ev.filter(e => e.e === 'msg').slice(-14).map(e => '  ' + (e as { text: string }).text).join('\n');
 const teams = (b: Battle) => b.s.map((s, i) => `side ${i}: ` + s.f.map((f, k) => `${f.mon.kind}${k === s.out ? '*' : ''} ${f.hp}/${f.maxHp}${f.ko ? ' KO' : ''}${f.gone ? ' gone' : ''}`).join(', ')).join('\n');
 

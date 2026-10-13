@@ -77,7 +77,7 @@ defMap({
   ],
   enter: 'lipEnter',
   zone: {
-    kinds: kinds([['flood', 3], ['surf', 3], ['strombus', 3], ['sanderling', 3], ['fleur', 3], ['madrepore', 3]]), lv: [54, 66], n: 10, area: 'conch',
+    kinds: kinds([['flood', 3], ['surf', 3], ['strombus', 3], ['sanderling', 3], ['fleur', 3], ['madrepore', 3]]), lv: [27, 33], n: 10, area: 'conch',
     tideKinds: {
       high: kinds([['flood', 3], ['surf', 3], ['strombus', 2]]),
       low: kinds([['sanderling', 3], ['fleur', 3], ['madrepore', 2], ['strombus', 2]]),
@@ -86,7 +86,7 @@ defMap({
   npcs: [
     { id: 'lipcinch', x: 18, y: 9, sprite: 'realcinch', name: 'Cinch', dir: 1, talk: 'lipCinch', when: () => !!flag('cinchToLip') && !sat() },
     { id: 'conchdiver', x: 8, y: 9, sprite: 'beach2', name: 'Conch-diver', dir: 1,
-      trainer: { name: 'Conch-diver', team: [['strombus', 58], ['fleur', 58]], intro: 'I dive in the mouth at low, while it\'s out walking. Pearls in there! Big pink ones.', defeat: 'Ugh. No pink ones today.', sight: 3 } },
+      trainer: { name: 'Conch-diver', team: [['strombus', 29], ['fleur', 29]], intro: 'I dive in the mouth at low, while it\'s out walking. Pearls in there! Big pink ones.', defeat: 'Ugh. No pink ones today.', sight: 3 } },
   ],
   spots: [
     look(14, 9, 'Letters pressed into the pink of the lip itself.', 'KEEP THE PINK.'),
@@ -201,7 +201,7 @@ defMap({
     { x: PK_DOOR.x, y: PK_DOOR.y, to: 'conchturn', tx: 4, ty: 17, dir: 2, when: highTide },
   ],
   enter: 'pinkEnter',
-  zone: { kinds: kinds([['blush', 3], ['cochlea', 3], ['samphire', 3], ['gimbal', 2]]), lv: [54, 66], n: 6, area: 'conch' },
+  zone: { kinds: kinds([['blush', 3], ['cochlea', 3], ['samphire', 3], ['gimbal', 2]]), lv: [27, 33], n: 6, area: 'conch' },
   npcs: [],
   spots: [look(PK_DOOR.x, PK_DOOR.y, 'A round door in the pink. It is shut. Beyond it the spiral goes on up.')],
 });
@@ -378,7 +378,7 @@ defMap({
     { x: 13, y: 3, to: 'conchroar', tx: 10, ty: 20, dir: 2, when: () => !!tOpen[4] },
   ],
   enter: 'turnEnter',
-  zone: { kinds: kinds([['lull', 3], ['flange', 3], ['pleiad', 3]]), lv: [54, 66], n: 4, area: 'conch' },
+  zone: { kinds: kinds([['lull', 3], ['flange', 3], ['pleiad', 3]]), lv: [27, 33], n: 4, area: 'conch' },
   npcs: [],
   spots: [],
 });
@@ -451,7 +451,7 @@ defMap({
   enter: 'roarEnter',
   // The Halophile grows in the pink pool and is listed only for the Register's check.
   zone: {
-    kinds: kinds([['aphelion', 3], ['surf', 3], ['halophile', 1]]), lv: [54, 66], n: 6, area: 'conch',
+    kinds: kinds([['aphelion', 3], ['surf', 3], ['halophile', 1]]), lv: [27, 33], n: 6, area: 'conch',
     tideKinds: { high: kinds([['aphelion', 3], ['surf', 3]]), low: kinds([['aphelion', 3], ['surf', 3]]) },
   },
   npcs: [
@@ -484,7 +484,7 @@ defScript('roarEnter', async () => {
 
 defScript('halophile', async () => {
   await emote('ouro', 'heart');
-  const r = await fightWild(mon('halophile', 60), { canRun: true, area: 'conch' });
+  const r = await fightWild(mon('halophile', 30), { canRun: true, area: 'conch' });
   if (r.pegged.length) { setFlag('halophileDone'); await giveMon(r.pegged[0]); }
   else if (r.result === 'win') { await fadeWho('halophile', false, 40); setFlag('halophileDone'); }
 });
@@ -574,7 +574,7 @@ async function lastLine(): Promise<void> {
 }
 
 /** The Gleaner, the last fight. Strand level 31. */
-export const gleanerTeam = (): Mon[] => [mon('ammonite', 58), mon('lodestar', 59), mon('heirloom', 60), mon('gleaner', 61)];
+export const gleanerTeam = (): Mon[] => [mon('ammonite', 29), mon('lodestar', 30), mon('heirloom', 30), mon('gleaner', 31)];
 /** The Gleaner's four are a giant's: each has this much more HP than its level gives. */
 export const GLEANER_HP = 1.15;
 

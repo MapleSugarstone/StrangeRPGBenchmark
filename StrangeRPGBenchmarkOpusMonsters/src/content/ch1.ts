@@ -94,7 +94,7 @@ defMap({
     { x: 13, y: 0, to: 'brookwood', tx: 13, ty: 34, dir: 2, when: () => !!flag('starter') },
     { x: 24, y: 33, to: 'cocklecove', tx: 20, ty: 1, dir: 0, when: () => !!flag('starter') },
   ],
-  zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['burr', 3], ['paring', 2]], lv: [2, 4], n: 7, area: 'meadow' },
+  zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['burr', 3], ['paring', 2]], lv: [1, 2], n: 7, area: 'meadow' },
   tileTalk: { w: 'well', d: 'shutDoor' },
   // The Strandmonger's shop, the widest house in the village: a signboard on the eave, awnings over two shop windows,
   // lanterns at both corners, a crate by the side wall, and a barrel across the road.
@@ -193,18 +193,18 @@ defMap({
     { x: 0, y: 7, to: 'rib', tx: 42, ty: 16, dir: 3 },
     { x: 0, y: 15, to: 'knucklebones', tx: 38, ty: 15, dir: 3 },
   ],
-  zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['paring', 2], ['burr', 3], ['stoat', 1]], lv: [3, 6], n: 13, area: 'reeds' },
+  zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['paring', 2], ['burr', 3], ['stoat', 1]], lv: [2, 3], n: 13, area: 'reeds' },
   npcs: [
-    { id: 'drover', x: 16, y: 6, sprite: 'villager2', name: 'Drover', dir: 0, trainer: { name: 'Drover', team: [['hare', 5], ['cairn', 6]], intro: 'These four pull carts all day. Kinda want them to pull something else for once. You\'ll do.', defeat: 'Aw. Now they\'ll want a snack.', sight: 3 } },
-    { id: 'scraper', x: 30, y: 6, sprite: 'tanner', name: 'Scraper', dir: 0, trainer: { nacre: 1, name: 'Scraper', team: [['burr', 6], ['stoat', 6]], intro: 'I scrape shells clean for the grotto. Best scraper on the road. I\'m looking at yours. Just looking.', defeat: 'Fine, fine! Back to the ones that hold still.', sight: 3 } },
-    { id: 'netgirl', x: 26, y: 6, sprite: 'child', name: 'Girl with a net', dir: 0, trainer: { name: 'Girl with a net', team: [['hare', 5], ['paring', 6]], intro: 'I caught a hare\'s cast! The actual hare\'s still out here somewhere. It\'s way faster.', defeat: 'The hare would\'ve won :-(', sight: 3 } },
+    { id: 'drover', x: 16, y: 6, sprite: 'villager2', name: 'Drover', dir: 0, trainer: { name: 'Drover', team: [['hare', 3], ['cairn', 3]], intro: 'These four pull carts all day. Kinda want them to pull something else for once. You\'ll do.', defeat: 'Aw. Now they\'ll want a snack.', sight: 3 } },
+    { id: 'scraper', x: 30, y: 6, sprite: 'tanner', name: 'Scraper', dir: 0, trainer: { nacre: 1, name: 'Scraper', team: [['burr', 3], ['stoat', 3]], intro: 'I scrape shells clean for the grotto. Best scraper on the road. I\'m looking at yours. Just looking.', defeat: 'Fine, fine! Back to the ones that hold still.', sight: 3 } },
+    { id: 'netgirl', x: 26, y: 6, sprite: 'child', name: 'Girl with a net', dir: 0, trainer: { name: 'Girl with a net', team: [['hare', 3], ['paring', 3]], intro: 'I caught a hare\'s cast! The actual hare\'s still out here somewhere. It\'s way faster.', defeat: 'The hare would\'ve won :-(', sight: 3 } },
     { id: 'peeler1', x: 44, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('peelers') },
     { id: 'peeler2', x: 45, y: 6, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('peelers') },
     { id: 'wellingRoad', x: 43, y: 7, sprite: 'stone', mon: 'welling', name: 'Kaivodo', when: () => !flag('peelers') },
     // The man from Turnstone's well, only while he chases the Hermits.
     { id: 'wellchase', x: 49, y: 7, sprite: 'villager2', name: 'Man at the well', movable: true, when: () => !!flag('wellChase') },
     { id: 'wellingReeds', x: 39, y: 4, sprite: 'stone', mon: 'welling', name: 'Kaivodo', when: () => !!flag('peelers') && !flag('wellingCaught') && !flag('wellingHome'), talk: 'wellingReeds' },
-    { id: 'r1sleeper', x: 22, y: 4, sprite: 'stone', mon: 'cairn', name: 'Kivishi', sleeper: { kind: 'cairn', lv: 16, flag: 'sl_route1' } },
+    { id: 'r1sleeper', x: 22, y: 4, sprite: 'stone', mon: 'cairn', name: 'Kivishi', sleeper: { kind: 'cairn', lv: 8, flag: 'sl_route1' } },
   ],
   spots: [
     stash('r1_dune', 22, 1, 'In a hollow behind the sleeping cairn, a triton horn someone hid and forgot.', { pegs: ['bone', 1] }),
@@ -292,8 +292,8 @@ defMap({
   warps: [{ x: 7, y: 13, to: 'rib', tx: 21, ty: 14, dir: 0 }, { x: 8, y: 13, to: 'rib', tx: 21, ty: 14, dir: 0 }],
   npcs: [
     { id: 'knuckle', x: 7, y: 1, sprite: 'knuckle', name: 'Knuckle', talk: 'knuckle' },
-    { id: 'help1', x: 8, y: 9, sprite: 'villager', name: 'Helper', dir: 3, trainer: { name: 'Helper', team: [['cairn', 7], ['scree', 7]], intro: 'Knuckle\'s always like, switch when it\'s bad. I don\'t. I\'m loyal.', defeat: 'Okay, I should\'ve switched.', sight: 4 } },
-    { id: 'help2', x: 7, y: 5, sprite: 'villager2', name: 'Helper', dir: 0, trainer: { nacre: 1, name: 'Helper', team: [['hare', 7], ['paring', 7], ['burr', 8]], intro: 'Only one of yours fights at a time. The rest sit and watch, like my brothers at supper.', defeat: 'Ugh. Watching.', sight: 3 } },
+    { id: 'help1', x: 8, y: 9, sprite: 'villager', name: 'Helper', dir: 3, trainer: { name: 'Helper', team: [['cairn', 4], ['scree', 4]], intro: 'Knuckle\'s always like, switch when it\'s bad. I don\'t. I\'m loyal.', defeat: 'Okay, I should\'ve switched.', sight: 4 } },
+    { id: 'help2', x: 7, y: 5, sprite: 'villager2', name: 'Helper', dir: 0, trainer: { nacre: 1, name: 'Helper', team: [['hare', 4], ['paring', 4], ['burr', 4]], intro: 'Only one of yours fights at a time. The rest sit and watch, like my brothers at supper.', defeat: 'Ugh. Watching.', sight: 3 } },
   ],
 });
 
@@ -545,7 +545,7 @@ defScript('fellmonger', async () => {
       const c = await choose(['Ibabus', 'Squall', 'Virtaki', 'Say that again?']);
       if (c === 3) continue;
       const kind = ['bramble', 'squall', 'dynamo'][c];
-      await giveMon(makeMon(kind, 5));
+      await giveMon(makeMon(kind, 3));
       break;
     }
     await emote('ouro', 'heart');
@@ -590,7 +590,7 @@ defScript('tack1', async () => {
       await hint('(Look at a move before you pick it. It says Strong when the foe is weak to it.)');
     }
   }
-  const r = await battle({ enemy: [makeMon('tackle', 2)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 0.75 });
+  const r = await battle({ enemy: [makeMon('tackle', 1)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 0.75 });
   music.play('fellside');
   countTack('1', r.result === 'win');
   if (r.result !== 'win') {
@@ -651,7 +651,7 @@ defScript('peelers', async () => {
   } else await say('Hermit', 'Can\'t. It\'s ours now.');
   await say('Man at the well', 'We drink out of her! Where\'s Turnstone meant to drink?');
   await say('Hermit', 'Ugh, this one\'s loose. Can you deal with the kid?');
-  const r = await fightTrainer({ name: 'Hermit', team: [['cairn', 6], ['puffball', 6]], intro: '', defeat: '' });
+  const r = await fightTrainer({ name: 'Hermit', team: [['cairn', 3], ['puffball', 3]], intro: '', defeat: '' });
   if (r.result !== 'win') { await walkOff('wellchase', 55, 7); setFlag('wellChase', 0); return; }
   await say('Hermit', 'Fine. Leave it. Mast\'s got wells.');
   await say('Hermit', 'She\'ll want to hear about this kid.');
@@ -675,7 +675,7 @@ defScript('peelers', async () => {
 defScript('wellingReeds', async () => {
   const c = await choose(['Try to sound Kaivodo', 'Leave it']);
   if (c !== 0) return;
-  const r = await fightWild(mon('welling', 7), { area: 'reeds' });
+  const r = await fightWild(mon('welling', 4), { area: 'reeds' });
   if (r.pegged.length) {
     setFlag('wellingCaught');
     await giveMon(r.pegged[0]);
@@ -717,7 +717,7 @@ defScript('knuckle', async () => {
   await say('Knuckle', 'Had these pearls since I turned. Beat me and you can have one. Not this one. That one.');
   await say('Knuckle', 'So I send one out and keep three back. When it\'s going bad, I switch. Easy.');
   await say('Knuckle', 'You should totally do that too.');
-  const r = await fightTrainer({ name: 'Knuckle', team: [['cairn', 10], ['menhir', 10], ['hare', 10]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Knuckle', team: [['cairn', 5], ['menhir', 5], ['hare', 5]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Knuckle', 'Oh. I lost.');
   await say('Knuckle', 'Here. Rib pearl. It\'s yours.');

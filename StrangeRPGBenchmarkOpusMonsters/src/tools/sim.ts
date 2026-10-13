@@ -113,11 +113,11 @@ function team(fits: number): Mon[] {
     const k = pick(WILD_KINDS);
     if (kinds.has(k)) continue;
     kinds.add(k);
-    if (out.length >= fits) { out.push(makeMon(k, 50)); continue; }
+    if (out.length >= fits) { out.push(makeMon(k, 25)); continue; }
     let k2 = pick(WILD_KINDS);
     while (kinds.has(k2)) k2 = pick(WILD_KINDS);
     kinds.add(k2);
-    out.push(randomFit(rnd, k, k2, 50));
+    out.push(randomFit(rnd, k, k2, 25));
   }
   return out;
 }
@@ -132,7 +132,7 @@ function focus(kinds: string[], N: number): void {
     let w = 0, rounds = 0, g = 0;
     for (; g < N && !ctl.halted(); g++) {
       const A = team(0).filter(m => m.kind !== k).slice(0, 3);
-      A.unshift(makeMon(k, 50));
+      A.unshift(makeMon(k, 25));
       const r = runBattle(A, team(0));
       if (r.winner === 0) w++;
       rounds += r.rounds;

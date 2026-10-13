@@ -74,7 +74,7 @@ export async function strandRematch(name: string, kindsList: string[], who: stri
   if (!flag('a2done')) return false;
   const c = await choose(['Fight again at 35', 'Talk'], true, `${name} will fight again. Both teams at level 35.`);
   if (c !== 0) return c < 0;
-  if (await keeperFight(name, () => kindsList.map(k => makeMon(k, 70)), 'keeper', 'keeperStrand', 35)) {
+  if (await keeperFight(name, () => kindsList.map(k => makeMon(k, 35)), 'keeper', 'keeperStrand', 35)) {
     G.rind += 500;
     G.flags['a2rematch_' + who] = (G.flags['a2rematch_' + who] || 0) + 1;
     await notice('(500 cowries.)');
@@ -156,7 +156,7 @@ const AFTER_LOW = ['I\'m just out on the sand, at low! Feels weird. Good weird.'
 export const afterLow = (i: number) => AFTER_LOW[i % 3];
 
 /** Tack on the Low Line, release only. Strand level 22. */
-export const tackTeam = () => [brack(43), mon('razor', 42), mon('asterias', 42), mon('swift', 42)];
+export const tackTeam = () => [brack(22), mon('razor', 21), mon('asterias', 21), mon('swift', 21)];
 
 defMap({
   id: 'lowline', name: 'The Low Line', region: 25, music: 'strand', strand: true,
@@ -175,7 +175,7 @@ defMap({
   zone: {
     // The Astrolabe is listed for the Register's check. It walks only in the side mission, never with the tide's kinds.
     kinds: kinds([['laminaria', 3], ['eelgrass', 3], ['grenadier', 2], ['asterias', 2], ['cirrus', 2], ['transit', 2], ['hyponome', 3], ['slackwater', 3], ['brinicle', 3], ['astrolabe', 1]]),
-    lv: [34, 42], n: 12, area: 'strand',
+    lv: [17, 21], n: 12, area: 'strand',
     tideKinds: {
       low: kinds([['laminaria', 3], ['eelgrass', 3], ['grenadier', 2], ['asterias', 2], ['cirrus', 2], ['transit', 2]]),
       high: kinds([['hyponome', 3], ['slackwater', 3], ['brinicle', 3]]),
@@ -192,13 +192,13 @@ defMap({
     { id: 'llfisher1', x: 22, y: 3, sprite: 'nautilus1', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(0)] : ['The Auger\'s come down to live by us. They\'re so loud at low. We pump quiet.']) },
     { id: 'llfisher2', x: 34, y: 2, sprite: 'nautilus2', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(2)] : ['We pump, they climb. Same thing, really. They\'d say different.']) },
     { id: 'kelpcutter', x: 24, y: 10, sprite: 'beach2', name: 'Kelp-cutter', dir: 3, when: lowWater,
-      trainer: { name: 'Kelp-cutter', team: [['laminaria', 38], ['eelgrass', 38]], intro: 'I cut kelp at low. It stands right up when the sea goes out. Very polite of it.', defeat: 'Alright. Lie down, then.', sight: 3 } },
+      trainer: { name: 'Kelp-cutter', team: [['laminaria', 19], ['eelgrass', 19]], intro: 'I cut kelp at low. It stands right up when the sea goes out. Very polite of it.', defeat: 'Alright. Lie down, then.', sight: 3 } },
     { id: 'deepfisher', x: 31, y: 15, sprite: 'nautilus2', name: 'Deep-fisher', dir: 1, when: lowWater,
-      trainer: { nacre: 1, name: 'Deep-fisher', team: [['grenadier', 39], ['cirrus', 39]], intro: 'Deep ones come up at low. I wait right at the edge. Very patient. Very wet.', defeat: 'Back down deep, then. Bye.', sight: 3 } },
+      trainer: { nacre: 1, name: 'Deep-fisher', team: [['grenadier', 20], ['cirrus', 20]], intro: 'Deep ones come up at low. I wait right at the edge. Very patient. Very wet.', defeat: 'Back down deep, then. Bye.', sight: 3 } },
     { id: 'starpicker', x: 50, y: 8, sprite: 'beach3', name: 'Star-picker', dir: 3, when: lowWater,
-      trainer: { name: 'Star-picker', team: [['asterias', 39], ['transit', 40]], intro: 'My gran says starfish fell out of the sky. I pick them up anyway. They don\'t mind.', defeat: 'Fell again.', sight: 3 } },
+      trainer: { name: 'Star-picker', team: [['asterias', 20], ['transit', 20]], intro: 'My gran says starfish fell out of the sky. I pick them up anyway. They don\'t mind.', defeat: 'Fell again.', sight: 3 } },
     { id: 'brinediver', x: 27, y: 7, sprite: 'beach2', name: 'Brine-diver', dir: 0, when: highTide,
-      trainer: { name: 'Brine-diver', team: [['brinicle', 40], ['slackwater', 40]], intro: 'I dive at high water. Cold down there. Colder every year.', defeat: 'Up for air.', sight: 3 } },
+      trainer: { name: 'Brine-diver', team: [['brinicle', 20], ['slackwater', 20]], intro: 'I dive at high water. Cold down there. Colder every year.', defeat: 'Up for air.', sight: 3 } },
     { id: 'lltack', x: 19, y: 4, sprite: 'tack', name: 'Tack', dir: 0, talk: 'llTack', when: () => release() && !!flag('a2c4') && !flag('sweepOver') },
     { id: 'astrolabe', x: 50, y: 13, sprite: 'stone', name: 'Astrolabe', dir: 0, img: kindSprite('astrolabe'), talk: 'astrolabe', when: () => lowWater() && !!flag('astroAsked') && !flag('astroDone') },
     { id: 'llgoat', x: 40, y: 13, sprite: 'stone', name: 'A goat', dir: 3, img: () => GOAT, when: () => !!flag('a2done'), lines: ['(The Nautilus folk\'s goat, out on the sand. It looks at Ouro and chews.)'] },
@@ -261,7 +261,7 @@ defScript('llTack', async () => {
 
 defScript('astrolabe', async () => {
   await act('astrolabe', 'look');
-  const r = await fightWild(mon('astrolabe', 44), { canRun: true, area: 'strand' });
+  const r = await fightWild(mon('astrolabe', 22), { canRun: true, area: 'strand' });
   if (r.pegged.length) {
     setFlag('astroDone');
     await giveMon(r.pegged[0]);
@@ -322,7 +322,7 @@ defMap({
     { id: 'lcwindow', onSolid: true, x: 16, y: 1, sprite: 'realcinch', name: 'Cinch', dir: 0, talk: 'cinchWindow', when: () => taken() && !flag('springHigh') },
     { id: 'ballastgirl', x: 19, y: 5, sprite: 'nautilus1', name: 'Ballast-girl', dir: 2, talk: 'ballastgirl' },
     { id: 'pumper', x: 4, y: 3, sprite: 'nautilus2', name: 'Pumper', dir: 0,
-      trainer: { nacre: 1, name: 'Pumper', team: [['ballast', 40], ['sluice', 40]], intro: 'I pump the siphon at low. One of my arms is huge now. The other one\'s fine.', defeat: 'Other arm next time, then.', sight: 2 } },
+      trainer: { nacre: 1, name: 'Pumper', team: [['ballast', 20], ['sluice', 20]], intro: 'I pump the siphon at low. One of my arms is huge now. The other one\'s fine.', defeat: 'Other arm next time, then.', sight: 2 } },
     { id: 'doorkeeper', x: 10, y: 11, sprite: 'nautilus2', name: 'Nautilus doorkeeper', dir: 1,
       lines: () => (hoodShut() ? ['Hood\'s shut for the big low. Only Siphon opens it. Sorry.'] : lowWater() ? ['Low water, hood\'s shut. Knock and I\'ll open it. Knock nice.'] : ['High water. Hood\'s up. Mind your feet, it\'s wet.']) },
     folk('lcwoman', 3, 6, 'nautilus1', 'Woman', 'We all live in the big room now. The small rooms are where we grew up. Cozy, back then.', 'Pump, pump. Pump, pump.',
@@ -392,7 +392,7 @@ defScript('siphonBack', async () => {
 });
 
 /** Siphon, the fourth keeper. Strand level 20. */
-export const siphonTeam = () => [mon('hood', 38), mon('septum', 38), mon('hyponome', 39), mon('vacuole', 40)];
+export const siphonTeam = () => [mon('hood', 19), mon('septum', 19), mon('hyponome', 20), mon('vacuole', 20)];
 const SIPHON_THINGS: [string, string, string][] = [
   ['sbowl', 'siphonBowl', 'This room is my first bowl now!! This room is a great deal bigger than that bowl was.'],
   ['smat', 'siphonMat', 'This room has my old mat in it. This room smells most powerfully of being four.'],
@@ -565,12 +565,12 @@ defMap({
   enter: 'oldEnter',
   // The Protoconch sits in room 1 and is listed only for the Register's check. Both tides spawn the rest.
   zone: {
-    kinds: kinds([['septum', 2], ['vacuole', 2], ['evaporite', 2], ['ballast', 2], ['sluice', 2], ['hood', 2], ['protoconch', 1]]), lv: [34, 42], n: 6, area: 'nautilus',
+    kinds: kinds([['septum', 2], ['vacuole', 2], ['evaporite', 2], ['ballast', 2], ['sluice', 2], ['hood', 2], ['protoconch', 1]]), lv: [17, 21], n: 6, area: 'nautilus',
     tideKinds: { high: OC_KINDS, low: OC_KINDS },
   },
   npcs: [
     { id: 'roomsitter', x: 8, y: 8, sprite: 'nautilus1', name: 'Room-sitter', dir: 3,
-      trainer: { name: 'Room-sitter', team: [['evaporite', 41], ['vacuole', 41]], intro: 'I sat in an old room when it sealed. Liked it. So I stayed. It\'s nice in here.', defeat: 'Stay a while. It opens again at spring. I\'ve got snacks.', sight: 3 } },
+      trainer: { name: 'Room-sitter', team: [['evaporite', 21], ['vacuole', 21]], intro: 'I sat in an old room when it sealed. Liked it. So I stayed. It\'s nice in here.', defeat: 'Stay a while. It opens again at spring. I\'ve got snacks.', sight: 3 } },
     { id: 'protoconch', x: 23, y: 5, sprite: 'stone', name: 'Alkume', dir: 0, img: kindSprite('protoconch'), talk: 'protoconch', when: () => !flag('protoconchDone') },
   ],
   spots: [
@@ -601,7 +601,7 @@ defScript('oldEnter', async () => {
 
 defScript('protoconch', async () => {
   await emote('ouro', 'surprise');
-  const r = await fightWild(mon('protoconch', 42), { canRun: true, area: 'nautilus' });
+  const r = await fightWild(mon('protoconch', 21), { canRun: true, area: 'nautilus' });
   if (r.pegged.length) { setFlag('protoconchDone'); await giveMon(r.pegged[0]); }
   else if (r.result === 'win') { await fadeWho('protoconch', false, 40); setFlag('protoconchDone'); }
 });

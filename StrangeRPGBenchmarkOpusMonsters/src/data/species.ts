@@ -1,6 +1,6 @@
 import type { Mon, SpriteData } from '../battle/model';
 import { sp, SPECIES, WILD_KINDS, type Species } from './speciesdb';
-import { halveLevel } from './types';
+import { clampLevel } from './types';
 import { PROFILE_TABLE } from './profileTable';
 import { profileFrom } from './profiles';
 import './fields';
@@ -210,13 +210,13 @@ export function spriteOf(sp: Species): SpriteData {
   return { px: sp.sprite.slice(), c: [sp.c[0], sp.c[1], sp.c[2]] };
 }
 
-/** A new whorl. `level` is on the old 1 to 100 scale that content is written in, and the whorl gets the halved level. */
+/** A new whorl at `level`, kept inside 1 to LEVEL_MAX. */
 export function makeMon(kind: string, level: number, over: Partial<Mon> = {}): Mon {
   const sp = SPECIES[kind];
   if (!sp) throw new Error(`no species ${kind}`);
   return {
     uid: nextUid(), kind, name: sp.name, types: sp.types.slice(), basic: sp.basic, moves: sp.moves.slice(), passives: sp.passives.slice(),
-    level: halveLevel(level), xp: 0, notion: null, sprite: spriteOf(sp), legendary: sp.legendary, person: sp.person, ...over,
+    level: clampLevel(level), xp: 0, notion: null, sprite: spriteOf(sp), legendary: sp.legendary, person: sp.person, ...over,
   };
 }
 

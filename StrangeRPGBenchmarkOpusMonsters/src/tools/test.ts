@@ -300,9 +300,9 @@ async function main(): Promise<void> {
     const { collar, setNext } = await import('../data/kits7');
     const { makeMon } = await import('../data/species');
     const carc = (tape: string, sets: number) => {
-      const m = makeMon('carcanet', 50);
+      const m = makeMon('carcanet', 25);
       m.tape = tape;
-      const b = newBattle({ mons: [m], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50), makeMon('hare', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+      const b = newBattle({ mons: [m], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25), makeMon('hare', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
       b.quiet = true;
       const f = b.s[0].f[0];
       f.k.cn = 0; f.k.tp = 0; f.k.taped = 1;
@@ -334,7 +334,7 @@ async function main(): Promise<void> {
     const { PASSIVES } = await import('../battle/registry');
     const { makeMon } = await import('../data/species');
     const duo = (kind: string) => {
-      const b = newBattle({ mons: [makeMon(kind, 50), makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50), makeMon('hare', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+      const b = newBattle({ mons: [makeMon(kind, 25), makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25), makeMon('hare', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
       b.quiet = true;
       return { b, f: b.s[0].f[0], mate: b.s[0].f[1], foe: b.s[1].f[0], back: b.s[1].f[1] };
     };
@@ -405,7 +405,7 @@ async function main(): Promise<void> {
     const { MOVES } = await import('../battle/registry');
     const { makeMon } = await import('../data/species');
     const mk = (a: string[], z: string[]) => {
-      const b = E.newBattle({ mons: a.map(k => makeMon(k, 50)), name: 'A', ai: 'keeper' }, { mons: z.map(k => makeMon(k, 50)), name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+      const b = E.newBattle({ mons: a.map(k => makeMon(k, 25)), name: 'A', ai: 'keeper' }, { mons: z.map(k => makeMon(k, 25)), name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
       b.quiet = true;
       return b;
     };
@@ -451,8 +451,8 @@ async function main(): Promise<void> {
     }
     {
       // Silence stops spells, Root stops dashes, and both leave other moves alone.
-      const spellOwner = Object.values(MOVES).find(m => m.tags?.includes('spell') && !m.extra && makeMon(m.owner, 50)?.moves.some(id => !MOVES[id].tags?.includes('spell')));
-      const dashOwner = Object.values(MOVES).find(m => m.tags?.includes('dash') && !m.extra && makeMon(m.owner, 50)?.moves.some(id => !MOVES[id].tags?.includes('dash')));
+      const spellOwner = Object.values(MOVES).find(m => m.tags?.includes('spell') && !m.extra && makeMon(m.owner, 25)?.moves.some(id => !MOVES[id].tags?.includes('spell')));
+      const dashOwner = Object.values(MOVES).find(m => m.tags?.includes('dash') && !m.extra && makeMon(m.owner, 25)?.moves.some(id => !MOVES[id].tags?.includes('dash')));
       for (const [m, st, tag] of [[spellOwner, 'silence', 'spell'], [dashOwner, 'root', 'dash']] as const) {
         if (!m) { fail(`kinds: no kind with a ${tag} move to test`); continue; }
         const b = mk([m.owner], ['cairn']);
@@ -1873,7 +1873,7 @@ async function main(): Promise<void> {
       const step = (b: Battle) => { const d = E.advance(b, aiReplace); if (d.kind === 'replace') E.replace(b, d.side, AI.chooseReplacement(b, d.side)); else if (d.kind !== 'over') AI.aiTurn(b); };
       // Deep HP on every whorl keeps a battle going through a whole test.
       const live = (a: (string | Mon)[], z: string[]) => {
-        const b = E.newBattle({ mons: a.map(k => (typeof k === 'string' ? makeMon(k, 50) : k)), name: 'A', ai: 'keeper' }, { mons: z.map(k => makeMon(k, 50)), name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+        const b = E.newBattle({ mons: a.map(k => (typeof k === 'string' ? makeMon(k, 25) : k)), name: 'A', ai: 'keeper' }, { mons: z.map(k => makeMon(k, 25)), name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
         for (const s of b.s) for (const f of s.f) f.hp = f.maxHp * 9;
         return b;
       };
@@ -2053,8 +2053,8 @@ async function main(): Promise<void> {
       {
         // A fit that keeps Still Minute and Zigzag: its visitor swaps with an ally, stays in that ally's place, and the ally
         // leaves in the time machine. The past fit stays, so two of it fight on, and both hold Running Tide.
-        const hare = makeMon('hare', 50).moves.filter(id => id !== 'bolt')[0];
-        const fit = fitted('slackwater', 'hare', 50, ['slackwater_lap', 'slackwater_minute', 'bolt', hare], ['slackwater_turn', 'slackwater_unhurried']);
+        const hare = makeMon('hare', 25).moves.filter(id => id !== 'bolt')[0];
+        const fit = fitted('slackwater', 'hare', 25, ['slackwater_lap', 'slackwater_minute', 'bolt', hare], ['slackwater_turn', 'slackwater_unhurried']);
         const b = live([fit, 'kiln', 'cairn'], ['hare', 'kiln']);
         const f = b.s[0].f[0], sm = slot(f, 'slackwater_minute'), zig = slot(f, 'bolt');
         b.s[0].nerve = 10;
@@ -2096,10 +2096,10 @@ async function main(): Promise<void> {
         // A wind-up in progress when the visitor arrives lands at its time while the past plays again. A wind-up is seldom in
         // progress as a round opens, so the test puts one into every recorded moment, of a move the foe itself never picks.
         const winds = (id: string) => !!MOVES[id]?.wu && MOVES[id].reach === 'single';
-        const wk = WILD_KINDS.find(k => makeMon(k, 50).moves.some(winds));
+        const wk = WILD_KINDS.find(k => makeMon(k, 25).moves.some(winds));
         if (!wk) fail('rewind: no wild kind holds a one-target move that winds up');
         else {
-          const wid = makeMon(wk, 50).moves.find(winds)!;
+          const wid = makeMon(wk, 25).moves.find(winds)!;
           const b = live(['slackwater'], [wk]);
           const t = b.s[0].f[0], foe = b.s[1].f[0], sm = slot(t, 'slackwater_minute'), lap = slot(t, 'slackwater_lap');
           t.cd[sm] = 99;
@@ -2132,7 +2132,7 @@ async function main(): Promise<void> {
       if (m.splash !== undefined && !(m.splash > 0 && m.splash <= 1)) fail(`splash: ${m.id} has a share of ${m.splash}`);
     }
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50), makeMon('hare', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25), makeMon('hare', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     const spreadOf = (share: number) => {
       const id = `zz_splash_${Math.round(share * 100)}`;
@@ -2156,7 +2156,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0], t = b.s[1].f[0];
@@ -2203,7 +2203,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('scree', 50), makeMon('plinth', 50), makeMon('menhir', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('scree', 25), makeMon('plinth', 25), makeMon('menhir', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0];
@@ -2237,7 +2237,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0], t = b.s[1].f[0];
@@ -2271,7 +2271,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('slackwater', 50), makeMon('crane', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('walrus', 50), makeMon('grenadier', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('slackwater', 25), makeMon('crane', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('walrus', 25), makeMon('grenadier', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0], w = b.s[1].f[0];
@@ -2291,7 +2291,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0], t = b.s[1].f[0];
@@ -2321,7 +2321,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('cairn', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('cairn', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const u = b.s[0].f[0], t = b.s[1].f[0];
@@ -2346,7 +2346,7 @@ async function main(): Promise<void> {
   {
     const E = await import('../battle/engine');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('gleaner', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('scree', 50), makeMon('plinth', 50), makeMon('menhir', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('gleaner', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('scree', 25), makeMon('plinth', 25), makeMon('menhir', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     E.advance(b);
     const g = b.s[0].f[0], first = E.out(b, 1);
@@ -2363,7 +2363,7 @@ async function main(): Promise<void> {
     const E = await import('../battle/engine');
     const { chooseReplacement } = await import('../battle/ai');
     const { makeMon } = await import('../data/species');
-    const b = E.newBattle({ mons: [makeMon('lune', 50)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 50), makeMon('hare', 50)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
+    const b = E.newBattle({ mons: [makeMon('lune', 25)], name: 'A', ai: 'keeper' }, { mons: [makeMon('cairn', 25), makeMon('hare', 25)], name: 'Z', ai: 'keeper' }, { nerve: true, wild: false, sync: true, canRun: false });
     b.quiet = true;
     const lune = b.s[0].f[0], foe = b.s[1].f[0];
     foe.hp = 1;
@@ -2388,11 +2388,11 @@ async function main(): Promise<void> {
     const { randomFit } = await import('../game/wildfit');
     const same = (x: { px: string[]; c: (string | undefined)[] }, y: { px: string[]; c: (string | undefined)[] }) => x.px.join() === y.px.join() && x.c.join() === y.c.join();
     const stale = (m: { sprite: { px: string[]; c: any } }) => { m.sprite = { px: m.sprite.px.map(r => r.replace(/[1-4]/g, '1')), c: ['#000000', '#111111', '#222222'] }; };
-    const plain = makeMon('cairn', 50);
+    const plain = makeMon('cairn', 25);
     stale(plain);
     refreshMon(plain);
     if (!same(plain.sprite, spriteOf(SPECIES.cairn))) fail('old saves: a whorl kept its stale sprite after a refresh');
-    const star = makeStarborn(makeMon('hare', 50));
+    const star = makeStarborn(makeMon('hare', 25));
     stale(star);
     refreshMon(star);
     if (!same(star.sprite, starbornSprite(spriteOf(SPECIES.hare)))) fail('old saves: a starborn whorl lost its starborn look in a refresh');
@@ -2435,8 +2435,8 @@ async function main(): Promise<void> {
     const { TYPES } = await import('../data/types');
     let s = 7;
     const r = () => (s = (s * 9301 + 49297) % 233280) / 233280;
-    const kind = (k: string) => wireFromMon(makeMon(k, 50));
-    const fit = (a: string, z: string) => wireFromMon(randomFit(r, a, z, 50));
+    const kind = (k: string) => wireFromMon(makeMon(k, 25));
+    const fit = (a: string, z: string) => wireFromMon(randomFit(r, a, z, 25));
     const held = (w: ReturnType<typeof kind>, notion: string | null) => ({ ...w, notion });
     const expect = (what: string, roster: unknown[], ok: boolean) => {
       const p = teamProblems(roster);
@@ -2493,7 +2493,7 @@ async function main(): Promise<void> {
     expect('a fit with a habit neither parent has', [{ ...f, fit: { ...ff, passives: [ff.passives[0], SPECIES.cairn.passives[0]] } }, ...rest], false);
     expect('a fit with a type neither parent has', [{ ...f, fit: { ...ff, types: [odd] } }, ...rest], false);
     expect('a fit with a retune to a type it lacks', [{ ...f, fit: { ...ff, retune: { move: ff.moves[0], type: odd } } }, ...rest], false);
-    const made = randomFit(r, 'flare', 'tor', 50);
+    const made = randomFit(r, 'flare', 'tor', 25);
     made.notion = 'whetstone';
     made.tan = { atk: 6, hp: 6 };
     const back = monFromWire(wireFromMon(made), 1, 2), same = (x: string[] = [], z: string[] = []) => x.join() === z.join();
@@ -2518,9 +2518,9 @@ async function main(): Promise<void> {
     if (shownPlayerName('B1tch') !== STRANGER || shownPlayerName('Tellin') !== 'Tellin' || shownPlayerName('') !== STRANGER) fail('online names: a player name shows the wrong stand-in');
     const kinds = Object.values(SPECIES).filter(s => nameBlocked(s.name)).map(s => s.name);
     if (kinds.length) fail(`online names: the word filter refuses kinds' names: ${kinds.join(', ')}`);
-    const one = shownWhorlName({ ...wireFromMon(makeMon('cairn', 50)), name: 'Sh1thead' });
+    const one = shownWhorlName({ ...wireFromMon(makeMon('cairn', 25)), name: 'Sh1thead' });
     if (one !== SPECIES.cairn.name) fail(`online names: a refused whorl name shows "${one}"`);
-    const fitted = wireFromMon(makeMon('cairn', 50));
+    const fitted = wireFromMon(makeMon('cairn', 25));
     const blend = shownWhorlName({ fit: { kinds: ['flare', 'tor'], moves: [], passives: [], types: [], basic: 'P', retune: null, look: { shape: 0, palette: 0 } }, name: '', notion: fitted.notion });
     if (blend !== nameOptions(SPECIES.flare.name, SPECIES.tor.name)[0]) fail(`online names: a fit's stand-in is "${blend}"`);
   }
@@ -2571,7 +2571,7 @@ async function main(): Promise<void> {
     const chapter = GUIDE.find(c => c.id === 'byssus');
     if (!chapter) fail('byssus: the Guide has no Byssus chapter');
     const kept = { party: G.party, rack: G.rack, online: G.online };
-    const whorls = ['cairn', 'hare', 'squall', 'dynamo', 'bramble', 'lune'].map(k => makeMon(k, 50));
+    const whorls = ['cairn', 'hare', 'squall', 'dynamo', 'bramble', 'lune'].map(k => makeMon(k, 25));
     G.party = whorls.slice(0, 4);
     G.rack = whorls.slice(4, 5);
     if (byssusUnlocked() || chapter?.open()) fail('byssus: five whorls opened the service or its Guide chapter');

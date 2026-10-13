@@ -41,10 +41,10 @@ export function aiRoster(rnd: () => number): WireMon[] {
       const k2 = any();
       if (k2 === k || used.has(k2)) continue;
       used.add(k).add(k2);
-      out.push(plannedKit(rnd, randomFit(rnd, k, k2, 50)));
+      out.push(plannedKit(rnd, randomFit(rnd, k, k2, 25)));
     } else {
       used.add(k);
-      out.push(plannedKit(rnd, makeMon(k, 50)));
+      out.push(plannedKit(rnd, makeMon(k, 25)));
     }
   }
   // A notion already on the roster gives way to the next one planned for the whorl's attack or to any notion left.

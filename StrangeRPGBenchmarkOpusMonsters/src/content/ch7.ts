@@ -51,12 +51,12 @@ defMap({
     { x: 23, y: 6, to: 'peelhouse', tx: 8, ty: 14, dir: 2 },
     { x: 16, y: 29, to: 'moonwater', tx: 18, ty: 1, dir: 2, when: () => !!flag('pithBeaten') },
   ],
-  zone: { kinds: [['gore', 3], ['thumb', 2], ['quarry', 2], ['portent', 2], ['plinth', 2], ['grotto', 2]], lv: [38, 42], n: 16, area: 'rubble', fitted: 0.25 },
+  zone: { kinds: [['gore', 3], ['thumb', 2], ['quarry', 2], ['portent', 2], ['plinth', 2], ['grotto', 2]], lv: [19, 21], n: 16, area: 'rubble', fitted: 0.25 },
   npcs: [
-    { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 39], ['gore', 39]], intro: 'The Hilt\'s guarded. I\'m the guard. All of it. The whole guard is me.', defeat: 'Okay. Was the whole guard.', sight: 4 } },
-    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 39], ['portent', 40]], intro: 'There\'s conjoined whorls walking wild out here now. Two shells grown into one. All on their own!', defeat: 'Both halves lost. Bad day for halves.', sight: 4 } },
-    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 40], ['quarry', 40]], intro: 'Moonwater tonight. Everybody\'s going. Bring a towel.', defeat: 'Fine. You\'re going too, then.', sight: 3 } },
-    { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 40], ['gore', 40], ['crane', 40]], intro: 'Everyone asks if the sword\'s sharp. It\'s a Stay! Sharp\'s not the point! I\'m the smith, I\'d know.', defeat: 'Go look at it yourself, then.', sight: 4 } },
+    { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 20], ['gore', 20]], intro: 'The Hilt\'s guarded. I\'m the guard. All of it. The whole guard is me.', defeat: 'Okay. Was the whole guard.', sight: 4 } },
+    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 20], ['portent', 20]], intro: 'There\'s conjoined whorls walking wild out here now. Two shells grown into one. All on their own!', defeat: 'Both halves lost. Bad day for halves.', sight: 4 } },
+    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 20], ['quarry', 20]], intro: 'Moonwater tonight. Everybody\'s going. Bring a towel.', defeat: 'Fine. You\'re going too, then.', sight: 3 } },
+    { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 20], ['gore', 20], ['crane', 20]], intro: 'Everyone asks if the sword\'s sharp. It\'s a Stay! Sharp\'s not the point! I\'m the smith, I\'d know.', defeat: 'Go look at it yourself, then.', sight: 4 } },
     { id: 'mwguard', blocks: true, x: 16, y: 28, sprite: 'peeler', name: 'Hermit', when: () => !flag('pithBeaten'), lines: ['Moonwater\'s closed. Murex says. You want to argue, Murex is in the Hermitage.'] },
   ],
   enter: 'route7Enter',
@@ -86,8 +86,8 @@ defMap({
   npcs: [
     { id: 'pith', x: 8, y: 1, sprite: 'pith', name: 'Murex', talk: 'pith' },
     { id: 'wall', x: 15, y: 1, sprite: 'sign', name: null as any, lines: ['On the wall, painted: a spiral shell with a dark crack down the front. Under it, smaller: WIPE FEET.'] },
-    { id: 'ph1', x: 5, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['leech', 39], ['carrion', 39]], intro: 'We prise old shells off the rocks in here. The late ones watch. So they know how it comes off.', defeat: 'See? That\'s how it comes off.', sight: 5 } },
-    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['portent', 39], ['mycel', 39], ['undertow', 40]], intro: 'Bare\'s down at the water. Murex is on the door.', defeat: 'Murex is still on the door. Murex is always on the door.', sight: 5 } },
+    { id: 'ph1', x: 5, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['leech', 20], ['carrion', 20]], intro: 'We prise old shells off the rocks in here. The late ones watch. So they know how it comes off.', defeat: 'See? That\'s how it comes off.', sight: 5 } },
+    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['portent', 20], ['mycel', 20], ['undertow', 20]], intro: 'Bare\'s down at the water. Murex is on the door.', defeat: 'Murex is still on the door. Murex is always on the door.', sight: 5 } },
   ],
 });
 
@@ -226,8 +226,8 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'hilt', tx: 12, ty: 6, dir: 0 }, { x: 7, y: 11, to: 'hilt', tx: 12, ty: 6, dir: 0 }],
   npcs: [
     { id: 'quillon', x: 6, y: 1, sprite: 'quillon', name: 'Quillon', talk: 'quillon' },
-    { id: 'drill1', x: 3, y: 7, sprite: 'keeper', name: 'Sword drill', dir: 1, trainer: { name: 'Sword drill', team: [['stoat', 40], ['carrion', 40]], intro: 'Finish \'em while they\'re low. Or they come back. They always come back.', defeat: 'Came back.', sight: 5 } },
-    { id: 'drill2', x: 10, y: 4, sprite: 'keeper', name: 'Sword drill', dir: 2, trainer: { name: 'Sword drill', team: [['hemlock', 40], ['gore', 41]], intro: 'Some moves finish one outright when it\'s under a line. Count their HP. Always count.', defeat: 'Ah. Counted wrong.', sight: 3 } },
+    { id: 'drill1', x: 3, y: 7, sprite: 'keeper', name: 'Sword drill', dir: 1, trainer: { name: 'Sword drill', team: [['stoat', 20], ['carrion', 20]], intro: 'Finish \'em while they\'re low. Or they come back. They always come back.', defeat: 'Came back.', sight: 5 } },
+    { id: 'drill2', x: 10, y: 4, sprite: 'keeper', name: 'Sword drill', dir: 2, trainer: { name: 'Sword drill', team: [['hemlock', 20], ['gore', 21]], intro: 'Some moves finish one outright when it\'s under a line. Count their HP. Always count.', defeat: 'Ah. Counted wrong.', sight: 3 } },
   ],
 });
 
@@ -243,7 +243,7 @@ defScript('pith', async () => {
   await say('Murex', 'Did you, uh. Count the Stays? Like she said?');
   await say('Murex', 'Do you know how many kids in Tusk have turned? In ten years? Do you want to guess?');
   await say('Murex', 'Shall we fight? Or would you rather keep standing there? For a while?');
-  const r = await fightTrainer({ name: 'Murex', team: [['leech', 34], ['mycel', 34], ['portent', 34], ['grotto', 35]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Murex', team: [['leech', 19], ['mycel', 19], ['portent', 19], ['grotto', 20]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   setFlag('pithBeaten');
   await say('Murex', 'Have you ever seen the moon come up out of a lake? Would you like to? Tonight?');
@@ -278,7 +278,7 @@ defScript('moonwaterEnter', async () => {
     await choose(['Sound it', 'Fight it']);
   }
   if (G.pegs.twig + G.pegs.brass + G.pegs.bone + G.pegs.iron === 0) G.pegs.brass += 1;
-  const r = await fightWild(mon('full', 44), { scripted: 'full', canRun: false, bossHp: 2, ai: 'keeper' });
+  const r = await fightWild(mon('full', 22), { scripted: 'full', canRun: false, bossHp: 2, ai: 'keeper' });
   if (r.result !== 'win' && !r.pegged.length) {
     sound('hitBig');
     await tint('#3060a0', 0.5, 10);
@@ -287,7 +287,7 @@ defScript('moonwaterEnter', async () => {
     return;
   }
   setFlag('fullCaught');
-  const full = r.pegged[0] || mon('full', 44);
+  const full = r.pegged[0] || mon('full', 22);
   await giveMon(full);
   sound('hitBig');
   field.shakeT = 20;
@@ -314,7 +314,7 @@ defScript('quillon', async () => {
   await say('Quillon', 'If you are the one from the Moonwater, then you carry the moon about in a horn!!');
   await say('Quillon', 'If you would duel me, then you shall duel me with it out. I insist upon it.');
   await say('Quillon', 'If you lose, then I take nothing. If you win, then the pearl. Then a biscuit.');
-  const r = await fightTrainer({ name: 'Quillon', team: [['stoat', 38], ['carrion', 38], ['gore', 38], ['hemlock', 39]], intro: '', defeat: '', ai: 'keeper' });
+  const r = await fightTrainer({ name: 'Quillon', team: [['stoat', 20], ['carrion', 20], ['gore', 20], ['hemlock', 21]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Quillon', 'If that is the end, then it is yours, and most fairly won!!');
   giveScale('hilt');

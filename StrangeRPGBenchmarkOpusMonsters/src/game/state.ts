@@ -114,6 +114,13 @@ function halveSave(s: Save): void {
   s.v = 2;
 }
 
+/** Act 2 once gave Knot a Strand level of 55, a number on the old scale that nothing halved. It halves here like the rest. */
+function fixOldStrand(s: Save): void {
+  for (const m of [...(s.party || []), ...(s.rack || []), ...Object.values(s.shellMons || {})]) {
+    if (m?.strand && m.strand.level > LEVEL_MAX) { m.strand.level = halveLevel(m.strand.level); m.strand.xp = 0; }
+  }
+}
+
 /** A whorl that still carries its kind's name from before the rename takes the new one. Names the player gave are kept. */
 function renameSave(s: Save): void {
   for (const m of [...(s.party || []), ...(s.rack || []), ...Object.values(s.shellMons || {})]) {
@@ -136,6 +143,7 @@ export function load(n = slot): Save | null {
     if (!raw) return null;
     const s = JSON.parse(raw) as Save;
     if ((s.v || 1) < 2) halveSave(s);
+    fixOldStrand(s);
     renameSave(s);
     return { ...fresh(), ...s, opts: { ...fresh().opts, ...(s.opts || {}) }, gem: { ...fresh().gem, ...(s.gem || {}) } };
   } catch { return null; }
@@ -211,7 +219,7 @@ export function giveXp(m: Mon, xp: number): number[] {
 /** The cap that applies where Ouro is now. */
 export function capHere(): number { return scaleNow.strand ? strandCap() : levelCap(); }
 
-/** The highest level a slough can reach with this many scales. One above the next keeper's strongest slough. */
+/** The highest level a whorl can reach with this many pearls. From the fourth pearl it is one above the next keeper's strongest whorl. */
 export const CAPS = [5, 9, 10, 13, 15, 19, 22, 25, 29];
 export function levelCap(): number {
   if (G.flags.postgame) return LEVEL_MAX;
