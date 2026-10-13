@@ -33,6 +33,10 @@ for (const game of manifest.games) {
     continue;
   }
   const dir = path.join(root, game.folder);
+  // Git leaves out a folder that holds its own .git, and npm then fails here with a misleading "spawnSync /bin/sh ENOENT".
+  if (!fs.existsSync(path.join(dir, 'package.json'))) {
+    throw new Error(`${game.title}: ${game.folder}/package.json is missing. Commit the folder, and delete any .git folder inside it first.`);
+  }
   if (!skipBuild) {
     if (!fs.existsSync(path.join(dir, 'node_modules'))) run('npm ci --no-audit --no-fund', dir);
     run(game.build.command, dir);

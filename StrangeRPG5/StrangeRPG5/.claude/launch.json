@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "too-many-doors",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/serve.mjs", "8093"],
+      "port": 8093
+    }
+  ]
+}

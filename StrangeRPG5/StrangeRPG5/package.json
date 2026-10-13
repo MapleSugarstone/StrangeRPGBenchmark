@@ -1,0 +1,12 @@
+{
+  "name": "strangerpg5",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild src/game.ts index.html --bundle --format=iife --outdir=dist --entry-names=[name] --loader:.html=copy",
+    "watch": "esbuild src/game.ts index.html --bundle --format=iife --outdir=dist --entry-names=[name] --loader:.html=copy --watch",
+    "sim": "esbuild tools/sim.ts --bundle --platform=node --outfile=build/sim.js && node build/sim.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
