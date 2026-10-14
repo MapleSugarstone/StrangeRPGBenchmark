@@ -111,7 +111,7 @@ sp({ id: 'cuttle', name: 'Ikapia', types: ['TIDE'], basic: 'M', area: 'longstran
   sprite: ['3......3', '33....33', '.342243.', '.4122143', '.2222223', '..3333.3', '..4444.3', '.4444443'], c: ['#ffffff', '#b18e0c', '#136a29'],
   fit: 'changes color to match', pegs: 3,
   entry: 'Cuttlefish bone. Matches whatever it lies by. Matched my counter a week before I found it. Three cowries. It\'s on the counter. Somewhere.' });
-sp({ id: 'medusa', name: 'Kutelo', types: ['TIDE'], basic: 'M', area: 'longstrand',
+sp({ id: 'medusa', name: 'Kutelo', types: ['TIDE'], basic: 'P', area: 'longstrand',
   moves: ['medusa_sting', 'medusa_pulse', 'medusa_bell', 'medusa_bigripple'], passives: ['medusa_ripples', 'medusa_talked'],
   sprite: ['4......4', '.4.22.4.', '..2222..', '.232232.', '.222222.', '4.3333.4', '.4.33.4.', '..4..4..'], c: ['#6f64c3', '#78c8f7', '#e2e2f3'],
   fit: 'ripples when you talk', pegs: 3,
@@ -185,7 +185,7 @@ sp({ id: 'fleur', name: 'Kukhana', types: ['SALT'], basic: 'M', area: 'conchlip'
   sprite: ['2..22..2', '.22..22.', '2.2222.2', '.213312.', '22222222', '.244442.', '...44...', '..4444..'], c: ['#efefe9', '#db94a4', '#8c857d'],
   fit: 'dries what it touches', pegs: 3,
   entry: 'Salt flower off the Conch\'s lip, where the spray dries. Dries whatever it touches the same way. Three cowries. My hands are still dry.' });
-sp({ id: 'madrepore', name: 'Kosango', types: ['STONE'], basic: 'M', area: 'conchlip',
+sp({ id: 'madrepore', name: 'Kosango', types: ['STONE'], basic: 'P', area: 'conchlip',
   moves: ['madrepore_rap', 'madrepore_close', 'madrepore_palm', 'madrepore_hand'], passives: ['madrepore_kind', 'madrepore_shaped'],
   sprite: ['4......4', '44....44', '.432234.', '.312213.', '.222222.', '..1111..', '..4444..', '...23...'], c: ['#f7e7df', '#dbbb52', '#d46f78'],
   fit: 'holds your hand back', pegs: 4,

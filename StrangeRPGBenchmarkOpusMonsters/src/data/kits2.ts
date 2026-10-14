@@ -495,8 +495,8 @@ defMark({ id: 'carrion_demon', name: 'a flock', clock: 'own', value: 0.2,
   expire(b, f) { msg(b, `${label(b, f)} lets the flock go.`); clearForm(b, f); },
   leave(b, f) { unmark(f, 'carrion_demon'); clearForm(b, f); } });
 defPassive({ id: 'gather', name: 'Picks Over', owner: 'carrion', text: 'When a foe is KO\'d: +6% ATK for the battle. Heals 8% of its max HP.',
-  anyKO(b, f, v) { if (v === f || v.side === f.side) return; f.k.souls = (f.k.souls || 0) + 1; heal(b, f, f, f.maxHp * 0.08); },
-  statBonus(f, k) { return k === 'atk' ? Math.round(f.st.atk * 0.06 * (f.k.souls || 0)) : 0; } });
+  anyKO(b, f, v) { if (v === f || v.side === f.side) return; f.k.picked = (f.k.picked || 0) + 1; heal(b, f, f, f.maxHp * 0.08); },
+  statBonus(f, k) { return k === 'atk' ? Math.round(f.st.atk * 0.06 * (f.k.picked || 0)) : 0; } });
 defPassive({ id: 'watch', name: 'Waits for It', owner: 'carrion', text: 'Deals true damage to foes below 30% HP. Flock: a single-target hit fells one bird.' });
 defMove({ id: 'peck', name: 'Flock Peck', type: 'BEAST', owner: 'carrion', reach: 'spread', cd: 1, fx: 'hop | feather*3 sweep | slash', text: 'Hits for 31% ATK. Splash 35%.',
   run(c) { c.spread({ atk: 0.31 }); } });

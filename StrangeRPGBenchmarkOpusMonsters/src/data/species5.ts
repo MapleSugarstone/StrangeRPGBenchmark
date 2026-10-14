@@ -217,7 +217,7 @@ sp({ id: 'columella', name: 'Coshira', types: ['STONE'], basic: 'P', area: 'auge
   entry: 'The post down the middle of the Auger. Climbed itself! Everything leans on it, me included. Five cowries, and it leans back.' });
 
 // ================================================================ chapter 3: the stair
-sp({ id: 'crimp', name: 'Tegaote', types: ['STONE'], basic: 'P', area: 'augerstair',
+sp({ id: 'crimp', name: 'Tegaote', types: ['STONE'], basic: 'M', area: 'augerstair',
   moves: ['crimp_tip', 'crimp_under', 'crimp_rest', 'crimp_through'], passives: ['crimp_sixty', 'crimp_smooth'],
   sprite: ['....4...', '...444..', '..2222..', '44444444', '.131131.', '..4.44..', '.444444.', '...14...'], c: ['#ff24ce', '#f6d733', '#502f8c'],
   fit: 'is worn by every hand', pegs: 2,

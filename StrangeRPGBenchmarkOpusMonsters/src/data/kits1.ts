@@ -514,10 +514,10 @@ defPassive({ id: 'network', name: 'Underground', owner: 'mycel', text: 'When a P
 defPassive({ id: 'fruiting', name: 'Fruit Body', owner: 'mycel', text: 'Its attacks add Poison 1.',
   afterAttack(b, f, t) { if (!t.ko && !t.gone) applyStatus(b, f, t, 'poison', 1); } });
 defMove({ id: 'spore', name: 'Spore Gust', type: 'ROOT', owner: 'mycel', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | sand*4 wave | puff',
-  text: 'Hits for 110% MGK. Poison 2. Slow 1. Already Poisoned: summons a Stinkhorn.',
+  text: 'Hits for 113% MGK. Poison 2. Slow 1. Already Poisoned: summons a Stinkhorn.',
   run(c) {
     const fruits = !!c.tgt.s.poison;
-    c.hit(c.tgt, { mgk: 1.1 });
+    c.hit(c.tgt, { mgk: 1.13 });
     c.st(c.tgt, 'poison', 2);
     c.st(c.tgt, 'slow', 1);
     if (fruits && !c.preview && summonsOf(c.b, c.u.side, 'mycel_ward').length < 2) summon(c.b, c.u, 'mycel_ward', { hp: 0.1, turns: 3 });
@@ -526,10 +526,10 @@ defMove({ id: 'flush', name: 'Push Up', type: 'ROOT', owner: 'mycel', reach: 'si
   fx: 'sink | leaf rise | puff', text: 'Summons a Stinkhorn (10% of its max HP, 3 turns).',
   run(c) { summon(c.b, c.u, 'mycel_ward', { hp: 0.1, turns: 3 }); } });
 defMove({ id: 'decompose', name: 'Rot Down', type: 'VOID', owner: 'mycel', reach: 'single', cd: 3, fx: 'sink | orb*3 converge | smoke',
-  text: 'Hits for 40% MGK, then deals all of the foe\'s remaining Poison at once.',
+  text: 'Hits for 45% MGK, then deals all of the foe\'s remaining Poison at once.',
   run(c) {
     if (c.blocked(c.tgt)) return;
-    c.hit(c.tgt, { mgk: 0.4 });
+    c.hit(c.tgt, { mgk: 0.45 });
     const n = c.tgt.s.poison?.n || 0;
     if (!n || c.tgt.ko) return;
     delete c.tgt.s.poison;

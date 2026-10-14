@@ -130,15 +130,15 @@ defPassive({ id: 'fleam_lodged', name: 'Leaves a Blade', owner: 'fleam', text: '
   afterAttack(b, f) { hastenFighter(b, f, 20); } });
 defPassive({ id: 'fleam_letting', name: 'Spare Blades', owner: 'fleam', text: 'In reserve: hits by your out whorl lodge Blades too.',
   auraOut(b, f, o, t, d) { if (!d.dot && !d.reserve && t.side !== f.side) lodge(b, f, t, 1); return 1; } });
-defMove({ id: 'fleam_pierce', name: 'Nick', type: 'GEAR', owner: 'fleam', reach: 'single', tags: ['projectile'], cd: 1, fx: 'shard line fast | slash', text: 'Hits for 174% ATK. 1 Blade, or 2 on a foe that came out since its last turn.',
-  run(c) { const fresh = c.tgt.outAt > (c.u.k.prevTurn ?? -1); c.hit(c.tgt, { atk: 1.74 }); if (!c.tgt.ko) c.mark(c.tgt, 'fleam_spear', fresh ? 2 : 1, 3); } });
-defMove({ id: 'fleam_rend', name: 'Draw Blades', type: 'GEAR', owner: 'fleam', reach: 'single', tags: ['projectile'], cd: 2, fx: 'recoil | shard*6 return | slash drip', text: 'Pulls every Blade: 44% ATK + 54% ATK each. Slow 1. A KO resets its cooldown.',
+defMove({ id: 'fleam_pierce', name: 'Nick', type: 'GEAR', owner: 'fleam', reach: 'single', tags: ['projectile'], cd: 1, fx: 'shard line fast | slash', text: 'Hits for 179% ATK. 1 Blade, or 2 on a foe that came out since its last turn.',
+  run(c) { const fresh = c.tgt.outAt > (c.u.k.prevTurn ?? -1); c.hit(c.tgt, { atk: 1.79 }); if (!c.tgt.ko) c.mark(c.tgt, 'fleam_spear', fresh ? 2 : 1, 3); } });
+defMove({ id: 'fleam_rend', name: 'Draw Blades', type: 'GEAR', owner: 'fleam', reach: 'single', tags: ['projectile'], cd: 2, fx: 'recoil | shard*6 return | slash drip', text: 'Pulls every Blade: 48% ATK + 59% ATK each. Slow 1. A KO resets its cooldown.',
   run(c) {
     if (c.blocked(c.tgt)) return;
     const n = c.marked(c.tgt, 'fleam_spear');
     unmark(c.tgt, 'fleam_spear');
     c.u.k.rending = 1;
-    c.hit(c.tgt, { atk: 0.44 + 0.54 * n });
+    c.hit(c.tgt, { atk: 0.48 + 0.59 * n });
     c.u.k.rending = 0;
     if (c.tgt.ko) ready(c.u, 'fleam_rend'); else c.st(c.tgt, 'slow', 1);
   } });
@@ -729,14 +729,14 @@ defPassive({ id: 'fata_doubling', name: 'Reflected', owner: 'fata', text: 'Start
   afterAttack(b, f) { f.k.dbl = (f.k.dbl || 0) + 1; if (f.k.dbl % 4 === 0) addImage(b, f); } });
 defPassive({ id: 'fata_farshore', name: 'Many Places', owner: 'fata', text: 'When it attacks: each Reflection also hits for 15% MGK.',
   afterAttack(b, f, t) { const n = images(b, f); if (n && !t.ko) strike(b, f, t, stat(b, f, 'mgk') * 0.15 * n, 'M', 'STAR'); } });
-defMove({ id: 'fata_glint', name: 'Heat Glint', type: 'STAR', owner: 'fata', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star line fast | sparkle', text: 'Hits for 75% MGK. Slow 1. A Reflection if it has none.',
-  run(c) { c.hit(c.tgt, { mgk: 0.75 }); c.st(c.tgt, 'slow', 1); if (!images(c.b, c.u)) addImage(c.b, c.u); } });
+defMove({ id: 'fata_glint', name: 'Heat Glint', type: 'STAR', owner: 'fata', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star line fast | sparkle', text: 'Hits for 77% MGK. Slow 1. A Reflection if it has none.',
+  run(c) { c.hit(c.tgt, { mgk: 0.77 }); c.st(c.tgt, 'slow', 1); if (!images(c.b, c.u)) addImage(c.b, c.u); } });
 defMove({ id: 'fata_waver', name: 'Waver Off', type: 'STAR', owner: 'fata', reach: 'self', cd: 4, wt: 50, fx: 'blink | sparkle self',
   text: 'Cleanses itself. A Reflection. Mirage 25% for 3 turns.',
   run(c) { c.cleanse(c.u); addImage(c.b, c.u); addMirage(c.b, c.u, 0.25, 3); } });
 defMove({ id: 'fata_hazerush', name: 'Haze Run', type: 'STONE', owner: 'fata', reach: 'single', tags: ['dash', 'spell'], cd: 3, fx: 'blink | lunge fast | sparkle',
-  text: 'Hits for 64% MGK, +20% per Reflection. Its next turn comes 30% sooner.',
-  run(c) { c.hit(c.tgt, { mgk: 0.64 }, { mult: 1 + 0.2 * images(c.b, c.u) }); c.hasten(c.u, 30); } });
+  text: 'Hits for 70% MGK, +20% per Reflection. Its next turn comes 30% sooner.',
+  run(c) { c.hit(c.tgt, { mgk: 0.7 }, { mult: 1 + 0.2 * images(c.b, c.u) }); c.hasten(c.u, 30); } });
 defMove({ id: 'fata_massmirage', name: 'Whole Mirage', type: 'STAR', owner: 'fata', reach: 'single', tags: ['spell'], cd: 6, nerve: 5, fx: 'swell big | star*6 orbit | sparkle flash big tint',
   text: 'Hits for 52% MGK + 50% MGK per Reflection. +2 Reflections. Mirage 30% for 3 turns.',
   run(c) { const n = images(c.b, c.u); c.hit(c.tgt, { mgk: 0.52 + 0.5 * n }); for (let i = 0; i < 2; i++) addImage(c.b, c.u); addMirage(c.b, c.u, 0.3, 3); } });
@@ -1053,8 +1053,8 @@ defMark({ id: 'spume_edict', name: 'foam covered', clock: 'own', value: 0.12,
   inMul(b, f, src, d) { return d.kind === 'M' ? 0 : 1; },
   statusImmune(f, id) { return id === 'silence'; } });
 defMark({ id: 'spume_promise', name: 'afloat', clock: 'own', value: 0.3,
-  beforeTake(b, f, src, amt) { f.k.held = (f.k.held || 0) + amt; return 0; },
-  expire(b, f) { const held = f.k.held || 0; f.k.held = 0; if (held > 0) { msg(b, `The bill comes for ${label(b, f)}.`); dealDamage(b, null, f, held * 0.35, dot('T'), null); } } });
+  beforeTake(b, f, src, amt) { f.k.afloat = (f.k.afloat || 0) + amt; return 0; },
+  expire(b, f) { const held = f.k.afloat || 0; f.k.afloat = 0; if (held > 0) { msg(b, `The bill comes for ${label(b, f)}.`); dealDamage(b, null, f, held * 0.35, dot('T'), null); } } });
 defPassive({ id: 'spume_buoyant', name: 'Buoyant', owner: 'spume', text: 'Its heals are 1.3x on allies with a bad status.',
   healMul(b, f, t) { return Object.keys(t.s).some(id => ['stun', 'silence', 'sleep', 'root', 'taunt', 'slow', 'burn', 'bleed', 'poison', 'rot', 'expose', 'weaken'].includes(id)) ? 1.3 : 1; } });
 defPassive({ id: 'spume_dissolve', name: 'On the Bill', owner: 'spume', text: 'While it stands, your crests can run 2 tide into debt. New tide pays the debt first.',
@@ -1069,7 +1069,7 @@ defMove({ id: 'spume_washout', name: 'Rinse Clean', type: 'STAR', owner: 'spume'
   text: 'Cleanses an ally. Heals 8% max HP, 16% if it cleansed one. Regen 3 (7% max HP a turn).',
   run(c) { const a = c.ally!; const n = c.cleanse(a); c.heal(a, a.maxHp * (n ? 0.16 : 0.08)); c.st(a, 'regen', 3, 0.07); } });
 defMove({ id: 'spume_keptafloat', name: 'Kept Afloat', type: 'STAR', owner: 'spume', reach: 'ally', cd: 6, nerve: 5, fx: 'lift big | bubble*6 orbit | fizz ally big tint', text: 'An ally takes no damage for 2 turns. Then 35% of it lands at once.',
-  run(c) { c.ally!.k.held = 0; c.mark(c.ally!, 'spume_promise', 1, 2); } });
+  run(c) { c.ally!.k.afloat = 0; c.mark(c.ally!, 'spume_promise', 1, 2); } });
 
 // ebb: a scrap of the sea's own shell that fires the tide out as a long shot, or pulls it in and pounds like an undertow.
 defMark({ id: 'ebb_hammer', name: 'pulled in', value: 0.05,

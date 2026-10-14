@@ -378,8 +378,8 @@ const herdGuard = (b: Battle, side: 0 | 1): Fighter | null => { const o = b.s[si
 defPassive({ id: 'musk_coat', name: 'Winter Wool', owner: 'musk', text: 'Hits add Frost, max 4. Starts with a 10% shield, regrown after 2 unhit turns.',
   start(b, f) { giveShield(b, f, f, f.maxHp * 0.1, 99); },
   afterDeal(b, f, t, dealt, d) { if (!d.dot && !d.reserve && t.side !== f.side && !t.ko) mark(b, f, t, 'musk_frost', 1, 3); },
-  afterTake(b, f, src, dealt, d) { if (!d.dot) f.k.unhit = 0; },
-  turnStart(b, f) { f.k.unhit = (f.k.unhit || 0) + 1; if (f.k.unhit >= 3 && f.shield < f.maxHp * 0.1) { giveShield(b, f, f, f.maxHp * 0.1 - f.shield, 99); f.k.unhit = 0; } } });
+  afterTake(b, f, src, dealt, d) { if (!d.dot) f.k.muskUnhit = 0; },
+  turnStart(b, f) { f.k.muskUnhit = (f.k.muskUnhit || 0) + 1; if (f.k.muskUnhit >= 3 && f.shield < f.maxHp * 0.1) { giveShield(b, f, f, f.maxHp * 0.1 - f.shield, 99); f.k.muskUnhit = 0; } } });
 defPassive({ id: 'musk_wall', name: 'Herd Ring', owner: 'musk', text: 'While out with a shield: takes 0.85x, and hits on your reserves land on its shield.',
   inMul(b, f) { return f.shield > 0 ? 0.85 : 1; },
   start(b, f) { for (const a of b.s[f.side].f) if (a !== f) mark(b, null, a, 'musk_herd', 1, -1); } });
@@ -797,14 +797,14 @@ defPassive({ id: 'fletch_neverlanded', name: 'Never Landed', owner: 'fletch', te
   outMul(b, f, t) { return t.s.slow ? 1.2 : 1; },
   afterMove(b, f, m) { if (m.id === 'fletch_nock' && ammoOf(f, f.moves.indexOf(m.id)) === (m.ammo || 0) && f.cd[f.moves.indexOf(m.id)] > 0) mark(b, f, f, 'fletch_hang', 1, 2); } });
 defMove({ id: 'fletch_nock', name: 'Loose', type: 'ROOT', owner: 'fletch', reach: 'single', tags: ['projectile'], cd: 3, ammo: 3, fx: 'recoil | shard line fast | slash',
-  text: 'Hits for 77% ATK. 3 shots with no wait, then its cooldown starts.',
-  run(c) { c.hit(c.tgt, { atk: 0.77 }); } });
+  text: 'Hits for 82% ATK. 3 shots with no wait, then its cooldown starts.',
+  run(c) { c.hit(c.tgt, { atk: 0.82 }); } });
 defMove({ id: 'fletch_sheaf', name: 'Sheaf Loose', type: 'ROOT', owner: 'fletch', reach: 'spread', tags: ['projectile'], cd: 3, fx: 'recoil | shard*3 rain | shatter',
-  text: 'Spends every shot left in Loose: 30% ATK per shot. Splash 35%. Slow 2.',
+  text: 'Spends every shot left in Loose: 28% ATK per shot. Splash 35%. Slow 2.',
   run(c) {
     const i = c.u.moves.indexOf('fletch_nock'), n = i >= 0 && c.u.cd[i] <= 0 ? ammoOf(c.u, i) : 0;
     if (!n) { c.msg('The quiver is empty.'); return; }
-    c.spread({ atk: 0.3 * n }); c.st(c.tgt, 'slow', 2);
+    c.spread({ atk: 0.28 * n }); c.st(c.tgt, 'slow', 2);
     (c.u.ammo ||= c.u.moves.map(() => -1))[i] = -1;
     c.u.cd[i] = (MOVES.fletch_nock?.cd || 3) + 1;
   } });
@@ -1039,8 +1039,8 @@ defMark({ id: 'cullet_vision', name: 'visions', clock: 'own', negative: true, va
 defMark({ id: 'cullet_grasp', name: 'gripping', clock: 'own', volatile: true, value: 0.12,
   turnStart(b, f) { const t = foe(b, f); if (!t) return; const d = strike(b, f, t, stat(b, f, 'mgk') * 0.45, 'M', 'STONE'); heal(b, f, f, d * 0.3); } });
 defPassive({ id: 'cullet_glazed', name: 'Fresh Edge', owner: 'cullet', text: 'When it comes out: the first move to hit it deals 0.5x.',
-  comeOut(b, f) { f.k.glazed = 1; },
-  beforeTake(b, f, src, amt, d) { if (!d.move || !f.k.glazed || !src || src.side === f.side) return amt; f.k.glazed = 0; return amt * 0.5; } });
+  comeOut(b, f) { f.k.freshEdge = 1; },
+  beforeTake(b, f, src, amt, d) { if (!d.move || !f.k.freshEdge || !src || src.side === f.side) return amt; f.k.freshEdge = 0; return amt * 0.5; } });
 defPassive({ id: 'cullet_sharp', name: 'Broken Sharp', owner: 'cullet', text: 'Deals 1.15x to foes with Visions. A foe KO\'d with Visions passes them on.',
   outMul(b, f, t) { return marked(t, 'cullet_vision') ? 1.15 : 1; },
   anyKO(b, f, v) { const mk = v.m.cullet_vision; if (v.side !== f.side && mk && markedBy(b, mk) === f) f.k.passVision = 1; },
@@ -1288,8 +1288,8 @@ defPassive({ id: 'glove_cuffed', name: 'Cuff Off', owner: 'glove', text: 'Its at
 defPassive({ id: 'glove_handspring', name: 'Push Off', owner: 'glove', text: 'When it switches out: the ally that comes in gets Empower 1.',
   leave(b, f) { f.k.pushing = 1; },
   anyOut(b, f, who) { if (!f.k.pushing || who.side !== f.side || who === f) return; f.k.pushing = 0; applyStatus(b, f, who, 'empower', 1); } });
-defMove({ id: 'glove_grub', name: 'Weed Pull', type: 'BEAST', owner: 'glove', reach: 'single', tags: ['projectile'], cd: 1, fx: 'recoil | leaf arc | burst', text: 'Hits for 142% ATK. Delays the foe\'s next turn by 25%.',
-  run(c) { c.hit(c.tgt, { atk: 1.42 }); c.delay(c.tgt, 25); } });
+defMove({ id: 'glove_grub', name: 'Weed Pull', type: 'BEAST', owner: 'glove', reach: 'single', tags: ['projectile'], cd: 1, fx: 'recoil | leaf arc | burst', text: 'Hits for 132% ATK. Delays the foe\'s next turn by 25%.',
+  run(c) { c.hit(c.tgt, { atk: 1.32 }); c.delay(c.tgt, 25); } });
 defMove({ id: 'glove_springoff', name: 'Lend a Hand', type: 'BEAST', owner: 'glove', reach: 'reserveAlly', cd: 3, fx: 'swell | sparkle self',
   text: 'A reserve ally uses its first ready move at 0.9x from the bench. Foe: Slow 2.',
   run(c) {
@@ -1301,8 +1301,8 @@ defMove({ id: 'glove_springoff', name: 'Lend a Hand', type: 'BEAST', owner: 'glo
     benchMove(c.b, al, i, 0.9);
   } });
 defMove({ id: 'glove_helping', name: 'Green Thumb', type: 'ROOT', owner: 'glove', reach: 'single', cd: 3, fx: 'shake | leaf*3 line | bloom',
-  text: 'Hits for 95% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.',
-  run(c) { const d = c.hit(c.tgt, { atk: 0.95 }); const lo = standing(c.me).slice().sort((x, y) => x.hp / x.maxHp - y.hp / y.maxHp)[0]; if (lo && d > 0) c.heal(lo, d * 0.3); c.st(c.u, 'empower', 1); } });
+  text: 'Hits for 100% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.',
+  run(c) { const d = c.hit(c.tgt, { atk: 1 }); const lo = standing(c.me).slice().sort((x, y) => x.hp / x.maxHp - y.hp / y.maxHp)[0]; if (lo && d > 0) c.heal(lo, d * 0.3); c.st(c.u, 'empower', 1); } });
 defMove({ id: 'glove_unclench', name: 'Let Loose', type: 'BEAST', owner: 'glove', reach: 'self', cd: 6, nerve: 4, wt: 50, fx: 'swell | spark*4 orbit | burst big tint',
   text: '3 turns: Haste 3. Every 2nd attack also hits for 50% ATK. Splash 35%. Slow 1.',
   run(c) { c.u.k.pulse = 0; c.st(c.u, 'haste', 3); c.mark(c.u, 'glove_unleash', 1, 3); } });
@@ -1585,13 +1585,13 @@ defPassive({ id: 'sag_sediment', name: 'Laid Down', owner: 'sag', text: 'Wears 4
   inMul(b, f) { return 1 - 0.06 * marked(f, 'sag_layer'); },
   afterTake(b, f, src, dealt, d) { if (!d.dot && dealt > f.maxHp * 0.1) shed(f, 'sag_layer', 1); } });
 defPassive({ id: 'sag_seepage', name: 'Seeps In', owner: 'sag', text: 'When it hits or is hit: 1 Drop, up to 5, for Cold Hollow.',
-  afterDeal(b, f, t, dealt, d) { if (!d.dot && !d.reserve) f.k.souls = Math.min(5, (f.k.souls || 0) + 1); },
-  afterTake(b, f, src, dealt, d) { if (!d.dot) f.k.souls = Math.min(5, (f.k.souls || 0) + 1); } });
+  afterDeal(b, f, t, dealt, d) { if (!d.dot && !d.reserve) f.k.sagSouls = Math.min(5, (f.k.sagSouls || 0) + 1); },
+  afterTake(b, f, src, dealt, d) { if (!d.dot) f.k.sagSouls = Math.min(5, (f.k.sagSouls || 0) + 1); } });
 defMove({ id: 'sag_runoff', name: 'Run Off', type: 'TIDE', owner: 'sag', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | drop line | splash',
   text: 'Hits for 85% MGK. Slow 1. +1 Layer, up to 4. Its next turn comes 20% sooner.',
   run(c) { c.hit(c.tgt, { mgk: 0.85 }); c.st(c.tgt, 'slow', 1); c.hasten(c.u, 20); if (marked(c.u, 'sag_layer') < 4) c.mark(c.u, 'sag_layer', 1); } });
 defMove({ id: 'sag_coldhollow', name: 'Cold Hollow', type: 'SALT', owner: 'sag', reach: 'single', tags: ['dash', 'spell'], cd: 3, fx: 'sink | salt*3 converge | shatter', text: 'Spends Drops: hits for 43% MGK + 18% MGK per Drop.',
-  run(c) { const n = c.u.k.souls || 0; c.u.k.souls = 0; c.hit(c.tgt, { mgk: 0.43 + 0.18 * n }); } });
+  run(c) { const n = c.u.k.sagSouls || 0; c.u.k.sagSouls = 0; c.hit(c.tgt, { mgk: 0.43 + 0.18 * n }); } });
 defMove({ id: 'sag_sinkhole', name: 'Settle In', type: 'TIDE', owner: 'sag', reach: 'self', cd: 5, wt: 60, fx: 'sink | drop*4 rise | splash ally',
   text: 'Untouchable 1. Floods your side into a Salt Pool for 4 rounds. All 4 Layers back.',
   run(c) { c.st(c.u, 'invuln', 1); setGround(c.b, c.u.side, 'sag_pool', 4, c.u); unmark(c.u, 'sag_layer'); c.mark(c.u, 'sag_layer', 4); } });

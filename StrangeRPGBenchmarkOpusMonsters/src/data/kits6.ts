@@ -157,12 +157,12 @@ function setArms(b: Battle, f: Fighter, n: number): void {
 defMark({ id: 'asterias_armcount', name: 'arms', max: 5, clock: 'own', value: 0.02 });
 defMark({ id: 'asterias_legend', name: 'locked on', clock: 'own', volatile: true, value: 0.12,
   turnStart(b, f) { unmark(f, 'asterias_legend'); const t = foe(b, f); for (let i = 0; i < 4 && t && live(t); i++) strike(b, f, t, stat(b, f, 'mgk') * 0.3, 'M', 'STAR'); } });
-defPassive({ id: 'asterias_arms', name: 'Many Arms', owner: 'asterias', text: 'Its turns come 10% sooner. Its Attack fires a 25% MGK shot per Arm. It starts with 5 Arms.',
+defPassive({ id: 'asterias_arms', name: 'Many Arms', owner: 'asterias', text: 'Its turns come 10% sooner. Its Attack fires a 25% MGK shot per Arm. It starts with 5 Arms, and a hit of 15% max HP knocks one off.',
   start(b, f) { setArms(b, f, 5); },
+  afterTake(b, f, src, dealt, d) { if (d.dot || dealt < f.maxHp * 0.15 || armsOf(f) <= 0 || f.ko) return; setArms(b, f, armsOf(f) - 1); msg(b, `An arm comes off ${label(b, f)}.`); },
   turnEnd(b, f) { const s = b.s[f.side]; s.next = Math.max(b.t + 10, s.next - 10); },
   volley(b, f) { return { hits: armsOf(f), per: 0.25 }; } });
-defPassive({ id: 'asterias_regrow', name: 'Regrows Arms', owner: 'asterias', text: 'A hit of 15% max HP knocks off an Arm. Every 3rd turn: an Arm grows back and it heals 8%.',
-  afterTake(b, f, src, dealt, d) { if (d.dot || dealt < f.maxHp * 0.15 || armsOf(f) <= 0 || f.ko) return; setArms(b, f, armsOf(f) - 1); msg(b, `An arm comes off ${label(b, f)}.`); },
+defPassive({ id: 'asterias_regrow', name: 'Regrows Arms', owner: 'asterias', text: 'Every 3rd turn: an Arm grows back and it heals 8%.',
   turnStart(b, f) { f.k.regrow = (f.k.regrow || 0) + 1; if (f.k.regrow % 3 === 0) { if (armsOf(f) < 5) setArms(b, f, armsOf(f) + 1); heal(b, f, f, f.maxHp * 0.08); } } });
 defMove({ id: 'asterias_barrage', name: 'Arm Barrage', type: 'STAR', owner: 'asterias', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star*2 line | sparkle', text: 'Hits 2 times for 57% MGK.',
   run(c) { c.hit(c.tgt, { mgk: 0.57 }); if (!c.tgt.ko) c.hit(c.tgt, { mgk: 0.57 }); } });
@@ -179,9 +179,9 @@ defMove({ id: 'asterias_skydrop', name: 'Falling Arms', type: 'STAR', owner: 'as
 defMark({ id: 'cirrus_box', name: 'wrapped up', clock: 'own', volatile: true, negative: true, value: -0.15,
   forbid(b, f, what) { return what === 'switch' ? 'Boxed in.' : null; } });
 defPassive({ id: 'cirrus_suckers', name: 'Suckers', owner: 'cirrus', text: 'When a foe is KO\'d, and every 3rd hit: a Grip, max 10. +2% DEF and MGK each.',
-  anyKO(b, f, v) { if (v.side !== f.side) f.k.souls = Math.min(10, (f.k.souls || 0) + 1); },
-  afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side) return; f.k.reap = (f.k.reap || 0) + 1; if (f.k.reap % 3 === 0) f.k.souls = Math.min(10, (f.k.souls || 0) + 1); },
-  statBonus(f, k) { return k === 'def' || k === 'mgk' ? Math.round(f.st[k] * 0.02 * (f.k.souls || 0)) : 0; } });
+  anyKO(b, f, v) { if (v.side !== f.side) f.k.grips = Math.min(10, (f.k.grips || 0) + 1); },
+  afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side) return; f.k.reap = (f.k.reap || 0) + 1; if (f.k.reap % 3 === 0) f.k.grips = Math.min(10, (f.k.grips || 0) + 1); },
+  statBonus(f, k) { return k === 'def' || k === 'mgk' ? Math.round(f.st[k] * 0.02 * (f.k.grips || 0)) : 0; } });
 defPassive({ id: 'cirrus_reaching', name: 'Keeps Reaching', owner: 'cirrus', text: 'Deals 1.2x to a Rooted foe. Its Attack holds on: the foe can\'t switch at its next turn.',
   afterAttack(b, f, t) { if (live(t)) mark(b, f, t, 'cirrus_box', 1, 1); },
   outMul(b, f, t) { return t.s.root ? 1.2 : 1; } });
@@ -418,11 +418,11 @@ function takeRing(c: Ctx, t: Fighter): void {
   const amt = Math.round(t.maxHp * 0.04);
   t.maxHp -= amt; t.hp = Math.min(t.hp, t.maxHp);
   c.u.maxHp += amt; c.heal(c.u, amt);
-  c.u.k.rings = (c.u.k.rings || 0) + 1;
+  c.u.k.evapRings = (c.u.k.evapRings || 0) + 1;
   t.k.ringedBy = c.u.side + 1;
 }
 defPassive({ id: 'evaporite_ringed', name: 'Ringed', owner: 'evaporite', text: 'Takes 4% less damage per Ring it has taken, up to 20%.',
-  inMul(b, f) { return 1 - 0.04 * Math.min(5, f.k.rings || 0); } });
+  inMul(b, f) { return 1 - 0.04 * Math.min(5, f.k.evapRings || 0); } });
 defPassive({ id: 'evaporite_dries', name: 'Dries Out', owner: 'evaporite', text: 'Deals 1.2x damage to a foe it took a Ring from.',
   outMul(b, f, t) { return t.k.ringedBy === f.side + 1 ? 1.2 : 1; } });
 defMove({ id: 'evaporite_flake', name: 'Salt Flake', type: 'SALT', owner: 'evaporite', reach: 'single', tags: ['spell'], cd: 2, fx: 'flare | salt line | shatter', text: 'Hits for 125% MGK. Takes a Ring: 4% of the foe\'s max HP to itself.',
@@ -552,20 +552,20 @@ defMark({ id: 'albedo_glare', name: 'glared', clock: 'own', negative: true, vola
 defMark({ id: 'albedo_empress', name: 'flaring', clock: 'own', volatile: true, value: 0.2,
   afterDeal(b, f, t, dealt, d) { if (d.attack) heal(b, f, f, dealt * 0.15); } });
 defPassive({ id: 'albedo_hard', name: 'Night Glare', owner: 'albedo', text: 'When a foe is KO\'d, and on every 4th hit it lands: gains a Shine, up to 3.',
-  anyKO(b, f, v) { if (v.side !== f.side) f.k.souls = Math.min(3, (f.k.souls || 0) + 1); },
-  afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side) return; f.k.glare = (f.k.glare || 0) + 1; if (f.k.glare % 4 === 0) f.k.souls = Math.min(3, (f.k.souls || 0) + 1); } });
+  anyKO(b, f, v) { if (v.side !== f.side) f.k.shines = Math.min(3, (f.k.shines || 0) + 1); },
+  afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side) return; f.k.glare = (f.k.glare || 0) + 1; if (f.k.glare % 4 === 0) f.k.shines = Math.min(3, (f.k.shines || 0) + 1); } });
 defPassive({ id: 'albedo_kept', name: 'Kept Shine', owner: 'albedo', text: 'When a whorl falls, friend or foe: it takes that whorl\'s first passive while out.',
   anyKO(b, f, v) { if (v === f || f.ko || f.gone || !isOut(b, f)) return; const p = passivesOf(v)[0]; if (p) lendPassive(b, v, f, p, 99); } });
 defMove({ id: 'albedo_glint', name: 'Night Glint', type: 'SALT', owner: 'albedo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | star line | sparkle',
   text: 'Hits for 145% MGK. Weaken 1.',
   run(c) { c.hit(c.tgt, { mgk: 1.45 }); c.st(c.tgt, 'weaken', 1); } });
 defMove({ id: 'albedo_field', name: 'White Field', type: 'SALT', owner: 'albedo', reach: 'self', cd: 2, wt: 50, fx: 'swell | sparkle self', text: 'Spends a Shine: heals 20% max HP. Without one: heals 8%.',
-  run(c) { const s = (c.u.k.souls || 0) > 0; if (s) c.u.k.souls--; c.heal(c.u, c.u.maxHp * (s ? 0.2 : 0.08)); } });
+  run(c) { const s = (c.u.k.shines || 0) > 0; if (s) c.u.k.shines--; c.heal(c.u, c.u.maxHp * (s ? 0.2 : 0.08)); } });
 defMove({ id: 'albedo_link', name: 'Glare Link', type: 'STAR', owner: 'albedo', reach: 'single', tags: ['spell'], cd: 3, fx: 'flare | beam ray | flash glare',
   text: 'Hits for 90% MGK. Hidden 1. 3 turns: the foe\'s hits are never strong.',
   run(c) { c.hit(c.tgt, { mgk: 0.9 }); c.st(c.u, 'hidden', 1); if (!c.tgt.ko) c.mark(c.tgt, 'albedo_glare', 1, 3); } });
 defMove({ id: 'albedo_flare', name: 'Salt Flare', type: 'SALT', owner: 'albedo', reach: 'self', cd: 6, nerve: 4, wt: 50, fx: 'swell | salt*5 rise | flash big glare', text: 'Haste 3, Empower 3, 2 Shine. 3 turns: its attacks heal 15% of their damage.',
-  run(c) { c.st(c.u, 'haste', 3); c.st(c.u, 'empower', 3); c.mark(c.u, 'albedo_empress', 1, 3); c.u.k.souls = Math.min(3, (c.u.k.souls || 0) + 2); } });
+  run(c) { c.st(c.u, 'haste', 3); c.st(c.u, 'empower', 3); c.mark(c.u, 'albedo_empress', 1, 3); c.u.k.shines = Math.min(3, (c.u.k.shines || 0) + 2); } });
 
 // cuttle: a cuttlefish bone that matches whatever it lies beside, friend or foe.
 defSummon({ id: 'cuttle_decoy', name: 'Bone Decoy', owner: 'cuttle', sprite: { px: ['........', '..2222..', '.242242.', '.224422.', '.242242.', '..2222..', '...33...', '........'], c: ['#efebe3', '#51a95a', '#866757'] }, text: 'Takes single-target hits meant for Ikapia. Uses Color Jab on its own turns.', every: 100, guard: true });
@@ -648,8 +648,8 @@ defMark({ id: 'docket_cage', name: 'held off', clock: 'own', volatile: true, val
 defPassive({ id: 'docket_nearest', name: 'Nearest Shell', owner: 'docket', text: 'Each time a Trip Label goes off: +1 tide.' });
 defPassive({ id: 'docket_letters', name: 'Last Letters', owner: 'docket', text: 'When it is KO\'d: every foe is Ticketed for 3 turns.',
   anyKO(b, f, v) { if (v !== f) return; for (const e of standing(b.s[1 - f.side])) mark(b, null, e, 'docket_label', 1, 3); } });
-defMove({ id: 'docket_tap', name: 'Post Tap', type: 'GEAR', owner: 'docket', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | card line | flash', text: 'Hits for 261% MGK. Ticketed 3: it takes 1.15x from Tifuda.',
-  run(c) { c.hit(c.tgt, { mgk: 2.61 }); if (!c.tgt.ko) c.mark(c.tgt, 'docket_label', 1, 3); } });
+defMove({ id: 'docket_tap', name: 'Post Tap', type: 'GEAR', owner: 'docket', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | card line | flash', text: 'Hits for 274% MGK. Ticketed 3: it takes 1.15x from Tifuda.',
+  run(c) { c.hit(c.tgt, { mgk: 2.74 }); if (!c.tgt.ko) c.mark(c.tgt, 'docket_label', 1, 3); } });
 defMove({ id: 'docket_plant', name: 'Plant Label', type: 'ROOT', owner: 'docket', reach: 'side', cd: 3, fx: 'sink | card rise | sigil self', text: 'Sets a Trip Label (5% of its max HP).',
   run(c) { summon(c.b, c.u, 'docket_wire', { hp: 0.05 }); } });
 defMove({ id: 'docket_hold', name: 'Hold Label', type: 'GEAR', owner: 'docket', reach: 'self', cd: 3, wt: 50, fx: 'swell | card orbit | ring self', text: 'Fortify 1. Blocks the next projectile move at its side.',
@@ -956,11 +956,11 @@ const TIPS: StatusId[] = ['root', 'slow', 'burn', 'bleed', 'poison', 'rot', 'exp
 defMark({ id: 'gimbal_drain', name: 'steeping', clock: 'own', volatile: true, value: 0.1,
   turnStart(b, f) { const t = foe(b, f); if (!t) return; const d = strike(b, f, t, stat(b, f, 'mgk') * 0.35, 'M', 'ROOT'); heal(b, f, f, d); } });
 defPassive({ id: 'gimbal_ride', name: 'Level Ride', owner: 'gimbal', text: 'Hits over 20% of its max HP deal 0.65x past it. Its next hit returns the cut.',
-  beforeTake(b, f, src, amt) { const cap = f.maxHp * 0.2; if (amt <= cap) return amt; const cut = (amt - cap) * 0.35; f.k.swing = (f.k.swing || 0) + cut; return amt - cut; },
+  beforeTake(b, f, src, amt) { const cap = f.maxHp * 0.2; if (amt <= cap) return amt; const cut = (amt - cap) * 0.35; f.k.gimbalCut = (f.k.gimbalCut || 0) + cut; return amt - cut; },
   anyMove(b, f, user) {
-    if (user !== f || !f.k.swing) return;
-    const t = foe(b, f), n = f.k.swing;
-    f.k.swing = 0;
+    if (user !== f || !f.k.gimbalCut) return;
+    const t = foe(b, f), n = f.k.gimbalCut;
+    f.k.gimbalCut = 0;
     if (!t) return;
     msg(b, `${label(b, f)} swings back.`);
     strike(b, f, t, n, 'T', null);
@@ -1167,7 +1167,7 @@ defMark({ id: 'pallasite_shut', name: 'shut', clock: 'own', volatile: true, valu
   inMul() { return 0.5; },
   outMul() { return 1.3; } });
 defPassive({ id: 'pallasite_caught', name: 'Caught Shell', owner: 'pallasite', text: 'Once per battle, instead of a KO: Stasis 1, back at 25% HP.',
-  wouldKO(b, f) { if (f.k.caught) return false; f.k.caught = 1; f.hp = 1; f.s = { stasis: { n: 1, src: -1 } }; f.k.thaw = 1; f.k.thawPct = 25; msg(b, `${label(b, f)} shuts its shell.`); return true; } });
+  wouldKO(b, f) { if (f.k.shellShut) return false; f.k.shellShut = 1; f.hp = 1; f.s = { stasis: { n: 1, src: -1 } }; f.k.thaw = 1; f.k.thawPct = 25; msg(b, `${label(b, f)} shuts its shell.`); return true; } });
 defPassive({ id: 'pallasite_unspent', name: 'Shell Shuts', owner: 'pallasite', text: 'A hit of 25%+ max HP shuts it to the end of its next turn: 0.5x taken, 1.3x dealt.',
   afterTake(b, f, src, dealt, d) {
     if (d.dot || f.ko || dealt < f.maxHp * 0.25 || marked(f, 'pallasite_shut')) return;
@@ -1444,7 +1444,7 @@ defMove({ id: 'gleaner_hold', name: 'Hold to Ear', type: 'VOID', owner: 'gleaner
 
 defNotion({ id: 'tallystone', name: 'Tally Stone', price: 600, text: '+6% ATK and MGK. Every 3rd turn it takes: +1 tide.',
   pct: { atk: 0.06, mgk: 0.06 },
-  turnEnd(b, f) { f.k.tally = (f.k.tally || 0) + 1; if (f.k.tally % 3 === 0) addNerve(b, f.side, 1); } });
+  turnEnd(b, f) { f.k.tallyStone = (f.k.tallyStone || 0) + 1; if (f.k.tallyStone % 3 === 0) addNerve(b, f.side, 1); } });
 defNotion({ id: 'siphoncup', name: 'Siphon Cup', price: 700, text: '+6% HP. Its crests heal it 4% of max HP per tide they cost.',
   pct: { hp: 0.06 },
   afterMove(b, f, m) { if (m.nerve) heal(b, f, f, f.maxHp * 0.04 * m.nerve); } });

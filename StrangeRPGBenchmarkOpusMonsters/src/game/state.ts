@@ -2,6 +2,7 @@ import type { Mon } from '../battle/model';
 import { setUidFloor, SPECIES } from '../data/species';
 import { halveLevel, LEVEL_MAX, xpToNext } from '../data/types';
 import { FORMER_NAMES } from '../data/formernames';
+import { parentKindsOf } from './fitting';
 import { ROSTER_SIZE } from '../net/protocol';
 import type { Machine } from './setting/core';
 
@@ -128,6 +129,21 @@ function renameSave(s: Save): void {
   }
 }
 
+/** Kinds whose plain attack moved to the stat their moves use (2026-10-14). */
+const BASIC_FIXED = ['crimp', 'medusa', 'madrepore'];
+
+/** A whorl of a kind in `BASIC_FIXED` takes its kind's plain attack, and a fit of one keeps a plain attack a parent has. */
+function fixBasics(s: Save): void {
+  for (const m of [...(s.party || []), ...(s.rack || []), ...Object.values(s.shellMons || {})]) {
+    if (!m) continue;
+    if (!m.fitted) { if (BASIC_FIXED.includes(m.kind) && SPECIES[m.kind]) m.basic = SPECIES[m.kind].basic; continue; }
+    const kinds = parentKindsOf(m);
+    if (!kinds?.some(k => BASIC_FIXED.includes(k))) continue;
+    const basics = kinds.map(k => SPECIES[k]?.basic).filter((b): b is 'P' | 'M' => !!b);
+    if (basics.length && !basics.includes(m.basic)) m.basic = basics[0];
+  }
+}
+
 function migrate(): void {
   try {
     const old = localStorage.getItem(LEGACY_KEY);
@@ -145,6 +161,7 @@ export function load(n = slot): Save | null {
     if ((s.v || 1) < 2) halveSave(s);
     fixOldStrand(s);
     renameSave(s);
+    fixBasics(s);
     return { ...fresh(), ...s, opts: { ...fresh().opts, ...(s.opts || {}) }, gem: { ...fresh().gem, ...(s.gem || {}) } };
   } catch { return null; }
 }

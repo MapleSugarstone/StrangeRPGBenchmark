@@ -798,10 +798,10 @@ defMove({ id: 'diastema_wider', name: 'Wider', type: 'VOID', owner: 'diastema', 
   } });
 
 // furl: the rolled-in lip of the Cowrie's mouth that changes stance with every move and gains most by leaving each one.
-const furlStance = (f: Fighter) => f.k.stance || 0;
+const furlStance = (f: Fighter) => f.k.furlStance || 0;
 function setStance(b: Battle, f: Fighter, n: number): void {
   if (furlStance(f) === n) return;
-  f.k.stance = n;
+  f.k.furlStance = n;
   if (has(f, 'furl_fast')) { hastenFighter(b, f, 20); heal(b, f, f, f.maxHp * 0.05); }
   if (has(f, 'furl_rolled')) cleanse(b, f, 1);
 }
@@ -994,9 +994,9 @@ defMove({ id: 'groundswell_spring', name: 'Spring High', type: 'TIDE', owner: 'g
 // chalk: climbing chalk out of its pouch that leaves Handprints on every foe and climbs over the one in front to reach the bench.
 defMark({ id: 'chalk_flip', name: 'handprint', clock: 'own', negative: true, max: 3, value: -0.06 });
 defPassive({ id: 'chalk_hand', name: 'Chalked Hand', owner: 'chalk', text: 'When it uses a move: its next attack deals 1.3x and heals 20% of it.',
-  afterMove(b, f) { f.k.mark = 1; },
-  outMul(b, f, t, d) { return d.attack && f.k.mark ? 1.3 : 1; },
-  afterDeal(b, f, t, dealt, d) { if (d.attack && f.k.mark) { f.k.mark = 0; heal(b, f, f, dealt * 0.2); } } });
+  afterMove(b, f) { f.k.chalked = 1; },
+  outMul(b, f, t, d) { return d.attack && f.k.chalked ? 1.3 : 1; },
+  afterDeal(b, f, t, dealt, d) { if (d.attack && f.k.chalked) { f.k.chalked = 0; heal(b, f, f, dealt * 0.2); } } });
 defPassive({ id: 'chalk_grip', name: 'Chalk Grip', owner: 'chalk', text: 'Its hits deal +10% per Handprint on the foe (up to 3), and 1.25x from Hidden.',
   outMul(b, f, t) { return (1 + 0.1 * marked(t, 'chalk_flip')) * (f.s.hidden ? 1.25 : 1); } });
 defMove({ id: 'chalk_toss', name: 'Chalk Toss', type: 'SALT', owner: 'chalk', reach: 'spread', tags: ['projectile'], cd: 1, fx: 'shake | sand*5 sweep | puff all',
@@ -1422,7 +1422,7 @@ defNotion({ id: 'seapebble', name: 'Sea Pebble', price: 500, text: '+6% HP and +
 defNotion({ id: 'sieve', name: 'Sieve', price: 600, text: 'The first hit it takes each battle deals 0.5x damage.',
   beforeTake(b, f, src, amt, d) { if (f.k.sieved || d.dot || !src) return amt; f.k.sieved = 1; msg(b, 'The sieve catches some of the hit.'); return amt * 0.5; } });
 defNotion({ id: 'glazecoat', name: 'Glaze Coat', price: 600, text: '+13% RES. The first bad status put on it each battle is removed at once.', pct: { res: 0.13 },
-  afterGet(b, f, src, id) { if (f.k.glazed || !BADS.includes(id as StatusId)) return; f.k.glazed = 1; delete f.s[id as StatusId]; msg(b, 'It slides off the glaze.'); } });
+  afterGet(b, f, src, id) { if (f.k.glazeCoat || !BADS.includes(id as StatusId)) return; f.k.glazeCoat = 1; delete f.s[id as StatusId]; msg(b, 'It slides off the glaze.'); } });
 defNotion({ id: 'saltboots', name: 'Salt Boots', price: 500, text: '+12% DEF. The first crest to hit it each battle deals 0.5x damage.', pct: { def: 0.12 },
   beforeTake(b, f, src, amt, d) { if (f.k.booted || !d.move?.nerve) return amt; f.k.booted = 1; return amt * 0.5; } });
 defNotion({ id: 'climbingchalk', name: 'Climbing Chalk', price: 600, text: '+7% ATK. Cannot be forced out or dragged in.', pct: { atk: 0.07 },

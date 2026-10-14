@@ -1,4 +1,4 @@
-import { applyStatus, cameOutSince, cleanse, dealDamage, foeOf, giveShield, has, hastenFighter, heal, label, msg, stat } from '../battle/engine';
+import { addNerve, applyStatus, cameOutSince, cleanse, dealDamage, foeOf, giveShield, has, hastenFighter, heal, label, msg, stat } from '../battle/engine';
 import { defNotion } from '../battle/registry';
 
 defNotion({ id: 'whetstone', name: 'Whetstone', price: 300, text: '+11% ATK.', pct: { atk: 0.11 } });
@@ -24,7 +24,7 @@ defNotion({ id: 'edgecharm', name: 'Edge Charm', price: 600, text: 'When it uses
   afterMove(b, f) { f.k.edge = 1; },
   addRaw(b, f, t, d) { return d.attack && f.k.edge ? stat(b, f, 'atk') * 0.85 : 0; } });
 defNotion({ id: 'salttear', name: 'Salt Tear', price: 500, text: '+2 tide the first time it uses a move in a battle.',
-  afterMove(b, f) { if (!f.k.tear) { f.k.tear = 1; b.s[f.side].nerve = Math.min(10, b.s[f.side].nerve + (b.rules.nerve ? 2 : 0)); } } });
+  afterMove(b, f) { if (!f.k.tear) { f.k.tear = 1; addNerve(b, f.side, 2); } } });
 defNotion({ id: 'spareskin', name: 'Spare Shell', price: 900, text: 'Once, when KO\'d, comes back at 20% HP.',
   wouldKO(b, f) { if (f.k.spare) return false; f.k.spare = 1; f.hp = Math.max(1, Math.round(f.maxHp * 0.2)); msg(b, `${label(b, f)} steps out of a spare shell.`); return true; } });
 defNotion({ id: 'crownofhorn', name: 'Crown of Horn', price: 800, text: 'Crests deal 1.4x damage.',
@@ -47,7 +47,7 @@ defNotion({ id: 'lodestone', name: 'Lodestone', price: 500, text: 'Deals 1.25x d
 defNotion({ id: 'floatcork', name: 'Float Cork', price: 500, text: '+10% RES. Each time it comes out, its first turn comes 20% sooner.', pct: { res: 0.1 },
   comeOut(b, f) { hastenFighter(b, f, 20); } });
 defNotion({ id: 'tidemark', name: 'Tide Mark', price: 600, text: '+2 tide each time it guards, up to 3 times a battle.',
-  afterGuard(b, f) { if ((f.k.mark || 0) < 3) { f.k.mark = (f.k.mark || 0) + 1; b.s[f.side].nerve = Math.min(10, b.s[f.side].nerve + 2); } } });
+  afterGuard(b, f) { if ((f.k.tideMarks || 0) < 3) { f.k.tideMarks = (f.k.tideMarks || 0) + 1; addNerve(b, f.side, 2); } } });
 defNotion({ id: 'reedplug', name: 'Reed Plug', price: 500, text: '+12% RES. The first wind-up aimed at it each battle lands 50% later.', pct: { res: 0.12 } });
 defNotion({ id: 'graftwax', name: 'Graft Wax', price: 600, text: 'On a conjoined whorl, +9% ATK and +9% MGK. On any other, nothing.',
   statBonus(f, k) { return f.mon.fitted && (k === 'atk' || k === 'mgk') ? f.st[k] * 0.09 : 0; } });
@@ -63,7 +63,7 @@ defNotion({ id: 'seabiscuit', name: 'Sea Biscuit', price: 200, spent: true, text
 defNotion({ id: 'smellingsalt', name: 'Smelling Salt', price: 120, spent: true, text: 'Action, once: removes bad statuses and heals 10% of max HP. Used up.',
   action: { name: 'Smelling Salt', run(b, f) { cleanse(b, f); heal(b, f, f, f.maxHp * 0.1); } } });
 defNotion({ id: 'tidejar', name: 'Tide Jar', price: 250, spent: true, text: 'Action, once: its side gains 3 tide. Used up.',
-  action: { name: 'Tide Jar', run(b, f) { b.s[f.side].nerve = Math.min(10, b.s[f.side].nerve + 3); } } });
+  action: { name: 'Tide Jar', run(b, f) { addNerve(b, f.side, 3); } } });
 defNotion({ id: 'cuttlebone', name: 'Cuttlebone', price: 150, spent: true, text: 'Action, once: Ward 2. Used up.',
   action: { name: 'Cuttlebone', run(b, f) { applyStatus(b, f, f, 'ward', 2); } } });
 defNotion({ id: 'pepperkelp', name: 'Pepper Kelp', price: 150, spent: true, text: 'Action, once: its next turn comes 80% sooner. Used up.',
