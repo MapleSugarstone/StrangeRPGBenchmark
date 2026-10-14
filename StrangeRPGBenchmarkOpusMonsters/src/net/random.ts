@@ -12,7 +12,7 @@ import { nameOptions, NO_FIT_HABITS, SHAPES, typeOptions } from '../game/fitting
 import { PLANNED_NOTIONS } from '../game/wildfit';
 import { NOTION_IDS } from '../data/notions';
 import { nameBlocked } from './names';
-import { FORMAT, NAME_CHARS, ROSTER_SIZE, WHORL_NAME_MAX, type WireMon } from './protocol';
+import { FORMAT, NAME_CHARS, ROSTER_SIZE, WHORL_NAME_MAX, type WireFit, type WireMon } from './protocol';
 
 /** The format random battles queue under, so they pair only with each other. */
 export const RANDOM_FORMAT = `${FORMAT}r`;
@@ -201,40 +201,35 @@ function sturdiness(types: Type[]): number {
   return s;
 }
 
+/** A hybrid's partner, plain attack, and four moves, with the score that chose them. */
+type Plan = { b: string; basic: 'P' | 'M'; moves: string[]; score: number };
+
 /**
- * A hybrid with `a` as one parent. Of ten partners from `left`, it keeps the pair, plain attack, and moves that score
- * best: exactly one crest when either parent has one, two moves from each parent, damage on the hybrid's own attack stat,
- * a good averaged profile in that stat, and a partner of a type the roster lacks. Habits follow its stat and its moves'
- * mechanics, and its typing is sturdy and adds the roster's missing types without putting a third whorl on any type.
+ * The best plan for a hybrid of `a` and `b` against `best` so far: exactly one crest when either parent has one, two
+ * moves from each parent, damage on the hybrid's own attack stat, a good averaged profile in that stat, and a partner of a
+ * type the roster lacks (`on` counts the roster's whorls on a type).
  */
-function hybrid(rnd: () => number, a: string, left: string[], team: Built[]): Built {
-  const A = SPECIES[a];
-  const free = left.filter(k => k !== a), on = (t: Type) => team.filter(b => b.types.includes(t)).length;
-  const partners: string[] = [];
-  while (partners.length < PARTNERS && partners.length < free.length) {
-    const k = free[Math.floor(rnd() * free.length)];
-    if (!partners.includes(k)) partners.push(k);
-  }
-  let best: { b: string; basic: 'P' | 'M'; moves: string[]; score: number } | null = null;
-  for (const b of partners) {
-    const B = SPECIES[b];
-    const crestAvail = [...A.moves, ...B.moves].some(id => MOVES[id]?.nerve);
-    const reach = B.types.some(t => !on(t)) ? 1 : 0;
-    for (const basic of [...new Set([A.basic, B.basic])]) {
-      const stat = basic === 'P' ? 'atk' : 'mgk';
-      const body = (kindProfile(a)[stat] + kindProfile(b)[stat]) / 2;
-      for (const ma of pairs(A.moves)) for (const mb of pairs(B.moves)) {
-        const moves = [...ma, ...mb], crests = moves.filter(id => MOVES[id]?.nerve).length;
-        if (crestAvail ? crests !== 1 : crests !== 0) continue;
-        const score = movesScore(moves, basic) + (body - 100) / 20 + reach + rnd() * 0.5;
-        if (!best || score > best.score) best = { b, basic, moves, score };
-      }
+function planFor(rnd: () => number, a: string, b: string, on: (t: Type) => number, best: Plan | null): Plan | null {
+  const A = SPECIES[a], B = SPECIES[b];
+  const crestAvail = [...A.moves, ...B.moves].some(id => MOVES[id]?.nerve);
+  const reach = B.types.some(t => !on(t)) ? 1 : 0;
+  for (const basic of [...new Set([A.basic, B.basic])]) {
+    const stat = basic === 'P' ? 'atk' : 'mgk';
+    const body = (kindProfile(a)[stat] + kindProfile(b)[stat]) / 2;
+    for (const ma of pairs(A.moves)) for (const mb of pairs(B.moves)) {
+      const moves = [...ma, ...mb], crests = moves.filter(id => MOVES[id]?.nerve).length;
+      if (crestAvail ? crests !== 1 : crests !== 0) continue;
+      const score = movesScore(moves, basic) + (body - 100) / 20 + reach + rnd() * 0.5;
+      if (!best || score > best.score) best = { b, basic, moves, score };
     }
   }
-  // A pool too small for any partner falls back to a plain kind.
-  if (!best) return plain(a);
-  const B = SPECIES[best.b], basic = best.basic, own = basic === 'P' ? 'ATK' : 'MGK', other = basic === 'P' ? 'MGK' : 'ATK';
-  const words = new Set(best.moves.flatMap(id => [...mechanics(MOVES[id]?.name || ''), ...mechanics(MOVES[id]?.text || '')]));
+  return best;
+}
+
+/** The two habits of a plan's four that best suit its attack stat and its moves' mechanics, and their summed score. */
+function habitsFor(rnd: () => number, a: string, plan: Plan): { ids: string[]; score: number } {
+  const A = SPECIES[a], B = SPECIES[plan.b], own = plan.basic === 'P' ? 'ATK' : 'MGK', other = plan.basic === 'P' ? 'MGK' : 'ATK';
+  const words = new Set(plan.moves.flatMap(id => [...mechanics(MOVES[id]?.name || ''), ...mechanics(MOVES[id]?.text || '')]));
   const habitScore = (id: string): number => {
     const t = PASSIVES[id]?.text || '';
     let s = rnd() * 0.5;
@@ -243,8 +238,44 @@ function hybrid(rnd: () => number, a: string, left: string[], team: Built[]): Bu
     for (const w of mechanics(t)) if (words.has(w)) s += 2;
     return s;
   };
-  const habits = [...new Set([...A.passives, ...B.passives])].filter(id => PASSIVES[id] && !NO_FIT_HABITS.has(id))
-    .map(id => ({ id, s: habitScore(id) })).sort((x, y) => y.s - x.s).slice(0, 2).map(h => h.id);
+  const top = [...new Set([...A.passives, ...B.passives])].filter(id => PASSIVES[id] && !NO_FIT_HABITS.has(id))
+    .map(id => ({ id, s: habitScore(id) })).sort((x, y) => y.s - x.s).slice(0, 2);
+  return { ids: top.map(h => h.id), score: top.reduce((n, h) => n + h.s, 0) };
+}
+
+/**
+ * The hybrid of `a` and `b` that random battles build with no roster around it and no tie broken at random, and how
+ * coherent it is: its plan's score plus its two habits' scores. Fit search tools rank pairs by it. Null when the pair can
+ * keep no legal moves.
+ */
+export function coherentHybrid(a: string, b: string): { fit: WireFit; score: number } | null {
+  const none = () => 0, plan = planFor(none, a, b, none, null);
+  if (!plan) return null;
+  return { fit: build(none, a, plan, none).w.fit!, score: plan.score + habitsFor(none, a, plan).score };
+}
+
+/**
+ * A hybrid with `a` as one parent. Of ten partners from `left`, it keeps the plan that scores best (`planFor`). Habits
+ * follow its stat and its moves' mechanics, and its typing is sturdy and adds the roster's missing types without putting a
+ * third whorl on any type.
+ */
+function hybrid(rnd: () => number, a: string, left: string[], team: Built[]): Built {
+  const free = left.filter(k => k !== a), on = (t: Type) => team.filter(b => b.types.includes(t)).length;
+  const partners: string[] = [];
+  while (partners.length < PARTNERS && partners.length < free.length) {
+    const k = free[Math.floor(rnd() * free.length)];
+    if (!partners.includes(k)) partners.push(k);
+  }
+  let best: Plan | null = null;
+  for (const b of partners) best = planFor(rnd, a, b, on, best);
+  // A pool too small for any partner falls back to a plain kind.
+  return best ? build(rnd, a, best, on) : plain(a);
+}
+
+/** A hybrid from its plan: its habits, its typing, a retune for reach, its name, and its look. */
+function build(rnd: () => number, a: string, best: Plan, on: (t: Type) => number): Built {
+  const A = SPECIES[a], B = SPECIES[best.b], basic = best.basic;
+  const habits = habitsFor(rnd, a, best).ids;
   const typing = (t: Type[]): number => sturdiness(t) + 2 * t.filter(x => !on(x)).length - 6 * t.filter(x => on(x) >= MAX_SHARE).length + rnd() * 0.3;
   const types = typeOptions({ types: A.types } as never, { types: B.types } as never).map(t => ({ t, s: typing(t) })).sort((x, y) => y.s - x.s)[0].t;
   // When every damaging move shares one type and the hybrid has another, its weakest damaging move takes the other for reach.

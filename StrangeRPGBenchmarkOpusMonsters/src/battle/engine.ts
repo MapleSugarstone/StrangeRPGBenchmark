@@ -62,7 +62,7 @@ export function tanBonus(level: number, key: string, layers: number): number {
 /** A layer's worth for a reader: whole numbers stay whole, the rest keep one decimal. */
 export const tanText = (v: number): string => String(Math.round(v * 10) / 10);
 /** A conjoined whorl's multiplier on every stat: the drawback that keeps conjoining from being free. */
-export const FIT_STAT = 0.95;
+export const FIT_STAT = 0.94;
 
 const CC: StatusId[] = ['stun', 'silence', 'sleep', 'root', 'taunt', 'slow'];
 const INTERRUPTS: StatusId[] = ['stun', 'silence', 'sleep', 'taunt'];
