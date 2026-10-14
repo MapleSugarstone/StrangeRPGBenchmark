@@ -4,6 +4,8 @@ import type { Btn } from '../engine/input';
 import { input } from '../engine/input';
 import { drawAll, modes, tickAll, top } from './modes';
 import { field } from './field';
+import { tileMask } from './tiles';
+import { MAPS } from './world';
 import { G, fresh, setGame, useSlot } from './state';
 
 /** Test runs save here. The file screen shows slots 1 to 3 only, so a test never touches the player's files. */
@@ -103,6 +105,10 @@ export const harness = {
   face(d: number): void { field.dir = d; },
   where(): string { return `${field.map.id} ${field.x},${field.y} busy${field.busy} modes${modes().length}`; },
   G: () => G,
+  /** Which pixels of a tile on the current map its art covers, for checking light masks. */
+  mask: (tx: number, ty: number) => Array.from(tileMask(tx, ty)),
+  maps: () => Object.keys(MAPS),
+  map: () => field.map,
   setup(scales: string[], flags: Record<string, number>, kinds: string[], lv: number, map: string, x: number, y: number, pulled: string[] = []): void {
     useSlot(TEST_SLOT);
     setGame(fresh());

@@ -1,6 +1,6 @@
 // Set pieces bigger than a tile, drawn over the map at whole-pixel positions on the field's 1x grid.
 // Each prop is a painter keyed by name. Maps place them with MapDef.props.
-import { ctx, rect, INK } from '../engine/screen';
+import { ctx, drawInto, rect, INK } from '../engine/screen';
 import { text } from '../engine/font';
 import { G } from './state';
 import { field } from './field';
@@ -24,6 +24,28 @@ export function drawProp(name: string, x: number, y: number, t: number): void {
   rect(x, y, 16, 16, '#3a3442');
   rect(x + 1, y + 1, 14, 14, INK);
   text('?', x + 5, y + 4, '#e0b040');
+}
+
+const maskCv = document.createElement('canvas');
+const maskG = maskCv.getContext('2d', { willReadFrequently: true })!;
+/** Room around a prop's box in its mask, for painters that reach past it. */
+export const PROP_PAD = 16;
+
+/**
+ * Which pixels a prop covers when painted with its top left at screen x, y, row by row across its box plus PROP_PAD each side.
+ * Painting at the real place keeps props that pick a look by where they stand.
+ */
+export function propMask(name: string, x: number, y: number): { w: number; h: number; m: Uint8Array } | null {
+  const p = PROPS[name];
+  if (!p) return null;
+  const w = p.w * 8 + 2 * PROP_PAD, h = p.h * 8 + 2 * PROP_PAD;
+  if (maskCv.width !== w || maskCv.height !== h) { maskCv.width = w; maskCv.height = h; } else maskG.clearRect(0, 0, w, h);
+  maskG.setTransform(1, 0, 0, 1, PROP_PAD - x, PROP_PAD - y);
+  drawInto(maskG, () => p.paint(x, y, 0));
+  maskG.setTransform(1, 0, 0, 1, 0, 0);
+  const a = maskG.getImageData(0, 0, w, h).data, m = new Uint8Array(w * h);
+  for (let i = 0; i < m.length; i++) m[i] = a[i * 4 + 3] > 127 ? 1 : 0;
+  return { w, h, m };
 }
 
 // ---------------------------------------------------------------- painting helpers

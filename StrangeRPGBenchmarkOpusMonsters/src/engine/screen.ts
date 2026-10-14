@@ -32,6 +32,13 @@ export function layer(key: string, w: number, h: number, x: number, y: number, s
   ctx.drawImage(cv, 0, 0, w, h, x, y, w * scale, h * scale);
 }
 
+/** Runs `fn` with the drawing target pointed at `g`, without copying anything to the screen. */
+export function drawInto(g: CanvasRenderingContext2D, fn: () => void): void {
+  const prev = ctx;
+  ctx = g;
+  try { fn(); } finally { ctx = prev; }
+}
+
 let fadeCv: HTMLCanvasElement | null = null;
 const fadeMasks = new Map<number, CanvasPattern>();
 

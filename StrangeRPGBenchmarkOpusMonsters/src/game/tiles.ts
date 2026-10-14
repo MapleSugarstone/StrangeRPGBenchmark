@@ -225,12 +225,18 @@ function R(x: number, y: number, w: number, h: number, c: string): void {
   if (c !== lastColor) { lastColor = c; lastWord = wordOf(c); }
   const v = lastWord, u = PG.u;
   for (let j = y0; j < y1; j++) { const row = (OY + j) * PAGE_PX + OX; u.fill(v, row + x0, row + x1); }
+  if (MK) for (let j = y0; j < y1; j++) MK.fill(mkOn, j * 8 + x0, j * 8 + x1);
 }
 function P(x: number, y: number, c: string): void {
   if (x < 0 || y < 0 || x >= 8 || y >= 8) return;
   if (c !== lastColor) { lastColor = c; lastWord = wordOf(c); }
   PG.u[(OY + y) * PAGE_PX + OX + x] = lastWord;
+  if (MK) MK[y * 8 + x] = mkOn;
 }
+
+/** While a mask is recorded, each pixel written is marked opaque, except while the ground under the art paints. */
+let MK: Uint8Array | null = null;
+let mkOn = 1;
 /** Ordered dither inside the cell. The pattern lines up across cells because cells sit on the world's 8 pixel grid. */
 function D(x: number, y: number, w: number, h: number, c: string, lv: number): void {
   for (let j = y; j < y + h; j++) for (let i = x; i < x + w; i++) if (BAY[(j & 3) * 4 + (i & 3)] < lv * 16) P(i, j, c);
@@ -558,6 +564,12 @@ function mark(m: string, p: Pal, x: number, y: number): void {
 }
 
 function ground(p: Pal, k: Kit, v: number, net: number, gx: number, gy: number, sl: number, marks = true): void {
+  const was = mkOn;
+  mkOn = 0;
+  groundPaint(p, k, v, net, gx, gy, sl, marks);
+  mkOn = was;
+}
+function groundPaint(p: Pal, k: Kit, v: number, net: number, gx: number, gy: number, sl: number, marks: boolean): void {
   base(p, k, v, net, gx, gy);
   if (!UNHELD.has(p.style)) grid(p, gx, gy, sl);
   if (marks) {
@@ -2172,6 +2184,32 @@ function creases(put: (i: number, y: number, h: number, c: string) => void, tx: 
     }
   }
 }
+
+const maskScratch = { u: new Uint32Array(PAGE_PX * 8) } as Page;
+const masks = new Map<string, Uint8Array>();
+let maskPal: Pal | null = null;
+
+/** Which pixels of tile tx, ty its art covers rather than the ground under it, 64 to a tile, row by row. */
+export function tileMask(tx: number, ty: number): Uint8Array {
+  const ch = nt(tx, ty), p = layPal;
+  if (!p || ch === '') return FULL_MASK;
+  if (p !== maskPal) { masks.clear(); maskPal = p; }
+  const v = ch === '~' ? 0 : hh(tx, ty) & 31, gx = tx & 1, gy = ty & 1, sl = Math.min(3, laySlack);
+  const inf = NEEDS_NB.has(ch) || (ch === 'j' && (p.style === 'bole' || p.style === 'root')) ? info(ch, tx, ty, memoT) : 0;
+  const net = NETTED.has(KIT[p.style].base) || ch === 'I' || ch === 'G' || ch === 's' ? netBits(tx, ty) : 0;
+  const key = `${ch}${v}.${inf}.${gx}${gy}.${sl}.${net}`;
+  let m = masks.get(key);
+  if (m) return m;
+  if (masks.size > 4096) masks.clear();
+  m = new Uint8Array(64);
+  const pg = PG, ox = OX, oy = OY;
+  PG = maskScratch; OX = 0; OY = 0; MK = m; mkOn = 1;
+  paintTile(ch, p, v, inf, gx, gy, sl, 0, net);
+  MK = null; PG = pg; OX = ox; OY = oy;
+  masks.set(key, m);
+  return m;
+}
+const FULL_MASK = new Uint8Array(64).fill(1);
 
 /**
  * The facing of the roof at world pixel wx, wy, as x east, y toward the viewer, z up, written to `out`.

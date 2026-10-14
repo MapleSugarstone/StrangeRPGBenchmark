@@ -5,12 +5,12 @@ import { starSound } from '../engine/audio';
 import { lightMap, type LightMap } from '../engine/sprites';
 import type { SpriteData } from '../battle/model';
 import type { MapDef } from './world';
-import { isSolid, REGIONS, roofFacing, type Pal } from './tiles';
+import { isSolid, REGIONS, roofFacing, tileMask, type Pal } from './tiles';
 import { field } from './field';
 import { G } from './state';
 import { strandFx, ringLit } from './strandfx';
 import { backFill, hueMatrices, lampCore, lean, skyFor, skyTables, starsPerMinute, sunk, twoHues, type Sky } from './skies';
-import { PROPS } from './props';
+import { PROP_PAD, PROPS, propMask } from './props';
 import { moonToward, moonTowardTile } from './apex';
 import { printFlecks } from './feel';
 
@@ -134,7 +134,7 @@ const Z_STAR = 8, Z_LAMP = 12, Z_RING = 16, Z_WHORL = 5, Z_AIR = 12, Z_EMBER = 6
 /** A pool of light on the ground that also lights the figures near it. A lamp's pool goes in the lamp buffer. */
 function pool(x: number, y: number, r: number, peak: number, z: number, cast: boolean, lampy = false): void {
   if (r <= 0 || peak <= 0) return;
-  // A light that casts shadows also leaves the ground behind houses and trees dark.
+  // A light that casts shadows also leaves the ground behind houses dark.
   if (lampy) addLight(lamp, x, y, r, peak);
   else if (cast) addLightSeen(x, y, r, peak);
   else addLight(lit, x, y, r, peak);
@@ -211,7 +211,7 @@ function scanTiles(s: FieldFxState, sky: Sky): void {
 // ---------------------------------------------------------------- lamps on surfaces
 
 /** What a tile's surface is for light: 0 open ground facing up, 1 water, 2 the front of a wall or building facing the viewer, 3 a roof sloping up away from the viewer, 4 a tree's crown. */
-const NOT_BLOCKING = new Set(['~', 'z', 'Z', 'v', 'c', 'p', 'u', 'i', 'U', '|', '`']);
+const NOT_BLOCKING = new Set(['~', 'z', 'Z', 'v', 'c', 'p', 'u', 'i', 'U', '|', '`', 'T', 'f', 'w', 'R', 'Q', 'C']);
 function surfaceOf(ch: string): number {
   if (ch === '~') return 1;
   if (!isSolid(ch) || ch === 'z' || ch === 'Z') return 0;
@@ -278,8 +278,9 @@ function lampLight(l: Lamp): LampLight {
       if (ptx === ltx && pty === lty) val = 32;
       else {
         const kind = codeAt(ptx, pty) >> 1;
-        // A roof takes the light by its own shape, and ground showing past its edge takes it as ground.
-        const roof = kind === 3 ? roofFacing(x, y, RF) : 0;
+        // A roof takes the light by its own shape, and ground showing past its edge or round an object takes it as ground.
+        let roof = kind === 3 ? roofFacing(x, y, RF) : 0;
+        if (kind > 1 && OBJECTS.has(field.tile(ptx, pty)) && !tileMask(ptx, pty)[(y - pty * 8) * 8 + x - ptx * 8]) roof = 1;
         const f = roof === 1 ? FACING[0] : FACING[kind];
         const nx = roof === 2 ? RF[0] : f[0], ny = roof === 2 ? RF[1] : f[1], nz = roof === 2 ? RF[2] : f[2];
         const lxv = lx - x - 0.5, lyv = ly - y - 0.5, lzv = z - f[3];
@@ -552,13 +553,42 @@ let sgx = 0, sgy = 0, solidKey = '';
 /** Solid tiles that lie flat, so a shadow runs on across them: water, shallows, creases, and holes. */
 const FLAT = new Set(['~', ':', 'z', 'Z', 'O']);
 
-function wallAt(x: number, y: number, s: FieldFxState): boolean {
+/** Whether screen pixel x, y is a wall a shadow stops at. An object's tile stops it only on the object's own art, and `art` false lets it pass there too. */
+function wallAt(x: number, y: number, s: FieldFxState, art = true): boolean {
   const tx = Math.floor((x + s.cam[0]) / 8), ty = Math.floor((y + s.cam[1]) / 8);
   const gx = tx - sgx, gy = ty - sgy;
   if (gx < 0 || gy < 0 || gx >= 30 || gy >= 30) return true;
   const i = gy * 30 + gx;
-  if (solidGrid[i] < 0) { const ch = field.tile(tx, ty); solidGrid[i] = isSolid(ch) && !FLAT.has(ch) ? 1 : 0; }
+  if (solidGrid[i] < 0) { const ch = field.tile(tx, ty); solidGrid[i] = OBJECTS.has(ch) ? 2 : isSolid(ch) && !FLAT.has(ch) ? 1 : 0; }
+  if (solidGrid[i] === 2) {
+    if (!art) return false;
+    const X = Math.floor(x), Y = Math.floor(y);
+    return X >= 0 && Y >= 0 && X < SW && Y < SH && ART[Y * SW + X] === 1;
+  }
   return solidGrid[i] === 1;
+}
+
+/** Screen pixels an object's art covers this frame, so shadows fall on the ground round an object and not over it. */
+const ART = new Uint8Array(SW * SH);
+const artPx: number[] = [];
+
+function markArt(s: FieldFxState): void {
+  for (const i of artPx) ART[i] = 0;
+  artPx.length = 0;
+  for (const o of objects) {
+    const x0 = Math.round(o.wx - s.cam[0]), y0 = Math.round(o.wy - s.cam[1]);
+    if (x0 + o.W <= 0 || y0 + o.foot < 0 || x0 >= SW || y0 + o.top >= SH) continue;
+    for (let r = o.top; r <= o.foot; r++) {
+      const Y = y0 + r;
+      if (Y < 0 || Y >= SH) continue;
+      for (let c = 0; c < o.W; c++) {
+        const X = x0 + c;
+        if (X < 0 || X >= SW || !o.m[r * o.W + c]) continue;
+        const k = Y * SW + X;
+        if (!ART[k]) { ART[k] = 1; artPx.push(k); }
+      }
+    }
+  }
 }
 
 /** Casts each figure's shadows on the ground, then picks the lit or unlit hue of every figure pixel by the direction it faces. */
@@ -570,7 +600,9 @@ function figureLight(s: FieldFxState): void {
   mainLight.clear();
   let n = 0;
   const t0 = performance.now();
+  markArt(s);
   buildingShadows(s);
+  n += objectShadows(s);
   for (const f of s.figures) n += castShadows(f, s);
   const t1 = performance.now();
   applyPath();
@@ -643,13 +675,13 @@ function spriteCols(f: Figure, m: LightMap): Uint32Array {
   return out;
 }
 
-/** The figure's silhouette laid down the screen away from the moon beyond its top edge. It cuts the light path out and darkens the ground a little. */
-function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy: number, s: FieldFxState, strength: number, ux = moonNow!.ux, uy = moonNow!.uy): void {
+/** The silhouette of a figure or object W pixels wide laid down the screen away from the moon beyond its top edge. It cuts the light path out and darkens the ground a little. */
+function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy: number, s: FieldFxState, strength: number, ux = moonNow!.ux, uy = moonNow!.uy, W = 8): void {
   const hc = foot + 1 - top, len = MOON_LONG * hc / 8;
   const oy = gy - 1;
   const put = (X: number, Y: number, t: number) => {
     if (X < 0 || X >= SW || Y < 0 || Y >= SH) return;
-    if (wallAt(X, Y, s) || wallAt((X + fx) / 2, (Y + oy) / 2, s)) return;
+    if (wallAt(X, Y, s) || wallAt((X + fx) / 2, (Y + oy) / 2, s, false)) return;
     const k = Y * SW + X;
     if (stamp[k] === stampN) return;
     stamp[k] = stampN;
@@ -670,8 +702,8 @@ function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy
       if (t < 0 || t >= len) continue;
       const row = foot - Math.floor(t * hc / len);
       if (row < 0) continue;
-      const base = Math.round(fx + t * ux - 4);
-      for (let col = 0; col < 8; col++) if (solid[row * 8 + col]) put(base + col, Y, t);
+      const base = Math.round(fx + t * ux - W / 2);
+      for (let col = 0; col < W; col++) if (solid[row * W + col]) put(base + col, Y, t);
     }
     return;
   }
@@ -680,19 +712,19 @@ function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy
   for (let t = 0; t < len; t += 0.5) {
     const row = foot - Math.floor(t * hc / len);
     if (row < 0) continue;
-    const base = Math.round(fx + t * ux - 4), Y = Math.round(oy + t * uy);
-    for (let col = 0; col < 8; col++) if (solid[row * 8 + col]) for (let d = 0; d <= deep; d++) put(base + col, Y - d, t);
+    const base = Math.round(fx + t * ux - W / 2), Y = Math.round(oy + t * uy);
+    for (let col = 0; col < W; col++) if (solid[row * W + col]) for (let d = 0; d <= deep; d++) put(base + col, Y - d, t);
   }
 }
 
-/** A house's or tree's moon shadow runs this many pixels for each pixel it stands tall, as long for its height as a figure's. */
+/** A house's moon shadow runs this many pixels for each pixel it stands tall, as long for its height as a figure's. */
 const BUILDING_LONG = MOON_LONG / 8, BUILDING_MAX = 32;
 /** Lamp light or starlight at this strength fills a moon shadow completely, and weaker light fills it in part. */
 const LAMP_FILLS = 16;
 /** How much of a moon shadow's ink survives the light on screen pixel k. */
 const moonFill = (k: number) => Math.max(0, 1 - Math.max(lamp[k], lit[k]) / LAMP_FILLS);
 
-/** The house or tree whose foot is tile tx, ty: how tall it stands in pixels, how many tile rows it covers, and how many of those are walls, or null. */
+/** The house whose foot is tile tx, ty: how tall it stands in pixels, how many tile rows it covers, and how many of those are walls, or null. */
 function casterAt(tx: number, ty: number): { tall: number; rows: number; walls: number } | null {
   const ch = field.tile(tx, ty), below = field.tile(tx, ty + 1);
   if (ch === 'h' || ch === 'd') {
@@ -703,28 +735,50 @@ function casterAt(tx: number, ty: number): { tall: number; rows: number; walls: 
     while (roofs < 4 && field.tile(tx, ty - walls - roofs) === 'r') roofs++;
     return { tall: 8 * walls + 4 * roofs, rows: walls + roofs, walls };
   }
-  if (ch === 'T') {
-    if (below === 'T') return null;
-    let rows = 1;
-    while (rows < 3 && field.tile(tx, ty - rows) === 'T') rows++;
-    return { tall: 10, rows, walls: 0 };
-  }
   return null;
 }
 
-/** A house or tree near the screen: the box its tiles cover in world pixels, where its walls start, and how tall it stands. */
+/** A house near the screen: the box its tiles cover in world pixels, where its walls start, and how tall it stands. */
 interface Caster { x0: number; y0: number; x1: number; y1: number; wall: number; tall: number }
 let casters: Caster[] = [];
 let casterKey = '';
 
-/** Finds the houses and trees near the screen when the camera crosses a tile, and every half second for doors that change. A row of one height shares one box, so its parts do not shade twice where they overlap. */
+/** Tiles that stand on the ground with the ground showing round them: trees, bushes, fences, wells, bones, beam stands, bells, and big shells. */
+const OBJECTS = new Set(['T', 'i', 'f', 'w', 'u', 'R', 'Q', 'U', 'C']);
+/**
+ * A tile object or a tall prop near the screen, which casts shadows from its silhouette as a figure does: the world pixel of its mask's
+ * top left, the mask W pixels wide, and the mask's first and last rows with art. It stands on its last row.
+ */
+interface Obj { wx: number; wy: number; W: number; m: Uint8Array; top: number; foot: number }
+let objects: Obj[] = [];
+
+function objectOf(wx: number, wy: number, W: number, m: Uint8Array): Obj | null {
+  let top = -1, foot = -1;
+  for (let i = 0; i < m.length; i++) if (m[i]) { const r = Math.floor(i / W); if (top < 0) top = r; foot = r; }
+  return top < 0 ? null : { wx, wy, W, m, top, foot };
+}
+
+/** Finds the houses, tile objects, and tall props near the screen when the camera crosses a tile, and every half second for doors that change. A row of houses of one height shares one box, so its parts do not shade twice where they overlap. */
 function findCasters(s: FieldFxState): void {
   const reach = 8, tx0 = Math.floor(s.cam[0] / 8) - reach, ty0 = Math.floor(s.cam[1] / 8) - reach;
   const key = `${s.map.id}|${tx0}|${ty0}|${s.t >> 5}`;
   if (key === casterKey) return;
   casterKey = key;
   casters = [];
+  objects = [];
   const tx1 = tx0 + SW / 8 + 2 * reach, ty1 = ty0 + SH / 8 + 2 * reach;
+  for (let ty = ty0; ty <= ty1; ty++) for (let tx = tx0; tx <= tx1; tx++) {
+    if (!OBJECTS.has(field.tile(tx, ty))) continue;
+    const o = objectOf(tx * 8, ty * 8, 8, tileMask(tx, ty));
+    if (o) objects.push(o);
+  }
+  for (const pr of s.map.props || []) {
+    const size = PROPS[pr.pic];
+    if (!size || size.h < 2 || (pr.when && !pr.when()) || pr.x < tx0 || pr.x > tx1 || pr.y < ty0 || pr.y > ty1) continue;
+    const pm = propMask(pr.pic, pr.x * 8 - s.cam[0], pr.y * 8 - s.cam[1]);
+    const o = pm && objectOf(pr.x * 8 - PROP_PAD, pr.y * 8 - PROP_PAD, pm.w, pm.m);
+    if (o) objects.push(o);
+  }
   for (let ty = ty0; ty <= ty1; ty++) {
     for (let tx = tx0; tx <= tx1;) {
       const c = casterAt(tx, ty);
@@ -737,13 +791,13 @@ function findCasters(s: FieldFxState): void {
   }
 }
 
-/** Houses and trees cast the moon's shadow outdoors. */
+/** Houses cast the moon's shadow outdoors. */
 function buildingShadows(s: FieldFxState): void {
   if (s.map.indoor) return;
   const cx = s.cam[0], cy = s.cam[1];
   for (const c of casters) {
     if (c.x1 - cx < -BUILDING_MAX || c.x0 - cx > SW + BUILDING_MAX || c.y1 - cy < -BUILDING_MAX || c.y0 - cy > SH + BUILDING_MAX) continue;
-    layShadow(c.x0 - cx, c.y0 - cy, c.x1 - cx, c.y1 - cy, c.tall, s);
+    layShadow(c.x0 - cx, c.y0 - cy, c.x1 - cx, c.y1 - cy, c.wall - cy, c.tall, s);
   }
 }
 
@@ -766,7 +820,7 @@ function crosses(ax: number, ay: number, bx: number, by: number, x0: number, y0:
 }
 
 /**
- * The boxes of the houses and trees on screen this frame, in screen pixels, six to a box: x0, y0, x1, y1, the top of the walls, and the top of
+ * The boxes of the houses on screen this frame, in screen pixels, six to a box: x0, y0, x1, y1, the top of the walls, and the top of
  * the ground the house stands on. That ground is the roof's rows moved down by the walls' height, since the walls stand on the bottom row.
  */
 const boxes: number[] = [];
@@ -777,7 +831,7 @@ function screenBoxes(s: FieldFxState): void {
   for (const c of casters) boxes.push(c.x0 - s.cam[0], c.y0 - s.cam[1], c.x1 - s.cam[0], c.y1 - s.cam[1], c.wall - s.cam[1], c.y0 + c.y1 - c.wall - s.cam[1]);
 }
 
-/** Whether the ground a house or tree stands on lies between a light at lx, ly and the point x, y. A box that holds either end does not count, so a house's own face takes the light and a light inside one still shines. */
+/** Whether the ground a house stands on lies between a light at lx, ly and the point x, y. A box that holds either end does not count, so a house's own face takes the light and a light inside one still shines. */
 function hidden(lx: number, ly: number, x: number, y: number): boolean {
   for (let i = 0; i < boxes.length; i += 6) {
     const x0 = boxes[i], y0 = boxes[i + 1], x1 = boxes[i + 2], y1 = boxes[i + 3];
@@ -809,7 +863,7 @@ function roofAt(wx: number, wy: number): number {
   return 2;
 }
 
-/** A starlight pool that houses and trees shade: each pixel takes the light only when no house or tree stands between it and the light. */
+/** A starlight pool that houses shade: each pixel takes the light only when no house stands between it and the light. Objects cut their own shadows out of it later. */
 function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
   const x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(SW - 1, Math.ceil(cx + r));
   const y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(SH - 1, Math.ceil(cy + r));
@@ -825,7 +879,7 @@ function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
       if (d2 >= r2) continue;
       const v = (r - Math.sqrt(d2)) * k;
       if (v <= lit[row + x]) continue;
-      // A pixel of a house or tree stands above the ground, so other boxes do not hide it. Its walls face the viewer, so a light above their top row does not reach them.
+      // A pixel of a house stands above the ground, so other boxes do not hide it. Its walls face the viewer, so a light above their top row does not reach them.
       let shut = false, own = false, face = 1;
       for (let i = 0; i < mine.length && !shut; i += 6) {
         if (qx < mine[i] || qx > mine[i + 2] || qy < mine[i + 1] || qy > mine[i + 3]) continue;
@@ -855,7 +909,7 @@ function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
  * The shadow of a caster whose tiles cover x0 to x1 and y0 to y1 on screen: everything that box sweeps over as it slides away
  * from the moon. A pixel's ink fades with how far the box had to slide to reach it, and lamp light on the pixel fills it in.
  */
-function layShadow(x0: number, y0: number, x1: number, y1: number, tall: number, s: FieldFxState): void {
+function layShadow(x0: number, y0: number, x1: number, y1: number, wall: number, tall: number, s: FieldFxState): void {
   const [ux, uy] = moonDirAt((x0 + x1) / 2, y1, s);
   const len = Math.min(BUILDING_MAX, tall * BUILDING_LONG);
   const bx0 = Math.max(0, Math.floor(Math.min(x0, x0 + len * ux))), bx1 = Math.min(SW - 1, Math.ceil(Math.max(x1, x1 + len * ux)));
@@ -871,7 +925,14 @@ function layShadow(x0: number, y0: number, x1: number, y1: number, tall: number,
       let t = lo, top = hi;
       if (Math.abs(ux) < 1e-6) { if (qx < x0 || qx > x1) continue; } else { const a = (qx - x0) / ux, b = (qx - x1) / ux; t = Math.max(t, Math.min(a, b)); top = Math.min(top, Math.max(a, b)); }
       if (t > top || t <= 0) continue;
-      if (wallAt(X, Y, s) || wallAt(qx - (t / 2) * ux, qy - (t / 2) * uy, s)) continue;
+      // The shadow starts where the slide first meets the house's art, so ground showing past the roof's edge casts none.
+      while (t <= top) {
+        const sx = qx - t * ux, sy = qy - t * uy;
+        if (sy >= wall || roofAt(Math.floor(sx) + camX, Math.floor(sy) + camY) === 2) break;
+        t += 1;
+      }
+      if (t > top) continue;
+      if (wallAt(X, Y, s) || wallAt(qx - (t / 2) * ux, qy - (t / 2) * uy, s, false)) continue;
       const k = Y * SW + X, ink = MOON_INK * (1 - t / len) * moonFill(k);
       if (ink <= 0) continue;
       PATH[k] = 0;
@@ -937,6 +998,42 @@ function castShadows(f: Figure, s: FieldFxState): number {
   return lights.length;
 }
 
+/** An object casts shadows from at most this many lights, strongest first, besides the moon. */
+const OBJ_LIGHTS = 2;
+const objCands: { p: Pt; v: number }[] = [];
+
+/** Each object near the screen casts the moon's shadow outdoors and a shadow from the strongest lights that reach it, from its silhouette as a figure does. Returns how many it cast. */
+function objectShadows(s: FieldFxState): number {
+  let n = 0;
+  const outdoors = !s.map.indoor;
+  for (const o of objects) {
+    const x = o.wx - s.cam[0], gy = o.wy - s.cam[1] + o.foot + 1;
+    if (x + o.W < -32 || x > SW + 32 || gy < -32 || o.wy - s.cam[1] + o.top > SH + 32) continue;
+    const fx = x + o.W / 2, by = gy - BODY;
+    if (outdoors) {
+      const [mux, muy] = moonDirAt(fx, gy, s);
+      moonShadow(o.m, o.top, o.foot, fx, gy, s, 1, mux, muy, o.W);
+      n++;
+    }
+    objCands.length = 0;
+    for (const p of pts) {
+      if (!p.cast) continue;
+      // A light inside the object's own box, such as a lantern's flame, lights round it rather than throwing its shadow.
+      if (p.x > x - 0.5 && p.x < x + o.W + 0.5 && p.y > o.wy - s.cam[1] + o.top - 0.5 && p.y < gy + 0.5) continue;
+      const d = Math.hypot(p.x - fx, p.y - by), R = p.r * FIG_REACH;
+      if (d < 2 || d >= R || hidden(p.x, p.y, fx, by)) continue;
+      const v = 16 * p.peak * (1 - d / R);
+      if (v >= 3) objCands.push({ p, v });
+    }
+    objCands.sort((a, b) => b.v - a.v);
+    for (let i = 0; i < Math.min(OBJ_LIGHTS, objCands.length); i++) {
+      shadow(o.m, o.top, o.foot, objCands[i].p, Math.min(1, objCands[i].v / 16), fx, gy, by, s, o.W);
+      n++;
+    }
+  }
+  return n;
+}
+
 /** How strongly the moon lights a figure outdoors and through an interior's window, in sixteenths. A second light this strong also gives the figure a fainter rim. */
 const MOON_V = 6, MOON_V_IN = 3, SECOND = 5;
 /** A light that reaches a figure: the direction toward it on screen, whether it is the moon, and how strongly it reaches. */
@@ -963,20 +1060,20 @@ function contact(solid: Uint8Array, foot: number, x: number, gy: number, s: Fiel
 
 const others: Pt[] = [];
 
-/** The figure's silhouette laid on the ground away from light p, skewed along the light's direction. The ground under it keeps only the other lights and turns partly to ink. */
-function shadow(solid: Uint8Array, top: number, foot: number, p: Pt, strength: number, fx: number, gy: number, by: number, s: FieldFxState): void {
+/** The silhouette of a figure or object W pixels wide laid on the ground away from light p, skewed along the light's direction. The ground under it keeps only the other lights and turns partly to ink. */
+function shadow(solid: Uint8Array, top: number, foot: number, p: Pt, strength: number, fx: number, gy: number, by: number, s: FieldFxState, W = 8): void {
   const dx = fx - p.x, dy = by - p.y, d = Math.hypot(dx, dy);
   const ux = dx / d, uy = dy / d, hc = foot + 1 - top;
   const len = Math.min(SHADOW_MAX, SHADOW_MIN + hc * d / (p.z + 6));
   // The figure's own pixels hide the ground under its feet, so a shadow falling sideways starts at the edge of the feet.
-  let c0 = 8, c1 = -1;
-  for (let c = 0; c < 8; c++) if (solid[foot * 8 + c]) { c0 = Math.min(c0, c); c1 = c; }
+  let c0 = W, c1 = -1;
+  for (let c = 0; c < W; c++) if (solid[foot * W + c]) { c0 = Math.min(c0, c); c1 = c; }
   const edge = c1 < 0 ? 0 : Math.abs(ux) * (c1 - c0 + 1) / 2, end = edge + len;
   // Across the shadow runs the figure's width, narrower when the shadow falls sideways, since a body is shallower than it is wide.
   let ex = -uy, ey = ux;
   if (ex < 0 || (ex === 0 && ey < 0)) { ex = -ex; ey = -ey; }
   const w = 1 - 0.4 * Math.abs(ux);
-  const hw = 4 * w, oy = gy - 1;
+  const hw = W / 2 * w, oy = gy - 1;
   const xs = [fx - hw * ex, fx + hw * ex, fx - hw * ex + end * ux, fx + hw * ex + end * ux];
   const ys = [oy - hw * ey, oy + hw * ey, oy - hw * ey + end * uy, oy + hw * ey + end * uy];
   const x0 = Math.max(0, Math.floor(Math.min(...xs))), x1 = Math.min(SW - 1, Math.ceil(Math.max(...xs)));
@@ -992,12 +1089,12 @@ function shadow(solid: Uint8Array, top: number, foot: number, p: Pt, strength: n
       const qx = X + 0.5 - fx;
       const t = qx * ux + qy * uy;
       if (t < 0 || t >= end) continue;
-      const col = Math.floor((qx * ex + qy * ey) / w + 4);
-      if (col < 0 || col > 7) continue;
+      const col = Math.floor((qx * ex + qy * ey) / w + W / 2);
+      if (col < 0 || col >= W) continue;
       const tt = Math.max(0, t - edge);
       const row = foot - Math.floor(tt * hc / len);
-      if (row < 0 || !solid[row * 8 + col]) continue;
-      if (wallAt(X, Y, s) || wallAt((X + fx) / 2, (Y + oy) / 2, s)) continue;
+      if (row < 0 || !solid[row * W + col]) continue;
+      if (wallAt(X, Y, s) || wallAt((X + fx) / 2, (Y + oy) / 2, s, false)) continue;
       const k = Y * SW + X, cur = buf[k];
       let other = 0;
       for (const o of others) {
