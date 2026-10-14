@@ -5,7 +5,7 @@ import { starSound } from '../engine/audio';
 import { lightMap, type LightMap } from '../engine/sprites';
 import type { SpriteData } from '../battle/model';
 import type { MapDef } from './world';
-import { isSolid, REGIONS, type Pal } from './tiles';
+import { isSolid, REGIONS, roofFacing, type Pal } from './tiles';
 import { field } from './field';
 import { G } from './state';
 import { strandFx, ringLit } from './strandfx';
@@ -222,6 +222,8 @@ const FACING: [number, number, number, number][] = [[0, 0, 1, 0], [0, 0, 1, 0], 
 /** Water is a mirror, so it shows little of a lamp's light as diffuse light and catches it in glints instead. */
 const WATER_TAKE = 0.35;
 
+const RF = new Float32Array(3);
+
 /** A lamp's light on the surfaces round it, in world pixels from x, y, w by h. */
 interface LampLight { x: number; y: number; w: number; h: number; v: Float32Array }
 /** Lamp lights by the lamp and the tiles in its reach, so a lamp is worked out again only when a tile near it changes. */
@@ -275,9 +277,13 @@ function lampLight(l: Lamp): LampLight {
       let val: number;
       if (ptx === ltx && pty === lty) val = 32;
       else {
-        const kind = codeAt(ptx, pty) >> 1, f = FACING[kind];
+        const kind = codeAt(ptx, pty) >> 1;
+        // A roof takes the light by its own shape, and ground showing past its edge takes it as ground.
+        const roof = kind === 3 ? roofFacing(x, y, RF) : 0;
+        const f = roof === 1 ? FACING[0] : FACING[kind];
+        const nx = roof === 2 ? RF[0] : f[0], ny = roof === 2 ? RF[1] : f[1], nz = roof === 2 ? RF[2] : f[2];
         const lxv = lx - x - 0.5, lyv = ly - y - 0.5, lzv = z - f[3];
-        const dot = (f[0] * lxv + f[1] * lyv + f[2] * lzv) / Math.sqrt(lxv * lxv + lyv * lyv + lzv * lzv);
+        const dot = (nx * lxv + ny * lyv + nz * lzv) / Math.sqrt(lxv * lxv + lyv * lyv + lzv * lzv);
         if (dot <= 0) continue;
         val = 16 * peak * (1 - d / r) * Math.pow(dot, 0.6) * 1.25 * (kind === 1 ? WATER_TAKE : 1);
       }
@@ -648,8 +654,10 @@ function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy
     if (stamp[k] === stampN) return;
     stamp[k] = stampN;
     PATH[k] = 0;
-    // The shadow thins to nothing at its tip rather than stopping at full strength.
-    shade[k] = Math.min(16, shade[k] + MOON_INK * strength * (1 - t / len));
+    // The shadow thins to nothing at its tip rather than stopping at full strength, and light on the ground fills it in.
+    const ink = MOON_INK * strength * (1 - t / len) * moonFill(k);
+    if (ink <= 0) return;
+    shade[k] = Math.min(16, shade[k] + ink);
     shaded = true;
   };
   stampN++;
@@ -679,8 +687,10 @@ function moonShadow(solid: Uint8Array, top: number, foot: number, fx: number, gy
 
 /** A house's or tree's moon shadow runs this many pixels for each pixel it stands tall, as long for its height as a figure's. */
 const BUILDING_LONG = MOON_LONG / 8, BUILDING_MAX = 32;
-/** Lamp light at this strength fills a building's moon shadow completely, and weaker light fills it in part. */
+/** Lamp light or starlight at this strength fills a moon shadow completely, and weaker light fills it in part. */
 const LAMP_FILLS = 16;
+/** How much of a moon shadow's ink survives the light on screen pixel k. */
+const moonFill = (k: number) => Math.max(0, 1 - Math.max(lamp[k], lit[k]) / LAMP_FILLS);
 
 /** The house or tree whose foot is tile tx, ty: how tall it stands in pixels, how many tile rows it covers, and how many of those are walls, or null. */
 function casterAt(tx: number, ty: number): { tall: number; rows: number; walls: number } | null {
@@ -755,21 +765,48 @@ function crosses(ax: number, ay: number, bx: number, by: number, x0: number, y0:
   return t0 <= t1 && t0 < 1;
 }
 
-/** The boxes of the houses and trees on screen this frame, in screen pixels: x0, y0, x1, y1, and the top of the walls, five to a box. */
+/**
+ * The boxes of the houses and trees on screen this frame, in screen pixels, six to a box: x0, y0, x1, y1, the top of the walls, and the top of
+ * the ground the house stands on. That ground is the roof's rows moved down by the walls' height, since the walls stand on the bottom row.
+ */
 const boxes: number[] = [];
+let camX = 0, camY = 0;
 function screenBoxes(s: FieldFxState): void {
   boxes.length = 0;
-  for (const c of casters) boxes.push(c.x0 - s.cam[0], c.y0 - s.cam[1], c.x1 - s.cam[0], c.y1 - s.cam[1], c.wall - s.cam[1]);
+  camX = Math.round(s.cam[0]); camY = Math.round(s.cam[1]);
+  for (const c of casters) boxes.push(c.x0 - s.cam[0], c.y0 - s.cam[1], c.x1 - s.cam[0], c.y1 - s.cam[1], c.wall - s.cam[1], c.y0 + c.y1 - c.wall - s.cam[1]);
 }
 
-/** Whether a house or tree stands between a light at lx, ly and the point x, y. A box that holds either end does not count, so a house's own face takes the light and a light inside one still shines. */
+/** Whether the ground a house or tree stands on lies between a light at lx, ly and the point x, y. A box that holds either end does not count, so a house's own face takes the light and a light inside one still shines. */
 function hidden(lx: number, ly: number, x: number, y: number): boolean {
-  for (let i = 0; i < boxes.length; i += 5) {
+  for (let i = 0; i < boxes.length; i += 6) {
     const x0 = boxes[i], y0 = boxes[i + 1], x1 = boxes[i + 2], y1 = boxes[i + 3];
     if ((x >= x0 && x <= x1 && y >= y0 && y <= y1) || (lx >= x0 && lx <= x1 && ly >= y0 && ly <= y1)) continue;
-    if (crosses(lx, ly, x, y, x0, y0, x1, y1)) return true;
+    if (crosses(lx, ly, x, y, x0, boxes[i + 5], x1, y1)) return true;
   }
   return false;
+}
+
+/** A light this far above a roof pixel, so a roof shows its shape whichever side a light stands on. */
+const ROOF_Z = 10;
+/** The facing roofAt found last, and each world pixel's roof kind and facing, kept until the houses are found again. */
+const RN = new Float32Array(3);
+const roofCache = new Map<number, Float32Array | number>();
+let roofKey = '';
+
+/** What a world pixel is on a roof tile, as roofFacing gives it, with its facing in RN. */
+function roofAt(wx: number, wy: number): number {
+  if (roofKey !== casterKey) { roofKey = casterKey; roofCache.clear(); }
+  const k = wy * 65536 + wx;
+  let c = roofCache.get(k);
+  if (c === undefined) {
+    const out = new Float32Array(3), kind = roofFacing(wx, wy, out);
+    c = kind === 2 ? out : kind;
+    roofCache.set(k, c);
+  }
+  if (typeof c === 'number') return c;
+  RN.set(c);
+  return 2;
 }
 
 /** A starlight pool that houses and trees shade: each pixel takes the light only when no house or tree stands between it and the light. */
@@ -778,7 +815,7 @@ function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
   const y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(SH - 1, Math.ceil(cy + r));
   // Only the boxes inside the pool can shade it.
   const mine: number[] = [];
-  for (let i = 0; i < boxes.length; i += 5) if (boxes[i + 2] > x0 && boxes[i] < x1 + 1 && boxes[i + 3] > y0 && boxes[i + 1] < y1 + 1) mine.push(boxes[i], boxes[i + 1], boxes[i + 2], boxes[i + 3], boxes[i + 4]);
+  for (let i = 0; i < boxes.length; i += 6) if (boxes[i + 2] > x0 && boxes[i] < x1 + 1 && boxes[i + 3] > y0 && boxes[i + 1] < y1 + 1) mine.push(boxes[i], boxes[i + 1], boxes[i + 2], boxes[i + 3], boxes[i + 4], boxes[i + 5]);
   if (!mine.length) { addLight(lit, cx, cy, r, peak); return; }
   const k = 16 * peak / r, r2 = r * r;
   for (let y = y0; y <= y1; y++) {
@@ -788,15 +825,28 @@ function addLightSeen(cx: number, cy: number, r: number, peak: number): void {
       if (d2 >= r2) continue;
       const v = (r - Math.sqrt(d2)) * k;
       if (v <= lit[row + x]) continue;
-      let shut = false;
-      for (let i = 0; i < mine.length && !shut; i += 5) {
-        const bx0 = mine[i], by0 = mine[i + 1], bx1 = mine[i + 2], by1 = mine[i + 3];
-        // A house's walls face the viewer, so a light above their top row does not reach them.
-        if (qx >= bx0 && qx <= bx1 && qy >= by0 && qy <= by1) { shut = qy >= mine[i + 4] && cy < mine[i + 4]; continue; }
-        if (cx >= bx0 && cx <= bx1 && cy >= by0 && cy <= by1) continue;
-        shut = crosses(cx, cy, qx, qy, bx0, by0, bx1, by1);
+      // A pixel of a house or tree stands above the ground, so other boxes do not hide it. Its walls face the viewer, so a light above their top row does not reach them.
+      let shut = false, own = false, face = 1;
+      for (let i = 0; i < mine.length && !shut; i += 6) {
+        if (qx < mine[i] || qx > mine[i + 2] || qy < mine[i + 1] || qy > mine[i + 3]) continue;
+        const wall = mine[i + 4];
+        if (qy >= wall) { own = true; shut = cy < wall; continue; }
+        const kind = roofAt(x + camX, y + camY);
+        // Ground showing past the edge of a roof is ground, which the houses hide as they hide any other.
+        if (kind === 1) continue;
+        own = true;
+        if (kind === 2) {
+          const lx = cx - qx, ly = cy - qy, d = Math.hypot(lx, ly, ROOF_Z);
+          face = Math.max(0, (RN[0] * lx + RN[1] * ly + RN[2] * ROOF_Z) / d);
+          face = face > 0 ? Math.pow(face, 0.6) : 0;
+        }
       }
-      if (!shut) lit[row + x] = v;
+      for (let i = 0; !own && i < mine.length && !shut; i += 6) {
+        const bx0 = mine[i], by0 = mine[i + 1], bx1 = mine[i + 2], by1 = mine[i + 3];
+        if (cx >= bx0 && cx <= bx1 && cy >= by0 && cy <= by1) continue;
+        shut = crosses(cx, cy, qx, qy, bx0, mine[i + 5], bx1, by1);
+      }
+      if (!shut && v * face > lit[row + x]) lit[row + x] = v * face;
     }
   }
 }
@@ -822,7 +872,7 @@ function layShadow(x0: number, y0: number, x1: number, y1: number, tall: number,
       if (Math.abs(ux) < 1e-6) { if (qx < x0 || qx > x1) continue; } else { const a = (qx - x0) / ux, b = (qx - x1) / ux; t = Math.max(t, Math.min(a, b)); top = Math.min(top, Math.max(a, b)); }
       if (t > top || t <= 0) continue;
       if (wallAt(X, Y, s) || wallAt(qx - (t / 2) * ux, qy - (t / 2) * uy, s)) continue;
-      const k = Y * SW + X, ink = MOON_INK * (1 - t / len) * Math.max(0, 1 - lamp[k] / LAMP_FILLS);
+      const k = Y * SW + X, ink = MOON_INK * (1 - t / len) * moonFill(k);
       if (ink <= 0) continue;
       PATH[k] = 0;
       shade[k] = Math.min(16, shade[k] + ink);
@@ -1036,7 +1086,7 @@ const INK32 = (() => { const v = parseInt(INK.slice(1), 16); return (0xff000000 
  * The color matrices for a sky over a region, for the unlit hue and the warmed lit hue, with each pixel color's result cached.
  * The screen uses few colors, so mapping it in one pass through these caches costs far less than drawing it through filters.
  */
-interface Hues { dim: Float32Array; lit: Float32Array | null; lamp: [number, number, number]; edge: [number, number, number]; faint: string; dimOf: Map<number, number>; litOf: Map<number, number>; coreOf: Map<number, number>; waterOf: Map<number, number>; groundLum: number }
+interface Hues { dim: Float32Array; lit: Float32Array | null; lamp: [number, number, number]; edge: [number, number, number]; faint: string; dimOf: Map<number, number>; litOf: Map<number, number>; coreOf: Map<number, number>; mixOf: Map<number, number>; waterOf: Map<number, number>; groundLum: number }
 
 /** Lightness of a pixel word, for comparing two colors. */
 const lumW = (c: number): number => 0.3 * (c & 255) + 0.59 * ((c >>> 8) & 255) + 0.11 * ((c >>> 16) & 255);
@@ -1065,7 +1115,7 @@ function filtersFor(sky: Sky, p: Pal, sink = 1): Hues {
   const t = parseInt(sky.lampTint.slice(1), 16), lamp: [number, number, number] = [(t >> 16) / 255, ((t >> 8) & 255) / 255, (t & 255) / 255];
   const dim = matrix(m.dim);
   const g = parseInt(p.g.slice(1), 16), gw = (0xff000000 | ((g & 255) << 16) | (g & 0xff00) | (g >>> 16)) >>> 0;
-  f = { dim, lit: m.lit ? matrix(m.lit) : null, lamp, edge: [lamp[0] * 0.12, lamp[1] * 0.12, lamp[2] * 0.12], faint: '#' + (0x1000000 | faint).toString(16).slice(1), dimOf: new Map(), litOf: new Map(), coreOf: new Map(), waterOf: new Map(), groundLum: lumW(throughMatrix(gw, dim)) };
+  f = { dim, lit: m.lit ? matrix(m.lit) : null, lamp, edge: [lamp[0] * 0.12, lamp[1] * 0.12, lamp[2] * 0.12], faint: '#' + (0x1000000 | faint).toString(16).slice(1), dimOf: new Map(), litOf: new Map(), coreOf: new Map(), mixOf: new Map(), waterOf: new Map(), groundLum: lumW(throughMatrix(gw, dim)) };
   filters.set(key, f);
   return f;
 }
@@ -1093,6 +1143,9 @@ function cached(map: Map<number, number>, c: number, make: (c: number) => number
   if (v === undefined) { if (map.size > 8192) map.clear(); v = make(c); map.set(c, v); }
   return v;
 }
+
+/** Where starlight and a lamp light one pixel, it shows the lit form, the lamp's color, or one of the steps between them. */
+const MIX_STEPS = 3;
 
 /** Swaps every screen pixel for its unlit or lit hue in one pass, adds the lamps' color, and lays the figures' shadows and fog over it. */
 function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number): void {
@@ -1122,13 +1175,20 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
     const br = ((y + oy) & 3) * 4, lampRow = y >= ly0 && y <= ly1;
     for (let x = 0; x < SW; x++, i++) {
       const th = BAYER[br + ((x + ox) & 3)];
-      let isLit: boolean, core = false, edge = false;
+      let isLit: boolean, core = false, edge = false, mix = 0;
       if (lampRow && x >= lx0 && x <= lx1) {
         // A lamp's bright middle shows through a dither from 10 sixteenths and is solid from 19. It takes the lit form, then the lamp's color.
-        const lv = lamp[i];
-        core = lv - 10 > th * 0.6;
-        isLit = lit[i] > th || core;
-        edge = lv > th && !core;
+        const lv = lamp[i], sv = lit[i];
+        if (sv > th && lv > 0) {
+          // Under starlight the lamp's color takes its share of the light at the pixel, in thirds picked by the dither. Squaring the levels lets the brighter light take the pixel.
+          const amt = Math.min(1, lv / 19) * lv * lv / (lv * lv + sv * sv);
+          mix = Math.min(MIX_STEPS, Math.floor(amt * MIX_STEPS + (th + 0.5) / 16));
+          isLit = true;
+        } else {
+          core = lv - 10 > th * 0.6;
+          isLit = sv > th || core;
+          edge = lv > th && !core;
+        }
       } else isLit = lit[i] > th;
       const c = u[i];
       // Ink keeps its own color under every light, so outlines and eyes stay dark.
@@ -1137,7 +1197,8 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
       if (isLit) {
         if (c !== litC) { litC = c; litO = litOf ? cached(f.litOf, c, litOf) : c; }
         o = litO;
-        if (core) { if (o !== coreC) { coreC = o; coreO = cached(f.coreOf, o, coreOf); } o = coreO; }
+        if (core || mix === MIX_STEPS) { if (o !== coreC) { coreC = o; coreO = cached(f.coreOf, o, coreOf); } o = coreO; }
+        else if (mix) { const base = o; o = cached(f.mixOf, base * MIX_STEPS + mix, () => mixW(base, cached(f.coreOf, base, coreOf), mix / MIX_STEPS)); }
       } else {
         if (wet && WETPX[i]) { if (c !== wetC) { wetC = c; wetO = cached(f.waterOf, c, waterOf); } o = wetO; }
         else { if (c !== dimC) { dimC = c; dimO = cached(f.dimOf, c, dimOf); } o = dimO; }

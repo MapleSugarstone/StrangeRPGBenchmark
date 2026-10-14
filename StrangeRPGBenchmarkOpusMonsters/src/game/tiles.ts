@@ -2173,6 +2173,30 @@ function creases(put: (i: number, y: number, h: number, c: string) => void, tx: 
   }
 }
 
+/**
+ * The facing of the roof at world pixel wx, wy, as x east, y toward the viewer, z up, written to `out`.
+ * Returns 0 off a roof tile, 1 where the ground shows through a roof tile, and 2 on the roof.
+ */
+export function roofFacing(wx: number, wy: number, out: Float32Array): number {
+  const tx = Math.floor(wx / 8), ty = Math.floor(wy / 8);
+  if (!layPal || nt(tx, ty) !== 'r') return 0;
+  const inf = info('r', tx, ty, memoT);
+  const i = (inf >> 4) & 15, n = Math.max(1, (inf >> 8) & 15), j = (inf >> 12) & 3, m = Math.max(1, (inf >> 14) & 3);
+  const W = n * 8, H = m * 8, px = wx - tx * 8, py = wy - ty * 8;
+  let X = i * 8 + px;
+  const Y = j * 8 + py;
+  if ((inf >> 17) & 1) X = W - 1 - X;
+  if (!roofPx(KIT[layPal.style].roof, X, Y, W, H, i * 8 + px, '#', '#', '#', '#', layPal)) return 1;
+  // The roof is a low vault: its ends face out along the house, its top faces back and up, and its eave faces the viewer.
+  let top = 0;
+  while (top < Y && !roofPx(KIT[layPal.style].roof, X, top, W, H, i * 8 + px, '#', '#', '#', '#', layPal)) top++;
+  const u = (wx - (tx - i) * 8 + 0.5) / W, v = (Y - top + 0.5) / Math.max(1, H - top);
+  const nx = 0.75 * (2 * u - 1), ny = Math.max(-0.5, Math.min(0.85, 1.35 * v - 0.5));
+  const nz = Math.sqrt(Math.max(0.08, 1 - nx * nx - ny * ny)), d = Math.hypot(nx, ny, nz);
+  out[0] = nx / d; out[1] = ny / d; out[2] = nz / d;
+  return 2;
+}
+
 export function isSolid(ch: string): boolean {
   return SOLID.has(ch);
 }

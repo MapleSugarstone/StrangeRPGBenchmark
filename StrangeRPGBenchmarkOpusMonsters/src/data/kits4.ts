@@ -772,14 +772,14 @@ defPassive({ id: 'sallet_oldblood', name: 'Warm Steel', owner: 'sallet', text: '
   inMul(b, f, src, d) { return d.move ? 0.9 : 1; } });
 defPassive({ id: 'sallet_wyrmscale', name: 'Drake Scale', owner: 'sallet', text: 'As the drake: immune to Stun, takes 0.8x, attacks hit reserves 40% ATK.' });
 defMove({ id: 'sallet_hotbreath', name: 'Visor Breath', type: 'GEAR', owner: 'sallet', reach: 'spread', cd: 1, fx: 'flare | puff cinders',
-  text: 'Hits for 54% ATK. Splash 35%. Weaken 1.',
-  run(c) { c.spread({ atk: 0.54 }); c.st(c.tgt, 'weaken', 1); } });
+  text: 'Hits for 57% ATK. Splash 35%. Weaken 1.',
+  run(c) { c.spread({ atk: 0.57 }); c.st(c.tgt, 'weaken', 1); } });
 defMove({ id: 'sallet_drakefire', name: 'Drake Fire', type: 'STONE', owner: 'sallet', reach: 'spread', cd: 1, extra: true, fx: 'flare | ember*3 sweep | smoke cinders',
   text: 'Hits for 80% ATK. Splash 35%. Burn 2 on every foe (20% ATK each turn).',
   run(c) { c.spread({ atk: 0.8 }); for (const e of standing(c.them)) c.st(e, 'burn', 2, stat(c.b, c.u, 'atk') * 0.2); } });
 defMove({ id: 'sallet_browbash', name: 'Plume Bash', type: 'STONE', owner: 'sallet', reach: 'single', tags: ['dash'], cd: 3, fx: 'lunge | quake',
-  text: 'Hits for 85% ATK. Stun 1. Expose 1. 2x if the foe dashes this round.',
-  run(c) { const a = foeChoice(c.b, c.u); const dash = a?.k === 'move' && !!moveDef(c.tgt, a.i)?.tags?.includes('dash'); c.hit(c.tgt, { atk: 0.85 }, { mult: dash ? 2 : 1 }); c.st(c.tgt, 'stun', 1); c.st(c.tgt, 'expose', 1); } });
+  text: 'Hits for 78% ATK. Stun 1. Expose 1. 2x if the foe dashes this round.',
+  run(c) { const a = foeChoice(c.b, c.u); const dash = a?.k === 'move' && !!moveDef(c.tgt, a.i)?.tags?.includes('dash'); c.hit(c.tgt, { atk: 0.78 }, { mult: dash ? 2 : 1 }); c.st(c.tgt, 'stun', 1); c.st(c.tgt, 'expose', 1); } });
 defMove({ id: 'sallet_visor', name: 'Lend the Helm', type: 'STONE', owner: 'sallet', reach: 'ally', cd: 3, wt: 60, fx: 'flare | shell return | ring ally',
   text: 'An ally wears its helm: Warm Steel for 3 turns. Fortify 1. Regen 2.',
   run(c) { const a = c.ally!; if (a !== c.u) lendPassive(c.b, c.u, a, 'sallet_oldblood', 3); c.st(a, 'fortify', 1); c.st(a, 'regen', 2, 0.06); } });

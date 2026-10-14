@@ -677,10 +677,10 @@ defPassive({ id: 'feed', name: 'Holds Fast', owner: 'bramble', text: 'Heals 20% 
 defMove({ id: 'lash', name: 'Briar Sweep', type: 'ROOT', owner: 'bramble', reach: 'spread', cd: 1, splash: 0.35, fx: 'spin | thorn*5 sweep | slash all', text: 'Hits for 59% ATK. Splash 35%. Heals 4% of its max HP per Bleeding foe.',
   run(c) { c.spread({ atk: 0.59 }); const n = standing(c.them).filter(e => e.s.bleed).length; c.heal(c.u, c.u.maxHp * 0.04 * n); } });
 defMove({ id: 'creep', name: 'Snag Cane', type: 'GEAR', owner: 'bramble', reach: 'single', cd: 2, fx: 'lunge | thorn*2 line | slash',
-  text: 'Hits for 83% ATK. Slow 2. Bleed 2.',
-  run(c) { c.hit(c.tgt, { atk: 0.83 }); if (c.tgt.ko) return; c.st(c.tgt, 'slow', 2); c.st(c.tgt, 'bleed', 2, stat(c.b, c.u, 'atk') * 0.12); } });
-defMove({ id: 'ripout', name: 'Reel In', type: 'ROOT', owner: 'bramble', reach: 'dragin', cd: 4, fx: 'sway | thorn line | claw', text: 'Drags in a reserve. Hits it for 77% ATK. Root 1.',
-  run(c) { c.dragIn(c.pick); const t = c.them.f[c.them.out]; c.hit(t, { atk: 0.77 }); c.st(t, 'root', 1); } });
+  text: 'Hits for 77% ATK. Slow 2. Bleed 2.',
+  run(c) { c.hit(c.tgt, { atk: 0.77 }); if (c.tgt.ko) return; c.st(c.tgt, 'slow', 2); c.st(c.tgt, 'bleed', 2, stat(c.b, c.u, 'atk') * 0.12); } });
+defMove({ id: 'ripout', name: 'Reel In', type: 'ROOT', owner: 'bramble', reach: 'dragin', cd: 4, fx: 'sway | thorn line | claw', text: 'Drags in a reserve. Hits it for 81% ATK. Root 1.',
+  run(c) { c.dragIn(c.pick); const t = c.them.f[c.them.out]; c.hit(t, { atk: 0.81 }); c.st(t, 'root', 1); } });
 defMove({ id: 'thornwall', name: 'Tear Free', type: 'ROOT', owner: 'bramble', reach: 'single', cd: 5, nerve: 4,
   fx: 'flare | thorn*6 converge | slash bloom tint big', text: 'True damage: 82% ATK + 20% per Bleed. A KO resets its cooldown.',
   run(c) {

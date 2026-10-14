@@ -296,11 +296,11 @@ defPassive({ id: 'charge', name: 'Builds Charge', owner: 'dynamo', text: 'Its da
   afterDeal(b, f, t, dealt, d) { if (d.move && !d.reserve) addCharge(b, f, t); } });
 defPassive({ id: 'ground', name: 'Static', owner: 'dynamo', text: 'Charges jump across a dash or an Attack between two whorls. It starts with 2 Charges.',
   start(b, f) { addCharge(b, f, f, 2); } });
-defMove({ id: 'spark', name: 'Brush Spark', type: 'GEAR', owner: 'dynamo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | bolt zigzag fast | burst', text: 'Hits for 132% MGK.',
-  run(c) { c.hit(c.tgt, { mgk: 1.32 }); } });
+defMove({ id: 'spark', name: 'Brush Spark', type: 'GEAR', owner: 'dynamo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | bolt zigzag fast | burst', text: 'Hits for 136% MGK.',
+  run(c) { c.hit(c.tgt, { mgk: 1.36 }); } });
 defMove({ id: 'arc', name: 'Jump the Gap', type: 'STAR', owner: 'dynamo', reach: 'single', tags: ['spell'], cd: 2, fx: 'flare | bolt line fast | flash',
-  text: 'Hits for 97% MGK. On a foe with a Charge: 1.5x damage, 1 more Charge.',
-  run(c) { const ch = c.marked(c.tgt, 'dynamo_charge') > 0; c.hit(c.tgt, { mgk: 0.97 }, { mult: ch ? 1.5 : 1 }); if (ch && !c.tgt.ko && !c.blocked(c.tgt)) addCharge(c.b, c.u, c.tgt); } });
+  text: 'Hits for 105% MGK. On a foe with a Charge: 1.5x damage, 1 more Charge.',
+  run(c) { const ch = c.marked(c.tgt, 'dynamo_charge') > 0; c.hit(c.tgt, { mgk: 1.05 }, { mult: ch ? 1.5 : 1 }); if (ch && !c.tgt.ko && !c.blocked(c.tgt)) addCharge(c.b, c.u, c.tgt); } });
 defMove({ id: 'induct', name: 'Spin Up', type: 'GEAR', owner: 'dynamo', reach: 'self', tags: ['dash'], cd: 3, wt: 60, fx: 'spin fast | spark*3 orbit | cinders self',
   text: 'Haste 2. Fortify 1. A Charge on the foe, and 2 on itself.',
   run(c) { c.st(c.u, 'haste', 2); c.st(c.u, 'fortify', 1); if (!c.blocked(c.tgt)) addCharge(c.b, c.u, c.tgt); addCharge(c.b, c.u, c.u, 2); } });
