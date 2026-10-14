@@ -18,6 +18,32 @@ import { reasonText, type EndMsg, type Link, type MatchMsg, type PeekMsg, type R
 const MENU_Y = 124, MENU_ROWS = 7, DIVIDER = 90;
 /** The speed lanes: a dark strip above your panel, right of where damage numbers rise from your whorl. */
 const LANE_X = 113, LANE_Y = 56, LANE_W = 72;
+/** Each side's panel: the foe's at the top left and yours above the bottom panel on the right. */
+const PANEL_W = 104, PANEL_H = 35;
+const FOE_PANEL = { x: 2, y: 14, w: PANEL_W, h: PANEL_H }, MINE_PANEL = { x: 86, y: 72, w: PANEL_W, h: PANEL_H };
+/** The top bar's height, and a floating word's height with its shadow. */
+const TOP_BAR_H = 11, FLOAT_H = 9;
+type Area = { x: number; y: number; w: number; h: number };
+/** What floating words keep a clear pixel from: the top bar, both panels, the speed lanes, and the bottom panel. */
+const FLOAT_KEEP_OUT: Area[] = [{ x: 0, y: 0, w: 192, h: TOP_BAR_H }, FOE_PANEL, MINE_PANEL, { x: LANE_X - 4, y: LANE_Y, w: LANE_W + 7, h: 13 }, { x: 0, y: 120, w: 192, h: 72 }];
+
+/**
+ * The row for a floating word over columns x to x + w that would sit at `y`, or null while a crowded stack leaves it none.
+ * It goes no higher than its roof, a clear pixel under the top bar or under the foe's panel above it. From there it takes
+ * the nearest row, going up and then down, that keeps a clear pixel from the words placed before it and from the bars and
+ * panels. A word alone over its columns keeps its own row.
+ */
+function floatRow(x: number, w: number, y: number, placed: Area[]): number | null {
+  const over = (b: Area) => x - 1 < b.x + b.w && b.x < x + w + 1;
+  const roof = over(FOE_PANEL) ? FOE_PANEL.y + FOE_PANEL.h + 1 : TOP_BAR_H + 1;
+  const near = placed.filter(over), y0 = Math.max(roof, y);
+  if (!near.length) return y0;
+  const hits = (yy: number) => [...FLOAT_KEEP_OUT, ...near].some(b => over(b) && yy - 1 < b.y + b.h && b.y < yy + FLOAT_H + 1);
+  // The rows to try: its own, and the rows just above and just below each word already placed over the same columns.
+  const rows = [y0, ...near.flatMap(p => [p.y - FLOAT_H - 1, p.y + FLOAT_H + 1])].filter(r => r >= roof);
+  const order = [...rows.filter(r => r <= y0).sort((a, b) => b - a), ...rows.filter(r => r > y0).sort((a, b) => a - b)];
+  return order.find(r => !hits(r)) ?? null;
+}
 /** A switch in frames: the old whorl leaves, a pause, then the new whorl pops out and settles. */
 const SW_LEAVE = 22, SW_PAUSE = 10, SW_ENTER = 26;
 /** One switch on screen: the whorl leaving, the one coming, frames so far, and whether a foe's move forced it. */
@@ -157,7 +183,8 @@ export function onlineLook(seed: number): { scene: string; music: string } {
 interface Disp { hp: number; shield: number; ko: boolean; gone: boolean; flash: number; white: number; shake: number; off: number; }
 /** The frames a hard hit shakes its whorl. Above HARD_SHAKE - 6 it shakes 2 pixels across and bobs, and below that 1 pixel. */
 const HARD_SHAKE = 20;
-interface Float { x: number; y: number; s: string; c: string; t: number }
+/** A floating number or word. `held` is true while a crowded stack leaves it no clear row, and its time waits until one opens. */
+interface Float { x: number; y: number; s: string; c: string; t: number; held?: boolean }
 /** A light an effect casts on the backdrop, in scene pixels. One that travels moves from x, y to tx, ty over its life at full strength. */
 interface Glow { x: number; y: number; tx: number; ty: number; r: number; lv: number; tint?: string; t: number; life: number; travel: boolean }
 
@@ -547,7 +574,7 @@ class BattleView implements Mode {
     if (this.t % 15 === 0) music.setIntensity(this.intensity());
     if (this.enter > 0) { this.enter -= this.speed(); return; }
     for (const side of this.disp) for (const d of side) { if (d.flash > 0) d.flash--; if (d.white > 0) d.white--; if (d.shake > 0) d.shake--; if (d.off > 0) d.off = Math.max(0, d.off - 2); }
-    this.floats = this.floats.filter(f => (f.t -= 1) > 0);
+    this.floats = this.floats.filter(f => (f.held ? f.t : (f.t -= 1)) > 0);
     this.glows = this.glows.filter(g => ++g.t < g.life);
     for (const r of this.runs) { r.t += this.speed(); soundTick(r, this.speed()); }
     this.runs = this.runs.filter(r => r.t < r.end);
@@ -1411,18 +1438,16 @@ class BattleView implements Mode {
     this.drawSideHud(this.side, (MINE_AT[0] - slide) * 2, MINE_AT[1] * 2);
     this.drawTempo();
     this.drawLanes();
-    this.drawPanel(this.foe, 2, 14);
-    this.drawPanel(this.side, 86, 72);
-    // Floating numbers and words stack upward rather than overlap, each a clear pixel from the next, shadows included.
-    const placed: { x: number; y: number; w: number }[] = [];
+    this.drawPanel(this.foe, FOE_PANEL.x, FOE_PANEL.y);
+    this.drawPanel(this.side, MINE_PANEL.x, MINE_PANEL.y);
+    // Floating numbers and words rise and stack rather than overlap, each a clear pixel from the next, shadows included,
+    // and they stop under the top bar and the foe's panel (`floatRow`). A word with no clear row waits for one.
+    const placed: Area[] = [];
     for (const f of this.floats) {
-      const w = textWidth(f.s) + 1, x = Math.round(f.x - w / 2);
-      let y = Math.round(f.y - (40 - f.t) / 3);
-      for (let moved = true, n = 0; moved && n < 8; n++) {
-        moved = false;
-        for (const p of placed) if (x < p.x + p.w + 1 && p.x < x + w + 1 && y < p.y + 10 && p.y < y + 10) { y = p.y - 10; moved = true; }
-      }
-      placed.push({ x, y, w });
+      const w = textWidth(f.s) + 1, x = Math.round(f.x - w / 2), y = floatRow(x, w, Math.round(f.y - (40 - f.t) / 3), placed);
+      f.held = y === null;
+      if (y === null) continue;
+      placed.push({ x, y, w, h: FLOAT_H });
       text(f.s, x, y, f.c, INK);
     }
     if (this.bannerT > 0 && this.banner) {
@@ -1709,7 +1734,7 @@ class BattleView implements Mode {
 
   /** Tempo line: wind-ups in flight and double turns. Only shown when it says something. */
   drawTempo(): void {
-    rect(0, 0, 192, 11, INK);
+    rect(0, 0, 192, TOP_BAR_H, INK);
     const b = this.b;
     let note = '', short = '';
     let col = DIM;
@@ -1931,7 +1956,7 @@ class BattleView implements Mode {
     const d = this.disp[side][idx];
     // Names, types, statuses, marks, caps, and tide come from the events played so far, never from the end of the turn.
     const sf = this.shownF(side, idx), ss = this.shownSide(side), mine = side === this.side;
-    panel(x, y, 104, 35, mine ? MINE : THEIRS);
+    panel(x, y, PANEL_W, PANEL_H, mine ? MINE : THEIRS);
     const lv = fightLevel(this.b.rules, f.mon);
     const nameEnd = text(sf.name, x + 3, y + 2, PAPER);
     textRight(`L${lv}`, x + 101, y + 2, DIM);
@@ -1949,37 +1974,37 @@ class BattleView implements Mode {
     // A hidden foe shows no HP, statuses, or marks.
     const veiled = !mine && !!sf.s.hidden;
     let hpEnd: number;
-    if (veiled) { rect(x + 3, y + 15, 98, 5, INK); hpEnd = text('hidden', x + 3, y + 21, DIM); statusIcon('hidden', hpEnd + 4, y + 22); }
+    if (veiled) { rect(x + 3, y + 14, 98, 5, INK); hpEnd = text('hidden', x + 3, y + 20, DIM); statusIcon('hidden', hpEnd + 4, y + 21); }
     else {
       // A mirage: the foe's bar and number show its HP plus the mirage, and your own whorl's bar shows the mirage as a pale haze past its HP.
       const mir = f.mirage && d.hp > 0 ? f.mirage.hp : 0, seenHp = !mine ? Math.min(f.maxHp, d.hp + mir) : d.hp;
-      hpBar(x + 3, y + 15, 98, seenHp, f.maxHp, d.shield + (this.b.s[side].mantle?.hp || 0), null, line);
-      if (mir && mine && d.hp < f.maxHp) dither(x + 3 + Math.round(98 * d.hp / f.maxHp), y + 15, Math.max(1, Math.round(98 * Math.min(f.maxHp - d.hp, mir) / f.maxHp)), 5, '#bfe8ff', 0.5);
-      if (mir && !mine && this.t % 30 < 15) dither(x + 3, y + 15, Math.max(1, Math.round(98 * seenHp / f.maxHp)), 1, '#bfe8ff', 0.5);
+      hpBar(x + 3, y + 14, 98, seenHp, f.maxHp, d.shield + (this.b.s[side].mantle?.hp || 0), null, line);
+      if (mir && mine && d.hp < f.maxHp) dither(x + 3 + Math.round(98 * d.hp / f.maxHp), y + 14, Math.max(1, Math.round(98 * Math.min(f.maxHp - d.hp, mir) / f.maxHp)), 5, '#bfe8ff', 0.5);
+      if (mir && !mine && this.t % 30 < 15) dither(x + 3, y + 14, Math.max(1, Math.round(98 * seenHp / f.maxHp)), 1, '#bfe8ff', 0.5);
       // A flock: thin dark ticks split the HP bar into its bodies.
-      if (f.flock) for (let k = f.flock.body; k < f.maxHp; k += f.flock.body) rect(x + 3 + Math.round(98 * k / f.maxHp), y + 15, 1, 5, INK);
+      if (f.flock) for (let k = f.flock.body; k < f.maxHp; k += f.flock.body) rect(x + 3 + Math.round(98 * k / f.maxHp), y + 14, 1, 5, INK);
       // Poise: an amber strip along the top of the HP bar, as long as the poise left.
-      if (f.poise) rect(x + 3, y + 15, Math.max(1, Math.round(98 * Math.min(1, f.poise / f.maxHp))), 1, '#e8a840');
+      if (f.poise) rect(x + 3, y + 14, Math.max(1, Math.round(98 * Math.min(1, f.poise / f.maxHp))), 1, '#e8a840');
       // A fracture: a red crack across the HP bar at the line heals cannot pass.
-      if (f.fracture && f.fracture.cap < 1) rect(x + 3 + Math.round(98 * f.fracture.cap), y + 15, 1, 5, '#e05050');
-      hpEnd = text(`${Math.max(0, Math.ceil(seenHp))}/${f.maxHp}`, x + 3, y + 21, DIM);
+      if (f.fracture && f.fracture.cap < 1) rect(x + 3 + Math.round(98 * f.fracture.cap), y + 14, 1, 5, '#e05050');
+      hpEnd = text(`${Math.max(0, Math.ceil(seenHp))}/${f.maxHp}`, x + 3, y + 20, DIM);
       // Statuses and marks sit at the right end of the HP numbers row, clear of the bar and the name, newest leftmost.
       const icons: [number, (ix: number) => void][] = [];
-      for (const k of Object.keys(sf.s)) icons.push([6, ix => { statusIcon(k, ix, y + 22); }]);
+      for (const k of Object.keys(sf.s)) icons.push([6, ix => { statusIcon(k, ix, y + 21); }]);
       for (const k of Object.keys(sf.m)) {
         const md = MARKS[k];
         if (!md?.name) continue;
         const n = sf.m[k];
-        icons.push([n > 1 ? 7 + textWidth(String(Math.min(9, n))) : 6, ix => markIcon(ix, y + 22, md.color || (md.negative ? BADC : SEL), n)]);
+        icons.push([n > 1 ? 7 + textWidth(String(Math.min(9, n))) : 6, ix => markIcon(ix, y + 21, md.color || (md.negative ? BADC : SEL), n)]);
       }
       // A whorl whose next attack or move a cave will take in: a dark blue mark.
-      if (f.takeIn) icons.push([6, ix => markIcon(ix, y + 22, '#4a6a9a', 1)]);
+      if (f.takeIn) icons.push([6, ix => markIcon(ix, y + 21, '#4a6a9a', 1)]);
       // Deaf from a foe's hook rather than a mark: the same gray mark.
-      if (deaf(this.b, f) && !Object.keys(sf.m).some(k => MARKS[k]?.deaf)) icons.push([6, ix => markIcon(ix, y + 22, '#9a9ab8', 1)]);
+      if (deaf(this.b, f) && !Object.keys(sf.m).some(k => MARKS[k]?.deaf)) icons.push([6, ix => markIcon(ix, y + 21, '#9a9ab8', 1)]);
       // Silent: a pale violet mark while nobody hears what it does.
-      if (silent(this.b, f)) icons.push([6, ix => markIcon(ix, y + 22, '#c8b8e8', 1)]);
+      if (silent(this.b, f)) icons.push([6, ix => markIcon(ix, y + 21, '#c8b8e8', 1)]);
       // Drunk from: a root-green mark while a foe drinks its heals.
-      if (drinkerOf(this.b, f)) icons.push([6, ix => markIcon(ix, y + 22, '#5aa05a', 1)]);
+      if (drinkerOf(this.b, f)) icons.push([6, ix => markIcon(ix, y + 21, '#5aa05a', 1)]);
       let ix = x + 102;
       for (const [w, draw] of icons) { if (ix - w < hpEnd + 4) break; ix -= w; draw(ix); }
     }
