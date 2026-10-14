@@ -3,15 +3,15 @@
 // an idle room costs nothing and keeps its sockets when the runtime evicts it. A seat whose socket drops is held for its
 // player to come back with the seat's token (Notes/online-design.md).
 import { DurableObject } from 'cloudflare:workers';
-import { readClient, type FromRoom, type Hello, type ToRoom } from '../../src/net/protocol';
-import { newRoom, RoomRules, type Out, type RoomData } from '../../src/net/room';
+import { readClient, REMATCH_SECONDS, type FromRoom, type Hello, type ToRoom } from '../../src/net/protocol';
+import { newRoom, RoomRules, upgradeRoom, type Out, type RoomData } from '../../src/net/room';
 import { lobbyOf, type Env } from './env';
 
 /** What each socket carries through hibernation: its seat once a hello is accepted, when it last sent a frame, its strikes, and its frames in the current window. */
 interface Tag { seat?: 0 | 1; heard: number; strikes: number; since: number; count: number }
 
-/** How long a finished match's state stays before the room clears its storage. */
-const KEEP_AFTER_END_MS = 60 * 1000;
+/** How long a finished match's state stays for a rematch before the room clears its storage. */
+const KEEP_AFTER_END_MS = REMATCH_SECONDS * 1000;
 /** Frames the reader refuses before the room closes the socket, and the most frames a socket may send in one window. */
 const STRIKES_MAX = 5, FLOOD_MAX = 40, FLOOD_WINDOW_MS = 10_000;
 /** A socket that sends nothing and answers no ping for this long counts as dropped. A hidden tab still pings about once a minute. */
@@ -47,7 +47,7 @@ export class Room extends DurableObject<Env> {
       const r = crypto.getRandomValues(new Uint32Array(2));
       return (this.data = newRoom(r[0] & 0x7fffffff, (r[1] & 1) as 0 | 1));
     }
-    this.data = stored;
+    this.data = upgradeRoom(stored);
     this.stored = JSON.stringify(stored);
     // A deploy restarts the room and drops every socket with no close event, so a seat with no socket left is held from now.
     const held = new Set(this.ctx.getWebSockets().map(ws => this.tagOf(ws).seat));
@@ -127,13 +127,13 @@ export class Room extends DurableObject<Env> {
     const read = readClient(typeof raw === 'string' ? raw : null);
     if ('why' in read) tag.strikes++;
     this.setTag(ws, tag);
-    const d = await this.load(now), rules = new RoomRules(d), wasOver = d.phase === 'over', out: Out = this.silent(rules, now);
+    const d = await this.load(now), rules = new RoomRules(d), was = d.phase, out: Out = this.silent(rules, now);
     if (tag.count > FLOOD_MAX || tag.strikes >= STRIKES_MAX) out.push(...this.closeOut(ws, rules, tag.count > FLOOD_MAX ? 'a flood of frames' : `${tag.strikes} frames it could not read`, now));
     else if ('why' in read) {
       this.log('refused frame', { seat: tag.seat ?? null, why: read.why, strikes: tag.strikes });
       this.sendTo(ws, { type: 'refused', reason: 'The room could not read that message.' });
     } else out.push(...this.take(ws, read.m, rules, now));
-    await this.finish(rules, out, wasOver, now);
+    await this.finish(rules, out, was, now);
   }
 
   /** Acts on one message that passed the reader. */
@@ -215,18 +215,21 @@ export class Room extends DurableObject<Env> {
   /** The silence check on its own, for a new socket that needs room. */
   private async sweep(now: number): Promise<void> {
     if (!this.ctx.getWebSockets().length) return;
-    const d = await this.load(now), rules = new RoomRules(d), wasOver = d.phase === 'over';
-    await this.finish(rules, this.silent(rules, now), wasOver, now);
+    const d = await this.load(now), rules = new RoomRules(d), was = d.phase;
+    await this.finish(rules, this.silent(rules, now), was, now);
   }
 
-  /** Stores the state, sends what the event produced, and logs the end of the match once. */
-  private async finish(rules: RoomRules, out: Out, wasOver: boolean, now: number): Promise<void> {
+  /** Stores the state, sends what the event produced, and logs the end of each game, the end of the match once, and a rematch. */
+  private async finish(rules: RoomRules, out: Out, was: RoomData['phase'], now: number): Promise<void> {
     const d = rules.d;
     await this.save(now);
     this.deliver(out);
-    if (wasOver || d.phase !== 'over' || !d.ended) return;
+    if (d.phase === was) return;
+    if (d.phase === 'between' && d.last) this.log('game', { game: d.game, why: d.last.why, winner: d.last.winner, wins: d.wins, decisions: d.record.length });
+    if (was === 'over' && d.phase === 'pick') this.log('rematch');
+    if (d.phase !== 'over' || !d.ended) return;
     const e = d.ended;
-    this.log('end', { why: e.why, winner: e.winner, decisions: d.record.length, seconds: Math.round((now - d.startedAt) / 1000), note: e.note });
+    this.log('end', { why: e.why, winner: e.matchWinner, game: d.game, wins: d.wins, decisions: d.record.length, seconds: Math.round((now - d.startedAt) / 1000), note: e.note });
     // A match with no result keeps what the tools need to replay it: both rosters, both picks, and the record, with no names.
     if (e.why === 'void') this.log('record', { rosters: d.seats.map(s => s?.roster ?? null), firstSide: d.firstSide, picks: d.picks, record: d.record });
   }
@@ -253,9 +256,9 @@ export class Room extends DurableObject<Env> {
     const tag = this.tagOf(ws), seat = tag.seat;
     if (seat === undefined) return;
     this.setTag(ws, { ...tag, seat: undefined });
-    const now = Date.now(), d = await this.load(now), rules = new RoomRules(d), wasOpen = d.phase === 'open', wasOver = d.phase === 'over';
+    const now = Date.now(), d = await this.load(now), rules = new RoomRules(d), wasOpen = d.phase === 'open', was = d.phase;
     this.log('seat closed', { seat, phase: d.phase, decision: d.n, how });
-    await this.finish(rules, rules.leave(seat, now), wasOver, now);
+    await this.finish(rules, rules.leave(seat, now), was, now);
     // A room whose only player left before a match takes itself out of the queue and drops its code.
     if (wasOpen && !d.seats[0] && !d.seats[1]) await lobbyOf(this.env).cancel(this.name(), null);
   }
@@ -264,7 +267,7 @@ export class Room extends DurableObject<Env> {
     // The runtime clears an alarm before it runs it.
     this.alarmAt = null;
     try {
-      const now = Date.now(), d = await this.load(now), rules = new RoomRules(d), wasOver = d.phase === 'over';
+      const now = Date.now(), d = await this.load(now), rules = new RoomRules(d), was = d.phase;
       if (d.phase === 'over' && now >= (d.ended?.at ?? 0) + KEEP_AFTER_END_MS) {
         for (const ws of this.ctx.getWebSockets()) this.shut(ws, 1000, 'over');
         await this.ctx.storage.deleteAll();
@@ -275,7 +278,7 @@ export class Room extends DurableObject<Env> {
       }
       const out = this.silent(rules, now);
       out.push(...rules.tick(now));
-      await this.finish(rules, out, wasOver, now);
+      await this.finish(rules, out, was, now);
     } catch (err) {
       console.error('room alarm threw', err);
       // One bad tick must not stop every clock in the room.

@@ -6,7 +6,7 @@ import { SPECIES } from '../data/species';
 import { STARBORN_ODDS } from '../data/starborn';
 import { LEVEL_MAX } from '../data/types';
 import { byssusUnlocked, G, HORN_PRICE } from '../game/state';
-import { CHOICE_SECONDS, HOLD_SECONDS, REPLACE_SECONDS, ROSTER_SIZE, TEAM_SIZE, TIMEOUTS_TO_LOSE } from '../net/protocol';
+import { CHOICE_SECONDS, GAMES_MAX, HOLD_SECONDS, REPLACE_SECONDS, ROSTER_SIZE, TEAM_SIZE, TIMEOUTS_TO_LOSE } from '../net/protocol';
 import { LEGENDARY_MAX, SYNC_LEVEL } from '../net/wire';
 
 /**
@@ -425,13 +425,16 @@ export const GUIDE: Chapter[] = [
       { p: `Byssus is online play. You fight another player. It opens at a grotto counter once you have ${ROSTER_SIZE} whorls.` },
       { p: 'Pick Find someone to meet a player. To play a friend, pick Make a code. Your friend picks Use a code.' },
       { p: `Bring ${ROSTER_SIZE} whorls. Pick ${TEAM_SIZE} to fight. The Roster screen tells you what breaks a rule.` },
+      { p: `Pick Random battle to fight with ${ROSTER_SIZE} whorls the game draws for you. Some of them are hybrids. You need no roster for it.` },
       { h: 'The rules' },
       { icon: 'dot', s: 'Each kind once. Each notion once.' },
       { icon: 'dot', s: `At most ${LEGENDARY_MAX} legendary. A legendary is one of the ${LEGENDS} rarest whorls.` },
       { icon: 'dot', s: `No charms. Every whorl fights at level ${SYNC_LEVEL}.` },
       { h: 'In a match' },
+      { p: `A match is the best of ${GAMES_MAX} games. You pick ${TEAM_SIZE} again before each game.` },
       { p: `You get ${CHOICE_SECONDS} seconds a turn. You get ${REPLACE_SECONDS} seconds to pick your next whorl. If time runs out, the game picks for you. ${TIMEOUTS_TO_LOSE} timeouts in a row lose the match.` },
       { p: `If your link drops, pick Rejoin within ${HOLD_SECONDS} seconds.` },
+      { p: 'After a match, pick Rematch to play the same player again. A random battle draws new whorls for a rematch.' },
     ],
   },
   {

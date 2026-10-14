@@ -43,9 +43,9 @@ export const CANCELED = 'The wait was canceled.';
 export type QueueKind = 'public' | 'host' | 'join';
 
 /** Asks the lobby for a room: any waiting player, a new private room with a code, or the room a code names. */
-export async function queue(kind: QueueKind, code?: string): Promise<QueueReply> {
+export async function queue(kind: QueueKind, code?: string, format = FORMAT): Promise<QueueReply> {
   const gen = generation;
-  const reply = await post(kind, { build: BUILD, format: FORMAT, ...(code ? { code } : {}) });
+  const reply = await post(kind, { build: BUILD, format, ...(code ? { code } : {}) });
   if (gen === generation) return reply;
   // The player left while the lobby answered. A guest's code belongs to its host, so only a place this client opened goes back.
   if (reply.ok && kind !== 'join') void cancelQueue(reply.room, reply.code);
@@ -70,8 +70,9 @@ async function post(path: string, body: object): Promise<QueueReply> {
 /**
  * A seat this tab holds in a match: the room, the token that proves the seat, the build that took it, the save slot, and when the
  * room last spoke. `side` and `foe` (the other player's name) let a rejoin that finds the match already over say who won.
+ * `random` marks a random battle, whose rosters a rejoin builds again from the room's seed.
  */
-export interface HeldSeat { room: string; token: string; build: string; slot: number; heard: number; side?: 0 | 1; foe?: string }
+export interface HeldSeat { room: string; token: string; build: string; slot: number; heard: number; side?: 0 | 1; foe?: string; random?: boolean }
 
 /** The seat this tab holds while the room may still be holding it, or null. */
 export function heldSeat(now = Date.now()): HeldSeat | null {
@@ -81,7 +82,8 @@ export function heldSeat(now = Date.now()): HeldSeat | null {
     const v = JSON.parse(raw) as Partial<HeldSeat> | null;
     const ok = !!v && typeof v.room === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(v.room) && typeof v.token === 'string' && /^[A-Za-z0-9-]{4,64}$/.test(v.token)
       && typeof v.build === 'string' && Number.isInteger(v.slot) && typeof v.heard === 'number'
-      && (v.side === undefined || v.side === 0 || v.side === 1) && (v.foe === undefined || (typeof v.foe === 'string' && v.foe.length <= PLAYER_NAME_MAX));
+      && (v.side === undefined || v.side === 0 || v.side === 1) && (v.foe === undefined || (typeof v.foe === 'string' && v.foe.length <= PLAYER_NAME_MAX))
+      && (v.random === undefined || typeof v.random === 'boolean');
     if (ok && now - v!.heard! < HOLD_MS) return v as HeldSeat;
     sessionStorage.removeItem(SEAT_KEY);
   } catch { /* storage may be blocked */ }
@@ -106,6 +108,8 @@ export interface LinkOptions {
   /** The side and the other player's name the held seat recorded, kept until the room's `match` or `rejoin` says them again. */
   side?: 0 | 1;
   foe?: string;
+  /** Whether the match is a random battle, kept with the held seat for a rejoin. */
+  random?: boolean;
 }
 
 /**
@@ -130,6 +134,9 @@ export class NetLink implements Link {
   private readonly slot: number;
   private side: 0 | 1 | undefined;
   private foe: string | undefined;
+  private readonly random: boolean;
+  /** The games each side has won in the match, for the end this side calls when its link is lost. */
+  private wins: [number, number] = [0, 0];
   /** True while the link comes back to its seat: from a drop, or from the start for a link made to resume. */
   private back: boolean;
   /** When the room's hold ends as this client counts it, the next try and the wait after it, when the open try started, and why the link dropped. */
@@ -154,6 +161,7 @@ export class NetLink implements Link {
     this.slot = opts.slot ?? 0;
     this.side = opts.side;
     this.foe = opts.foe;
+    this.random = !!opts.random;
     this.back = !!this.token;
     if (this.back) this.holdUntil = Date.now() + HOLD_MS;
     this.connect();
@@ -266,10 +274,12 @@ export class NetLink implements Link {
       this.problem = m.reason;
       if (this.back) { forgetSeat(); this.lost(m.reason); return; }
     }
-    if (m.type === 'match') this.token = m.token;
-    if (m.type === 'match' || m.type === 'rejoin') { this.side = m.side; this.foe = m.names[1 - m.side]; }
+    // A rematch starts a new match on the same link, so its first game holds the seat again.
+    if (m.type === 'match') { this.token = m.token; this.ended = false; }
+    if (m.type === 'match' || m.type === 'rejoin') { this.side = m.side; this.foe = m.names[1 - m.side]; this.wins = m.wins; }
     if (m.type === 'rejoin' || m.type === 'end') { this.back = false; this.retryWait = RETRY_FIRST_MS; }
-    if (m.type === 'end') { this.ended = true; forgetSeat(); }
+    if (m.type === 'end') this.wins = m.wins;
+    if (m.type === 'end' && m.final) { this.ended = true; forgetSeat(); }
     else this.keep(m.type === 'match' || m.type === 'rejoin');
     this.inbox.push(m);
   }
@@ -280,17 +290,20 @@ export class NetLink implements Link {
     const now = Date.now();
     if (!force && now - this.keptAt < KEEP_MS) return;
     this.keptAt = now;
-    keepSeat({ room: this.room, token: this.token, build: BUILD, slot: this.slot, heard: now, ...(this.side === undefined ? {} : { side: this.side }), ...(this.foe === undefined ? {} : { foe: this.foe }) });
+    keepSeat({ room: this.room, token: this.token, build: BUILD, slot: this.slot, heard: now, ...(this.side === undefined ? {} : { side: this.side }), ...(this.foe === undefined ? {} : { foe: this.foe }), ...(this.random ? { random: true } : {}) });
   }
 
-  /** The link is gone on this side. A match still running ends here with no result, and the reason waits in `problem`. */
+  /**
+   * The link is gone on this side. A match still running ends here with no result, and the reason waits in `problem`. After
+   * the match this side has left the room, so no rematch can start.
+   */
   private lost(reason: string): void {
     if (this.closed) return;
     if (!this.ended) {
       if (!this.problem) this.problem = reason;
       this.ended = true;
-      this.inbox.push({ type: 'end', why: 'gone', winner: null });
-    }
+      this.inbox.push({ type: 'end', why: 'gone', winner: null, wins: this.wins, final: true, matchWinner: null });
+    } else if (this.side !== undefined) this.inbox.push({ type: 'left', side: this.side });
     this.shut();
   }
 }

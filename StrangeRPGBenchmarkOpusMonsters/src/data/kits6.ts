@@ -734,8 +734,8 @@ defMark({ id: 'magpie_hacked', name: 'pecked', clock: 'own', volatile: true, neg
   forbid(b, f, what) { return typeof what === 'object' ? 'Hacked.' : null; } });
 defPassive({ id: 'magpie_each', name: 'One of Each', owner: 'magpie', text: 'When any whorl gains a good status: Picagi gains 1 turn of it too.',
   anyStatus(b, f, src, t, id) { if (isOut(b, f) && (GOOD as string[]).includes(id)) applyStatus(b, f, f, id, 1); } });
-defPassive({ id: 'magpie_wing', name: 'Under Wing', owner: 'magpie', text: 'When it comes out: Hidden 1 and Haste 1.',
-  comeOut(b, f) { applyStatus(b, f, f, 'hidden', 1); applyStatus(b, f, f, 'haste', 1); } });
+defPassive({ id: 'magpie_wing', name: 'Under Wing', owner: 'magpie', text: 'The first time it comes out: Hidden 1 and Haste 1.',
+  comeOut(b, f) { if (f.k.winged) return; f.k.winged = 1; applyStatus(b, f, f, 'hidden', 1); applyStatus(b, f, f, 'haste', 1); } });
 defMove({ id: 'magpie_snatch', name: 'Snatch', type: 'BEAST', owner: 'magpie', reach: 'single', tags: ['projectile'], cd: 1, fx: 'flare | feather*3 line fast | slash', text: 'Hits 3 times for 29% ATK.',
   run(c) { for (let i = 0; i < 3 && !c.tgt.ko; i++) c.hit(c.tgt, { atk: 0.29 }); } });
 defMove({ id: 'magpie_pecks', name: 'Three Pecks', type: 'STAR', owner: 'magpie', reach: 'single', cd: 4, fx: 'lunge | star*3 converge | bite', text: 'Hits for 50% ATK. Pecked 1: it can\'t use moves at its next turn.',
@@ -1142,11 +1142,11 @@ defPassive({ id: 'astrolabe_measuring', name: 'Measuring', owner: 'astrolabe', t
 defPassive({ id: 'astrolabe_longsight', name: 'Long Sight', owner: 'astrolabe', text: 'It may Measure in a joint round: choose after the foe acts, and deal 1.2x.',
   waits() { return true; },
   outMul(b, f) { return b.waited === f.side ? 1.2 : 1; } });
-defMove({ id: 'astrolabe_sight', name: 'Sight Line', type: 'GEAR', owner: 'astrolabe', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | beam ray | flash', text: 'Hits for 107% MGK. Counts as 2 hits toward Measuring.',
-  run(c) { c.hit(c.tgt, { mgk: 1.07 }); if (!c.preview && (c.u.k.reading || 0) % 4 !== 3) c.u.k.reading = (c.u.k.reading || 0) + 1; } });
+defMove({ id: 'astrolabe_sight', name: 'Sight Line', type: 'GEAR', owner: 'astrolabe', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | beam ray | flash', text: 'Hits for 116% MGK. Counts as 2 hits toward Measuring.',
+  run(c) { c.hit(c.tgt, { mgk: 1.16 }); if (!c.preview && (c.u.k.reading || 0) % 4 !== 3) c.u.k.reading = (c.u.k.reading || 0) + 1; } });
 defMove({ id: 'astrolabe_ring', name: 'Brass Ring', type: 'GEAR', owner: 'astrolabe', reach: 'spread', tags: ['projectile', 'spell'], cd: 3, fx: 'spin | hoop*2 sweep | ring all',
-  text: 'Hits for 45% MGK. Splash 35%. Slow 2. The out foe\'s ready moves wait 1 more turn.',
-  run(c) { c.spread({ mgk: 0.45 }); c.st(c.tgt, 'slow', 2); if (!c.tgt.ko) shiftCd(c.b, c.tgt, 'ready', 1); } });
+  text: 'Hits for 41% MGK. Splash 35%. Slow 2. The out foe\'s ready moves wait 1 more turn.',
+  run(c) { c.spread({ mgk: 0.41 }); c.st(c.tgt, 'slow', 2); if (!c.tgt.ko) shiftCd(c.b, c.tgt, 'ready', 1); } });
 defMove({ id: 'astrolabe_shower', name: 'Star Shower', type: 'STAR', owner: 'astrolabe', reach: 'single', tags: ['projectile', 'spell'], cd: 3, fx: 'lift | star*4 rain | sparkle',
   text: 'Hits for 38% MGK. At its next 3 turns: hits the foe for 23% MGK, Slow 1.',
   run(c) { c.hit(c.tgt, { mgk: 0.38 }); c.mark(c.u, 'astrolabe_shrapnel', 1, 3); } });

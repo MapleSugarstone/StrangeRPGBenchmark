@@ -21,7 +21,7 @@ import { minuteHolder } from './minute';
 import { randomFit } from '../game/wildfit';
 import { aiPick, aiRoster, loopback, loopFaults } from '../net/loopback';
 import { BUILD, chooses, Foul, Lockstep, passiveAction, rebuild, sameNeed, stateHash, teamsFromPicks, type Choice, type Need, type PickRelease, type Release } from '../net/lockstep';
-import type { EndMsg, MatchMsg, PeekMsg } from '../net/protocol';
+import type { EndMsg, FromRoom, MatchMsg, PeekMsg } from '../net/protocol';
 import { pickProblems, ROSTER_SIZE, teamProblems, TEAM_SIZE, wireFromMon, type WireMon } from '../net/wire';
 import { clearStop, progressHead, runCtl, writeText } from './runctl';
 
@@ -209,18 +209,29 @@ for (let g = 0; g < N && !ctl.halted(); g++) {
 /** How the scripted side 1 plays a loopback match: a pick that runs out of time, a resignation, and an AI that never chooses. */
 interface Script { lazyPick: boolean; resignAt: number; idleAi: boolean; lag: number }
 
-/** Plays one loopback match as side 1 the way the battle screen does: report each decision, choose on copies, and apply each release in order. */
+/**
+ * Plays one loopback match of up to three games as side 1 the way the screens do: report each decision, choose on copies,
+ * apply each release in order, and say it is ready between games. Each game's copies are compared at its end.
+ */
 function loopMatch(k: number, s: Script): string | null {
   const link = loopback({ seed: 1000 + k, lag: s.lag, think: [5, 40], idle: s.idleAi });
   const mine = MINUTE ? roster([]).map(wireFromMon) : aiRoster(rnd);
   link.send({ type: 'hello', build: BUILD, name: 'Tellin', roster: mine });
   let match: MatchMsg | null = null, picked: PickRelease | null = null, ls: Lockstep | null = null, end: EndMsg | null = null, peek: PeekMsg | null = null;
-  let held: Release[] = [], reported = -1, chosen = -1, pickAt = -1, think = 0, timeouts = 0, skip = false, resigned = false;
-  for (let f = 0; f < 400000 && !end; f++) {
+  let held: Release[] = [], reported = -1, chosen = -1, pickAt = -1, think = 0, timeouts = 0, skip = false, resigned = false, games = 0, nextAt = -1;
+  for (let f = 0; f < 1_000_000; f++) {
     link.tick();
-    for (let m = link.poll(); m; m = link.poll()) {
+    if (f === nextAt) link.send({ type: 'next' });
+    // Reading stops at a game's end, so the next game's match waits as it does for the screens.
+    for (let m: FromRoom | null = end ? null : link.poll(); m; m = end ? null : link.poll()) {
       if (m.type === 'match') {
+        if (m.game !== games + 1) return `match ${k}: game ${m.game} started after ${games} games`;
         match = m;
+        picked = null;
+        ls = null;
+        held = [];
+        peek = null;
+        reported = chosen = -1;
         const bad = teamProblems(m.rosters[0]);
         if (bad.length) return `match ${k}: the AI's roster was refused: ${bad[0]}`;
         pickAt = s.lazyPick ? -1 : f + Math.floor(rnd() * 600);
@@ -238,15 +249,32 @@ function loopMatch(k: number, s: Script): string | null {
       if (MINUTE && !order.includes(0)) order[TEAM_SIZE - 1] = 0;
       link.send({ type: 'pick', order });
     }
-    if (!ls) continue;
-    for (let rel = held.find(r => r.n === ls!.n); rel; rel = held.find(r => r.n === ls!.n)) {
-      try { ls.apply(rel); } catch (e) { return `match ${k}: side 1 refused release ${rel.n}: ${(e as Error).message}`; }
-      ls.b.ev.length = 0;
-      held = held.filter(r => r !== rel);
-      peek = null;
-      if (rel.timeout[1]) timeouts++;
+    if (ls) {
+      for (let rel = held.find(r => r.n === ls!.n); rel; rel = held.find(r => r.n === ls!.n)) {
+        try { ls.apply(rel); } catch (e) { return `match ${k}: side 1 refused release ${rel.n} in game ${games + 1}: ${(e as Error).message}`; }
+        ls.b.ev.length = 0;
+        held = held.filter(r => r !== rel);
+        peek = null;
+        if (rel.timeout[1]) timeouts++;
+      }
     }
-    if (end) break;
+    if (end) {
+      games++;
+      const note = gameEnd(k, link, s, match, picked, ls, end, resigned);
+      if (note) return note;
+      if (end.final) return null;
+      if (end.wins[0] + end.wins[1] > games) return `match ${k}: ${end.wins.join(' and ')} games won after ${games} games`;
+      // Side 1 gives up once a match at most, so a later game plays out.
+      if (resigned) s = { ...s, resignAt: -1 };
+      end = null;
+      ls = null;
+      resigned = false;
+      nextAt = f + 1 + Math.floor(rnd() * 120);
+      tally('loop timeouts', timeouts);
+      timeouts = 0;
+      continue;
+    }
+    if (!ls) continue;
     const need = ls.next();
     ls.b.ev.length = 0;
     snapOf(ls.b);
@@ -264,10 +292,14 @@ function loopMatch(k: number, s: Script): string | null {
     link.send({ type: 'choose', n: ls.n, c });
     chosen = ls.n;
   }
-  if (!end) return `match ${k}: no end after 400000 frames at decision ${ls?.n}`;
+  return `match ${k}: no end after 1000000 frames in game ${games + 1} at decision ${ls?.n}`;
+}
+
+/** Checks one game's end: its reason, a resignation's result, and both copies and a rebuild from the room's record on the same battle. */
+function gameEnd(k: number, link: ReturnType<typeof loopback>, s: Script, match: MatchMsg | null, picked: PickRelease | null, ls: Lockstep | null, end: EndMsg, resigned: boolean): string | null {
   tally(`end ${end.why}`);
+  tally('loop games');
   tally('loop decisions', ls?.n ?? 0);
-  tally('loop timeouts', timeouts);
   const room = link.room;
   if (end.why === 'void') return `match ${k}: ended with no result at decision ${ls?.n}`;
   if (resigned && (end.why !== 'resign' || end.winner !== 0)) return `match ${k}: a resignation ended as ${end.why}`;
@@ -303,7 +335,7 @@ console.log(`timeouts ${count.timeouts || 0} (${count.idle || 0} battles with on
 console.log(`visits in the past ${count.visit || 0} (${count['visit timeouts'] || 0} timed out), battles where both sides went back ${count['both rewound'] || 0}, visitors that stayed by a swap ${count.stayed || 0}`);
 if (LOOPS) {
   const ends = Object.keys(count).filter(x => x.startsWith('end ')).map(x => `${x.slice(4)} ${count[x]}`).join(', ');
-  console.log(`loopback: ${matches} matches, ${count['loop decisions'] || 0} decisions, ${count['loop timeouts'] || 0} side 1 timeouts, ended by ${ends || 'nothing'}`);
+  console.log(`loopback: ${matches} matches of ${count['loop games'] || 0} games, ${count['loop decisions'] || 0} decisions, ${count['loop timeouts'] || 0} side 1 timeouts, ended by ${ends || 'nothing'}`);
 }
 for (const d of drifts.slice(0, 12)) console.log('DRIFT: ' + d);
 // A message the loopback room's readers refused is one the real room or a real client would refuse too.

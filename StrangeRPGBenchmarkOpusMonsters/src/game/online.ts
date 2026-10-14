@@ -1,5 +1,6 @@
 // Byssus, online play: the menu at the grotto counter, the roster check, the wait for a match, a code to type, the pick
-// screen, the inspect view, and the result. A match runs through a room on the server or a loopback room (Notes/online-design.md).
+// screen, the inspect view, the wait between games, and the result with its rematch. A match is the best of three games and
+// runs through a room on the server or a loopback room (Notes/online-design.md).
 import type { Mon } from '../battle/model';
 import { NOTIONS } from '../battle/registry';
 import { SPECIES } from '../data/species';
@@ -13,10 +14,12 @@ import { drawSprite } from '../engine/sprites';
 import { CANCELED, cancelQueue, heldSeat, leaveByssus, NetLink, queue, renewQueue, type HeldSeat, type QueueKind } from '../net/client';
 import { BUILD, Lockstep, rebuild, teamsFromPicks, type PickRelease } from '../net/lockstep';
 import { nameBlocked, shownPlayerName, STRANGER } from '../net/names';
-import { reasonText, type EndMsg, type Hello, type Link, type MatchMsg, type RejoinMsg } from '../net/protocol';
+import { FORMAT, GAMES_MAX, NEXT_SECONDS, reasonText, type EndMsg, type Hello, type Link, type MatchMsg, type RejoinMsg } from '../net/protocol';
+import { placeholderRoster, RANDOM_FORMAT, randomRosters } from '../net/random';
 import { DEFAULT_PICK, monFromWire, ROSTER_SIZE, shownWhorlName, TEAM_SIZE, teamProblems, whorlProblems, wireFromMon, wireKinds, type WireMon } from '../net/wire';
 import { tanneryExtras } from './api';
 import { onlineBattle } from './battleView';
+import { choose } from './dialogue';
 import { listMenu, monPage } from './menus';
 import { close, run, top, type Mode } from './modes';
 import { addToTally, byssusUnlocked, G, heroName, onlineTally, save, slotNow } from './state';
@@ -232,7 +235,10 @@ export function rosterScreen(): Promise<void> {
 // ---------------------------------------------------------------- waiting for a match
 
 /** What starts a match: a link already open, such as a loopback room's, a queue request that opens one, or a held seat to take back. */
-export type Start = { link: Link } | { kind: QueueKind; code?: string } | { resume: HeldSeat };
+export type Start = { link: Link } | { kind: QueueKind; code?: string; random?: boolean } | { resume: HeldSeat };
+
+/** Whether a start is a random battle, whose rosters both sides build from the room's seed. */
+const isRandom = (s: Start): boolean => ('kind' in s && !!s.random) || ('resume' in s && !!s.resume.random);
 
 /** How a wait ended: the match on its link, a held seat's match taken back, a refusal or an end before any match, or null when the player canceled. */
 type Linked = { link: Link; m: MatchMsg } | { link: Link; r: RejoinMsg } | { link: Link | null; end?: EndMsg; refused?: string } | null;
@@ -258,16 +264,16 @@ export class Linking implements Mode {
   /** A held seat's link sends its own hello with the seat's token, so `hello` is null for it. */
   constructor(readonly start: Start, readonly hello: Hello | null) {
     if ('link' in start) { this.open(start.link); return; }
-    if ('resume' in start) { this.open(new NetLink(start.resume.room, { resume: start.resume.token, slot: start.resume.slot, side: start.resume.side, foe: start.resume.foe })); return; }
+    if ('resume' in start) { this.open(new NetLink(start.resume.room, { resume: start.resume.token, slot: start.resume.slot, side: start.resume.side, foe: start.resume.foe, random: start.resume.random })); return; }
     this.asking = true;
-    void queue(start.kind, start.code).then(reply => {
+    void queue(start.kind, start.code, start.random ? RANDOM_FORMAT : FORMAT).then(reply => {
       this.asking = false;
       // A reply that came after the player left was dropped by `queue`, which gave its place back.
       if (this.done || (!reply.ok && reply.reason === CANCELED)) return;
       if (!reply.ok) { this.refused = reply.reason; return; }
       this.room = reply.room;
       this.code = reply.code ?? '';
-      this.open(new NetLink(reply.room, { slot: slotNow() }));
+      this.open(new NetLink(reply.room, { slot: slotNow(), random: !!start.random }));
     });
   }
 
@@ -393,6 +399,7 @@ export class PickScreen implements Mode {
       if (msg.type === 'picked') { this.picked = { picks: msg.picks, timeout: msg.timeout }; break; }
       if (msg.type === 'end') { this.ended = msg; break; }
       if (msg.type === 'rejoin') {
+        if (msg.last) { this.ended = msg.last; break; }
         if (msg.picked) { this.picked = msg.picked; this.rejoin = msg; break; }
         this.resumed(msg);
       }
@@ -454,8 +461,11 @@ export class PickScreen implements Mode {
   draw(): void {
     // A plain dark ground, so nothing from a backdrop shows between the cards.
     rect(0, 0, 192, 192, INK);
-    const reveal = !!this.picked, name = shownPlayerName(this.m.names[1 - this.me]);
-    text(reveal ? 'Both fours' : 'Pick four', 6, 3, SEL);
+    const reveal = !!this.picked, name = shownPlayerName(this.m.names[1 - this.me]), title = reveal ? 'Both fours' : 'Pick four';
+    text(title, 6, 3, SEL);
+    // The game and the games won sit between the title and the clock.
+    const g = gameLine(this.m), gx = Math.round(96 - textWidth(g) / 2);
+    if (gx >= 12 + textWidth(title) && gx + textWidth(g) <= 160) text(g, gx, 3, DIM);
     if (!reveal && !this.ended) {
       const s = Math.ceil(this.left / 60), c = s <= 10 ? WARN : MINE;
       textRight(`${s}s`, 186, 3, c);
@@ -524,6 +534,11 @@ export class PickScreen implements Mode {
   }
 }
 
+/** The game in hand and the games each side has won, from this side. */
+function gameLine(m: MatchMsg): string {
+  return m.wins[0] || m.wins[1] ? `Game ${m.game}, ${m.wins[m.side]} to ${m.wins[1 - m.side]}` : `Game ${m.game} of ${GAMES_MAX}`;
+}
+
 /** Why the link ended on this side, when it is a network link that knows. */
 const linkProblem = (link: Link | null): string => (link instanceof NetLink ? link.problem : '');
 
@@ -540,16 +555,20 @@ function endReason(e: EndMsg, me: 0 | 1, name: string, problem = ''): string {
 // ---------------------------------------------------------------- the match
 
 /**
- * How a match ended. It carries the match and the picks when it got that far, and it says so when a refusal or a cancel came before any match.
- * A held seat that finds its match already over has no match in hand, so it carries the seat's side and the other player's name instead.
+ * How a match ended. It carries the last game and its picks when it got that far, and it says so when a refusal or a cancel came before any match.
+ * A held seat that finds its match already over has no game in hand, so it carries the seat's side and the other player's name instead.
+ * `link` is the room's link, still open for a rematch, `random` marks a random battle, and `left` says this side left between games.
  */
-export interface MatchResult { end: EndMsg | null; match?: MatchMsg; picked?: PickRelease; refused?: string; canceled?: boolean; problem?: string; side?: 0 | 1; foe?: string }
+export interface MatchResult {
+  end: EndMsg | null; match?: MatchMsg; picked?: PickRelease; refused?: string; canceled?: boolean; problem?: string; side?: 0 | 1; foe?: string;
+  link?: Link; random?: boolean; left?: boolean;
+}
 
 /** Whether this side won or lost a match, or null for a match that never began, was canceled or refused, or ended with no winner. */
 export function outcomeOf(r: MatchResult): 'won' | 'lost' | null {
   const side = r.match?.side ?? r.side;
-  if (!r.end || side === undefined || r.canceled || r.refused || r.end.winner === null) return null;
-  return r.end.winner === side ? 'won' : 'lost';
+  if (!r.end || side === undefined || r.canceled || r.refused || r.end.matchWinner === null) return null;
+  return r.end.matchWinner === side ? 'won' : 'lost';
 }
 
 /** Puts a finished match on the tally. The caller saves, since a rejoin from the title may have no file to save into. */
@@ -558,46 +577,183 @@ function recordMatch(r: MatchResult): void {
   if (o) addToTally(o === 'won');
 }
 
-/** Plays one match: the wait for a match on a link or through the lobby, the pick, and the battle. A held seat's start takes its match back. */
+/** Plays one match: the wait for it on a link or through the lobby, then each game's pick and battle. A held seat's start takes its match back. */
 export async function playMatch(start: Start, roster: WireMon[], name: string): Promise<MatchResult> {
-  const got = await run<Linked>(new Linking(start, 'resume' in start ? null : { type: 'hello', build: BUILD, name, roster }));
+  const random = isRandom(start);
+  // A random battle's hello carries any legal roster, since both sides build the real ones from the match's deal.
+  const sent = random ? placeholderRoster() : roster;
+  const got = await run<Linked>(new Linking(start, 'resume' in start ? null : { type: 'hello', build: BUILD, name, roster: sent }));
   if (!got) return { end: null, canceled: true };
-  if ('m' in got) return goOn(got.link, got.m, null);
-  if ('r' in got) return goOn(got.link, { ...got.r, type: 'match', token: '' }, got.r);
+  if ('m' in got) return playGames(got.link, got.m, null, random);
+  if ('r' in got) return playGames(got.link, { ...got.r, type: 'match', token: '' }, got.r, random);
   got.link?.close();
   const seat = 'resume' in start ? { side: start.resume.side, foe: start.resume.foe } : {};
   return { end: got.end ?? null, refused: got.refused || undefined, problem: linkProblem(got.link), ...seat };
 }
 
-/** The rest of a match from its start or from a rejoin: the pick while it runs, and then the battle rebuilt from the record. */
-async function goOn(link: Link, m: MatchMsg, r: RejoinMsg | null): Promise<MatchResult> {
+/** A random battle's game with both rosters built from the match's deal in place of the ones the hellos carried. */
+function seeded(m: MatchMsg, random: boolean): MatchMsg {
+  return random ? { ...m, rosters: randomRosters(m.deal) } : m;
+}
+
+/**
+ * Plays a match's games on one link from its first game or a rejoin until the match ends: each game's pick and battle, and
+ * the wait between games. The link stays open after the end for a rematch.
+ */
+async function playGames(link: Link, first: MatchMsg, r: RejoinMsg | null, random: boolean): Promise<MatchResult> {
+  let m = seeded(first, random), picked: PickRelease | undefined;
+  for (;;) {
+    const g = r?.last ? { end: r.last } : await playGame(link, m, r);
+    picked = g.picked ?? picked;
+    const e = g.end;
+    if (!e || e.final) return { end: e, match: m, picked, problem: linkProblem(link), link, random };
+    const next = await run<Between>(new BetweenScreen(link, m, e));
+    if ('end' in next) return { end: next.end, match: m, picked, problem: linkProblem(link), link, random, left: next.left };
+    m = seeded(next.m, random);
+    r = next.r ?? null;
+  }
+}
+
+/** One game: the pick while it runs, and then the battle, rebuilt from the record when a rejoin finds it under way. */
+async function playGame(link: Link, m: MatchMsg, r: RejoinMsg | null): Promise<{ end: EndMsg | null; picked?: PickRelease }> {
   let picked = r?.picked ?? null, open = r;
   if (!picked) {
     const p = await run<{ picked?: PickRelease; end?: EndMsg; rejoin?: RejoinMsg | null }>(new PickScreen(link, m, r));
-    if (!p.picked) { link.close(); return { end: p.end ?? null, match: m, problem: linkProblem(link) }; }
+    if (!p.picked) return { end: p.end ?? null };
     picked = p.picked;
     open = p.rejoin ?? null;
   }
   let ls: Lockstep;
-  // A copy that comes back mid-match replays the record with no events, as a reloaded page does.
+  // A copy that comes back mid-game replays the record with no events, as a reloaded page does.
   try { ls = open ? rebuild(m.rosters, m.names, m.side, picked, open.record) : new Lockstep(teamsFromPicks(m.rosters, picked), m.names, m.side); }
   catch (e) {
     link.send({ type: 'foul', n: -1, why: reasonText((e as Error).message) });
-    link.close();
-    return { end: { type: 'end', why: 'void', winner: null }, match: m, picked };
+    return { end: { type: 'end', why: 'void', winner: null, wins: m.wins, final: true, matchWinner: null }, picked };
   }
   const out = await onlineBattle(ls, link, m, open);
-  link.close();
-  return { end: out.end ?? null, match: m, picked, problem: linkProblem(link) };
+  return { end: out.end ?? null, picked };
 }
 
-/** Takes back a seat this tab holds: the wait for the room, then the pick or the battle where they are, and the result. */
+/** Takes back a seat this tab holds: the wait for the room, then the game where they are, the rest of the match, and the result. */
 export async function rejoinMatch(seat: HeldSeat): Promise<MatchResult> {
-  const r = await playMatch({ resume: seat }, [], heroName());
-  lastMatch = r;
-  recordMatch(r);
-  if (!r.canceled) await run<boolean>(new ResultScreen(r, false));
-  return r;
+  const was = inByssus;
+  inByssus = true;
+  try {
+    const r = await playMatch({ resume: seat }, [], heroName());
+    await afterMatch(r);
+    return r;
+  } finally { inByssus = was; }
+}
+
+/** Shows a match's result and plays each rematch on the same link until the player leaves. `keep` saves after each match. */
+async function afterMatch(r: MatchResult, keep: () => void = () => {}): Promise<void> {
+  for (;;) {
+    lastMatch = r;
+    recordMatch(r);
+    keep();
+    if (r.canceled) return;
+    const m = await run<MatchMsg | null>(new ResultScreen(r));
+    if (!m || !r.link) return;
+    r = await playGames(r.link, m, null, !!r.random);
+  }
+}
+
+// ---------------------------------------------------------------- between games
+
+/** How the wait between games ended: the next game, with the rejoin that carried it after a drop, or the match's end. */
+type Between = { m: MatchMsg; r?: RejoinMsg } | { end: EndMsg; left?: boolean };
+
+/** Between games: the last game's winner, the games won, and Next game or Leave. The next game starts once both players are ready. */
+export class BetweenScreen implements Mode {
+  opaque = true;
+  t = 0;
+  sel = 0;
+  /** True once this side has said it is ready. */
+  sent = false;
+  done = false;
+  /** When the other side's seat hold ends by this page's clock while its link is down, or 0. */
+  awayUntil = 0;
+  readonly name: string;
+
+  constructor(readonly link: Link, readonly m: MatchMsg, readonly end: EndMsg) {
+    this.name = shownPlayerName(m.names[1 - m.side]);
+  }
+
+  get choices(): string[] { return this.sent ? ['Leave'] : ['Next game', 'Leave']; }
+
+  /** Closes this screen and anything open over it. */
+  stop(v: Between): void {
+    if (this.done) return;
+    this.done = true;
+    while (top() && top() !== this) close(top()!);
+    close(this, v);
+  }
+
+  tick(): void {
+    if (this.done) return;
+    this.link.tick();
+    for (let msg = this.link.poll(); msg; msg = this.link.poll()) {
+      if (msg.type === 'match') { sfx('link'); this.stop({ m: msg }); return; }
+      if (msg.type === 'end') { this.stop({ end: msg }); return; }
+      if (msg.type === 'rejoin') {
+        // The room may have missed this side's word while the link was down, so it goes again.
+        if (msg.last) { if (this.sent) this.link.send({ type: 'next' }); continue; }
+        this.stop({ m: { ...msg, type: 'match', token: '' }, r: msg });
+        return;
+      }
+      if ((msg.type === 'away' || msg.type === 'back') && msg.side !== this.m.side) this.awayUntil = msg.type === 'away' ? Date.now() + msg.left * 1000 : 0;
+    }
+  }
+
+  update(): void {
+    this.t++;
+    if (this.done) return;
+    if (!this.sent && (input.hit('up') || input.hit('down'))) { this.sel = 1 - this.sel; sfx('move'); }
+    if (input.hit('back')) { sfx('back'); void this.leave(); return; }
+    if (!input.hit('ok')) return;
+    sfx('ok');
+    if (this.choices[this.sel] === 'Next game') { this.sent = true; this.sel = 0; this.link.send({ type: 'next' }); return; }
+    void this.leave();
+  }
+
+  /** Leaving between games gives the match to the other player, so it asks first. */
+  async leave(): Promise<void> {
+    const k = await choose(['Leave', 'Stay'], true, `Leave the match? It goes to ${this.name}.`);
+    if (k !== 0 || this.done) return;
+    const foe = (1 - this.m.side) as 0 | 1;
+    this.link.send({ type: 'resign' });
+    this.link.close();
+    this.stop({ end: { type: 'end', why: 'resign', winner: foe, wins: this.end.wins, final: true, matchWinner: foe }, left: true });
+  }
+
+  draw(): void {
+    backdrop();
+    const e = this.end, me = this.m.side, foe = (1 - me) as 0 | 1, name = this.name, g = this.m.game;
+    const head = e.winner === me ? `Game ${g}: you win.` : e.winner === foe ? `Game ${g}: ${name} wins.` : `Game ${g}: no winner.`;
+    const why = e.why === 'resign' ? wrap(e.winner === me ? `${name} gave up the game.` : 'You gave up the game.', 140) : [];
+    const wait = wrap(this.sent ? `Waiting for ${name}.` : `Game ${g + 1} starts once you are both ready.`, 140);
+    const lines = why.length + wait.length;
+    panel(20, 56, 152, 48 + this.choices.length * 10 + lines * 9, undefined, { head: 11 });
+    textCenter(head, 96, 59, SEL);
+    let y = 74;
+    let tx = Math.round(96 - textWidth(`You ${e.wins[me]}, ${name} ${e.wins[foe]}`) / 2);
+    tx = text('You ', tx, y, DIM);
+    tx = text(String(e.wins[me]), tx, y, GOOD);
+    tx = text(`, ${name} `, tx, y, DIM);
+    text(String(e.wins[foe]), tx, y, BADC);
+    y += 12;
+    why.forEach(l => { textCenter(l, 96, y, PAPER); y += 9; });
+    wait.forEach(l => { textCenter(l, 96, y, this.sent ? SEL : DIM); y += 9; });
+    y += 4;
+    this.choices.forEach((l, k) => {
+      const ry = y + k * 10;
+      if (k === this.sel) { rowBar(70, ry, 52); text('\u0001', 72, ry, SEL); }
+      text(l, 82, ry, k === this.sel ? SEL : PAPER);
+    });
+    const down = linkLine(this.link, this.awayUntil, fit(name, 48));
+    if (down) hintLine(down, WARN);
+    else hintLine(`It starts in ${NEXT_SECONDS} seconds either way.`);
+  }
 }
 
 // ---------------------------------------------------------------- the result
@@ -605,51 +761,100 @@ export async function rejoinMatch(seat: HeldSeat): Promise<MatchResult> {
 /** The choice the result screen opened on last. */
 let lastResult = 0;
 
-/** A match's result in one panel with the reason, and Again or Back. Closes with true for Again. A rejoined match offers only Back. */
+/**
+ * A match's result in one panel: who won the match, the games won, the reason, and the tally. Rematch asks the other player
+ * for another match on the same link, and Leave goes back. A match that never began or whose link is gone offers only Back.
+ * Closes with the rematch's first game, or with null.
+ */
 export class ResultScreen implements Mode {
   opaque = true;
   t = 0;
   sel: number;
   readonly head: string;
   readonly why: string[];
-  readonly choices: string[];
+  readonly score: string;
+  choices: string[];
+  /** The rematch line: the other player asked or left, or this side waits. */
+  note = '';
+  asked = false;
+  done = false;
+  readonly name: string;
+  readonly me: 0 | 1 | undefined;
 
-  constructor(r: MatchResult, again = true) {
+  constructor(readonly r: MatchResult) {
     const m = r.match, e = r.end, me = m?.side ?? r.side;
     const foe = m ? m.names[1 - m.side] : r.foe, name = foe === undefined ? 'The other player' : shownPlayerName(foe);
-    this.head = !e || r.refused ? 'No match' : me === undefined ? 'No result.' : e.winner === me ? 'You win.' : e.winner !== null ? `${name} wins.` : 'No result.';
-    const plain = e?.why === 'over' ? 'The battle is over.' : e && me === undefined ? 'The match ended while this page was away.' : '';
-    this.why = wrap(r.refused || (e && me !== undefined ? endReason(e, me, name, r.problem) : '') || plain, 140);
-    this.choices = again ? ['Again', 'Back'] : ['Back'];
-    this.sel = again ? lastResult : 0;
+    this.me = me;
+    this.name = name;
+    this.head = !e || r.refused ? 'No match' : me === undefined ? 'No result.' : e.matchWinner === me ? 'You win the match.' : e.matchWinner !== null ? `${name} wins the match.` : 'No result.';
+    const why = r.left ? 'You left the match.' : e && me !== undefined ? endReason(e, me, name, r.problem) : e ? 'The match ended while this page was away.' : '';
+    this.why = wrap(r.refused || why, 140);
+    this.score = e && me !== undefined && (e.wins[0] || e.wins[1]) ? `Games: you ${e.wins[me]}, ${name} ${e.wins[1 - me]}` : '';
+    const open = !!r.link && !!e?.final && !r.left && !r.refused && me !== undefined && e.why !== 'gone';
+    this.choices = open ? ['Rematch', 'Leave'] : ['Back'];
+    this.sel = open ? lastResult : 0;
+  }
+
+  /** Reads the rematch from the link: the other player asking, leaving, or the first game of the rematch. */
+  tick(): void {
+    const link = this.r.link;
+    if (!link || this.done) return;
+    link.tick();
+    for (let msg = link.poll(); msg; msg = link.poll()) {
+      if (msg.type === 'match') { sfx('link'); this.done = true; close(this, msg); return; }
+      if (msg.type === 'again' && msg.side !== this.me) this.note = `${this.name} wants a rematch.`;
+      if (msg.type === 'left') { this.note = msg.side === this.me ? 'The link closed.' : `${this.name} left.`; this.choices = ['Back']; this.sel = 0; }
+    }
   }
 
   update(): void {
     this.t++;
-    const n = this.choices.length, back = () => { if (n > 1) lastResult = this.sel; close(this, this.choices[this.sel] === 'Again'); };
+    if (this.done) return;
+    const n = this.choices.length;
     if (n > 1 && (input.hit('up') || input.hit('down'))) { this.sel = 1 - this.sel; sfx('move'); }
-    if (input.hit('back')) { sfx('back'); this.sel = n - 1; back(); return; }
-    if (input.hit('ok')) { sfx('ok'); back(); }
+    if (input.hit('back')) { sfx('back'); this.leave(); return; }
+    if (!input.hit('ok')) return;
+    sfx('ok');
+    if (this.choices[this.sel] === 'Rematch') {
+      lastResult = 0;
+      this.asked = true;
+      this.r.link!.send({ type: 'again' });
+      this.choices = ['Leave'];
+      this.sel = 0;
+      this.note = `Waiting for ${this.name}.`;
+      return;
+    }
+    if (n > 1) lastResult = this.sel;
+    this.leave();
+  }
+
+  leave(): void {
+    this.done = true;
+    this.r.link?.close();
+    close(this, null);
   }
 
   draw(): void {
     backdrop();
-    const h = 40 + this.choices.length * 10 + this.why.length * 9;
-    panel(20, 60, 152, h, undefined, { head: 11 });
+    const lines = this.why.length + (this.score ? 1 : 0) + (this.note ? 1 : 0);
+    panel(20, 60, 152, 40 + this.choices.length * 10 + lines * 9, undefined, { head: 11 });
     textCenter(this.head, 96, 63, SEL);
-    this.why.forEach((l, k) => textCenter(l, 96, 78 + k * 9, PAPER));
-    const t = onlineTally(), won = `${t.won} won`, lost = `${t.lost} lost`, ty = 80 + this.why.length * 9;
+    let y = 78;
+    if (this.score) { textCenter(this.score, 96, y, PAPER); y += 9; }
+    this.why.forEach(l => { textCenter(l, 96, y, PAPER); y += 9; });
+    if (this.note) { textCenter(this.note, 96, y, SEL); y += 9; }
+    const t = onlineTally(), won = `${t.won} won`, lost = `${t.lost} lost`, ty = y + 2;
     let tx = Math.round(96 - textWidth(`Tally ${won}, ${lost}`) / 2);
     tx = text('Tally ', tx, ty, DIM);
     tx = text(won, tx, ty, GOOD);
     tx = text(', ', tx, ty, DIM);
     text(lost, tx, ty, BADC);
     this.choices.forEach((l, k) => {
-      const y = 92 + this.why.length * 9 + k * 10;
-      if (k === this.sel) { rowBar(70, y, 52); text('\u0001', 72, y, SEL); }
-      text(l, 82, y, k === this.sel ? SEL : PAPER);
+      const ry = y + 14 + k * 10;
+      if (k === this.sel) { rowBar(70, ry, 52); text('\u0001', 72, ry, SEL); }
+      text(l, 82, ry, k === this.sel ? SEL : PAPER);
     });
-    hintLine(this.choices.length > 1 ? 'Again uses the same roster.' : 'Z goes back.');
+    hintLine(this.choices[0] === 'Rematch' ? (this.r.random ? 'Rematch draws new whorls.' : 'Rematch keeps both rosters.') : this.asked ? 'X leaves.' : 'Z goes back.');
   }
 }
 
@@ -725,15 +930,16 @@ export class CodeEntry implements Mode {
 
 // ---------------------------------------------------------------- Byssus at the grotto counter
 
-const SERVICE = ['Find someone', 'Make a code', 'Use a code', 'Roster', 'Leave'] as const;
+const SERVICE = ['Find someone', 'Make a code', 'Use a code', 'Random battle', 'Roster', 'Leave'] as const;
 
 /** What each choice on the Byssus menu does, for its detail panel. */
 function serviceText(k: number): string {
   const p = rosterNow().problems;
-  if (k === 0) return 'Spins a thread to anyone else who is looking for a match.';
+  if (k === 0) return 'Spins a thread to anyone else who is looking for a match. A match is the best of three games.';
   if (k === 1) return 'Makes a code for one friend to use. It lasts 15 minutes.';
   if (k === 2) return 'Uses a code a friend made.';
-  if (k === 3) return p.length ? `${p.length} to fix: ${p[0]}` : 'Six to show, four to fight, all at level 25.';
+  if (k === 3) return 'Both sides get six random whorls, some of them hybrids, and pick four for each game. Find someone, make a code, or use one.';
+  if (k === 4) return p.length ? `${p.length} to fix: ${p[0]}` : 'Six to show, four to fight, all at level 25.';
   return 'Back to the counter.';
 }
 
@@ -753,6 +959,14 @@ function tallyPanel(x: number, y: number, w: number): void {
  * While this tab holds a seat in a match that may still be running, Rejoin heads the menu and the cursor starts on it.
  */
 export async function byssus(): Promise<void> {
+  inByssus = true;
+  try { await byssusMenu(); } finally { inByssus = false; }
+}
+
+/** True while the player is in online play. Crest and tide text show in full there, as in Practice, before the story opens tide. */
+export let inByssus = false;
+
+async function byssusMenu(): Promise<void> {
   for (;;) {
     const o = onlineSave(), seat = heldSeat(), first = seat ? 1 : 0;
     const k = await listMenu('Byssus', [...(seat ? ['Rejoin'] : []), ...SERVICE], {
@@ -770,6 +984,11 @@ export async function byssus(): Promise<void> {
     if (k < 0 || SERVICE[s] === 'Leave') { save(); return; }
     o.menu = s;
     if (SERVICE[s] === 'Roster') { await rosterScreen(); save(); continue; }
+    if (SERVICE[s] === 'Random battle') {
+      const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'A random battle: six whorls each, drawn at random.');
+      if (r >= 0) await matches(r === 0 ? 'public' : r === 1 ? 'host' : 'join', true);
+      continue;
+    }
     await matches(s === 0 ? 'public' : s === 1 ? 'host' : 'join');
   }
 }
@@ -777,23 +996,16 @@ export async function byssus(): Promise<void> {
 /** The last match played from the Byssus menu, for tests. */
 export let lastMatch: MatchResult | null = null;
 
-/** Plays matches of one kind until the player chooses Back: the roster check, a code when one is needed, the match, and its result. */
-async function matches(kind: QueueKind): Promise<void> {
-  for (;;) {
-    if (rosterNow().problems.length) { await rosterScreen(); if (rosterNow().problems.length) return; }
-    let code: string | undefined;
-    if (kind === 'join') {
-      const c = await run<string | null>(new CodeEntry());
-      if (!c) return;
-      code = c;
-    }
-    const r = await playMatch({ kind, code }, rosterNow().roster, heroName());
-    lastMatch = r;
-    recordMatch(r);
-    save();
-    if (r.canceled) return;
-    if (!(await run<boolean>(new ResultScreen(r)))) return;
+/** Plays a match of one kind and its rematches: the roster check, a code when one is needed, the match, and its result. A random battle needs no roster. */
+async function matches(kind: QueueKind, random = false): Promise<void> {
+  if (!random && rosterNow().problems.length) { await rosterScreen(); if (rosterNow().problems.length) return; }
+  let code: string | undefined;
+  if (kind === 'join') {
+    const c = await run<string | null>(new CodeEntry());
+    if (!c) return;
+    code = c;
   }
+  await afterMatch(await playMatch({ kind, code, random }, random ? [] : rosterNow().roster, heroName()), save);
 }
 
 tanneryExtras.push({ label: 'Byssus', when: byssusUnlocked, run: async () => { await introduceByssus(); await byssus(); } });

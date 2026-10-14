@@ -4,7 +4,7 @@
 // imports game code, so the Worker shares this file with the game (Notes/online-design.md).
 
 /** Raise this with any change to the messages or the record. */
-export const PROTOCOL = 4;
+export const PROTOCOL = 5;
 /** Whorls a player queues with, and whorls each side picks from them to fight. */
 export const ROSTER_SIZE = 6, TEAM_SIZE = 4;
 /** What a queue pairs by besides the build: the roster size, the team size, and the level. */
@@ -17,6 +17,12 @@ export const CHOICE_SECONDS = 60, REPLACE_SECONDS = 30;
 export const NETWORK_GRACE_SECONDS = 3;
 /** Timeouts in a row that lose the match. */
 export const TIMEOUTS_TO_LOSE = 3;
+/** Games a side must win to take a match, and the most games a match runs. */
+export const GAMES_TO_WIN = 2, GAMES_MAX = 3;
+/** Seconds the room waits between games for both players before it starts the next pick anyway. */
+export const NEXT_SECONDS = 30;
+/** Seconds the room stays open after a match for both players to ask for a rematch. */
+export const REMATCH_SECONDS = 60;
 /** Seconds the room waits for a report before it starts a side's clock anyway. */
 export const REPORT_WAIT_SECONDS = 30;
 /** Seconds the room holds the seat of a player whose connection dropped before the other side wins. */
@@ -81,7 +87,10 @@ export interface WireMon {
 /** The seconds each clock allows as the room sends them with a match. */
 export interface ClockSpec { pick: number; choice: number; replace: number }
 
-/** Why a match ended: a finished battle, a resignation, three timeouts in a row, a seat that left, or no result. */
+/**
+ * Why a game ended: a finished battle, a resignation, three timeouts in a row, a seat that left, or no result. Every reason
+ * but a finished battle and a resignation during a game ends the match as well.
+ */
 export type EndWhy = 'over' | 'resign' | 'timeouts' | 'gone' | 'void';
 const END_WHYS: readonly string[] = ['over', 'resign', 'timeouts', 'gone', 'void'];
 
@@ -101,26 +110,37 @@ export type ToRoom =
   | { type: 'choose'; n: number; c: Choice }
   | { type: 'resign' }
   | { type: 'foul'; n: number; why: string }
+  | { type: 'next' }
+  | { type: 'again' }
   | { type: 'ping' };
 
-/** The start of a match: this client's side, both names and rosters, a seed for the scene, and the time limits. */
-export interface MatchMsg { type: 'match'; side: 0 | 1; token: string; names: [string, string]; rosters: [WireMon[], WireMon[]]; seed: number; clock: ClockSpec }
+/**
+ * The start of a game: this client's side, both names and rosters, a seed for the scene, the seed a random battle's rosters
+ * come from, the game's number in the match, the games each side has won so far, and the time limits.
+ */
+export interface MatchMsg {
+  type: 'match'; side: 0 | 1; token: string; names: [string, string]; rosters: [WireMon[], WireMon[]]; seed: number; deal: number;
+  game: number; wins: [number, number]; clock: ClockSpec;
+}
 
 /** The other side's choice in a round this side foresees, or `timeout` true and `c` null when the other side ran out of time. */
 export interface PeekMsg { type: 'peek'; n: number; c: Choice; timeout: boolean }
 
-export interface EndMsg { type: 'end'; why: EndWhy; winner: 0 | 1 | null }
+/** The end of a game: why, its winner, and the games each side has won. `final` marks the end of the match, and `matchWinner` names its winner. */
+export interface EndMsg { type: 'end'; why: EndWhy; winner: 0 | 1 | null; wins: [number, number]; final: boolean; matchWinner: 0 | 1 | null }
 
 /**
  * A returning seat's whole match: the match itself, the released picks or null while the pick runs, every release so far,
  * and the decision in hand. `pickLeft` and `pick` are the pick clock's seconds and this side's last pick while the pick runs.
  * `chose` says whether the room holds this side's choice, `left` gives each side's seconds on a running clock, and `peek`
- * is the other side's choice in a round this side foresees once the room has shown it.
+ * is the other side's choice in a round this side foresees once the room has shown it. Between games `last` is the end of
+ * the game before, and the rest describes no game.
  */
 export interface RejoinMsg {
-  type: 'rejoin'; side: 0 | 1; names: [string, string]; rosters: [WireMon[], WireMon[]]; seed: number; clock: ClockSpec;
+  type: 'rejoin'; side: 0 | 1; names: [string, string]; rosters: [WireMon[], WireMon[]]; seed: number; deal: number;
+  game: number; wins: [number, number]; clock: ClockSpec;
   picked: PickRelease | null; record: Release[]; pickLeft: number; pick: number[] | null;
-  chose: boolean; left: [number | null, number | null]; peek: PeekMsg | null;
+  chose: boolean; left: [number | null, number | null]; peek: PeekMsg | null; last: EndMsg | null;
 }
 
 export type FromRoom =
@@ -134,6 +154,8 @@ export type FromRoom =
   | { type: 'away'; side: 0 | 1; left: number }
   | { type: 'back'; side: 0 | 1 }
   | EndMsg
+  | { type: 'again'; side: 0 | 1 }
+  | { type: 'left'; side: 0 | 1 }
   | { type: 'refused'; reason: string }
   | { type: 'resumeFailed'; reason: string }
   | { type: 'pong' };
@@ -417,7 +439,7 @@ function clientMessage(o: Obj): ToRoom | undefined {
       const f = obj(o, ['type', 'n', 'why']), why = f ? text(f.why, REASON_MAX) : NO;
       return f && whole(f.n, -1, DECISIONS_MAX) && why !== NO ? { type: 'foul', n: f.n, why } : NO;
     }
-    case 'ping': return obj(o, ['type']) ? { type: 'ping' } : NO;
+    case 'next': case 'again': case 'ping': return obj(o, ['type']) ? { type: o.type } : NO;
   }
   return NO;
 }
@@ -443,13 +465,29 @@ function readPeek(v: unknown): PeekMsg | undefined {
   return c === NO ? NO : { type: 'peek', n: o.n, c, timeout: o.timeout };
 }
 
-/** The parts a match and a rejoin share: both names and rosters, the seed, and the clock. */
-function readMatchParts(o: Obj): Pick<MatchMsg, 'side' | 'names' | 'rosters' | 'seed' | 'clock'> | undefined {
+/** Games won by each side. */
+const readWins = (v: unknown): [number, number] | undefined => {
+  const w = arr(v, 2, 2, x => (whole(x, 0, GAMES_MAX) ? x : NO));
+  return w ? [w[0], w[1]] : NO;
+};
+
+/** The parts a match and a rejoin share: both names and rosters, both seeds, the game and the games won, and the clock. */
+function readMatchParts(o: Obj): Pick<MatchMsg, 'side' | 'names' | 'rosters' | 'seed' | 'deal' | 'game' | 'wins' | 'clock'> | undefined {
   const names = arr(o.names, 2, 2, x => readName(x, PLAYER_NAME_MAX, false)), rosters = arr(o.rosters, 2, 2, x => readRoster(x, true));
-  const clock = obj(o.clock, ['pick', 'choice', 'replace']);
-  if (!isSide(o.side) || !names || !rosters || !whole(o.seed, 0, 0x7fffffff) || !clock) return NO;
+  const clock = obj(o.clock, ['pick', 'choice', 'replace']), wins = readWins(o.wins);
+  if (!isSide(o.side) || !names || !rosters || !whole(o.seed, 0, 0x7fffffff) || !whole(o.deal, 0, 0x7fffffff) || !whole(o.game, 1, GAMES_MAX) || !wins || !clock) return NO;
   if (!whole(clock.pick, 1, 600) || !whole(clock.choice, 1, 600) || !whole(clock.replace, 1, 600)) return NO;
-  return { side: o.side, names: [names[0], names[1]], rosters: [rosters[0], rosters[1]], seed: o.seed, clock: { pick: clock.pick, choice: clock.choice, replace: clock.replace } };
+  return {
+    side: o.side, names: [names[0], names[1]], rosters: [rosters[0], rosters[1]], seed: o.seed, deal: o.deal, game: o.game, wins,
+    clock: { pick: clock.pick, choice: clock.choice, replace: clock.replace },
+  };
+}
+
+function readEnd(v: unknown): EndMsg | undefined {
+  const e = obj(v, ['type', 'why', 'winner', 'wins', 'final', 'matchWinner']), wins = e ? readWins(e.wins) : NO;
+  if (!e || e.type !== 'end' || typeof e.why !== 'string' || !END_WHYS.includes(e.why) || !wins || typeof e.final !== 'boolean') return NO;
+  if ((e.winner !== null && !isSide(e.winner)) || (e.matchWinner !== null && !isSide(e.matchWinner))) return NO;
+  return { type: 'end', why: e.why as EndWhy, winner: e.winner as 0 | 1 | null, wins, final: e.final, matchWinner: e.matchWinner as 0 | 1 | null };
 }
 
 /** A lobby's answer to a queue request, rebuilt from its checked fields, or null for any other shape. */
@@ -480,18 +518,19 @@ function roomMessage(o: Obj): FromRoom | undefined {
       return isCode(w.code) ? { type: 'waiting', code: w.code } : NO;
     }
     case 'match': {
-      const m = obj(o, ['type', 'side', 'token', 'names', 'rosters', 'seed', 'clock']), parts = m && readMatchParts(m);
+      const m = obj(o, ['type', 'side', 'token', 'names', 'rosters', 'seed', 'deal', 'game', 'wins', 'clock']), parts = m && readMatchParts(m);
       return parts && isToken(m.token) ? { type: 'match', ...parts, token: m.token } : NO;
     }
     case 'rejoin': {
-      const r = obj(o, ['type', 'side', 'names', 'rosters', 'seed', 'clock', 'picked', 'record', 'pickLeft', 'pick', 'chose', 'left', 'peek']);
+      const r = obj(o, ['type', 'side', 'names', 'rosters', 'seed', 'deal', 'game', 'wins', 'clock', 'picked', 'record', 'pickLeft', 'pick', 'chose', 'left', 'peek', 'last']);
       const parts = r && readMatchParts(r);
       if (!r || !parts || !whole(r.pickLeft, 0, PICK_SECONDS + NETWORK_GRACE_SECONDS) || typeof r.chose !== 'boolean') return NO;
       const picked = r.picked === null ? null : readPickRelease(r.picked), record = arr(r.record, 0, DECISIONS_MAX, readRelease);
       const pick = r.pick === null ? null : readPick(r.pick), peek = r.peek === null ? null : readPeek(r.peek);
       const left = arr(r.left, 2, 2, x => (x === null || whole(x, 0, 600) ? (x as number | null) : NO));
-      if (picked === NO || !record || pick === NO || peek === NO || !left) return NO;
-      return { type: 'rejoin', ...parts, picked, record, pickLeft: r.pickLeft, pick, chose: r.chose, left: [left[0], left[1]], peek };
+      const last = r.last === null ? null : readEnd(r.last);
+      if (picked === NO || !record || pick === NO || peek === NO || !left || last === NO) return NO;
+      return { type: 'rejoin', ...parts, picked, record, pickLeft: r.pickLeft, pick, chose: r.chose, left: [left[0], left[1]], peek, last };
     }
     case 'picked': {
       const p = obj(o, ['type', 'picks', 'timeout']), rel = p ? readPickRelease({ picks: p.picks, timeout: p.timeout }) : NO;
@@ -514,9 +553,10 @@ function roomMessage(o: Obj): FromRoom | undefined {
       const b = obj(o, ['type', 'side']);
       return b && side(b.side) !== NO ? { type: 'back', side: b.side as 0 | 1 } : NO;
     }
-    case 'end': {
-      const e = obj(o, ['type', 'why', 'winner']);
-      return e && typeof e.why === 'string' && END_WHYS.includes(e.why) && (e.winner === null || isSide(e.winner)) ? { type: 'end', why: e.why as EndWhy, winner: e.winner } : NO;
+    case 'end': return readEnd(o);
+    case 'again': case 'left': {
+      const a = obj(o, ['type', 'side']);
+      return a && side(a.side) !== NO ? { type: o.type, side: a.side as 0 | 1 } : NO;
     }
     case 'refused': case 'resumeFailed': {
       const r = obj(o, ['type', 'reason']), reason = r ? text(r.reason, REASON_MAX) : NO;

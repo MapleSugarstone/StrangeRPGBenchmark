@@ -2,7 +2,7 @@
 // the clocks, the readers' refusals, and the limits. Each case is a rule from Notes/online-design.md or a defect the
 // sibling card game found in its own room.
 import worker from '../worker/index';
-import { CHOICE_SECONDS, HOLD_SECONDS, NETWORK_GRACE_SECONDS, PICK_SECONDS, REPORT_WAIT_SECONDS, type Choice, type Need } from '../../src/net/protocol';
+import { CHOICE_SECONDS, HOLD_SECONDS, NETWORK_GRACE_SECONDS, NEXT_SECONDS, PICK_SECONDS, REPORT_WAIT_SECONDS, type Choice, type Need } from '../../src/net/protocol';
 import { type Client, faults, lobbyHarness, logs, nowIs, RoomHarness, seedRandom, setNow, EPOCH } from './harness';
 
 declare const process: { exitCode: number; stdout: { write(s: string): void } };
@@ -41,6 +41,16 @@ async function decide(h: RoomHarness, side: [Client, Client], n: number, need: N
 
 const tokenOf = (c: Client) => c.last('match')!.token;
 const sideOf = (c: Client) => c.last('match')!.side;
+const over = (winner: 0 | 1): Need => ({ kind: 'over', winner, stalled: false });
+
+/** The side `loser` gives up the game in hand, both say they are ready, and it gives up the next one too, so the match ends 2 to 0. */
+async function giveUpMatch(h: RoomHarness, side: [Client, Client], loser: 0 | 1): Promise<void> {
+  await h.say(side[loser], { type: 'resign' });
+  for (const c of side) await h.say(c, { type: 'next' });
+  await picked(h, side);
+  await h.say(side[loser], { type: 'resign' });
+  check(side[0].last('end')?.final, 'two games given up end the match');
+}
 
 test('a match starts with a token for each seat and the same rosters on both', async () => {
   const h = new RoomHarness(), { a, b } = await pair(h);
@@ -336,13 +346,98 @@ test('players who go silent before reporting lose their seats to the silence che
 test('a finished match answers a returning token with its end and clears itself a minute later', async () => {
   const h = new RoomHarness(), { a, b, side } = await pair(h);
   await picked(h, side);
-  await h.say(a, { type: 'resign' });
+  await giveUpMatch(h, side, sideOf(a));
   await h.drop(b);
   const c = (await h.open())!;
   await h.say(c, { type: 'hello', build: 'test', resume: tokenOf(b) });
   check(c.last('end')?.why === 'resign' && c.last('end')?.winner === sideOf(b), 'the end reaches the returning seat');
   await h.advance(61 * S);
   check(!h.storage.data.size && !a.open, 'the room cleared its storage and its sockets');
+});
+
+test('a match is the best of three: each game waits for both players, keeps the deal, and the second win ends the match', async () => {
+  const h = new RoomHarness(), { side } = await pair(h);
+  const first = side[0].last('match')!;
+  check(first.game === 1 && first.wins.join() === '0,0' && first.deal === first.seed, 'the first game starts the match');
+  await picked(h, side);
+  for (const s of side) await h.say(s, { type: 'ready', n: 0, hash: 'aaaaaaaa', need: over(0) });
+  const e1 = side[1].last('end');
+  check(e1 && !e1.final && e1.winner === 0 && e1.wins.join() === '1,0' && e1.matchWinner === null, 'the first game ends and the match runs on');
+  await h.say(side[0], { type: 'next' });
+  check(side[0].all('match').length === 1, 'the next game waits for both players');
+  await h.say(side[1], { type: 'next' });
+  const m2 = side[0].last('match')!;
+  check(m2.game === 2 && m2.wins.join() === '1,0' && m2.seed !== first.seed && m2.deal === first.deal && m2.token === first.token, 'game 2 has a new scene and the same deal and seats');
+  check((await h.stored())!.record.length === 0, 'each game keeps its own record');
+  await picked(h, side);
+  for (const s of side) await h.say(s, { type: 'ready', n: 0, hash: 'aaaaaaaa', need: over(1) });
+  check(side[0].last('end')?.final === false && side[0].last('end')?.wins.join() === '1,1', 'one game each');
+  for (const c of side) await h.say(c, { type: 'next' });
+  await picked(h, side);
+  for (const s of side) await h.say(s, { type: 'ready', n: 0, hash: 'aaaaaaaa', need: over(0) });
+  const e3 = side[1].last('end');
+  check(e3 && e3.final && e3.matchWinner === 0 && e3.wins.join() === '2,1', 'the second win ends the match');
+});
+
+test('the next game starts after 30 seconds without both players, and waits for a player who is away', async () => {
+  const h = new RoomHarness(), { a, b, side } = await pair(h);
+  await picked(h, side);
+  await h.say(a, { type: 'resign' });
+  for (const s of side) h.ping(s);
+  await h.advance(NEXT_SECONDS * S);
+  check(a.last('match')?.game === 2 && b.last('match')?.game === 2, 'game 2 starts on time');
+  await h.say(b, { type: 'resign' });
+  await h.drop(a);
+  h.ping(b);
+  await h.advance((NEXT_SECONDS + 10) * S);
+  check(b.last('match')?.game === 2, 'game 3 waits for the player who is away');
+  const c = (await h.open())!;
+  await h.say(c, { type: 'hello', build: 'test', resume: tokenOf(a) });
+  const r = c.last('rejoin');
+  check(r && r.last && !r.last.final && r.last.wins.join() === '1,1' && r.picked === null && r.record.length === 0 && r.game === 2, 'the rejoin carries the end of game 2');
+  await h.advance(1 * S);
+  check(c.last('match')?.game === 3 && b.last('match')?.game === 3, 'game 3 starts once the player is back');
+});
+
+test('giving up between games ends the match, and a hold that runs out between games ends it too', async () => {
+  const h = new RoomHarness(), { a, b, side } = await pair(h);
+  await picked(h, side);
+  await h.say(a, { type: 'resign' });
+  await h.say(a, { type: 'resign' });
+  const e = b.last('end');
+  check(e && e.final && e.why === 'resign' && e.matchWinner === sideOf(b) && e.wins.join() === (sideOf(b) === 0 ? '1,0' : '0,1'), 'leaving between games gives up the match');
+  const h2 = new RoomHarness(), p = await pair(h2);
+  await picked(h2, p.side);
+  await h2.say(p.a, { type: 'resign' });
+  await h2.drop(p.b);
+  h2.ping(p.a);
+  await h2.advance(60 * S);
+  h2.ping(p.a);
+  await h2.advance((HOLD_SECONDS - 59) * S);
+  const g = p.a.last('end');
+  check(g && g.final && g.why === 'gone' && g.matchWinner === sideOf(p.a), 'the player still there takes the match');
+});
+
+test('a rematch starts once both players ask, with a new deal on the same seats, and leaving after a match ends the rematch', async () => {
+  const h = new RoomHarness(), { a, b, side } = await pair(h);
+  const first = a.last('match')!;
+  await picked(h, side);
+  await giveUpMatch(h, side, 0);
+  await h.say(a, { type: 'again' });
+  check(b.last('again')?.side === sideOf(a) && a.all('match').length === 2, 'the other player hears the ask, and nothing starts yet');
+  await h.say(b, { type: 'again' });
+  const m = a.last('match')!;
+  check(m.game === 1 && m.wins.join() === '0,0' && m.deal !== first.deal && m.token === first.token && sideOf(a) === first.side, 'the rematch starts game 1 with a new deal on the same seats');
+  logs.length = 0;
+  await picked(h, side);
+  await giveUpMatch(h, side, 1);
+  check(logs.filter(l => l.event === 'end').length === 1, 'the rematch logs its own end');
+  await h.drop(b);
+  check(a.last('left')?.side === sideOf(b), 'leaving after the match tells the other player');
+  await h.say(a, { type: 'again' });
+  check(a.all('left').length === 2 && !b.open, 'an ask after the other player left gets left again');
+  await h.advance(61 * S);
+  check(!h.storage.data.size, 'the room clears itself a minute after the match');
 });
 
 test('the end is logged once', async () => {

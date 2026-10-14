@@ -256,11 +256,11 @@ defPassive({ id: 'skitter_shadow', name: 'Shadow Leap', owner: 'skitter', text: 
 defPassive({ id: 'skitter_hops', name: 'Hop Count', owner: 'skitter', text: 'Each move adds a Hop. At 4 Hops its next move is a Full Hop and spends them.',
   afterMove(b, f) { if (f.k.fierce) { f.k.fierce = 0; f.k.fero = 0; return; } f.k.fero = (f.k.fero || 0) + 1; if (f.k.fero >= 4) { f.k.fierce = 1; msg(b, `${label(b, f)} crouches low.`); } } });
 const fierce = (c: Ctx) => !!c.u.k.fierce;
-defMove({ id: 'skitter_pounce', name: 'Pounce', type: 'BEAST', owner: 'skitter', reach: 'single', cd: 1, fx: 'hop | bite', text: 'Hits for 111% ATK. Next attack deals 1.5x. Full Hop: +74% ATK hit.',
-  run(c) { c.hit(c.tgt, { atk: 1.11 }); if (fierce(c) && !c.tgt.ko) c.hit(c.tgt, { atk: 0.74 }); c.u.k.nextAtkMul = 1.5; } });
+defMove({ id: 'skitter_pounce', name: 'Pounce', type: 'BEAST', owner: 'skitter', reach: 'single', cd: 1, fx: 'hop | bite', text: 'Hits for 100% ATK. Next attack deals 1.5x. Full Hop: +67% ATK hit.',
+  run(c) { c.hit(c.tgt, { atk: 1 }); if (fierce(c) && !c.tgt.ko) c.hit(c.tgt, { atk: 0.67 }); c.u.k.nextAtkMul = 1.5; } });
 defMove({ id: 'skitter_kick', name: 'Sand Kick', type: 'TIDE', owner: 'skitter', reach: 'spread', cd: 3, fx: 'hop | sand*3 sweep | splash',
-  text: 'Hits for 56% ATK. Splash 35%. Heals 8% max HP, 20% on a Full Hop.',
-  run(c) { c.spread({ atk: 0.56 }); c.heal(c.u, c.u.maxHp * (fierce(c) ? 0.2 : 0.08)); } });
+  text: 'Hits for 59% ATK. Splash 35%. Heals 8% max HP, 20% on a Full Hop.',
+  run(c) { c.spread({ atk: 0.59 }); c.heal(c.u, c.u.maxHp * (fierce(c) ? 0.2 : 0.08)); } });
 defMove({ id: 'skitter_burrow', name: 'Sand Throw', type: 'BEAST', owner: 'skitter', reach: 'single', tags: ['projectile'], cd: 3, fx: 'recoil | sand line | puff daze',
   text: 'Hits for 64% ATK. Slow 2. Full Hop: Root 2, its crest waits 1 more turn.',
   run(c) { c.hit(c.tgt, { atk: 0.64 }); c.st(c.tgt, 'slow', 2); if (fierce(c) && !c.tgt.ko) { c.st(c.tgt, 'root', 2); shiftCd(c.b, c.tgt, 3, 1); } } });

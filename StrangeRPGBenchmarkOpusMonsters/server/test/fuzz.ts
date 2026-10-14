@@ -26,7 +26,7 @@ const pickOf = <T>(a: readonly T[]): T => a[int(a.length)];
 
 const KINDS = ['cairn', 'hare', 'squall', 'dynamo', 'bramble', 'lune', 'tor', 'flare'];
 const roster = () => KINDS.slice(0, 6).map(k => ({ kind: k, name: k[0].toUpperCase() + k.slice(1), notion: null }));
-const NEEDS: Need[] = [{ kind: 'joint', sees: null }, { kind: 'joint', sees: 0 }, { kind: 'joint', sees: 1 }, { kind: 'act', side: 0 }, { kind: 'act', side: 1 }, { kind: 'replace', side: 0 }, { kind: 'replace2' }, { kind: 'visit', side: 0 }, { kind: 'visit', side: 1 }];
+const NEEDS: Need[] = [{ kind: 'joint', sees: null }, { kind: 'joint', sees: 0 }, { kind: 'joint', sees: 1 }, { kind: 'act', side: 0 }, { kind: 'act', side: 1 }, { kind: 'replace', side: 0 }, { kind: 'replace2' }, { kind: 'visit', side: 0 }, { kind: 'visit', side: 1 }, { kind: 'over', winner: 0, stalled: false }, { kind: 'over', winner: 1, stalled: false }];
 const ODD_KEYS = ['__proto__', 'constructor', 'prototype', 'toString', 'hasOwnProperty', 'valueOf', '', 'type', 'n', 'c', 'k'];
 
 /** A random JSON value, sometimes with keys that name object properties. */
@@ -43,12 +43,13 @@ function value(depth: number): unknown {
 const choiceFor = (need: Need): unknown => (need.kind === 'replace' || need.kind === 'replace2' ? int(4)
   : pickOf([{ k: 'guard' }, { k: 'attack' }, { k: 'move', i: int(4) }, { k: 'switch', to: 1 + int(3) }, { k: 'wait' }, { k: 'take', i: int(50) }]));
 
-/** A message a client might send now, honest in shape: a pick, a report, a choice, a ping, and now and then a resignation or a foul. */
+/** A message a client might send now, honest in shape: a pick, a report, a choice, a ping, a word between games or after them, and now and then a resignation or a foul. */
 function honest(n: number, need: Need): Record<string, unknown> {
   const r = rnd();
   if (r < 0.15) return { type: 'pick', order: [0, 1, 2, 3, 4, 5].sort(() => rnd() - 0.5).slice(0, 4) };
   if (r < 0.50) return { type: 'ready', n, hash: rnd() < 0.98 ? 'aaaaaaaa' : 'bbbbbbbb', need };
-  if (r < 0.85) return { type: 'choose', n: rnd() < 0.9 ? n : n + int(3) - 1, c: choiceFor(need) };
+  if (r < 0.80) return { type: 'choose', n: rnd() < 0.9 ? n : n + int(3) - 1, c: choiceFor(need) };
+  if (r < 0.90) return { type: rnd() < 0.6 ? 'next' : 'again' };
   if (r < 0.98) return { type: 'ping' };
   return rnd() < 0.5 ? { type: 'resign' } : { type: 'foul', n, why: 'a check failed' };
 }
@@ -107,22 +108,24 @@ async function room(k: number): Promise<void> {
   seedRandom(1 + int(1 << 30));
   const h = new RoomHarness(), where = `room ${k} (seed ${seed})`, seats: Seat[] = [];
   const open = async (): Promise<Seat | null> => { const c = await h.open(); if (!c) return null; const s = { c, token: null, read: 0 }; seats.push(s); return s; };
-  const needs = new Map<number, Need>();
+  const needs = new Map<string, Need>();
   for (let i = 0; i < 2 + int(2); i++) { const s = await open(); if (s && rnd() < 0.9) await h.say(s.c, { type: 'hello', build: 'test', name: `P${i}`, roster: roster() }); }
   // Some rooms get few bad frames and play on for a while, and some get many and end early by closing seats out.
   const steps = 40 + int(160), bad = 0.02 + rnd() * 0.3;
   for (let step = 0; step < steps; step++) {
-    const d = await h.stored(), n = d?.n ?? 0;
-    if (!needs.has(n)) needs.set(n, pickOf(NEEDS));
+    const d = await h.stored(), n = d?.n ?? 0, key = `${d?.game ?? 1} ${n}`;
+    if (!needs.has(key)) needs.set(key, pickOf(NEEDS));
     const live = seats.filter(s => s.c.open), s = live.length ? pickOf(live) : null, r = rnd();
     try {
       if (!s || r < 0.04) { const t = await open(); if (t) await h.say(t.c, rnd() < 0.5 ? { type: 'hello', build: 'test', name: 'Late', roster: roster() } : { type: 'hello', build: rnd() < 0.8 ? 'test' : 'newer', resume: pickOf(seats.map(x => x.token ?? 'nobodys-token')) }); count('opened'); }
-      else if (r < 0.04 + bad) { await h.say(s.c, malformed(n, needs.get(n)!)); count('malformed'); }
-      else if (r < 0.20 + bad) { await h.say(s.c, honest(n, needs.get(n)!)); count('honest'); }
+      else if (r < 0.04 + bad) { await h.say(s.c, malformed(n, needs.get(key)!)); count('malformed'); }
+      else if (r < 0.20 + bad) { await h.say(s.c, honest(n, needs.get(key)!)); count('honest'); }
+      else if (r < 0.80 && d?.phase === 'between') { for (const x of live) if (rnd() < 0.7) await h.say(x.c, { type: 'next' }); count('nexts'); }
+      else if (r < 0.80 && d?.phase === 'over') { for (const x of live) if (rnd() < 0.5) await h.say(x.c, { type: 'again' }); count('agains'); }
       else if (r < 0.80) {
         // Every live seat reports the decision alike and chooses, so matches move on and releases go out.
-        for (const x of live) await h.say(x.c, { type: 'ready', n, hash: 'aaaaaaaa', need: needs.get(n)! });
-        for (const x of live) if (rnd() < 0.9) await h.say(x.c, { type: 'choose', n, c: choiceFor(needs.get(n)!) });
+        for (const x of live) await h.say(x.c, { type: 'ready', n, hash: 'aaaaaaaa', need: needs.get(key)! });
+        for (const x of live) if (rnd() < 0.9) await h.say(x.c, { type: 'choose', n, c: choiceFor(needs.get(key)!) });
         count('decisions');
       }
       else if (r < 0.86) { await h.drop(s.c, rnd() < 0.7 ? 1006 : 1000); count('dropped'); }
@@ -141,7 +144,7 @@ async function room(k: number): Promise<void> {
   try { for (let t = 0; t < 12; t++) await h.advance(10 * 60_000); } catch (e) { problems.push(`${where}: the ending threw: ${(e as Error).message}`); return; }
   for (const x of seats) look(x, `${where} ending`);
   const d = await h.stored();
-  if (d && (d.phase === 'pick' || d.phase === 'play')) problems.push(`${where}: stuck in ${d.phase} at decision ${d.n} with alarm ${h.storage.alarm}`);
+  if (d && (d.phase === 'pick' || d.phase === 'play' || d.phase === 'between')) problems.push(`${where}: stuck in ${d.phase} at decision ${d.n} with alarm ${h.storage.alarm}`);
   count(`ended ${d ? d.phase === 'over' ? d.ended?.why ?? 'over' : d.phase : 'cleared'}`);
   count('frames refused', seats.reduce((a, x) => a + x.c.all('refused').length, 0));
 }

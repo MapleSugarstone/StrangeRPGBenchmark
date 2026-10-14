@@ -448,8 +448,8 @@ function selkieWake(b: Battle, f: Fighter): void {
   landBank(b, f, 1.25, by);
   if (by && !by.ko && has(by, 'selkie_sealegs')) for (const a of standing(b.s[by.side])) heal(b, by, a, a.maxHp * 0.1);
 }
-defPassive({ id: 'selkie_lull', name: 'Sleepy Sea', owner: 'selkie', text: 'When it heals an out ally: that ally\'s next turn comes 20% sooner.',
-  afterHeal(b, f, t, amt) { if (amt > 0 && t !== f && isOut(b, t)) hastenFighter(b, t, 20); } });
+defPassive({ id: 'selkie_lull', name: 'Sleepy Sea', owner: 'selkie', text: 'When it heals an out ally at least 5% of its max HP: that ally\'s next turn comes 20% sooner.',
+  afterHeal(b, f, t, amt) { if (amt >= t.maxHp * 0.05 && t !== f && isOut(b, t)) hastenFighter(b, t, 20); } });
 defPassive({ id: 'selkie_sealegs', name: 'Sea Born', owner: 'selkie', text: 'When a foe wakes from its dream with damage held: your team heals 10% of max HP.' });
 defMove({ id: 'selkie_backwash', name: 'Undertow Mend', type: 'TIDE', owner: 'selkie', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | drop*2 wave | splash',
   text: 'Hits for 76% MGK. Your lowest-HP whorl heals 35% of it.',
@@ -847,7 +847,7 @@ defMove({ id: 'image_mirrortake', name: 'Reflect It', type: 'STAR', owner: 'imag
 
 // skipper: a mudskipper that hops away from whatever looks at it, while the big thing that follows it comes up under whatever it marks.
 defMark({ id: 'skipper_hop', name: 'hopped up', clock: 'own', volatile: true, value: 0.1,
-  turnStart(b, f) { unmark(f, 'skipper_hop'); msg(b, `${label(b, f)} comes down.`); splash(b, f, stat(b, f, 'atk') * 0.65, 'P', 'TIDE'); const t = foe(b, f); if (t) applyStatus(b, f, t, 'slow', 2); } });
+  turnStart(b, f) { unmark(f, 'skipper_hop'); msg(b, `${label(b, f)} comes down.`); splash(b, f, stat(b, f, 'atk') * 0.59, 'P', 'TIDE'); const t = foe(b, f); if (t) applyStatus(b, f, t, 'slow', 2); } });
 defMark({ id: 'skipper_fish', name: 'followed', clock: 'own', negative: true, value: -0.2,
   expire(b, f, mk) {
     const by = markedBy(b, mk);
@@ -865,11 +865,11 @@ defMove({ id: 'skipper_dart', name: 'Skip In', type: 'TIDE', owner: 'skipper', r
   text: 'Hits for 75% ATK. Its next turn comes 20% sooner.',
   run(c) { c.hit(c.tgt, { atk: 0.75 }); c.hasten(c.u, 20); } });
 defMove({ id: 'skipper_hop', name: 'Mud Hop', type: 'TIDE', owner: 'skipper', reach: 'self', tags: ['dash'], cd: 4, wt: 60, fx: 'hop | splash self',
-  text: 'Untouchable 1. At its next turn: 65% ATK, Splash 35%, Slow 2.',
+  text: 'Untouchable 1. At its next turn: 59% ATK, Splash 35%, Slow 2.',
   run(c) { c.st(c.u, 'invuln', 1); c.mark(c.u, 'skipper_hop', 1, 2); } });
 defMove({ id: 'skipper_barbfin', name: 'Barb Fin', type: 'BEAST', owner: 'skipper', reach: 'single', cd: 3, fx: 'lunge | fang | bite drip',
-  text: 'Hits for 70% ATK. Bleed 3 (2% of the foe\'s max HP per stack each turn).',
-  run(c) { c.hit(c.tgt, { atk: 0.7 }); c.st(c.tgt, 'bleed', 3, c.tgt.maxHp * 0.02); } });
+  text: 'Hits for 76% ATK. Bleed 3 (2% of the foe\'s max HP per stack each turn).',
+  run(c) { c.hit(c.tgt, { atk: 0.76 }); c.st(c.tgt, 'bleed', 3, c.tgt.maxHp * 0.02); } });
 defMove({ id: 'skipper_chum', name: 'Something Big', type: 'TIDE', owner: 'skipper', reach: 'single', cd: 6, nerve: 5, fx: 'sink | splash puff big dark jolt',
   text: 'Hits for 30% ATK. Slow 2. After 2 of the foe\'s turns: 140% ATK, Splash 35%, Stun 1.',
   run(c) {
@@ -1177,13 +1177,13 @@ defPassive({ id: 'haze_mirror', name: 'Three Weathers', owner: 'haze', text: 'It
   outMul(b, f, t, d) { return d.move ? 1 + 0.1 * [1, 2, 3].filter(e => elemCount(f, e) > 0).length : 1; } });
 defPassive({ id: 'haze_veil', name: 'Wavering', owner: 'haze', text: 'Takes 8% less move damage per Waver held. Mix: Slow 2 at 1 Waver, Stun 1 at 2, Stun 2 at 3.',
   inMul(b, f, src, d) { return d.move ? 1 - 0.08 * elemCount(f, 2) : 1; } });
-defMove({ id: 'haze_glare', name: 'Hard Glare', type: 'STAR', owner: 'haze', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | beam | flash glare', text: 'Hits for 147% MGK. Holds a Glare.',
-  run(c) { c.hit(c.tgt, { mgk: 1.47 }); addElem(c.b, c.u, 1); } });
+defMove({ id: 'haze_glare', name: 'Hard Glare', type: 'STAR', owner: 'haze', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | beam | flash glare', text: 'Hits for 151% MGK. Holds a Glare.',
+  run(c) { c.hit(c.tgt, { mgk: 1.51 }); addElem(c.b, c.u, 1); } });
 defMove({ id: 'haze_waver', name: 'Heat Wobble', type: 'STAR', owner: 'haze', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | spark*3 wave | daze', text: 'Hits for 112% MGK. Delays the foe\'s next turn by 15%. Holds a Waver.',
   run(c) { c.hit(c.tgt, { mgk: 1.12 }); c.delay(c.tgt, 15); addElem(c.b, c.u, 2); } });
 defMove({ id: 'haze_dew', name: 'Night Dew', type: 'TIDE', owner: 'haze', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | drop*3 rain | splash',
-  text: 'Hits for 55% MGK. Heals 8% of its max HP. Fortify 1. Holds a Dew.',
-  run(c) { c.hit(c.tgt, { mgk: 0.55 }); c.heal(c.u, c.u.maxHp * 0.08); c.st(c.u, 'fortify', 1); addElem(c.b, c.u, 3); } });
+  text: 'Hits for 61% MGK. Heals 8% of its max HP. Fortify 1. Holds a Dew.',
+  run(c) { c.hit(c.tgt, { mgk: 0.61 }); c.heal(c.u, c.u.maxHp * 0.08); c.st(c.u, 'fortify', 1); addElem(c.b, c.u, 3); } });
 defMove({ id: 'haze_thermal', name: 'Weather Mix', type: 'STAR', owner: 'haze', reach: 'spread', tags: ['spell'], cd: 5, nerve: 4, fx: 'swell | orb*3 spiral | flash sparkle big tint',
   text: 'Hits for 71% MGK +45% per Glare. Splash 35%. Your team heals 6% per Dew.',
   run(c) {
@@ -1490,10 +1490,10 @@ defPassive({ id: 'undine_undercurrent', name: 'Under Pull', owner: 'undine', tex
 defPassive({ id: 'undine_toobig', name: 'Bigger Below', owner: 'undine', text: 'Too big to see whole: one hit takes at most 25% of its max HP.',
   beforeTake(b, f, src, amt) { return Math.min(amt, f.maxHp * 0.25); } });
 defMove({ id: 'undine_fathom', name: 'Deep Rip', type: 'TIDE', owner: 'undine', reach: 'single', tags: ['spell'], cd: 1, fx: 'sink | wave | splash',
-  text: 'Hits for 90% MGK. Splash 35%. The foe loses 3 DEF, up to 15. Delays it 15%.',
-  run(c) { c.spread({ mgk: 0.9 }); c.delay(c.tgt, 15); if (!c.tgt.ko && !c.blocked(c.tgt)) c.tgt.k.shred = Math.min(15, (c.tgt.k.shred || 0) + 3); } });
-defMove({ id: 'undine_kelphold', name: 'Kelp Wrap', type: 'TIDE', owner: 'undine', reach: 'single', tags: ['spell'], cd: 3, fx: 'sway | kelp*3 converge | bite', text: 'Hits for 90% MGK. Root 2, or Root 4 on a foe below half HP.',
-  run(c) { c.hit(c.tgt, { mgk: 0.9 }); c.st(c.tgt, 'root', c.tgt.hp < c.tgt.maxHp * 0.5 ? 4 : 2); } });
+  text: 'Hits for 84% MGK. Splash 35%. The foe loses 3 DEF, up to 15. Delays it 15%.',
+  run(c) { c.spread({ mgk: 0.84 }); c.delay(c.tgt, 15); if (!c.tgt.ko && !c.blocked(c.tgt)) c.tgt.k.shred = Math.min(15, (c.tgt.k.shred || 0) + 3); } });
+defMove({ id: 'undine_kelphold', name: 'Kelp Wrap', type: 'TIDE', owner: 'undine', reach: 'single', tags: ['spell'], cd: 3, fx: 'sway | kelp*3 converge | bite', text: 'Hits for 97% MGK. Root 2, or Root 4 on a foe below half HP.',
+  run(c) { c.hit(c.tgt, { mgk: 0.97 }); c.st(c.tgt, 'root', c.tgt.hp < c.tgt.maxHp * 0.5 ? 4 : 2); } });
 defMove({ id: 'undine_glimpse', name: 'Show a Part', type: 'BEAST', owner: 'undine', reach: 'single', tags: ['spell'], cd: 4, fx: 'sink | fang rise | bite',
   text: 'Hits for 80% MGK. Summons a Drowned Image (7% max HP, 2 turns).',
   run(c) { c.hit(c.tgt, { mgk: 0.8 }); summon(c.b, c.u, 'undine_image', { hp: 0.07, turns: 2 }); } });

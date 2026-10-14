@@ -2424,6 +2424,35 @@ async function main(): Promise<void> {
     }
   }
 
+  // Random battles: every seed gives both sides a roster that passes the roster check and spreads its types, attack stats,
+  // and bulk, the same seed gives the same rosters, about one whorl in four is a hybrid, and every hybrid keeps exactly one
+  // crest when its parents have one.
+  {
+    const { randomRosters, spreadProblems } = await import('../net/random');
+    const { teamProblems } = await import('../net/wire');
+    const { MOVES, PASSIVES } = await import('../battle/registry');
+    const { SPECIES } = await import('../data/species');
+    let hybrids = 0;
+    for (let seed = 1; seed <= 200; seed++) {
+      const rs = randomRosters(seed * 7919);
+      if (JSON.stringify(rs) !== JSON.stringify(randomRosters(seed * 7919))) fail(`random battles: seed ${seed} gave two different rosters`);
+      rs.forEach((roster, side) => {
+        const p = teamProblems(roster), spread = spreadProblems(roster);
+        if (p.length) fail(`random battles: seed ${seed} side ${side}: ${p.join(' ')}`);
+        if (spread.length) fail(`random battles: seed ${seed} side ${side} misses a floor: ${spread.join(', ')}`);
+        for (const w of roster) {
+          if (!w.fit) continue;
+          hybrids++;
+          const crests = w.fit.moves.filter(id => MOVES[id]?.nerve).length;
+          const avail = w.fit.kinds.some(k => SPECIES[k].moves.some(id => MOVES[id]?.nerve));
+          if (avail ? crests !== 1 : crests !== 0) fail(`random battles: seed ${seed} hybrid ${w.fit.kinds.join('+')} keeps ${crests} crests`);
+          if (w.fit.passives.some(id => !PASSIVES[id])) fail(`random battles: seed ${seed} hybrid ${w.fit.kinds.join('+')} has an unknown habit`);
+        }
+      });
+    }
+    if (hybrids < 400 || hybrids > 800) fail(`random battles: ${hybrids} hybrids in 2,400 whorls, not about one in four`);
+  }
+
   // Online rosters: six whorls, each kind once with a fit using up both of its kinds, one legendary at most with a fit's
   // parents counted, each notion once, and no persons. A pick is four different members of its own roster, and a rebuilt
   // battle starts from the two picked fours. A whorl comes back from its wire form unchanged.
@@ -2589,8 +2618,8 @@ async function main(): Promise<void> {
     t = onlineTally();
     if (t.won !== 0 || t.lost !== 0) fail(`byssus tally: bad numbers read ${t.won} and ${t.lost}`);
 
-    const match = (side: 0 | 1) => ({ type: 'match' as const, side, token: '', names: ['A', 'B'] as [string, string], rosters: [[], []] as [never[], never[]], seed: 1, clock: { pick: 90, choice: 60, replace: 30 } });
-    const end = (why: 'over' | 'resign' | 'timeouts' | 'gone' | 'void', winner: 0 | 1 | null) => ({ type: 'end' as const, why, winner });
+    const match = (side: 0 | 1) => ({ type: 'match' as const, side, token: '', names: ['A', 'B'] as [string, string], rosters: [[], []] as [never[], never[]], seed: 1, deal: 1, game: 1, wins: [0, 0] as [number, number], clock: { pick: 90, choice: 60, replace: 30 } });
+    const end = (why: 'over' | 'resign' | 'timeouts' | 'gone' | 'void', winner: 0 | 1 | null, wins: [number, number] = [0, 0]) => ({ type: 'end' as const, why, winner, wins, final: true, matchWinner: winner });
     const cases: [string, Parameters<typeof outcomeOf>[0], string | null][] = [
       ['a win on side 0', { end: end('over', 0), match: match(0) }, 'won'],
       ['a loss on side 0', { end: end('over', 1), match: match(0) }, 'lost'],
@@ -2605,22 +2634,25 @@ async function main(): Promise<void> {
       ['a held seat that found its match over and lost', { end: end('resign', 0), side: 1, foe: 'Tellin' }, 'lost'],
       ['a held seat that found its match over and won', { end: end('timeouts', 1), side: 1, foe: 'Tellin' }, 'won'],
       ['a held seat that found a match with no winner', { end: end('void', null), side: 0, foe: 'Tellin' }, null],
+      ['a match won on games when its last game had no winner', { end: { ...end('over', null, [1, 0]), matchWinner: 0 }, match: match(0) }, 'won'],
     ];
     for (const [what, r, want] of cases) if (outcomeOf(r) !== want) fail(`byssus tally: ${what} counted as ${outcomeOf(r)}`);
 
     // The result screen names the winner from the match, or from the seat when the match was already over. It never shows an empty name.
     const { ResultScreen } = await import('../game/online');
     const shows: [string, Parameters<typeof outcomeOf>[0], string][] = [
-      ['a match played to its end', { end: end('over', 0), match: match(0) }, 'You win. The battle is over.'],
-      ['a seat that found its match over after the player gave up', { end: end('resign', 0), side: 1, foe: 'Tellin' }, 'Tellin wins. You gave up.'],
-      ['a seat that found its match over and won on three timeouts', { end: end('timeouts', 1), side: 1, foe: 'Tellin' }, 'You win. Tellin ran out of time three times in a row.'],
-      ['a seat that kept no name', { end: end('over', 0), side: 1 }, 'The other player wins. The battle is over.'],
-      ['a seat whose kept name the word filter refuses', { end: end('gone', 0), side: 1, foe: 'B1tch' }, 'Stranger wins. You left the match.'],
+      ['a match played to its end', { end: end('over', 0, [2, 1]), match: match(0) }, 'You win the match. Games: you 2, B 1'],
+      ['a seat that found its match over after the player gave up', { end: end('resign', 0), side: 1, foe: 'Tellin' }, 'Tellin wins the match. You gave up.'],
+      ['a seat that found its match over and won on three timeouts', { end: end('timeouts', 1), side: 1, foe: 'Tellin' }, 'You win the match. Tellin ran out of time three times in a row.'],
+      ['a seat that kept no name', { end: end('over', 0, [2, 0]), side: 1 }, 'The other player wins the match. Games: you 0, The other player 2'],
+      ['a seat whose kept name the word filter refuses', { end: end('gone', 0), side: 1, foe: 'B1tch' }, 'Stranger wins the match. You left the match.'],
       ['an end that came with no match or seat', { end: end('resign', 0) }, 'No result. The match ended while this page was away.'],
+      ['a player who left between games', { end: end('resign', 1, [1, 0]), match: match(0), left: true }, 'B wins the match. Games: you 1, B 0 You left the match.'],
     ];
     for (const [what, r, want] of shows) {
-      const s = new ResultScreen(r, false), got = `${s.head} ${s.why.join(' ')}`.trim();
+      const s = new ResultScreen(r), got = [s.head, s.score, ...s.why].filter(Boolean).join(' ');
       if (got !== want) fail(`byssus result: ${what} reads "${got}", not "${want}"`);
+      if (s.choices.join() !== 'Back') fail(`byssus result: ${what} offers ${s.choices.join(' and ')} with no link`);
     }
 
     // Every backdrop and track comes up with every other over 18 seeds, the same seed always gives the same pair, and no track

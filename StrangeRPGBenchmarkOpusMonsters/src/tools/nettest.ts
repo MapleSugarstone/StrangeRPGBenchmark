@@ -68,10 +68,13 @@ g.fetch = (url: string, init: { body: string }) => {
   return new Promise(res => { answer = v => res({ json: async () => v }); });
 };
 
-const MATCH = { type: 'match', side: 1, token: 'seat-token-1234', names: ['Alpha', 'Beta'], rosters: [[], []], seed: 1, clock: { pick: 90, choice: 60, replace: 30 } };
+const MATCH = { type: 'match', side: 1, token: 'seat-token-1234', names: ['Alpha', 'Beta'], rosters: [[], []], seed: 1, deal: 1, game: 1, wins: [0, 0], clock: { pick: 90, choice: 60, replace: 30 } };
 const ROSTER = ['cairn', 'hare', 'squall', 'dynamo', 'bramble', 'lune'].map(k => ({ kind: k, name: k[0].toUpperCase() + k.slice(1), notion: null }));
 const match = { ...MATCH, rosters: [ROSTER, ROSTER] };
-const rejoin = { type: 'rejoin', side: 1, names: ['Alpha', 'Beta'], rosters: [ROSTER, ROSTER], seed: 1, clock: MATCH.clock, picked: null, record: [], pickLeft: 50, pick: null, chose: false, left: [null, null], peek: null };
+const rejoin = { type: 'rejoin', side: 1, names: ['Alpha', 'Beta'], rosters: [ROSTER, ROSTER], seed: 1, deal: 1, game: 1, wins: [0, 0], clock: MATCH.clock, picked: null, record: [], pickLeft: 50, pick: null, chose: false, left: [null, null], peek: null, last: null };
+/** A game's end, and the match's end after side 1 takes two games. */
+const GAME_END = { type: 'end', why: 'over', winner: 1, wins: [0, 1], final: false, matchWinner: null };
+const MATCH_END = { type: 'end', why: 'over', winner: 1, wins: [0, 2], final: true, matchWinner: 1 };
 
 /** Moves the clock in steps of a frame's worth of ticks, the way the screen ticks the link. */
 function run(link: Link, ms: number, step = 500): void {
@@ -116,7 +119,7 @@ test('a drop during a match goes slack and comes back with the seat\'s token', (
   run(link, 1500);
   check(socket() !== first, 'a new socket opens after a short wait');
   socket().open();
-  check(JSON.stringify(socket().sent[0]) === JSON.stringify({ type: 'hello', build: 'local', resume: 'seat-token-1234' }), `the first frame is the token: ${JSON.stringify(socket().sent[0])}`);
+  check(JSON.stringify(socket().sent[0]) === JSON.stringify({ type: 'hello', build: C.heldSeat()!.build, resume: 'seat-token-1234' }), `the first frame is the token: ${JSON.stringify(socket().sent[0])}`);
   socket().say(rejoin);
   check(link.slack?.() === 0 && drain(link).some(m => m.type === 'rejoin'), 'the rejoin reaches the screen and the link holds again');
 });
@@ -200,8 +203,36 @@ test('a refusal while coming back, such as a new build, ends the match and forge
 test('the end of a match forgets the seat', () => {
   const link = seated();
   check(!!C.heldSeat(), 'a seat is held during the match');
-  socket().say({ type: 'end', why: 'over', winner: 1 });
+  socket().say(MATCH_END);
   check(!C.heldSeat() && drain(link).some(m => m.type === 'end'), 'the end reaches the screen and the seat goes');
+});
+
+test('a game\'s end keeps the seat for the next game', () => {
+  const link = seated();
+  socket().say(GAME_END);
+  check(!!C.heldSeat() && drain(link).some(m => m.type === 'end'), 'the game\'s end reaches the screen and the seat stays');
+  socket().say({ ...match, game: 2, wins: [0, 1] });
+  check(!!C.heldSeat() && drain(link)[0]?.type === 'match', 'the next game arrives on the same link');
+  socket().drop(1006);
+  check((link.slack?.() ?? 0) > 85, 'a drop between games goes slack and comes back');
+});
+
+test('a rematch on the same link holds the seat again', () => {
+  const link = seated();
+  socket().say(MATCH_END);
+  drain(link);
+  check(!C.heldSeat(), 'the match\'s end forgets the seat');
+  socket().say({ ...match, deal: 9 });
+  check(C.heldSeat()?.token === 'seat-token-1234' && drain(link)[0]?.type === 'match', 'the rematch\'s first game holds it again');
+});
+
+test('a link lost after the match tells the screen that this side left', () => {
+  const link = seated();
+  socket().say(MATCH_END);
+  drain(link);
+  socket().drop(1006);
+  const m = drain(link);
+  check(m.length === 1 && m[0].type === 'left' && m[0].side === 1, `got ${JSON.stringify(m)}`);
 });
 
 test('another page that took the seat is not fought for', () => {
@@ -272,7 +303,7 @@ test('a finished match that a returning seat finds ends the link and forgets the
   const seat = C.heldSeat()!;
   const link = new C.NetLink(seat.room, { resume: seat.token, slot: seat.slot, side: seat.side, foe: seat.foe });
   socket().open();
-  socket().say({ type: 'end', why: 'resign', winner: 0 });
+  socket().say({ type: 'end', why: 'resign', winner: 0, wins: [0, 0], final: true, matchWinner: 0 });
   const m = drain(link);
   check(m.length === 1 && m[0].type === 'end' && !C.heldSeat(), 'the end reaches the screen and the seat goes');
   check(seat.side === 1 && seat.foe === 'Alpha', 'the seat the screen read has the side and the name');

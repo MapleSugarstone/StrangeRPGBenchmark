@@ -15,7 +15,7 @@ import { heldSeat, type QueueKind } from '../net/client';
 import { BUILD, type Choice } from '../net/lockstep';
 import { loopback, loopFaults, type LoopOptions } from '../net/loopback';
 import type { Link } from '../net/protocol';
-import { byssus, CODE_CHARS, CodeEntry, forgetRoster, lastMatch, Linking, PickScreen, playMatch, rejoinMatch, ResultScreen, rosterNow, rosterScreen, RosterScreen, type MatchResult } from './online';
+import { BetweenScreen, byssus, CODE_CHARS, CodeEntry, forgetRoster, lastMatch, Linking, PickScreen, playMatch, rejoinMatch, ResultScreen, rosterNow, rosterScreen, RosterScreen, type MatchResult } from './online';
 import { modes, run, top } from './modes';
 import { G, heroName } from './state';
 import { uiCheck } from './uicheck';
@@ -193,7 +193,7 @@ async function scenario(s: Scenario): Promise<void> {
   const fail = (e: Error) => { failed = e.stack || String(e); };
   if (s.net?.kind === 'rejoin') {
     // A rejoin the title already started is driven as it is, since a second one would take the seat from the first.
-    watching = modes().some(m => m instanceof Linking || m instanceof PickScreen || m instanceof ResultScreen || !!asView(m));
+    watching = modes().some(m => m instanceof Linking || m instanceof PickScreen || m instanceof BetweenScreen || m instanceof ResultScreen || !!asView(m));
     const seat = heldSeat();
     if (!watching && !seat) { report.findings.push(`${s.name}: this page holds no seat to rejoin`); return; }
     if (!watching) void rejoinMatch(seat!).then(r => { result = r; finished = true; }, fail);
@@ -205,7 +205,9 @@ async function scenario(s: Scenario): Promise<void> {
     look(seen, 'net:menu');
     await h().tap('ok');
   } else void playMatch({ link: loopback(s.loop) }, roster, heroName()).then(r => { result = r; finished = true; }, fail);
-  let menus = 0, marked = false, timedOut = false, resigned = false, dropped = false, tries = 0, lastN = -1, visitTimed = false, swapped = false;
+  let menus = 0, timedOut = false, resigned = false, sawResign = false, dropped = false, tries = 0, lastN = -1, visitTimed = false, swapped = false;
+  /** The pick screen of the game in hand once its four are sent, and whether an earlier game's pick screen had the full look. */
+  let markedOn: PickScreen | null = null, toured = false;
   const visited = new Set<string>();
   for (let guard = 0; guard < 60000 && !finished && !failed; guard++) {
     await breathe();
@@ -231,16 +233,27 @@ async function scenario(s: Scenario): Promise<void> {
       await h().tap('ok');
       continue;
     }
+    if (t instanceof BetweenScreen) {
+      look(seen, t.sent ? 'net:between-wait' : 'net:between');
+      if (t.end.why === 'resign') sawResign = true;
+      if (!t.sent) { t.sel = 0; await h().tap('ok'); }
+      await h().run(10);
+      continue;
+    }
     // A watched rejoin is done once its result closes. Back on the Byssus menu after a result, the check leaves it.
     if (resultSeen && watching && !asView(t) && !(t instanceof PickScreen)) { result = lastMatch; finished = true; continue; }
     if (resultSeen && !asView(t) && !(t instanceof PickScreen)) { await h().tap('back'); await h().run(2); continue; }
     if (t instanceof PickScreen) {
       if (t.picked) { look(seen, t.picked.timeout[t.me] ? 'pick:timeout-reveal' : 'pick:reveal'); await h().run(10); continue; }
       if (t.ended) { look(seen, 'pick:end'); await h().tap('ok'); continue; }
-      if (s.lazyPick || marked) { look(seen, 'pick'); await h().run(20); continue; }
+      if (s.lazyPick || markedOn === t) { look(seen, 'pick'); await h().run(20); continue; }
       look(seen, 'pick');
       for (const r of s.marks ?? [2, 0, 5, 1]) { await pickTo(t, 0, r); await h().tap('ok'); }
       look(seen, 'pick:marked');
+      markedOn = t;
+      // Later games of a match send their four at once.
+      if (toured) { await pickTo(t, 0, 6); await h().tap('ok'); if (!t.locked) report.findings.push(`${s.name}: Ready did not send a later game's pick`); continue; }
+      toured = true;
       await pickTo(t, 0, 2); await h().tap('menu'); look(seen, 'inspect:mine'); await h().tap('back');
       await pickTo(t, 1, 3); await h().tap('ok');
       if (t.order.length !== 4 || top() !== t) report.findings.push(`${s.name}: Z on the other side's whorl did something`);
@@ -250,7 +263,6 @@ async function scenario(s: Scenario): Promise<void> {
       await h().tap('back'); look(seen, 'pick:taken-back');
       await h().tap('ok');
       if (!t.locked) report.findings.push(`${s.name}: Ready did not send the pick`);
-      marked = true;
       continue;
     }
     const v = asView(t);
@@ -384,12 +396,14 @@ async function scenario(s: Scenario): Promise<void> {
   input.hold('fast', false);
   if (failed) { report.findings.push(`${s.name}: the match threw: ${failed}`); return; }
   const r = result as MatchResult | null;
+  // A loopback match ends with its link open for a rematch, and the check leaves the room.
+  r?.link?.close();
   if (!r) { report.findings.push(`${s.name}: no result after the frame limit, on ${modes().length} screens`); return; }
   const e = r.end, mine = r.match?.side ?? r.side;
   report.results.push(`${s.name}: ${e ? `${e.why}, ${e.winner === null ? 'no winner' : e.winner === mine ? 'this side won' : 'the other side won'}` : r.refused ? `refused: ${r.refused}` : 'no end'}`);
   if (!e || e.why === 'void') report.findings.push(`${s.name}: the match ended with no result`);
   if (s.net?.drop && !report.cameBack) report.findings.push(`${s.name}: the link that died never came back`);
-  if (s.resignAt && resigned && e?.why !== 'resign') report.findings.push(`${s.name}: giving up ended the match as ${e?.why}`);
+  if (s.resignAt && resigned && e?.why !== 'resign' && !sawResign) report.findings.push(`${s.name}: giving up ended the game as ${e?.why}`);
 }
 
 /**
@@ -458,7 +472,7 @@ async function playByHand(o: LoopOptions = {}): Promise<MatchResult | string> {
   show(kind: 'result' | 'code' | 'host'): void {
     if (kind === 'code') void run(new CodeEntry());
     else if (kind === 'host') void run(new Linking({ kind: 'host' }, { type: 'hello', build: BUILD, name: heroName(), roster: rosterNow().roster }));
-    else void run(new ResultScreen({ end: { type: 'end', why: 'resign', winner: 1 }, match: { type: 'match', side: 1, token: '', names: ['Tellin', 'Ouro'], rosters: [[], []], seed: 1, clock: { pick: 90, choice: 60, replace: 30 } } }));
+    else void run(new ResultScreen({ end: { type: 'end', why: 'resign', winner: 1, wins: [1, 2], final: true, matchWinner: 1 }, match: { type: 'match', side: 1, token: '', names: ['Tellin', 'Ouro'], rosters: [[], []], seed: 1, deal: 1, game: 3, wins: [1, 1], clock: { pick: 90, choice: 60, replace: 30 } } }));
   },
   /**
    * Starts a networked match in the background: 'public', 'host', or 'join' with the host's code from the other tab's

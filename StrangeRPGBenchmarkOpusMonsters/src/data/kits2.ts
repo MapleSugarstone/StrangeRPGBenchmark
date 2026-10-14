@@ -419,7 +419,7 @@ defMark({ id: 'stoat_snare', name: 'snare set', value: 0.06,
     if (who.side === f.side) return;
     unmark(f, 'stoat_snare');
     msg(b, `${label(b, who)} steps in a snare.`);
-    dealDamage(b, f, who, stat(b, f, 'atk') * 0.5, plain('P'), 'BEAST');
+    dealDamage(b, f, who, stat(b, f, 'atk') * 0.55, plain('P'), 'BEAST');
     if (who.ko) return;
     applyStatus(b, f, who, 'slow', 1);
     mark(b, f, who, 'stoat_hunted', 1, 2);
@@ -432,11 +432,11 @@ defPassive({ id: 'weasel', name: 'War Dance', owner: 'stoat', text: 'While it da
   outMul(b, f, t) { return stoatCat(f) && marked(t, 'stoat_hunted') ? 1.25 : 1; } });
 defPassive({ id: 'wintercoat', name: 'Ermine', owner: 'stoat', text: 'While it dances: takes 0.85x damage.',
   inMul(b, f) { return stoatCat(f) ? 0.85 : 1; } });
-defMove({ id: 'nip', name: 'Icicle Throw', type: 'BEAST', owner: 'stoat', reach: 'single', tags: ['projectile'], cd: 1, fx: 'recoil | shard line fast | shatter frost', text: 'Hits for 213% ATK. Slow 1. Hunted 2.',
-  run(c) { c.hit(c.tgt, { atk: 2.13 }); c.st(c.tgt, 'slow', 1); if (!c.tgt.ko) c.mark(c.tgt, 'stoat_hunted', 1, 2); } });
+defMove({ id: 'nip', name: 'Icicle Throw', type: 'BEAST', owner: 'stoat', reach: 'single', tags: ['projectile'], cd: 1, fx: 'recoil | shard line fast | shatter frost', text: 'Hits for 219% ATK. Slow 1. Hunted 2.',
+  run(c) { c.hit(c.tgt, { atk: 2.19 }); c.st(c.tgt, 'slow', 1); if (!c.tgt.ko) c.mark(c.tgt, 'stoat_hunted', 1, 2); } });
 defMove({ id: 'dart', name: 'Snow Snare', type: 'TIDE', owner: 'stoat', reach: 'single', cd: 3, fx: 'sink | sand*2 rise | frost',
-  text: 'Hits for 100% ATK. Expose 1. Next foe out: 50% ATK, Slow 1, Hunted 2.',
-  run(c) { c.hit(c.tgt, { atk: 1 }); c.st(c.tgt, 'expose', 1); c.mark(c.u, 'stoat_snare', 1); } });
+  text: 'Hits for 110% ATK. Expose 1. Next foe out: 55% ATK, Slow 1, Hunted 2.',
+  run(c) { c.hit(c.tgt, { atk: 1.1 }); c.st(c.tgt, 'expose', 1); c.mark(c.u, 'stoat_snare', 1); } });
 defMove({ id: 'slipaway', name: 'Warm Den', type: 'BEAST', owner: 'stoat', reach: 'ally', cd: 3, fx: 'sink | leaf*2 rise | ring ally',
   text: 'Heals an ally 12% of its max HP + 21% CHA. Haste 1. Hidden 1 in the den.',
   run(c) { c.heal(c.ally!, c.ally!.maxHp * 0.12 + c.cha(0.21)); c.st(c.ally!, 'haste', 1); c.st(c.ally!, 'hidden', 1); } });
@@ -498,14 +498,14 @@ defPassive({ id: 'gather', name: 'Picks Over', owner: 'carrion', text: 'When a f
   anyKO(b, f, v) { if (v === f || v.side === f.side) return; f.k.souls = (f.k.souls || 0) + 1; heal(b, f, f, f.maxHp * 0.08); },
   statBonus(f, k) { return k === 'atk' ? Math.round(f.st.atk * 0.06 * (f.k.souls || 0)) : 0; } });
 defPassive({ id: 'watch', name: 'Waits for It', owner: 'carrion', text: 'Deals true damage to foes below 30% HP. Flock: a single-target hit fells one bird.' });
-defMove({ id: 'peck', name: 'Flock Peck', type: 'BEAST', owner: 'carrion', reach: 'spread', cd: 1, fx: 'hop | feather*3 sweep | slash', text: 'Hits for 29% ATK. Splash 35%.',
-  run(c) { c.spread({ atk: 0.29 }); } });
+defMove({ id: 'peck', name: 'Flock Peck', type: 'BEAST', owner: 'carrion', reach: 'spread', cd: 1, fx: 'hop | feather*3 sweep | slash', text: 'Hits for 31% ATK. Splash 35%.',
+  run(c) { c.spread({ atk: 0.31 }); } });
 defMove({ id: 'mob', name: 'Mobbing', type: 'BEAST', owner: 'carrion', reach: 'single', cd: 3, wu: 60, fx: 'swell | feather*5 converge | claw',
   text: 'Wind-up. Hits for 96% ATK, +25% per bird past the first. Root 2. Expose 1.',
   run(c) { c.hit(c.tgt, { atk: 0.96 }, { mult: 1 + 0.25 * (bodiesOf(c.u) - 1) }); c.st(c.tgt, 'root', 2); c.st(c.tgt, 'expose', 1); } });
 defMove({ id: 'circle', name: 'Circle Low', type: 'VOID', owner: 'carrion', reach: 'single', cd: 3, fx: 'lift | feather*2 orbit | claw dark',
-  text: 'Hits for 102% ATK. Root 1. Already Rooted: delays it 30%.',
-  run(c) { const rooted = !!c.tgt.s.root; c.hit(c.tgt, { atk: 1.02 }); c.st(c.tgt, 'root', 1); if (rooted) c.delay(c.tgt, 30); } });
+  text: 'Hits for 92% ATK. Root 1. Already Rooted: delays it 30%.',
+  run(c) { const rooted = !!c.tgt.s.root; c.hit(c.tgt, { atk: 0.92 }); c.st(c.tgt, 'root', 1); if (rooted) c.delay(c.tgt, 30); } });
 defMove({ id: 'feast', name: 'Black Flock', type: 'BEAST', owner: 'carrion', reach: 'self', tags: ['projectile'], cd: 6, nerve: 5, fx: 'swell big | feather*6 orbit | slash all big dark',
   text: 'Becomes a Flock of 4 for 3 turns. Each turn: 36% ATK, Splash 35%, heals half.',
   run(c) { setForm(c.b, c.u, { tag: 'demon', sprite: CARRION_DEMON }); c.mark(c.u, 'carrion_demon', 1, 3); setFlock(c.b, c.u, 4, 3); } });

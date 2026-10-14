@@ -65,7 +65,6 @@ class AiSeat {
   plan: (() => void) | null = null;
   wait = 0;
   reported = -1;
-  done = false;
 
   constructor(readonly room: Room, readonly roster: WireMon[], readonly name: string, readonly think: [number, number], readonly idle: boolean, readonly rnd: () => number) {}
 
@@ -85,9 +84,11 @@ class AiSeat {
   }
 
   deliver(m: FromRoom): void {
-    if (this.done) return;
     if (m.type === 'match') {
       this.match = m;
+      this.ls = null;
+      this.peek = null;
+      this.reported = -1;
       const bad = teamProblems(m.rosters[1]);
       if (bad.length) { this.send({ type: 'foul', n: -1, why: bad.join(' ') }); return; }
       this.later(() => this.send({ type: 'pick', order: aiPick(m.rosters[0], m.rosters[1]) }));
@@ -104,7 +105,11 @@ class AiSeat {
     } else if (m.type === 'peek' && this.ls && m.n === this.ls.n) {
       this.peek = m;
       this.step();
-    } else if (m.type === 'end') { this.done = true; this.plan = null; }
+    } else if (m.type === 'end') {
+      // The copy stays for the tools to compare. Between games the AI is ready after a think, and after the match it asks for a rematch.
+      this.peek = null;
+      this.later(() => this.send({ type: m.final ? 'again' : 'next' }));
+    }
   }
 
   /** Runs the copy to its next decision, reports it, and plans a choice when the decision waits on this side. */

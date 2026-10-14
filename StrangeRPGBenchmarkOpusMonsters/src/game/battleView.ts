@@ -1187,10 +1187,12 @@ class BattleView implements Mode {
     if (!n) return;
     n.link.tick();
     for (const c of n.clocks) if (c && c.left > 0) c.left--;
-    for (let m = n.link.poll(); m; m = n.link.poll()) {
+    // Reading stops at the end, so the next game's match waits for the screen after the battle.
+    for (let m = n.end ? null : n.link.poll(); m; m = n.end ? null : n.link.poll()) {
       if (m.type === 'clock') { n.clocks[m.side] = { n: m.n, left: m.left * 60 }; continue; }
       if (m.type === 'away' || m.type === 'back') { if (m.side === this.foe) n.awayUntil = m.type === 'away' ? Date.now() + m.left * 1000 : 0; continue; }
-      if (m.type === 'rejoin') { this.rejoined(m); continue; }
+      // A rejoin between games means the game ended while the link was down, and its end came with the rejoin.
+      if (m.type === 'rejoin') { if (m.last) { n.end = m.last; n.fresh = true; } else this.rejoined(m); continue; }
       if (m.type === 'release') { if (m.n >= n.ls.n && !n.held.some(r => r.n === m.n)) n.held.push(m); }
       else if (m.type === 'peek') n.peek = m;
       else if (m.type === 'end') n.end = m;
@@ -1275,7 +1277,7 @@ class BattleView implements Mode {
       // A release this copy cannot play means the other side sent what no honest copy would, so the match ends with no result.
       n.foul = (e as Error).message;
       n.link.send({ type: 'foul', n: rel.n, why: reasonText(n.foul) });
-      n.end = { type: 'end', why: 'void', winner: null };
+      n.end = { type: 'end', why: 'void', winner: null, wins: n.match.wins, final: true, matchWinner: null };
     }
     n.peek = null;
     this.jointAi = null;
@@ -1300,17 +1302,17 @@ class BattleView implements Mode {
     return `Time ran out, so ${who(this.me())} ${a.k === 'guard' ? 'guards' : a.k === 'attack' ? 'attacks' : `uses ${describeAction(b, this.side, a)}`}.`;
   }
 
-  /** The end as the room called it: who won, and why in one line. */
+  /** The end as the room called it: who won the game, or the match after its last game, and why in one line. */
   finishNet(): void {
     if (this.outcome) return;
-    const n = this.net!, e = n.end!, name = this.o.name;
-    const won = e.winner === this.side, lost = e.winner === this.foe;
+    const n = this.net!, e = n.end!, name = this.o.name, w = e.final ? e.matchWinner : e.winner;
+    const won = w === this.side, lost = w === this.foe, what = e.final ? 'the match' : 'this game';
     const why = n.foul ? `The other side sent a choice this game cannot play: ${n.foul}`
       : e.why === 'resign' ? (won ? `${name} gave up.` : 'You gave up.')
       : e.why === 'timeouts' ? (won ? `${name} ran out of time three times in a row.` : 'Your time ran out three times in a row.')
       : e.why === 'gone' ? (won ? `${name} left the match.` : 'The link was cut.')
       : e.why === 'void' ? 'The match does not count.' : '';
-    const head = won ? 'You win.' : lost ? `${name} wins.` : 'No result.';
+    const head = won ? `You win ${what}.` : lost ? `${name} wins ${what}.` : 'No result.';
     this.endLines = [why ? `${head} ${why}` : head];
     this.outcome = { result: won ? 'win' : lost ? 'lose' : 'run', pegged: [], kos: this.b.stats.kos[this.foe], end: e };
     this.phase = 'end';

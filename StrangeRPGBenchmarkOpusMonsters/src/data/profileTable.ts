@@ -15,7 +15,7 @@ export const PROFILE_TABLE: Record<string, [string, number[]]> = {
   chirr: ['Skirmisher', [102, 159, 86, 83, 51, 148, 71]],
   talus: ['Bruiser', [118, 136, 118, 91, 66, 94, 77]],
   molar: ['Tank', [151, 101, 151, 118, 48, 44, 87]],
-  atlas: ['Normie', [112, 113, 119, 110, 68, 105, 73]],
+  atlas: ['Normie', [112, 141, 119, 110, 40, 105, 73]],
   nail: ['Skirmisher', [102, 159, 86, 81, 58, 143, 71]],
   socket: ['Bruiser', [114, 147, 122, 90, 50, 97, 80]],
   furcula: ['Caster', [89, 66, 85, 120, 162, 108, 70]],

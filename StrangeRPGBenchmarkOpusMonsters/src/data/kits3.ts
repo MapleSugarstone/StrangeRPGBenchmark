@@ -416,15 +416,15 @@ defPassive({ id: 'hatch_staleair', name: 'Shut Air', owner: 'hatch', text: 'Ever
 defPassive({ id: 'hatch_heavylid', name: 'Takes Weight', owner: 'hatch', text: 'Its hits take 2 MGK from the foe and give it to Tobiku, up to 20 total.',
   afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side || (f.k.stolen || 0) >= 20) return; f.k.stolen = (f.k.stolen || 0) + 2; t.st.mgk = Math.max(1, t.st.mgk - 2); },
   statBonus(f, k) { return k === 'mgk' ? f.k.stolen || 0 : 0; } });
-defMove({ id: 'hatch_latch', name: 'Swing Shut', type: 'STONE', owner: 'hatch', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | shell line | crack', text: 'Hits for 211% MGK + 7% of its max HP.',
-  run(c) { c.hit(c.tgt, { mgk: 2.11, selfHp: 0.07 }); } });
+defMove({ id: 'hatch_latch', name: 'Swing Shut', type: 'STONE', owner: 'hatch', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | shell line | crack', text: 'Hits for 219% MGK + 7% of its max HP.',
+  run(c) { c.hit(c.tgt, { mgk: 2.19, selfHp: 0.07 }); } });
 defMove({ id: 'hatch_shutin', name: 'Below Stairs', type: 'STONE', owner: 'hatch', reach: 'single', tags: ['spell'], cd: 3, fx: 'sink | vortex sigil dark', text: 'Takes the foe off the field for 1 turn.',
   run(c) { if (c.blocked(c.tgt) || c.tgt.s.unstop) return; banish(c.b, c.tgt, 1, c.u); } });
 defMove({ id: 'hatch_bangshut', name: 'Slam', type: 'ROOT', owner: 'hatch', reach: 'single', tags: ['spell'], cd: 3, fx: 'lunge | crack quake',
-  text: 'Hits for 130% MGK + its MGK over the foe\'s RES. The foe\'s side: Shut In 2 rounds.',
+  text: 'Hits for 143% MGK + its MGK over the foe\'s RES. The foe\'s side: Shut In 2 rounds.',
   run(c) {
     const gap = Math.max(0, stat(c.b, c.u, 'mgk') - stat(c.b, c.tgt, 'res'));
-    c.hit(c.tgt, { mgk: 1.3, flat: gap });
+    c.hit(c.tgt, { mgk: 1.43, flat: gap });
     if (!c.blocked(c.tgt)) shutIn(c.b, c.tgt.side, 2);
   } });
 defMove({ id: 'hatch_downbelow', name: 'Down Below', type: 'STONE', owner: 'hatch', reach: 'spread', tags: ['spell'], cd: 6, nerve: 5, fx: 'sink big | rune*6 rise | vortex quake all big dark jolt', text: 'Hits for 144% MGK + 4x the MGK it has taken. Splash 35%.',
@@ -549,24 +549,24 @@ function atlasSpray(b: Battle, f: Fighter, ratio: number): void {
   if (t) mark(b, f, t, 'atlas_quill', 1, 3);
   f.k.spraying = 0;
 }
-defPassive({ id: 'atlas_turnedback', name: 'Bone Spurs', owner: 'atlas', text: 'Takes 0.9x from moves. Per 25% max HP lost: 25% ATK to every foe, 1 Spur.',
+defPassive({ id: 'atlas_turnedback', name: 'Bone Spurs', owner: 'atlas', text: 'Takes 0.9x from moves. Per 25% max HP lost: 15% ATK to every foe, 1 Spur.',
   inMul(b, f, src, d) { return d.move ? 0.9 : 1; },
   afterTake(b, f, src, dealt, d) {
     if (d.dot) return;
     f.k.backTaken = (f.k.backTaken || 0) + dealt;
-    while (f.k.backTaken >= f.maxHp * 0.25) { f.k.backTaken -= f.maxHp * 0.25; atlasSpray(b, f, 0.25); }
+    while (f.k.backTaken >= f.maxHp * 0.25) { f.k.backTaken -= f.maxHp * 0.25; atlasSpray(b, f, 0.15); }
   } });
 defPassive({ id: 'atlas_quillbed', name: 'Spur Bed', owner: 'atlas', text: 'Spur: a mark, up to 5, for 3 turns. Foes take +3% damage from it per Spur.',
   outMul(b, f, t) { return 1 + 0.03 * marked(t, 'atlas_quill'); } });
 defMove({ id: 'atlas_quills', name: 'Spur Spray', type: 'STONE', owner: 'atlas', reach: 'spread', cd: 1, fx: 'shake | thorn*5 sweep | shatter all', text: 'Hits for 36% ATK, +6% damage per Spur. Splash 35%. 1 Spur.',
   run(c) { const n = c.marked(c.tgt, 'atlas_quill'); c.spread({ atk: 0.36 }, { mult: 1 + 0.06 * n }); if (!c.tgt.ko) c.mark(c.tgt, 'atlas_quill', 1, 3); } });
 defMove({ id: 'atlas_marrow', name: 'Marrow Spit', type: 'BEAST', owner: 'atlas', reach: 'single', tags: ['projectile'], cd: 2, fx: 'recoil | drop*2 arc | drip',
-  text: 'Hits for 24% ATK. Slow 1. 1 Goo for 3 turns: -5 DEF per Goo, up to 4.',
-  run(c) { c.hit(c.tgt, { atk: 0.24 }); c.st(c.tgt, 'slow', 1); c.mark(c.tgt, 'atlas_goo', 1, 3); } });
+  text: 'Hits for 34% ATK. Slow 2. 2 Goo for 3 turns: -5 DEF per Goo, up to 4.',
+  run(c) { c.hit(c.tgt, { atk: 0.34 }); c.st(c.tgt, 'slow', 2); c.mark(c.tgt, 'atlas_goo', 2, 3); } });
 defMove({ id: 'atlas_hunker', name: 'Bow the Neck', type: 'STONE', owner: 'atlas', reach: 'self', cd: 3, wt: 60, fx: 'sink big | ring sparkle tint self', text: 'Until its next turn: takes 0.6x. When hit: 20% ATK, Splash 35%.',
   run(c) { c.mark(c.u, 'atlas_back', 1, 1); } });
-defMove({ id: 'atlas_shrugoff', name: 'Hold Up', type: 'STONE', owner: 'atlas', reach: 'self', cd: 6, nerve: 4, wt: 60, fx: 'lift | bone*4 orbit | pillar ring tint self big', text: 'For 3 turns: each move adds +10% damage, up to 4, and Haste 1.',
-  run(c) { c.mark(c.u, 'atlas_war', 1, 3); c.st(c.u, 'haste', 1); } });
+defMove({ id: 'atlas_shrugoff', name: 'Hold Up', type: 'STONE', owner: 'atlas', reach: 'self', cd: 6, nerve: 3, wt: 60, fx: 'lift | bone*4 orbit | pillar ring tint self big', text: 'For 4 turns: each move adds +10% damage, up to 4, and Haste 1.',
+  run(c) { c.mark(c.u, 'atlas_war', 1, 4); c.st(c.u, 'haste', 1); } });
 
 // nail: the shell of a giant's nail that scratches the same spot until it gives.
 defMark({ id: 'nail_hour', name: 'to the quick', clock: 'own', volatile: true, value: 0.15 });

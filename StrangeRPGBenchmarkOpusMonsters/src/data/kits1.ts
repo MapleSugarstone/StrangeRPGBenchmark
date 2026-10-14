@@ -132,8 +132,8 @@ defPassive({ id: 'pedestal', name: 'Swivel Base', owner: 'plinth', text: 'When i
 defPassive({ id: 'unmoved', name: 'Bears the Weight', owner: 'plinth', text: 'In reserve: it takes 30% of each hit on your out whorl, down to 1 HP of its own.',
   bears(b, f) { return marked(f, 'plinth_hold') ? 0.5 : 0.3; } });
 defMove({ id: 'raise', name: 'Barnacle Cut', type: 'SALT', owner: 'plinth', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | shell line | slash',
-  text: 'Hits for 156% MGK. Slow 2. A foe that was already Slowed: Poison 3.',
-  run(c) { const slowed = !!c.tgt.s.slow; c.hit(c.tgt, { mgk: 1.56 }); if (slowed) c.st(c.tgt, 'poison', 3); c.st(c.tgt, 'slow', 2); } });
+  text: 'Hits for 167% MGK. Slow 2. A foe that was already Slowed: Poison 3.',
+  run(c) { const slowed = !!c.tgt.s.slow; c.hit(c.tgt, { mgk: 1.67 }); if (slowed) c.st(c.tgt, 'poison', 3); c.st(c.tgt, 'slow', 2); } });
 defMove({ id: 'lower', name: 'Top Pool', type: 'STONE', owner: 'plinth', reach: 'ally', tags: ['spell'], cd: 2,
   fx: 'swell | drop*3 rise | splash ally', text: 'Heals an ally 54% CHA + 6% max HP. Hits for 86% MGK + 60% of the heal.',
   run(c) { const h = c.heal(c.ally!, c.cha(0.54) + c.ally!.maxHp * 0.06); c.hit(c.tgt, { mgk: 0.86, flat: h * 0.6 }); } });
@@ -240,14 +240,14 @@ defPassive({ id: 'spout', name: 'Coral Horns', owner: 'grotesque', text: 'When i
   },
   outMul(b, f, t, d) { return d.move ? 1 + 0.08 * (f.k.evo || 0) : 1; } });
 defMove({ id: 'drop', name: 'Gutter Drop', type: 'STONE', owner: 'grotesque', reach: 'single', cd: 1,
-  fx: 'hop | pebble line | crack', text: 'Hits for 94% ATK. Deals 1.4x if the foe has 1 reserve or none.',
-  run(c) { const lone = reserves(c.them).length <= 1; c.hit(c.tgt, { atk: 0.94 }, { mult: lone ? 1.4 : 1 }); } });
+  fx: 'hop | pebble line | crack', text: 'Hits for 100% ATK. Deals 1.4x if the foe has 1 reserve or none.',
+  run(c) { const lone = reserves(c.them).length <= 1; c.hit(c.tgt, { atk: 1 }, { mult: lone ? 1.4 : 1 }); } });
 defMove({ id: 'gargle', name: 'Rain Spout', type: 'STONE', owner: 'grotesque', reach: 'spread', cd: 2, splash: 0.2,
-  fx: 'swell | drop*4 sweep | splash all', text: 'Hits for 61% ATK. Splash 20%. Heals 30% of the damage to the foe.',
-  run(c) { const d = c.spread({ atk: 0.61 }); c.heal(c.u, d * 0.3); } });
+  fx: 'swell | drop*4 sweep | splash all', text: 'Hits for 68% ATK. Splash 20%. Heals 30% of the damage to the foe.',
+  run(c) { const d = c.spread({ atk: 0.68 }); c.heal(c.u, d * 0.3); } });
 defMove({ id: 'perch', name: 'Off the Roof', type: 'BEAST', owner: 'grotesque', reach: 'single', tags: ['dash'], cd: 3, fx: 'hop big | fang line | bite big',
-  text: 'Hits for 107% ATK. If it KOs the foe: its cooldown resets.',
-  run(c) { c.hit(c.tgt, { atk: 1.07 }); if (c.tgt.ko) { const i = c.u.moves.indexOf('perch'); if (i >= 0) c.u.cd[i] = 0; } } });
+  text: 'Hits for 125% ATK. If it KOs the foe: its cooldown resets.',
+  run(c) { c.hit(c.tgt, { atk: 1.25 }); if (c.tgt.ko) { const i = c.u.moves.indexOf('perch'); if (i >= 0) c.u.cd[i] = 0; } } });
 defMove({ id: 'leer', name: 'Stone Still', type: 'STONE', owner: 'grotesque', reach: 'self', cd: 6, nerve: 4, wt: 70,
   fx: 'swell big | crest rise | sigil pillar tint self', text: 'Untouchable 1. Its next move deals 1.3x, and First Drop works again.',
   run(c) { c.st(c.u, 'invuln', 1); c.u.k.nextMoveMul = 1.3; c.u.k.fresh = 1; } });

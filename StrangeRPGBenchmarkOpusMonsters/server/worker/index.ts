@@ -79,7 +79,7 @@ async function bodyOf(request: Request): Promise<Record<string, unknown> | null>
 function keyOf(b: Record<string, unknown>): string | null {
   const { build, format } = b;
   if (typeof build !== 'string' || !/^[A-Za-z0-9_.-]{1,40}$/.test(build)) return null;
-  if (typeof format !== 'string' || !/^\d{1,2}v\d{1,2}@\d{1,3}$/.test(format)) return null;
+  if (typeof format !== 'string' || !/^\d{1,2}v\d{1,2}@\d{1,3}r?$/.test(format)) return null;
   return `${build}|${format}`;
 }
 

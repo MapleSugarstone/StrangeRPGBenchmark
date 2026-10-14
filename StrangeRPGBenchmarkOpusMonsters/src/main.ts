@@ -30,20 +30,21 @@ import { panel } from './game/ui';
 import { wrap } from './engine/font';
 import { FileSelect, NameEntry } from './game/files';
 import { inPractice, practice } from './game/practice';
+import { inByssus } from './game/online';
 import { MOVES, NOTIONS, PASSIVES, SUMMONS } from './battle/registry';
 import { nerveUnlocked } from './game/state';
 import { refreshSave } from './game/refresh';
 
 /**
  * Until tide opens, every sentence of an ability text that mentions tide reads "???", so a new player isn't told about a
- * resource they can't see yet. Practice always shows it, because tide is always on there.
+ * resource they can't see yet. Practice and online play always show it, because tide is always on there.
  */
 for (const table of [MOVES, PASSIVES, NOTIONS, SUMMONS] as unknown as Record<string, { text?: string }>[]) {
   for (const d of Object.values(table)) {
     const raw = d.text;
     if (!raw || !/\btide\b/i.test(raw)) continue;
     const hidden = raw.split(/(?<=[.!?])\s+/).map(s => (/\btide\b/i.test(s) ? '???' : s)).join(' ');
-    Object.defineProperty(d, 'text', { configurable: true, enumerable: true, get: () => (nerveUnlocked() || inPractice ? raw : hidden) });
+    Object.defineProperty(d, 'text', { configurable: true, enumerable: true, get: () => (nerveUnlocked() || inPractice || inByssus ? raw : hidden) });
   }
 }
 import { drawLogo, drawMenu, drawNight } from './game/title';
