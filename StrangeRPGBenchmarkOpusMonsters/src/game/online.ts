@@ -17,7 +17,7 @@ import { nameBlocked, shownPlayerName, STRANGER } from '../net/names';
 import { FORMAT, GAMES_MAX, NEXT_SECONDS, reasonText, type EndMsg, type Hello, type Link, type MatchMsg, type RejoinMsg } from '../net/protocol';
 import { placeholderRoster, RANDOM_FORMAT, randomRosters } from '../net/random';
 import { DEFAULT_PICK, monFromWire, ROSTER_SIZE, shownWhorlName, TEAM_SIZE, teamProblems, whorlProblems, wireFromMon, wireKinds, type WireMon } from '../net/wire';
-import { tanneryExtras } from './api';
+import { field, tanneryExtras } from './api';
 import { onlineBattle } from './battleView';
 import { choose } from './dialogue';
 import { listMenu, monPage } from './menus';
@@ -979,7 +979,8 @@ async function byssusMenu(): Promise<void> {
         tallyPanel(4, 12 + (first + SERVICE.length) * 9 + 16, 92);
       },
     });
-    if (seat && k === 0) { await rejoinMatch(seat); save(); continue; }
+    // A match's battle track gives way to the map's music once its result closes.
+    if (seat && k === 0) { await rejoinMatch(seat); save(); field.playMapMusic(); continue; }
     const s = k - first;
     if (k < 0 || SERVICE[s] === 'Leave') { save(); return; }
     o.menu = s;
@@ -987,9 +988,11 @@ async function byssusMenu(): Promise<void> {
     if (SERVICE[s] === 'Random battle') {
       const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'A random battle: six whorls each, drawn at random.');
       if (r >= 0) await matches(r === 0 ? 'public' : r === 1 ? 'host' : 'join', true);
+      field.playMapMusic();
       continue;
     }
     await matches(s === 0 ? 'public' : s === 1 ? 'host' : 'join');
+    field.playMapMusic();
   }
 }
 

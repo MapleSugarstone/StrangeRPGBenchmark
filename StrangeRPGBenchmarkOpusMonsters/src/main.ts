@@ -219,7 +219,7 @@ requestAnimationFrame(rafLoop);
 setInterval(() => { if (performance.now() - last > 60) loop(performance.now()); }, 33);
 
 (window as any).__slough = {
-  G: () => G, sfx, sfxWav, field, modes, close, top, input, aiChoose, makeMon, scripts: SCR, startField, SPECIES, PEOPLE, shapeOf, paletteOf, fitVariants, battle, sceneNow, BACKDROP_KEYS, scrape, pegboard, cardOf, playSetting, drawStone, PUZZLES, shopScreen, middenScreen, starfall, drawFighter,
+  G: () => G, sfx, sfxWav, music, field, modes, close, top, input, aiChoose, makeMon, scripts: SCR, startField, SPECIES, PEOPLE, shapeOf, paletteOf, fitVariants, battle, sceneNow, BACKDROP_KEYS, scrape, pegboard, cardOf, playSetting, drawStone, PUZZLES, shopScreen, middenScreen, starfall, drawFighter,
   feel: { stats: feelStats, openRegisterAt, voiceFor, playKindCry, speciesCry },
   saveFile: { exportText, importText },
   /** Shows six battle backdrops at a time for art review. Any key closes it. */
