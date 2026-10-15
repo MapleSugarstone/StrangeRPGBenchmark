@@ -519,6 +519,15 @@ async function turnBack(who: string, line: string, speaker: string, bx: number, 
 defScript('turnBackWest', () => turnBack('carter', 'The west road\'s for them with a whorl. The mule won\'t walk it with you, and neither will I.', 'Carter', 4, 16));
 defScript('turnBackNorth', () => turnBack('oldman', 'Not up the wood without a whorl. The brook minds you back, and it\'s rude about it.', 'Old man', 13, 4));
 defScript('turnBackSouth', () => turnBack('child', 'Mum says no beach without a whorl. Not even paddling. I asked.', 'Child', 24, 29));
+/** Before Tack's battle, the ways west out of the wood and the cove: Tack shouts from the village, and Ouro steps back. */
+async function tackCalls(bx: number, by: number): Promise<void> {
+  await emote('ouro', 'surprise');
+  await say('Tack', 'OURO! Not that way! 1 battle first. I\'m at the west road!');
+  await walkTo('ouro', bx, by);
+}
+defScript('tackCallsRib', () => tackCalls(4, 14));
+defScript('tackCallsRoad', () => tackCalls(6, 31));
+defScript('tackCallsCove', () => tackCalls(1, 16));
 /** The craze hole into the Undermeadow, before Ouro has a whorl: the dark breathes, and Pell sends Ouro back. */
 defScript('crazeHole', async () => {
   await act('ouro', 'bow');
@@ -531,7 +540,7 @@ defScript('crazeHole', async () => {
 });
 
 defScript('fellmonger', async () => {
-  if (!flag('night')) { await say('Strandmonger', 'Closed, Turning Day!! Go stand under that sky. It\'s a two-cowrie sky and today it\'s free.'); return; }
+  if (!flag('night')) { await say('Strandmonger', 'Opening later, Turning Day!! Go stand under that sky. It\'s a two-cowrie sky and today it\'s free.'); return; }
   if (!flag('starter')) {
     await say('Strandmonger', 'And a late one! Which means the Lip walk, then.');
     await say('Strandmonger', 'The walk is free. The road costs shoes.');

@@ -77,6 +77,8 @@ defMap({
   ],
   zone: { kinds: kinds([['paring', 3], ['eddy', 2], ['fiddler', 3], ['urchin', 2]]), lv: [2, 3], n: 7, area: 'marram' },
   props: [{ x: 0, y: 0, pic: 'cocktracks' }, { x: 18, y: 7, pic: 'islandfloor' }],
+  // Before Tack's battle, the way west onto the Midden Road turns Ouro back.
+  triggers: [{ x: 1, y: 14, w: 1, h: 1, script: 'tackCallsCove', when: () => !flag('tack1') }],
   npcs: [
     { id: 'islander', x: 17, y: 13, sprite: 'oldwoman', name: 'Islander', dir: 1, talk: 'islander', when: () => !flag('holmChoice') },
     { id: 'kettlecrab', x: CRAB_HOME[0], y: CRAB_HOME[1], sprite: 'stone', mon: 'fiddler', name: 'Crab', dir: 3, talk: 'kettlecrab', when: () => !flag('crabMoved') },
@@ -450,6 +452,11 @@ defMap({
   ],
   zone: { kinds: kinds([['hare', 3], ['stoat', 2], ['burr', 3], ['dandle', 2], ['mawkin', 1]]), lv: [2, 4], n: 10, area: 'ferns' },
   props: [{ x: 27, y: 6, pic: 'pebbles' }],
+  // Before Tack's battle, both ways west turn Ouro back: the road to Rib and the path down to the Midden Road.
+  triggers: [
+    { x: 1, y: 14, w: 1, h: 1, script: 'tackCallsRib', when: () => !flag('tack1') },
+    { x: 2, y: 31, w: 1, h: 1, script: 'tackCallsRoad', when: () => !flag('tack1') },
+  ],
   npcs: [
     { id: 'gatekeeper_s', x: 15, y: 1, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateS' },
     { id: 'tackboard', x: 25, y: 8, sprite: 'sign', name: null as any, lines: ['A board nailed to a tree. In Tack\'s writing: 1 then 2. Easy.'] },
