@@ -146,7 +146,7 @@ defMove({ id: 'thekey', name: 'The Operculum', type: 'GEAR', owner: 'knot', reac
 // draws on a tank who sheds his armor to go all out, and a warrior whose war cry hardens him.
 
 const LAYER = 'mundane_layer', BARE = 'mundane_bare';
-export const N_MUND = { start: 5, per: 0.92, plate: 195, platePer: 4, fold: 120, heal: 24, peel: 120, peelPer: 45, bareOut: 1.4, bareIn: 1.15 };
+export const N_MUND = { start: 5, per: 0.92, plate: 201, platePer: 4, fold: 130, heal: 24, peel: 120, peelPer: 45, bareOut: 1.4, bareIn: 1.15 };
 
 defMark({ id: LAYER, name: 'layer', max: 6, clock: 'own', value: 0.04, spend: 'peel', color: '#d0a870' });
 defMark({ id: BARE, name: 'bare', clock: 'own', value: 0.1, color: '#f4e0c8',

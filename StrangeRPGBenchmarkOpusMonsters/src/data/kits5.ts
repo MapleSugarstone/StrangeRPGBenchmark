@@ -208,13 +208,13 @@ defPassive({ id: 'mew_eye', name: 'Six O\'Clock', owner: 'mew', text: 'Starts th
   start(b) { startClock(b, 16 * 60); },
   atHour(b, f, h) { if (h === 18) mewUp(b, f); } });
 defMove({ id: 'mew_dive', name: 'Gull Dive', type: 'BEAST', owner: 'mew', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge fast | feather line | bite',
-  text: 'Hits for 55% ATK, 1.4x while aloft. Weaken 1.',
-  run(c) { c.hit(c.tgt, { atk: 0.55 }, { mult: marked(c.u, 'mew_aloft') ? 1.4 : 1 }); c.st(c.tgt, 'weaken', 1); } });
+  text: 'Hits for 58% ATK, 1.4x while aloft. Weaken 1.',
+  run(c) { c.hit(c.tgt, { atk: 0.58 }, { mult: marked(c.u, 'mew_aloft') ? 1.4 : 1 }); c.st(c.tgt, 'weaken', 1); } });
 defMove({ id: 'mew_wheel', name: 'Wheel', type: 'BEAST', owner: 'mew', reach: 'self', cd: 3, wt: 50, fx: 'spin | feather*3 orbit | sparkle self', text: 'Haste 2. The foe is Harried.',
   run(c) { c.st(c.u, 'haste', 2); c.mark(c.tgt, 'mew_harried', 1, 2); } });
 defMove({ id: 'mew_snatch', name: 'Wave Skim', type: 'TIDE', owner: 'mew', reach: 'single', tags: ['dash'], cd: 3, fx: 'lunge | drop sweep | splash',
-  text: 'Hits for 30% ATK, 1.5x on a Harried foe. Slow 2. Its next turn comes 30% sooner.',
-  run(c) { c.hit(c.tgt, { atk: 0.3 }, { mult: marked(c.tgt, 'mew_harried') ? 1.5 : 1 }); c.st(c.tgt, 'slow', 2); c.hasten(c.u, 30); } });
+  text: 'Hits for 28% ATK, 1.5x on a Harried foe. Slow 2. Its next turn comes 30% sooner.',
+  run(c) { c.hit(c.tgt, { atk: 0.28 }, { mult: marked(c.tgt, 'mew_harried') ? 1.5 : 1 }); c.st(c.tgt, 'slow', 2); c.hasten(c.u, 30); } });
 defMove({ id: 'mew_forty', name: 'Forty Years', type: 'BEAST', owner: 'mew', reach: 'self', cd: 6, nerve: 4, wt: 50, fx: 'lift | feather*4 rise | sparkle big glare',
   text: 'It is six o\'clock now: the clock jumps to 6:00 and it goes up. Haste 2.',
   run(c) {
@@ -511,11 +511,11 @@ defPassive({ id: 'razor_startle', name: 'Star Shy', owner: 'razor', text: 'When 
     f.k.nextAtkMul = Math.max(f.k.nextAtkMul || 0, 1.6);
   } });
 defMove({ id: 'razor_cut', name: 'Razor Cut', type: 'GEAR', owner: 'razor', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge fast | slash',
-  text: 'Hits for 70% ATK. Every 3rd use: 100% ATK, Stun 1, its crest waits 1 turn.',
-  run(c) { c.u.k.cuts = ((c.u.k.cuts || 0) % 3) + 1; const third = c.u.k.cuts === 3; c.hit(c.tgt, { atk: third ? 1.0 : 0.7 }); if (third && !c.tgt.ko) { c.st(c.tgt, 'stun', 1); shiftCd(c.b, c.tgt, 3, 1); } } });
+  text: 'Hits for 77% ATK. Every 3rd use: 110% ATK, Stun 1, its crest waits 1 turn.',
+  run(c) { c.u.k.cuts = ((c.u.k.cuts || 0) % 3) + 1; const third = c.u.k.cuts === 3; c.hit(c.tgt, { atk: third ? 1.1 : 0.77 }); if (third && !c.tgt.ko) { c.st(c.tgt, 'stun', 1); shiftCd(c.b, c.tgt, 3, 1); } } });
 defMove({ id: 'razor_upright', name: 'Upright', type: 'STONE', owner: 'razor', reach: 'spread', cd: 4, fx: 'lift | sand*3 rise | slash',
-  text: 'Hits for 65% ATK. Splash 35%. Stun 1.',
-  run(c) { c.spread({ atk: 0.65 }); c.st(c.tgt, 'stun', 1); } });
+  text: 'Hits for 67% ATK. Splash 35%. Stun 1.',
+  run(c) { c.spread({ atk: 0.67 }); c.st(c.tgt, 'stun', 1); } });
 defMove({ id: 'razor_dig', name: 'Dig In', type: 'GEAR', owner: 'razor', reach: 'self', cd: 3, wt: 50, fx: 'sink | sand puff self', text: 'Shield of 15% of its max HP, 2 turns. Its next turn comes 20% sooner.',
   run(c) { c.shield(c.u, c.u.maxHp * 0.15, 2); c.hasten(c.u, 20); } });
 defMove({ id: 'razor_wind', name: 'Wind Up', type: 'GEAR', owner: 'razor', reach: 'self', cd: 6, nerve: 4, wt: 50, fx: 'swell | shard*3 orbit | slash big jolt', text: 'Haste 1. For 2 turns: 1.2x ATK. Then: 80% ATK + 25% missing HP.',

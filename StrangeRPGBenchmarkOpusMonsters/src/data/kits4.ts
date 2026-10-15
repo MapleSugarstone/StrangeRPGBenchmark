@@ -800,11 +800,11 @@ defMove({ id: 'fletch_nock', name: 'Loose', type: 'ROOT', owner: 'fletch', reach
   text: 'Hits for 82% ATK. 3 shots with no wait, then its cooldown starts.',
   run(c) { c.hit(c.tgt, { atk: 0.82 }); } });
 defMove({ id: 'fletch_sheaf', name: 'Sheaf Loose', type: 'ROOT', owner: 'fletch', reach: 'spread', tags: ['projectile'], cd: 3, fx: 'recoil | shard*3 rain | shatter',
-  text: 'Spends every shot left in Loose: 28% ATK per shot. Splash 35%. Slow 2.',
+  text: 'Spends every shot left in Loose: 25% ATK per shot. Splash 35%. Slow 2.',
   run(c) {
     const i = c.u.moves.indexOf('fletch_nock'), n = i >= 0 && c.u.cd[i] <= 0 ? ammoOf(c.u, i) : 0;
     if (!n) { c.msg('The quiver is empty.'); return; }
-    c.spread({ atk: 0.28 * n }); c.st(c.tgt, 'slow', 2);
+    c.spread({ atk: 0.25 * n }); c.st(c.tgt, 'slow', 2);
     (c.u.ammo ||= c.u.moves.map(() => -1))[i] = -1;
     c.u.cd[i] = (MOVES.fletch_nock?.cd || 3) + 1;
   } });

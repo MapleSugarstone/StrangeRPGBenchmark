@@ -676,8 +676,8 @@ defMove({ id: 'ripple', name: 'Fold Back', type: 'STAR', owner: 'curtain', reach
 defMove({ id: 'brighthour', name: 'Flicker', type: 'STAR', owner: 'curtain', reach: 'self', tags: ['dash'], cd: 4, wt: 60, fx: 'blink | star*3 orbit | sparkle self', text: 'Ward 1. Haste 2. Fold Back\'s cooldown resets.',
   run(c) { c.st(c.u, 'ward', 1); c.st(c.u, 'haste', 2); const i = c.u.moves.indexOf('ripple'); if (i >= 0) c.u.cd[i] = 0; } });
 defMove({ id: 'bands', name: 'Green Bands', type: 'ROOT', owner: 'curtain', reach: 'spread', tags: ['spell'], cd: 3, fx: 'sway | leaf*4 wave | bloom all tint',
-  text: 'Hits for 56% MGK. Splash 35%. Slow 2. Delays it 20%. Fogs your bench 2 rounds.',
-  run(c) { c.spread({ mgk: 0.56 }); c.st(c.tgt, 'slow', 2); c.delay(c.tgt, 20); fogBench(c.b, c.u.side, 2); } });
+  text: 'Hits for 52% MGK. Splash 35%. Slow 2. Delays it 20%. Fogs your bench 2 rounds.',
+  run(c) { c.spread({ mgk: 0.52 }); c.st(c.tgt, 'slow', 2); c.delay(c.tgt, 20); fogBench(c.b, c.u.side, 2); } });
 defMove({ id: 'encore', name: 'Draw Close', type: 'STAR', owner: 'curtain', reach: 'single', tags: ['spell'], cd: 6, nerve: 5,
   fx: 'swell big | beam ray | sigil sparkle glare', text: 'Hits for 96% MGK. For 3 turns the foe can\'t switch and takes 1.2x from it.',
   run(c) { c.hit(c.tgt, { mgk: 0.96 }); if (!c.tgt.ko) c.mark(c.tgt, 'curtain_world', 1, 3); } });
@@ -763,13 +763,13 @@ defPassive({ id: 'foretold', name: 'Keeps a Piece', owner: 'portent', text: 'Whe
     addNerve(b, f.side, 1);
   } });
 defPassive({ id: 'illwind', name: 'Bad Sky', owner: 'portent', text: 'Doomed foes take 1.15x damage from everything.' });
-defMove({ id: 'sign', name: 'Red Streak', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line fast | burst cinders', text: 'Hits for 156% MGK + 4% of the foe\'s max HP. Burn 1 (30% MGK each turn).',
-  run(c) { c.hit(c.tgt, { mgk: 1.56, tgtHp: 0.04 }); c.st(c.tgt, 'burn', 1, stat(c.b, c.u, 'mgk') * 0.3); } });
+defMove({ id: 'sign', name: 'Red Streak', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line fast | burst cinders', text: 'Hits for 161% MGK + 4% of the foe\'s max HP. Burn 1 (30% MGK each turn).',
+  run(c) { c.hit(c.tgt, { mgk: 1.61, tgtHp: 0.04 }); c.st(c.tgt, 'burn', 1, stat(c.b, c.u, 'mgk') * 0.3); } });
 defMove({ id: 'badnews', name: 'Red Sky', type: 'STAR', owner: 'portent', reach: 'self', cd: 3, wt: 70, fx: 'swell | star*3 orbit | cinders self tint', text: 'For 3 turns: the foe takes 30% MGK and it heals 5% max HP each turn.',
   run(c) { c.mark(c.u, 'portent_scorch', 1, 3); } });
 defMove({ id: 'unlucky', name: 'On Its Way', type: 'STONE', owner: 'portent', reach: 'single', tags: ['spell'], cd: 3, fx: 'lift | pebble rain slow | crack',
-  text: 'After 2 of the foe\'s turns: it takes 286% MGK.',
-  run(c) { if (c.blocked(c.tgt)) return; c.tgt.k.badnews = 2; c.tgt.k.badnewsDmg = Math.round(stat(c.b, c.u, 'mgk') * 2.86); c.msg(`Something is on its way to ${c.tgt.mon.name}.`); } });
+  text: 'After 2 of the foe\'s turns: it takes 315% MGK.',
+  run(c) { if (c.blocked(c.tgt)) return; c.tgt.k.badnews = 2; c.tgt.k.badnewsDmg = Math.round(stat(c.b, c.u, 'mgk') * 3.15); c.msg(`Something is on its way to ${c.tgt.mon.name}.`); } });
 defMove({ id: 'doom', name: 'Ill Omen', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 7, nerve: 5, fx: 'flare big | rune*3 converge | sigil sparkle dark', text: 'Doom 3. The foe takes 60% MGK each turn.',
   run(c) { if (c.st(c.tgt, 'doom', 3, stat(c.b, c.u, 'mgk') * 0.6) && has(c.u, 'illwind')) c.tgt.k.illwind = 1; } });
 

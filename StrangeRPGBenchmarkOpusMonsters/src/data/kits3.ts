@@ -350,8 +350,8 @@ defPassive({ id: 'brogue_wornin', name: 'Broken In', owner: 'brogue', text: 'Hea
   afterDeal(b, f, t, dealt, d) { if (d.move && !d.reserve) heal(b, f, f, dealt * 0.15); } });
 defPassive({ id: 'brogue_hardwearing', name: 'Spare Nails', owner: 'brogue', text: 'When a foe is KO\'d while it is out: 3 Nails.',
   anyKO(b, f, v) { if (v.side !== f.side && isOut(b, f)) f.k.nails = (f.k.nails || 0) + 3; } });
-defMove({ id: 'brogue_hobnail', name: 'Hobnail', type: 'GEAR', owner: 'brogue', reach: 'single', cd: 1, fx: 'lunge | burst', text: 'Hits for 144% ATK, +7% per Nail, max 14. Adds a Nail when it lands.',
-  run(c) { const n = Math.min(14, c.u.k.nails || 0); const d = c.hit(c.tgt, { atk: 1.44 }, { mult: 1 + 0.07 * n }); if (d > 0) c.u.k.nails = (c.u.k.nails || 0) + 1; } });
+defMove({ id: 'brogue_hobnail', name: 'Hobnail', type: 'GEAR', owner: 'brogue', reach: 'single', cd: 1, fx: 'lunge | burst', text: 'Hits for 132% ATK, +7% per Nail, max 14. Adds a Nail when it lands.',
+  run(c) { const n = Math.min(14, c.u.k.nails || 0); const d = c.hit(c.tgt, { atk: 1.32 }, { mult: 1 + 0.07 * n }); if (d > 0) c.u.k.nails = (c.u.k.nails || 0) + 1; } });
 defMove({ id: 'brogue_scuff', name: 'Scuff Mark', type: 'GEAR', owner: 'brogue', reach: 'single', cd: 3, fx: 'stomp | sand sweep | daze',
   text: 'Slow 2. Weaken 2. Delays the foe 30%. Its crest waits 1 more turn.',
   run(c) { if (c.blocked(c.tgt)) return; c.st(c.tgt, 'slow', 2); c.st(c.tgt, 'weaken', 2); c.delay(c.tgt, 30); shiftCd(c.b, c.tgt, 3, 1); } });
@@ -729,14 +729,14 @@ defPassive({ id: 'fata_doubling', name: 'Reflected', owner: 'fata', text: 'Start
   afterAttack(b, f) { f.k.dbl = (f.k.dbl || 0) + 1; if (f.k.dbl % 4 === 0) addImage(b, f); } });
 defPassive({ id: 'fata_farshore', name: 'Many Places', owner: 'fata', text: 'When it attacks: each Reflection also hits for 15% MGK.',
   afterAttack(b, f, t) { const n = images(b, f); if (n && !t.ko) strike(b, f, t, stat(b, f, 'mgk') * 0.15 * n, 'M', 'STAR'); } });
-defMove({ id: 'fata_glint', name: 'Heat Glint', type: 'STAR', owner: 'fata', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star line fast | sparkle', text: 'Hits for 77% MGK. Slow 1. A Reflection if it has none.',
-  run(c) { c.hit(c.tgt, { mgk: 0.77 }); c.st(c.tgt, 'slow', 1); if (!images(c.b, c.u)) addImage(c.b, c.u); } });
+defMove({ id: 'fata_glint', name: 'Heat Glint', type: 'STAR', owner: 'fata', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star line fast | sparkle', text: 'Hits for 85% MGK. Slow 1. A Reflection if it has none.',
+  run(c) { c.hit(c.tgt, { mgk: 0.85 }); c.st(c.tgt, 'slow', 1); if (!images(c.b, c.u)) addImage(c.b, c.u); } });
 defMove({ id: 'fata_waver', name: 'Waver Off', type: 'STAR', owner: 'fata', reach: 'self', cd: 4, wt: 50, fx: 'blink | sparkle self',
   text: 'Cleanses itself. A Reflection. Mirage 25% for 3 turns.',
   run(c) { c.cleanse(c.u); addImage(c.b, c.u); addMirage(c.b, c.u, 0.25, 3); } });
 defMove({ id: 'fata_hazerush', name: 'Haze Run', type: 'STONE', owner: 'fata', reach: 'single', tags: ['dash', 'spell'], cd: 3, fx: 'blink | lunge fast | sparkle',
-  text: 'Hits for 70% MGK, +20% per Reflection. Its next turn comes 30% sooner.',
-  run(c) { c.hit(c.tgt, { mgk: 0.7 }, { mult: 1 + 0.2 * images(c.b, c.u) }); c.hasten(c.u, 30); } });
+  text: 'Hits for 75% MGK, +20% per Reflection. Its next turn comes 30% sooner.',
+  run(c) { c.hit(c.tgt, { mgk: 0.75 }, { mult: 1 + 0.2 * images(c.b, c.u) }); c.hasten(c.u, 30); } });
 defMove({ id: 'fata_massmirage', name: 'Whole Mirage', type: 'STAR', owner: 'fata', reach: 'single', tags: ['spell'], cd: 6, nerve: 5, fx: 'swell big | star*6 orbit | sparkle flash big tint',
   text: 'Hits for 52% MGK + 50% MGK per Reflection. +2 Reflections. Mirage 30% for 3 turns.',
   run(c) { const n = images(c.b, c.u); c.hit(c.tgt, { mgk: 0.52 + 0.5 * n }); for (let i = 0; i < 2; i++) addImage(c.b, c.u); addMirage(c.b, c.u, 0.3, 3); } });
@@ -1591,11 +1591,11 @@ defMark({ id: 'upfall_big', name: 'grown tall', clock: 'own', value: 0.15,
 defPassive({ id: 'upfall_raindrop', name: 'Upward Drop', owner: 'upfall', text: 'Its attacks also hit for 28% MGK.',
   afterAttack(b, f, t) { strike(b, f, t, stat(b, f, 'mgk') * 0.28, 'M', 'TIDE'); } });
 defPassive({ id: 'upfall_topsy', name: 'Topsy', owner: 'upfall', text: 'An ally it grows takes 0.9x damage while big.' });
-defMove({ id: 'upfall_risingdrops', name: 'Rising Drops', type: 'TIDE', owner: 'upfall', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | drop*4 rise | splash', text: 'Hits for 243% MGK. Slow 2.',
-  run(c) { c.hit(c.tgt, { mgk: 2.43 }); c.st(c.tgt, 'slow', 2); } });
+defMove({ id: 'upfall_risingdrops', name: 'Rising Drops', type: 'TIDE', owner: 'upfall', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'sway | drop*4 rise | splash', text: 'Hits for 250% MGK. Slow 2.',
+  run(c) { c.hit(c.tgt, { mgk: 2.5 }); c.st(c.tgt, 'slow', 2); } });
 defMove({ id: 'upfall_shrink', name: 'Shrink', type: 'SALT', owner: 'upfall', reach: 'single', cd: 3, fx: 'sink | salt*3 rise | frost',
-  text: 'Hits for 54% MGK. 1 turn: the foe can only attack or switch, and takes 1.15x.',
-  run(c) { c.hit(c.tgt, { mgk: 0.54 }); if (!c.tgt.ko) c.mark(c.tgt, 'upfall_small', 1, 1); } });
+  text: 'Hits for 59% MGK. 1 turn: the foe can only attack or switch, and takes 1.15x.',
+  run(c) { c.hit(c.tgt, { mgk: 0.59 }); if (!c.tgt.ko) c.mark(c.tgt, 'upfall_small', 1, 1); } });
 defMove({ id: 'upfall_helpup', name: 'Help Up', type: 'TIDE', owner: 'upfall', reach: 'ally', tags: ['projectile'], cd: 3, fx: 'hop | drop*2 rise | ring ally', text: 'Shields an ally 21% max HP. 3 turns: its attacks add 28% MGK.',
   run(c) { c.shield(c.ally!, c.ally!.maxHp * 0.21, 3); c.mark(c.ally!, 'upfall_help', 1, 3); } });
 defMove({ id: 'upfall_swell', name: 'Grow Tall', type: 'TIDE', owner: 'upfall', reach: 'ally', cd: 6, nerve: 5, fx: 'swell big | drop*6 rise | bloom ally big tint', text: 'Ally: +25% max HP for 3 turns and heals that much. Foe: Stun 1.',
