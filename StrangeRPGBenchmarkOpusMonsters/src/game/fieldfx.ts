@@ -55,7 +55,7 @@ function px(x: number, y: number, c: string): void {
 }
 
 /** Cost of the last light pass in milliseconds, what it lit, the glitter specks alive, and where on screen and when the last star landed, for the debug handle. Setting `off` skips the swap to unlit. */
-export const lightStats = { ms: 0, avg: 0, stars: 0, glows: 0, lamps: 0, figs: 0, shadows: 0, figMs: 0, shadowMs: 0, shadeMs: 0, specks: 0, landed: [0, 0, -1], off: false };
+export const lightStats = { ms: 0, avg: 0, stars: 0, glows: 0, lamps: 0, figs: 0, shadows: 0, figMs: 0, shadowMs: 0, shadeMs: 0, specks: 0, landed: [0, 0, -1], off: false, rain: 0 };
 
 /** Draws weather, lighting, and glowing things for the field. Called once per frame after sprites. */
 export function drawFieldFx(s: FieldFxState): void {
@@ -69,6 +69,7 @@ export function drawFieldFx(s: FieldFxState): void {
   // A new map's first frames draw under a full fade, so its light pass waits for the first frame that shows and the work is split.
   if (s.hidden) return;
   // The world's own weather draws first, so it takes the lit and unlit hues like the ground under it.
+  clearRain();
   if (!s.dark) weather(s, p);
   marks(s);
   if (hop >= 0) hopSand(s, p, hop);
@@ -78,6 +79,8 @@ export function drawFieldFx(s: FieldFxState): void {
   Object.assign(lightStats, { ms, avg: lightStats.avg * 0.95 + ms * 0.05, stars: stars.length, glows: glows.length, lamps: lamps.length, specks: specks.length });
   // Everything after this gives off its own light and keeps its lit colors.
   if (s.map.fogRings) ringMarks(s, p);
+  lightStats.rain = rainPx.length;
+  splashes(s, p, sky);
   if (!s.map.indoor && !s.dark) skyStars(s, p, sky);
   waterGlints(s, p);
   reflections(s, p);
@@ -1276,7 +1279,11 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
       if (lampRow && x >= lx0 && x <= lx1) {
         // A lamp's bright middle shows through a dither from 10 sixteenths and is solid from 19. It takes the lit form, then the lamp's color.
         const lv = lamp[i], sv = lit[i];
-        if (sv > th && lv > 0) {
+        if (RAIN[i]) {
+          // A drop in a lamp's light takes the lamp's color wherever the light passes the dither.
+          core = lv > th;
+          isLit = sv > th || core;
+        } else if (sv > th && lv > 0) {
           // Under starlight the lamp's color takes its share of the light at the pixel, in thirds picked by the dither. Squaring the levels lets the brighter light take the pixel.
           const amt = Math.min(1, lv / 19) * lv * lv / (lv * lv + sv * sv);
           mix = Math.min(MIX_STEPS, Math.floor(amt * MIX_STEPS + (th + 0.5) / 16));
@@ -1302,7 +1309,7 @@ function composite(s: FieldFxState, sky: Sky, p: Pal, fog: boolean, sink: number
         // The edge of each lamp's pool: the night with a little of the lamp's color added.
         if (edge) { if (o !== edgeC) { edgeC = o; edgeO = rgbWord((o & 255) / 255 + er, ((o >>> 8) & 255) / 255 + eg, ((o >>> 16) & 255) / 255 + eb); } o = edgeO; }
       }
-      if (inked) { const k = fog && vis[i] <= th ? INK32 : FIG[i] ? FIG[i] : shade[i] > th ? INK32 : 0; if (k) o = k; }
+      if (inked) { const k = fog && vis[i] <= th ? INK32 : FIG[i] ? FIG[i] : shade[i] > th && !RAIN[i] ? INK32 : 0; if (k) o = k; }
       u[i] = o;
     }
   }
@@ -1350,8 +1357,15 @@ function fallFlakes(s: FieldFxState, n: number, c: string, speed: number, size: 
 }
 
 /** Rain near the Bole falls upward while the Bole stands, and down again once it is pulled. */
+/** Screen pixels a raindrop covers this frame. A drop is in the air, so it takes the light where it falls and no shadow on the ground under it. */
+const RAIN = new Uint8Array(N);
+const rainPx: number[] = [];
+/** How many drops fall this frame, and whether they fall up. Zero when it is not raining. */
+let rainN = 0, rainUp = false;
+
 function rain(s: FieldFxState, p: Pal, n: number): void {
   const up = !G.pulled.includes('bole') && s.map.region === 4;
+  rainN = n; rainUp = up;
   for (let i = 0; i < n; i++) {
     const sp = 2 + hash(i * 3 + 7) * 2;
     const wy = hash(i * 5 + 4) * 400 + (up ? -1 : 1) * s.t * sp;
@@ -1360,6 +1374,40 @@ function rain(s: FieldFxState, p: Pal, n: number): void {
     ctx.fillStyle = p.wt2;
     ctx.fillRect(x, y, 1, 3);
     px(x, up ? y : y + 2, p.hi);
+    for (let k = 0; k < 3 && y + k < SH; k++) { const j = (y + k) * SW + x; if (!RAIN[j]) { RAIN[j] = 1; rainPx.push(j); } }
+  }
+}
+
+function clearRain(): void {
+  for (const j of rainPx) RAIN[j] = 0;
+  rainPx.length = 0;
+  rainN = 0;
+}
+
+/** Splashes this many frames long, and how many start each frame for each 10 drops in the air. */
+const SPLASH_T = 3, SPLASH_RATE = 2;
+/** Light on the ground, in sixteenths, that shows a splash at all. */
+const SPLASH_LIGHT = 6;
+
+/** Drops landing in a pool of light flash a pixel or two of light: a dot, then a short spray either side. Splashes in the dark stay unseen. */
+function splashes(s: FieldFxState, p: Pal, sky: Sky): void {
+  if (!rainN || rainUp) return;
+  const per = Math.max(1, Math.round(rainN / 10 * SPLASH_RATE));
+  const lampC = sky.lampTint;
+  for (let age = 0; age < SPLASH_T; age++) {
+    const f = s.t - age;
+    for (let k = 0; k < per; k++) {
+      // Each splash sits at a place fixed to the world, so it stays put as the view scrolls.
+      const wx = Math.floor(s.cam[0]) + Math.floor(hash(f * 13 + k * 101) * SW), wy = Math.floor(s.cam[1]) + Math.floor(hash(f * 29 + k * 211 + 5) * SH);
+      const x = wx - Math.floor(s.cam[0]), y = wy - Math.floor(s.cam[1]);
+      if (x < 1 || y < 1 || x >= SW - 1 || y >= SH - 1) continue;
+      const i = y * SW + x, lv = lamp[i], sv = lit[i];
+      if (Math.max(lv, sv) < SPLASH_LIGHT || shade[i] > 8 || (anyWet && WETPX[i]) || wallAt(x, y, s)) continue;
+      const c = lv > sv ? lampC : p.hi;
+      if (age === 0) px(x, y, c);
+      else if (age === 1) { px(x - 1, y, c); px(x + 1, y, c); }
+      else { px(x - 1, y - 1, c); px(x + 1, y - 1, c); }
+    }
   }
 }
 
