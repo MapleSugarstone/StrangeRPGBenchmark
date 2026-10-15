@@ -556,13 +556,14 @@ let sgx = 0, sgy = 0, solidKey = '';
 /** Solid tiles that lie flat, so a shadow runs on across them: water, shallows, creases, and holes. */
 const FLAT = new Set(['~', ':', 'z', 'Z', 'O']);
 
-/** Whether screen pixel x, y is a wall a shadow stops at. An object's tile stops it only on the object's own art, and `art` false lets it pass there too. */
+/** Whether screen pixel x, y is a wall a shadow stops at. An object's or roof's tile stops it only on the drawn art, and `art` false lets it pass there too. */
 function wallAt(x: number, y: number, s: FieldFxState, art = true): boolean {
   const tx = Math.floor((x + s.cam[0]) / 8), ty = Math.floor((y + s.cam[1]) / 8);
   const gx = tx - sgx, gy = ty - sgy;
   if (gx < 0 || gy < 0 || gx >= 30 || gy >= 30) return true;
   const i = gy * 30 + gx;
-  if (solidGrid[i] < 0) { const ch = field.tile(tx, ty); solidGrid[i] = OBJECTS.has(ch) ? 2 : isSolid(ch) && !FLAT.has(ch) ? 1 : 0; }
+  if (solidGrid[i] < 0) { const ch = field.tile(tx, ty); solidGrid[i] = ch === 'r' ? 3 : OBJECTS.has(ch) ? 2 : isSolid(ch) && !FLAT.has(ch) ? 1 : 0; }
+  if (solidGrid[i] === 3) return art && roofAt(Math.floor(x + s.cam[0]), Math.floor(y + s.cam[1])) === 2;
   if (solidGrid[i] === 2) {
     if (!art) return false;
     const X = Math.floor(x), Y = Math.floor(y);
@@ -927,14 +928,17 @@ function layShadow(x0: number, y0: number, x1: number, y1: number, wall: number,
       const qx = X + 0.5;
       let t = lo, top = hi;
       if (Math.abs(ux) < 1e-6) { if (qx < x0 || qx > x1) continue; } else { const a = (qx - x0) / ux, b = (qx - x1) / ux; t = Math.max(t, Math.min(a, b)); top = Math.min(top, Math.max(a, b)); }
-      if (t > top || t <= 0) continue;
-      // The shadow starts where the slide first meets the house's art, so ground showing past the roof's edge casts none.
-      while (t <= top) {
-        const sx = qx - t * ux, sy = qy - t * uy;
-        if (sy >= wall || roofAt(Math.floor(sx) + camX, Math.floor(sy) + camY) === 2) break;
-        t += 1;
-      }
+      // Ground inside the box, above a roof's curved top, takes the shadow from the slide's first step.
+      if (t <= 0) t = 0.5;
       if (t > top) continue;
+      // Only a slide that meets the house's art casts shadow, so ground showing past the roof's edge casts none. The ink still fades by the box, so the edge does not thin out where the roof curves.
+      let hit = t;
+      while (hit <= top) {
+        const sx = qx - hit * ux, sy = qy - hit * uy;
+        if (sy >= wall || roofAt(Math.floor(sx) + camX, Math.floor(sy) + camY) === 2) break;
+        hit += 1;
+      }
+      if (hit > top) continue;
       if (wallAt(X, Y, s) || wallAt(qx - (t / 2) * ux, qy - (t / 2) * uy, s, false)) continue;
       const k = Y * SW + X, ink = MOON_INK * (1 - t / len) * moonFill(k);
       if (ink <= 0) continue;
