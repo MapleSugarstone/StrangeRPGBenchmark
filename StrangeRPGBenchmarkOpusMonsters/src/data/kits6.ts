@@ -736,10 +736,10 @@ defPassive({ id: 'magpie_each', name: 'One of Each', owner: 'magpie', text: 'Whe
   anyStatus(b, f, src, t, id) { if (isOut(b, f) && (GOOD as string[]).includes(id)) applyStatus(b, f, f, id, 1); } });
 defPassive({ id: 'magpie_wing', name: 'Under Wing', owner: 'magpie', text: 'The first time it comes out: Hidden 1 and Haste 1.',
   comeOut(b, f) { if (f.k.winged) return; f.k.winged = 1; applyStatus(b, f, f, 'hidden', 1); applyStatus(b, f, f, 'haste', 1); } });
-defMove({ id: 'magpie_snatch', name: 'Snatch', type: 'BEAST', owner: 'magpie', reach: 'single', tags: ['projectile'], cd: 1, fx: 'flare | feather*3 line fast | slash', text: 'Hits 3 times for 29% ATK.',
-  run(c) { for (let i = 0; i < 3 && !c.tgt.ko; i++) c.hit(c.tgt, { atk: 0.29 }); } });
-defMove({ id: 'magpie_pecks', name: 'Three Pecks', type: 'STAR', owner: 'magpie', reach: 'single', cd: 4, fx: 'lunge | star*3 converge | bite', text: 'Hits for 50% ATK. Pecked 1: it can\'t use moves at its next turn.',
-  run(c) { c.hit(c.tgt, { atk: 0.5 }); if (!c.tgt.ko) c.mark(c.tgt, 'magpie_hacked', 1, 1); } });
+defMove({ id: 'magpie_snatch', name: 'Snatch', type: 'BEAST', owner: 'magpie', reach: 'single', tags: ['projectile'], cd: 1, fx: 'flare | feather*3 line fast | slash', text: 'Hits 3 times for 32% ATK.',
+  run(c) { for (let i = 0; i < 3 && !c.tgt.ko; i++) c.hit(c.tgt, { atk: 0.32 }); } });
+defMove({ id: 'magpie_pecks', name: 'Three Pecks', type: 'STAR', owner: 'magpie', reach: 'single', cd: 4, fx: 'lunge | star*3 converge | bite', text: 'Hits for 54% ATK. Pecked 1: it can\'t use moves at its next turn.',
+  run(c) { c.hit(c.tgt, { atk: 0.54 }); if (!c.tgt.ko) c.mark(c.tgt, 'magpie_hacked', 1, 1); } });
 defMove({ id: 'magpie_hoard', name: 'Hoard', type: 'BEAST', owner: 'magpie', reach: 'reserveAlly', cd: 4, tag: true, wt: 50, fx: 'hop | feather orbit | ring ally', text: 'Switches to an ally. Its first turn comes 12% sooner.',
   run(c) { c.ally!.k.firstBonus = (c.ally!.k.firstBonus || 0) + 12; } });
 defMove({ id: 'magpie_back', name: 'Gives It Back', type: 'BEAST', owner: 'magpie', reach: 'spread', cd: 6, nerve: 5, fx: 'swell big | feather*6 sweep | slash claw jolt all', text: 'Every foe loses shields and good statuses. Hits for 90% ATK. Splash 35%.',

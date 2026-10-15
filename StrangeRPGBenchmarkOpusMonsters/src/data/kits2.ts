@@ -641,8 +641,8 @@ defPassive({ id: 'perihelion', name: 'Sunward', owner: 'coma', text: 'When it co
   reserveTurn(b, f) { f.k.away = Math.min(5, (f.k.away || 0) + 1); },
   comeOut(b, f) { f.k.awayOut = f.k.away || 0; f.k.away = 0; },
   outMul(b, f, t, d) { return f.k.fresh && d.move ? 1.3 + 0.1 * (f.k.awayOut || 0) : 1; } });
-defMove({ id: 'dustmove', name: 'Dust Tail', type: 'STAR', owner: 'coma', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line | burst', text: 'Hits for 78% MGK. Slow 1. Its next turn comes 15% sooner.',
-  run(c) { c.hit(c.tgt, { mgk: 0.78 }); c.st(c.tgt, 'slow', 1); c.hasten(c.u, 15); } });
+defMove({ id: 'dustmove', name: 'Dust Tail', type: 'STAR', owner: 'coma', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line | burst', text: 'Hits for 73% MGK. Slow 1. Its next turn comes 15% sooner.',
+  run(c) { c.hit(c.tgt, { mgk: 0.73 }); c.st(c.tgt, 'slow', 1); c.hasten(c.u, 15); } });
 defMove({ id: 'icecore', name: 'Frozen Core', type: 'STAR', owner: 'coma', reach: 'self', cd: 3, wt: 60, fx: 'swell | shard*3 orbit | frost self', text: 'For 3 turns: attacks add 30% DEF, reserves take 30% MGK. Fortify 1.',
   run(c) { c.mark(c.u, 'coma_clap', 1, 3); c.st(c.u, 'fortify', 1); } });
 defMove({ id: 'streak', name: 'Tail Sweep', type: 'STONE', owner: 'coma', reach: 'spread', tags: ['spell'], cd: 3, fx: 'spin | sand*4 sweep | puff',
@@ -753,7 +753,7 @@ defMark({ id: 'portent_scorch', name: 'red sky', clock: 'own', volatile: true, v
   turnStart(b, f) {
     heal(b, f, f, f.maxHp * 0.05);
     const t = foeOf(b, f);
-    if (!t.ko && !t.gone) dealDamage(b, f, t, stat(b, f, 'mgk') * 0.3, dot('M'), null);
+    if (!t.ko && !t.gone) dealDamage(b, f, t, stat(b, f, 'mgk') * 0.36, dot('M'), null);
   } });
 defPassive({ id: 'foretold', name: 'Keeps a Piece', owner: 'portent', text: 'When it KOs a foe: takes that foe\'s first move into its first slot. 1 tide.',
   anyKO(b, f, v, killer) {
@@ -763,9 +763,9 @@ defPassive({ id: 'foretold', name: 'Keeps a Piece', owner: 'portent', text: 'Whe
     addNerve(b, f.side, 1);
   } });
 defPassive({ id: 'illwind', name: 'Bad Sky', owner: 'portent', text: 'Doomed foes take 1.15x damage from everything.' });
-defMove({ id: 'sign', name: 'Red Streak', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line fast | burst cinders', text: 'Hits for 161% MGK + 4% of the foe\'s max HP. Burn 1 (30% MGK each turn).',
-  run(c) { c.hit(c.tgt, { mgk: 1.61, tgtHp: 0.04 }); c.st(c.tgt, 'burn', 1, stat(c.b, c.u, 'mgk') * 0.3); } });
-defMove({ id: 'badnews', name: 'Red Sky', type: 'STAR', owner: 'portent', reach: 'self', cd: 3, wt: 70, fx: 'swell | star*3 orbit | cinders self tint', text: 'For 3 turns: the foe takes 30% MGK and it heals 5% max HP each turn.',
+defMove({ id: 'sign', name: 'Red Streak', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | comet line fast | burst cinders', text: 'Hits for 171% MGK + 4% of the foe\'s max HP. Burn 1 (30% MGK each turn).',
+  run(c) { c.hit(c.tgt, { mgk: 1.71, tgtHp: 0.04 }); c.st(c.tgt, 'burn', 1, stat(c.b, c.u, 'mgk') * 0.3); } });
+defMove({ id: 'badnews', name: 'Red Sky', type: 'STAR', owner: 'portent', reach: 'self', cd: 3, wt: 70, fx: 'swell | star*3 orbit | cinders self tint', text: 'For 3 turns: the foe takes 36% MGK and it heals 5% max HP each turn.',
   run(c) { c.mark(c.u, 'portent_scorch', 1, 3); } });
 defMove({ id: 'unlucky', name: 'On Its Way', type: 'STONE', owner: 'portent', reach: 'single', tags: ['spell'], cd: 3, fx: 'lift | pebble rain slow | crack',
   text: 'After 2 of the foe\'s turns: it takes 315% MGK.',
