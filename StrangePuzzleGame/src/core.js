@@ -932,9 +932,10 @@ function jingle(name) { if (window.Music && Music.jingle) Music.jingle(name); }
 // Tilde's theme loses its static as chips come back.
 function mend() { if (window.Music && Music.setMended) Music.setMended(Save.health()); }
 
+function blankSave() { return { done: {}, seen: {}, cursor: 0, muted: false, keys: {}, world: null, time: 0 }; }
 var Save = {
   KEY: 'checksum.v2',
-  data: { done: {}, seen: {}, cursor: 0, muted: false, keys: {}, world: null, time: 0 },
+  data: blankSave(),
   unsaved: 0,
   load: function () {
     try {
@@ -947,6 +948,8 @@ var Save = {
   },
   // Counts play time, and writes it every 10 seconds so a closed tab loses little.
   tick: function (dt) { this.data.time = (this.data.time || 0) + dt; this.unsaved += dt; if (this.unsaved >= 10) { this.unsaved = 0; this.store(); } },
+  // Starts a new game and keeps only the mute setting.
+  reset: function () { var muted = this.data.muted; this.data = blankSave(); this.data.muted = muted; this.unsaved = 0; this.store(); },
   chips: function () { var n = 0; for (var i = 0; i < LEVELS.length; i++) if (this.data.done[LEVELS[i].id]) n++; return n; },
   // Tilde's health counts the story's chips, so postgame levels never lower it, and beating the Static fills it.
   health: function () {

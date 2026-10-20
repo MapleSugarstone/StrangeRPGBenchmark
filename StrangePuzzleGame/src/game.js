@@ -1043,13 +1043,26 @@ function TitleScene() {}
 TitleScene.prototype.enter = function () { music('title'); FX.clear(); };
 TitleScene.prototype.key = function (ev) {
   if (ev.code === 'KeyM') { setMuted(!Sound.muted); return; }
+  // Erasing asks first, and the cursor starts on Keep.
+  if (this.confirm) {
+    var d = dirOf(ev);
+    if (d === 1 || d === 3) { this.erase = !this.erase; sfx('select'); return; }
+    if (isBack(ev) || (isOk(ev) && !this.erase)) { this.confirm = false; sfx('back'); return; }
+    if (isOk(ev)) { Save.reset(); mend(); this.confirm = false; this.erased = 2; sfx('smash'); }
+    return;
+  }
+  if ((ev.code === 'Delete' || ev.code === 'Backspace') && Save.data.seen.intro) { this.confirm = true; this.erase = false; sfx('select'); return; }
   if (isOk(ev)) {
     sfx('ok');
     if (!Save.data.seen.intro) { Save.data.seen.intro = 1; Save.store(); setScene(new StoryScene(INTRO_LINES, 0)); }
     else toWorld();
   }
 };
-TitleScene.prototype.update = function (dt) { FX.update(dt); if (Math.random() < dt * 2) FX.sparkle(Math.random() * W, 20 + Math.random() * 60, 1); };
+TitleScene.prototype.update = function (dt) {
+  FX.update(dt);
+  this.erased = Math.max(0, (this.erased || 0) - dt);
+  if (Math.random() < dt * 2) FX.sparkle(Math.random() * W, 20 + Math.random() * 60, 1);
+};
 TitleScene.prototype.draw = function () {
   var t = Game.t, a = AREAS[0];
   drawVoid(a, t);
@@ -1065,6 +1078,20 @@ TitleScene.prototype.draw = function () {
   drawTildeNest(112, 108, t, Save.health());
   if (Math.floor(t * 1.4) & 1) textC('press enter', W / 2, 152, PAL.white);
   if (Save.data.seen.intro) textC(Save.chips() + '/' + LEVELS.length + ' solved   ' + playTime(Save.data.time) + ' played', W / 2, 174, PAL.g2);
+  else if (this.erased > 0) textC('save erased', W / 2, 174, PAL.orange);
+  if (Save.data.seen.intro && !this.confirm) { var hint = 'del: erase save'; text(hint, W - 3 - textW(hint), 3, PAL.g3); }
+  if (this.confirm) this.drawConfirm();
+};
+TitleScene.prototype.drawConfirm = function () {
+  dither(0, 0, W, H, null, PAL.deep, 10);
+  var w = 150, h = 62, x = (W - w) / 2, y = 64, self = this;
+  panel(x, y, w, h, 'ERASE SAVE', PAL.redDk);
+  wrap('every chip, keycard, and minute played will be gone', 28).forEach(function (l, i) { text(l, x + 5, y + 16 + i * LH, PAL.ink); });
+  [['KEEP', false, x + 30], ['ERASE', true, x + 90]].forEach(function (o) {
+    var on = self.erase === o[1], ow = textW(o[0]) + 6;
+    if (on) rect(o[2] - 3, y + 44, ow, 11, o[1] ? PAL.red : PAL.cobalt);
+    text(o[0], o[2], y + 46, on ? PAL.white : PAL.g4);
+  });
 };
 function playTime(sec) {
   var m = Math.floor((sec || 0) / 60), h = Math.floor(m / 60);
@@ -1085,15 +1112,17 @@ var MID_LINES = [
 function StoryScene(lines, back) { this.lines = lines; this.i = 0; this.back = back; this.chars = 0; }
 StoryScene.prototype.enter = function () { music('title'); };
 StoryScene.prototype.key = function (ev) {
-  if (!isOk(ev) && !isBack(ev)) return;
+  if (this.done || (!isOk(ev) && !isBack(ev))) return;
   var line = this.lines[this.i][1];
   if (this.chars < line.length && !isBack(ev)) { this.chars = line.length; return; }
   sfx('select');
+  // The last line stays on screen through the fade rather than typing out again.
+  if (this.i + 1 >= this.lines.length || isBack(ev)) { this.done = true; this.chars = line.length; toWorld(this.back); return; }
   this.i++;
   this.chars = 0;
-  if (this.i >= this.lines.length || isBack(ev)) toWorld(this.back);
 };
 StoryScene.prototype.update = function (dt) {
+  if (this.done) return;
   var line = this.lines[Math.min(this.i, this.lines.length - 1)][1], before = Math.floor(this.chars);
   this.chars = Math.min(line.length, this.chars + dt * 30);
   if (Math.floor(this.chars) > before && Math.floor(this.chars) % 3 === 0) {
