@@ -1,0 +1,9 @@
+{
+  "name": "checksum",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Checksum: a tile puzzle game about a codemage who compiles bits into daemons.",
+  "scripts": {
+    "build": "node tools/build-dist.mjs"
+  }
+}

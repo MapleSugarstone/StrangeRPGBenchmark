@@ -177,6 +177,23 @@
       "chapters": 5,
       "blurb": "You wake on a brass plaza beside your own empty shell. Strip shells and pull out memories, emotions, and names. Keep your Fragility between fading away and breaking reality all the way down to the Stone of Herself.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C opens your senses. Tab shows your goal. M mutes."
+    },
+    {
+      "id": "checksum",
+      "title": "Checksum",
+      "model": "Claude Opus 5.5",
+      "effort": "Extra high",
+      "folder": "StrangePuzzleGame",
+      "status": "playable",
+      "golden": true,
+      "build": { "command": "npm run build", "dist": "dist" },
+      "colors": { "accent": "#ffd23f", "ink": "#120d1c" },
+      "hero": { "name": "Pilcrow", "role": "Codemage, compiler of daemons", "sprite": "menu/art/checksum-hero.png" },
+      "scene": "menu/art/checksum-lobby.png",
+      "shots": ["menu/art/checksum-showroom.png", "menu/art/checksum-frycook.png", "menu/art/checksum-warpzone.png"],
+      "chapters": 16,
+      "blurb": "The world crashed, and a dead mall full of broken code is all that is left of it. Tilde is fading in the Lobby, and every datachip Pilcrow recovers heals part of her. Pilcrow's wand compiles stacks of bits into daemons: Rams that roll, Forks that burst, Pingers that fire. Fifteen wings of puzzles each bring their own machinery and end in a boss who drops the keycard to the next wing. The last keycard opens the Atrium, where the Static that is eating Tilde's signal waits.",
+      "controls": "Arrows or WASD move. X, or Shift with an arrow, zaps. 1, 2, or 3 drops a bit. Space waits. Z undoes and R restarts. Enter confirms. Esc goes back. H shows help. M mutes."
     }
   ]
 }

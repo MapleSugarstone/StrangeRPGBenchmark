@@ -14,6 +14,7 @@ This repository holds tile-based role-playing games that different AI models wro
 | Whorl | Claude Opus 5.5, Ultracode (polished by User) | `StrangeRPGBenchmarkOpusMonsters` | Playable, diamond |
 | Too Many Doors | Lovebert 2, No thinking, through Scoobert (polished by Opus 5.5) | `StrangeRPG5/StrangeRPG5` | Playable |
 | The Void-Pilgrim Chronicles | Qwen 3.5 9B, Low, through Scoobert (implemented and polished by Opus 5.5, Ultracode) | `WeirdJRPG` | Playable, golden |
+| Checksum | Claude Opus 5.5, Extra high | `StrangePuzzleGame` | Playable, golden |
 
 ## Menu
 

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "checksum",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/Krazv/Documents/StrangeRPGBenchmark/StrangePuzzleGame/tools/serve.mjs", "8137"],
+      "port": 8137
+    }
+  ]
+}
