@@ -45,6 +45,11 @@ export async function payoff(at: [number, number], key?: string, value = 1): Pro
   if (away) await field.panBack();
 }
 
+/** Whether Ouro stands on one of a puzzle's reset tiles. An enter script also runs on loading a save, so it resets a puzzle only then. */
+export function atReset(tiles: [number, number][]): boolean {
+  return tiles.some(([x, y]) => field.x === x && field.y === y);
+}
+
 /** The first time Ouro reaches a keeper's floor, the keeper notices. Put on the hall's top floor as a trigger. */
 export function hallTop(hall: string, keeper: string): () => Promise<void> {
   return async () => {

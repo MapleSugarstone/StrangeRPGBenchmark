@@ -9,7 +9,7 @@ import { G, flag, setFlag } from '../game/state';
 import { defMap, defScript, MAPS, SCRIPTS } from '../game/world';
 import { GRAPH_PUZZLES, WALK_PUZZLES, type Move } from '../tools/worldcheck';
 import { Canvas, kinds, link, look, reward, stash } from './areakit';
-import { payoff, prize } from './puzzlekit';
+import { atReset, payoff, prize } from './puzzlekit';
 
 const DX = [0, 1, 0, -1], DY = [1, 0, -1, 0];
 const pale = (id: string, c: [string, string]) => () => ({ px: (PEOPLE[id] || PEOPLE.villager).px, c });
@@ -205,11 +205,12 @@ field.stepHooks.push(f => {
   sfx('wind');
 });
 
-defScript('moonbedEnter', async () => { for (const m of MOON_COLORS) setFlag(m.flag, 0); });
+const MOON_DOOR: [number, number][] = [[15, 19]];
+defScript('moonbedEnter', async () => { if (atReset(MOON_DOOR)) for (const m of MOON_COLORS) setFlag(m.flag, 0); });
 WALK_PUZZLES.push({
   name: 'The Moonbed', map: 'moonbed', start: [15, 19], goal: (x, y) => y <= 4 && x >= 13 && x <= 17, floor: 10,
   plates: MOON_COLORS.map((m, i) => ({ flag: m.flag, at: MOON_STONES.filter(s => s[2] === i).map(([x, y]) => [x, y] as [number, number]) })),
-  resets: [[15, 19]], exits: [[15, 19]], prize: { at: [16, 2], view: [15, 19] },
+  resets: MOON_DOOR, exits: [[15, 19]], prize: { at: [16, 2], view: [15, 19] },
 });
 
 // The Shore-woman speaks of her reflection as herself.

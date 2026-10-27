@@ -1297,6 +1297,8 @@ function reachesWay(m: MapDef, x0: number, y0: number): boolean {
     if (ch === ':') return G.keys.includes('stilts');
     if (ch === '%') return G.keys.includes('prisingiron') || !!G.flags[crustKey(m.id, x, y)];
     if (ch === '@') return G.keys.includes('haul');
+    // Live current is open ground to isSolid, and each map that runs it blocks it with a pass hook.
+    if (ch === 'L') return false;
     const b = m.basin;
     if (ch === 'O' && b && G.flags[b.flag] && x >= b.x && y >= b.y && x < b.x + b.w && y < b.y + b.h) return true;
     return !isSolid(ch);

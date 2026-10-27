@@ -9,7 +9,7 @@ import { G, flag, setFlag } from '../game/state';
 import { defScript, MAPS, SCRIPTS } from '../game/world';
 import { crossable, fieldPress, GRAPH_PUZZLES, WALK_PUZZLES, type Move } from '../tools/worldcheck';
 import { Canvas } from './areakit';
-import { hallTop, payoff } from './puzzlekit';
+import { atReset, hallTop, payoff } from './puzzlekit';
 
 /** Replaces a hall's layout, moves its door to the bottom row, and points the town's door at the new entrance. */
 function rebuild(id: string, c: Canvas, doorX: number): void {
@@ -104,9 +104,13 @@ defScript('mastVane', async () => {
   await act('ouro', 'nod');
 });
 // Leeward keeps the deck's wind one way. Walking out of the door and back in finds it that way again.
+const MAST_DOOR: [number, number][] = [[7, 15], [8, 15]];
 const mastEnter = MAPS.mastgym.enter;
 MAPS.mastgym.enter = 'mastDeckEnter';
-defScript('mastDeckEnter', async () => { setFlag('mastWind', 0); if (mastEnter && SCRIPTS[mastEnter]) await SCRIPTS[mastEnter](); });
+defScript('mastDeckEnter', async () => {
+  if (atReset(MAST_DOOR)) setFlag('mastWind', 0);
+  if (mastEnter && SCRIPTS[mastEnter]) await SCRIPTS[mastEnter]();
+});
 moveNpc('mastgym', 'leeward', 7, 1);
 moveNpc('mastgym', 'deck1', 3, 14, 1);
 moveNpc('mastgym', 'deck2', 12, 14, 3);
@@ -115,7 +119,7 @@ MAPS.mastgym.npcs.push({ id: 'mastsign', x: 2, y: 15, sprite: 'sign', name: unde
 defScript('mastTop', hallTop('mast', 'leeward'));
 WALK_PUZZLES.push({
   name: 'Mast hall', map: 'mastgym', start: [7, 15], goal: (x, y) => y <= 2, floor: 6,
-  switches: [{ flag: 'mastWind', at: MAST_VANES }], resets: [[7, 15], [8, 15]], exits: [[7, 15]], needs: ['gusts', 'switches'],
+  switches: [{ flag: 'mastWind', at: MAST_VANES }], resets: MAST_DOOR, exits: [[7, 15]], needs: ['gusts', 'switches'],
   prize: { at: [7, 1], view: [7, 15] },
 });
 
@@ -380,10 +384,11 @@ defScript('humPost', async () => {
   await morph(on => { G.flags[k] = on ? 1 - old : old; }, [fx, fy], 2, false);
   if (!was && humCurrent().lit) { sound('fit'); await payoff(HUM_GATE); }
 });
+const HUM_DOOR: [number, number][] = [[7, 13], [8, 13]];
 const humWas = MAPS.humgym.enter;
 MAPS.humgym.enter = 'humHallEnter';
 defScript('humHallEnter', async () => {
-  HUM_POSTS.forEach((_, i) => { G.flags['humPost' + i] = 0; });
+  if (atReset(HUM_DOOR)) HUM_POSTS.forEach((_, i) => { G.flags['humPost' + i] = 0; });
   if (humWas && SCRIPTS[humWas]) await SCRIPTS[humWas]();
 });
 moveNpc('humgym', 'ohm', 7, 1);
@@ -394,7 +399,7 @@ MAPS.humgym.npcs.push({ id: 'humsign', x: 10, y: 13, sprite: 'sign', name: undef
 defScript('humTop', hallTop('hum', 'ohm'));
 WALK_PUZZLES.push({
   name: 'Hum hall', map: 'humgym', start: [7, 13], goal: (x, y) => y <= 2, floor: 8,
-  switches: HUM_POSTS.map((p, i) => ({ flag: 'humPost' + i, at: [p] })), solid: 'L', resets: [[7, 13], [8, 13]], exits: [[7, 13]],
+  switches: HUM_POSTS.map((p, i) => ({ flag: 'humPost' + i, at: [p] })), solid: 'L', resets: HUM_DOOR, exits: [[7, 13]],
   needs: ['switches'], prize: { at: [7, 1], view: [7, 13] },
 });
 
