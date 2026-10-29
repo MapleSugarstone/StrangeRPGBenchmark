@@ -1,0 +1,233 @@
+# Chapter 4: Late Glass
+# Maps: glass_flats, glass_well, glass_quarry.
+# Sand fused to green glass under a sun nearly overhead. Every surface shows the past, a little late.
+
+== ch4_open
+> lock
+> chapter 4 Late Glass
+> music glass
+> fade in
+> wait 0.6
+Umbraculum: The ground's glass!! My foot is a magnificent foot but it's not a glass foot!!
+Parhelia: Don't look down too long. The glass shows what was here. (Rude to stare at the past.)
+> set ch4_started
+> unlock
+> end
+
+== tut_late
+(Glass shows things a moment late. So do mirrors.)
+> end
+
+== mirage_caravan
+(A mirage crosses the dune: a long line of people with lamps, walking toward the sun.)
+(Their leads are short and pale. The glass is older than any of them.)
+> end
+
+== mirage_bearers
+(A mirage by the rocks: two young Bearers sharing one lamp, laughing.)
+(One of them stands with a hand on a hip, the way Parhelia does.)
+> if ch4_mirage_bearers -> seen
+> set ch4_mirage_bearers
+> emote parhelia ...
+> end
+* seen
+> end
+
+== mirage_cart
+(A mirage of a cart loaded with empty frames. An Office seal on the side.)
+(The mirage is newer than the others. The colors haven't faded much.)
+> end
+
+== talk_parhelia_glass
+> if ch4_mirage_bearers -> bearers
+Parhelia: Glass gets everywhere. In your boots, in your past.
+> end
+* bearers
+Parhelia: That mirage by the rocks was my brother and me. Before he was the Director.
+Parhelia: We shared a lamp for a year. (He held it better.)
+> end
+
+== ch4_minim_meet
+> lock
+> music minim
+> face minim nodus
+Minim: You're late.
+Parhelia: You're one of the Silvered.
+Minim: One of the Silvered. Yes.
+Minim: Minim. From the quarry. Walked out last sleep.
+Umbraculum: SALUTATIONS, glass lady!! I am Lord Umbraculum Footwide!!
+Minim: Footwide Umbraculum Lord. Salutations, glass lady.
+Umbraculum: I am not a glass lady.
+Minim: No. I am.
+?
+- What's in the quarry?
+- Noted.
+Minim: Rows of us. Office stands us facing the sun, turns us when it moves.
+Minim: It doesn't move. So they don't turn us. Just stand.
+Minim: Stand long enough, you forget walking's a thing.
+Lot: Walk. Now.
+Minim: Now walk. Yes. I'll show you the way in.
+> join minim
+> set ch4_minim_joined
+> unlock
+> end
+
+== talk_minim
+> if ch4_done -> cracked
+Minim: In my glass your lead's longer. Once was longer.
+> end
+* cracked
+Minim: The crack skips. Some yesterday falls in it. Not the good bits.
+> end
+
+== tut_pane
+(Minim sets a pane on a tile. An attack whose lead crosses it runs again next round.)
+(Recall puts an ally's HP back to what it was at the start of the last round.)
+> end
+
+== tut_mirage
+(That foe's body stands one tile away from where it really is.)
+(Trust its lead. A lead is never a mirage.)
+> end
+
+== glass_old_mirror
+> if ch4_old_mirror_warned -> warned
+Minim: Not that one. It's older than you. You'd see things from before you.
+> set ch4_old_mirror_warned
+> end
+* warned
+(An old mirror half-buried in the glass. You keep your eyes off it.)
+> end
+
+== talk_silvered_reviver
+Reviver: I faced the sun nine years. My front is warm. My back has never been warm.
+> end
+
+== talk_silvered_sees
+Sees: i'm sees. it's my name both ways. minim's is too
+> end
+
+== talk_sticks_glass
+> if sticks_mirror_won -> won
+Laval: Glass rules. Leads bounce off the board's edge. Count the bounce.
+> sticks mirror
+> end
+* won
+Laval: You counted the bounce. Take one of mine. It bounces too.
+> end
+
+== post_glass
+> if letter4_read -> rest
+> ifnot ch4_minim_joined -> rest
+> letter 4
+> set letter4_read
+* rest
+> post
+> end
+
+== quarry_rows
+(Silvered stand in rows, faces to the sun. None move.)
+(Each shows the quarry a moment ago. The rows go on forever.)
+> end
+
+== ch4_warden
+> lock
+> music boss
+> camera @warden 1.0
+> wait 0.3
+(A tall Office frame of many panes. In every pane, the Warden stands. Only one of it casts a lead.)
+Minim: Hides in its own panes. They all look real.
+Minim: All look real they. Only one has a lead.
+Parhelia: Then we hit the one with the lead. (Every time. Don't get clever.)
+> battle ch4_boss
+> goto ch4_after_boss
+
+== ch4_after_boss
+> lock
+> music none
+> sfx crack
+> wait 0.4
+> anim warden_last
+> walk minim @warden_front
+> sfx shatter
+> shake 1
+> wait 0.6
+> anim minim_crack
+(The Warden's last pane breaks across Minim. A crack runs down her from top to foot.)
+> emote nodus !
+Minim: Still here. Here still.
+Minim: Some yesterday went in the crack.
+?
+- You stepped in front of me.
+- Are you all right?
+Minim: Yes. Don't remember why. I'd do it again.
+> wait 0.4
+> anim rows_wake
+> sfx glass_chime
+(Down the rows, the Silvered turn their backs to the sun for the first time in years.)
+Reviver: Warm. My back is warm.
+> set ch4_freed
+> music glass
+> unlock
+> end
+
+== ch4_oldest_mirror
+> lock
+> camera @oldest_mirror 1.0
+(The oldest mirror in the quarry. It faces the rim, a long way off.)
+> wait 0.4
+> anim oldest_vision
+(In it: the rim, long ago. A young woman with a lamp, a small child near a crumbling edge.)
+(The woman raises the lamp. The child's lead swings away from the edge, toward the dark.)
+(The child follows it. Into the dark. The woman lowers the lamp.)
+> wait 0.8
+> camera nodus 0.8
+> face parhelia away
+> emote parhelia ...
+Parhelia: Old mirrors. Told you not to look.
+?
+- Who was the child?
+- (Say nothing.)
+Parhelia: Not today, clerk. (Ask in the dark. Easier there.)
+> set ch4_done
+> unlock
+> end
+
+== ch4_leave
+> lock
+> walk minim @road_overhead &
+> walk umbraculum @road_overhead2
+> face parhelia nodus
+Parhelia: Overhead next. No leads at all there. Hold onto something.
+Lot: Soon.
+> fade out
+> warp overhead_gate @start
+> goto ch5_open
+
+# Map scenes: shops, signs, and small finds.
+
+== talk_glass_shop
+Glazier: Lenses, charms, salts for the glare. All older than it looks.
+> shop glass
+> end
+
+== glass_well_look
+(Water at the bottom of the well, green and still. It shows the sky a moment late.)
+> end
+
+== glass_cave_mouth
+(A cave in the glass ridge. Cold air comes out of it, and the floor inside is very smooth.)
+> end
+
+== quarry_road_early
+(A cart track runs west toward a quarry. Office wheels have worn it smooth.)
+Parhelia: Don't know the way in. (Somebody does.)
+> end
+
+== overhead_road_early
+> if ch4_done -> go
+(The road runs on toward the middle of the Face, where the sun stands straight up.)
+Parhelia: Not with that quarry at our backs.
+> end
+* go
+> goto ch4_leave

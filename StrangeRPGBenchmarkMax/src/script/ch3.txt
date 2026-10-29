@@ -1,0 +1,272 @@
+# Chapter 3: Shade Rights
+# Maps: bright_road, solehold, relay_tower.
+# The sun climbs as the road goes sunward. Leads shrink to stubs. White light, pale teal shade.
+
+== ch3_open
+> lock
+> chapter 3 Shade Rights
+> music bright
+> fade in
+> wait 0.6
+> emote lot sweat
+Lot: Small. I'm small.
+Parhelia: Leads get short on the Face. Lot gets short with them.
+Parhelia: Out here you see a breath ahead. Everything changes its mind. (Including me.)
+> set ch3_started
+> unlock
+> end
+
+== tut_short
+(Short leads show one move ahead. Foes here change their plans every round.)
+(Short leads reach less, too. Yours and theirs.)
+> end
+
+== tut_heat
+(Heat tiles burn whoever ends a turn on them, unless the tile is shaded.)
+> end
+
+== bright_tower_far
+(A tower of scaffolding with a great round mirror on top.)
+(It turns, very slowly, toward the sun.)
+> end
+
+== ch3_linesman
+> lock
+> face linesman nodus
+Linesman: Relay works. Office business. Keep to the road.
+Linesman: The mirror tracks the sun and sends the light on. That's all you need.
+?
+- Sends it where?
+- Noted.
+Linesman: On. To the next tower. Then on.
+Linesman: Keep to the road.
+> set ch3_linesman
+> unlock
+> end
+
+== talk_linesman
+Linesman: Keep to the road. Road's yours. Towers are the Office's.
+> end
+
+== talk_salt_trader
+Trader: Coming from the Glass. Nothing big on the road. Mirrors, mostly.
+Trader: The Office pays for mirrors now. Pays for the Silvered, too. I don't ask.
+> end
+
+== ch3_solehold_arrive
+> lock
+> music solehold
+> camera @orchard 1.4
+> wait 0.4
+> camera nodus 1.0
+> enter umbraculum @orchard_gate
+> walk umbraculum @orchard_front
+> face umbraculum nodus
+Umbraculum: SALUTATIONS, ink-person!! You stand in my shade without contract!!
+> emote nodus !
+Umbraculum: I am Lord Umbraculum Footwide of Solehold, Ninth of the Sole.
+Umbraculum: Renter of the finest shade on the whole Face.
+Umbraculum: Three mites the bell. Four on the cool side, near the foot.
+Parhelia: We're passing through. (We're not paying.)
+Umbraculum: Passing is the costliest way to stand!! It's in every contract!!
+Lot: Small dark.
+Umbraculum: And you, small darkness. Shade-adjacent. That counts double.
+> set ch3_met_umbra
+> unlock
+> end
+
+== talk_umbraculum_village
+> if ch3_umbra_joined -> joined
+Umbraculum: My shade is the finest on the Face. Ask anyone. Ask them to pay first.
+> end
+* joined
+Umbraculum: Onward, Scribe-Errant!! Shade at reduced cost for the duration!!
+> end
+
+== ch3_glare
+> lock
+> sfx glare
+> shake 1
+> anim glare_sweep
+> wait 0.8
+> emote umbraculum angry
+Umbraculum: AGAIN!! Every third bell the Office mirror burns through my orchard!!
+Umbraculum: Look at it. Holes in the shade. You could fall through a hole like that.
+Sole Child: my shade's got a hole in it
+Umbraculum: A catastrophation. A rank indecorum.
+?
+- We're going to the tower.
+- Can shade be fixed?
+Umbraculum: Shade grows back if the glare stops. I'm not patient.
+Umbraculum: You're going to the tower? I'm coming with you.
+Umbraculum: Shade at no cost. At reduced cost!!
+> join umbraculum
+> set ch3_umbra_joined
+> unlock
+> end
+
+== tut_shade
+(Umbraculum raises his foot to shade a 3 by 3 patch.)
+(Shade swallows leads. Attacks whose leads fall into it don't land there.)
+> end
+
+== talk_sole_child
+> if ch3_done -> after
+Sole Child: we rent shade. i rent mine for a mite. it's small but it's cold
+> end
+* after
+Sole Child: shade's growing back. i rented the new bit already
+> end
+
+== talk_sole_elder
+Elder: When I was small, a lead could fall in the orchard and simply be gone.
+Elder: Shade eats leads. Every sciapod knows. The second thing we learn is invoicing.
+> end
+
+== talk_sticks_solehold
+> if sticks_short_won -> won
+Pellucid: Solehold rules. The lamp sits high. Leads go one tile, no further.
+> sticks short
+> end
+* won
+Pellucid: Short leads, short game. You were shorter. Take this.
+> end
+
+== post_solehold
+> if letter3_read -> rest
+> ifnot ch3_umbra_joined -> rest
+> letter 3
+> set letter3_read
+* rest
+> post
+> end
+
+== umbra_shade_lesson
+> lock
+Umbraculum: A word, Scribe-Errant. On the nature of shade.
+Umbraculum: A lead in shade is gone. Eaten. No trace.
+Umbraculum: Stand a little thing inside a big thing's shade and it has no lead at all.
+Umbraculum: Children play at it. They call it being swallowed.
+?
+- Noted.
+- No lead at all?
+Umbraculum: None!! It is very restful. Nobody can see where you go.
+> set ch3_shade_lesson
+> unlock
+> end
+
+== tower_door
+(The tower door is propped open with a mirror offcut. The stairs go up in the glare.)
+> end
+
+== tower_flower
+(A flower bed on the scaffold. Every head is a little mirror, turned to the sun.)
+> end
+
+== ch3_heliotrope
+> lock
+> music boss
+> camera @heliotrope 1.0
+> wait 0.4
+(Something large turns on its stalk toward the brightest light. Its face is a mirror.)
+Umbraculum: A heliotrope. They grow them to aim the mirrors. It looks at light and nothing else.
+Parhelia: Then we give it a light to look at. (I'm the light. Wonderful.)
+> battle ch3_boss
+> goto ch3_after_boss
+
+== ch3_after_boss
+> lock
+> music none
+> sfx crack
+> shake 2
+> wait 0.4
+> camera @orchard 1.2
+> anim mirror_fall
+> sfx shatter
+> wait 0.6
+> anim orchard_bare
+> wait 1.0
+(The mirror lands across the orchard. The shade goes out of it tree by tree.)
+> camera nodus 1.0
+> emote umbraculum ...
+Umbraculum: Ah.
+Umbraculum: That was my orchard.
+Parhelia: Sorry. (I am. I don't say that much.)
+Umbraculum: Glare's stopped. Shade grows back in forty years.
+Umbraculum: I shall be very old and very cool.
+> wait 0.4
+Umbraculum: Scribe-Errant. No shade to rent, no orchard to rent it in.
+Umbraculum: I shall accompany you onward!! Not because I am ruined!!
+Umbraculum: I am ruined. But not because of that!!
+Lot: Yes. Come.
+> set ch3_done
+> music bright
+> unlock
+> end
+
+== ch3_towers_on
+> lock
+> camera @tower_line 1.6
+> wait 0.6
+(Beyond the broken tower, more towers stand in a line, toward the Glass.)
+> camera nodus 1.0
+Parhelia: One tower's a nuisance. A line of them's a plan.
+Umbraculum: Whose plan?
+Parhelia: Office. (Always the Office.)
+> set ch3_towers_seen
+> unlock
+> end
+
+== ch3_leave
+> lock
+> walk umbraculum @road_glass &
+> walk parhelia @road_glass2
+> face parhelia nodus
+Parhelia: Glass next. Don't look at old mirrors. (You will.)
+> fade out
+> warp glass_flats @start
+> goto ch4_open
+
+# Map scenes: shops, signs, and small finds.
+
+== talk_solehold_shop
+Shopkeep: Shade goods. Cloth, stilts, salts. Bought, not rented. Rented costs more.
+> shop solehold
+> end
+
+== talk_solehold_renter
+Renter: Rent a bell of shade at noon. It's always noon here. Rent a lot of bells.
+> end
+
+== tower_road_early
+(The road north goes to the Relay tower. A Linesman's rope hangs across it.)
+Parhelia: Office road. Need someone who knows the way up.
+> end
+
+== glass_road_early
+> if ch3_done -> go
+(The road west runs on under the towers, toward the Glass.)
+Parhelia: Tower first. Then the road. (Roads keep.)
+> end
+* go
+> goto ch3_leave
+
+== solehold_cache
+(A barrel of old shade cloth behind the Lord's house. Nobody has rented it in years.)
+(At the bottom, a tonic someone forgot.)
+> give tonic
+> set solehold_cache
+> end
+
+== bright_well_dry
+(A dry well. Sand at the bottom, and the cool smell of a place the sun never reached.)
+> end
+
+== sign_relay
+(RELAY WORKS. KEEP TO THE ROAD. THE ROAD IS YOURS. THE TOWERS ARE THE OFFICE'S.)
+> end
+
+== relay_stub_hint
+> set relay_hint
+Parhelia: Leads are stubs in here. One tile and done. (Stubs still count.)
+> end

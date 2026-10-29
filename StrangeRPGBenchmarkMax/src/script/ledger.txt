@@ -1,0 +1,138 @@
+# Ledger notes: what Nodus writes about each foe and each recorded attack, in clerk shorthand.
+# == note_<enemy> is the foe's page. == entry_<attack> is the recorded attack's line.
+
+== note_pebbler
+Pebbler. Throws stones. Lead lands first, stone lands second.
+Good arm. No aim. Aims anyway.
+
+== note_leadhound
+Leadhound. Runs down its own lead and bites what's at the end.
+Mind the end of the lead. The middle's fine.
+
+== note_gnat
+Gnats. Too small to cast a lead.
+Nobody knows where they go next. Including them.
+
+== note_shalecrab
+Shale crab. Walks sideways. Pinches sideways.
+Pinches three tiles at once if you let it.
+
+== note_lanternman
+Office lantern man. Carries a licensed light.
+Leads near him point away from it. So do mine.
+
+== note_grisaille
+Bailiff Grisaille. Rule nine. Rule thirty. Lantern.
+Struck me from the register. Neat handwriting.
+
+== note_hatman
+Hat man. Wide brim. His lead stays under it.
+You see what he does when he's next to you. Too late, usually.
+
+== note_inkmite
+Ink mite. Paints a lead where nothing goes.
+Hard edge. Ignore it.
+
+== note_cutpurse
+Cutpurse. Pounces, grabs, runs.
+Followed his lead once. It was painted.
+
+== note_lampthief
+Lamp thief. Hoods other people's lamps.
+Hates Parhelia. Everyone who meets Parhelia has opinions.
+
+== note_painter
+The Painter. Talks in colors.
+Paints where you'll go. Check the edges.
+
+== note_glareback
+Glareback. Beetle with a mirror back.
+Spits glare toward the light. Nothing else does.
+
+== note_suntick
+Sun tick. Tiny. No lead.
+Bites ankles. Unforeseen ankles.
+
+== note_linesman
+Relay linesman. Mirror shield.
+First hit bounces. Second doesn't.
+
+== note_heatwisp
+Heat wisp. Lives on hot tiles.
+Shade puts it out. It hates that.
+
+== note_tallman
+The Tall Man. Lead as long as a street, even here.
+Read four of his moves. All four were bad for me.
+
+== note_heliotrope
+Heliotrope. Faces the brightest light.
+Bring it a brighter light than the one it wants.
+
+== note_miragecat
+Mirage cat. Its body stands a tile off from itself.
+Trust the lead. Never the cat.
+
+== note_silverfish
+Silverfish. Late.
+Whatever it did last round, it does again.
+
+== note_panehound
+Pane hound. Carries a pane in its teeth.
+Bites twice, the second bite a round late.
+
+== note_fusehulk
+Fuse hulk. Glass, melted, walking.
+Slow. Very heavy. Very slow.
+
+== note_warden
+Warden of Panes. Office frame.
+Twelve of it in the glass. One lead.
+
+== note_gambler
+Overhead gambler. No lead, no plan.
+Would not promise to stop hitting me.
+
+== note_noonbird
+Noon bird. Drops straight down. No warning.
+Look up. That doesn't help. Look up anyway.
+
+== note_bearer
+Office Bearer. Licensed lamp.
+His lamp makes leads around him. Mine too, if I stand near.
+
+== note_keeper
+Keeper of the First Mirror.
+Wants Parhelia's lamp out. Wants the room to stay blind.
+
+== note_feeler
+Feeler. Blind. Hits whatever moved last.
+Stand still. Make someone else move.
+
+== note_lightdrinker
+Light drinker. Sips lanterns.
+The circle gets smaller every time it drinks.
+
+== note_crawler
+Dark crawler. Only there when lit.
+I prefer it unlit. Can't hit it unlit.
+
+== note_oldstray
+The Old Stray. A lead with no body, very old, very big.
+Wanted mine. Couldn't have it.
+
+== note_lampeater
+Lampeater. Eats lights. Sleeps when full.
+Fed it the lantern. Hit it in the dark. Tik heard where.
+
+== note_paintedlead
+Painted lead, walking. Office work.
+Hard edges. It's only paint. It still hurts.
+
+== note_anthelion
+Director Anthelion. Licenses every light.
+Never lied to me once.
+
+== note_greatlamp
+The Great Lamp. A house of glass and sun.
+Nobody hoods the sun. Two lamps on a mirror, though.

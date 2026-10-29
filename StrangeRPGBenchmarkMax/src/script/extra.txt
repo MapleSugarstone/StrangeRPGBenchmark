@@ -1,0 +1,79 @@
+# Small shared scenes: dial posts, defeat, generic system lines.
+
+== post_generic
+> post
+> end
+
+== battle_lost
+(The party falls back to the last dial post.)
+> end
+
+== locked_door
+(Locked.)
+> end
+
+== nothing_here
+(Nothing here.)
+> end
+
+== need_lot
+(Only something that lives in shade could get through there.)
+> end
+
+== need_lamp
+(It needs a light from the other side.)
+> end
+
+== need_shade
+(Too hot to cross. It needs shade.)
+> end
+
+== too_dark
+(Too dark to go on without a light.)
+> end
+
+== pebble_pit
+(The pebble's lead drops out of sight. A pit.)
+> end
+
+== pit_fall
+(The ground gives way. You scramble back out.)
+> end
+
+== talk_parhelia_early
+Parhelia: Go look at the gate first. Then come and want things.
+> end
+
+== sign_generic
+(A sign. The paint has run in the heat.)
+> end
+
+# Party talk: the hero turns and talks to someone walking behind. Map and region scenes win over these.
+
+== talk_parhelia
+> if ch7_parhelia_free -> home
+> if ch5_started -> noon
+> if ch3_started -> bright
+> if ch2_started -> market
+Parhelia: Quarry dust gets in the lamp. Clean it every night. (Clean it anyway.)
+> end
+* market
+Parhelia: Every stall lamp's got a license nailed under it. (Some nails newer than the licenses.)
+> end
+* bright
+Parhelia: Leads are short out here. See a moment ahead of anyone. (Restful, actually.)
+> end
+* noon
+Parhelia: Nothing here has a lead. Nobody knows where anybody's going. (Seem fine with it.)
+> end
+* home
+Parhelia: My brother's lamp's on the gate. You can see it from the bakery. (Everyone can. That's the point.)
+> end
+
+== talk_umbraculum
+> if ch6_started -> dark
+Umbraculum: Scribe-Errant!! Foot stays at your disposal!! Shade on demand, free of rent!!
+> end
+* dark
+Umbraculum: No sun, no shade!! In the dark a sciapod's a gentleman with one very large foot!!
+> end

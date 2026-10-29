@@ -194,6 +194,22 @@
       "chapters": 16,
       "blurb": "The world crashed, and a dead mall full of broken code is all that is left of it. Tilde is fading in the Lobby, and every datachip Pilcrow recovers heals part of her. Pilcrow's wand compiles stacks of bits into daemons: Rams that roll, Forks that burst, Pingers that fire. Fifteen wings of puzzles each bring their own machinery and end in a boss who drops the keycard to the next wing. The last keycard opens the Atrium, where the Static that is eating Tilde's signal waits.",
       "controls": "Arrows or WASD move. X, or Shift with an arrow, zaps. 1, 2, or 3 drops a bit. Space waits. Z undoes and R restarts. Enter confirms. Esc goes back. H shows help. M mutes."
+    },
+    {
+      "id": "gnomon",
+      "title": "Gnomon",
+      "model": "Claude Opus 5.5",
+      "effort": "Max",
+      "folder": "StrangeRPGBenchmarkMax",
+      "status": "playable",
+      "build": { "command": "npm run build", "dist": "dist", "exclude": ["scene-entries.json"] },
+      "colors": { "accent": "#e3b04a", "ink": "#0b0910" },
+      "hero": { "name": "Nodus", "role": "Clerk of the town Ledger", "sprite": "menu/art/gnomon-hero.png" },
+      "scene": "menu/art/gnomon-gate.png",
+      "shots": ["menu/art/gnomon-battle.png", "menu/art/gnomon-overhead.png"],
+      "chapters": 7,
+      "blurb": "Shadows arrive before the things that cast them. People call a shadow a lead. Nodus writes down every lead crossing the square of Stile. A giant lead with nothing at its end lies across the town one morning. Follow it across a world where the sun never moves, steering every attack by moving the light.",
+      "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C throws a pebble. V sets down the lamp once Parhelia has oil. Shift hurries. M mutes."
     }
   ]
 }

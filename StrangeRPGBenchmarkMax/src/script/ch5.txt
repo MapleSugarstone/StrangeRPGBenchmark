@@ -1,0 +1,271 @@
+# Chapter 5: Overhead
+# Maps: overhead_gate, overhead, first_mirror.
+# The sun stands straight overhead. Nothing has a lead. Flat pink-white light, no shade anywhere.
+
+== ch5_open
+> lock
+> chapter 5 Overhead
+> music overhead
+> fade in
+> wait 0.6
+> walk nodus @gate_line
+> emote lot ...
+Lot: Soon.
+> anim lot_fade
+> sfx fade
+> wait 1.0
+> leave lot
+> emote nodus !
+Minim: Gone where?
+Minim: Where gone. Nowhere. No shade here.
+Parhelia: Strays need shade. It'll be wherever shade starts. (I hope.)
+Umbraculum: I could make shade!! Stand on my back all day!!
+Parhelia: Can't here. Look at your foot.
+(Umbraculum's foot casts nothing at all.)
+> set ch5_started
+> unlock
+> end
+
+== tut_noon
+(No leads here. Foes act without showing what they'll do.)
+(Shadow-skills have no reach. Touch, pebbles, and the lamp still work.)
+(Parhelia's lamp makes leads around it. It is the only thing here that does.)
+> end
+
+== talk_overhead_gambler
+Gambler: Bet? Can't see a thing coming here. Best odds on the Face.
+Gambler: Will I pay if I lose? Can't say. Nobody does, here.
+> end
+
+== talk_overhead_dancer
+Dancer: Festival started this morning. Or nine years ago. Didn't check.
+> end
+
+== talk_overhead_seller
+Seller: Lanterns! Festival ones! Will it last? Can't promise.
+> if ch5_lantern -> had
+Seller: Nobody promises in Overhead. Two mites.
+> shop overhead_lanterns
+> end
+* had
+Seller: You've got one. Might last. Can't promise.
+> end
+
+== talk_overhead_guard
+Guard: Office pays the city to host the big mirror. Pays well.
+Guard: It drinks the sun straight down and sends it toward the rim.
+Guard: Will they stop paying? Couldn't say.
+> set ch5_mirror_heard
+> end
+
+== talk_sticks_overhead
+> if sticks_noon_won -> won
+Whim: Noon rules. No leads at all. You capture by standing taller next to them.
+> sticks noon
+> end
+* won
+Whim: I might have let you win. I might not. Take a stick.
+> end
+
+== post_overhead
+> if letter5_read -> rest
+> letter 5
+> set letter5_read
+* rest
+> post
+> end
+
+== ch5_chalk
+> lock
+> music none
+> face chalkchild nodus
+Chalk Child: draw you? a mite. all of you, standing together
+?
+- All right.
+- Noted.
+> mites -1
+> walk nodus @chalk_stand &
+> walk parhelia @chalk_stand2 &
+> walk umbraculum @chalk_stand3 &
+> walk minim @chalk_stand4
+> sfx chalk
+> wait 0.6
+> anim chalk_outline
+> wait 0.6
+Chalk Child: there. done. funny shape you are
+> camera @chalk_outline 1.0
+(The chalk outline: a satchel strap, a thin pole, one huge foot, a tall flat pane.)
+> wait 0.4
+> letter_drawing
+> wait 1.0
+> camera nodus 0.8
+Nodus: ...
+Nodus: Entry: match.
+Parhelia: What?
+Nodus: The big lead. It's us.
+> music lead
+Parhelia: Can't be us. It's a mile long. We're a pile of people.
+Nodus: Small things. On the hill outside Stile. Under the low sun.
+Parhelia: ...
+Parhelia: Long lead. (Very long.)
+Umbraculum: We are the monster!! We are the dreadful shape upon the town!!
+Minim: Town the upon shape. Yes. Us, coming home.
+?
+- Everything but the small one.
+- Lot is in it too.
+Parhelia: Then the stray comes back. (Good.)
+Parhelia: Nothing big is coming up the road, clerk. Nothing ever was. Just us.
+> set ch5_reveal
+> unlock
+> end
+
+== ch5_notice
+> lock
+(An Office notice on the mirror house door.)
+(RELAY TO STILE. FIRST MIRROR, OVERHEAD. GREAT LAMP, STILE SUNWARD GATE.)
+(PURPOSE: TO TURN THE LEAD OFF THE TOWN. BY ORDER, DIRECTOR ANTHELION.)
+> wait 0.4
+Parhelia: He's going to turn it. The big lead.
+Nodus: Then we follow it.
+Parhelia: Somewhere not home. Forever. (He'd hate that I'm in it. He'd do it anyway.)
+Minim: Anyway it do he'd.
+Umbraculum: Then we break the mirror!! We break it into a great many smaller mirrors!!
+> set ch5_plan_known
+> unlock
+> end
+
+== mirror_house_door
+> ifnot ch5_plan_known -> notice
+(The door to the First Mirror. It's warm to the touch.)
+> end
+* notice
+> goto ch5_notice
+
+== ch5_keeper
+> lock
+> music boss
+> camera @keeper 1.0
+(A room with no shade in it at all. The First Mirror fills the ceiling, drinking the sun.)
+(Its Keeper turns from the glass. Nothing about it shows what it will do next.)
+Parhelia: No leads in here. Mine are the only ones.
+Parhelia: So stay near the lamp. (Stay near me. Same thing today.)
+> battle ch5_boss
+> goto ch5_after_boss
+
+== ch5_after_boss
+> lock
+> sfx crack
+> shake 1
+(The First Mirror cracks across. Light still pours down it.)
+Minim: Cracked. Still sends. Like me.
+> enter grisaille @mirror_door
+> enter bearer1 @mirror_door2
+> enter bearer2 @mirror_door3
+> walk grisaille @mirror_inside &
+> walk bearer1 @mirror_inside2 &
+> walk bearer2 @mirror_inside3
+> music boss
+Grisaille: Bearer Parhelia! Rule nine, rule thirty, rule forty-one!! All of them!!
+Grisaille: Lamps up!
+> walk parhelia @between
+> face parhelia grisaille
+Parhelia: Clerk. Get the others out back.
+?
+- Come with us.
+- We can fight them.
+Parhelia: No. Four lamps and a mirror. I've got one lamp and bad knees.
+Parhelia: I'll hold their leads off you. Go.
+> lamp parhelia
+> sfx lamp_light
+> turn bearer1 up
+> turn bearer2 up
+> turn grisaille up
+Parhelia: I turned one lead I shouldn't have. Long time ago.
+Parhelia: Two now. Yours was the second. Go.
+> walk nodus @back_way &
+> walk umbraculum @back_way2 &
+> walk minim @back_way3
+> wait 0.4
+> camera @between 0.6
+> walk grisaille @parhelia_side
+> sfx clamp
+> lamp off
+> sfx hood
+> walk bearer2 @mirror_inside &
+> walk bearer1 @mirror_door3 &
+> walk grisaille @mirror_door2 &
+> walk parhelia @mirror_door
+> wait 0.4
+> exit parhelia
+> exit grisaille
+> exit bearer1
+> exit bearer2
+> leave parhelia
+> set ch5_parhelia_taken
+> fade out
+> warp overhead @back_alley
+> fade in
+> goto ch5_decide
+
+== ch5_decide
+> lock
+> music overhead_sad
+Umbraculum: They took the Lady Lamp. They took the lamp of the Lady Lamp.
+Minim: Lamp the.
+Umbraculum: Sun roads are all Office towers now. Every one.
+Minim: Every road under the sun.
+?
+- Not every road.
+- The Back.
+Nodus: Nobody can turn a lead in the dark.
+Umbraculum: Because there are no leads in the dark!! Because there's NOTHING in the dark!!
+Minim: Nothing can see us coming there. Then.
+Nodus: Entry: going in.
+> ifnot ch5_lantern -> give
+> goto done
+* give
+> enter seller @alley_end
+> walk seller @alley_mid
+Seller: Lantern. Free. You look like you need it. Won't promise it lasts.
+> give lantern 1
+> exit seller
+* done
+> set ch5_done
+> unlock
+> end
+
+== ch5_leave
+> lock
+Umbraculum: Into the Back, then!! I'm very brave!! A little afraid!!
+Minim: Afraid a little.
+> fade out
+> warp dusk_road @start
+> goto ch6_open
+
+# Map scenes: signs and small finds.
+
+== noon_line
+(A line of pink tiles across the road. Past it, nothing casts a lead. Not even you.)
+> end
+
+== talk_chalk_child_after
+Chalk Child: Another drawing? You're still a funny shape.
+> end
+
+== mirror_house_wall
+(The wall is all mirrors. Every one shows the street a moment ago.)
+> end
+
+== dusk_road_early
+> if ch5_done -> go
+(A road out of the city, toward the edge of the Face. Away from the sun.)
+Umbraculum: Hold, Scribe-Errant!! Business here first!! Grave business!!
+> end
+* go
+> goto ch5_leave
+
+== overhead_cache
+(Festival stock. Ribbons, lantern wicks, and a charm nobody promised to anybody.)
+> give glass_charm
+> set overhead_cache
+> end

@@ -1,0 +1,502 @@
+# Chapter 1: The Long Lead
+# Maps: home, square, office, wake (Mott's house), gate, gully, quarry.
+# Stile sits under a low gold sun in the west. Every lead in town runs east.
+
+== ch1_open
+> lock
+> chapter 1 The Long Lead
+> music home
+> fade in
+> wait 0.6
+> walk tib @table
+> face tib nodus
+Tib: up. first bell's been gone for ages
+Tib: your lead was already in the kitchen
+?
+- Noted. -> noted
+- Was it a long one? -> long
+* noted
+Tib: you say that about everything
+> goto after
+* long
+Tib: table-length. long day today
+* after
+Tib: mott's lead went yesterday. wake's at fourth bell
+Tib: bring a plate. he asked for plum cake :-]
+Tib: Ledger's on the step again. left it there
+> set ch1_started
+> unlock
+> end
+
+== home_flag
+(A flag over the bed. Blue, pink, white, pink, blue.)
+(Nodus hung it the day Tib learned to spell.)
+> end
+
+== home_window
+> if ch1_seen_lead -> seen
+(The street outside. Something dark lies across it.)
+> end
+* seen
+(The big lead runs past the window and on down the east road.)
+> end
+
+== home_shelf
+(Old Ledger copies, one per year. The spines are sun-faded on one side.)
+> end
+
+== talk_tib
+> if ch2_started -> gone
+> if ch1_gully_hint -> hint
+> if ch1_gate_seen -> gate
+> if ch1_seen_lead -> lead
+Tib: Ledger's on the step
+Tib: cake's in the tin. don't eat the cake
+> end
+* lead
+Tib: see the big one?? goes right past the bakery
+Tib: plim says it's a tower. hessle says it's a cow
+Tib: a really big cow
+> end
+* gate
+> goto ch1_tib_gully
+* hint
+Tib: gully's past the dye pits. follow the stink :-]
+> end
+* gone
+Tib: ...
+> end
+
+== ch1_first_look
+> lock
+> music none
+> camera @lead_base 2.2
+> wait 1.0
+> camera nodus 1.4
+> emote nodus !
+> music lead
+Nodus: Entry: one lead.
+Nodus: No owner.
+> camera @desk 1.0
+> wait 0.5
+> camera nodus 0.8
+> set ch1_seen_lead
+> unlock
+> end
+
+== lead_look
+> if ch1_blank -> blank
+(A lead as long as the town. It comes from the sunward hills.)
+(Nothing stands at its end. Nothing stands anywhere along it.)
+> end
+* blank
+(Darker than yesterday. Same shape. A bump on top, and a thin pole.)
+> end
+
+== talk_plim
+> if ch1_blank -> after
+Plim: Bread's out. Lead beat me to the oven again.
+Plim: See the big one? Goes right over my roof.
+Plim: Never had a lead on my roof before. Feels personal.
+> end
+* after
+Plim: Office says stay calm. I'm calm. Baking twice as much.
+Plim: In case it's hungry.
+> end
+
+== talk_quarle
+Quarle: Lead says I'm at the well by third bell. No point rushing.
+> if ch1_seen_lead -> more
+> end
+* more
+Quarle: That big one's different. Nobody's lead knows about it.
+Quarle: Mine goes straight to the well like nothing's wrong. Rude.
+> end
+
+== talk_hessle
+Hessle: Pebbles, bandages, string. Same as always.
+> shop stile
+> end
+
+== talk_pip
+> if sticks_pip_won -> won
+Pip: wanna play Sticks? you're the clerk, probably bad at it
+Wem: definitely bad
+> sticks pip
+> end
+* won
+Pip: ok fine, you're not bad
+Wem: you're a little bad
+> end
+
+== ch1_desk
+> if ch1_blank -> again
+> lock
+> face nodus up
+> sfx page
+(The Ledger. Two hundred years of mornings.)
+> sfx pen
+(Plim to the oven. Quarle to the well, third bell. Pip and Wem to the square.)
+(Mott: none.)
+(The big lead. Owner:)
+> wait 1.2
+Nodus: Hmm.
+> sfx pen_stop
+Nodus: Blank.
+> set ch1_blank
+> goto ch1_notice
+* again
+(Today's page has one blank line. It looks larger than the rest.)
+> end
+
+== ch1_notice
+> enter grisaille @office_door
+> walk grisaille @notice_board
+> face grisaille down
+> sfx pin
+Grisaille: Notice forty-one, by the Office of Bearers!
+Grisaille: The lead over the square is under review.
+Grisaille: Nobody turns it. Nobody raises an unlicensed light.
+Grisaille: Nobody leaves by the sunward gate until further notice.
+Grisaille: Questions go to the window. In writing. Thank you.
+> walk grisaille @office_door
+> exit grisaille
+> enter anthelion @office_door
+> walk anthelion @office_steps
+> face anthelion nodus
+Anthelion: Clerk. Bring me your page.
+> walk nodus @steps_below
+> face nodus up
+Anthelion: One blank line.
+?
+- I can't write what I can't see.
+- Entry: unknown.
+Anthelion: Then the blank is the honest entry. Keep it honest.
+Anthelion: The Office is handling the lead.
+> walk anthelion @office_door
+> exit anthelion
+> set ch1_notice
+> unlock
+> end
+
+== talk_registrar
+> if ch1_struck -> struck
+Registrar: Questions go in writing at the window.
+Registrar: In writing? You're the clerk. You should know better.
+> end
+* struck
+Registrar: You're not in the register. Can't talk to people who aren't.
+Registrar: I mean, I could. I'm choosing not to.
+> end
+
+== office_lamp
+(A small lamp with a sun painted on the glass.)
+(The wick is white. It has never been lit.)
+> end
+
+== talk_anthelion
+> if ch1_struck -> none
+Anthelion: Registry three-one-one. Clerk of the Ledger.
+?
+- Why license every lamp?
+- Who turned the big lead?
+* why
+Anthelion: I license every light in Stile.
+Anthelion: One unlicensed light took everything I had.
+> end
+* who
+Anthelion: Nobody. That is the purpose of a license.
+> end
+* none
+(The Director's door is shut.)
+> end
+
+== ch1_wake
+> if ch1_wake_done -> again
+> lock
+> music wake
+> face mott nodus
+Mott: Clerk! You came. Sit anywhere.
+Mott: Plum cake. I asked for plum.
+Brisk: He looks fine. For a man with no lead.
+Mott: I feel fine. That's what's getting to me.
+Mott: Looked down at second bell yesterday. Nothing. Just the floor.
+?
+- Where did it go?
+- Noted.
+Mott: Gone's gone. You can't argue with the floor.
+Fenwold: My uncle's went the same way. He lasted nine sleeps.
+Mott: Nine! That's loads.
+Brisk: Eat your cake, Mott.
+> emote mott heart
+> wait 0.4
+Brisk: Clerk. Big one. Owner in the book?
+Nodus: Blank.
+Fenwold: Blank. Well. That's a first.
+Mott: Mine's blank too. We match.
+> set ch1_wake_done
+> unlock
+> end
+* again
+Mott: Take a slice for Tib. Take two. I won't need them.
+> end
+
+== talk_brisk
+Brisk: Forty wakes I've been to. Never one with cake this good.
+> end
+
+== talk_fenwold
+Fenwold: When a lead goes, it goes. When two leads touch, there's a wedding.
+Fenwold: Everything else is weather.
+> end
+
+== ch1_gate_shut
+> if ch1_gate_seen -> again
+> lock
+> face ock nodus
+Ock: Gate's shut. Office order.
+Ock: Your lead's pointing back toward town, clerk. Look at it.
+> camera @nodus_lead 1.0
+> wait 0.8
+> camera nodus 0.8
+Ock: Lead says you're going home. So go home.
+Nodus: ...
+Ock: Can't argue with a lead. Try arguing with me. I'll still say no.
+> set ch1_gate_seen
+> unlock
+> end
+* again
+Ock: Still shut. Still pointing home.
+> end
+
+== ch1_tib_gully
+> face tib nodus
+Tib: went to the gate didn't you
+Tib: there's an old woman in the gully past the dye pits
+Tib: she's got a lamp. a real one. no license
+Tib: everyone knows. nobody says it out loud :-]
+> set ch1_gully_hint
+> end
+
+== talk_ochre
+Ochre: Dye pits. Don't step in the purple one. Or the other purple one.
+> if ch1_gully_hint -> hint
+> end
+* hint
+Ochre: The lamp lady? Down past the pits. She cheats at Sticks.
+> end
+
+== ch1_parhelia_meet
+> lock
+> music parhelia
+> face parhelia nodus
+Parhelia: Ledger under your arm.
+Parhelia: Means you want something written down. (Means you want something.)
+?
+- The big lead. I want its owner.
+- Tib says you've got a lamp.
+Parhelia: I have a lamp. No oil.
+Parhelia: Office took my oil with my license. (Forty years ago. They're thorough.)
+Parhelia: Old Bearer cache in the pebble quarry.
+Parhelia: Bring me oil and I'll turn your lead.
+?
+- Turning leads is a crime. -> crime
+- Deal. -> deal
+* crime
+Parhelia: So is walking off with the town book. You're halfway there.
+* deal
+Parhelia: Quarry's down the gully. Things live in it. They throw.
+Parhelia: Watch where the throws land. They land before they're thrown.
+Parhelia: Take these. (Everyone carries pebbles. Even you now.)
+> give pebble 5
+> join parhelia
+> set ch1_parhelia_met
+> unlock
+> end
+
+== parhelia_shack
+(A shack built against the gully wall, facing away from the sun.)
+(Inside: a cot, a Sticks board, and a pole with a hook for a lamp.)
+> end
+
+== talk_parhelia_shack
+Parhelia: Rest if you want. Cot's lumpy. (It's two cots.)
+> heal
+(The party rests.)
+> end
+
+# Tutorial lines. The battle system calls these the first time each comes up.
+
+== tut_lead
+(Dark tiles are leads. An attack lands where its lead lies.)
+(Step off the dark tiles before the enemy acts.)
+> end
+
+== tut_downlight
+(Every attack goes away from the light, along the attacker's lead.)
+(Stand on a foe's sunward side to hit it.)
+> end
+
+== tut_touch
+(Touch hits one tile next to you, in any direction. It's weak.)
+> end
+
+== tut_depth
+(Long leads also show where a foe stands on later moves: the small dark marks.)
+(A lead you can see is a promise. It won't change.)
+> end
+
+== tut_pebble
+(Pebbles: throw one along your lead. Anyone can.)
+> end
+
+== tut_note
+Parhelia: That one's going to hit its friend. Write it down.
+(Note: mark an enemy's lead. If it hits an enemy, the attack goes in your book.)
+> end
+
+== tut_noted
+Parhelia: You wrote it down. (Of course you did.)
+(New entry. Equip entries from the Ledger in the menu.)
+> end
+
+== quarry_plate
+(A round plate set in the floor. It goes dull where a lead lies on it.)
+> end
+
+== quarry_plate_hint
+> set q_hint
+Parhelia: Plates like a lead on them. Crates have long leads out here.
+Parhelia: Ours don't count. People's leads are too thin. (Rude, but true.)
+> end
+
+== square_enter
+> ifnot ch1_seen_lead -> look
+> end
+* look
+> goto ch1_first_look
+
+== notice_board
+> if ch1_notice -> forty
+(Old notices. A lost goat. Sticks night at fourth bell. A goat, found.)
+> end
+* forty
+(Notice forty-one. Stay calm. Stay in. Nobody turns the lead.)
+> end
+
+== bakery_door
+(Plim's bakery. It smells of the second batch.)
+> end
+
+== gully_early
+(The path down to the gully. Nothing for a clerk down there.)
+(The big lead goes the other way, toward the sunward gate.)
+> end
+
+== talk_walker1
+Walker: Lead says I'm going round the square twice. So, twice.
+> if ch1_seen_lead -> more
+> end
+* more
+Walker: Mine goes round the big one. Most do. Not complaining.
+> end
+
+== talk_walker2
+Walker: You're the clerk. In the book yet, the big one?
+Walker: My aunt says if it's not in the book it's not happening.
+> end
+
+== sticks_parhelia
+> ifnot ch1_parhelia_met -> no
+Parhelia: Sticks? I'll go easy on you. (I won't.)
+> sticks parhelia
+> end
+* no
+(A Sticks board, mid-game. Someone has been losing to themselves.)
+> end
+
+== talk_dunnet
+Dunnet: Lost my lead in the quarry tunnel years ago.
+Dunnet: Lamp blew out, came out without it. That's the story.
+> end
+
+== ch1_oil
+> lock
+(An old Bearer crate, stamped with a hooded lamp.)
+(Three jars of lamp oil, still sealed.)
+> give oil 3
+Parhelia: That's the good stuff. Smells like my twenties.
+Parhelia: Gate, then. Before the Office remembers I exist.
+> set ch1_oil
+> unlock
+> end
+
+== ch1_turning
+> lock
+> music none
+> walk nodus @gate_stand
+> face nodus left
+> walk parhelia @gate_lamp
+Parhelia: Stand there. Don't fight it.
+> lamp parhelia
+> sfx lamp_light
+> wait 0.5
+> turn nodus left
+> wait 0.9
+Parhelia: There. See where you're going?
+Nodus: Through the gate.
+Parhelia: Bars have leads too. (Nobody thinks about bars.)
+> turn gate_bar up
+> sfx bar_slide
+> anim gate_open
+> wait 0.4
+> enter grisaille @gate_east
+> enter lantern1 @gate_east2
+> enter lantern2 @gate_east3
+> walk grisaille @gate_behind &
+> walk lantern1 @gate_behind2 &
+> walk lantern2 @gate_behind3
+> face nodus right
+> face parhelia right
+> music boss
+Grisaille: Halt, by rule nine! Lamp down, Bearer Parhelia!
+Parhelia: I'm not a Bearer. Rule nine doesn't cover me. (It does.)
+Grisaille: And you, clerk! The Ledger's Office property under rule thirty!
+?
+- It belongs to the town.
+- I've got a blank to fill.
+Grisaille: Lanterns up!
+> battle ch1_boss
+> goto ch1_after_boss
+
+== ch1_after_boss
+> lock
+> music lead
+Grisaille: This goes in the register. In ink.
+> walk grisaille @gate_east &
+> walk lantern1 @gate_east2 &
+> walk lantern2 @gate_east3
+> exit grisaille
+> exit lantern1
+> exit lantern2
+> camera @office_window 1.6
+> anim register_strike
+> sfx pen
+(Office register. Nodus, clerk of the Ledger: struck.)
+> wait 0.6
+> camera nodus 1.2
+> enter tib @wall_ladder
+> walk tib @wall_top
+> face tib nodus
+Tib: go on then
+Tib: write if your lead does anything weird
+?
+- I'll write.
+- Noted.
+Tib: :-]
+> set ch1_struck
+> walk nodus @gate_out &
+> walk parhelia @gate_out2
+> fade out
+> warp road1 @start
+> goto ch2_open

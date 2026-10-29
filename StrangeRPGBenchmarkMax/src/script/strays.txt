@@ -1,0 +1,119 @@
+# Strays: twelve loose leads, each waiting somewhere dark for an owner who lost it.
+# stray_find_N runs when the party touches the stray. stray_return_N runs when the party talks to the owner while carrying it.
+# A stray needs Lot to be carried. Without Lot, the find scene says so and the stray stays put.
+
+== stray_nolot
+(A small stray lies pinned in the shade. It won't come with you.)
+(Something that lives in shade could carry it.)
+> end
+
+== stray_find_1
+(A stray in the back of the quarry tunnel, shaped like a person with a pick.)
+Lot: Lost. Waiting. I carry.
+> end
+
+== stray_return_1
+Dunnet: My lead! Left it in the quarry tunnel nine years ago. Dark in there.
+Dunnet: Walking around not knowing anything for nine years. Thanks, clerk.
+> end
+
+== stray_find_2
+(A stray under Hessle's cellar stairs, shaped like someone carrying a jar.)
+Lot: Pickles. It smells of pickles.
+> end
+
+== stray_return_2
+Hessle: That's mine. Went down for pickles, came up without it. Years back.
+Hessle: Take something off the shelf. Not the pickles.
+> end
+
+== stray_find_3
+(A stray in the culvert under the road, shaped like a goat. No. Like someone chasing a goat.)
+> end
+
+== stray_return_3
+Drover: Lost that chasing a goat through the culvert.
+Drover: Didn't get the goat either.
+> end
+
+== stray_find_4
+(A stray in the hatter's dark box, shaped like someone trying on a hat.)
+> end
+
+== stray_return_4
+Apprentice: oh. that's me. fell asleep in the hat box once
+Apprentice: thought i was just a calm person. turns out i had no lead
+> end
+
+== stray_find_5
+(A stray at the bottom of a dry well, small, with one big foot.)
+> end
+
+== stray_return_5
+Sole Child: my lead!! fell in the well when i was littler. stayed down there
+Umbraculum: Splendid!! Now you'll know where you're going!! Mostly to the well!!
+> end
+
+== stray_find_6
+(A stray in the tower cellar, shaped like someone carrying a mirror.)
+> end
+
+== stray_return_6
+Linesman: That's mine. Lost it the first week. Cellar lamp blew out.
+Linesman: Don't tell the Office I took it back. Keep to the road.
+> end
+
+== stray_find_7
+(A stray deep in a glass cave. It's pale, almost silver.)
+> end
+
+== stray_return_7
+Reviver: A lead. Had one, before the rows. Pale. Like this.
+Reviver: Silvered leads are thin. Read a newspaper through them.
+> end
+
+== stray_find_8
+(A stray behind the oldest mirror, shaped like someone looking over a shoulder.)
+> end
+
+== stray_return_8
+Laval: Looked into the old mirror once. Ran. Left my lead behind it.
+Laval: Thanks. Looking forward from now on. Mostly.
+> end
+
+== stray_find_9
+(A stray at the very edge of the dark, waiting, shaped like someone small with big ears.)
+> end
+
+== stray_return_9
+Drip: No. Keep it. It's loud. Makes my feet loud.
+Drip: Fine. Give it. I'll keep it in a box.
+> end
+
+== stray_find_10
+(A stray tangled in the roots at the dark's edge, shaped like someone dancing.)
+> end
+
+== stray_return_10
+Scuff: A lead. Mine. Danced away from it a long time ago.
+Scuff: Strange. Something goes first now. Don't like it. Like it.
+> end
+
+== stray_find_11
+(A stray under the Office register shelves, shaped like someone holding a pen.)
+> end
+
+== stray_return_11
+Registrar: That's mine. Went into the records room without a lamp. Once.
+Registrar: Put it in writing next time. I'm joking. I don't joke. Thanks.
+> end
+
+== stray_find_12
+(A very old stray in the Office cellar, small, standing to attention.)
+> end
+
+== stray_return_12
+Grisaille: Mine. I was six. Cellar door shut behind me.
+Grisaille: Rule one of the Office: never go in the cellar. Wrote rule one.
+Grisaille: ...Thanks, clerk. Not in the register.
+> end

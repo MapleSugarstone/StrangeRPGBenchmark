@@ -1,0 +1,386 @@
+# Chapter 7: Stile
+# Maps: stile_night (the town's nightward edge), square7, office_tower, great_lamp, hill.
+# Stile under the Great Lamp. A white beam comes in off the Face and the lamp at the sunward gate hums.
+
+== ch7_open
+> lock
+> chapter 7 Stile
+> music stile_dark
+> fade in
+> wait 0.6
+> camera @town_glow 1.6
+(Past the dark, Stile. Gold light on the roofs. A white glare at the far gate.)
+> camera nodus 1.0
+Tik: Your town. Loud with light.
+Minim: No lead comes out of the dark ahead. Nobody sees us coming.
+Umbraculum: We're a surprise!! I've never been a surprise!!
+> set ch7_started
+> unlock
+> end
+
+== tut_beam
+(The Great Lamp's beam turns toward whoever stands nearest it. Leads turn with it.)
+(Watch where the beam goes next. The pale wedge shows it.)
+(Anyone still standing in the beam when the foes move gets burned.)
+> end
+
+== painted_home
+(A lead painted on the cobbles from a front door to the same front door.)
+(Hard edges. Whoever lives here thinks their lead says stay in.)
+> end
+
+== ch7_painted_folk
+> lock
+> face quarle nodus
+Quarle: Clerk? Name's struck. Can't talk to you. Lead says stay in.
+Nodus: That lead's painted.
+Quarle: What?
+?
+- Look at the edge.
+- I wrote your leads for nine years.
+Quarle: ...
+Quarle: Hard edge. Never had a hard edge on my lead in my life.
+Quarle: Who paints a lady's lead on her own step?
+Minim: The Office. From your book.
+> set ch7_quarle_free
+> unlock
+> end
+
+== talk_quarle7
+Quarle: I'm going to the well. My real lead says so. So does my opinion.
+> end
+
+== ch7_mott
+> lock
+> face mott nodus
+Mott: Clerk!! Back. Still here. Still no lead. Cake's long gone.
+Umbraculum: Sir!! Your house!! Stand at your door!!
+> camera @mott_house 1.0
+(Mott's house sits deep inside the big lead.)
+> camera nodus 0.8
+Umbraculum: Shade eats leads!! A small thing inside a big shade has no lead at all!!
+Umbraculum: Not dying, sir. SWALLOWED!!
+Mott: Not dying, then.
+Nodus: Entry: Mott. Swallowed.
+Mott: Nine sleeps saying goodbye.
+Mott: Brisk'll be annoyed. Second cake.
+> set ch7_mott
+> unlock
+> end
+
+== talk_mott7
+Mott: Swallowed! I'm telling everyone. I'm going to need a third cake.
+> end
+
+== ch7_tib
+> lock
+> enter tib @tib_corner
+> walk tib @tib_meet
+> face tib nodus
+> emote tib heart
+Tib: back. BACK
+Tib: look terrible. who're all these people
+?
+- Friends.
+- The big lead.
+Tib: wait
+Tib: wait. the big lead. YOU??
+> ifnot lot_rejoined -> beside
+Tib: hole closed up this morning. kid bit went too. weird
+> goto after
+* beside
+Tib: hole in it now. person shaped. kid bit next to it
+* after
+> face tib tik
+Tib: that the hole
+Tik: Hello, loud small one.
+Tib: :-]
+Tib: office has old par in the tower. painting everyone's leads
+Tib: big lamp hums all the time. turning tonight, they said
+> set ch7_tib
+> unlock
+> end
+
+== talk_tib7
+Tib: tower's round the back of the office. i'll tell people about the hard edges :-]
+> end
+
+== tower_gate
+> ifnot ch7_tib -> shut
+(The Office tower. The door has a lamp lock: a plate that wants a lead on it.)
+> end
+* shut
+(The Office tower. Guards at the door look straight through the party.)
+> end
+
+== ch7_parhelia_cell
+> lock
+> music parhelia
+> face parhelia nodus
+Parhelia: Took you long enough. (It didn't. I'm impressed.)
+Parhelia: They kept my lamp on a shelf where I could see it. Rude.
+> sfx clamp
+> give parhelia_lamp 1
+> join parhelia
+> face parhelia tik
+> wait 0.6
+> emote parhelia ...
+Parhelia: Who's this one?
+Tik: Tik. You're the lamp woman. From the break.
+> wait 0.6
+Parhelia: Oh.
+Parhelia: Oh. You're the one I turned.
+Tik: Turned me away from the break. I live. Fine.
+Parhelia: Not fine. (Thank you.)
+> walk parhelia @tik_side
+> face parhelia tik
+Parhelia: Your father's up there with a lamp the size of a house.
+Parhelia: Going to be very rude to him.
+> set ch7_parhelia_free
+> music stile_dark
+> unlock
+> end
+
+== office_child_lamp
+> if ch7_parhelia_free -> after
+(The child's lamp is gone from the desk. Only its ring in the dust.)
+> end
+* after
+Parhelia: He took the little lamp up with him. (Of course he did.)
+> end
+
+== post_stile
+> if letter7_read -> rest
+> letter 7
+> set letter7_read
+* rest
+> post
+> end
+
+== ch7_anthelion
+> lock
+> music anthelion
+> camera @great_lamp 1.4
+(The Great Lamp fills the sunward gate. A child's lamp sits on its rail, unlit.)
+> camera nodus 1.0
+> face anthelion nodus
+Anthelion: Registry three-one-one. You are struck. You came back anyway.
+Anthelion: Sister.
+Parhelia: Brother. Hood it.
+Anthelion: The lead over this town has your lamp in it.
+Anthelion: I license every light in Stile. Yours took everything I had.
+Anthelion: In one hour the lead turns off the town and you follow it. Somewhere else.
+?
+- Look who else is in it.
+- Hood the lamp.
+> walk tik @anthelion_front
+> face tik anthelion
+Tik: Hello, lamp man.
+> wait 0.8
+> camera tik 0.6
+(The small brass sundial on Tik's chest catches the glare.)
+> camera nodus 0.6
+Anthelion: That is a Stile sundial. I bought it at the Market.
+Anthelion: Too big for my child's neck.
+Tik: Fits now.
+> emote anthelion ...
+Anthelion: Sunniva.
+Tik: Tik. Now I am Tik.
+Anthelion: ...
+Anthelion: Relay's still sending. Can't hood it. Nobody hoods the sun.
+> sfx hum_rise
+> shake 2
+Anthelion: Turns on its own now. Behind me.
+Parhelia: No. Beside us. (For once.)
+> join anthelion
+> music boss_final
+> battle ch7_boss
+> goto ch7_after_boss
+
+== ch7_after_boss
+> lock
+> music none
+> shake 1
+(The Great Lamp still burns. The beam swings toward the hill.)
+Anthelion: Last mirror. Has to be held. Two lamps on it.
+Parhelia: Nearly dry. (Nearly dry for forty years.)
+> walk anthelion @mirror_left &
+> walk parhelia @mirror_right
+> lamp parhelia
+> sfx lamp_light
+> anim mirror_turn
+> wait 1.0
+> sfx beam_turn
+> shake 2
+(The beam swings off the hill, off the town, up into empty sky.)
+> wait 0.6
+> anim parhelia_lamp_out
+> sfx lamp_out
+> wait 1.0
+Parhelia: Done. (Good lamp.)
+Anthelion: I can license a new one.
+Parhelia: Don't you dare.
+> leave anthelion
+> set ch7_beam_turned
+> unlock
+> end
+
+== ch7_hill
+> lock
+> music lead
+> walk nodus @hill_top
+> walk parhelia @hill_p &
+> walk umbraculum @hill_u &
+> walk minim @hill_m &
+> walk tik @hill_t
+> if lot_beside -> lot
+> goto stand
+* lot
+> walk lot @hill_l
+* stand
+> face nodus right
+> wait 0.6
+> camera @lead_town 3.0
+(Their lead runs down the hill and across Stile.)
+(It lies exactly where the big lead lay. It fits it to the edge.)
+> wait 1.0
+> anim town_out
+(People come out of their doors and look down at it.)
+> camera nodus 2.0
+Umbraculum: The monster!! We are very beautiful!!
+Minim: Beautiful very.
+Tik: Big your shape. Our shape.
+Parhelia: Well, clerk. You've got a blank to fill.
+> goto ch7_entry
+
+== ch7_entry
+> lock
+> sfx page
+(The big lead. Owner:)
+? Write the entry.
+- Us. -> fact
+- Who's next? -> question
+- Everyone's name. -> names
+- (Write something else.) -> typed
+* fact
+> set entry_fact
+> goto written
+* question
+> set entry_question
+> goto written
+* names
+> set entry_names
+> goto written
+* typed
+> type_entry
+> set entry_typed
+* written
+> sfx pen
+> wait 0.6
+Parhelia: Let me see. (Oh. Good.)
+> goto epilogue
+
+== epilogue
+> lock
+> fade out
+> music epilogue
+> wait 0.6
+> warp square @epilogue
+> fade in
+> if entry_question -> q
+> if entry_names -> n
+> if entry_typed -> t
+* f
+Tib: wrote "us." in the town book. they made a new one. first line
+> goto rest
+* q
+Tib: wrote a question in the book. now everyone writes questions in it
+Tib: plim wrote "is it hungry." about the big lamp. it's not hungry
+> goto rest
+* n
+Tib: wrote everyone's names in the book. even the stray. even the foot
+> goto rest
+* t
+Tib: wrote "{entry}" in the book. nobody knows what it means. we love it
+* rest
+> wait 0.4
+Anthelion: Office stopped licensing lamps. Anyone turns their own lead.
+Anthelion: Eleven accidents. All minor. I'm told that's freedom.
+Tik: Lamp man. Sit. Soup's hot. Eat it now.
+Anthelion: Eating it now.
+> if lot_beside -> lb
+Tik: Lead's heavy. Talks early sometimes. Fine. It's mine.
+> goto two
+* lb
+Lot: Next to. Still next to.
+* two
+Umbraculum: Shade for rent!! Finest on the Long!! Opened a parlor!!
+Umbraculum: Business is terrible. Everyone's got their own shade. A scandal!!
+Minim: Crack catches the sun now. Little lights on the wall. Wall the on.
+Mott: Third wake. This one's a party. Nobody's dying. Cake.
+> if strays_all -> strays
+> goto par
+* strays
+(Every stray stands beside its owner in the square. Their leads fall the right way.)
+* par
+Parhelia: No lamp. First time in my life.
+Parhelia: Can't turn anything. Just go where I'm going. (Awful. Nice.)
+> wait 0.6
+> camera @square_center 1.4
+> anim nodus_lead_new
+(Nodus's lead slides off ahead, past the edge of the square.)
+> wait 0.8
+> walk nodus @square_exit
+> wait 0.6
+> fade out
+> credits
+> title
+> end
+
+# Map scenes: Stile at night, the Office tower, and the gate.
+
+== stile_last_fence
+(The last fence of Stile. On the far side, the dark. On this side, somebody's turnips.)
+> end
+
+== ledger_desk7
+(The Ledger desk is empty. The Office took the book and left the ink.)
+> end
+
+== talk_hessle7
+Hessle: Struck, so I can't sell to you. Here's the shelf. Not looking.
+> shop stile7
+> end
+
+== lamp_road_early
+(The road to the sunward gate is white with glare. Bearers stand along it.)
+Tik: No. Lamp woman. Her first.
+> end
+
+== office_floor_new
+(New boards in the hall floor. They don't quite match the old ones.)
+> end
+
+== office_cellar_door
+(Painted on the cellar gate: RULE ONE. NEVER GO IN THE CELLAR.)
+> end
+
+== talk_grisaille7
+Grisaille: Off duty. Rule two hundred: officer off duty's furniture.
+Grisaille: Furniture don't arrest people. Go away, clerk.
+> end
+
+== hill_early
+(A small door in the wall, out onto the hill.)
+Parhelia: Not with that lamp still turning. (One thing at a time.)
+> end
+
+== hill_enter
+> ifnot ch7_beam_turned -> done
+> if entry_fact -> done
+> if entry_question -> done
+> if entry_names -> done
+> if entry_typed -> done
+> goto ch7_hill
+* done
+> end

@@ -1,0 +1,54 @@
+# Tib's letters. Each waits at a dial post. The game draws the big lead's current shape under each one.
+# A letter scene shows on a paper card. Lines are Tib's handwriting: lowercase, no speaker name.
+
+== letter_1
+dear clerk
+office put a rope round the big lead. can't touch it now
+plim touched it anyway. he's fine
+there's a bump on top like a strap. everyone has a theory
+mine is a cow
+tib
+
+== letter_2
+dear clerk
+big lead got a new bit. small. like a kid :-[
+hessle says baby cow. said cows don't come in kid shape
+she said you don't know that
+tib
+
+== letter_3
+dear clerk
+it's got a foot now. one big foot
+people're upset. ock says a foot's worse than horns
+i think a foot is fine. it's just a foot
+tib
+
+== letter_4
+dear clerk
+long flat bit now. like a door standing up
+office put a fence round the hill
+building something huge at the gate. glass in it
+tib
+
+== letter_5
+dear clerk
+thing at the gate's a lamp. biggest lamp
+hums. nobody's allowed on the hill
+mott's still alive. keeps not dying :-]
+here's the big lead now. i drew it careful
+tib
+
+== letter_6
+dear clerk
+painting leads on people's steps now
+quarle's says stay home. doesn't look real to me
+also the cake tin's empty
+also i miss you
+tib
+
+== letter_7
+dear clerk
+reading this means you're HERE
+come to the bakery corner
+bring nobody. bring everybody. idk :-]
+tib

@@ -1,0 +1,280 @@
+# Chapter 6: The Unled
+# Maps: dusk_road, back_road, burrow, lampeater_den.
+# The party crosses the Long and walks past it. The sun sinks behind, leads stretch enormously, then the light ends.
+# The Unled never use the future tense. There is no word for later in the Back.
+
+== ch6_open
+> lock
+> chapter 6 The Unled
+> music dusk
+> fade in
+> wait 0.8
+Umbraculum: My lead!! Look how long it is!! Goes on forever!!
+Minim: Forever on goes it. Then it stops.
+> camera @dark_edge 1.4
+(Ahead, every lead runs out into the dark and does not come back.)
+> camera nodus 1.0
+Nodus: Lantern.
+> lamp nodus
+> sfx lamp_light
+> set ch6_started
+> unlock
+> end
+
+== post_dusk
+> if letter6_read -> rest
+> letter 6
+> set letter6_read
+* rest
+> post
+> end
+
+== tut_dark
+(Outside the lantern's light, nothing has a lead. Foes there act unforeseen.)
+(Inside the light, leads point away from the lantern. Keep the fight near it.)
+> end
+
+== ch6_tik_meet
+> lock
+> music tik
+> enter tik @dark_side
+> walk tik @lantern_edge
+> face tik nodus
+Tik: I hear you. Loud. Like carts.
+> emote nodus !
+Umbraculum: A person!! In the dark!! SALUTATIONS, person in the dark!!
+Tik: Very loud.
+Tik: You carry light. Light's food here. Things come to it.
+?
+- Who are you?
+- Which way's safe?
+Tik: Tik. That's the sound I make. Listen.
+> sfx tick
+Tik: Burrow's this way. Old Hum's there. Come. Quiet feet.
+Minim: No lead.
+Tik: Nobody here has one. You have one. Strange on you.
+> join tik
+> set ch6_tik_joined
+> unlock
+> end
+
+== tut_tik
+(Tik has no lead. Tik's attacks go any way and never show ahead.)
+(Listen shows the plans of foes close to Tik, even in the dark.)
+> end
+
+== talk_tik
+> if ch6_remembers -> remembers
+Tik: Now is big here. All there is. Plenty.
+> end
+* remembers
+Tik: A lamp. A woman. The ground breaks. I walk. Long walking.
+> end
+
+== ch6_burrow_arrive
+> lock
+> music burrow
+> enter hum @burrow_door
+> walk hum @burrow_front
+> face hum nodus
+Hum: Tik brings people. With light. Hood it. It brings things.
+> lamp off
+> sfx hood
+Hum: Good. Sit. Soup's hot. Eat it now.
+Umbraculum: We thank you, Elder of the Dark!! When do we leave?
+Hum: When? We don't say that one here.
+Hum: You eat. You sit. You walk. In that order. Now.
+> set ch6_burrow
+> unlock
+> end
+
+== talk_hum
+> if ch6_remembers -> after
+Hum: Light-people come sometimes. Don't stay. Too dark, they say.
+Hum: Not dark. Just quiet for the eyes.
+> end
+* after
+Hum: Tik came out of the light a long time ago. Small. No lead.
+Hum: We keep Tik. Tik keeps us. Simple.
+> end
+
+== talk_drip
+Drip: Your feet. So loud. Do you even know how loud.
+> end
+
+== talk_scuff
+Scuff: Lampeater eats Burrow's lamps. All of them. We don't use lamps.
+Scuff: Eats them anyway. Very stupid animal.
+> end
+
+== talk_sticks_burrow
+> if sticks_dark_won -> won
+Scuff: Dark rules. One candle. Only tiles it lights count. Then I blow it out.
+> sticks dark
+> end
+* won
+Scuff: You win in the dark. Now you are Unled a little. Take a stick.
+> end
+
+== ch6_lot_return
+> lock
+> lamp nodus
+> sfx lamp_light
+> wait 0.4
+> enter lot @light_edge
+> walk lot @light_rim
+> music lot
+Lot: Late. Sorry. Early, I mean.
+> emote nodus heart
+Minim: Back you're.
+Lot: Shade starts here. I start here.
+> face lot tik
+> wait 0.6
+> emote lot !
+Lot: Body.
+Tik: What? Dark thing at the edge of the light. Looking at me.
+Lot: Body. You're Body. I waited. Long time.
+> camera lot 0.6
+(At Lot's neck, a small round outline. On Tik's chest, a small brass sundial.)
+> camera nodus 0.6
+Minim: Same the.
+Tik: It's on me. Always. Little sun.
+> join lot
+> set ch6_lot_back
+> unlock
+> end
+
+== ch6_remembers
+> lock
+> music tik
+Hum: Tik. Your thing at the edge. It is yours.
+Hum: You came out of the light very small. No lead. Crying about a lamp.
+Tik: A lamp.
+> wait 0.6
+Tik: A lamp. A woman behind it. Her hands shake.
+Tik: The ground breaks. I walk from the break. Light stops at my back.
+Tik: I walk. I walk. Then Burrow.
+> emote nodus ...
+?
+- The woman is Parhelia.
+- She saved you from the fall.
+Tik: Parhelia. A name from the light.
+Lot: Body's name's Sunniva. I remember. Bodies forget.
+Tik: Sunniva. No. I'm Tik. I am Tik.
+Umbraculum: Family in the light, then?
+Lot: The lamp man. The one who licenses.
+Minim: Anthelion. Director.
+Tik: A father. In the light. Waits?
+Nodus: Forty years.
+Tik: Forty. Big now.
+> set ch6_remembers
+> unlock
+> end
+
+== ch6_lampeater_sign
+> lock
+> sfx crunch
+(Ahead, a hooded street lamp lies on its side. Its glass has been chewed.)
+Scuff: Lampeater. It finds every light. Yours too.
+Tik: It is close. I hear it. It hears your lantern. It hums when it is hungry.
+> set ch6_lampeater_sign
+> unlock
+> end
+
+== ch6_lampeater
+> lock
+> music boss
+(Something in the dark eats the lantern's light, a bite at a time.)
+Tik: Lampeater. Big. Slow when full.
+Umbraculum: Then we must not FEED it!!
+Tik: It eats the lantern. Then it's full and slow. We hit in the dark.
+Tik: I hear for you. Listen.
+Minim: Listen.
+> battle ch6_boss
+> goto ch6_after_boss
+
+== ch6_after_boss
+> lock
+> music none
+> wait 0.6
+(Total dark. The lantern is gone, eaten. Somewhere close, the Lampeater sleeps it off.)
+Tik: It is full. It sleeps. Good.
+Umbraculum: Can't see my own foot!! Never not seen it!!
+Tik: Don't need it. I hear it. Right there.
+> wait 0.4
+Lot: Body.
+Lot: Under? Or next to?
+> emote tik ?
+Tik: The thing asks. I ask you, loud one. You choose. See more than me.
+? Lot: under Tik, or next to?
+- Under. Be Tik's lead again. -> under
+- Next to. Stay Lot. -> beside
+* under
+Lot: Under. Yes.
+> anim lot_rejoin
+> sfx join
+Tik: Heavy. A bit heavy. Fine. It's mine.
+> leave lot
+> set lot_rejoined
+> goto after
+* beside
+Lot: Next to. Yes.
+Tik: Next to. Good. Under's crowded.
+> set lot_beside
+* after
+> wait 0.4
+Tik: Now we walk to the light-town. I know the dark all the way.
+Tik: Follow my ticks.
+> set ch6_done
+> unlock
+> end
+
+== ch6_leave
+> lock
+> sfx tick
+Tik: This way. Now this way. Now.
+> fade out
+> warp stile_night @start
+> goto ch7_open
+
+# Map scenes: the dusk road, the dark road, and Burrow.
+
+== dusk_enter
+> ifnot ch6_started -> open
+> end
+* open
+> goto ch6_open
+
+== dusk_pen_cache
+(A drover's pen at the edge of the light. In the feed box, a tonic and a note.)
+(The note says: back before dark. Nobody came back before dark.)
+> give tonic
+> set dusk_pen_cache
+> end
+
+== dark_stone
+(A low stone with a lilac mark. Cold. Somebody touches it every time they pass.)
+> end
+
+== den_early
+Tik: Not that way. Hum knows a thing. Hum first.
+> end
+
+== talk_burrow_shop
+Pantry: Salts. Tonics. Bandages. Got them. Need them. Easy.
+> shop burrow
+> end
+
+== burrow_soup
+(A pot of soup over no fire at all. It is hot anyway.)
+Hum: Eat it now. Now's when soup is.
+> end
+
+== talk_burrow_folk
+Burrow Folk: Light-people. Loud. Hum when you walk. You know?
+> end
+
+== den_far_early
+(The tunnel goes on through the dark.)
+Tik: No. Big hungry one's there. Hears us now.
+> end

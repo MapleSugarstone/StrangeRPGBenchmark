@@ -1,0 +1,367 @@
+# Chapter 2: Lot Nine
+# Maps: road1 (the Long road), market, alleys, underbridge.
+# Same low sun as Stile. The giant lead runs beside the road as a dark band.
+
+== ch2_open
+> lock
+> chapter 2 Lot Nine
+> music road
+> fade in
+> wait 0.4
+> walk parhelia @road_side
+> face parhelia nodus
+Parhelia: Whatever's on that hill has to use this road.
+Parhelia: So we go down it and meet it first. (That's the whole plan.)
+?
+- How far?
+- Noted.
+Parhelia: Market's two sleeps. I'll want oil by then.
+Parhelia: Lamp drinks when it works. So do I.
+> set ch2_started
+> unlock
+> end
+
+== hill_base
+(The big lead starts here, on the bare top of the hill.)
+(Nothing stands here. The grass isn't even pressed down.)
+> end
+
+== road_lead
+(Behind you the big lead runs down off the empty hill and over Stile.)
+(From here the town is a dark smudge inside it.)
+> end
+
+== talk_traveler
+Traveler: Coming from the Face, three sleeps walking.
+Traveler: Anything big on the road? Goats. One cart. Me.
+> end
+
+== talk_parhelia_road
+> if ch2_lot_joined -> lot
+Parhelia: Your lead keeps going first. Normal. Stop checking it.
+> end
+* lot
+Parhelia: That stray walks ahead of you. Strays do that. (Most strays don't talk.)
+> end
+
+== tut_lamp
+(Parhelia can raise her lamp. Leads near it point away from it.)
+(Move the lamp and every lead near it swings, attacks and all.)
+> end
+
+== tut_lantern
+(That foe carries a lantern. Leads near it point away from its light.)
+> end
+
+== post_road1
+> if letter1_read -> rest
+> letter 1
+> set letter1_read
+* rest
+> post
+> end
+
+== talk_drover
+Drover: Bringing goats to market. Their leads all point the same way.
+Drover: So do the goats. It works out.
+> end
+
+== talk_waystone
+(A stone with a groove cut where its lead falls. Someone has chalked MARKET on it.)
+> end
+
+== ch2_market_arrive
+> lock
+> music market
+> camera @market_gate 1.2
+> wait 0.4
+> camera nodus 0.8
+Parhelia: Hat on. Everyone here reads leads for money.
+Parhelia: Show yours to a stranger, you owe them. (They'll ask.)
+> give hat 1
+(Got a wide hat. Equip it to keep your lead private.)
+> set ch2_market
+> unlock
+> end
+
+== talk_hatter
+Hatter: Brims! Wide brims! Keep your morning to yourself!
+> shop market_hats
+> end
+
+== talk_bearer_stall
+Bearer: Licensed turning, three mites a step. Fair rates.
+Bearer: I put the lamp just so, your lead points at the lucky stall, you follow it.
+Bearer: Lucky stall's my cousin's. Still lucky.
+> end
+
+== talk_dicer
+Dicer: Shadow dice. Lead lands first, so you know what you'll roll.
+Dicer: That's why the table's got a lamp on a string. Swing it, swing your luck.
+Dicer: Cheating if I do it. Skill if you do it.
+> end
+
+== talk_seller
+Seller: Sold my next sleep's lead this morning.
+Seller: Don't know where I'm going now. Nobody does. It's great.
+> end
+
+== talk_market_kid
+Kid: i follow painted leads. they go to dead ends. dead ends are good for hiding
+> if ch2_painter_known -> more
+> end
+* more
+Kid: the painter does the ones by the bridge. his edges are real sharp
+> end
+
+== talk_fennick
+> if ch2_lot_joined -> after
+> if ch2_lot_met -> again
+> goto ch2_lot_meet
+* again
+Fennick: Lot nine's still here. Still talking early. Still costs the book.
+> goto ch2_lot_offer
+* after
+Fennick: Pleasure. Come back with another town's book any time.
+> end
+
+== ch2_lot_meet
+> lock
+> music lot
+Lot: Hello, ink. You buy me.
+> face nodus lot_board
+> emote nodus ?
+Fennick: Talks early. Answers before you ask. Don't mind it.
+Fennick: All genuine! Freshly nailed. Lot nine's the talker.
+Parhelia: A talking stray. (Heard of one. Once.)
+Lot: Body went where leads don't go.
+Fennick: See? All day. Lovely voice though.
+Lot: The book.
+Fennick: Mites won't touch it. That's a Stile Ledger, isn't it.
+Fennick: Two hundred years of the square. Every lead that crossed.
+Fennick: A painter could do a lot with that. I'd sell it to one.
+> set ch2_lot_met
+> goto ch2_lot_offer
+
+== ch2_lot_offer
+? Trade the Ledger for Lot nine?
+- Trade. -> trade
+- Not yet. -> wait
+* wait
+Lot: Soon.
+Fennick: It'll keep. Strays don't eat.
+> unlock
+> end
+* trade
+Parhelia: That book's your whole reason for walking. (Was.)
+?
+- I know.
+- Entry: traded.
+> take ledger 1
+> sfx page
+> wait 0.4
+> walk fennick @stall_front
+> sfx nail
+> wait 0.3
+> sfx nail
+> wait 0.3
+> sfx nail
+> wait 0.4
+Lot: Thank you. You're welcome.
+> join lot
+> set ch2_lot_joined
+> music market
+Fennick: Pleasure. Hat on, stray. Ha. No head anyway.
+> unlock
+> end
+
+== talk_lot
+> if ch6_lot_back -> late
+Lot: Yes. Later than you think.
+Nodus: ...
+Lot: You were going to ask if I'm all right.
+> end
+* late
+Lot: Here. Next to.
+> end
+
+== tut_lot
+(Lot can only stand in shade. Leads and walls make shade.)
+(Tug drags one enemy lead one tile. Slip jumps through connected shade.)
+> end
+
+== ch2_painter_sighting
+> lock
+> enter painter @alley_far
+> walk painter @alley_mid
+> face painter down
+Painter: Lamp-black. Three tiles. Ending at the purse.
+> sfx brush
+> anim painted_lead
+Painter: Edge it. There.
+> walk painter @alley_far
+> exit painter
+> enter mark @alley_side
+> walk mark @painted_end
+> sfx thud
+Mark: Ow! Hey. My purse.
+Parhelia: Painted lead. He walked right down it. (They always do.)
+> set ch2_painter_known
+> unlock
+> end
+
+== painted_lead_look
+(A lead painted on the cobbles. The edge is sharp as a knife.)
+(Real leads go soft at the edge. Nothing will follow this one.)
+> end
+
+== talk_mark
+Mark: Followed my lead down the alley. Wasn't my lead.
+Mark: Painter does the ones by the bridge. Under it too, I hear.
+> end
+
+== tut_painted
+(A painted lead has a hard edge. Nothing will land there.)
+> end
+
+== ch2_ledger_gone
+> lock
+> enter fennick @stall_front
+> enter painter @alley_mid
+> walk painter @stall_side
+> face fennick painter
+> face painter fennick
+Painter: Burnt umber. Gold leaf on the spine. Mine.
+> sfx coin
+> sfx page
+Fennick: Pleasure.
+> face painter lot
+Painter: And that one. Sienna. Small sienna. Under the bridge, little stray.
+Lot: No.
+> walk painter @alley_far
+> exit painter
+Parhelia: He bought the book. (Course he did.)
+Parhelia: Under the bridge. Fine. Bridges are fine. (I don't like them.)
+> set ch2_ledger_gone
+> unlock
+> end
+
+== talk_sticks_market
+> if sticks_twolamp_won -> won
+Gilder: Market rules. Two lamps on the board. Two leads per stick.
+> sticks twolamp
+> end
+* won
+Gilder: Two lamps and you still beat me. Take a stick.
+> end
+
+== underbridge_door
+> ifnot ch2_ledger_gone -> shut
+(A door under the bridge. Paint smells come out from under it.)
+> end
+* shut
+(A door under the bridge. Locked.)
+> end
+
+== underbridge_paint
+(Leads painted on the walls, all pointing the same way. All hard-edged.)
+> end
+
+== ch2_painter_boss
+> lock
+> music boss
+> face painter nodus
+Painter: Ivory for the clerk. A little ochre for the old one.
+Painter: Hold still. I paint where you'll go. You go there.
+Parhelia: Not if we watch the edges. (Watch the edges.)
+Painter: Sienna. Come back to the board.
+Lot: No. No.
+> battle ch2_boss
+> goto ch2_after_boss
+
+== ch2_after_boss
+> lock
+> music lot
+Painter: Smudged. You smudged me.
+?
+- Where's the Ledger?
+- Give it back.
+Painter: Sold it before breakfast. Office courier, hard mites.
+Painter: North, to Stile. Every lead on that square. Lamp-black. Gold leaf.
+> walk painter @under_exit
+> exit painter
+Parhelia: Office's got your book now. (Your book had the Office in it for two hundred years. Fair's fair.)
+Lot: Ahead of us.
+> wait 0.4
+> sfx page
+> sfx pen
+(Lot. Ahead of us.)
+> set ch2_done
+> unlock
+> end
+
+== post_market
+> if letter2_read -> rest
+> ifnot ch2_lot_joined -> rest
+> letter 2
+> set letter2_read
+* rest
+> post
+> end
+
+== ch2_leave
+> lock
+> walk parhelia @market_sun_exit
+> face parhelia nodus
+Parhelia: Sunward. Leads get short past here. (So do tempers.)
+Lot: Hot.
+> fade out
+> warp bright_road @start
+> goto ch3_open
+
+== road1_enter
+> ifnot ch2_started -> open
+> end
+* open
+> goto ch2_open
+
+== road1_lamp_hint
+> set road1_hint
+Parhelia: That plate in the garden wants a lead. The post's goes the wrong way.
+Parhelia: Lamps fix wrong ways. (Lamps cause wrong ways too. Mostly they fix them.)
+(V: set the lamp down in front of you. V again: pick it up.)
+(Leads near the lamp point away from it.)
+> end
+
+== road_cache
+> set road_cache
+(A seed box. Inside, a felt coat someone forgot.)
+> give coat 1
+> end
+
+== market_west_early
+(The road out of the Market runs on toward the Face.)
+(Not yet. The Market isn't done with you.)
+> end
+
+== talk_apprentice
+Apprentice: Fold hats. That's the job. Good at it.
+> end
+
+== talk_mfolk1
+Hatted man: Look all you like. One mite a look.
+> end
+
+== talk_mfolk2
+Hatted woman: Painters by the bridge again. Follow your own lead. Not the pretty ones.
+> end
+
+== under_lamp_hint
+> set under_hint
+Parhelia: No sun under a bridge. Nothing here has a lead unless we bring one.
+Parhelia: We bring one. (I bring one. I'm the one carrying it.)
+> end
+
+== underbridge_wall
+(Bars, set in old stone. Something on the far side catches the light.)
+> end
