@@ -1,7 +1,7 @@
 // Boot and the main loop: splash, title, the field, scenes, combat, menus, and overlays at a fixed step.
 import { attach, present, W, H } from './engine/screen';
 import { LAYOUT } from './engine/layout';
-import { attachInput, pollInput, onFirstGesture, pressed, consume, injectPress, injectHold, injectClick, type Button } from './engine/input';
+import { attachInput, pollInput, onFirstGesture, pressed, consume, injectPress, injectHold, injectClick, mouseActive, type Button } from './engine/input';
 import { rect, fadeFrame, shadeRect, box } from './engine/gfx';
 import { drawText, textWidth } from './engine/font';
 import { C } from './engine/palette';
@@ -43,10 +43,33 @@ loadScripts(SCRIPT_FILES);
 
 onFirstGesture(() => { initAudio(); setVolumes(SETTINGS.music, SETTINGS.sfx, SETTINGS.voice); });
 
+// The page hides the system pointer over the canvas, so the game shows this arrow while the mouse drives.
+const ARROW = ['#......', '##.....', '#o#....', '#oo#...', '#ooo#..', '#oooo#.', '#ooooo#', '#oo####', '#o#....', '##.....'];
+let arrowCss = 'default';
+let shownCursor = '';
+
+function makeArrow(scale: number) {
+  const k = Math.min(scale, 4);
+  const o = document.createElement('canvas');
+  o.width = ARROW[0].length * k; o.height = ARROW.length * k;
+  const g = o.getContext('2d');
+  if (!g) return;
+  ARROW.forEach((row, y) => {
+    for (let x = 0; x < row.length; x++) {
+      if (row[x] === '.') continue;
+      g.fillStyle = row[x] === '#' ? '#07060c' : '#e8e4ef';
+      g.fillRect(x * k, y * k, k, k);
+    }
+  });
+  arrowCss = `url(${o.toDataURL()}) 0 0, default`;
+  shownCursor = '';
+}
+
 function fit() {
   const s = Math.max(1, Math.floor(Math.min(window.innerWidth, window.innerHeight) / W));
   canvas.style.width = `${W * s}px`;
   canvas.style.height = `${H * s}px`;
+  makeArrow(s);
 }
 window.addEventListener('resize', fit);
 fit();
@@ -232,6 +255,8 @@ function frame(t: number) {
   let dt = 0;
   while (acc >= STEP) { update(STEP); acc -= STEP; dt += STEP; }
   if (dt > 0) render(dt);
+  const cursor = mouseActive() ? arrowCss : 'none';
+  if (cursor !== shownCursor) { canvas.style.cursor = cursor; shownCursor = cursor; }
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);

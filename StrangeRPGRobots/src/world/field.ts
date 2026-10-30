@@ -210,7 +210,7 @@ export function updateCamera(dt: number) {
   else if (F.leader) { tx = F.leader.px + 5 - W / 2; ty = F.leader.py + 5 - (H - 10) / 2; }
   else return;
   tx = clampCam(tx, m.w * T, W);
-  ty = clampCam(ty, m.h * T + (F.inCombat ? 30 : 0), H);
+  ty = clampCam(ty, m.h * T + (F.inCombat ? 38 : 0), H);
   const k = Math.min(1, dt * 8);
   const nx = WORLD.cam.x + (tx - WORLD.cam.x) * k, ny = WORLD.cam.y + (ty - WORLD.cam.y) * k;
   WORLD.cam.x = Math.abs(tx - nx) < 0.5 ? tx : nx;

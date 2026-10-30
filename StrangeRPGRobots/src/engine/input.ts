@@ -3,15 +3,17 @@ import { toFrame } from './screen';
 
 export type Button =
   | 'up' | 'down' | 'left' | 'right' | 'a' | 'b' | 'tab' | 'sneak' | 'run' | 'mute' | 'end'
-  | 'n1' | 'n2' | 'n3' | 'n4' | 'n5' | 'n6' | 'n7' | 'n8' | 'n9' | 'n0' | 'map' | 'journal' | 'inv' | 'rename' | 'edge';
+  | 'n1' | 'n2' | 'n3' | 'n4' | 'n5' | 'n6' | 'n7' | 'n8' | 'n9' | 'n0' | 'map' | 'jump' | 'inv' | 'rename' | 'edge'
+  | 'shove' | 'help' | 'watch';
 
 const KEYS: Record<string, Button> = {
   ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down', ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
   KeyZ: 'a', Enter: 'a', Space: 'a', NumpadEnter: 'a', KeyX: 'b', Escape: 'b', Backspace: 'b',
   Tab: 'tab', KeyC: 'sneak', ShiftLeft: 'run', ShiftRight: 'run', KeyM: 'mute', KeyE: 'end',
   Digit1: 'n1', Digit2: 'n2', Digit3: 'n3', Digit4: 'n4', Digit5: 'n5', Digit6: 'n6', Digit7: 'n7', Digit8: 'n8', Digit9: 'n9', Digit0: 'n0',
-  KeyQ: 'map', KeyJ: 'journal', KeyI: 'inv', KeyR: 'rename', KeyF: 'edge',
+  KeyQ: 'map', KeyJ: 'jump', KeyI: 'inv', KeyR: 'rename', KeyF: 'edge', KeyV: 'shove', KeyH: 'help', KeyO: 'watch',
 };
+const DIRECTIONS: Button[] = ['up', 'down', 'left', 'right'];
 
 const held = new Set<Button>();
 const keyHeld = new Set<Button>();
@@ -25,8 +27,9 @@ let anyGesture = false;
 
 /** Mouse position in frame pixels, whether it moved this frame, and its buttons. */
 export const MOUSE = { x: -1, y: -1, moved: false, inside: false, left: false, right: false, wheel: 0, lastMove: 0 };
-let mouseMovedQueue = false;
+let mouseMovedQueue = false, mouseTouchQueue = false;
 let leftQueue = false, rightQueue = false, wheelQueue = 0;
+let lastDirKey = 0;
 
 /** While on, a key that types a character only types it, so a name with Z or X in it does not also confirm or go back. */
 export function setTextMode(on: boolean) { textMode = on; typed = []; }
@@ -68,7 +71,7 @@ export function attachInput(target: Window, canvas: HTMLCanvasElement) {
   canvas.addEventListener('pointerdown', (e) => {
     gesture();
     const p = toFrame(e.clientX, e.clientY);
-    if (p) { MOUSE.x = p[0]; MOUSE.y = p[1]; MOUSE.inside = true; }
+    if (p) { MOUSE.x = p[0]; MOUSE.y = p[1]; MOUSE.inside = true; mouseTouchQueue = true; }
     if (e.button === 0) leftQueue = true;
     if (e.button === 2) rightQueue = true;
     canvas.focus();
@@ -119,15 +122,17 @@ export function pollInput(dt: number) {
   }
   for (const b of [...holdTime.keys()]) if (!held.has(b)) holdTime.delete(b);
   MOUSE.moved = mouseMovedQueue; mouseMovedQueue = false;
-  if (MOUSE.moved) MOUSE.lastMove = clock;
+  if (MOUSE.moved || mouseTouchQueue) MOUSE.lastMove = clock;
+  mouseTouchQueue = false;
+  if (DIRECTIONS.some((b) => pressedNow.has(b))) lastDirKey = clock;
   MOUSE.left = leftQueue; leftQueue = false;
   MOUSE.right = rightQueue; rightQueue = false;
   MOUSE.wheel = wheelQueue; wheelQueue = 0;
   if (MOUSE.right) pressedNow.add('b');
 }
 
-/** True while the mouse moved recently enough that it should drive the cursor. */
-export function mouseActive(): boolean { return MOUSE.inside && clock - MOUSE.lastMove < 4; }
+/** True while the mouse drives the cursor: it moved or clicked more recently than a direction key was pressed. */
+export function mouseActive(): boolean { return MOUSE.inside && MOUSE.lastMove > 0 && MOUSE.lastMove >= lastDirKey; }
 
 export function isDown(b: Button): boolean { return held.has(b); }
 export function pressed(b: Button): boolean { return pressedNow.has(b); }

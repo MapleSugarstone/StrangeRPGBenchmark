@@ -25,7 +25,23 @@ import { toast, closeDialogue } from '../ui/dialogue';
 import { sfx, combatEvent, playMusic } from '../audio/sfx';
 import { wait } from '../game/sched';
 
-interface Bar { id: string; label: string; icon: string; item?: string }
+interface Bar { id: string; label: string; icon: string; key: string; btn: Button; item?: string }
+
+// The action bar: a status row, then each slot's key above its icon.
+const BAR_TOP = H - 34;
+const SLOT_Y = H - 14;
+const END_X = W - 9;
+const NUM_KEYS: [string, Button][] = [['1', 'n1'], ['2', 'n2'], ['3', 'n3'], ['4', 'n4'], ['5', 'n5'], ['6', 'n6'], ['7', 'n7'], ['8', 'n8'], ['9', 'n9'], ['0', 'n0']];
+/** Every fighter shares these, so each keeps one key; Shift and C match running and sneaking outside a fight. */
+const SHARED: Bar[] = [
+  { id: 'item', label: 'Item', icon: 'item', key: 'I', btn: 'inv' },
+  { id: 'shove', label: 'Shove', icon: 'shove', key: 'V', btn: 'shove' },
+  { id: 'jump', label: 'Jump', icon: 'jump', key: 'J', btn: 'jump' },
+  { id: 'dash', label: 'Dash', icon: 'dash', key: '⇧', btn: 'run' },
+  { id: 'help', label: 'Help', icon: 'help', key: 'H', btn: 'help' },
+  { id: 'overwatch', label: 'Overwatch', icon: 'watch', key: 'O', btn: 'watch' },
+  { id: 'hide', label: 'Hide', icon: 'hide', key: 'C', btn: 'sneak' },
+];
 
 const PI = {
   cx: 0, cy: 0,
@@ -40,6 +56,7 @@ const PI = {
   showOrder: 0,
   banner: { text: '', t: 0, color: C.pale as number },
   hoverBar: -1,
+  hoverEnd: false,
   acting: false,
   tipT: 0,
 };
@@ -245,16 +262,15 @@ function focusOn(u: Unit) {
 // ---------- the player's turn ----------
 
 function barFor(u: Unit): Bar[] {
-  const out: Bar[] = [{ id: 'attack', label: 'Attack', icon: 'attack' }];
+  const own = [{ id: 'attack', label: 'Attack', icon: 'attack' }];
   for (const id of u.abilities) {
     const a = ABILITY.get(id);
     if (!a || a.cost === 'reaction' || id === 'longwake') continue;
-    out.push({ id, label: a.name, icon: a.icon });
+    own.push({ id, label: a.name, icon: a.icon });
   }
-  out.push({ id: 'item', label: 'Item', icon: 'item' });
-  out.push({ id: 'shove', label: 'Shove', icon: 'shove' }, { id: 'jump', label: 'Jump', icon: 'jump' }, { id: 'dash', label: 'Dash', icon: 'dash' });
-  out.push({ id: 'help', label: 'Help', icon: 'help' }, { id: 'overwatch', label: 'Overwatch', icon: 'watch' }, { id: 'hide', label: 'Hide', icon: 'hide' });
-  return out;
+  // At most ten: Attack, seven class abilities, and two from the port.
+  const out: Bar[] = own.slice(0, NUM_KEYS.length).map((b, i) => ({ ...b, key: NUM_KEYS[i][0], btn: NUM_KEYS[i][1] }));
+  return [...out, ...SHARED];
 }
 
 function refreshReach(u: Unit) {
@@ -379,26 +395,27 @@ export function updateCombat(dt: number) {
   if (!u || !PI.resolve || PI.acting) return;
   if (isDown('tab')) PI.showOrder = Math.max(PI.showOrder, 0.1);
   if (pressed('end')) { sfx('turn'); endPlayerTurn(); return; }
-  const keys: Button[] = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n0'];
   if (PI.mode === 'items') { updateItems(u); return; }
-  keys.forEach((k, i) => { if (pressed(k)) selectBar(i); });
+  for (let i = 0; i < PI.bar.length; i++) if (pressed(PI.bar[i].btn)) { selectBar(i); break; }
   if (repeat('left')) cursorMove(-1, 0);
   if (repeat('right')) cursorMove(1, 0);
   if (repeat('up')) cursorMove(0, -1);
   if (repeat('down')) cursorMove(0, 1);
   PI.hoverBar = -1;
-  if (mouseActive()) {
-    if (MOUSE.y >= H - 13 && MOUSE.y < H - 2) {
-      const i = Math.floor((MOUSE.x - 3) / 11);
-      if (i >= 0 && i < PI.bar.length) PI.hoverBar = i;
-      if (MOUSE.left && PI.hoverBar >= 0) { consume(); selectBar(PI.hoverBar); return; }
-      if (MOUSE.left && MOUSE.x >= W - 22) { consume(); sfx('turn'); endPlayerTurn(); return; }
-    } else if (MOUSE.moved || MOUSE.left) {
-      PI.cx = Math.floor((MOUSE.x + WORLD.cam.x) / T);
-      PI.cy = Math.floor((MOUSE.y + WORLD.cam.y) / T);
-    }
+  PI.hoverEnd = false;
+  const onBar = mouseActive() && MOUSE.y >= BAR_TOP - 1;
+  if (onBar) {
+    const i = Math.floor((MOUSE.x - 3) / 11);
+    const inRow = MOUSE.y >= SLOT_Y - 9 && MOUSE.y < SLOT_Y + 12;
+    if (inRow && MOUSE.x >= END_X - 1) PI.hoverEnd = true;
+    else if (inRow && i >= 0 && i < PI.bar.length) PI.hoverBar = i;
+    if (MOUSE.left && PI.hoverBar >= 0) { consume(); selectBar(PI.hoverBar); return; }
+    if (MOUSE.left && PI.hoverEnd) { consume(); sfx('turn'); endPlayerTurn(); return; }
+  } else if (mouseActive() && (MOUSE.moved || MOUSE.left)) {
+    PI.cx = Math.floor((MOUSE.x + WORLD.cam.x) / T);
+    PI.cy = Math.floor((MOUSE.y + WORLD.cam.y) / T);
   }
-  const go = pressed('a') || (MOUSE.left && mouseActive() && MOUSE.y < H - 26);
+  const go = pressed('a') || (MOUSE.left && mouseActive() && !onBar);
   if (pressed('b')) {
     consume();
     if (PI.mode === 'target') { PI.mode = 'move'; PI.ab = null; PI.item = null; sfx('cancel'); }
@@ -408,7 +425,7 @@ export function updateCombat(dt: number) {
   // Keep the camera near the cursor while using the keyboard.
   if (!mouseActive()) {
     const sx = PI.cx * T - WORLD.cam.x, sy = PI.cy * T - WORLD.cam.y;
-    if (sx < 20 || sx > W - 30 || sy < 20 || sy > H - 50) WORLD.camTarget = { x: PI.cx * T + 5, y: PI.cy * T + 5 };
+    if (sx < 20 || sx > W - 30 || sy < 20 || sy > BAR_TOP - 24) WORLD.camTarget = { x: PI.cx * T + 5, y: PI.cy * T + 5 };
   }
   // Path preview.
   const k = idx(PI.cx, PI.cy);
@@ -450,7 +467,7 @@ function updateItems(u: Unit) {
   if (!list.length) { PI.mode = 'move'; toast('No usable items', C.gray); return; }
   if (repeat('up')) PI.itemSel = (PI.itemSel + list.length - 1) % list.length;
   if (repeat('down')) PI.itemSel = (PI.itemSel + 1) % list.length;
-  const top = H - 30 - list.length * 9;
+  const top = BAR_TOP - 4 - list.length * 9;
   if (mouseActive() && MOUSE.moved) { const i = Math.floor((MOUSE.y - top) / 9); if (i >= 0 && i < list.length) PI.itemSel = i; }
   if (pressed('b')) { consume(); PI.mode = 'move'; sfx('cancel'); return; }
   if (pressed('a') || (MOUSE.left && MOUSE.y >= top && MOUSE.y < top + list.length * 9)) {
@@ -588,7 +605,7 @@ function renderTargetInfo(u: Unit) {
   }
   if (text) {
     const w = textWidth(text) + 4;
-    const bx = Math.max(1, Math.min(W - w - 1, sx + 5 - w / 2)), by = Math.max(1, Math.min(H - 11, sy - 12));
+    const bx = Math.max(1, Math.min(W - w - 1, sx + 5 - w / 2)), by = Math.max(1, Math.min(BAR_TOP - 12, sy - 12));
     rect(bx, by, w, 10, C.black);
     drawText(text, bx + 2, by + 1, color);
   }
@@ -610,9 +627,9 @@ function renderOrder() {
 }
 
 function renderBar(u: Unit) {
-  const top = H - 26;
-  rect(0, top - 1, W, 27, C.black);
-  rect(0, top, W, 26, C.ink);
+  const top = BAR_TOP;
+  rect(0, top - 1, W, H - top + 1, C.black);
+  rect(0, top, W, H - top, C.ink);
   hline(0, top, W, C.slate);
   const sh = u.actor?.sheet.frames.down[0];
   if (sh) blitUI(sh, 3, top + 2);
@@ -634,19 +651,22 @@ function renderBar(u: Unit) {
   if (u.ramMax) { drawText(`RAM ${u.ram}`, x, top + 2, C.grn3); x += textWidth(`RAM ${u.ram}`) + 4; }
   if (u.member?.cls === 'witch' && u.mood) { drawText(u.mood, x, top + 2, MOOD_COLOR[u.mood]); x += textWidth(u.mood) + 4; }
   if (u.droneMax) drawText(`D${u.droneHp}`, x, top + 2, u.droneHp ? C.mag3 : C.slate);
-  // Ability icons.
+  // Ability icons, each under the key that picks it.
   PI.bar.forEach((b, i) => {
-    const bx = 3 + i * 11, by = H - 12;
+    const bx = 3 + i * 11;
     let ok: boolean;
     if (b.id === 'item') ok = (u.action || u.extraActions > 0 || u.bonus) && usableItems().length > 0;
     else ok = canUse(u, b.id);
-    blitUI(abilityIcon(b.icon, !ok), bx, by);
     const sel = (PI.mode === 'target' && PI.ab === b.id) || (PI.mode === 'items' && b.id === 'item');
-    if (sel || PI.hoverBar === i) { rect(bx, by - 2, 10, 1, sel ? C.amb3 : C.pale); }
+    const hover = PI.hoverBar === i;
+    drawText(b.key, bx + Math.floor((10 - textWidth(b.key)) / 2), SLOT_Y - 8, sel ? C.amb3 : hover ? C.white : ok ? C.gray : C.slate);
+    blitUI(abilityIcon(b.icon, !ok), bx, SLOT_Y);
+    if (sel || hover) rect(bx, SLOT_Y + 11, 10, 1, sel ? C.amb3 : C.pale);
   });
   // End turn.
-  box(W - 21, H - 13, 18, 11, C.night, C.slate);
-  drawText('E', W - 15, H - 11, C.pale);
+  box(END_X, SLOT_Y - 8, 8, 18, C.night, PI.hoverEnd ? C.pale : C.slate);
+  drawText('E', END_X + 2, SLOT_Y - 3, PI.hoverEnd ? C.white : C.pale);
+  if (PI.hoverEnd) { renderTip('End turn', ''); return; }
   // Description line.
   const hb = PI.hoverBar >= 0 ? PI.bar[PI.hoverBar] : PI.mode === 'target' && PI.ab && PI.tipT > 0 ? PI.bar.find((b) => b.id === PI.ab) : null;
   if (hb) {
@@ -669,7 +689,7 @@ function renderBar(u: Unit) {
 }
 
 function renderTip(title: string, desc: string) {
-  const lines = wrapText(desc, W - 14);
+  const lines = desc ? wrapText(desc, W - 14) : [];
   const h = 12 + lines.length * 9;
   const y = 3;
   box(4, y, W - 8, h, C.ink, C.slate);
@@ -681,7 +701,7 @@ import { wrap as wrapText } from '../engine/font';
 
 function renderItems() {
   const list = usableItems();
-  const top = H - 30 - list.length * 9;
+  const top = BAR_TOP - 4 - list.length * 9;
   const w = 120;
   box(4, top - 3, w, list.length * 9 + 5, C.ink, C.slate);
   list.forEach((id, i) => {

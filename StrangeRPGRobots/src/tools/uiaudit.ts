@@ -207,7 +207,7 @@ export async function uiAudit(h: any, parts: Part[] = ALL): Promise<{ issues: Re
         if (!playerTurn()) break;
         const who = CB.cur.name;
         snap(`fight ${enc}, ${who}'s turn`);
-        for (const key of ['n1', 'n2', 'n3', 'n4', 'n5', 'n6', 'n7', 'n8', 'n9', 'n0']) {
+        for (const key of PI.bar.map((b: { btn: string }) => b.btn)) {
           h.press(key); await step(2); snap(`fight ${enc}, ${who}, bar ${key}`);
           if (PI.mode === 'items') for (let i = 0; i < 20; i++) { PI.itemSel = i; await step(1); snap(`fight ${enc}, ${who}, item ${i}`); }
           h.press('b'); await step(2);

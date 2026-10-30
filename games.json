@@ -451,7 +451,7 @@
       ],
       "chapters": 6,
       "blurb": "Fathom is a neon city forty meters below the sea, kept dry by giant pumps a girl woke with her blood in the Great Flood. One witch in ten thousand bleeds magic that wakes machines. A barge job goes wrong, a case of blood bursts, and your neural port wakes up and pulls you toward the one person it wants. Turn-based tactics on the streets you walk, six companions, and a city that owes someone.",
-      "controls": "Arrows or WASD move, or click a tile. Z, Enter, or Space confirms and talks. X or Esc goes back and opens the menu. C sneaks. Tab changes the leader. In fights: 1 to 0 pick abilities, E ends the turn, Tab shows the turn order, F spends Edge on a failed roll. M mutes."
+      "controls": "Arrows or WASD move, or click a tile. Z, Enter, or Space confirms and talks. X or Esc goes back and opens the menu. C sneaks. Tab changes the leader. In fights: the key shown over each action picks it, E ends the turn, Tab shows the turn order, F spends Edge on a failed roll. M mutes."
     },
     {
       "id": "spore-weaver",
