@@ -40,6 +40,15 @@ function copyWeb() {
 
 copyWeb();
 
+await esbuild.build({
+  entryPoints: ["src/soundtrack.ts"],
+  bundle: true,
+  format: "iife",
+  target: "es2022",
+  outfile: "dist/soundtrack.js",
+  logLevel: "info",
+});
+
 if (watch) {
   await ctx.watch();
   console.log("watching...");

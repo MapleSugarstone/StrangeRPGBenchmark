@@ -11,24 +11,34 @@ let boostIn: GainNode | null = null;
 /** Effects start this many seconds after the call. Scheduling at the current time loses the first few milliseconds while the audio thread catches up, which swallowed the shortest sounds. */
 const LEAD = 0.03;
 
+function open(context: AudioContext, out: AudioNode): void {
+  ac = context;
+  // A limiter after the boost keeps the loudest moments from clipping.
+  boostIn = ac.createGain();
+  boostIn.gain.value = BOOST;
+  const limit = ac.createDynamicsCompressor();
+  limit.threshold.value = -1; limit.knee.value = 0; limit.ratio.value = 20; limit.attack.value = 0.002; limit.release.value = 0.12;
+  boostIn.connect(limit);
+  limit.connect(out);
+  sfxGain = ac.createGain();
+  sfxGain.gain.value = sfxVolume * TRIM;
+  sfxGain.connect(boostIn);
+}
+
 export function audio(): AudioContext | null {
   if (!ac) {
     try {
-      ac = new AudioContext();
-      // A limiter after the boost keeps the loudest moments from clipping.
-      boostIn = ac.createGain();
-      boostIn.gain.value = BOOST;
-      const limit = ac.createDynamicsCompressor();
-      limit.threshold.value = -1; limit.knee.value = 0; limit.ratio.value = 20; limit.attack.value = 0.002; limit.release.value = 0.12;
-      boostIn.connect(limit);
-      limit.connect(ac.destination);
-      sfxGain = ac.createGain();
-      sfxGain.gain.value = sfxVolume * TRIM;
-      sfxGain.connect(boostIn);
+      const context = new AudioContext();
+      open(context, context.destination);
     } catch { return null; }
   }
-  if (ac.state === 'suspended') ac.resume();
+  if (ac!.state === 'suspended') ac!.resume();
   return ac;
+}
+
+/** Plays on a context and output node that someone else owns. The launcher's soundtrack calls it before anything plays. */
+export function useAudio(context: AudioContext, out: AudioNode): void {
+  if (!ac) open(context, out);
 }
 
 /** Where a sound chain on context `a` ends: the shared boost and limiter on the game's own context, or the plain output elsewhere. */

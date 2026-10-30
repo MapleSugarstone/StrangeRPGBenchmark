@@ -57,3 +57,28 @@ Cartridge art lives in `menu/art/`. Each game has its main character as a small 
 - `hero` holds the character's `name`, `role`, and `sprite`. The optional `forms` lists sprites of the same size, starting with `sprite`. Each hover over the cartridge moves the hero to its next form through an ordered dither.
 - `scene` is the screenshot on the label, and `shots` lists the extra screenshots.
 - `chapters`, `blurb`, and `controls` fill the preview.
+- The optional `soundtrack` names the game's soundtrack script in its build output, such as `"soundtrack.js"`. The game then appears on the Soundtrack screen. The optional `soundtrackGain` is a level trim in decibels for the whole album, so every album plays at about the same loudness.
+
+## Soundtracks
+
+The Soundtrack screen plays each game's music as an album. Open it with the disc button in the top-right corner, or with the Soundtrack button in a game's preview. A game joins when its build writes a soundtrack script next to its `index.html` and its `games.json` entry names that script.
+
+The menu loads the script into a hidden frame whose base URL is the game's folder. The script sets `window.soundtrack` to an object with these members:
+
+- `tracks` lists the album in play order. Each track has an `id`, a `title`, and the optional fields below.
+- `start(id, ctx, out)` starts a track on the menu's AudioContext `ctx` and connects every sound to the AudioNode `out`. It may return a promise. The script never creates an AudioContext of its own and never connects to `ctx.destination`.
+- The optional `change(id, value)` applies one of the current track's changes. `value` is `undefined` for a button, a boolean for a switch, and the index of the chosen step for a choice.
+
+The menu stops a track by fading `out` and removing the frame, which also stops the script's timers. A soundtrack script needs no stop function.
+
+These optional fields describe a track:
+
+- `length` is the number of seconds in one loop of a composed track. The menu plays at least two loops and 90 seconds, then fades out over the start of the next loop. A track without `length` is generated, and it plays for the time the listener picks from 1 to 10 minutes.
+- `once` set to `true` marks a track that ends instead of looping, such as a fanfare. It plays for `length` seconds.
+- `changes` lists buttons for what the music reacts to in the game. Each change has an `id` and a `label`. A change with no other field is a button. `toggle: true` makes it a switch, and `steps` (a list of labels) makes it a choice. `value` sets the starting state of a switch or a choice.
+
+`tools/check-soundtrack.mjs` checks a built soundtrack script without a browser. It plays every track for 20 seconds against a stand-in for Web Audio, presses every change, and reports errors, silent tracks, and sound that skips `out`.
+
+```bash
+node tools/check-soundtrack.mjs StrangeRPGBenchmarkSonnet/dist/soundtrack.js
+```

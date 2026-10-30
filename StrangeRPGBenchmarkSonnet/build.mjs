@@ -14,8 +14,15 @@ if (mode === 'game' || mode === 'all') {
     minify: false,
     sourcemap: false,
   });
+  await build({
+    entryPoints: ['src/soundtrack.ts'],
+    bundle: true,
+    format: 'iife',
+    target: 'es2020',
+    outfile: 'dist/soundtrack.js',
+  });
   copyFileSync('web/index.html', 'dist/index.html');
-  console.log('built dist/game.js');
+  console.log('built dist/game.js and dist/soundtrack.js');
 }
 
 if (mode === 'tools' || mode === 'all') {

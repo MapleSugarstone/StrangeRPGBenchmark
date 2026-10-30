@@ -50,7 +50,7 @@ function pulseWave(ctx: AudioContext, d: number): PeriodicWave {
   return ctx.createPeriodicWave(re, im);
 }
 
-interface Song { comp: Composer; out: GainNode; t: number; q: { t: number; e: Ev; sd: number }[]; done: boolean; }
+interface Song { comp: Composer; out: GainNode; t: number; q: { t: number; e: Ev; sd: number }[]; done: boolean; skip: number; }
 
 export class Audio {
   ctx: AudioContext | null = null;
@@ -65,16 +65,16 @@ export class Audio {
   private noiseBuf: AudioBuffer | null = null;
   private timer: ReturnType<typeof setInterval> | null = null;
 
-  unlock() {
+  unlock(injected?: AudioContext, out?: AudioNode) {
     if (this.ctx) {
       if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => undefined);
       return;
     }
     const g = globalThis as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
     const AC = g.AudioContext ?? g.webkitAudioContext;
-    if (!AC) return;
+    if (!AC && !injected) return;
     let ctx: AudioContext;
-    try { ctx = new AC(); } catch { return; }
+    try { ctx = injected ?? new AC!(); } catch { return; }
     this.ctx = ctx;
     const comp = ctx.createDynamicsCompressor();
     comp.threshold.value = -16;
@@ -82,7 +82,7 @@ export class Audio {
     comp.ratio.value = 4;
     comp.attack.value = 0.004;
     comp.release.value = 0.2;
-    comp.connect(ctx.destination);
+    comp.connect(out ?? ctx.destination);
     this.master = ctx.createGain();
     this.master.gain.value = this.muted ? 0 : MASTER;
     this.master.connect(comp);
@@ -110,7 +110,8 @@ export class Audio {
     return this.muted;
   }
 
-  play(id: string | null) {
+  // A nonzero skip drops up to that many silent bars and the rests before the first note.
+  play(id: string | null, variant?: number, skip = 0) {
     if (id === this.current) return;
     this.current = id;
     this.stopSong();
@@ -119,7 +120,7 @@ export class Audio {
     if (!st) return;
     const out = this.ctx.createGain();
     out.connect(this.musicGain);
-    this.song = { comp: new Composer(id, st), out, t: this.ctx.currentTime + 0.05, q: [], done: false };
+    this.song = { comp: new Composer(id, st, variant), out, t: this.ctx.currentTime + 0.05, q: [], done: false, skip };
     this.pump();
   }
 
@@ -150,7 +151,10 @@ export class Audio {
     while (!s.done && s.t < ahead) {
       const bar = s.comp.next();
       if (!bar) { s.done = true; break; }
+      if (s.skip > 0 && !bar.evs.length) { s.skip--; continue; }
       const sd = 60 / bar.bpm / 4;
+      if (s.skip > 0) s.t -= Math.min(...bar.evs.map((e) => e.at)) * sd;
+      s.skip = 0;
       for (const e of bar.evs) s.q.push({ t: s.t + e.at * sd, e, sd });
       s.t += Math.max(0.05, bar.steps * sd);
       s.q.sort((a, b) => a.t - b.t);

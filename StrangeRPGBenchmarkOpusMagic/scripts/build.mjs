@@ -29,6 +29,16 @@ const game = {
   sourcemap: watch,
 };
 
+// The launcher's Soundtrack screen loads dist/soundtrack.js. The contract is in the root README, under Soundtracks.
+const soundtrack = {
+  ...common,
+  entryPoints: [path.join(root, 'src', 'soundtrack.ts')],
+  outfile: path.join(root, 'dist', 'soundtrack.js'),
+  format: 'iife',
+  platform: 'browser',
+  minify: !watch,
+};
+
 if (watch) {
   const ctx = await esbuild.context(game);
   await ctx.watch();
@@ -36,6 +46,7 @@ if (watch) {
 } else {
   await esbuild.build(game);
 }
+await esbuild.build(soundtrack);
 
 if (tools) {
   await esbuild.build({

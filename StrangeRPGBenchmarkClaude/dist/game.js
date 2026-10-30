@@ -1300,16 +1300,16 @@
       } catch {
       }
     }
-    unlock() {
+    unlock(ctx, out) {
       if (this.ctx) {
         if (this.ctx.state === "suspended") this.ctx.resume();
         return;
       }
       try {
-        this.ctx = new AudioContext();
+        this.ctx = ctx ?? new AudioContext();
         this.master = this.ctx.createGain();
         this.master.gain.value = this.muted ? 0 : 0.5;
-        this.master.connect(this.ctx.destination);
+        this.master.connect(out ?? this.ctx.destination);
         const len = this.ctx.sampleRate * 0.5;
         this.noise = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
         const d = this.noise.getChannelData(0);

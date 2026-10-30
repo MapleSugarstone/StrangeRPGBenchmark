@@ -7,7 +7,7 @@ import { startTurn, endTurn, tickSurfaces, useAbility, canUse, validTarget, area
 import { ABILITY, ITEM, STATUSES, type AbilityDef } from '../rules/data';
 import { WORLD, propAt } from '../world/world';
 import { reachable, findPath, type Pt } from '../world/path';
-import { F, DIRS } from '../world/field';
+import { F, DIRS, regroup } from '../world/field';
 import { T } from '../world/tiles';
 import { G } from '../game/state';
 import { grantXp } from '../rules/stats';
@@ -232,6 +232,7 @@ async function finish(win: boolean): Promise<boolean> {
   CB.active = false;
   F.inCombat = false;
   for (const a of WORLD.actors) { a.px = a.tx * T; a.py = a.ty * T; a.lift = 0; }
+  regroup();
   WORLD.camTarget = null;
   return win;
 }

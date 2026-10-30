@@ -1562,6 +1562,14 @@ export const music = {
   setRegion(r: Region | null): void {
     state.regionOverride = r;
   },
+  /** Sets the region override and recolors a battle that plays now, for the menu's soundtrack player. */
+  recolor(r: Region): void {
+    state.regionOverride = r;
+    if (!desired || TRACKS[desired]?.kind !== 'battle') return;
+    state.battleRegion = r;
+    start(desired);
+    if (state.low && player) player.lowFrom = nowTime();
+  },
   setChapter(n: number): void {
     if (Number.isFinite(n)) state.chapter = Math.max(1, Math.min(9, Math.round(n)));
   },

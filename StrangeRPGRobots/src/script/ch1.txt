@@ -333,6 +333,9 @@ PORT: her.
 > anim hull on
 > shake 3
 > wait 1
+> run hero @ladder
+> walk p6 @hanne_back
+> face hero up
 > warp bargerun @hatch up
 > goto run_start
 
@@ -348,7 +351,11 @@ PORT: her.
 > face hero courtesy
 > face courtesy hero
 Courtesy: PLEASE REMAIN CALM.
+> face courtesy down
+> emote courtesy sweat
+> wait 0.6
 Courtesy: I AM REMAINING CALM. IT IS DIFFICULT.
+> face courtesy hero
 ?
 - You were going to hit me. -> hit
 - Stay back. -> back

@@ -25,6 +25,17 @@ export function initAudio() {
   for (const fn of readyHooks) { try { fn(); } catch { /* a hook must not stop the others */ } }
 }
 
+/** Plays on a context and output node that someone else owns, unmuted. The launcher's soundtrack uses it in place of initAudio. */
+export function useAudio(ctx: AudioContext, out: AudioNode) {
+  if (ac) return;
+  ac = ctx;
+  muted = false;
+  master = ctx.createGain();
+  master.gain.value = MASTER;
+  master.connect(out);
+  for (const fn of readyHooks) { try { fn(); } catch { /* a hook must not stop the others */ } }
+}
+
 export function isMuted() { return muted; }
 
 export function toggleMute() {

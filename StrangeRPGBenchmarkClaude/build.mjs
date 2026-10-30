@@ -17,6 +17,14 @@ if (args.includes('--sim')) {
 } else {
   fs.mkdirSync('dist', { recursive: true });
   fs.copyFileSync('index.html', 'dist/index.html');
+  await esbuild.build({
+    entryPoints: ['src/soundtrack.ts'],
+    bundle: true,
+    format: 'iife',
+    target: 'es2020',
+    outfile: 'dist/soundtrack.js',
+    logLevel: 'warning',
+  });
   const ctx = await esbuild.context({
     entryPoints: ['src/main.ts'],
     bundle: true,

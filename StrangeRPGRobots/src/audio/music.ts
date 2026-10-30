@@ -1651,6 +1651,14 @@ export const music = {
   intensity(): number {
     return effectiveIntensity();
   },
+  /** Sets the battle district and recolors a fight that plays now, for the menu's soundtrack player. */
+  setRegion(r: Region): void {
+    state.fieldRegion = r;
+    if (!fighting()) return;
+    state.battleRegion = r;
+    start(desired!);
+    if (state.low && player) player.lowFrom = nowTime();
+  },
   /** Notes that failed to schedule since the page loaded. */
   errors(): number {
     return noteErrors;

@@ -106,6 +106,8 @@ export const WORLD = {
   shake: 0,
   /** Lights shot out on this visit, by prop or sign index. */
   dark: new Set<string>(),
+  /** Characters a scene sent off on this visit, so a refresh does not put them back at their spawn. */
+  exited: new Set<string>(),
   /** Automatic dim fill lights for dark stretches. */
   fill: [] as { x: number; y: number; c: number }[],
   /** Part of the map that breathes like a woken thing (the barge). */
@@ -124,6 +126,7 @@ export function loadWorld(def: MapDef) {
   WORLD.signs = [...(def.signs ?? []), ...autoSigns(def, m)].map((s) => ({ place: s, broken: false }));
   WORLD.lights = def.lights ?? [];
   WORLD.actors = [];
+  WORLD.exited.clear();
   WORLD.steam = [];
   WORLD.drops = [];
   WORLD.dark = new Set();

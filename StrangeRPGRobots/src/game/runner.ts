@@ -57,7 +57,10 @@ function actorOf(id: string): Actor | undefined { return findActor(id); }
 function markerPos(name: string): [number, number] | null { return WORLD.def?.markers?.[name] ?? null; }
 
 async function walkActor(a: Actor, x: number, y: number, run: boolean) {
-  const path = findPath(a.tx, a.ty, x, y, { blocked: (px, py) => railBlock(a, px, py) || WORLD.actors.some((o) => o !== a && o.visible && !o.gone && o.tx === px && o.ty === py && o.role !== 'party' && o.role !== 'crowd') });
+  const blocks = (px: number, py: number, party: boolean) => railBlock(a, px, py) || WORLD.actors.some((o) => o !== a && o.visible && !o.gone && o.tx === px && o.ty === py && o.role !== 'crowd' && (party || o.role !== 'party'));
+  // Anyone but the party stops at a party member's tile, so their walk goes around the party when it can.
+  const path = (a.role !== 'party' ? findPath(a.tx, a.ty, x, y, { blocked: (px, py) => blocks(px, py, true) }) : null)
+    ?? findPath(a.tx, a.ty, x, y, { blocked: (px, py) => blocks(px, py, false) });
   if (!path) { placeActor(a, x, y); return; }
   a.path = path;
   a.speed = run ? 8 : a.role === 'party' ? 5 : 4;
@@ -96,6 +99,7 @@ export const stage: Stage = {
     a.dir = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? 'left' : 'right') : dy < 0 ? 'up' : 'down';
   },
   enter(id, look, x, y, dir) {
+    WORLD.exited.delete(id);
     let a = actorOf(id);
     if (!a) {
       a = { id, name: id, sheet: G.roster[id] ? lookFor(id) : sheetFor(look), tx: x, ty: y, px: x * T, py: y * T, dir: (dir as Dir) ?? 'down', anim: 0, moving: false, path: [], speed: 4, role: 'npc', idle: 99, visible: true, lift: 0, alert: 0 };
@@ -108,6 +112,7 @@ export const stage: Stage = {
     const a = actorOf(id);
     if (!a || a.role === 'party') return;
     WORLD.actors = WORLD.actors.filter((x) => x !== a);
+    WORLD.exited.add(id);
   },
   emote(id, kind) { const a = actorOf(id); if (a) { a.emote = { kind, t: 1.6 }; sfx(kind === '!' ? 'alarm' : 'blip'); } },
   async camera(target, seconds) {

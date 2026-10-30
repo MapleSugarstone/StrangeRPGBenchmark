@@ -22,7 +22,7 @@ const SCALES: Record<string, number[]> = {
 
 interface MoodDef { bpm: number; scale: string; root: [number, number]; drums: boolean; arp: boolean; density: number; wave: OscillatorType }
 
-const MOODS: Record<Exclude<Mood, "none">, MoodDef> = {
+export const MOODS: Record<Exclude<Mood, "none">, MoodDef> = {
   title: { bpm: 72, scale: "minorPent", root: [45, 50], drums: false, arp: false, density: 0.45, wave: "triangle" },
   town: { bpm: 104, scale: "majorPent", root: [50, 57], drums: true, arp: false, density: 0.6, wave: "square" },
   dungeon: { bpm: 92, scale: "dorian", root: [43, 50], drums: true, arp: true, density: 0.5, wave: "triangle" },
@@ -100,15 +100,15 @@ export class AudioSystem {
   muted = false;
 
   /** Must be called from a user gesture. Safe to call repeatedly. */
-  init(): void {
+  init(ctx?: AudioContext, out?: AudioNode): void {
     if (this.ctx) { if (this.ctx.state === "suspended") void this.ctx.resume(); return; }
     try {
-      this.ctx = new AudioContext();
+      this.ctx = ctx ?? new AudioContext();
     } catch { return; }
     const c = this.ctx;
     this.master = c.createGain();
     this.master.gain.value = this.muted ? 0 : 0.5;
-    this.master.connect(c.destination);
+    this.master.connect(out ?? c.destination);
     this.musicGain = c.createGain();
     this.musicGain.gain.value = 0.32;
     this.musicGain.connect(this.master);

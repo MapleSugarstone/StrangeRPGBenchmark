@@ -49,27 +49,41 @@ function applyMute() {
   try { master.gain.setTargetAtTime(muted ? 0 : 0.9, ac.currentTime, 0.02); } catch { /* ignore */ }
 }
 
+function open(context: AudioContext, out: AudioNode): void {
+  ac = context;
+  master = ac.createGain();
+  master.gain.value = muted ? 0 : 0.9;
+  const comp = ac.createDynamicsCompressor();
+  // A safety limiter. The levels are set low enough that it rarely moves.
+  comp.threshold.value = -14; comp.knee.value = 10; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.22;
+  // Nothing below 30 Hz is wanted: small speakers waste power on it and the limiter reacts to it.
+  const hp = ac.createBiquadFilter();
+  hp.type = 'highpass'; hp.frequency.value = 30; hp.Q.value = 0.6;
+  master.connect(hp); hp.connect(comp); comp.connect(out);
+  sfxBus = ac.createGain(); sfxBus.gain.value = SFX_LEVEL; sfxBus.connect(master);
+  blipBus = ac.createGain(); blipBus.gain.value = BLIP_LEVEL; blipBus.connect(master);
+  attach(ac, master, () => muted);
+}
+
 /** Creates or resumes the audio context. Call it on the first key press. */
 export function unlockAudio(): void {
   try {
     if (!ac) {
       const Ctor: typeof AudioContext | undefined = typeof AudioContext !== 'undefined' ? AudioContext : (globalThis as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!Ctor) return;
-      ac = new Ctor();
-      master = ac.createGain();
-      master.gain.value = muted ? 0 : 0.9;
-      const comp = ac.createDynamicsCompressor();
-      // A safety limiter. The levels are set low enough that it rarely moves.
-      comp.threshold.value = -14; comp.knee.value = 10; comp.ratio.value = 4; comp.attack.value = 0.004; comp.release.value = 0.22;
-      // Nothing below 30 Hz is wanted: small speakers waste power on it and the limiter reacts to it.
-      const hp = ac.createBiquadFilter();
-      hp.type = 'highpass'; hp.frequency.value = 30; hp.Q.value = 0.6;
-      master.connect(hp); hp.connect(comp); comp.connect(ac.destination);
-      sfxBus = ac.createGain(); sfxBus.gain.value = SFX_LEVEL; sfxBus.connect(master);
-      blipBus = ac.createGain(); blipBus.gain.value = BLIP_LEVEL; blipBus.connect(master);
-      attach(ac, master, () => muted);
+      const context = new Ctor();
+      open(context, context.destination);
     }
-    if (ac.state === 'suspended') void ac.resume().catch(() => { /* a later key press tries again */ });
+    if (ac!.state === 'suspended') void ac!.resume().catch(() => { /* a later key press tries again */ });
+  } catch { /* audio is optional */ }
+}
+
+/** Plays on a context and output node that someone else owns, unmuted. The launcher's soundtrack uses it in place of unlockAudio. */
+export function useAudio(context: AudioContext, out: AudioNode): void {
+  try {
+    if (ac) return;
+    muted = false;
+    open(context, out);
   } catch { /* audio is optional */ }
 }
 

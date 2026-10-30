@@ -114,7 +114,7 @@ export function enterMap(id: string, at: Pt, dir: Dir) {
 
 export function spawnNpcs(def: MapDef) {
   for (const n of def.npcs ?? []) {
-    if (!visibleIf(n)) continue;
+    if (!visibleIf(n) || WORLD.exited.has(n.id)) continue;
     if (WORLD.actors.some((a) => a.id === n.id)) continue;
     const [x, y] = npcPos(def, n);
     const a = newActor(n.id, n.name ?? n.id, x, y, n.dir ?? 'down', sheetFor(n.look), n.crowd || n.look.startsWith('crowd:') ? 'crowd' : 'npc');
@@ -309,10 +309,19 @@ function leaderArrived() {
   fireAt(L.tx, L.ty);
 }
 
+/** After a fight, followers walk back to the leader and the trail starts again from there. */
+export function regroup() {
+  const L = F.leader;
+  if (!L) return;
+  F.trail = Array.from({ length: 8 }, () => [L.tx, L.ty] as Pt);
+  for (const f of F.followers) f.path = findPath(f.tx, f.ty, L.tx, L.ty, { blocked: (x, y) => { const o = actorAt(x, y, f); return !!o && o.role !== 'party'; } }) ?? [];
+}
+
 function followersUpdate(dt: number) {
   F.followers.forEach((f, i) => {
     const target = F.trail[i];
     if (!target) return;
+    if (f.path.length) { moveActor(f, dt); return; }
     if (f.px === f.tx * T && f.py === f.ty * T && (f.tx !== target[0] || f.ty !== target[1])) {
       const dx = target[0] - f.tx, dy = target[1] - f.ty;
       if (Math.abs(dx) + Math.abs(dy) === 1) {
@@ -509,7 +518,8 @@ export function updateField(dt: number, now: number) {
   const wasMoving = L.px !== L.tx * T || L.py !== L.ty * T;
   moveActor(L, dt);
   if (wasMoving && L.px === L.tx * T && L.py === L.ty * T && !F.locked) leaderArrived();
-  followersUpdate(dt);
+  // A fight moves party members itself, so following stops until it ends.
+  if (!F.inCombat) followersUpdate(dt);
   for (const a of WORLD.actors) {
     if (a.role === 'party') continue;
     if (!F.locked && !F.inCombat && (a.role === 'npc' || a.role === 'crowd')) wanderUpdate(a, dt);

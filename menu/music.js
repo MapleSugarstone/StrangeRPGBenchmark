@@ -1,5 +1,5 @@
 // Background music for the game menu: calm generated chords on a soft electric piano, gentle bells, and warm airy pads.
-// It starts when the opening screen closes, fades out while a game is open or the tab is hidden, and the corner button mutes it.
+// It starts when the opening screen closes, fades out while a game or a soundtrack is playing or the tab is hidden, and the corner button mutes it.
 (() => {
   'use strict';
 
@@ -483,17 +483,17 @@
   addEventListener('intro-done', begin);
   document.addEventListener('visibilitychange', () => apply(document.hidden ? 0.5 : 1.8));
 
-  // A game plays in the player frame. The music fades out when it opens and comes back when it closes.
-  const player = document.getElementById('player');
-  if (player) {
-    gameOpen = !player.hidden;
-    new MutationObserver(() => {
-      const open = !player.hidden;
-      if (open === gameOpen) return;
-      gameOpen = open;
-      apply(open ? 0.8 : 2);
-    }).observe(player, { attributes: true, attributeFilter: ['hidden'] });
-  }
+  // A game plays in the player frame, and a soundtrack plays on its own screen. The music fades out while either is open.
+  const screens = [document.getElementById('player'), document.getElementById('soundtrack')].filter(Boolean);
+  const anyOpen = () => screens.some((s) => !s.hidden);
+  gameOpen = anyOpen();
+  const watch = new MutationObserver(() => {
+    const open = anyOpen();
+    if (open === gameOpen) return;
+    gameOpen = open;
+    apply(open ? 0.8 : 2);
+  });
+  for (const s of screens) watch.observe(s, { attributes: true, attributeFilter: ['hidden'] });
 
   const btn = document.getElementById('music-btn');
   const sync = () => { if (btn) btn.setAttribute('aria-pressed', String(!muted)); };

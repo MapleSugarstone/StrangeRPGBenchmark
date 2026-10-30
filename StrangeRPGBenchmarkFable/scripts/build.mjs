@@ -31,6 +31,15 @@ const ctx = await esbuild.context({
   logLevel: "info",
 });
 
+await esbuild.build({
+  entryPoints: ["src/soundtrack.ts"],
+  bundle: true,
+  format: "iife",
+  target: "es2022",
+  outfile: "dist/soundtrack.js",
+  logLevel: "info",
+});
+
 if (existsSync("web/index.html")) copyFileSync("web/index.html", "dist/index.html");
 if (existsSync("web/style.css")) copyFileSync("web/style.css", "dist/style.css");
 

@@ -46,6 +46,6 @@ export const hold: MapDef = {
     { id: 'hanne', at: [8, 5], look: 'hanne', dir: 'right', hideIf: 'spill' },
     { id: 'p6', at: [15, 5], look: 'patrol', dir: 'left', hideIf: 'spill' },
   ],
-  markers: { ladder: [10, 3], case_front: [11, 8], jory_case: [12, 7], hanne_back: [10, 4], p6_swing: [12, 8], shield: [11, 7] },
+  markers: { ladder: [10, 3], case_front: [11, 8], jory_case: [12, 7], hanne_back: [10, 4], p6_swing: [12, 8], shield: [10, 7] },
   exits: [{ x: 10, y: 2, w: 2, h: 1, to: 'canal9', at: 'hatch_top', dir: 'down', hideIf: 'spill' }],
 };

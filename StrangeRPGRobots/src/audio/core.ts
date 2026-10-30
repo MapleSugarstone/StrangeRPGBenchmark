@@ -8,6 +8,8 @@ let muted = false;
 let failed = false;
 const vols = { music: 7, sfx: 8, voice: 7 };
 const readyFns: Array<() => void> = [];
+/** A context and output node that someone else owns, set by attachAudio. */
+let given: { ac: AudioContext; out: AudioNode } | null = null;
 
 /** Bus gain at volume 10. These sit well above the levels the earlier games shipped with, which played too quiet. */
 const TOP = { music: 1.25, sfx: 1.2, voice: 1.1 };
@@ -30,10 +32,10 @@ function create(): void {
     const w = window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
     const Ctor = w.AudioContext ?? w.webkitAudioContext;
     if (!Ctor) { failed = true; return; }
-    const ac = new Ctor({ latencyHint: 'interactive' });
+    const ac = given ? given.ac : new Ctor({ latencyHint: 'interactive' });
     const lim = ac.createDynamicsCompressor();
     lim.threshold.value = -1.5; lim.ratio.value = 20; lim.knee.value = 0; lim.attack.value = 0.002; lim.release.value = 0.12;
-    lim.connect(ac.destination);
+    lim.connect(given ? given.out : ac.destination);
     const m = ac.createGain();
     m.gain.value = muted ? 0 : 1;
     m.connect(lim);
@@ -58,6 +60,13 @@ export function initAudio(): void {
     create();
     if (ctx && ctx.state === 'suspended') void ctx.resume().catch(() => undefined);
   } catch { /* never throw */ }
+}
+
+/** Runs on a context and output node that someone else owns, such as the menu's soundtrack player. */
+export function attachAudio(ac: AudioContext, out: AudioNode): void {
+  if (ctx) return;
+  given = { ac, out };
+  create();
 }
 
 if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {

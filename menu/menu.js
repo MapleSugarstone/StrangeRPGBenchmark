@@ -328,7 +328,7 @@
   }, { capture: true });
 
   document.addEventListener('keydown', (e) => {
-    if (!preview.hidden || !player.hidden || $('about').open || $('intro')?.open) return;
+    if (!preview.hidden || !player.hidden || soundtrack.isOpen() || $('about').open || $('intro')?.open) return;
     if (e.altKey || e.ctrlKey || e.metaKey) return;
     const active = document.activeElement;
     const onSlot = active?.classList?.contains('slot') && !active.classList.contains('empty');
@@ -371,7 +371,7 @@
     }, 120);
   });
 
-  // Routing. #game/<id> shows a preview, and #play/<id> runs the game.
+  // Routing. #game/<id> shows a preview, #play/<id> runs the game, and #music/<id> opens the game's soundtrack.
 
   const base = () => location.pathname + location.search;
 
@@ -400,13 +400,22 @@
   addEventListener('hashchange', route);
 
   function route() {
-    const m = /^#(game|play)\/([\w-]+)$/.exec(location.hash);
+    const m = /^#(game|play|music)\/([\w-]+)$/.exec(location.hash);
     const game = m && state.games.find((g) => g.id === m[2]);
     if (!game) {
+      const fromSoundtrack = soundtrack.isOpen();
+      closeSoundtrack();
       closePlayer();
       closePreview();
+      if (fromSoundtrack && !state.returnFocus && preview.hidden) $('soundtrack-btn').focus({ preventScroll: true });
       return;
     }
+    if (m[1] === 'music' && soundtrack.has(game.id)) {
+      closePlayer();
+      openSoundtrack(game);
+      return;
+    }
+    closeSoundtrack();
     if (m[1] === 'play' && game.status !== 'wip') {
       openPlayer(game);
     } else {
@@ -473,6 +482,7 @@
     const wip = game.status === 'wip';
     start.disabled = wip;
     start.textContent = wip ? 'Not playable yet' : 'Start';
+    $('pv-soundtrack').hidden = !soundtrack.has(game.id);
   }
 
   function showShot(i, manual) {
@@ -506,7 +516,7 @@
     clearInterval(state.shotTimer);
     preview.hidden = true;
     state.current = null;
-    if (!player.hidden) return;
+    if (!player.hidden || soundtrack.isOpen()) return;
     app.inert = false;
     const slot = state.returnFocus;
     state.returnFocus = null;
@@ -519,6 +529,11 @@
     if (!state.current || state.current.status === 'wip') return;
     sfx.start();
     go(`play/${state.current.id}`);
+  });
+  $('pv-soundtrack').addEventListener('click', () => {
+    if (!state.current) return;
+    sfx.select();
+    go(`music/${state.current.id}`);
   });
   $('pv-screen').addEventListener('click', () => showShot(state.shot + 1, true));
 
@@ -578,6 +593,32 @@
   });
   $('player-home').addEventListener('click', () => { sfx.back(); toMenu(); });
 
+  // Soundtrack. The screen itself lives in soundtrack.js.
+
+  const soundtrack = window.menuSoundtrack || { init: () => false, has: () => false, lastAlbum: () => null, open() {}, close() {}, isOpen: () => false };
+
+  function openSoundtrack(game) {
+    clearInterval(state.shotTimer);
+    preview.hidden = true;
+    app.inert = true;
+    soundtrack.open(game.id);
+  }
+
+  function closeSoundtrack() {
+    if (!soundtrack.isOpen()) return;
+    soundtrack.close();
+    document.title = 'Strange RPG Benchmark';
+    if (preview.hidden && player.hidden) app.inert = false;
+  }
+
+  $('soundtrack-btn').addEventListener('click', () => {
+    const id = soundtrack.lastAlbum();
+    if (!id) return;
+    sfx.select();
+    go(`music/${id}`);
+  });
+  $('soundtrack-btn').addEventListener('mouseenter', () => sfx.hover());
+
   // Dock
 
   $('about-btn').addEventListener('click', () => { sfx.select(); $('about').showModal(); });
@@ -613,6 +654,12 @@
     // The error message covers only a failed download or parse. A bug while drawing the shelf goes to the console.
     .then((data) => {
       state.games = data.games || [];
+      $('soundtrack-btn').hidden = !soundtrack.init({
+        games: state.games,
+        sfx,
+        back: () => { sfx.back(); toMenu(); },
+        retitle: (title) => { document.title = `${title} · Strange RPG Benchmark`; },
+      });
       renderShelf(0);
       route();
     }, () => {

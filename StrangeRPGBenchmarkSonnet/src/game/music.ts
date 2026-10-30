@@ -50,7 +50,7 @@ export class Music {
   private step = 0;
   private nextTime = 0;
   private pattern: number[] = [];
-  constructor(private getCtx: () => AudioContext | null, private isMuted: () => boolean) {}
+  constructor(private getCtx: () => AudioContext | null, private isMuted: () => boolean, private getOut: () => AudioNode | null = () => null) {}
 
   set(track: Track | null) {
     if (this.track?.id === track?.id) return;
@@ -74,7 +74,7 @@ export class Music {
     g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g).connect(ctx.destination);
+    o.connect(g).connect(this.getOut() ?? ctx.destination);
     o.start(t);
     o.stop(t + dur + 0.02);
   }

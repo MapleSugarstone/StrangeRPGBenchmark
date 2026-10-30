@@ -43,17 +43,17 @@ export class Audio {
   private fading = false;
 
   /** Must be called from a user gesture. Safe to call repeatedly. */
-  unlock(): void {
+  unlock(ctx?: AudioContext, out?: AudioNode): void {
     if (this.ctx) {
       if (this.ctx.state === "suspended") void this.ctx.resume();
       return;
     }
     try {
       const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new AC();
+      this.ctx = ctx ?? new AC();
       this.master = this.ctx.createGain();
       this.master.gain.value = this.muted ? 0 : 0.5;
-      this.master.connect(this.ctx.destination);
+      this.master.connect(out ?? this.ctx.destination);
       this.musicGain = this.ctx.createGain();
       this.musicGain.gain.value = 0.55;
       this.musicGain.connect(this.master);

@@ -50,6 +50,20 @@ for (const game of manifest.games) {
   console.log(`${game.title}: copied to _site/games/${game.id}/`);
 }
 
+// The menu loads soundtrack scripts from code, so stampAssets below cannot reach them. Their hashes go into the copied games.json instead.
+const siteManifest = JSON.parse(fs.readFileSync(path.join(out, 'games.json'), 'utf8'));
+for (const game of siteManifest.games) {
+  if (!game.soundtrack) continue;
+  const script = path.join(out, 'games', game.id, game.soundtrack);
+  if (!fs.existsSync(script)) {
+    console.warn(`${game.title}: ${game.soundtrack} is missing from the build, so the Soundtrack screen leaves the game out`);
+    delete game.soundtrack;
+    continue;
+  }
+  game.soundtrack += `?v=${createHash('sha1').update(fs.readFileSync(script)).digest('hex').slice(0, 10)}`;
+}
+fs.writeFileSync(path.join(out, 'games.json'), JSON.stringify(siteManifest, null, 2) + '\n');
+
 // GitHub Pages lets browsers cache files for 10 minutes, so every local script and stylesheet URL carries a content hash.
 // Without it a fresh page can run with a stale script from the previous deploy.
 function stampAssets(dir) {

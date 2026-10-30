@@ -24,12 +24,17 @@ const game = {
   sourcemap: watch,
 };
 
+// The menu's Soundtrack screen loads this next to index.html. See the root README, under Soundtracks.
+const soundtrack = { ...game, entryPoints: [path.join(root, 'src', 'soundtrack.ts')], outfile: path.join(root, 'dist', 'soundtrack.js') };
+
 if (watch) {
   const ctx = await esbuild.context(game);
   await ctx.watch();
+  await (await esbuild.context(soundtrack)).watch();
   console.log('Watching src/ for changes.');
 } else {
   await esbuild.build(game);
+  await esbuild.build(soundtrack);
 }
 
 if (tools) {
