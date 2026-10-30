@@ -56,6 +56,8 @@ export interface Unit {
   droneMax: number;
   /** Turns of being in the water after a shove into a canal. */
   swimming: number;
+  /** Skips its turns until it takes damage or is shoved. */
+  dormant?: boolean;
   unbrokenUsed?: boolean;
   /** Enemy-specific uses for this fight. */
   phase: number;

@@ -29,7 +29,11 @@ export interface NpcPlace {
 }
 export interface ExitPlace { x: number; y: number; w?: number; h?: number; to: string; at: string; dir?: Dir; showIf?: string; hideIf?: string; scene?: string }
 export interface TriggerPlace { x: number; y: number; w?: number; h?: number; scene: string; once?: boolean; showIf?: string; hideIf?: string }
-export interface UnitPlace { kind: string; at: [number, number]; dir?: Dir; id?: string; level?: number; look?: string; name?: string }
+export interface UnitPlace {
+  kind: string; at: [number, number]; dir?: Dir; id?: string; level?: number; look?: string; name?: string;
+  /** Skips its turns until it takes damage or is shoved. A unit still dormant at the end does not block the win. */
+  dormant?: boolean;
+}
 export interface EncounterDef {
   id: string;
   units: UnitPlace[];

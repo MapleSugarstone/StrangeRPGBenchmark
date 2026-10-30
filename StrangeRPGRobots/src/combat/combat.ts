@@ -21,7 +21,7 @@ import { rect, box, shadeRect, blitUI, upx, hline, dotFrame } from '../engine/gf
 import { drawText, textWidth } from '../engine/font';
 import { addLight } from '../engine/light';
 import { abilityIcon } from '../art/abilityIcons';
-import { toast } from '../ui/dialogue';
+import { toast, closeDialogue } from '../ui/dialogue';
 import { sfx, combatEvent, playMusic } from '../audio/sfx';
 import { wait } from '../game/sched';
 
@@ -49,6 +49,8 @@ export function combatActive(): boolean { return CB.active; }
 /** Starts a fight with the given encounter groups on the current map. Resolves true on a win. */
 export async function startCombat(encounters: string[], surprise: boolean, music = 'combat'): Promise<boolean> {
   const def = WORLD.def!;
+  // The line said just before a scripted fight would otherwise stay on screen for the whole fight.
+  closeDialogue();
   CB.active = true;
   F.inCombat = true;
   F.sneaking = false;
@@ -86,6 +88,7 @@ export async function startCombat(encounters: string[], surprise: boolean, music
       const ua = list.find((x, i) => (x.id ?? (ally ? enc.id + '_ally' + i : enc.id + '_' + i)) === a.id) ?? up;
       const nu = unitFromEnemy(ua?.kind ?? 'ganger', a, ua?.level);
       if (ua?.name) nu.name = ua.name;
+      if (ua?.dormant) nu.dormant = true;
       if (ally) { nu.side = 'party'; nu.xp = 0; nu.name = a.name; }
       CB.units.push(nu);
     }
@@ -185,7 +188,7 @@ function riseTide() {
 async function settle() { if (CB.sim) return; await wait(0.05); while (WORLD.actors.some((a) => a.fade !== undefined && a.fade > 0 && a.fade < 1 && !a.gone)) await wait(0.05); }
 
 function outcome(): boolean | null {
-  const foes = CB.units.filter((u) => u.side === 'enemy' && alive(u) && !has(u, 'turncoat'));
+  const foes = CB.units.filter((u) => u.side === 'enemy' && alive(u) && !u.dormant && !has(u, 'turncoat'));
   const turned = CB.units.filter((u) => u.side === 'enemy' && alive(u) && has(u, 'turncoat'));
   const party = CB.units.filter((u) => u.side === 'party' && u.member && alive(u));
   if (!party.length) return false;
@@ -201,7 +204,7 @@ async function finish(win: boolean): Promise<boolean> {
     let xp = 0, gilt = 0;
     const got: string[] = [];
     for (const u of CB.units) {
-      if (u.side !== 'enemy' || u.prop) continue;
+      if (u.side !== 'enemy' || u.prop || (u.dormant && alive(u))) continue;
       xp += u.xp;
       const e = ENEMY.get(u.kind);
       if (e?.gilt) gilt += roll(e.gilt[0], e.gilt[1]);

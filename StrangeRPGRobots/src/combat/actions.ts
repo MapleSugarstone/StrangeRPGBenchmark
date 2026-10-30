@@ -109,6 +109,7 @@ export function levelBonus(u: Unit): number { return u.prop ? 0 : Math.floor((u.
 
 export async function damage(t: Unit, n: number, type: DType, src: Unit | null, crit = false): Promise<number> {
   if (!alive(t)) return 0;
+  t.dormant = false;
   let d = n;
   if (src) d = difficultyDamage(src, d);
   if (type === 'kinetic') d -= t.plating;
@@ -205,7 +206,7 @@ export async function moveAlong(u: Unit, path: [number, number][], free = false)
   for (const [x, y] of path) {
     if (!alive(u)) return;
     if (!freeTile(x, y, u) && !(u.prop && propAt(x, y) === u.prop)) return;
-    const leaving = !free ? foesOf(u).filter((e) => e.reaction && dist(e, u) === 1 && isMelee(e.melee) && !e.prop && !has(e, 'stunned') && !has(e, 'shocked')) : [];
+    const leaving = !free ? foesOf(u).filter((e) => e.reaction && !e.dormant && dist(e, u) === 1 && isMelee(e.melee) && !e.prop && !has(e, 'stunned') && !has(e, 'shocked')) : [];
     setPos(u, x, y);
     if (!free && u.moveLeft > 0) u.moveLeft--;
     sfx('step', { vol: 0.4, pitch: 0.9 + rnd() * 0.2 });
@@ -396,6 +397,7 @@ export async function shove(u: Unit, t: Unit) {
   await lungeAnim(u, t);
   sfx('shove');
   CB.stats.actions++;
+  t.dormant = false;
   if (rnd() * 100 >= shoveChance(u, t)) { float(t, 'HOLDS', C.gray); return; }
   const n = u.attr.body >= 6 || u.member?.gear.chrome.includes('gripper') ? 2 : 1;
   await push(t, Math.sign(t.x - u.x), Math.sign(t.y - u.y), n, u);

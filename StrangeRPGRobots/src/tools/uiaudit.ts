@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Issue } from '../engine/layout';
 
-export type Part = 'field' | 'dialogue' | 'choices' | 'menus' | 'shops' | 'combat' | 'sluice' | 'overlays' | 'credits';
-const ALL: Part[] = ['field', 'dialogue', 'choices', 'menus', 'shops', 'combat', 'sluice', 'overlays', 'credits'];
+export type Part = 'field' | 'dialogue' | 'choices' | 'menus' | 'travel' | 'shops' | 'combat' | 'sluice' | 'overlays' | 'credits';
+const ALL: Part[] = ['field', 'dialogue', 'choices', 'menus', 'travel', 'shops', 'combat', 'sluice', 'overlays', 'credits'];
 
 export async function uiAudit(h: any, parts: Part[] = ALL): Promise<{ issues: Record<string, Issue[]>; states: number; partial: boolean }> {
   const M = await h.mods();
@@ -158,10 +158,22 @@ export async function uiAudit(h: any, parts: Part[] = ALL): Promise<{ issues: Re
     await open(6); for (let i = 0; i < 10; i++) { top().sel = i; await step(1); snap(`load slots, row ${i}`); }
     await open(7); for (let i = 0; i < 12; i++) { top().sel = i; await step(1); snap(`options, row ${i}`); }
     await open(8); snap('quit confirm');
-    clear(); M.menus.pushScreen(new M.menus.TravelScreen(() => {}, () => {}));
-    for (let i = 0; i < 60; i++) { top().sel = i; await step(1); snap(`travel, row ${i}`); }
     clear(); M.menus.pushScreen(new M.menus.PartyPick());
     for (let i = 0; i < 12; i++) { top().sel = i; await step(1); snap(`party pick, row ${i}`); }
+    clear();
+  }
+
+  if (parts.includes('travel')) {
+    // Destinations depend on the chapter, so every chapter gets its own list.
+    const chapter = G().chapter;
+    for (let ch = 1; ch <= 6; ch++) {
+      G().chapter = ch;
+      clear(); M.menus.pushScreen(new M.menus.TravelScreen(() => {}, () => {}));
+      const n = top().list.length;
+      if (!n) issues[`travel, chapter ${ch}`] = [{ kind: 'clip', a: 'empty travel list', x: 0, y: 0 }];
+      for (let i = 0; i < n; i++) { top().sel = i; await step(1); snap(`travel, chapter ${ch}, row ${i}`); }
+    }
+    G().chapter = chapter;
     clear();
   }
 

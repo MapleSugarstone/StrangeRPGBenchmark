@@ -21,7 +21,7 @@ function avg(w: ItemDef | null, u: Unit): number {
 /** Expected damage this unit takes standing at its current tile from foes who can reach it next turn. */
 function danger(u: Unit): number {
   let d = 0;
-  for (const f of foesOf(u)) {
+  for (const f of targetsOf(u)) {
     if (f.prop && !f.wake) continue;
     const w = f.ranged ?? f.melee;
     const melee = !f.ranged;
@@ -48,7 +48,7 @@ function targetValue(u: Unit, t: Unit, expected: number): number {
 function bestAction(u: Unit): { score: number; id?: string; x?: number; y?: number } {
   let best = { score: 0 } as { score: number; id?: string; x?: number; y?: number };
   if (!u.action && u.extraActions <= 0) return best;
-  for (const t of foesOf(u)) {
+  for (const t of targetsOf(u)) {
     if (t.downed || (has(t, 'hidden') && dist(u, t) > 1)) continue;
     const w = weaponFor(u, t);
     if (!w) continue;
@@ -77,7 +77,7 @@ function candidateTargets(u: Unit, id: string): { x: number; y: number }[] {
   if (a.target === 'ally') return [u, ...friendsOf(u)];
   if (a.target === 'enemy' || a.target === 'unit') return CB.units.filter((t) => alive(t) && t !== u);
   if (a.target === 'prop') return WORLD.props.filter((p) => !p.broken && !p.wake && p.def.wake && dist(p, u) <= a.range).map((p) => ({ x: p.x, y: p.y }));
-  if (a.target === 'tile') return foesOf(u).map((f) => ({ x: f.x, y: f.y }));
+  if (a.target === 'tile') return targetsOf(u).map((f) => ({ x: f.x, y: f.y }));
   return [];
 }
 
@@ -88,7 +88,7 @@ function abilityValue(u: Unit, id: string, x: number, y: number): number {
     case 'tea': return u.hp < u.maxHp * 0.55 ? 14 : 0;
     case 'hushthrow': return t && hostile(u, t) && (t.wake || t.member?.id === 'courtesy') ? (t.wake ? 9 + t.hp / 4 : 8) : 0;
     case 'redvial': {
-      const near = foesOf(u).filter((f) => dist(f, { x, y }) <= 2).length;
+      const near = targetsOf(u).filter((f) => dist(f, { x, y }) <= 2).length;
       const mine = friendsOf(u).filter((f) => dist(f, { x, y }) <= 2).length;
       return near * 6 - mine * 5;
     }
@@ -109,7 +109,7 @@ function classValue(u: Unit, id: string, x: number, y: number): number {
   const t = unitAt(x, y);
   const foe = t && alive(t) && hostile(u, t) ? t : null;
   const ally = t && alive(t) && !hostile(u, t) ? t : null;
-  const near = (r: number, cx = u.x, cy = u.y) => foesOf(u).filter((f) => !f.downed && dist(f, { x: cx, y: cy }) <= r);
+  const near = (r: number, cx = u.x, cy = u.y) => targetsOf(u).filter((f) => !f.downed && dist(f, { x: cx, y: cy }) <= r);
   const threat = (f: Unit) => avg(f.ranged ?? f.melee, f) * 0.8 + (f.boss ? 4 : 0);
   switch (id) {
     case 'lunge': case 'execute': case 'taser': case 'charge': case 'cheapshot': {
@@ -135,7 +135,7 @@ function classValue(u: Unit, id: string, x: number, y: number): number {
     case 'remaincalm': return u.hp > u.maxHp * 0.5 ? near(3).length * 2.2 - 1 : 0;
     case 'demoralize': return near(3).length * 2 - 1;
     case 'lockdown': return near(2).length * 4;
-    case 'foam': return foesOf(u).filter((f) => dist(f, { x, y }) <= 1).length * 2.5;
+    case 'foam': return targetsOf(u).filter((f) => dist(f, { x, y }) <= 1).length * 2.5;
     case 'bulwark': return friendsOf(u).filter((f) => dist(f, u) <= 2).length * 1.5 + (u.hp < u.maxHp * 0.4 ? 2 : 0);
     case 'guard': return ally && ally !== u && ally.hp < ally.maxHp * 0.5 && dist(ally, u) <= 1 ? 4 : 0;
     case 'tag': return foe && !has(foe, 'marked') ? 1.5 + friendsOf(u).length * 0.8 : 0;
@@ -147,14 +147,14 @@ function classValue(u: Unit, id: string, x: number, y: number): number {
     case 'smoke': return near(6).filter((f) => f.ranged).length * 1.5 - 1;
     case 'turret': return near(8).length ? 6 : 0;
     case 'overcharge': return u.droneHp > 0 && near(7).length ? 3 : 0;
-    case 'shockfield': { let v = 0; for (const f of foesOf(u)) if (dist(f, { x, y }) <= 1) v += isWet(f.x, f.y) ? 9 : 5.5; return v; }
+    case 'shockfield': { let v = 0; for (const f of targetsOf(u)) if (dist(f, { x, y }) <= 1) v += isWet(f.x, f.y) ? 9 : 5.5; return v; }
     case 'kamikaze': { let v = 0; for (const f of CB.units) if (alive(f) && cheb(f, { x, y }) <= 2) v += hostile(u, f) ? 13 : -10; return v; }
     case 'wake': case 'splash': case 'redrain': case 'hijack': {
       let v = 0;
       const props = id === 'wake' || id === 'hijack' ? [propAt(x, y)] : WORLD.props.filter((p) => !p.broken && !p.wake && p.def.wake && dist(p, { x: id === 'redrain' ? u.x : x, y: id === 'redrain' ? u.y : y }) <= (id === 'redrain' ? 4 : 1));
       for (const p of props) {
         if (!p || p.broken || p.wake || !p.def.wake || p.def.wake === 'none') continue;
-        const foes = foesOf(u).filter((f) => dist(f, p) <= 3).length;
+        const foes = targetsOf(u).filter((f) => dist(f, p) <= 3).length;
         const mates = friendsOf(u).filter((f) => dist(f, p) <= 1).length;
         const mood = id === 'hijack' ? 'calm' : u.mood ?? 'calm';
         v += foes * (mood === 'anger' ? 5 : mood === 'calm' ? 4.5 : 2.5) - (mood === 'anger' ? mates * 4 : 0);
@@ -193,7 +193,11 @@ const TEMPER: Record<string, { danger: number; melee: number; range: number; hig
   coward: { danger: 1.4, melee: -3, range: 0.5, high: 0 },
 };
 
+/** Foes worth acting on. A dormant unit is left alone so it stays dormant. */
+function targetsOf(u: Unit): Unit[] { return foesOf(u).filter((o) => !o.dormant); }
+
 export async function aiTurn(u: Unit) {
+  if (u.dormant) return;
   if (u.wake && u.prop) { await wokenTurn(u); return; }
   if (u.ai === 'turret') { await turretTurn(u); return; }
   const tm = TEMPER[u.ai] ?? TEMPER.cover;
@@ -210,7 +214,7 @@ export async function aiTurn(u: Unit) {
     let s = act.score * 1.0;
     s -= danger(u) * tm.danger * (lowHp ? 1.6 : 1);
     s += elevAt(x, y) * tm.high * 0.6;
-    const nearest = foesOf(u).filter((f) => !f.downed).reduce((d, f) => Math.min(d, dist(f, u)), 99);
+    const nearest = targetsOf(u).filter((f) => !f.downed).reduce((d, f) => Math.min(d, dist(f, u)), 99);
     if (nearest === 1) s += tm.melee;
     if (!act.id && nearest < 99) s -= nearest * (tm.melee > 0 ? 0.6 : 0.15);
     if (tm.range > 0 && nearest < 3) s -= (3 - nearest) * tm.range * 2;
@@ -263,7 +267,7 @@ async function bonusPass(u: Unit) {
 }
 
 async function turretTurn(u: Unit) {
-  const t = foesOf(u).filter((f) => !f.downed && los(u, f) && dist(u, f) <= 8).sort((a, b) => a.hp - b.hp)[0];
+  const t = targetsOf(u).filter((f) => !f.downed && los(u, f) && dist(u, f) <= 8).sort((a, b) => a.hp - b.hp)[0];
   if (t) await attack(u, t, u.ranged);
 }
 

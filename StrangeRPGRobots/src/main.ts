@@ -453,7 +453,7 @@ const H_ = {
   /** Game modules for the interface audit, which opens screens and dialogue directly. */
   mods: async () => ({
     dialogue: await import('./ui/dialogue'), menus: await import('./ui/menus'), runner: await import('./game/runner'),
-    combat: await import('./combat/combat'), core: await import('./combat/core'), state: await import('./game/state'), details: await import('./game/details'),
+    combat: await import('./combat/combat'), core: await import('./combat/core'), actions: await import('./combat/actions'), state: await import('./game/state'), details: await import('./game/details'),
     dcontent: await import('./content/details'), quests: await import('./content/quests'), replay: await import('./content/replay'),
     shops: await import('./content/shops'), cards: await import('./content/cards'), rules: await import('./rules/data'),
     companions: await import('./content/companions'), speakers: await import('./content/speakers'), maps: await import('./world/map'), sluice: await import('./ui/sluice'), people: await import('./art/people'), palette: await import('./engine/palette'),

@@ -515,18 +515,23 @@ function renderLore(sel: number, items: ListItem[]) {
 
 const DISTRICT_NAME: Record<string, string> = { deeps: 'The Deeps', stair: 'The Stair', brim: 'The Brim', flats: 'The Flats' };
 
+/** Rows the travel list shows before it scrolls. */
+const TRAVEL_ROWS = 17;
+
 /** Lists every place the party can travel to, grouped by district. */
 export class TravelScreen implements Screen {
   done = false;
   sel = G.menu.travel ?? 0;
   list: Destination[];
+  items(): ListItem[] { return this.list.map((d) => ({ text: d.name, right: DISTRICT_NAME[d.district] })); }
   constructor(private onPick: (d: Destination) => void, private onClose: () => void) {
     const order = ['deeps', 'flats', 'stair', 'brim'];
     this.list = destinations().sort((a, b) => order.indexOf(a.district) - order.indexOf(b.district));
   }
   update() {
     if (pressed('b') || !this.list.length && pressed('a')) { consume(); sfx('cancel'); this.done = true; this.onClose(); return; }
-    const r = listInput(this.sel, this.list.length, 10, 30, W - 20);
+    const rows = listRows(this.items(), this.sel, W - 20, TRAVEL_ROWS);
+    const r = listInput(this.sel, this.list.length, 10, 30, W - 20, LINE_H, (k) => rows[k]?.i ?? -1);
     this.sel = r.sel;
     G.menu.travel = this.sel;
     if (r.ok && this.list[this.sel]) { sfx('confirm'); this.onPick(this.list[this.sel]); this.done = true; this.onClose(); }
@@ -534,7 +539,8 @@ export class TravelScreen implements Screen {
   render() {
     panel(4, 4, W - 8, H - 8, 'Where?');
     if (!this.list.length) { drawText('Nowhere you know.', 10, 30, C.gray); return; }
-    drawList(this.list.map((d) => ({ text: d.name, right: DISTRICT_NAME[d.district] })), this.sel, 10, 30, W - 20);
+    const items = this.items();
+    drawListRows(listRows(items, this.sel, W - 20, TRAVEL_ROWS), items, this.sel, 10, 30, W - 20);
   }
 }
 

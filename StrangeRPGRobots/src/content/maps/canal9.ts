@@ -94,6 +94,7 @@ export const canal9: MapDef = {
       units: [
         { kind: 'boardguard', at: [12, 18], dir: 'up', id: 'deck_o1' },
         { kind: 'boardguard', at: [19, 19], dir: 'up', id: 'deck_o2' },
+        { kind: 'patrol', at: [9, 19], dir: 'right', id: 'deck_r1', dormant: true },
       ],
       allies: [
         { kind: 'runner', at: [13, 12], dir: 'down', id: 'jory', look: 'jory', name: 'Jory' },
