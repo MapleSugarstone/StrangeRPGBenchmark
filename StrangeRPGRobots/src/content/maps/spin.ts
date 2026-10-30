@@ -1,0 +1,80 @@
+import type { MapDef } from '../../world/map';
+import { C, LIGHT } from '../../engine/palette';
+
+// The Spin: Quaye's laundromat on Canal Four. Machines in the front room, her Throne in the back.
+export const spin: MapDef = {
+  id: 'spin',
+  name: 'The Spin',
+  district: 'deeps',
+  ambient: 0x4a5aa8,
+  ambientLevel: 0.3,
+  rain: 1,
+  music: 'deeps',
+  rows: [
+    'IIIIIIIIIIIIIIIIIIIIIIIIII',
+    'IIIIIIIIIIIIIIIIIIIIIIIIII',
+    'IttttttttttttttVtIiitttttI',
+    'ItMtMtttMtMtttMttIttttttFI',
+    'IttttttttttttttttIttQtQtFI',
+    'IttttttttttttttttItttttttI',
+    'IttttttttttttttttIttphpttI',
+    'IttMtMtMtttMtMttttttpppttI',
+    'IttttttttttttttttItttttttI',
+    'IttttttttttttttttItttttZtI',
+    'ItttttttttttttjttItttttttI',
+    'IttttttttttttttttItMtttttI',
+    'ItkkktttttthhhtttIJttttttI',
+    'IttttttttttttttttItttttttI',
+    'IIIIIIIItIIIIIIIIIIIIIItII',
+    'IIGGGGGItIGGGGGGIIIIIIItII',
+    '______o___________________',
+    '___y_____________y_o______',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~',
+  ],
+  props: [
+    { kind: 'bulbs', x: 21, y: 13 },
+    { kind: 'washer', x: 6, y: 3, id: 'wash1', woken: true, scene: 'spin_washer' },
+    { kind: 'washer', x: 12, y: 3, id: 'wash2', woken: true, scene: 'spin_washer' },
+    { kind: 'washer', x: 9, y: 7, id: 'wash3', woken: true, scene: 'spin_washer' },
+    { kind: 'door', x: 8, y: 15, id: 'spin_door' },
+    { kind: 'stash', x: 24, y: 12, id: 'quaye_stash', loot: 'tech' },
+    { kind: 'boat', x: 12, y: 18, id: 'taxi_boat' },
+  ],
+  signs: [
+    { x: 17.1, y: 6.2, icon: 'fish', color: C.mag3, light: LIGHT.magenta, r: 48 },
+    { x: 10.5, y: 15.15, text: 'SPIN', color: C.vio3, light: LIGHT.violet },
+    { x: 2.3, y: 15.15, text: 'OPEN', color: C.amb3, light: LIGHT.amber },
+    { x: 14.6, y: 15.2, icon: 'star', color: C.vio3 },
+  ],
+  lights: [
+    { x: 21.5, y: 13.3, r: 44, i: 0.8, color: LIGHT.cyan },
+    { x: 8, y: 6, r: 60, i: 0.7, color: LIGHT.cold },
+    { x: 21, y: 5, r: 36, i: 0.8, color: LIGHT.green },
+    { x: 12, y: 16, r: 40, i: 0.7, color: LIGHT.violet },
+    { x: 4, y: 17, r: 36, i: 0.6, color: LIGHT.amber },
+  ],
+  npcs: [
+    { id: 'quaye', at: '@throne', look: 'quaye', dir: 'down', hideIf: 'roster:quaye' },
+    { id: 'gus', at: [10, 17], look: 'gus', dir: 'up', talk: 'taxi_menu' },
+  ],
+  encounters: [
+    {
+      id: 'spin_raid',
+      start: 'script',
+      hideIf: 'spin_snuck|spin_talked|spin_neighbors',
+      radius: 16,
+      units: [
+        { kind: 'tapper', at: [10, 9], dir: 'right', id: 'raid1' },
+        { kind: 'boardguard', at: [4, 9], dir: 'right', id: 'raid2' },
+        { kind: 'boardguard', at: [14, 5], dir: 'right', id: 'raid3' },
+        { kind: 'diver', at: [15, 11], dir: 'right', id: 'raid4' },
+      ],
+    },
+  ],
+  markers: { dryer_spot: [14, 4], taxi: [8, 17], front: [8, 13], doorway: [16, 7], throne: [21, 7], quaye_out: [18, 7], shard_spot: [12, 9], back_door: [23, 13], pull: [12, 0] },
+  triggers: [
+    { x: 8, y: 13, scene: 'spin_raid_scene', hideIf: 'spin_raided' },
+    { x: 1, y: 2, w: 16, h: 12, scene: 'spin_retry', showIf: 'spin_raided', hideIf: 'spin_won' },
+  ],
+};

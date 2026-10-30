@@ -289,7 +289,7 @@ async function command(name: string, args: string[], async: boolean, labels: Map
     case 'sticks': await openSticks(args[0]); return;
     case 'post': await openPost(); return;
     case 'anim': F.anims.set(args[0], { t: 0 }); setFlag('anim_' + args[0]); refreshProps(); await sleep(0.4); return;
-    case 'type_entry': { G.entryText = await typeLine('The big lead. Owner:', 40); return; }
+    case 'type_entry': { G.entryText = await typeLine('The big shadow. Owner:', 40); return; }
     case 'credits': await openCredits(); return;
     case 'title': setFlag('game_cleared'); save(); GAME.toTitle?.(); return 'end';
     default: console.warn('Unknown command', name, args);

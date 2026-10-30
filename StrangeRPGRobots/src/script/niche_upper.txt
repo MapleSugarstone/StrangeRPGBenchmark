@@ -1,0 +1,449 @@
+# Small quests on the Stair and the Brim, started from details or odd people. Data: details_stair.ts and
+# details_brim.ts. Each has one real choice.
+
+# ---------------------------------------------------------------- Prayer Cards
+
+== nq_cards_start
+> face hero up
+(PRAYER CARDS. ONE GILT. OUT OF ORDER.)
+(FIRST PRINTINGS WANTED. GOOD PRICE. ASK AT THE CANDLE STALLS.)
+PORT: Cards with her image? Where can I find them?
+> quest nq_cards 1
+
+== nq_cards_pay
+> if pcard_plaza&pcard_terraces&pcard_steps&pcard_spire&pcard_church&pcard_sunny -> all
+Candles: First printings? Six to a set. Bring me six, and I'll pay for six.
+> shop candles
+> end
+* all
+Candles: Six. All first printings. The ink ran. The rain does that.
+Candles: Turn them over. The backs hold a recipe: eel soup. Nobody's read it in forty years.
+> lore eel_soup
+?
+- Sell them. A hundred and twenty gilt. -> sell
+- Give them to the pilgrims' children. They'll want her on paper. -> give
+- Keep them. They're mine now. -> keep
+* sell
+> take prayercard 6
+> gilt 120
+Candles: Pleasure. They'll go in a frame on the Brim. Nobody up there will read the back.
+> rep church 1
+> goto done
+* give
+> take prayercard 6
+Candles: Free? To children? ...The Saint would like that. I'll say it was the Church.
+> rep church 2
+> approve ignace 1 courtesy 1
+> goto done
+* keep
+Candles: Keep them, then. Make the soup. Bring me a bowl.
+* done
+> set nq_cards_done
+> quest nq_cards done
+
+# ---------------------------------------------------------------- The Kettle
+
+== nq_kettle_start
+> face hero up
+> sfx wake
+PORT: It sings. Softly. Is it singing to us?
+(A paper tag on the handle reads: IF FOUND, MEVROUW LINDEMAN, TERRACE 2.)
+?
+- Take it to her. -> take
+- Call Recovery. They pay for woken property. -> recovery
+- Leave it on the sill. -> leave
+* take
+> give kettle
+> set nq_kettle_started
+> quest nq_kettle 1
+PORT: It's warm. It sings louder now. Are we sad?
+> end
+* recovery
+> sfx pa
+Board: Recovery thanks you for reporting woken property. Thirty gilt credited.
+> gilt 30
+> rep board 1
+> rep woken -1
+> set nq_kettle_started
+> set nq_kettle_hushed
+> ifnot party:tova -> fin
+Tova: thirty gilt. for a kettle. that sang.
+> approve tova -2
+> end
+* leave
+* fin
+
+== nq_kettle_lind
+> face lindeman hero
+> if nq_kettle_done -> after
+> ifnot item:kettle -> none
+Lindeman: That's my kettle. It blew out the window in the spring. It goes where it's needed.
+Lindeman: It sang for my husband while he was dying. For three years. Then it went looking for someone else.
+Lindeman: It sings when it finds someone sad. Who's sad, then? You?
+?
+- It's yours. Take it home. -> home
+- It found me. I'd like to keep it. -> keep
+- What would you sell it for? -> sell
+* sell
+Lindeman: Sell it? It isn't mine to sell anymore. It chose.
+?
+- Then take it home. -> home
+- Then I'll keep it. -> keep
+* home
+> take kettle
+> sfx wake
+> wait 1
+Lindeman: Listen. It stopped. It's home, so it stopped.
+PORT: It stopped. Because it got here. Will I?
+> set kettle_home
+> rep woken 1
+> goto done
+* keep
+Lindeman: Then it's yours. Put it near a window. It likes to see who's coming.
+> set kettle_kept
+> approve tova 1
+* done
+> set nq_kettle_done
+> quest nq_kettle done
+> end
+* none
+Lindeman: Have you seen a tin kettle? It sings. It went out the window in spring.
+> end
+* after
+> if kettle_home -> h
+Lindeman: Is it still singing? Then someone near you is sad. Look after them.
+> end
+* h
+Lindeman: It's on the stove. It hasn't made a sound since. I make tea with it anyway.
+
+# ---------------------------------------------------------------- Chalk Riddles
+
+== nq_hunt_1
+> face hero up
+(Chalk scrawled on the planter in neat handwriting:)
+(WHERE LINE TWO SELLS JOY, LOOK UNDER THE BOARD WITH NO KING.)
+PORT: A game? A chalk game? Can we play?
+> quest nq_hunt 1
+
+== nq_hunt_2
+> face hero up
+(Chalk written under the chair, upside down:)
+(FOUR UP, WHERE THE MINT IS NOT MINT.)
+> quest nq_hunt 2
+> ifnot party:quaye -> fin
+Quaye: Four terraces up. Terrace 4. A herb planter. Basil, by the smell of it.
+* fin
+
+== nq_hunt_3
+> face hero up
+(Chalk scrawled beneath the planter's rim:)
+(WHERE THE DEEPS LOOM LARGE, SIT WHERE TWO CAN SIT.)
+> quest nq_hunt 3
+PORT: Small Deeps. Seen from above. Where exactly is that?
+
+== nq_hunt_4
+> face hero down
+(Chalk inscribed on the seat: YOU FOUND IT. IT WAS UNDER THE CHAIR.)
+> sfx loot
+> gilt 40
+> give stim 1
+(A note tucked with the money: I DID THIS FOR MY DAUGHTER. SHE MOVED TO THE BRIM.)
+(NOBODY PLAYS ANYMORE.)
+(LEAVE A RIDDLE IF YOU WISH.)
+?
+- Leave a riddle for the next visitor. -> leave
+- Take the chalk with you. It's finished. -> take
+* leave
+PORT: Write it down. I'll help you. What is small and yet desires?
+> xp 100
+> rep deeps 1
+> set hunt_relaid
+> goto done
+* take
+> gilt 10
+* done
+> set nq_hunt_done
+> quest nq_hunt done
+
+# ---------------------------------------------------------------- Sloop or Gerda
+
+== nq_bet
+> face haas hero
+> if nq_bet_done -> after
+Haas: The Bailers. Sloop and Gerda, racing from the bend to the bridge. Twenty gilt stakes you forty.
+> quest nq_bet 1
+?
+- $20 Sloop. -> sloop
+- $20 Gerda. -> gerda
+- [Notice 2] Watch them for a moment first. -> watch | blind
+- Betting on the Bailers means betting the Deeps will stay dry. No. -> no
+* watch
+Haas: Then just watch. The clock is ticking.
+> anim bailer
+> wait 1
+PORT: The larger one limps. It's its left foot. The other one doesn't.
+?
+- $20 Gerda. The one who doesn't limp. -> win
+- $20 Sloop. She's always been that way. -> lose
+* blind
+Haas: Watching won't help. It's the Bailers.
+?
+- $20 Sloop. -> sloop
+- $20 Gerda. -> gerda
+- Pass. -> no
+* sloop
+> check notice 1 -> win | lose
+* gerda
+> check notice 1 -> win | lose
+* win
+> anim bailer
+> wait 1
+Haas: The bridge! That's the bridge. Forty, as promised.
+> gilt 40
+> goto done
+* lose
+> anim bailer
+> wait 1
+Haas: The bridge. Not yours. Twenty to the house.
+> goto done
+* no
+Haas: The Deeps are wet whether I bet or not, love.
+> ifnot party:quaye -> done
+Quaye: Twenty gilt to watch giants walk. Waste of time.
+> approve quaye 1
+* done
+> set nq_bet_done
+> quest nq_bet done
+> end
+* after
+Haas: Same time tomorrow, love. They never miss.
+
+# ---------------------------------------------------------------- Pell Market Rain
+
+== nq_busker
+> face busker hero
+> if nq_song_done -> after
+> if quest:nq_song=2 -> sing
+Busker: Pell Market Rain." Three verses everybody knows. Then I'm done.
+Busker: The Choir sings a fourth. There's another cut into the wall of the crypt under the church.
+Busker: The Board home on the terraces teaches the kids a third one. Bring me one.
+> quest nq_song 1
+> end
+* sing
+Busker: You found a fourth verse? Sing it. Go on.
+?
+- ?nq_song_crypt The crypt verse. The umbrellas go into the water. -> crypt
+- ?nq_song_sunny The Sunny Steps verse. The Board keeps us dry. -> sunny
+* crypt
+Busker: And she sold the last one to the sea. ...That's it. That's how it ends.
+> rep deeps 1
+> set song_crypt
+> goto done
+* sunny
+Busker: And the Board keeps us dry. ...They wrote it that way on purpose. The kids sing it.
+Busker: I'll sing it. Folks pay more for that one, up here.
+> gilt 25
+> rep board 1
+> set song_sunny
+* done
+> set nq_song_done
+> quest nq_song done
+> end
+* after
+> if song_crypt -> c
+Busker: And the Board keeps us dry. Two gilt for the song, love.
+> end
+* c
+Busker: All four verses tonight. Nobody's leaving before the last one.
+
+== nq_song_crypt
+> face hero up
+(Cut into the wall by the stairs, beneath the names:)
+(SHE SOLD THE LAST ONE TO THE SEA. THE SEA DID NOT PAY.)
+PORT: A song carved into stone. Who sang it down here?
+> set nq_song_crypt
+> quest nq_song 2
+
+== nq_song_sunny
+> face hero up
+(The fourth verse, in Board blue: AND THE BOARD KEEPS US DRY, AND WE SING AND WE STAY.)
+> ifnot party:tova -> fin
+Tova: kees sings that. every night. he thinks it's true.
+* fin
+> set nq_song_sunny
+> quest nq_song 2
+
+# ---------------------------------------------------------------- Forty-Four
+
+== nq_44_start
+> face hero up
+> sfx wake
+PORT: The button breathes. It wants us to press it. I can feel it wanting.
+> quest nq_44 1
+?
+- Press forty-four. -> press
+- ?item:hush Hush it. -> hush
+- [Hack 2] Make the lift skip forty-four forever. Let the button rest. -> skip | press
+- Leave it. -> leave
+* press
+> sfx door
+> wait 1.5
+(The lift ascends and halts. The doors slide open to reveal an empty corridor, a window, and the sea.)
+PORT: It stopped. It arrived. Look. The button is still.
+> gilt 30
+> give bigstim 1
+> rep board -1
+> set nq_44_pressed
+> goto done
+* hush
+> take hush
+PORT: It's cold. It stopped wanting. I didn't like that.
+> rep woken -1
+> set nq_44_hushed
+> goto done
+* skip
+> sfx hack
+PORT: It doesn't need to want anymore. It's just a button again. Is that kind?
+> set nq_44_skipped
+> goto done
+* leave
+> end
+* done
+> set nq_44_done
+> quest nq_44 done
+
+# ---------------------------------------------------------------- Dead Letters
+
+== nq_letters_start
+> face hero left
+(Two envelopes in the bin, both stamped RETURNED. ADDRESS UNKNOWN.)
+(TO THE GARDENERS OF TERRACE 4. TO JET, BOX 7, LANTERN STEPS.)
+?
+- Take them. I know where both of those are. -> take
+- Open them first. -> open
+- Leave them. -> leave
+* open
+(The first thanks the Terrace 4 gardeners for tomatoes that accidentally reached the Brim.)
+(Twenty gilt notes, folded inside the letter.)
+(The second: SORRY ABOUT THE MIC. I WOKE IT ON A BAD NIGHT. IT WAS NEVER MEANT TO STAY SAD. A.)
+> lore tomato_bread
+?
+- Keep the twenty. Deliver the rest. -> keepmoney
+- Put it all back and deliver both. -> take
+* keepmoney
+> gilt 20
+> set nq_letters_skimmed
+* take
+> give letter_gardener
+> give letter_jet
+> quest nq_letters 1
+> end
+* leave
+
+== nq_letter_gardener
+> take letter_gardener
+Gardener: From the Brim? For us? ...Tomatoes reached the Brim. Packed in a Board crate.
+> if nq_letters_skimmed -> skim
+Gardener: She sent twenty gilt. For the co-op. That's a month's worth of seed.
+> rep deeps 1
+> goto check
+* skim
+Gardener: She says she sent money. There's no money here. Must have been a Board post.
+* check
+> goto nq_letters_check
+
+== nq_letter_jet
+> take letter_jet
+Jet: A letter? For me? Nobody writes to Box 7.
+Jet: ...It's from whoever woke the mic. Sorry, it says. It was a rough night.
+Jet: I'll read it into the mic. Maybe it'll inspire a happy song one day.
+> goto nq_letters_check
+
+== nq_letters_check
+> if item:letter_gardener|item:letter_jet -> fin
+> set nq_letters_done
+> quest nq_letters done
+* fin
+
+# ---------------------------------------------------------------- Two Hundred and Ten
+
+== nq_argue
+> face vos hero
+> if nq_argue_done -> after
+ClerkVos: Two hundred and ten meters. The plaque says so.
+ClerkMol: Two hundred and eleven. They added a meter after the Flood. Nobody bothered to change the plaque.
+ClerkVos: We've had this argument for eleven years. Settle it. You climbed it, didn't you?
+> quest nq_argue 1
+?
+- Two hundred and ten. The plaque is right. -> ten
+- Two hundred and eleven. Plaques lie. -> eleven
+- [Notice 2] Count the sea-facing platforms. Do the math. -> count | guess
+- {quaye} Quaye? -> quaye
+* quaye
+Quaye: Two hundred and ten and a half. The extra half is sandbags. I signed for them.
+ClerkVos: ...A half.
+ClerkMol: A half. Eleven years.
+> approve quaye 2
+> goto half
+* count
+PORT: Four platforms. Fifty-two and a half each. I counted. Is that right?
+* half
+ClerkVos: Two hundred and ten and a half. Both wrong. Both pay.
+> gilt 30
+> goto done
+* guess
+> goto eleven
+* ten
+ClerkVos: Ha. Ten. The plaque. Fifteen gilt, as agreed.
+> gilt 15
+> goto done
+* eleven
+ClerkMol: Eleven! The extra meter! Fifteen, and my eternal respect.
+> gilt 15
+* done
+> set nq_argue_done
+> quest nq_argue done
+> end
+* after
+ClerkVos: We have a new argument now. Whether the sea is getting closer.
+ClerkMol: It is.
+
+# ---------------------------------------------------------------- The Seawalk Clock
+
+== nq_clock_start
+> face hero up
+> if item:clockkey -> wind
+(A brass clock in the planter wall. Stopped at a quarter past nine. The night of the Flood.)
+(A keyhole under the face. A plate: KEY HELD AT RECEPTION.)
+> quest nq_clock 1
+> end
+* wind
+PORT: The key. We can make it go. Which time do we set it to?
+?
+- Set it to now. Let it run. -> now
+- Wind it, but leave the hands at a quarter past nine. -> leave
+* now
+> take clockkey
+> sfx confirm
+PORT: Tick. Tick. It's moving. Was it waiting forty years?
+> rep board 1
+> set clock_running
+> goto done
+* leave
+> take clockkey
+PORT: It ticks, but stays frozen at the Flood. Like someone who refuses to forget.
+> rep deeps 1
+> set clock_flood
+* done
+> set nq_clock_done
+> quest nq_clock done
+
+== nq_clock_key
+> face hero left
+> sfx loot
+(Keys are tagged by room. One is a brass winding key: SEAWALK CLOCK. CHAIR ONLY.)
+> give clockkey
+> quest nq_clock 2
+> ifnot party:ambrose -> fin
+Ambrose: A key reserved for the Chair. I find myself wishing to use it out of principle.
+* fin

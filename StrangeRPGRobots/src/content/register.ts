@@ -1,0 +1,22 @@
+// Registers every content module: quests, shops, loot, and items added by acts. Import once at startup.
+import './loot';
+import './replay';
+import './act1';
+import './act2';
+import './act3';
+import './act4';
+import './act5';
+import './act6';
+import './gigs';
+import './flats';
+import './lines';
+import './banterlist';
+import './hubs';
+import './world_deeps';
+import './world_upper';
+import './details_market';
+import './details_deeps';
+import './details_flats';
+import './details_lines';
+import './details_stair';
+import './details_brim';

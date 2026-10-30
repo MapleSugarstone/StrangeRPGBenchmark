@@ -327,7 +327,7 @@ export class BattleScreen {
         const down = this.st.units.find((p) => p.side === 'party' && !p.alive && Math.max(Math.abs(p.x - u.x), Math.abs(p.y - u.y)) <= 1);
         if (!down) { sfx('menu_bad'); this.banner = { text: 'Nobody down nearby', t: readTime('Nobody down nearby') }; return; }
         t = { uid: down.uid };
-      } else if (use.target === 'lead' && !leadOf(this.st, u)) { sfx('menu_bad'); this.banner = { text: 'No lead here', t: readTime('No lead here') }; return; }
+      } else if (use.target === 'lead' && !leadOf(this.st, u)) { sfx('menu_bad'); this.banner = { text: 'No shadow here', t: readTime('No shadow here') }; return; }
       G.items[it.id] = (G.items[it.id] ?? 1) - 1;
       if (G.items[it.id] <= 0) delete G.items[it.id];
       useItem(this.st, u, use, t);
@@ -658,7 +658,7 @@ export class BattleScreen {
         tags.push(dep ? `sees ${dep} ahead` : 'unforeseen');
       } else {
         const l = leadOf(st, u);
-        tags.push(l ? `lead ${l.len}` : 'no lead');
+        tags.push(l ? `shadow ${l.len}` : 'no shadow');
       }
       drawText(tags.join('  '), 7, PANEL_Y + 23, C.lilac);
     }

@@ -1,0 +1,33 @@
+// Every scene file. Add new .txt files here.
+import test from './test.txt';
+import sluice from './sluice.txt';
+import ch1 from './ch1.txt';
+import deeps from './deeps.txt';
+import camp1 from './camp1.txt';
+import ch2 from './ch2.txt';
+import deeps2 from './deeps2.txt';
+import camp2 from './camp2.txt';
+import ch3 from './ch3.txt';
+import stair3 from './stair3.txt';
+import camp3 from './camp3.txt';
+import ch4 from './ch4.txt';
+import stair4 from './stair4.txt';
+import camp4 from './camp4.txt';
+import ch5 from './ch5.txt';
+import deeps5 from './deeps5.txt';
+import camp5 from './camp5.txt';
+import ch6 from './ch6.txt';
+import brim6 from './brim6.txt';
+import epilogue from './epilogue.txt';
+import gigs from './gigs.txt';
+import flats from './flats.txt';
+import banter from './banter.txt';
+import lines from './lines.txt';
+import hubs from './hubs.txt';
+import events_deeps from './events_deeps.txt';
+import crew from './crew.txt';
+import events_upper from './events_upper.txt';
+import niche_upper from './niche_upper.txt';
+import niche_deeps from './niche_deeps.txt';
+
+export const SCRIPT_FILES: Record<string, string> = { test, sluice, ch1, deeps, camp1, ch2, deeps2, camp2, ch3, stair3, camp3, ch4, stair4, camp4, ch5, deeps5, camp5, ch6, brim6, epilogue, gigs, flats, banter, lines, hubs, events_deeps, crew, events_upper, niche_upper, niche_deeps };

@@ -1,0 +1,1073 @@
+# The Deeps in chapter 1: people to talk to, things to read, and side quests in Pell Market, the Pound,
+# and the Ferry Graveyard. Side quests: toll (Moss), bear (Pim), census (Ilse), parcel (the Oud drone),
+# door (Bas), loop (Tilly's rail).
+
+# ---------------------------------------------------------------- Water taxi
+
+== taxi_market
+> face gus hero
+> if chapter>=2 -> taxi_menu
+> if census_fled&!gus_census -> census
+* pick
+Gus: Where to?
+?
+- ?job_taken&!spill Canal Nine. The bridge. -> c9
+- ?doc_pound The Pound. -> pound
+- ?tilly_rode The Ferry Graveyard. -> ferries
+- Nowhere. Just saying hi. -> stay
+* c9
+Gus: Board up front. I'll drop you off just before the bridge.
+> sfx splash
+> warp canal9 @taxi up
+> end
+* pound
+Gus: The Pound. Keep your hands off the cars. They remember.
+> sfx splash
+> warp pound @taxi up
+> goto pound_enter
+* ferries
+Gus: Ferry Graveyard. I don't wait long there.
+> sfx splash
+> warp ferries @taxi up
+> goto ferries_enter
+* stay
+Gus: Hi.
+> end
+* census
+> set gus_census
+Gus: Took a woman and her little girl out to Canal Four. Didn't charge her.
+Gus: You know anything about that? I don't.
+> goto pick
+
+== taxi_pound
+> face gus hero
+> if chapter>=2 -> taxi_menu
+Gus: Where to?
+?
+- Pell Market. -> market
+- ?tilly_rode The Ferry Graveyard. -> ferries
+- Not yet. -> stay
+* market
+> sfx splash
+> warp market @taxi up
+> goto market_enter
+* ferries
+> sfx splash
+> warp ferries @taxi up
+> goto ferries_enter
+* stay
+Gus: I'll be here.
+
+== taxi_ferries
+> face gus hero
+> if chapter>=2 -> taxi_menu
+Gus: Where to?
+?
+- Pell Market. -> market
+- The Pound. -> pound
+- Not yet. -> stay
+* market
+> sfx splash
+> warp market @taxi up
+> goto market_enter
+* pound
+> sfx splash
+> warp pound @taxi up
+> goto pound_enter
+* stay
+Gus: Meter's off. Take your time.
+
+# ---------------------------------------------------------------- Pell Market: shops
+
+== fenna_talk
+> face fenna hero
+> if spill -> post
+Fenna: Gear. Buy something or move along.
+> if rep:deeps>=4 -> shop_pell_gear_cheap
+> if rep:deeps<-3 -> shop_pell_gear_dear
+> shop pell_gear
+> end
+* post
+> if parcel_broken&!fenna_rotor -> rotor
+Fenna: The Board was in twice tonight. Asking who bought rope.
+?
+- Did you say anything to them? -> told
+- Show me what you've got. -> shop
+- What's a work lamp? -> lamp
+* told
+Fenna: I told them everyone buys rope. It's standard.
+> goto shop
+* lamp
+Fenna: Thirty gilt. Clamps onto anything. Lasts a week.
+* shop
+> if rep:deeps>=4 -> shop_pell_gear_cheap
+> if rep:deeps<-3 -> shop_pell_gear_dear
+> shop pell_gear
+> end
+* rotor
+> set fenna_rotor
+Fenna: Some kids brought me a delivery drone, torn apart. Nice rotor.
+Fenna: It's still twitching a bit. I don't like it.
+> goto shop
+
+== joost_talk
+> face joost hero
+> if chapter>=2&!garage_known -> joost2
+> if quest:bear&!bear_done -> bear
+Joost: All the lines are cut today. Pick a feeling.
+> if rep:cutters>=4 -> shop_cutter_counter_cheap
+> if rep:cutters<-3 -> shop_cutter_counter_dear
+> shop cutter_counter
+> end
+* bear
+> if item:line2 -> plain
+Joost: Lines. Pick a feeling.
+?
+- ?!joost_tried [Talk 2] Tuesday is slow. Pim's your brother. -> free | nofree
+- Just sell me something. -> plain
+- Never mind. -> bye
+* free
+Joost: He told you about Tuesday. Naturally.
+Joost: One drop of Line 2. It's cut. It won't last a year.
+> give line2
+> quest bear 2
+> end
+* nofree
+> set joost_tried
+> set met_cutters
+Joost: Family discount is still a discount. Sixty for you.
+?
+- $60 Sixty. Fine. -> sixty
+- No. -> bye
+* sixty
+> give line2
+> quest bear 2
+> if party:sallis -> s
+> end
+* s
+Sallis: Bought the red. Somebody bled for it.
+> approve sallis -1
+> end
+* plain
+> if rep:cutters>=4 -> shop_cutter_counter_cheap
+> if rep:cutters<-3 -> shop_cutter_counter_dear
+> shop cutter_counter
+> end
+* bye
+
+== moss_talk
+> face moss hero
+> if toll_refused -> refused
+> if spill -> post
+> if moss_met -> pre2
+> set moss_met
+Moss: Hey. You're out late.
+?
+- Opal's got work for me. -> work
+- Couldn't sleep. -> sleep
+- How's business? -> biz
+* work
+Moss: Opal work. Wear your good boots.
+> goto toll
+* sleep
+Moss: Nobody's sleeping on this canal. Gerda's loud tonight.
+> goto toll
+* biz
+Moss: Moving slow. Same as always.
+* toll
+Moss: The Jaws came round. They say the toll's up to a hundred now.
+Moss: Rina's rate is fifty. That's standard for everyone. Always has been.
+> set moss_rate
+Moss: So someone's keeping fifty. But that's not my problem until Thursday.
+> end
+* pre2
+Moss: Noodles?
+?
+- Yeah. -> shop
+- Later, Moss. -> bye
+* shop
+> shop moss_noodles
+> end
+* bye
+> end
+* post
+> if toll_done -> after
+> if quest:toll -> opts
+Moss: Dek's back. He's got a friend with him. He says he wants a hundred by tonight.
+Moss: I've got sixty and a pot.
+> quest toll 1
+* opts
+?
+- $100 I'll cover it. -> pay
+- I'll talk to Dek. -> talk
+- I'll make them leave. -> fight
+- Not my canal, Moss. Sorry. -> refuse
+- Later. -> bye
+* pay
+> walk hero @dek_talk
+> face hero dek
+> face dek hero
+Dek: A hundred. Look at you. Moss actually has a friend.
+> set toll_paid
+> rep lockjaws 1
+> rep deeps 1
+> goto jawsgo
+* talk
+> walk hero @dek_talk
+> face hero dek
+> face dek hero
+Dek: Hundred, runner. You covering Moss?
+?
+- ?moss_rate&!dek_failed [Talk 1] Rina's rate is fifty. Same for everyone. -> talked | talkfail
+- ?spill&!moss_rate&!dek_failed [Talk 3] Rina never asked for a hundred in her life. -> talked | talkfail
+- ?bg:runner&!dek_failed [Talk 1] Dek. I've paid this canal since I could swim. Fifty. -> talked | talkfail
+- $100 Fine. A hundred. -> pay2
+- Then we do this the other way. -> fight2
+* talkfail
+> set dek_failed
+Dek: A hundred. Or we come back with a pipe.
+?
+- $100 Fine. A hundred. -> pay2
+- Then we do this the other way. -> fight2
+- I'll think about it. -> bye
+* pay2
+> set toll_paid
+> rep lockjaws 1
+> rep deeps 1
+> goto jawsgo
+* talked
+Dek: ...Fifty. Fine. Rina's rate.
+Dek: Don't go telling her about any hundred.
+Moss: Fifty I have.
+> set toll_talked
+> rep lockjaws 1
+> rep deeps 1
+> goto jawsgo
+* fight
+> walk hero @dek_talk
+> face hero dek
+> face dek hero
+Dek: Oh. It's like that.
+* fight2
+> fight toll_jaws
+> set toll_fought
+> rep lockjaws -2
+> rep deeps 1
+> set toll_done
+> face moss hero
+Moss: They'll be back with more. They always come back with more.
+Courtesy: DISPERSE. THEY HAVE DISPERSED.
+> quest toll done "You ran Dek's crew off Moss's stall."
+> end
+* refuse
+Moss: Yeah. Right. Not your canal.
+> face moss down
+> wait 1
+Moss: I'll dock at Gus's. The Jaws don't go there. Besides, Gus has a gun.
+> walk moss @moss_dock
+> face moss down
+> set toll_refused
+> rep deeps -2
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -2
+* jawsgo
+> face dek left
+> walk jaw @jaws_off2 &
+> walk dek @jaws_off
+> wait 0.4
+> exit dek
+> exit jaw
+> set toll_done
+> if toll_refused -> gone_done
+> if toll_talked -> talk_done
+> face moss hero
+Moss: You didn't need to do that.
+Moss: Noodles are on me. For a week. Maybe two.
+> give noodles 3
+Courtesy: THANK YOU FOR YOUR PAYMENT.
+> approve courtesy 2
+> quest toll done "You paid Moss's toll."
+> end
+* talk_done
+> face moss hero
+Moss: You quoted Rina at Dek. To his face.
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 1
+> quest toll done "You talked Dek down to Rina's rate."
+> end
+* gone_done
+> quest toll done "Moss left the stall. Moss sells at Gus's dock now."
+> end
+* after
+> if toll_fought -> a_fought
+> if toll_talked -> a_talked
+Moss: Eat. You covered my canal toll.
+> shop moss_friend
+> end
+* a_fought
+Moss: Dek came by with two more. Saw the robot. Left again.
+> shop moss_noodles
+> end
+* a_talked
+Moss: Dek bought noodles for ten bells. Paid full price. What a night.
+> shop moss_friend
+> end
+* refused
+Moss: Gus's dock. It's quiet. Nobody eats here.
+> shop moss_noodles
+
+# ---------------------------------------------------------------- Pell Market: readables
+
+== market_board
+> if spill -> post
+(BOARD NOTICE. KEEP FATHOM DRY.)
+(Census in Pell Market this week. All six-year-olds must bring their cards.)
+(Report any woken property to Lost Property. Reward: 20 gilt.)
+> end
+* post
+(BOARD NOTICE. Canal Nine closed until further notice.)
+(Report any woken property to Lost Property. Reward: 20 gilt.)
+(Wanted: one Patrol 6 unit, woken. Reward: 500 gilt.)
+Courtesy: REPORT LOST PROPERTY.
+Courtesy: DO NOT REPORT THIS UNIT.
+
+== oud_door
+(No. 9. Sign in the window: M. OUD. MOVED. SEND LETTERS TO THE CHURCH POST.)
+
+== clinic_closed
+> sfx blip
+Doc Seo: Closed. Unless you're bleeding.
+?
+- I'm not bleeding. -> no
+- What if I was? -> if
+* no
+Doc Seo: Then we're closed.
+> goto off
+* if
+Doc Seo: Then ring twice. I'll come down.
+* off
+> step hero down 1
+
+== crossing_courtesy
+> wait 0.4
+> face courtesy up
+> wait 0.8
+Courtesy: CHILDREN CROSSING.
+Courtesy: STAND CLEAR. CHILDREN CROSSING.
+> wait 1
+> emote courtesy ...
+> set courtesy_crossing
+
+# ---------------------------------------------------------------- Side quest: the bear (Pim and Dita)
+
+== kids_talk
+> face pim hero
+> face dita hero
+> if chapter>=2 -> kids2
+> if bear_done -> done
+> if spill -> post
+Pim: Tuesday's slowing down. Count his breaths.
+Pim: One. Two. Three. Four. Five. There. He used to go at two.
+Dita: Mister Button didn't stop. He just started liking me.
+Pim: Mister Button is a sock.
+> set button_heard
+> end
+* post
+> if item:line2 -> give
+> if quest:bear -> mid
+Pim: He goes at eight now. Joost says that's how wakes go.
+> if button_heard -> ask
+Dita: Mister Button didn't stop. He just started liking me.
+Pim: Shut up, Dita.
+> set button_heard
+* ask
+?
+- I'll get him another drop. -> buy
+- Want me to sit with you while he goes? -> sit
+- Wakes run out, Pim. They all do. -> hard
+* buy
+Pim: Joost won't give me one. He says it costs money.
+Pim: He's at the Cutter counter. He's always there.
+> quest bear 1
+> end
+* mid
+Pim: He's at nine now.
+?
+- I'm working on it. -> bye
+- Do you want me to stay with you while he's gone? -> sit
+* bye
+> end
+* give
+Pim: Is that red? For Tuesday?
+?
+- Line 2. For Tuesday. -> wake
+- Not yet. -> bye
+* wake
+> take line2
+> sfx wake
+> emote pim heart
+Pim: He leaves at two. He leaves at two!
+Dita: Mister Button sends his regards.
+Courtesy: THANK YOU FOR YOUR PURCHASE.
+> approve courtesy 1
+> if party:sallis -> ws
+> goto wend
+* ws
+Sallis: Bought the red one. Someone bled for that bear.
+> approve sallis -1
+* wend
+> set bear_woke
+> rep woken 1
+> set bear_done
+> quest bear done "Tuesday is awake again, on a cut Line 2."
+> end
+* sit
+Pim: You can sit. The curb's wet.
+> walk hero @kid_sit
+> face hero up
+> wait 1.5
+Pim: Eight.
+> wait 2
+Pim: Ten.
+> wait 2.5
+> emote pim ...
+> wait 1.5
+Pim: He's a bear now. Just a bear.
+> face courtesy pim
+Courtesy: PLEASE REMAIN CALM. THIS UNIT IS ON SITE.
+> approve courtesy 2
+> set bear_still
+> rep woken -1
+> set bear_done
+> quest bear done "You sat with Pim while Tuesday went still."
+> end
+* hard
+Pim: I know. Everyone knows. You don't need to keep saying it.
+> face pim up
+Courtesy: PLEASE REMAIN CALM.
+> set bear_told
+> set bear_done
+> quest bear done "Tuesday went still. Pim doesn't talk to you much now."
+> end
+* done
+> if bear_woke -> dwoke
+> if bear_still -> dstill
+> face pim up
+Pim: ...
+> end
+* dwoke
+Pim: Pim dances all the time now. Tuesdays. Joost says that's the Line.
+> end
+* dstill
+Pim: Pim's asleep. Don't wake him. I mean it.
+
+# ---------------------------------------------------------------- Side quest: the Census van (Ilse and Noor)
+
+== ilse_talk
+> if census_done -> done
+> face ilse hero
+Ilse: Stop standing there. You'll draw their attention.
+Ilse: She's six. They're calling for six.
+> if quest:census -> opts
+?
+- What do you need? -> need
+- It's a blood test. Most kids come up clean. -> clean
+- I'm busy. -> busy
+* busy
+Ilse: Everyone's busy when the van shows up.
+> end
+* clean
+Ilse: Most of them. She woke her cup last winter. It followed her to bed.
+> goto ask
+* need
+Ilse: She woke her cup last winter. It followed her to bed.
+* ask
+Ilse: If they test her, they take her. Sunny Steps.
+> quest census 1
+* opts
+?
+- ?!census_lie_failed [Talk 2] I'll tell him Doc Seo already tested her. -> lie | liefail
+- [Sneak 2] I'll get her out through the crowd. -> sneak | caught
+- ?bg:vein There's a Vein cellar on Canal Six. Look for blue chalk on the door. Go. -> sneak
+- ?bg:washout [Talk 1] Tester. Procedure states a clinic record waives the test. -> lie | liefail
+- ?bg:choir [Talk 2] She sings with the Choir. The Census never tests Choir children. -> lie | liefail
+- $150 I'll cover his processing fee. -> bribe
+- I'll get them to leave. -> fight
+- Let them run the test. If she's clean, we're done. -> test
+- Give me a moment. -> later
+* later
+> end
+* lie
+> walk hero @tester_talk
+> face hero tester
+> face tester hero
+Tester: Name and age of the child, please.
+Tester: Clinic records. Doc Seo, Pell Market. Hm.
+Tester: The Board accepts the clinic records. But the Board is exhausted tonight.
+> sfx confirm
+Tester: Noor Bakker. Cleared. Thank you for your cooperation.
+> set census_lied
+> goto saved
+* liefail
+> walk hero @tester_talk
+> face hero tester
+> face tester hero
+Tester: Clinic records come with a card. Bring me the card, please.
+Tester: Until then, she's untested, and I'm still here.
+> set census_lie_failed
+> end
+* bribe
+> walk hero @tester_talk
+> face hero tester
+> face tester hero
+Tester: The Board does not accept money.
+Tester: There is a processing fee. One hundred fifty.
+> sfx buy
+Tester: Noor Bakker. Processed. Thank you for your patience.
+> set census_bribed
+> rep board 1
+> if party:sallis -> bribe_s
+> goto saved
+* bribe_s
+Sallis: You paid the Board. Don't make a habit of it.
+> approve sallis -1
+* saved
+> walk ilse @ilse_safe &
+> walk noor @noor_safe
+> wait 0.6
+> set census_saved
+> rep deeps 2
+> rep vein 1
+> set census_done
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 2
+> if party:sallis -> sav_s
+> goto sav_end
+* sav_s
+Sallis: Wild. Six. The Vein moves kids like her. I've told you that before.
+> approve sallis 3
+* sav_end
+> quest census done "Noor wasn't tested. Ilse took her to Moss's stall."
+> end
+* sneak
+Ilse: Go. Go slowly.
+> walk noor @taxi &
+> walk ilse @moss_dock
+> wait 1
+> exit ilse
+> exit noor
+> set census_fled
+> rep vein 2
+> rep deeps 1
+> set census_done
+Courtesy: HAVE A SAFE NIGHT.
+> approve courtesy 1
+> if party:sallis -> sn_s
+> goto sn_end
+* sn_s
+Sallis: Clean job. The Vein moves kids like her along. I tell them that.
+> approve sallis 3
+* sn_end
+> quest census done "Ilse took Noor out on Gus's taxi."
+> end
+* caught
+Officer: You. With the child. Stop right there, please.
+> sfx alarm
+> goto run_off
+* fight
+> walk hero @tester_talk
+> face hero tester
+> face tester hero
+Tester: Please step away from the Census van.
+* run_off
+> run noor @taxi &
+> run ilse @moss_dock &
+> run tester @east_off
+> exit tester
+> exit ilse
+> exit noor
+> set census_fought
+> rep board -2
+> rep deeps 2
+> fight census_guards
+> set census_fled
+> rep vein 2
+> rep deeps 1
+> set census_done
+Courtesy: PLEASE REMAIN CALM. I AM NOT REMAINING CALM.
+> approve courtesy 1
+> if party:sallis -> f_s
+> goto f_end
+* f_s
+Sallis: Loud. Still on target.
+> approve sallis 2
+* f_end
+> quest census done "You fought the Census guards. Ilse and Noor ran."
+> end
+* test
+Ilse: No. You don't get to say that.
+> walk noor @tester_talk
+> face tester noor
+Tester: Noor Bakker. Thank you. Hand out, please. Just a small prick.
+> wait 1
+> sfx wake
+> emote tester !
+Tester: Positive. Oh. Positive.
+Tester: Sunny Steps intake. Thank you for your cooperation.
+> walk noor @van_door
+> exit noor
+> walk ilse @census_bay
+> face ilse up
+> set census_taken
+> rep deeps -2
+> rep vein -1
+> set census_done
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -3
+> if party:sallis -> t_s
+> goto t_end
+* t_s
+Sallis: You handed a wild card to the Board.
+> approve sallis -5
+* t_end
+> quest census done "The Census took Noor to Sunny Steps."
+> end
+* done
+> face ilse hero
+> if census_taken -> d_taken
+Ilse: She's eating. It's the first time today.
+> if ilse_gift -> d_end
+> set ilse_gift
+Ilse: Here. It isn't much. It belonged to my dad.
+> give stim 2
+* d_end
+> end
+* d_taken
+Ilse: They say I can visit. Sunny Steps, on the Stair. Sundays.
+Ilse: I don't have a Stair permit.
+
+== tester_talk
+> face tester hero
+> if census_done -> done
+Tester: Children aged six, please. Bring your card if you have it.
+Tester: Has anyone seen Noor Bakker? She's six.
+> end
+* done
+Tester: The Census thanks you for your patience.
+
+# ---------------------------------------------------------------- Side quest: the parcel (Bep and the Oud drone)
+
+== bep_talk
+> face bep hero
+> if item:bephandbag -> bep_bag
+> if parcel_done -> done
+> if spill -> post
+Bep: That drone again. Every bell, right at Oud's door.
+Bep: Oud ran out of supplies in the spring. Her son got her a flat on the Stair.
+Bep: Nobody told the drone.
+> end
+* post
+> if quest:parcel -> mid
+Bep: It's still knocking. It's a quiet wake-up call. It just does what it's programmed to do.
+Bep: Someone should update it. I'm eighty-one.
+> quest parcel 1
+> end
+* mid
+Bep: It passes by every few minutes. You can catch it on your walk.
+> end
+* done
+> if parcel_up -> up
+> if parcel_signed -> signed
+Bep: Someone broke Oud's drone. Kids, probably.
+Bep: Kids, or maybe someone else.
+> end
+* up
+Bep: Oud called me. First time since spring.
+Bep: She said a drone delivered a hat. She cried over a hat.
+> end
+* signed
+> if item:parcel -> keep
+Bep: The Church post picked it up. She'll get it on Friday.
+> end
+* keep
+Bep: You still have her parcel. It's hers, you know.
+?
+- Can you forward it to her? -> send
+- I'll hold onto it for now. -> bye
+* send
+> take parcel
+Bep: The Church bulletin goes up on Fridays. I'll add it.
+> set parcel_sent
+> rep deeps 1
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 1
+> quest parcel done "Bep sent the parcel up to Mevrouw Oud."
+> end
+* bye
+
+== courier_talk
+> face courier hero
+Drone: PARCEL FOR M. OUD, NO. 9. NO ANSWER.
+> if !spill -> pre
+> if quest:parcel -> opts
+> quest parcel 1
+* opts
+?
+- ?!parcel_hack_failed <diver> [Hack 1] Update its log with the forwarding address. -> hack | hackfail
+- ?!parcel_hack_failed [Tech 2] Open its panel and update the forwarding address. -> hack | hackfail
+- I live at No. 9 now. I'll sign for it. -> sign
+- ?!parcel_smash_failed [Strike 2] Shoot it out of the sky. -> smash | miss
+- Leave it. -> bye
+* hack
+> sfx hack
+> wait 0.6
+> goto parcel_up
+* hackfail
+> sfx fail
+Drone: ROUTE UNCHANGED. PARCEL FOR M. OUD.
+> set parcel_hack_failed
+> end
+* sign
+Drone: SIGN HERE.
+> sfx confirm
+> give parcel
+> set parcel_signed
+> rep deeps 1
+Drone: DELIVERED. THANK YOU.
+> anim rise courier
+> exit courier
+> set parcel_done
+> quest parcel 2
+> end
+* smash
+> sfx melee
+> shake 1
+> give parcel
+Drone: PARCEL. PARCEL. PARCEL.
+> walk courier @east_off
+> exit courier
+> set parcel_broken
+> set parcel_done
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -3
+> quest parcel 2 "You knocked the drone out of the air. It dropped the parcel."
+> end
+* miss
+> sfx miss
+Drone: PARCEL FOR M. OUD. ATTEMPTING DELIVERY AGAIN.
+> set parcel_smash_failed
+> end
+* pre
+* bye
+
+== depot_terminal
+(PELL DELIVERY POINT. Courier drone 12. Route 4.)
+> if parcel_done -> off
+> ifnot quest:parcel -> off
+?
+- $25 Forward the parcel for M. Oud to her new address. -> fwd
+- Leave it. -> off
+* fwd
+> sfx confirm
+(Forwarded. Courier drone 12 will take the new route.)
+> goto parcel_up
+* off
+
+== parcel_up
+> set parcel_up
+> camera courier 1
+Drone: NEW ADDRESS. STAIR TERRACE 3, NO. 41.
+Drone: ASCENDING.
+> face c13 up
+> face c14 up
+> face c3 up
+> anim rise courier
+> exit courier
+> face hero up
+> wait 1
+> camera free
+Courtesy: HAVE A SAFE FLIGHT.
+> approve courtesy 1
+> set parcel_done
+> quest parcel done "The Oud drone went up to the Stair."
+
+# ---------------------------------------------------------------- Side quest: the angry door (Bas)
+
+== bas_door
+> ifnot spill -> plain
+> if door_done -> after
+> sfx door
+> shake 1
+> goto bas_talk
+* plain
+> sfx blip
+> end
+* after
+> sfx blip
+
+== bas_talk
+> face bas hero
+> if door_done -> done
+> if quest:door -> opts
+Bas: Stay away from the door. It's holding a grudge.
+Bas: Lien left sixty gilt on Line 4 as a deposit.
+Bas: Sixty gilt to keep it mad at me for a week.
+> quest door 1
+* opts
+?
+- ?item:hush Pour Hush on it. -> hush
+- ?!door_hold_failed [Athletics 2] I'll hold it open. Grab your things. -> hold | slam
+- ?!door_hinge_failed [Tech 2] I'll rip it off the hinges. -> hinge | hingefail
+- Kick it in. -> kick
+- The Cutters sell Hush. I'll be back. -> later
+* later
+> end
+* hush
+> walk hero @bas_front
+> face hero up
+> take hush
+> sfx hush
+> anim hush bas_door
+> anim still bas_door
+> wait 1
+Bas: It stopped.
+Bas: It's freezing. Feel that. Seriously, it's cold.
+> emote courtesy ...
+Courtesy: THIS UNIT IS REMAINING CALM.
+> step hero right 1
+> walk bas @bas_front
+> exit bas
+> set door_hushed
+> rep woken -1
+> set door_done
+> anim hush bas_door_frost
+> quest door done "You hushed Bas's door. It sleeps for a few days."
+> end
+* hold
+> walk hero @bas_front
+> face hero up
+> sfx shove
+> shake 1
+> step hero right 1
+> face hero left
+Bas: Okay. Okay. Thirty seconds.
+> walk bas @bas_front
+> exit bas
+> wait 2
+> sfx door
+> enter bas bas @bas_front down
+> walk bas @bas_spot
+Bas: Got it. I'm staying at my sister's until Sunday.
+> sfx door
+> shake 1
+Bas: Thanks. Really, I appreciate it.
+> walk bas @east_off
+> exit bas
+> set door_held
+> rep deeps 1
+> set door_done
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 1
+> quest door done "Bas got his things out. The door stays angry till Sunday."
+> end
+* slam
+> walk hero @bas_front
+> sfx door
+> shake 2
+> sfx hit
+Bas: It does that.
+> set door_hold_failed
+> end
+* hinge
+> walk hero @bas_front
+> face hero up
+> sfx confirm
+> wait 1
+> sfx door
+> anim shift bas_door 35 17
+> set door_off
+> rep deeps 1
+> set door_done
+Bas: It's breathing on the wall now. Fine. Better than breathing on me.
+Bas: I'll hang a curtain.
+> quest door done "The door is off its hinges, leaning on the wall."
+> end
+* hingefail
+> walk hero @bas_front
+> sfx fail
+> shake 1
+Bas: You're making it angrier.
+> set door_hinge_failed
+> end
+* kick
+> walk hero @bas_front
+> face hero up
+> sfx melee
+> shake 2
+> anim break bas_door
+> set door_kicked
+> rep woken -1
+> set door_done
+Bas: You broke my door.
+Bas: It's still breathing. In pieces. Great.
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -3
+> quest door done "You kicked Bas's door in. The pieces still breathe."
+> end
+* done
+> if door_off -> d_off
+Bas: A new door costs forty gilt. I have nine.
+> end
+* d_off
+Bas: The door breathes all night. I keep the curtain drawn.
+
+# ---------------------------------------------------------------- Doc Seo's clinic, the barge, the bridge
+
+== clinic_terminal
+> if doc_taken&!choir_done -> gone
+(Patient: No name provided. Port angle: 39 degrees. Port resistance: 31.)
+(Port is resistant to removal. Do not attempt further extraction without a hand surgeon.)
+> end
+* gone
+(Last entry: Henk, knee, ten bells. Entry incomplete.)
+
+== c9_sign
+(CANAL NINE. FREIGHT VESSELS ONLY.)
+(No swimming. No fishing. No boarding.)
+
+== hold_terminal
+(CLEMENT. Freight manifest.)
+(Pump bearings, 12 crates. Board rations, 6 crates.)
+(one sealed case. Contents withheld. Recovery authorized.)
+
+== clement_wheel
+> face hero up
+> wait 0.8
+PORT: up.
+
+# ---------------------------------------------------------------- The Pound
+
+== pound_terminal
+(BOARD RECOVERY. IMPOUND 4. CLOSED.)
+(Lot 112. Tram 14. Woken. Unregistered witch.)
+(Witch deceased 31 years. Status: Active.)
+(Clerk's note: Recheck the witch.)
+Courtesy: THIS RECORD IS CLOSED.
+
+== pound_car
+> sfx alarm
+> shake 1
+Courtesy: STAND CLEAR OF THE VEHICLE.
+
+== pound_vend
+> if pvend_gift -> again
+> set pvend_gift
+> sfx loot
+> give krill
+Courtesy: THANK YOU FOR YOUR PURCHASE.
+> end
+* again
+> shop pound_vend
+
+== pound_washer
+> sfx splash
+> wait 0.8
+Courtesy: PLEASE REMAIN CALM.
+
+== pound_forklift
+> sfx confirm
+> wait 0.6
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+
+== pound_dumpster
+> sfx door
+> shake 1
+> if pdump_gift -> done
+> set pdump_gift
+> give stim
+* done
+
+== pound_speaker
+(A Recovery tag: HUSHED. COLLECT THIS WEEK.)
+> emote courtesy ...
+
+== pound_tv
+(The same ad, repeated endlessly: SUNNY STEPS. A WARM HOME FOR EVERY TESTED CHILD.)
+
+== pound_scrap_win
+> sfx alarm
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+Courtesy: THE VEHICLE IS SAFE.
+
+# ---------------------------------------------------------------- Side quest: Tilly's loop (the bin on the rail)
+
+== pound_bin
+> if bin_kicked -> dark
+> if bin_moved|bin_lamp -> moved
+> ifnot tilly_rode -> idle
+> face hero up
+?
+- ?!bin_lift_failed [Athletics 2] Lift it off the rail. Gently. -> lift | drop
+- {courtesy} Be polite and ask it to move. -> ask
+- ?bg:washout There's a Recovery tag on its lid. I know how they move a tagged bin. -> lift
+- ?item:worklamp Set the work lamp down, off the rail. -> lamp
+- Kick it off the rail. -> kick
+- Leave it. -> leave
+* idle
+> sfx hit
+Courtesy: PLEASE REMAIN CALM.
+> end
+* leave
+> end
+* lift
+> sfx shove
+> anim shift bin 36 5
+> set bin_moved
+> rep woken 1
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> goto told
+* drop
+> sfx fall
+> shake 1
+> set bin_lift_failed
+> end
+* ask
+Courtesy: PLEASE STAND CLEAR OF THE TRACK.
+> wait 1
+Courtesy: PLEASE STAND CLEAR OF THE TRACK. THANK YOU.
+> sfx step
+> anim shift bin 36 5
+> set bin_moved
+> rep woken 1
+> approve courtesy 2
+> goto told
+* lamp
+> take worklamp
+> sfx confirm
+> anim shift bin 36 9
+> set bin_lamp
+> rep woken 1
+Courtesy: THANK YOU FOR YOUR PURCHASE.
+> approve courtesy 1
+> goto told
+* kick
+> sfx melee
+> anim shift bin 37 2
+> set bin_kicked
+> rep woken -2
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -3
+* told
+> quest loop 2
+> end
+* moved
+> sfx step
+> end
+* dark
+> sfx hit
+
+# ---------------------------------------------------------------- The Ferry Graveyard
+
+== ferries_timetable
+(Pell to the Stair, every half bell.)
+(Last sailing: the night of the Flood.)

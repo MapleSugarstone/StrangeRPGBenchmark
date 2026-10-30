@@ -1,0 +1,345 @@
+# Camp on the Clement, chapter 2. The rest command plays the first ready scene from src/content/act2.ts.
+# Companions who wait at camp stand at camp_<id> and run camptalk_<id>. Party members are reached
+# through the bedroll menu, which jumps to the same hubs.
+
+# ---------------------------------------------------------------- First nights
+
+== camp2_opal
+> music camp
+> walk hero @camp_hero
+> face hero right
+> camera @opal_stall 1
+Opal: Sweet. I've set up by the wheelhouse. Somebody had to.
+Opal: I sell what I can carry. Mostly noodles. Some gear.
+Opal: Your barge's breath is on my back all night. Mm. I'll get used to it.
+> camera free
+
+== camp2_quaye
+> music camp
+> walk quaye @camp_quaye
+> face quaye down
+> walk hero @camp_hero
+> face hero quaye
+Quaye: You take twenty-nine breaths a minute while you sleep.
+Quaye: Thirty-one when you're awake. You didn't last night.
+?
+- You count everything. -> count
+- What is Line 1, really? -> line
+- What do I owe you for the pass? -> owe
+* count
+Quaye: Numbers stay put. People move.
+> goto close
+* line
+Quaye: Old stock. I told you.
+> wait 1.5
+Quaye: Ask me again in a month, kid. Not tonight.
+> goto close
+* owe
+Quaye: Nothing. You paid for my door.
+* close
+> wait 1
+> ifapprove quaye 6 -> forms
+Quaye: Get some sleep. Six hours. I'll take the first watch. I don't sleep much anyway.
+> end
+* forms
+> wait 1
+Quaye: I signed four hundred forms that year. I only remember one.
+> set quaye_forms
+> quest quaye 2
+> face quaye up
+
+== camp2_ambrose
+> music camp
+> walk ambrose @camp_ambrose
+> face ambrose up
+> walk hero @camp_hero
+> face hero ambrose
+Ambrose: My eye, on the free tier, recites dictionaries when I can't sleep.
+Ambrose: Tonight it's the letter P. Pluvial. Relating to rain.
+?
+- Tell me about the knee. -> knee
+- Who sponsored you before? -> sponsor
+- How much do you still owe? -> owe
+* knee
+Ambrose: A gift from a man named Haas. Delivered in the eleventh round of a very long night.
+Ambrose: It locks when it rains. And it rains every night. You can see the difficulty.
+> goto close
+* sponsor
+Ambrose: A brewery. When my knee gave out, they went with it. Gently. By letter.
+> goto close
+* owe
+> if ambrose_debt_paid -> paid
+Ambrose: Four hundred. Bodywell sends a polite reminder to my eye every hour.
+> goto close
+* paid
+Ambrose: Nothing, this month. A novel condition. I am savoring it.
+> approve ambrose 1
+* close
+> wait 1
+Ambrose: Pluvial. A fine word. I shall use it until it begs me to stop.
+
+== camp2_sallis
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+Sallis: Hanne flew with me once. A cargo hop over the Wall.
+Sallis: She was sick on the floor.
+Sallis: I flew Board cargo for nine years. Over the Wall every night.
+Sallis: The sea looks black from up there. Black, dotted with lights.
+?
+- You miss it. -> miss
+- What happens when you find Hanne? -> hanne
+- Is the Vein worth all this? -> worth
+* miss
+Sallis: I miss the quiet. Up there, nobody talks.
+> goto close
+* hanne
+Sallis: I find her. Then I decide. Not before.
+> goto close
+* worth
+Sallis: Nine of my people are somewhere I don't know. Ask me after.
+* close
+> wait 1.5
+> face sallis up
+
+== camp2_courtesy
+> music camp
+> sfx pa
+Board: All ashore that's going ashore. Thank you for sailing with the Board.
+> walk courtesy @camp_rail
+> face courtesy left
+> walk hero @camp_rail_side
+> face hero courtesy
+Courtesy: ALL ASHORE THAT IS GOING ASHORE.
+Courtesy: THIS IS A NEW ANNOUNCEMENT. THIS UNIT IS KEEPING IT.
+?
+- What are you watching over there? -> watch
+- You're collecting announcements now? -> keep
+- Somebody would pay for a robot like you. -> pay
+* keep
+Courtesy: THIS UNIT HAS ELEVEN ANNOUNCEMENTS THAT ARE NEW.
+> goto watch
+* pay
+Courtesy: THIS UNIT IS NOT FOR SALE. THIS UNIT IS ON DUTY.
+* watch
+Courtesy: THIS AREA IS MONITORED. I AM MONITORING THE DOG.
+?
+- There's a dog? -> dog
+- Whose dog is it? -> whose
+* whose
+Courtesy: THE DOG BELONGS TO NO UNIT.
+* dog
+Courtesy: A DOG IS ON SITE. UNDER THE GANGPLANK. IT IS SMALL. IT IS WET.
+?
+- Keep watching it, then. -> ok
+- Give it some of the rations. -> feed
+- It's a stray. Leave it. -> leave
+* feed
+Courtesy: THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 2
+> set courtesy_dog_fed
+> goto close
+* leave
+Courtesy: THIS UNIT WILL CONTINUE MONITORING.
+> goto close
+* ok
+Courtesy: THIS UNIT WILL CONTINUE MONITORING. THANK YOU.
+> approve courtesy 1
+* close
+> set courtesy_dog
+> face courtesy left
+
+# ---------------------------------------------------------------- The port
+
+== camp2_port
+> music camp
+> walk hero @camp_bow
+> face hero up
+> wait 1.5
+PORT: You like noodles. You like the rain. You said that.
+PORT: I like her. That's all I've got.
+?
+- You can like other things. Give it a try. -> try
+- Liking her is enough for now. -> enough
+- Liking things costs money. -> cost
+* try
+> wait 1.5
+PORT: The barge breathing... I like that. Under your feet.
+> self 2
+> set port_likes_barge
+> goto close
+* enough
+PORT: Enough.
+> hold 1
+> goto close
+* cost
+PORT: Money. Like your jar.
+* close
+> wait 1
+> face hero up
+
+# ---------------------------------------------------------------- Companion hubs
+
+== camptalk_courtesy
+> face courtesy hero
+Courtesy: THIS UNIT IS ON DUTY.
+?
+- How are you holding up? -> how
+- ?courtesy_dog The dog. -> dog
+- ?beacon_known The beacon in your chest. -> beacon
+- Stand down for tonight. -> down
+- ?chapter>=4 About tonight. -> c4
+- Never mind. -> bye
+* how
+> ifapprove courtesy 15 -> how2
+Courtesy: ALL SYSTEMS NOMINAL. THANK YOU FOR ASKING.
+> end
+* how2
+Courtesy: ALL SYSTEMS NOMINAL. THANK YOU FOR ASKING. YOU ASK OFTEN. THANK YOU.
+> end
+* dog
+> if courtesy_dog_fed -> fed
+Courtesy: THE DOG IS ON-SITE. I AM MONITORING THE DOG.
+> end
+* fed
+Courtesy: THE DOG IS ON-SITE. THE DOG IS DRY. I AM MONITORING THE DOG.
+> end
+* beacon
+Courtesy: THIS UNIT IS TRACKED FOR YOUR SAFETY.
+Courtesy: THIS UNIT REGRETS THE INCONVENIENCE.
+> end
+* down
+Courtesy: THIS UNIT IS STANDING BY. THIS UNIT WILL REMAIN STANDING.
+> end
+* c4
+> goto camptalk4_courtesy
+* bye
+
+== camptalk_sallis
+> face sallis hero
+Sallis: Talk.
+?
+- ?hanne_named Hanne. -> hanne
+- ?vein_done Your cell. -> cell
+- How's the leg? -> leg
+- ?!sallis_taught Teach me something. -> teach
+- ?chapter>=4 About tonight. -> c4
+- Nothing. -> bye
+* hanne
+> ifapprove sallis 15 -> hanne2
+Sallis: H.V. Hanne Vroom. I've found her. Not yet.
+> end
+* hanne2
+Sallis: She was at Jory's wake. Front row. I watched her the entire time.
+> end
+* cell
+Sallis: It moved me. Nine people. Not a word to me. Someone must have told them not to speak.
+> end
+* leg
+> if quaye_joined -> leg2
+Sallis: Holding.
+> end
+* leg2
+Sallis: Holding. Quaye stitched it. Better than the Board medic.
+> end
+* teach
+> set sallis_taught
+Sallis: Count the exits when you enter a room. Every room. Every time.
+> approve sallis 1
+> end
+* c4
+> goto camptalk4_sallis
+* bye
+
+== camptalk_quaye
+> face quaye hero
+> if item:portkey&!route_pass -> forge
+Quaye: Kid. Seven minutes. Go.
+?
+- ?line1_read Line 1. -> line
+- Can you check my port? -> port
+- ?ambrose_joined Kwarteng. -> kw
+- ?chapter>=4 About tonight. -> c4
+- Nothing. -> bye
+* forge
+> goto quaye_forge
+* line
+> ifapprove quaye 12 -> line2
+Quaye: Retired. Forty years. That's all you get tonight.
+> end
+* line2
+> if quaye_forms -> line3
+Quaye: I signed four hundred forms that year. I remember one.
+> set quaye_forms
+> quest quaye 2
+> end
+* line3
+Quaye: One form. One signature. I'll tell you on the Stair. Not here.
+> end
+* port
+Quaye: Thirty-nine degrees. Hums at a hundred and ten cycles. Ports run at ninety.
+Quaye: It's working, kid. On something. I don't know what.
+> end
+* kw
+Quaye: Kwarteng owes me a shirt and four hundred from Bodywell. He'll pay me first.
+> end
+* c4
+> goto camptalk4_quaye
+* bye
+
+== camptalk_ambrose
+> face ambrose hero
+Ambrose: Speak, and I'll give you more words than you asked for.
+?
+- A word for tonight. -> word
+- ?ambrose_eye_arrears Your eye. -> eye
+- ?!ambrose_debt_paid Your debt. -> debt
+- How's the knee? -> knee
+- ?chapter>=4 About tonight. -> c4
+- Nothing. -> bye
+* word
+> ifapprove ambrose 10 -> word2
+Ambrose: Crepuscular. It means twilight. We don't have twilight here. We have the Bells.
+> end
+* word2
+Ambrose: Impecunious. Having no money. I offer it to you as a mirror.
+> end
+* eye
+Ambrose: It shows a mattress, a soup, and another mattress. The dictionary is gone.
+Ambrose: I miss the letter P most of all.
+> end
+* debt
+Ambrose: Four hundred. The kiosk on the north road takes it, if you wish.
+Ambrose: I don't ask. A man doesn't ask. I'm just being informative.
+> end
+* knee
+Ambrose: Locked twice today. Rainy weather. I bear it.
+> end
+* c4
+> goto camptalk4_ambrose
+* bye
+
+# ---------------------------------------------------------------- Camp props
+
+== camp2_bedroll
+?
+- Choose who joins you. -> pick
+- {courtesy} Speak with Courtesy. -> courtesy
+- {sallis} Speak with Sallis. -> sallis
+- {quaye} Speak with Quaye. -> quaye
+- {ambrose} Speak with Ambrose. -> ambrose
+- Not now. -> no
+* pick
+> anim party
+> end
+* courtesy
+> goto camptalk_courtesy
+* sallis
+> goto camptalk_sallis
+* quaye
+> goto camptalk_quaye
+* ambrose
+> goto camptalk_ambrose
+* no

@@ -1,6 +1,6 @@
 # Chapter 5: Overhead
 # Maps: overhead_gate, overhead, first_mirror.
-# The sun stands straight overhead. Nothing has a lead. Flat pink-white light, no shade anywhere.
+# The sun stands straight overhead. Nothing has a shadow. Flat pink-white light, no shade anywhere.
 
 == ch5_open
 > lock
@@ -27,9 +27,9 @@ Parhelia: Can't here. Look at your foot.
 > end
 
 == tut_noon
-(No leads here. Foes act without showing what they'll do.)
+(No shadows here. Foes act without showing what they'll do.)
 (Shadow-skills have no reach. Touch, pebbles, and the lamp still work.)
-(Parhelia's lamp makes leads around it. It is the only thing here that does.)
+(Parhelia's lamp makes shadows around it. It is the only thing here that does.)
 > end
 
 == talk_overhead_gambler
@@ -60,7 +60,7 @@ Guard: Will they stop paying? Couldn't say.
 
 == talk_sticks_overhead
 > if sticks_noon_won -> won
-Whim: Noon rules. No leads at all. You capture by standing taller next to them.
+Whim: Noon rules. No shadows at all. You capture by standing taller next to them.
 > sticks noon
 > end
 * won
@@ -102,12 +102,12 @@ Chalk Child: there. done. funny shape you are
 Nodus: ...
 Nodus: Entry: match.
 Parhelia: What?
-Nodus: The big lead. It's us.
+Nodus: The big shadow. It's us.
 > music lead
 Parhelia: Can't be us. It's a mile long. We're a pile of people.
 Nodus: Small things. On the hill outside Stile. Under the low sun.
 Parhelia: ...
-Parhelia: Long lead. (Very long.)
+Parhelia: Long shadow. (Very long.)
 Umbraculum: We are the monster!! We are the dreadful shape upon the town!!
 Minim: Town the upon shape. Yes. Us, coming home.
 ?
@@ -123,9 +123,9 @@ Parhelia: Nothing big is coming up the road, clerk. Nothing ever was. Just us.
 > lock
 (An Office notice on the mirror house door.)
 (RELAY TO STILE. FIRST MIRROR, OVERHEAD. GREAT LAMP, STILE SUNWARD GATE.)
-(PURPOSE: TO TURN THE LEAD OFF THE TOWN. BY ORDER, DIRECTOR ANTHELION.)
+(PURPOSE: TO TURN THE SHADOW OFF THE TOWN. BY ORDER, DIRECTOR ANTHELION.)
 > wait 0.4
-Parhelia: He's going to turn it. The big lead.
+Parhelia: He's going to turn it. The big shadow.
 Nodus: Then we follow it.
 Parhelia: Somewhere not home. Forever. (He'd hate that I'm in it. He'd do it anyway.)
 Minim: Anyway it do he'd.
@@ -147,7 +147,7 @@ Umbraculum: Then we break the mirror!! We break it into a great many smaller mir
 > camera @keeper 1.0
 (A room with no shade in it at all. The First Mirror fills the ceiling, drinking the sun.)
 (Its Keeper turns from the glass. Nothing about it shows what it will do next.)
-Parhelia: No leads in here. Mine are the only ones.
+Parhelia: No shadows in here. Mine are the only ones.
 Parhelia: So stay near the lamp. (Stay near me. Same thing today.)
 > battle ch5_boss
 > goto ch5_after_boss
@@ -174,13 +174,13 @@ Parhelia: Clerk. Get the others out back.
 - Come with us.
 - We can fight them.
 Parhelia: No. Four lamps and a mirror. I've got one lamp and bad knees.
-Parhelia: I'll hold their leads off you. Go.
+Parhelia: I'll hold their shadows off you. Go.
 > lamp parhelia
 > sfx lamp_light
 > turn bearer1 up
 > turn bearer2 up
 > turn grisaille up
-Parhelia: I turned one lead I shouldn't have. Long time ago.
+Parhelia: I turned one shadow I shouldn't have. Long time ago.
 Parhelia: Two now. Yours was the second. Go.
 > walk nodus @back_way &
 > walk umbraculum @back_way2 &
@@ -217,8 +217,8 @@ Minim: Every road under the sun.
 ?
 - Not every road.
 - The Back.
-Nodus: Nobody can turn a lead in the dark.
-Umbraculum: Because there are no leads in the dark!! Because there's NOTHING in the dark!!
+Nodus: Nobody can turn a shadow in the dark.
+Umbraculum: Because there are no shadows in the dark!! Because there's NOTHING in the dark!!
 Minim: Nothing can see us coming there. Then.
 Nodus: Entry: going in.
 > ifnot ch5_lantern -> give
@@ -245,7 +245,7 @@ Minim: Afraid a little.
 # Map scenes: signs and small finds.
 
 == noon_line
-(A line of pink tiles across the road. Past it, nothing casts a lead. Not even you.)
+(A line of pink tiles across the road. Past it, nothing casts a shadow. Not even you.)
 > end
 
 == talk_chalk_child_after

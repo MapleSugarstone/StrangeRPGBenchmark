@@ -1,6 +1,6 @@
 # Chapter 3: Shade Rights
 # Maps: bright_road, solehold, relay_tower.
-# The sun climbs as the road goes sunward. Leads shrink to stubs. White light, pale teal shade.
+# The sun climbs as the road goes sunward. Shadows shrink to stubs. White light, pale teal shade.
 
 == ch3_open
 > lock
@@ -10,15 +10,15 @@
 > wait 0.6
 > emote lot sweat
 Lot: Small. I'm small.
-Parhelia: Leads get short on the Face. Lot gets short with them.
+Parhelia: Shadows get short on the Face. Lot gets short with them.
 Parhelia: Out here you see a breath ahead. Everything changes its mind. (Including me.)
 > set ch3_started
 > unlock
 > end
 
 == tut_short
-(Short leads show one move ahead. Foes here change their plans every round.)
-(Short leads reach less, too. Yours and theirs.)
+(Short shadows show one move ahead. Foes here change their plans every round.)
+(Short shadows reach less, too. Yours and theirs.)
 > end
 
 == tut_heat
@@ -107,7 +107,7 @@ Umbraculum: Shade at no cost. At reduced cost!!
 
 == tut_shade
 (Umbraculum raises his foot to shade a 3 by 3 patch.)
-(Shade swallows leads. Attacks whose leads fall into it don't land there.)
+(Shade swallows shadows. Attacks whose shadows fall into it don't land there.)
 > end
 
 == talk_sole_child
@@ -119,17 +119,17 @@ Sole Child: shade's growing back. i rented the new bit already
 > end
 
 == talk_sole_elder
-Elder: When I was small, a lead could fall in the orchard and simply be gone.
-Elder: Shade eats leads. Every sciapod knows. The second thing we learn is invoicing.
+Elder: When I was small, a shadow could fall in the orchard and simply be gone.
+Elder: Shade eats shadows. Every sciapod knows. The second thing we learn is invoicing.
 > end
 
 == talk_sticks_solehold
 > if sticks_short_won -> won
-Pellucid: Solehold rules. The lamp sits high. Leads go one tile, no further.
+Pellucid: Solehold rules. The lamp sits high. Shadows go one tile, no further.
 > sticks short
 > end
 * won
-Pellucid: Short leads, short game. You were shorter. Take this.
+Pellucid: Short shadows, short game. You were shorter. Take this.
 > end
 
 == post_solehold
@@ -144,12 +144,12 @@ Pellucid: Short leads, short game. You were shorter. Take this.
 == umbra_shade_lesson
 > lock
 Umbraculum: A word, Scribe-Errant. On the nature of shade.
-Umbraculum: A lead in shade is gone. Eaten. No trace.
-Umbraculum: Stand a little thing inside a big thing's shade and it has no lead at all.
+Umbraculum: A shadow in shade is gone. Eaten. No trace.
+Umbraculum: Stand a little thing inside a big thing's shade and it has no shadow at all.
 Umbraculum: Children play at it. They call it being swallowed.
 ?
 - Noted.
-- No lead at all?
+- No shadow at all?
 Umbraculum: None!! It is very restful. Nobody can see where you go.
 > set ch3_shade_lesson
 > unlock
@@ -268,5 +268,5 @@ Parhelia: Tower first. Then the road. (Roads keep.)
 
 == relay_stub_hint
 > set relay_hint
-Parhelia: Leads are stubs in here. One tile and done. (Stubs still count.)
+Parhelia: Shadows are stubs in here. One tile and done. (Stubs still count.)
 > end

@@ -25,11 +25,11 @@ type Rule = 'basic' | 'still' | 'twolamp' | 'short' | 'mirror' | 'noon' | 'dark'
 export const RULE_TEXT: Record<Rule, string> = {
   basic: 'The lamp moves one step round the board after every stick.',
   still: 'The lamp never moves.',
-  twolamp: 'Two lamps, opposite each other. Every stick casts two leads.',
-  short: 'The lamp sits high. Every lead is one tile long.',
-  mirror: 'Leads bounce off the edge of the board.',
-  noon: 'No leads at all. A stick flips the sticks right next to it.',
-  dark: 'One candle in the middle. Leads point away from it.',
+  twolamp: 'Two lamps, opposite each other. Every stick casts two shadows.',
+  short: 'The lamp sits high. Every shadow is one tile long.',
+  mirror: 'Shadows bounce off the edge of the board.',
+  noon: 'No shadows at all. A stick flips the sticks right next to it.',
+  dark: 'One candle in the middle. Shadows point away from it.',
   late: 'Flips happen one turn after the stick goes down.',
 };
 

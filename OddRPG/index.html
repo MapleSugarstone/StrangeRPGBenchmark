@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spore-Weaver</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+    }
+    #game {
+      border: 2px solid #9b59b6;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    #info {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      color: #555;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="400" height="400"></canvas>
+  <div id="info">Spore-Weaver</div>
+  <script src="src/main.js"></script>
+</body>
+</html>

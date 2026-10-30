@@ -33,7 +33,7 @@
 > end
 
 == pebble_pit
-(The pebble's lead drops out of sight. A pit.)
+(The pebble's shadow drops out of sight. A pit.)
 > end
 
 == pit_fall
@@ -61,10 +61,10 @@ Parhelia: Quarry dust gets in the lamp. Clean it every night. (Clean it anyway.)
 Parhelia: Every stall lamp's got a license nailed under it. (Some nails newer than the licenses.)
 > end
 * bright
-Parhelia: Leads are short out here. See a moment ahead of anyone. (Restful, actually.)
+Parhelia: Shadows are short out here. See a moment ahead of anyone. (Restful, actually.)
 > end
 * noon
-Parhelia: Nothing here has a lead. Nobody knows where anybody's going. (Seem fine with it.)
+Parhelia: Nothing here has a shadow. Nobody knows where anybody's going. (Seem fine with it.)
 > end
 * home
 Parhelia: My brother's lamp's on the gate. You can see it from the bakery. (Everyone can. That's the point.)

@@ -1,0 +1,423 @@
+# Party banter: short exchanges shown over the speakers' heads while the player walks.
+# Only speaker lines play. Every line stays under 46 characters. Gating is in src/content/banterlist.ts.
+
+# ---------------------------------------------------------------- Chapters 1 and 2: the Deeps
+
+== b_port_ch1
+PORT: up.
+Courtesy: THIS AREA IS MONITORED.
+PORT: up. her.
+
+== b_port_ch2
+PORT: Your feet are wet. Again.
+Sallis: Boots. Get Board boots. They seal.
+PORT: Boots. Yours are bad.
+
+== b_cs_behind
+Sallis: Robot. Walk behind me. Not beside.
+Courtesy: THIS UNIT IS WALKING BEHIND.
+Sallis: Closer. You're blocking the drones.
+Courtesy: THIS UNIT IS A WALL.
+
+== b_cq_dents
+Quaye: Your robot's plating. Forty-one dents.
+Courtesy: THIS UNIT REGRETS THE INCONVENIENCE.
+Quaye: Forty-two. It just walked into a post.
+
+== b_ca_decorum
+Ambrose: Courtesy, you are a paragon.
+Courtesy: THANK YOU FOR YOUR PATIENCE.
+Ambrose: It takes praise like a duke.
+
+== b_sq_round
+Sallis: Checkpoints on both bridges. Go around.
+Quaye: Around takes nine minutes. Through takes two.
+Sallis: Around.
+Quaye: Nine minutes, then.
+
+== b_sa_knee
+Sallis: Your knee clicks. Every fourth step.
+Ambrose: A rhythm. I just march to it.
+Sallis: The Board can hear it from forty meters away.
+Ambrose: Then I'll try to tread more lightly.
+
+== b_qa_shirt
+Quaye: Kwarteng. You owe me a shirt.
+Ambrose: Madam, that shirt died gloriously.
+Quaye: Pay me eleven gilt.
+
+== b_trio_cycles
+Quaye: Sallis. Your robot hums at ninety cycles.
+Sallis: Not mine.
+Courtesy: THIS UNIT BELONGS TO NO UNIT.
+Quaye: Ninety-one now.
+
+== b_market_posters
+Sallis: Posters. Your face. Hood up.
+Ambrose: My face, on a poster. Hunted.
+Ambrose: Hunted, and well drawn. Just look at it.
+Sallis: Hood.
+
+== b_lock_chamber
+Quaye: Lock chamber. Ninety meters. Steel.
+Sallis: Board security on the catwalks. Stay low.
+Quaye: Twelve minutes to fill. I timed it.
+
+== b_pound_list
+Courtesy: THIS IS A BOARD FACILITY.
+Quaye: Forty-six woken things in here.
+Quaye: Every one of them on a Board list.
+Courtesy: LOST PROPERTY. NOT LOST.
+
+== b_depot_dark
+Sallis: Board depot. Two lamps out. Go dark.
+Courtesy: THIS IS A BOARD FACILITY.
+Sallis: Not tonight.
+
+== b_houseboat_hull
+Quaye: Hull's taking on water. Six liters a minute.
+Ambrose: Then let's not tarry.
+Quaye: Tarry? Nobody says "tarry," Kwarteng.
+
+# ---------------------------------------------------------------- Chapter 3: the Stair
+
+== b_tc_long
+Tova: you breathe like you've got a long fuse.
+Courtesy: THIS UNIT IS ON DUTY.
+Tova: who bleeds for a robot? who did?
+Courtesy: LOST PROPERTY. PLEASE REMAIN CALM.
+
+== b_ti_robe
+Tova: you're no deacon.
+Ignace: A deacon of the open air, child.
+Tova: you bought that robe at a pawnshop.
+Ignace: Forty gilt. Keep walking.
+
+== b_is_smile
+Ignace: Sallis. Do you ever smile?
+Sallis: No.
+Ignace: I could sell you one. Two gilt.
+Sallis: No.
+
+== b_iq_candle
+Quaye: Hollis. You sold my sister a candle.
+Ignace: I have many sisters. And many candles.
+Quaye: Eleven gilt. It was just wax and sand.
+Ignace: Blessed sand.
+
+== b_ta_arms
+Tova: do your arms still feel like yours?
+Ambrose: Monthly they're mine. Then Bodywell's.
+Tova: that's worse than blood.
+Ambrose: At least with blood,
+Ambrose: you have the choice to lose it.
+
+== b_tq_pins
+Quaye: Mensah. Eleven pin marks this week.
+Tova: you counted?
+Quaye: Seven on the left glove. Four on the right.
+Tova: don't count my hands.
+
+== b_ci_walkways
+Ignace: Courtesy! Bless this procession!
+Courtesy: PLEASE STAY ON THE WALKWAYS.
+Ignace: Six words. That's better than my sermon.
+
+== b_st_kees
+Tova: you're vain. you really move people.
+Sallis: Moved. My cell's gone.
+Tova: would you move kees? if i asked?
+Sallis: Only if he wants to go. Not before.
+
+== b_ai_long
+Ambrose: Hollis, your homilies are prolix.
+Ignace: Thank you. What does that mean?
+Ambrose: Long-winded. Like mine.
+Ignace: Big words pay better. Ask a deacon.
+
+== b_trio_stair
+Ignace: Three sinners on a stair.
+Ambrose: A sinner of distinction, please.
+Tova: i'm just hungry.
+Ignace: Noodles. Second step on the left.
+
+== b_steps_lies
+Tova: i sold a wake on every single step.
+Ignace: I blessed every step. Twice.
+Tova: so we both lied to the same stairs.
+Ignace: Split the market. Professional.
+
+== b_census_dry
+Tova: i hate this room.
+PORT: Why? It's dry. You like dry.
+Tova: dry isn't always good, okay?
+
+== b_spire_up
+Ignace: The Spire. Forty-four floors.
+PORT: She's up there. Can we go up?
+Ignace: Sundays are better. Fewer guards.
+
+== b_plaza_candles
+Ignace: Forty years of candles at her feet.
+Quaye: Two gilt per candle. Eighty a night.
+Ignace: Eighty-six. I count too, Quaye.
+
+== b_plaza_after
+Tova: they're still lighting candles.
+Ignace: For the girl upstairs, by the window.
+Tova: should we tell them?
+Ignace: Not yet. Soon.
+
+== b_violet_ball
+Tova: i sold this club a wake. and a mirror ball.
+Ignace: Did it dance?
+Tova: it sulked. for a whole month.
+
+== b_rooftop_count
+Sallis: Relay. Two drones. Count them.
+Tova: one. two. now what?
+Sallis: Now we wait.
+
+# ---------------------------------------------------------------- Chapter 4: Sunny Steps
+
+== b_cs_copy
+Sallis: Robot. You were gone for three days.
+Courtesy: THIS UNIT WAS ASLEEP.
+Sallis: Don't do it again. That's an order.
+Courtesy: COPY.
+
+== b_lostprop_owner
+Courtesy: LOST PROPERTY RETURNED TO OWNER.
+Ambrose: And whose property is that, friend?
+Courtesy: THIS UNIT.
+
+== b_tq_key
+Tova: he hit the high notes. did you catch that?
+Quaye: Middle row, second from the left.
+Quaye: Pitch-perfect the entire time.
+Tova: in key. he actually stayed in key.
+
+== b_port_hand
+PORT: Does it hurt when I move your hand?
+Tova: you're doing that hand thing again.
+PORT: I'm learning. Is that permitted?
+
+# ---------------------------------------------------------------- Chapter 5: High Water
+
+== b_qs_rope
+Quaye: Water's at 1.4m. Rising.
+Sallis: Boats, then. Gus. Rope.
+Quaye: Rope costs eleven gilt. I bought forty meters.
+
+== b_at_marit
+Ambrose: She asked me how much my arms were worth.
+Tova: what'd you say?
+Ambrose: Too much. She laughed for a full minute.
+Tova: she's got a good laugh. kees has one too.
+
+== b_cq_slow
+Courtesy: THIS. UNIT. IS.
+Quaye: Twelve seconds between words. It was eight.
+Courtesy: ON. DUTY.
+
+== b_ct_early
+Courtesy: CHILDREN CROSSING. EIGHT BELLS.
+Tova: it's got a schedule now. look at it.
+Courtesy: THIS UNIT IS EARLY.
+
+== b_port_rain
+PORT: Rain. I like rain. Do you?
+Ignace: Rain's free. Everything else costs.
+PORT: Then I like free things.
+
+== b_pound_tilly
+Sallis: The tram's still running. In this.
+Courtesy: THANK YOU FOR RIDING.
+Sallis: Copy.
+
+== b_ignace_told
+Ignace: They're throwing lit candles at me now.
+Quaye: Six this week. I counted.
+Ignace: Worth every one.
+
+== b_ignace_rich
+Ignace: Velt paid on time. First of the month.
+Tova: you could feed the whole flood with that.
+Ignace: I did. Don't tell anyone.
+
+== b_hanne_vein
+Sallis: Hanne runs our drops now.
+Ambrose: Forgiveness suits you, Sallis.
+Sallis: Logistics. She excels at drops.
+
+== b_hanne_gone
+Sallis: Hanne's in the canal.
+Ambrose: I'm sorry.
+Sallis: Copy that. Moving out.
+
+== b_hanne_spared
+Sallis: Hanne headed east. Out of the city.
+Quaye: Nine days on foot to the Flats.
+Sallis: She'll make it. She's fast.
+
+== b_ambrose_free
+Ambrose: My arms. They're mine.
+Ambrose: But there's no monthly letter.
+Tova: how do they feel?
+Ambrose: Heavier, somehow. But better.
+
+== b_tq_score
+Tova: ninety-four. like a test score.
+Quaye: It is a test score, Mensah.
+Quaye: That's the problem with it.
+
+# ---------------------------------------------------------------- Chapter 6: the Brim
+
+== b_seawall_rail
+Sallis: The wind's off the sea. Hold the rail.
+Quaye: Force seven. Gusts up to nine.
+Sallis: Copy. Hold on tight.
+
+== b_plaza_dry
+Ambrose: So this is where dry money sleeps.
+Ignace: Velt's got a flat up here. Third floor.
+Ambrose: Shall we pay him a visit?
+Ignace: Later. With a sermon.
+
+== b_brim_walkways
+Tova: no rain up here. none.
+Courtesy: PLEASE KEEP TO THE WALKWAYS.
+Tova: whose walkways? theirs.
+
+# ---------------------------------------------------------------- The Flats
+
+== b_flats_level
+Sallis: The Flats. Outside the Wall.
+Quaye: Sea level. Forty meters above home.
+Sallis: Wet either way.
+
+# ---------------------------------------------------------------- Romance
+
+== b_rom_tova
+PORT: You look at her more than at the Wall.
+Tova: stop staring. or don't. whatever.
+PORT: Why do you look? I'm asking for myself.
+
+== b_rom_ambrose
+Ambrose: I've found a word for you.
+Ambrose: Dulcet. Of a sound, sweet.
+Ambrose: I shall not explain further.
+Quaye: Kwarteng. Walk.
+
+== b_rom_sallis
+Sallis: Stay close tonight. Closer.
+Quaye: Sallis. You said "closer" twice.
+Sallis: Copy.
+
+# ---------------------------------------------------------------- Approval
+
+== b_app_tova
+Tova: you never asked me to bleed. you know that?
+Tova: nobody ever didn't ask before.
+Sallis: Noted. Walk.
+
+== b_app_sallis
+Sallis: Plan ahead. Before you move.
+Sallis: Good. Keep it up.
+Quaye: She means she likes you, kid.
+
+== b_app_ignace_low
+Ignace: You'd make a terrible deacon.
+Ignace: Too much shouting. Not enough talking.
+Ambrose: He's not wrong, I'm afraid.
+
+== b_app_ambrose
+Ambrose: I've revised my opinion of you.
+Ambrose: For the better. Considerably.
+Tova: he means thank you.
+
+# ---------------------------------------------------------------- The Line tunnels
+
+== b_metro_count
+Sallis: Dark. Count steps. Forty to the cross.
+Quaye: Forty-two. You're shortening your stride.
+Sallis: Copy that. Forty-two.
+
+== b_metro_lines
+Ambrose: Line one is red. Line nine is blue.
+Quaye: The Board named its blood after those lines.
+Ambrose: A cruel joke, or just tidy filing.
+Quaye: Filing. The Board doesn't joke.
+
+== b_metro_gates
+Courtesy: FARES, PLEASE.
+Sallis: Not you too.
+Courtesy: THIS UNIT HAS HEARD THAT ONE.
+
+== b_metro_moles
+Ambrose: These Moles have eyes like lanterns.
+Sallis: Night chrome. Cheap stuff.
+Sallis: Burns out in daylight.
+Ambrose: Then they'll never come to see me.
+
+== b_metro_train
+Quaye: Car 114. The last one out that night.
+Courtesy: THIS TRAIN IS DELAYED.
+Quaye: Forty years. I'd call that delayed.
+
+== b_metro_tubeb
+Quaye: Tube B. Two meters of water, give or take.
+Sallis: Cutters don't give. They only take.
+
+== b_metro_spoor
+Courtesy: THE NEXT TRAIN IS CANCELLED.
+Ambrose: You have been listening to Spoor.
+Courtesy: THIS UNIT IS LEARNING THE TIMETABLE.
+
+== b_deep_asleep
+Ambrose: Everything down here is asleep.
+Courtesy: PLEASE REMAIN AWAKE.
+Ambrose: Stay close, tin friend.
+
+== b_deep_clearance
+Sallis: Board Works 1. You knew this place.
+Quaye: Heard of it. Zero clearance.
+Sallis: You do now.
+
+== b_deep_window
+Ambrose: She drew a window. On a wall.
+Quaye: Donor one. No sensation.
+Ambrose: Feeling nothing opens no windows.
+Quaye: Then the record is wrong. Records are.
+
+== b_metro_dark
+Sallis: The lights are out. That's on you.
+Quaye: Three vials. A station in the dark.
+Sallis: Write it down, Quaye. Make sure you remember.
+
+# ---------------------------------------------------------------- Conflicts and Quaye's romance
+
+== b_ti_cold
+Tova: nice robe. who bought it for you?
+Ignace: Forty gilt. Secondhand. From a dead deacon.
+Tova: figures.
+
+== b_ti_warm
+Tova: iggy. which candle's the honest one?
+Ignace: The ones I don't sell. Two of them tonight.
+Tova: ...right.
+
+== b_sq_cold
+Quaye: Sallis. Forty meters out. Two guards.
+Sallis: I see them.
+Quaye: I counted them for you.
+Sallis: Didn't ask.
+
+== b_sq_warm
+Sallis: Quaye. Count the boats.
+Quaye: Nine. One's Vein.
+Sallis: Copy.
+
+== b_rom_quaye
+Ambrose: Madam Quaye. You're humming.
+Quaye: Eleven bars. Old song. Mind your own business.

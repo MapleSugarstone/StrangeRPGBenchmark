@@ -1,0 +1,656 @@
+# World events, background quests, and route scenes for the Deeps, the Flats, and the tunnels.
+# Gating and chances are in src/content/world_deeps.ts.
+
+# ---------------------------------------------------------------- Prices by standing
+
+== shop_opal_camp_cheap
+Opal: Sweet. The Deeps price. Everybody says you're good for it.
+> shop opal_camp_cheap
+
+== shop_opal_camp_dear
+Opal: Sweet. People talk. Prices go up when people talk.
+> shop opal_camp_dear
+
+== shop_pell_gear_cheap
+Fenna: Friends price. Don't tell anybody.
+> shop pell_gear_cheap
+
+== shop_pell_gear_dear
+Fenna: You've made the market nervous. Nervous costs.
+> shop pell_gear_dear
+
+== shop_cutter_counter_cheap
+Joost: Family rate. Mother says you're family now.
+> shop cutter_counter_cheap
+
+== shop_cutter_counter_dear
+Joost: Mother says you pay double. She says a lot.
+> shop cutter_counter_dear
+
+== shop_bar_cheap
+Lotte: On the house. Half the house.
+> shop bar_cheap
+
+== shop_bar_dear
+Lotte: Cash upfront. People are talking.
+> shop bar_dear
+
+== shop_fish_cheap
+Wil: For you, the morning price.
+> shop fish_cheap
+
+== shop_fish_dear
+Wil: Eel's pricey today. But for you, it's still pricey.
+> shop fish_dear
+
+== shop_fenna5_cheap
+Fenna: You helped with the roofs. Friends' price.
+> shop fenna5_cheap
+
+== shop_fenna5_dear
+Fenna: Prices went up with the water. And with you.
+> shop fenna5_dear
+
+== shop_wader_trade_cheap
+Kobus: Wader's price. Rope for rope.
+> shop wader_trade_cheap
+
+== shop_wader_trade_dear
+Kobus: Dry-foot price. Double the rope.
+> shop wader_trade_dear
+
+== shop_sel_stall_cheap
+Sel: Next stop: friend price. Arend says so.
+> shop sel_stall_cheap
+
+== shop_sel_stall_dear
+Sel: The lamps don't like you. Neither does the till.
+> shop sel_stall_dear
+
+# ---------------------------------------------------------------- Background: the canal runner's Nine Bells
+
+== ninebells_talk
+> face wessel hero
+> if ninebells_done -> after
+> if ninebells_on -> on
+Wessel: You've won the Nine Bells twice. Gus says. Gus says everything.
+Wessel: It's tonight. The Pound to the Ferry Graveyard, lantern in hand, before the nine bells.
+Wessel: Mara Vos is running. Her mum's chrome arm is unpaid. She needs the purse.
+> quest ninebells 1
+?
+- I'll run it. -> run
+- Mara can have it. I'll sit this one out. -> sit
+- What's the purse this year? -> purse
+* purse
+Wessel: Two hundred. And your name's burned into the Pound fence. That's the real prize.
+?
+- I'll run it. -> run
+- Not this year. -> sit
+* sit
+Wessel: Oh. Right. Mara wins, then. Probably.
+> set runner_gave
+> set ninebells_done
+> rep deeps 1
+> quest ninebells done "You sat out the Nine Bells. Mara Vos won it."
+> end
+* run
+Wessel: The lantern's at the Pound, by Tilly's corner. Go when you're ready.
+> set ninebells_on
+> quest ninebells 2
+> end
+* on
+Wessel: The lantern's at the Pound. Tilly's corner. Mara's already there.
+> end
+* after
+> if runner_won -> won
+> if runner_cheated -> cheat
+Wessel: Mara's mum got her arm back. Mara says thanks. She won't say it to you.
+> end
+* won
+Wessel: Three times. Your name's on the fence three times now.
+> end
+* cheat
+Wessel: Everybody knows about the boat. Nobody says it. Everybody knows.
+
+== ninebells_start
+> face hero up
+> if ninebells_ran -> done
+> set ninebells_ran
+> enter mara mara @loop_ne left
+> walk mara @bin_spot
+> face mara hero
+Mara: You're actually running? You. Okay. Fine.
+Mara: Don't trip me on the canal near the Board. I'll trip you back.
+(The Pound bell tolls eight. One bell for the Ferry Graveyard.)
+?
+- [Athletics 2] Take the long way, along the boardwalks. Fair and fast. -> fair | slow
+- $20 Take the Lockjaw cut. Pay the toll, take the short water route. -> cut
+- [Sneak 2] The canal along the Board, right under the checkpoint. The fastest route. -> board | caught
+- Let Mara take the lead. And let her keep it. -> give
+* fair
+> set nb_fair
+> goto finish_win
+* slow
+> goto finish_lose
+* cut
+> set runner_cheated
+> rep lockjaws 1
+> rep deeps -1
+> goto finish_win
+* board
+> set runner_cheated
+> rep board -1
+> goto finish_win
+* caught
+> rep board -1
+Officer: Swimmer in the Board canal. Get out of the water, please. What's your name?
+> goto finish_lose
+* give
+> set runner_gave
+> rep deeps 2
+> goto finish_lose
+* finish_win
+> fade out 0.8
+> exit mara
+> warp ferries @taxi up
+> enter mara mara 3 31 right
+> walk mara 6 31
+> face mara hero
+(You reach the ferry mud with your lantern lit, a boat's length ahead.)
+Mara: You won it. Fine. Mum's arm can wait a month.
+> gilt 200
+> ifnot runner_cheated -> fairwin
+Mara: Everybody saw the boat. Don't think they didn't.
+> goto close
+* fairwin
+> set runner_won
+> rep deeps 2
+?
+- Take the purse, Mara. For your mum's arm. -> purse
+- Next year, Mara. -> keep
+- Two hundred's two hundred. -> keep
+* purse
+> gilt -200
+> set runner_gave
+> rep deeps 2
+Mara: You won it and you're giving it away. That's the worst thing anyone's ever done to me.
+Mara: Thank you.
+> goto close
+* keep
+Mara: Next year. I'll be faster next year.
+> goto close
+* finish_lose
+> fade out 0.8
+> exit mara
+> warp ferries @taxi up
+> enter mara mara 6 31 left
+> face mara hero
+(Mara hits the ferry mud first, lantern held high, already winded.)
+> ifnot runner_gave -> lost
+Mara: You let me. I saw you let me. I'm taking it anyway.
+> goto close
+* lost
+Mara: Ha. Twice is enough for anyone.
+* close
+> set ninebells_done
+> quest ninebells done
+> end
+* done
+(The race is over.)
+
+# ---------------------------------------------------------------- Background: the Recovery washout's tag
+
+== letgo_cart
+> face hero up
+> if letgo_done -> done
+(A noodle cart, awakened and parked by the fence. A Recovery tag on its axle reads: W-0912.)
+(The handwriting on the tag is yours.)
+> quest letgo 1
+> enter mol mol 21 34 up
+> walk mol 26 27
+> face mol hero
+Mol: Look who it is. Recovery's favorite washout. Tag W-0912, still breathing.
+Mol: They reopened it. The file says "unfinished business." I'm finishing it.
+> ifnot party:courtesy -> opts
+Courtesy: THIS CART. IS. NOT LOST PROPERTY.
+* opts
+?
+- [Talk 2] File it as destroyed, Mol. Form seven. Nobody checks a seven. -> filed | nofile
+- Take it. Write me down as cooperative. -> handed
+- ?flats_open It goes out. The Waders will take it onto the mud. -> out
+- $150 Buy yourself a quiet week, Mol. -> bribed
+- Over my dead body, Mol. -> fight
+* filed
+Mol: A seven. For old times' sake. You owe me a seven.
+> set cart_filed
+> rep woken 2
+> goto close
+* nofile
+Mol: Not a seven. Not this time. Step aside.
+?
+- Take it, then. -> handed
+- Over my dead body. -> fight
+* handed
+Mol: Cooperative. I'll make a note of it. Maybe they'll let you back in.
+> set cart_handed
+> set washout_reinstated
+> rep board 2
+> rep woken -3
+> approve courtesy -3
+> fade out 0.6
+> exit mol
+> set cart_gone
+> fade in 0.6
+> goto close
+* out
+Mol: Out past the Wall isn't Board territory. Fine. I never saw it.
+> set cart_out
+> rep waders 1
+> rep woken 1
+> fade out 0.6
+> exit mol
+> set cart_gone
+> fade in 0.6
+> goto close
+* bribed
+Mol: A quiet week. I like a quiet week. This tag washed up in the canal.
+> set cart_bribed
+> rep board -1
+> goto close
+* fight
+Mol: Still stupid. Still loyal to scrap.
+> exit mol
+> set letgo_on
+> fight pd_mol
+> set letgo_won
+> set cart_kept
+> rep board -2
+> rep woken 2
+* close
+> ifnot cart_gone -> stays
+> set letgo_done
+> quest letgo done "You settled tag W-0912."
+> end
+* stays
+> set letgo_done
+> quest letgo done "Tag W-0912 stays at the Pound, breathing."
+> ifnot chapter<3 -> end_
+PORT: It's yours. Like me. Your hand wrote that tag.
+* end_
+> end
+* done
+(The noodle cart exhales. Its lid cracks open just a sliver as you pass.)
+
+== letgo_retry
+> face hero up
+> fight pd_mol
+> set letgo_won
+> set cart_kept
+> rep board -2
+> rep woken 2
+> set letgo_done
+> quest letgo done "Tag W-0912 stays at the Pound, breathing."
+
+# ---------------------------------------------------------------- World events: the Deeps
+
+== ev_choir
+(Three monks in gray escort a man with a chrome hand toward a boat.)
+CHOIR: Easy.
+CHOIR: Take it easy.
+CHOIR: It's just a hand. Then you're whole.
+?
+- [Talk 2] He hasn't agreed. You need two yeses. -> talk | fail
+- ?bg:choir Brothers. Let him go. You know my old name. -> bg
+- None of my business. -> leave
+* talk
+CHOIR: Two.
+CHOIR: Two affirmative votes.
+CHOIR: Go, then. Keep your hand steady.
+> rep deeps 1
+> end
+* bg
+CHOIR: We know the name.
+CHOIR: We sang it every night after you left.
+CHOIR: Go, then. Both of you.
+> rep deeps 1
+> end
+* fail
+CHOIR: One yes is enough.
+CHOIR: His yes will come.
+> rep deeps -1
+> end
+* leave
+
+== ev_checkpoint
+(Board checkpoint ahead on the next bridge. Two officers and a port reader.)
+Officer: Present your port credentials to the reader. Keep Fathom dry.
+?
+- [Sneak 2] Slip under the bridge, hugging the pilings. -> under | seen
+- ?bg:washout Flash the old badge. Walk past like you're late. -> badge
+- $30 There's a processing fee, isn't there? -> fee
+- ?rep:board<-3 [Athletics 2] They've seen the poster. Run. -> run | caught
+* under
+(You emerge from beneath the bridge, wet to the knees and unrecognized.)
+> end
+* badge
+Officer: Recovery. Expired, that. Go on, then. Quickly.
+> end
+* fee
+Officer: Processing fee. Thirty. Thanks for your patience.
+> rep board 1
+> end
+* run
+(Two whistles behind you, then silence. Nobody chases far into the Deeps.)
+> rep board -1
+> end
+* seen
+Officer: Stop right there. Out of the water. Name.
+?
+- $30 A processing fee? -> fee
+- Run. -> run
+* caught
+Officer: That's the face on the poster. That's a fine, please.
+> gilt -40
+> rep board -1
+
+== ev_vending
+(A woken vending machine stomps down the boardwalk, chasing a kid with a can.)
+Kid: It's mine! I paid! It wants the can back!
+?
+- {courtesy} De-escalate. Calm it down. -> calm
+- $5 Feed it a coin. Buy the kid the can. -> coin
+- ?item:hush Silence it. -> hush
+- [Strike 2] Kick it over. -> kick | miss
+- Let them handle it. -> leave
+* calm
+Courtesy: PLEASE. REMAIN. CALM. THE TRANSACTION IS COMPLETE.
+(The machine sits down on the boardwalk and hums.)
+> rep woken 1
+> approve courtesy 1
+> end
+* coin
+(The machine swallows the coin, rattles, and heads home.)
+Kid: It likes you. It never likes anyone.
+> rep woken 1
+> end
+* hush
+> take hush
+(Frost creeps over the machine. It halts mid-stride.)
+> rep woken -1
+> end
+* kick
+(The machine tips onto its back and lies there, lights blinking.)
+> rep woken -2
+> approve courtesy -2
+> end
+* miss
+(Your boot bounces off the machine. It turns to look at you, if a machine can look.)
+> end
+* leave
+
+== ev_bailer_rest
+> sfx bailer
+(A Bailer stops in the canal, resting with knees bent, water lapping at its belly.)
+(People emerge from their houses with cans of oil for its joints.)
+?
+- Help them oil its knees. -> oil
+- Sit on the boardwalk and watch it. -> watch
+- Move on. -> leave
+* oil
+(The Bailer's lamps brighten. It rises and continues on its way.)
+> rep deeps 1
+> rep woken 1
+> end
+* watch
+> wait 2
+> if chapter>=5 -> leave
+> if chapter>=3 -> leave
+PORT: It is tired. Your legs tire. Its legs.
+> end
+* leave
+
+== ev_jaws_toll
+Lockjaw: Toll! Same rate for everyone! Twenty a head on this water!
+?
+- ?rep:lockjaws>=4 Rina knows me. -> wave
+- $20 Twenty. Same as everyone else. -> pay
+- ?bg:runner Runners pay ten. Rina's rule. -> runner
+- No toll today. -> refuse
+* wave
+Lockjaw: You! Rina's friend! Go on, get moving!
+> end
+* pay
+Lockjaw: Paid is paid!
+> rep lockjaws 1
+> end
+* runner
+Lockjaw: Ten for the runners. Rina's rule. You're a runner? Then you're a runner.
+> gilt -10
+> rep lockjaws 1
+> end
+* refuse
+Lockjaw: No toll, no water! We'll remember your face!
+> rep lockjaws -1
+
+== ev_census
+(The Census van is parked by the school. A tester with a clipboard calls out names.)
+Tester: Children aged six. To the van. It's just a quick drop.
+?
+- Warn the family on the third boardwalk. -> warn
+- ?bg:vein Chalk a circle on a door. Safe house. -> chalk
+- It's the law. Let them test. -> leave
+* warn
+(A mother grabs her daughter and hurries away.)
+> rep vein 1
+> rep board -1
+> end
+* chalk
+(You chalk a blue circle on a back door. Within a minute, it opens, then closes.)
+> rep vein 2
+> end
+* leave
+> rep vein -1
+
+== ev_cutter_sale
+Cutter: Line 4, cut fresh. Forty a vial. Lasts a whole minute.
+?
+- $40 Take one vial. -> buy
+- Smash the case into the canal. -> smash
+- Tell the Board where they sell it. -> tip
+- Walk on. -> leave
+* buy
+> give line4
+> rep cutters 1
+> end
+* smash
+> sfx splash
+Cutter: That was forty vials! Mother is going to hear about this!
+> rep cutters -2
+> rep deeps 1
+> end
+* tip
+Officer: Here's a tip about the red masks. Thanks for your help.
+> rep board 1
+> rep cutters -3
+> rep deeps -1
+> end
+* leave
+
+== ev_mole_kid
+(A drain cover lifts. A kid with night-eye chrome looks up at you.)
+Molekid: Next stop. You got any candle ends? Spoor says the lamps are dimming.
+?
+- $5 Here. Buy some candles. -> give
+- What lamps? -> lamps
+- No. -> no
+* give
+Molekid: Exact change only! Nobody carries exact change! There's a hatch on the south boardwalk. Knock twice.
+> set met_moles
+> rep moles 1
+> end
+* lamps
+Molekid: The station lamps. Under the market. Knock twice on the south boardwalk hatch.
+> set met_moles
+> end
+* no
+Molekid: Last stop.
+
+== ev_wader_pier
+Wader: Low water. Catching rope, not fish. Good catch. Out-of-the-Wall fish.
+?
+- $15 Buy a fish. -> buy
+- Where are you from? -> where
+- Not today. -> no
+* buy
+> give eel
+> rep waders 1
+> end
+* where
+Wader: Out. The Flats, past the Lock. Rina runs a ski for anyone who pays her.
+> end
+* no
+Wader: Low water.
+
+== ev_bodywell
+Repo: Lease forty-four. Arrears. Arm deactivating in ten, nine...
+Man: Please. My shift starts at two bells. I need that hand for work.
+?
+- $40 How much is he behind? Here. -> pay
+- {ambrose} Ambrose. -> amb
+- ?bg:washout Repossession requires a witness signature. I'm not signing. -> wash
+- Move along. -> leave
+* pay
+Repo: Account current. Arm active. Have a nice shift.
+Man: I'll pay you back. I won't, but I mean it.
+> rep deeps 1
+> end
+* amb
+Ambrose: Sir, you'll find that arm much heavier to carry away than it was to switch off.
+Repo: Fine. Next month, then.
+> approve ambrose 2
+> rep deeps 1
+> end
+* wash
+Repo: A witness signature? Since when? Fine. I'll come back with one.
+> rep deeps 1
+> end
+* leave
+> rep deeps -1
+
+== ev_pound_newcomer
+> sfx wake
+(A toaster climbs over the Pound fence, panting, and sits down in the mud.)
+Tilly: New one. They cross the fence whenever the Census van passes. Must be someone's kid.
+?
+- Carry it to Tilly's rail. -> carry
+- Leave it. It found its way here on its own. -> leave
+* carry
+Tilly: Warm? It's warm. Someone loved their toast. Put it by the corner.
+> rep woken 1
+> end
+* leave
+
+== ev_flood_raft
+(A family drifts by on a door, with a boy paddling using a frying pan.)
+Man: The school roof. Which way is the school roof?
+?
+- Hold on to the boardwalk. I'll pull you to the school. -> help
+- The Pound is dry. Tilly takes people in. -> pound
+- $20 Pay Gus to fetch them. -> gus
+* help
+(You haul the door along the boardwalk to the school ladder.)
+> rep deeps 2
+> end
+* pound
+Man: The Pound. With the cars. Right. Right.
+> rep woken 1
+> end
+* gus
+Gus: Twenty. Kids ride free normally, but not when they're wet.
+> rep deeps 1
+
+== ev_missed_umbrella
+Piet: The Census guy finally asked about the umbrella. It was a Thursday. They were very polite.
+Piet: It's in a Board drawer now. I hope it's dry in there.
+
+== ev_missed_choir
+Henk: Doc came back from the Choir without her glasses. They kept them.
+Henk: She says she can see fine. She can't see fine.
+
+== ev_missed_button
+Dita: Mister Button stopped. A man took him to the Board. Pim says not to talk about it.
+
+== ev_missed_jukebox
+Lotte: The Cutters took the jukebox for the debt. It's playing in their garage now. Just one song.
+
+== ev_missed_bosman
+(The Bosmans' stilt house sank at its moorings the night Hendrik fell. Its roof is a raft now.)
+
+== ev_missed_friends
+Tilly: My friends from the shelves never came home. Lost Property kept them. Lost things stay lost there.
+
+# ---------------------------------------------------------------- World events: the Flats
+
+== ev_flats_drone
+(A Board drone hovers over a Wader's sledge, painting it with a red tag.)
+Wader: Get off my sledge! That's my bakery salvage!
+?
+- [Shoot 2] Knock it out of the air. -> shoot | miss
+- <diver> [Hack 1] Wipe the tag from its log. -> hack | miss
+- Leave it. The Board tags everything. -> leave
+* shoot
+> sfx hit
+(The drone drops into the mud and stays put.)
+> rep waders 1
+> rep board -1
+> end
+* hack
+(The drone forgets the sledge and flies off to tag the sea.)
+> rep waders 1
+> end
+* miss
+(The drone finishes its tag and flies off.)
+> end
+* leave
+> rep waders -1
+
+== ev_flats_turn
+Wader: The tide's turning early! Help with the punts, dry-foot!
+?
+- [Athletics 2] Haul a punt up the mud. -> haul | slip
+- Run for the deck. -> run
+* haul
+(You get the last punt up the ladder just as the water starts creeping under the deck.)
+> rep waders 1
+> end
+* slip
+(You slip into the mud. The punt rides the tide in on its own.)
+> end
+* run
+
+# ---------------------------------------------------------------- World events: the tunnels
+
+== ev_tunnel_lamp
+(A woken streetlamp drifts through the tube on its own, its light slowly fading.)
+?
+- Walk it back to Sel's stall. -> lead
+- Leave it. It'll find its way. -> leave
+* lead
+Sel: Arend! There you are! You wandered off again. Thank you, thank you.
+> rep moles 1
+> rep woken 1
+> end
+* leave
+
+== ev_handcar
+(A Mole handcar clatters down the rails, two kids pumping the lever.)
+Molekid: Next stop! Hop on for a gilt! Or don't!
+?
+- $1 Hop on. -> ride
+- Not today. -> no
+* ride
+(The handcar shoots you down the length of Tube A in a minute, screaming the whole way.)
+> rep moles 1
+> end
+* no
+Molekid: Last stop!

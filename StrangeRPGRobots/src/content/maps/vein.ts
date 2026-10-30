@@ -1,0 +1,93 @@
+import type { MapDef } from '../../world/map';
+import { C, LIGHT } from '../../engine/palette';
+
+// The Vein safehouse behind the fish market on Canal Six. Front door on the street, back door on the canal.
+export const vein: MapDef = {
+  id: 'vein',
+  name: 'Fish Market, Canal Six',
+  district: 'deeps',
+  ambient: 0x4a5aa8,
+  ambientLevel: 0.2,
+  rain: 1,
+  music: 'tense',
+  rows: [
+    '############################',
+    '############################',
+    '############################',
+    '............c......o........',
+    '..N...cc........N........bb.',
+    '.........o...........cc.....',
+    '...o.Y........o........Y....',
+    '.L....IIIItIIIIIIIIIIII...L.',
+    '......IIIItIIIIIIIIIIII.....',
+    '.,....IFttttttIttttttFI.....',
+    '......IttpptttItttttttI.,...',
+    '..,...IttpptttttttttttI.....',
+    '......ItttttttItttttttI..,..',
+    '...,..ItcttjhtItZtttttI.....',
+    '......ItttttttItttttttI...,.',
+    '......IIIIIIIIIIIItIIII.....',
+    '......IIIIIIIIIIIItIIII.....',
+    '____________________________',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+  ],
+  props: [
+    { kind: 'lamp', x: 3, y: 13 },
+    { kind: 'lamp', x: 25, y: 13 },
+    { kind: 'door', x: 10, y: 8, id: 'vein_front' },
+    { kind: 'door', x: 18, y: 16, id: 'vein_back' },
+    { kind: 'terminal', x: 20, y: 9, id: 'vein_board', scene: 'vein_terminal' },
+    { kind: 'stash', x: 21, y: 14, id: 'vein_stash', loot: 'med' },
+    { kind: 'boat', x: 6, y: 18, id: 'taxi_boat' },
+  ],
+  signs: [
+    { x: 10.1, y: 2.2, icon: 'glass', color: C.mag3, light: LIGHT.magenta, r: 48 },
+    { x: 6.1, y: 16.2, icon: 'chip', color: C.cyan3, light: LIGHT.cyan, r: 48 },
+    { x: 2, y: 2.3, text: 'FISH', color: C.cyan3, light: LIGHT.cyan },
+    { x: 5.3, y: 2.4, icon: 'fish', color: C.cyan3, light: LIGHT.cyan },
+    { x: 17, y: 2.3, text: 'EEL 6', color: C.amb3, light: LIGHT.amber },
+    { x: 23.5, y: 2.4, icon: 'hand', color: C.amb3 },
+  ],
+  lights: [
+    { x: 4, y: 4, r: 40, i: 0.8, color: LIGHT.cyan },
+    { x: 17, y: 4, r: 40, i: 0.8, color: LIGHT.amber },
+    { x: 11, y: 11, r: 34, i: 0.5, color: LIGHT.cold },
+    { x: 19, y: 11, r: 30, i: 0.5, color: LIGHT.green },
+    { x: 14, y: 18, r: 50, i: 0.5, color: LIGHT.violet },
+  ],
+  npcs: [
+    { id: 'dead1', at: '@dead1', look: 'veinman', dir: 'down', talk: 'vein_dead1', hideIf: 'chapter>=3', down: true },
+    { id: 'dead2', at: '@dead2', look: 'veinwoman', dir: 'left', talk: 'vein_note', hideIf: 'chapter>=3', down: true },
+    { id: 'fishwife', at: [3, 5], look: 'wil', dir: 'right', wander: 1, talk: 'fishwife_talk', bark: ['Eel! Eel from Six!', 'Board was here an hour. Bought nothing.'] },
+    { id: 'gus', at: [8, 17], look: 'gus', dir: 'up', talk: 'taxi_menu' },
+  ],
+  encounters: [
+    {
+      id: 'vein_front',
+      start: 'sight',
+      sightRange: 5,
+      radius: 5,
+      units: [
+        { kind: 'tapper', at: [10, 11], dir: 'down', id: 'vf1' },
+        { kind: 'boardguard', at: [12, 12], dir: 'right', id: 'vf2' },
+      ],
+    },
+    {
+      id: 'vein_back',
+      start: 'sight',
+      sightRange: 5,
+      radius: 5,
+      units: [
+        { kind: 'boardguard', at: [17, 10], dir: 'right', id: 'vb1' },
+        { kind: 'tapper', at: [20, 13], dir: 'up', id: 'vb2' },
+      ],
+    },
+  ],
+  markers: { post_spot: [10, 3], taxi: [4, 17], street: [10, 5], door_out: [10, 6], front_in: [10, 9], back_in: [18, 14], dead1: [9, 12], dead2: [19, 11], note_spot: [19, 12], dowser_door: [10, 7], dowser_off: [27, 4], term_spot: [20, 10], pull: [14, 0] },
+  triggers: [
+    { x: 7, y: 3, w: 7, h: 4, scene: 'vein_arrive', hideIf: 'vein_seen' },
+    { x: 15, y: 17, w: 6, h: 1, scene: 'vein_arrive', hideIf: 'vein_seen' },
+  ],
+  enter: 'vein_enter',
+};

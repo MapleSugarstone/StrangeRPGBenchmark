@@ -1,18 +1,18 @@
-# Chapter 6: The Unled
+# Chapter 6: The Shadowless
 # Maps: dusk_road, back_road, burrow, lampeater_den.
-# The party crosses the Long and walks past it. The sun sinks behind, leads stretch enormously, then the light ends.
-# The Unled never use the future tense. There is no word for later in the Back.
+# The party crosses the Long and walks past it. The sun sinks behind, shadows stretch enormously, then the light ends.
+# The Shadowless never use the future tense. There is no word for later in the Back.
 
 == ch6_open
 > lock
-> chapter 6 The Unled
+> chapter 6 The Shadowless
 > music dusk
 > fade in
 > wait 0.8
-Umbraculum: My lead!! Look how long it is!! Goes on forever!!
+Umbraculum: My shadow!! Look how long it is!! Goes on forever!!
 Minim: Forever on goes it. Then it stops.
 > camera @dark_edge 1.4
-(Ahead, every lead runs out into the dark and does not come back.)
+(Ahead, every shadow runs out into the dark and does not come back.)
 > camera nodus 1.0
 Nodus: Lantern.
 > lamp nodus
@@ -30,8 +30,8 @@ Nodus: Lantern.
 > end
 
 == tut_dark
-(Outside the lantern's light, nothing has a lead. Foes there act unforeseen.)
-(Inside the light, leads point away from the lantern. Keep the fight near it.)
+(Outside the lantern's light, nothing has a shadow. Foes there act unforeseen.)
+(Inside the light, shadows point away from the lantern. Keep the fight near it.)
 > end
 
 == ch6_tik_meet
@@ -51,7 +51,7 @@ Tik: You carry light. Light's food here. Things come to it.
 Tik: Tik. That's the sound I make. Listen.
 > sfx tick
 Tik: Burrow's this way. Old Hum's there. Come. Quiet feet.
-Minim: No lead.
+Minim: No shadow.
 Tik: Nobody here has one. You have one. Strange on you.
 > join tik
 > set ch6_tik_joined
@@ -59,7 +59,7 @@ Tik: Nobody here has one. You have one. Strange on you.
 > end
 
 == tut_tik
-(Tik has no lead. Tik's attacks go any way and never show ahead.)
+(Tik has no shadow. Tik's attacks go any way and never show ahead.)
 (Listen shows the plans of foes close to Tik, even in the dark.)
 > end
 
@@ -94,7 +94,7 @@ Hum: Light-people come sometimes. Don't stay. Too dark, they say.
 Hum: Not dark. Just quiet for the eyes.
 > end
 * after
-Hum: Tik came out of the light a long time ago. Small. No lead.
+Hum: Tik came out of the light a long time ago. Small. No shadow.
 Hum: We keep Tik. Tik keeps us. Simple.
 > end
 
@@ -113,7 +113,7 @@ Scuff: Dark rules. One candle. Only tiles it lights count. Then I blow it out.
 > sticks dark
 > end
 * won
-Scuff: You win in the dark. Now you are Unled a little. Take a stick.
+Scuff: You win in the dark. Now you are Shadowless a little. Take a stick.
 > end
 
 == ch6_lot_return
@@ -148,7 +148,7 @@ Tik: It's on me. Always. Little sun.
 > lock
 > music tik
 Hum: Tik. Your thing at the edge. It is yours.
-Hum: You came out of the light very small. No lead. Crying about a lamp.
+Hum: You came out of the light very small. No shadow. Crying about a lamp.
 Tik: A lamp.
 > wait 0.6
 Tik: A lamp. A woman behind it. Her hands shake.
@@ -207,7 +207,7 @@ Lot: Under? Or next to?
 > emote tik ?
 Tik: The thing asks. I ask you, loud one. You choose. See more than me.
 ? Lot: under Tik, or next to?
-- Under. Be Tik's lead again. -> under
+- Under. Be Tik's shadow again. -> under
 - Next to. Stay Lot. -> beside
 * under
 Lot: Under. Yes.

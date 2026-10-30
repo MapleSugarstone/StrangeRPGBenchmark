@@ -1,0 +1,1189 @@
+# The Stair in chapter 3: people, readables, and side quests on the Steps, the plaza, the terraces,
+# the Census office, and the foot of Mercy Spire. Side quests: sadbox (Box 7), saintsblood (Mertens),
+# pilgrim (Mevrouw Doorn), marks (Baas and Wendel), bins (Jasper and Fien), lampeye (Mevrouw Verhoef).
+
+# ---------------------------------------------------------------- The Steps: shops and people
+
+== pawn_talk
+> face pawn hero
+Pawn: Buying chrome. Selling better chrome. Gear, too.
+> if ambrose_eye_arrears&party:ambrose -> eye
+> shop stair_gear
+> end
+* eye
+Pawn: That eye's in arrears, big man. I can hear it hawking soup.
+Ambrose: It's a mattress tonight, sir. You're hearing things.
+> shop stair_gear
+
+== noodle_talk
+> face noodleman hero
+Noodles: Dry noodles. Dry bowls. Sit, sit.
+> shop steps_noodles
+
+== soup_talk
+> face souper hero
+> if soup_got -> again
+Deacon: Soup at the Hand. Free if you pray.
+> set met_church
+?
+- I'll pray. -> pray
+- ?bg:choir Say the long grace. The Choir one. -> grace
+- Free if I don't? -> dont
+* grace
+Deacon: Where would a chromed neck learn the long grace?
+Deacon: Never mind. I don't want to know. Two bowls.
+> give noodles 1
+> rep church 1
+> goto give
+* pray
+> rep church 1
+> face hero up
+> wait 1.2
+Deacon: There. That's a prayer. Here's your soup.
+> goto give
+* dont
+Deacon: It's free if you pray. I don't keep track.
+* give
+> set soup_got
+> give noodles 2
+> end
+* again
+Deacon: Come back tomorrow. Try praying a little louder.
+
+== stair_poster
+> face hero down
+(WANTED. One Patrol 6 unit, currently awake. Reward: 500 gilt. Report to Lost Property.)
+> ifnot party:courtesy -> fin
+Courtesy: LOST PROPERTY. THIS UNIT IS NOT LOST.
+* fin
+
+== stair_ad
+> face hero left
+(BODYWELL. YOUR BODY, YOUR PLAN. FIRST MONTH FREE.)
+> ifnot party:ambrose -> fin
+Ambrose: My first month was free. I'm now on month ninety-one.
+* fin
+
+== dance_vend
+> face hero up
+> sfx blip
+> ifnot party:tova -> shop
+Tova: mine. that's mine. i was having such a good day.
+Tova: it dances until june. then it's just noodles again.
+* shop
+> shop noodlevend
+
+# ---------------------------------------------------------------- Side quest: Box 7 (sadbox)
+
+== box7_talk
+> face jet hero
+> if item:letter_jet -> nq_letter_jet
+> if box_done -> after
+> if quest:sadbox -> again
+Jet: Box 7. Forty an hour. Sad songs only.
+Jet: The mic decides that. I just rent the room.
+?
+- What's wrong with the mic? -> mic
+- Who woke it? -> who
+- Not tonight. -> bye
+* mic
+Jet: Someone sold me a wake for it. A party mic. It lights up and does a little dance.
+Jet: It cuts out on anything happy. Plays the sad stuff twice as loud.
+Jet: Nobody books Box 7 twice. They cry, then they go home.
+> goto start
+* who
+Jet: A girl on the Steps sells wakes out of a bag. Said it was joy. Line 2.
+> ifnot party:tova -> start
+> face jet tova
+> wait 0.8
+Tova: okay, so. that one might be mine. yeah, that's probably mine.
+Tova: i did it in march. for kees's birthday. i wasn't in the mood for a party.
+* start
+> quest sadbox 1
+> end
+* bye
+> end
+* again
+Jet: Sad songs only. Still.
+> end
+* after
+> if box_angry -> angry
+> if box_tova -> happy
+> if box_sung -> sung
+Jet: The mic's asleep. Plays anything. Quiet, like a normal mic.
+> end
+* angry
+Jet: It shouts the words back at people now. Two fights a night.
+> end
+* happy
+Jet: Happy songs all night. Box 7 is booked till Sunday.
+> end
+* sung
+Jet: The Sad Box. Booked solid. People pay to cry, it turns out.
+
+== box7_mic
+> face hero up
+> if box_done -> done
+> ifnot quest:sadbox -> plain
+> emote hero ...
+?
+- ?item:hush Pour Hush on it. -> hush
+- {tova} Tova. Wake it again. Happy, this time. -> ask
+- {tova} It's your wake, Tova. Your call. -> call
+- [Talk 2] Sing one all the way through. The saddest one you know. -> sing | cracked
+- ?bg:choir [Talk 1] Sing a Choir lament. Every Choir child knows nine. -> sing | cracked
+- Leave it. -> bye
+* hush
+> take hush
+> anim hush mic
+> set box_hushed
+> ifnot party:tova -> paid
+Tova: ...yeah. fine. it was a bad one anyway.
+> goto paid
+* ask
+> mood tova anger
+Tova: You want me to bleed. For a karaoke box.
+Tova: Fine. My mess.
+> sfx wake
+> anim spill 43 19
+> set box_angry
+> approve tova -2
+> sfx alarm
+Jet: It's screaming. Why is it screaming?
+Tova: Because I was.
+> goto paid
+* call
+> ifapprove tova 3 -> yes
+Tova: not tonight. ask me on a better night.
+> end
+* yes
+> mood tova joy
+Tova: okay. okay. one drop. a happy one. hang on.
+Tova: kees used to sing in the bath. badly. so badly. okay.
+> sfx wake
+> anim breathe mic
+> set box_tova
+> approve tova 2
+> wait 0.8
+> music lanterns
+Jet: That's a dance song. That's a dance song!
+> goto paid
+* sing
+> music sad
+> wait 2.5
+> face jet hero
+Jet: ...All the way through. Nobody makes it all the way through.
+> set box_sung
+PORT: That was a sad one. Is "sad" something you like?
+> self 1
+> music lanterns
+> goto paid
+* cracked
+> sfx error
+> emote hero sweat
+Jet: Second verse. Everybody breaks on the second verse.
+> end
+* paid
+> set box_done
+> if box_angry -> qa
+> gilt 80
+Jet: For the room. Come sing whenever.
+> if box_tova -> qt
+> if box_sung -> qs
+> quest sadbox done "You hushed the mic in Box 7. It sleeps for now."
+> end
+* qa
+Jet: Out. All of you. Get out of my room.
+> quest sadbox done "Tova woke the mic again, angry. Box 7 is a fight bar now."
+> end
+* qt
+> quest sadbox done "Tova woke the mic again with joy. Box 7 plays happy songs."
+> end
+* qs
+> quest sadbox done "You sang the mic a whole sad song. Box 7 is the Sad Box now."
+> end
+* plain
+> emote hero ...
+> end
+* done
+> sfx blip
+> end
+* bye
+
+# ---------------------------------------------------------------- Side quest: Saint's Blood
+
+== blood_talk
+> face mertens hero
+> if blood_done -> after
+> if blood_shook -> shook
+Mertens: Saint's Blood. One drop on the door buys a week of peace.
+Mertens: Tested and blessed. Twenty gilt for the vial.
+> ifnot quest:saintsblood -> start
+> goto menu
+* start
+> quest saintsblood 1
+* menu
+?
+- What's actually in it? -> what
+- $20 I'll take one vial. -> buy
+- Never mind. -> bye
+* what
+Mertens: The Saint's own mercy, friend. Thinned for household use.
+> if party:quaye -> q
+> if party:tova -> t
+> goto opts
+* q
+Quaye: Line 9. Cut four parts to one with water. Twenty gilt for five gilt of red.
+> goto opts
+* t
+Tova: that's calm. line 9, diluted to nothing. it smells like a waiting room.
+* opts
+?
+- [Talk 2] Tell his customers what's really in it. -> expose | nope
+- ?bg:vein [Talk 1] Tell them in Vein signs. Cut Line 9, a cut line through the circle. -> expose | nope
+- {ignace} Let Ignace have a word. -> shake
+- Close it down. Now. -> blood_fight_go
+- Leave it. -> bye
+* expose
+> face bloodbuyer hero
+Buyer: Line 9? Cut? I paid twenty for this.
+Buyer: My mother's door. I put it on my mother's door.
+> walk bloodbuyer 30 24
+> walk bloodbuyer 54 22
+> exit bloodbuyer
+> face mertens hero
+Mertens: Wet customers. You've cost me twenty a night.
+Mertens: Closed. We're closed.
+> set blood_shut
+> set blood_done
+> approve tova 1 sallis 1
+> quest saintsblood done "You told Mertens's customers what was in the vials. The clinic is shut."
+> end
+* nope
+Mertens: The faithful know what they're buying, friend. Move along.
+> end
+* shake
+Ignace: Brother Mertens! The Church takes a tithe on blessings.
+Ignace: One in ten. Or I preach your address Sunday, price included.
+Mertens: ...One in ten.
+> gilt 120
+> set blood_shook
+> set blood_done
+> approve ignace 2
+> quest saintsblood done "Ignace made Mertens pay the Church's tithe. The vials still sell."
+> ifnot party:tova -> fin
+Tova: so he keeps selling it to people who think it's hers.
+> approve tova -1
+> end
+* buy
+> give saintsblood
+> if party:tova -> tb
+> end
+* tb
+Tova: you bought it. it's not even good red.
+> approve tova -1
+> end
+* bye
+> end
+* shook
+Mertens: Thirty gilt now. The tithe, you understand.
+> end
+* after
+> if blood_shut -> shut
+> end
+* shut
+Mertens: Closed.
+* fin
+
+== blood_fight_go
+> set blood_fight
+> fight blood_ch3
+> goto blood_won
+
+== blood_retry
+Mertens: You again. Boys.
+> fight blood_ch3
+> goto blood_won
+
+== blood_won
+> set blood_fought
+> set blood_done
+> give saintsblood 3
+> approve tova 1
+> ifnot party:ignace -> q
+Ignace: That could have been a conversation. It could have been profitable.
+> approve ignace -1
+* q
+> quest saintsblood done "You closed Mertens's clinic the hard way."
+
+# ---------------------------------------------------------------- Side quest: the pilgrim (Doorn)
+
+== doorn_talk
+> face doorn hero
+> if doorn_done -> done
+> if doorn_paid|doorn_hacked -> thanks
+> if quest:pilgrim -> again
+Doorn: Oh. Sorry, love. I was talking to her.
+Doorn: My Ruud's arm is Bodywell. Two-forty behind.
+Doorn: It went dead at the docks. Mid-lift.
+Doorn: I walked up from Canal Six to ask her to take the lease off him.
+> goto opts
+* again
+Doorn: Still here, love. I'm not going down without it.
+* opts
+?
+- I'll cover it. Where do I pay? -> pay
+- The Saint doesn't do leases. Go home, Mevrouw. -> home
+- {ignace} Ignace. Bless her. -> bless
+- I'll see what I can do. -> later
+* pay
+Doorn: The Bodywell box is on the Steps, by the karaoke. You'd really do that?
+> quest pilgrim 1
+> ifnot party:ambrose -> fin
+Ambrose: Bodywell. I could recognize their stationery in the dark.
+> end
+* later
+> quest pilgrim 1
+Doorn: I'll stay here.
+> end
+* bless
+Ignace: No. Not her.
+Ignace: Bodywell takes money, Mevrouw. The Saint never did.
+> approve ignace -1
+> quest pilgrim 1
+> end
+* home
+Doorn: ...No. I suppose she doesn't.
+Doorn: I'll light one anyway. Then I'll go.
+> walk doorn 23 25
+> face doorn up
+> wait 1
+> set doorn_told
+> sfx confirm
+> wait 1
+> walk doorn 23 37
+> walk doorn 23 39
+> exit doorn
+> quest pilgrim done "You told Mevrouw Doorn the truth. She lit a candle and went home."
+> ifnot party:ambrose -> fin
+Ambrose: A cruel mercy. Perhaps the right one.
+> end
+* thanks
+Doorn: Ruud got on the tram. Look at him. Look at his hand.
+Doorn: I told him the Saint did it. Let him believe it.
+> give loaf 2
+> set doorn_done
+> quest pilgrim done "Ruud Doorn's arm works again. His mother thinks the Saint did it."
+> end
+* done
+Doorn: Light one for her, love. She listens.
+* fin
+
+== ruud_talk
+> face ruud hero
+> if ruud_off -> off
+> if doorn_hacked -> hacked
+Ruud: Look. It shuts. My hand shuts.
+Ruud: Don't tell Mam who paid. She thinks the Saint did.
+> end
+* hacked
+Ruud: Bodywell sent a letter. Lease paid in full. Nobody paid it.
+Ruud: I'm not asking.
+> end
+* off
+Ruud: It died again. On the dock, mid-lift.
+Ruud: Bodywell says the payment was a mistake. Mam doesn't know.
+
+== bodywell3
+> face hero up
+(BODYWELL. YOUR BODY, YOUR PLAN.)
+> set met_bodywell
+?
+- ?quest:pilgrim&!doorn_paid&!doorn_hacked&!doorn_told $240 DOORN, R. Right arm. Pay it. -> doorn
+- ?quest:pilgrim&!doorn_paid&!doorn_hacked&!doorn_told&!dhack_failed <diver> [Hack 3] Mark Ruud Doorn's lease as paid. -> dhack | dfail
+- ?quest:pilgrim&!doorn_paid&!doorn_hacked&!doorn_told&!dhack_failed {quaye} [Hack 2] Quaye. Ruud Doorn's lease. -> dhack | dfail
+- ?bg:washout&item:boardpass&quest:pilgrim&!doorn_paid&!doorn_hacked&!doorn_told Swipe the old Board pass. A Recovery hold on Doorn's lease. -> dpass
+- ?roster:ambrose&!knee_paid&!knee_hacked $350 KWARTENG, A. Left knee. Pay it. -> knee
+- ?roster:ambrose&!knee_paid&!knee_hacked&!khack_failed {quaye} [Hack 3] Quaye. Kwarteng's knee. -> khack | kfail
+- Leave. -> bye
+* dpass
+> sfx blip
+(RECOVERY HOLD. LEASE DOORN, R.: SUSPENDED.)
+> rep board -1
+> rep bodywell -2
+> set doorn_hacked
+> quest pilgrim 2
+> end
+* doorn
+> set doorn_paid
+> quest pilgrim 2
+> rep bodywell 1
+> approve ambrose 2 quaye 1
+> ifnot party:ambrose -> fin
+Ambrose: You paid a stranger's arm. That's rare. I saw it.
+> end
+* dhack
+> sfx hack
+(LEASE DOORN, R.: PAID IN FULL.)
+> set doorn_hacked
+> rep bodywell -2
+> quest pilgrim 2
+> ifnot party:quaye -> dq
+Quaye: Two hundred forty gilt, wiped from the ledger. Clean.
+> approve quaye 1
+* dq
+> end
+* dfail
+> sfx error
+(LEASE LOCKED. BODYWELL HAS BEEN NOTIFIED.)
+> set dhack_failed
+> end
+* knee
+> set knee_paid
+> rep bodywell 1
+> approve ambrose 3 quaye 1
+> ifnot party:ambrose -> fin
+Ambrose: You've bought me another month on my knee. I'm in your debt. Deeply.
+Ambrose: Thank you. Truly.
+> end
+* khack
+> sfx hack
+(LEASE KWARTENG, A.: LEFT KNEE. PAID IN FULL.)
+> set knee_hacked
+> rep bodywell -2
+> approve quaye 1
+> ifnot party:ambrose -> fin
+Ambrose: Theft, carried out in my name. And I have no objection whatsoever.
+> approve ambrose 1
+> end
+* kfail
+> sfx error
+(LEASE LOCKED. BODYWELL HAS BEEN NOTIFIED.)
+> set khack_failed
+> end
+* bye
+* fin
+
+# ---------------------------------------------------------------- Side quest: Ignace's marks
+
+== marks_talk
+> face baas hero
+> if marks_done -> marks_after
+> if party:ignace -> ig
+Baas: Brother Ignace's crowd. Where's our dry-ring man?
+> goto w
+* ig
+Baas: There he is. Brother Ignace. Our personal umbrella.
+* w
+Wendel: Three hundred gilt for a ring that keeps the house dry.
+Wendel: House flooded the next week. Up to the ankles. Ring worked fine.
+> ifnot quest:marks -> start
+> goto opts
+* start
+> quest marks 1
+* opts
+> ifnot party:ignace -> o2
+Ignace: Baas. Wendel. You look well. Damp, but well.
+* o2
+Baas: Three hundred. Or the boys take it out of his robe.
+?
+- $300 Pay them back. -> pay
+- {ignace} [Talk 2] Let Ignace talk to them. -> bless | threat
+- [Talk 3] The ring held. But the flood was bigger. -> argue | threat
+- ?bg:runner [Talk 1] I ran your parcels on Canal Six at noon, Baas. Remember? -> argue | threat
+- Let the boys have a go. -> marks_fight_go
+- Later. -> bye
+* pay
+Baas: Three hundred. A pleasure.
+> set marks_paid
+> goto go
+* bless
+Ignace: Baas! Wendel! Did the water rise above the ring? No. It held!
+Ignace: The house is a vessel, friends. The ring keeps it secure.
+Ignace: Fifty gilt renews the blessing for a year. Forty, for the faithful.
+Wendel: ...Forty.
+> gilt 40
+> set marks_blessed
+> approve ignace 2
+> goto go
+* argue
+Wendel: ...It was a big flood.
+Baas: Biggest in years. Fine. Fine.
+> set marks_talked
+> goto go
+* threat
+Wendel: No more words, Hollis.
+Baas: Boys.
+?
+- $300 Pay them back. -> pay
+- Let the boys have a go. -> marks_fight_go
+* go
+> walk muscle1 21 37 &
+> walk muscle2 24 37 &
+> walk muscle3 25 37 &
+> walk wendel 22 37
+> walk muscle1 21 39 &
+> walk muscle2 24 39 &
+> walk muscle3 25 39 &
+> walk wendel 22 39
+> exit muscle1
+> exit muscle2
+> exit muscle3
+> exit wendel
+> if marks_talked -> baas
+> set marks_done
+> if marks_blessed -> qb
+> quest marks done "You paid back Ignace's marks."
+> approve ignace 2
+> ifnot party:ignace -> fin
+Ignace: You paid my debt.
+Ignace: Nobody pays my debts. That's literally the point of me.
+> end
+* qb
+> quest marks done "Ignace sold his marks another blessing. They thanked him."
+> ifnot party:courtesy -> fin
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -1
+> end
+* baas
+> walk baas 23 37
+> walk baas 23 39
+> exit baas
+> set marks_done
+> quest marks done "You argued Ignace's marks off the plaza."
+> end
+* bye
+* fin
+
+== marks_fight_go
+> set marks_fight
+> fight marks_ch3
+> goto marks_won
+
+== marks_retry
+Baas: Again, Brother? Boys.
+> fight marks_ch3
+> goto marks_won
+
+== marks_won
+> walk baas 22 37 &
+> walk wendel 23 37
+> walk baas 22 39 &
+> walk wendel 23 39
+> exit baas
+> exit wendel
+> set marks_done
+> set marks_fought
+> quest marks done "You ran Ignace's marks and their collectors off the plaza."
+> ifnot party:ignace -> fin
+Ignace: They had a point. Not a good one. But a point.
+> approve ignace -1
+* fin
+
+== marks_after
+> face baas hero
+> if marks_blessed -> b
+Baas: Brother Ignace's friends. Candle? On the house.
+> end
+* b
+Baas: Brother Ignace! Bless the stall, Brother! The ring is holding!
+
+# ---------------------------------------------------------------- The plaza: people and readables
+
+== statue_plaque
+> face hero up
+(MARIT HALSEMA. NINE YEARS OLD.)
+(SHE RAISED HER HAND AND THEY ROSE.)
+
+== plaza_notice
+> face hero up
+(BOARD NOTICE. KEEP FATHOM DRY.)
+(Census open nightly till the tenth bell. Children aged six.)
+(Report unregistered witches. Reward 300 gilt.)
+> ifnot party:tova -> fin
+Tova: three hundred. that's what i'm worth up here.
+* fin
+
+== spire_sign
+> face hero up
+(MERCY SPIRE. BOARD MEDICAL. UP THE STREET.)
+(No visitors above floor 9 without a Board pass.)
+
+== church_van
+> face hero up
+> if chapter>=5 -> any
+> if chapter>=4 -> go
+(A Church van. SOUP RUN painted on the side. Locked.)
+> end
+* go
+> goto van_travel
+* any
+> ifnot party:ignace -> t
+Ignace: The soup van. Still mine, as far as anyone asks.
+* t
+> travel
+
+== candle_talk
+> if quest:nq_cards&!nq_cards_done&item:prayercard -> nq_cards_pay
+Candles: Candles. Two gilt. Lit for you, for her.
+> shop candles
+
+== porch_talk
+> face porchdeacon hero
+Deacon: Service at the twelfth bell. Leave umbrellas outside. They wander.
+?
+- Who was she? The Saint. -> saint
+- Who runs the Church? -> velt
+- Good night. -> bye
+* saint
+Deacon: Marit Halsema. Nine. She bled on eleven pumps in one night.
+Deacon: She drowned at dawn. The pumps never stopped.
+Deacon: Her love keeps them walking. That's the miracle.
+> end
+* velt
+Deacon: Archdeacon Velt. He blesses the Bailers from a boat on Sundays.
+> end
+* bye
+
+# ---------------------------------------------------------------- The church
+
+== altar_saint
+> face hero up
+(The Saint at nine, rendered in gold leaf. The cut on her raised hand is left bare.)
+
+== archive_shelf
+> face hero up
+(Hymnals. Baptism rolls. A box labeled SPIRE: FLOWERS. Monthly, for forty years.)
+
+== archive_terminal
+> face hero up
+(CHURCH ARCHIVE. SEARCH: HALSEMA.)
+(1 RESULT. STATUE, PLAZA OF THE RAISED HAND. CAST FORTY YEARS AGO.)
+
+== velt_mail
+> face hero up
+(MAIL FOR ARCHDEACON C. VELT.)
+(FROM MERCY SPIRE, WARD 44: Thank you for the flowers.)
+(She asks for yellow ones next time.)
+> ifnot party:ignace -> fin
+Ignace: Ward forty-four. The top floor. Nobody gets a pass to the top.
+* fin
+
+== velt_tv
+> face hero left
+(A recorded sermon. The Archdeacon blesses a Bailer from a boat.)
+(The Bailer keeps walking.)
+
+== velt_talk
+> face velt hero
+> if arch_done -> fought
+> if ledger_found -> knows
+Velt: Peace on your house, child, and dry floors beneath it.
+Velt: You came up from the Deeps. The Stair is kind to the Deeps.
+> set met_church
+?
+- Who was the Saint? -> saint
+- ?bg:choir The Choir sends its regards, Archdeacon. -> choir
+- The Church takes Board money. -> money
+- Bless me. -> bless
+- Good night. -> bye
+* saint
+Velt: A child who loved her street. She raised her hand, and they rose.
+Velt: She is with us still, in every pump that walks. That is what we teach.
+> end
+* money
+Velt: The Board keeps the city dry. The Church keeps it kind. We share a city.
+> rep church -1
+> end
+* choir
+Velt: The Choir sings under my Spire and spits on my candles.
+Velt: Go home, child. Your mothers are still singing for you.
+> rep church -1
+> end
+* bless
+Velt: Then be blessed. The candle is two gilt at the door. The blessing is free.
+> end
+* knows
+Velt: You look tired, child. The Stair does that, the first month.
+> end
+* fought
+Velt: Violence in the house of the Raised Hand. I have called nobody. Yet.
+> end
+* bye
+
+== deacon_talk
+> face w6 hero
+Deacon: Mind the candles. Mind the hem of your coat.
+> ifnot party:ignace -> fin
+Deacon: Brother Ignace. You owe the candle fund nine gilt.
+Ignace: Peace be with you, Brother. Peace and patience.
+* fin
+
+# ---------------------------------------------------------------- The crypt
+
+== crypt_bones
+> face hero up
+(Deacons in boxes, nameplates affixed. Forty-one of them.)
+(The newest box dates to the year of the Flood.)
+
+== crypt_tv
+> face hero down
+(Ignace's pocket screen. The Archdeacon is blessing a pump.)
+
+== crypt_lampeye
+> face hero right
+(Hendrik's eye, resting on the crypt floor. Amber. Breathing slowly.)
+PORT: Hers. It is warm. Is everything of hers warm?
+
+# ---------------------------------------------------------------- The Census office (kees)
+
+== census_enter
+> if census_seen -> done
+> set census_seen
+> camera @hall_mid 1
+> wait 0.6
+> camera hero 0.8
+> ifnot party:tova -> done
+> mood tova fear
+Tova: oh no. i hate this room. it smells like the van.
+Tova: booths. little cut. the screen goes red, or it doesn't.
+Tova: files are in the back. is there a way in? there has to be a way, right?
+* done
+
+== clerk_talk
+> face clerk hero
+> if kees_file -> after
+Clerk: Number?
+?
+- ?!clerk_failed {ignace} [Talk 1] Let Ignace show your appointment. -> appt | nope
+- ?!clerk_failed [Talk 2] Family records. Mensah. We have an appointment. -> appt | nope
+- ?bg:vein&!quest:bgvein My own file. Four-four-seven-one. -> bgv_clerk
+- Never mind. -> bye
+* appt
+> ifnot party:ignace -> a2
+Ignace: Brother Hollis, for the Mensah family. The Archdeacon's own appointment.
+* a2
+Clerk: Family records. Fine. It comes up on the screen. Don't touch the screen.
+> sfx blip
+> goto census_file
+* nope
+> set clerk_failed
+Clerk: No appointment, no records. Two hundred and fourteen is next.
+> end
+* after
+Clerk: Next.
+> end
+* bye
+
+== census_ticket
+> face hero up
+(TICKET 215. PLEASE WAIT TO BE CALLED.)
+> if kees_file|census_alarm -> fin
+?
+- <diver> [Hack 2] Join the ticket line to access the records. -> hack | fail
+- {quaye} [Hack 1] Quaye. The ticket line leads to the records. -> hack | fail
+- Take a ticket. -> ticket
+* hack
+> sfx hack
+> rep board -1
+> ifnot party:quaye -> hq
+> approve quaye 1
+* hq
+> wait 0.8
+> goto census_file
+* fail
+> sfx error
+> face cdiver hero
+Diver: Someone's in my line. You. Stay put.
+> goto census_alarm_go
+* ticket
+> sfx blip
+* fin
+
+== census_guard
+> face cguard hero
+> if census_slipped -> away
+Officer: Staff only. Take a number. Sit.
+?
+- [Sneak 2] Wait for him to check the queue, then slip through. -> sneak | caught
+- {tova} Tova. Distract him. -> tova
+- ?bg:washout&item:boardpass Board pass. Recovery here for the Mensah file. -> wpass
+- $80 Need a ten-minute smoke break. My treat. -> bribe
+- Understood. -> bye
+* wpass
+Officer: Recovery? Up here? Alright, go ahead. Just don't touch the screens.
+> rep board -1
+> goto slip
+* sneak
+> walk cguard @guard_away
+> face cguard left
+> wait 0.6
+> goto slip
+* tova
+> mood tova fear
+Tova: okay. okay. one drop. for kees.
+> sfx wake
+> anim breathe 19 21
+> wait 0.6
+> emote cguard !
+Officer: That bin is breathing. Who brought a woken bin in here?
+> walk cguard @guard_away
+> face cguard down
+> goto slip
+* bribe
+Officer: ...Ten minutes. I didn't see you.
+> walk cguard @guard_away
+> face cguard left
+* slip
+> set census_slipped
+> walk hero @staff_in
+> walk hero @corridor
+> walk hero @records_term
+> face hero up
+> goto census_file
+* caught
+> emote cguard !
+Officer: Hey. Staff only, I said. Get down on the floor.
+> goto census_alarm_go
+* away
+Officer: I'm on my break. I'm not here.
+> end
+* bye
+
+== census_records
+> face hero up
+> if kees_file -> again
+> goto census_file
+* again
+(MENSAH, KEES. PLACEMENT: SEE FORM 11. FORM 11 FILED WITH RECOVERY.)
+
+== census_file
+(CENSUS RECORDS. MENSAH, KEES. AGE 6. TEST: POSITIVE.)
+(YIELD: HIGH. PLACEMENT: SEE FORM 11. FORM 11 FILED WITH RECOVERY.)
+(MENSAH, TOVA. AGE 6. TEST: NEGATIVE.)
+> set kees_file
+> quest kees 2
+> xp 150
+> ifnot party:tova -> port
+> mood tova grief
+Tova: yield. high. like he's a crop.
+Tova: form eleven. it says "see form eleven." where is form eleven?
+Tova: negative. me. mum spat in my tube. i watched her do it.
+* port
+PORT: Form 11. Who has it? Can we go get it?
+
+== census_shelf
+> face hero up
+(Files by street. CANAL FOUR. CANAL SIX. PELL MARKET.)
+> if bg:vein&!bgvein_done -> vein
+> goto kees
+* vein
+(A drawer marked CELLAR INTAKE.)
+> goto bgv_file
+* kees
+> ifnot census_taken -> fin
+(BAKKER, NOOR. AGE 6. TEST: POSITIVE. PLACED: SUNNY STEPS.)
+> ifnot party:tova -> fin
+Tova: sunny steps. that's the board home. somewhere on the Stair.
+Tova: is kees there? why does it say that for her, but not for him?
+* fin
+
+== census_screen
+> face hero right
+(NOW SERVING 214.)
+(PLEASE HAVE YOUR CHILD'S CARD READY.)
+
+== census_alarm_go
+> set census_alarm
+> sfx alarm
+> mood tova fear
+> fight census_ch3
+> goto census_after
+
+== census_retry
+Officer: Still here. Down on the floor, please.
+> fight census_ch3
+> goto census_after
+
+== census_after
+> set census_cleared
+> set census_slipped
+> ifnot party:tova -> fin
+Tova: records. back room. now, before the next van.
+* fin
+
+# ---------------------------------------------------------------- The terraces: bins (Jasper and Fien)
+
+== bins_talk
+> face jasper hero
+> face fien hero
+> if bins_done|bins_stopped -> after
+> if rocket_back -> race
+Jasper: Rocket ran off. Again. The race is at the next bell.
+Fien: Rocket's ours. Lid's theirs. Lid always wins.
+Fien: We bought Rocket scared. Line 6, cut. Scared is fast.
+Jasper: Scared is fast until it hides. It's down on Terrace Two. By the ramp.
+> quest bins 1
+?
+- I'll bring it back. -> ok
+- What's in it for me? -> get
+- Racing bins down four terraces is how kids get hurt. -> stop
+- ?bg:runner I've raced bins on the Canal Nine ramps. Rule one: let go at the bottom. -> runner
+* runner
+Jasper: Let go at the bottom. Fien, write that down.
+> approve courtesy 1
+* ok
+Jasper: Don't grab it from the front. It bites. Bins bite.
+> end
+* get
+Fien: The prize is twelve gilt. You can have half. Six.
+> end
+* stop
+Jasper: Lid's done it a hundred times.
+Fien: ...Rocket hasn't.
+> ifnot party:courtesy -> s2
+Courtesy: CHILDREN CROSSING. KEEP CLEAR. THIS AREA IS UNDER SURVEILLANCE.
+* s2
+?
+- [Talk 2] No races tonight. Go home. -> home | nohome
+- Fine. Let's race. I'll find your bin. -> ok
+* home
+Fien: ...Okay. No race.
+Jasper: We'll race tomorrow.
+> set bins_stopped
+> quest bins done "You talked Jasper and Fien out of the race. Rocket is still hiding."
+> ifnot party:courtesy -> fin
+> approve courtesy 1
+> end
+* nohome
+Jasper: You're not our mother.
+> end
+* race
+> goto bins_race
+* after
+> if bins_stopped -> stopped
+Fien: Rocket won! Rocket won!
+> end
+* stopped
+Jasper: Tomorrow. We race tomorrow.
+* fin
+
+== rocket_bin
+> if rocket_back -> done
+> emote hero ?
+> sfx shove
+?
+- [Athletics 2] Pull it out from behind. -> grab | missed
+- {courtesy} Courtesy. Try talking to it. -> cour
+- {tova} Tova. It's scared. -> tova
+- ?item:line9 Give it a drop of Line 9. -> nine
+- Leave it alone. -> bye
+* grab
+> sfx shove
+> set rocket_caught
+> goto up
+* missed
+> anim shift rocket 42 30
+> wait 0.4
+> anim shift rocket 42 27
+> emote hero sweat
+> end
+* cour
+Courtesy: PLEASE REMAIN CALM.
+Courtesy: I AM REMAINING CALM. IT IS DIFFICULT.
+> wait 1
+> set rocket_calmed
+> approve courtesy 1
+> goto up
+* tova
+> mood tova calm
+Tova: hey. hey, rocket. it's okay. it's just a ramp.
+Tova: someone scared you, huh? yeah.
+Tova: one drop. calm down. don't make a big deal out of it.
+> sfx wake
+> set rocket_calmed
+> set rocket_tova
+> approve tova 1
+> goto up
+* nine
+> take line9
+> sfx wake
+> set rocket_calmed
+> ifnot party:tova -> up
+Tova: bought red. on a bin.
+> approve tova -1
+* up
+> anim shift rocket 42 5
+> set rocket_back
+> quest bins 2
+> end
+* done
+> sfx blip
+> end
+* bye
+
+== rocket_top
+> goto bins_talk
+
+== bins_race
+> face jasper down
+> face fien down
+Jasper: Rocket's back! Lid! Line up!
+Fien: On three. Three!
+> sfx confirm
+> anim shift lid 44 29 &
+> anim shift rocket2 42 39
+> set bins_raced
+> set bins_done
+> wait 0.4
+Jasper: ROCKET!
+Fien: Lid stopped. It just stopped on Two!
+> gilt 6
+> quest bins done "Rocket won the race down the ramp."
+> ifnot party:courtesy -> fin
+Courtesy: CHILDREN CROSSING. THANK YOU FOR YOUR COOPERATION.
+> set courtesy_bins
+> approve courtesy 1
+* fin
+
+# ---------------------------------------------------------------- The terraces: Hendrik's eye (Verhoef)
+
+== lampeye_look
+> goto verhoef_talk
+
+== verhoef_talk
+> face verhoef hero
+> if lampeye_done -> after
+> if quest:lampeye -> opts
+Verhoef: Don't touch the lamp, dear. It's older than you.
+?
+- What is it? -> what
+- It's breathing. -> what
+- Never mind. -> bye
+* what
+Verhoef: That's Hendrik's left eye. It tore off in a storm, twenty years ago.
+Verhoef: I did the welding when I was young. I hauled it up here in a wheelbarrow.
+Verhoef: It's been twenty years, and it still breathes.
+Verhoef: The Church calls that her love.
+PORT: It breathes like the barge. Like me. Is it hers, too?
+> ifnot party:quaye -> letter
+> face verhoef quaye
+Verhoef: ...Hester? Hester Quaye. They said you went down to the Deeps.
+Quaye: Thirty-nine years ago, Verhoef. You did his left knee. I did the right.
+* letter
+Verhoef: Lost Property wrote. They're collecting him on Friday. Board property.
+Verhoef: I've had him on my balcony for twenty years. I'd like to do better than leave him on a shelf.
+> quest lampeye 1
+* opts
+?
+- {ignace} $40 Send it down to the Deeps via Church post. -> post
+- We'll keep it. Nobody searches a crypt. -> crypt
+- {quaye} [Hack 2] Quaye can lose the letter in Lost Property's system. -> hack | hackfail
+- <diver> [Hack 3] I can lose the letter in Lost Property's system. -> hack | hackfail
+- Board property is Board property, Mevrouw. -> give
+- Let me think. -> bye
+* post
+Ignace: Church post goes down on Thursdays. A barrow to the Lock, then a boat to the Deeps.
+Ignace: The Bailer painters keep a shrine on Canal Six. They'd take him.
+Verhoef: Hendrik's people. Yes. Send him home.
+> set lampeye_sent
+> set lampeye_out
+> goto done
+* crypt
+Verhoef: A crypt. Well. He's used to the damp.
+> sfx loot
+> give lampeye
+> set lampeye_crypt
+> ifnot party:sallis -> done
+Sallis: Board property, in our camp. No.
+Sallis: Fine. Your call. I don't like it.
+> approve sallis -1
+> goto done
+* hack
+> sfx hack
+> wait 0.8
+Verhoef: The letter says "collected." Collected! He's right there.
+> set lampeye_hacked
+> goto done
+* hackfail
+> sfx error
+Verhoef: Oh, don't, dear. They'll fine me too.
+> end
+* give
+Verhoef: ...Yes. I suppose. He was always theirs.
+> set lampeye_given
+> set lampeye_out
+> ifnot party:quaye -> done
+Quaye: Twenty years on a balcony. Now a shelf. Waste.
+> approve quaye -1
+* done
+> set lampeye_done
+> xp 120
+> if lampeye_sent -> qs
+> if lampeye_crypt -> qc
+> if lampeye_hacked -> qh
+> quest lampeye done "Mevrouw Verhoef will let Lost Property take Hendrik's eye."
+> end
+* qs
+> quest lampeye done "Hendrik's eye goes down to the Bailer painters by Church post."
+> end
+* qc
+> quest lampeye done "Hendrik's eye sits in the crypt now, breathing."
+> end
+* qh
+> quest lampeye done "Lost Property thinks it collected Hendrik's eye. It is still on the balcony."
+> end
+* after
+> if lampeye_hacked -> h
+Verhoef: Twenty years. You'd think I'd stop looking at that corner.
+> end
+* h
+Verhoef: Still breathing. Still mine. Thank you, dear.
+> end
+* bye
+
+# ---------------------------------------------------------------- The terraces: readables and the Choir
+
+== sunny_ad
+> face hero up
+(SUNNY STEPS. A HOME ON THE STAIR FOR THE CHILDREN WHO WILL KEEP US DRY.)
+> ifnot party:tova -> fin
+Tova: they always say that. "keep us dry." like it's a job they gave you at six.
+* fin
+
+== terrace_notice
+> face hero left
+(TERRACE NOTICE. Bins are not vehicles. Fines apply.)
+(Census van on Terrace 4, Thursday. Children aged six.)
+
+== choir_alert
+> set met_choir
+> rep choir -1
+> if bg:choir -> bg
+> if party:ambrose -> a
+CHOIR: Your neck is singing again.
+CHOIR: Louder, up here.
+CHOIR: Singing toward something. Poorly.
+> end
+* a
+CHOIR: Your arms are singing.
+CHOIR: Humming. Leased.
+CHOIR: Singing, leased, and wrong.
+Ambrose: Gentlemen. I will defend these arms, whoever owns them this month.
+> approve ambrose 1
+> end
+* bg
+CHOIR: Linnet.
+CHOIR: Linnet ran. Linnet has a neck now.
+CHOIR: Linnet, come home so we can take it out.
+
+# ---------------------------------------------------------------- Mercy Spire
+
+== visitor_terminal
+> face hero up
+(MERCY SPIRE VISITOR DESK. CLOSED.)
+(Floors 1 to 9: Open to visitors. Floors 10 to 44: Board pass only.)
+
+== dock_terminal
+> face hero right
+(DOCK LOG. BAY 1 RESERVED, SUNDAYS. DO NOT LOG BAY 1.)

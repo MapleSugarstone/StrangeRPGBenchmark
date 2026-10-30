@@ -1,0 +1,1020 @@
+# Chapter 3: Raised Hand. From the Grand Lock's upper gate to the night Board Recovery takes Courtesy.
+# Maps: steps, plaza, church, crypt, census, terraces, spirebase. Flags and anims are in Notes/ch3-notes.md.
+# A scene that warps keeps running on the new map, because enter scenes do not run while a scene runs.
+
+# ---------------------------------------------------------------- You: the Stair
+
+== ch3_open
+> set met_board
+> chapter 3 Raised Hand
+> music lanterns
+> unset camp_open
+> wait 0.6
+> sfx door
+> shake 1
+> camera @gate_shut 1
+> wait 1.2
+> camera hero 1
+> face hero up
+> sfx pa
+Board: Welcome to the Stair. Please stay on the walkways. Mind the step.
+> wait 0.6
+> ifnot party:courtesy -> walk
+Courtesy: PLEASE STAY ON THE WALKWAYS. MIND THE STEP.
+Courtesy: THIS IS A NEW ANNOUNCEMENT. THIS UNIT IS MAINTAINING IT.
+* walk
+> walk hero @gate_view
+> face hero up
+> camera @bridge_n 1.2
+> wait 1
+> camera hero 1
+> wait 0.6
+PORT: Up. We're up. Is she here?
+?
+- Close. Hold on. -> close
+- Quiet. There's Board on every corner. -> quiet
+- Even standing still up here costs money. -> money
+* close
+PORT: Close. How close is "close"?
+> goto pull
+* quiet
+> wait 1
+> goto pull
+* money
+PORT: Money. Like the jar. Are you money?
+* pull
+> wait 0.6
+> face hero up
+PORT: Higher. That way.
+> if party:quaye -> q
+> if party:sallis -> s
+Ambrose: That pale spire is Mercy Spire. The Board's hospital.
+> goto need
+* q
+Quaye: Mercy Spire. Board hospital. Two terraces up, ninety meters.
+Quaye: I worked there for a year. It had a different name back then.
+> goto need
+* s
+Sallis: Mercy Spire. Board hospital. Two terraces up.
+* need
+> ifnot party:sallis -> need2
+Sallis: Hit the street first. Find a place to sleep. Then head to the Spire.
+> goto amb
+* need2
+Quaye: Bed first, kid. We've been on our feet for twelve hours. Then the Spire.
+* amb
+> ifnot party:ambrose -> go
+> ifnot ambrose_eye_arrears -> go
+Ambrose: My eye has spotted the Stair. It's advertising umbrellas.
+* go
+> quest raisedhand 1
+> autosave
+
+# ---------------------------------------------------------------- Go: Tova's alley
+
+== tova_call
+> sfx blip
+> camera @tova_mouth 1
+> walk tova @tova_mouth
+> face tova left
+Tova: hey. hey, you, from the Lock.
+> ifnot party:courtesy -> boots
+Tova: your robot's breathing. out on the Stair. Recovery would love that.
+> goto come
+* boots
+Tova: wet boots. at two bells. nobody comes up the Lock at two bells.
+* come
+Tova: in here. all of you. or i scream "Board.
+> walk tova @tova_wait
+> camera hero 0.8
+> walk hero @hero_alley
+> face hero up
+> walk tova @ladder_foot
+> walk tova @tova_ledge
+> face tova down
+> mood tova anger
+> camera @alley_view 0.8
+Tova: You're Vein.
+Tova: Vein moves wilds out of Fathom. Someone told you about me.
+Tova: I'm not going. Not without my brother.
+> sfx wake
+> shake 1
+> anim breathe 42 6
+> anim breathe 54 7
+> wait 0.3
+> anim breathe 54 10
+> anim breathe 44 12
+> face bouncer1 hero
+> face bouncer2 hero
+> face bouncer3 hero
+Tova: Back off.
+> ifnot party:courtesy -> opts
+Courtesy: PLEASE REMAIN CALM. IT IS BREATHING.
+* opts
+?
+- [Talk 2] We aren't here for you. We're looking for someone else. -> talked | angry
+- ?bg:vein Draw a Vein circle on the wall. Don't cross it. -> chalk
+- ?bg:washout I tried wearing Board red once. I quit. -> washout
+- {sallis} Sallis. Tell her the truth. -> sallis
+- $40 Take whatever deal you're offering. -> buy
+- Wake whatever you want. We're leaving. -> tova_fight_go
+* chalk
+> wait 0.8
+Tova: ...a circle. no line. that's real chalk. the blue kind.
+Tova: you grew up in the cellars. alright. alright, you're the real Vein.
+> set met_vein
+> rep vein 1
+> approve tova 1
+> goto calm
+* washout
+> mood tova anger
+Tova: recovery. you fetched things for people like me for a living.
+Tova: quit? sure. they all quit, right before the van.
+> approve tova -1
+> goto angry
+* angry
+Tova: Liar. The Vein always says that. Then the van comes.
+?
+- {sallis} Sallis. Tell her the truth. -> sallis
+- $40 Take whatever deal you're offering. -> buy
+- Fine. Wake the whole alley. -> tova_fight_go
+* sallis
+Sallis: I'm Vein. My cell is gone. Nine people, vanished.
+Sallis: Nobody sent me for you. Nobody sends me anywhere anymore.
+> mood tova fear
+Tova: gone? gone where? the Board? did the Board take them?
+Sallis: The Board. Or someone who sold them to the Board.
+> set met_vein
+> rep vein 1
+> approve sallis 1
+> goto calm
+* buy
+> mood tova joy
+Tova: ...forty? wait. you're buying?
+Tova: alright. okay. so, umbrella walks you home for a week. it's a nice arrangement.
+> give tovabrella
+> if party:sallis -> s_buy
+> goto calm
+* s_buy
+Sallis: Bought red. From a kid in an alley.
+> approve sallis -1
+> goto calm
+* talked
+> mood tova fear
+Tova: for someone else? who? who climbs the Lock for someone else?
+* calm
+> walk tova @ladder_foot
+> walk tova @tova_back
+> set tova_met
+> face tova hero
+> goto tova_join
+
+== tova_fight_go
+> set tova_fight
+> fight tova_ch3
+> goto tova_won_go
+
+== tova_retry
+Tova: Still here? Good.
+> fight tova_ch3
+> goto tova_won_go
+
+== tova_won_go
+> wait 0.8
+> sfx door
+> enter tova tova @back_door down
+> walk tova @tova_back
+> set tova_won
+> face tova hero
+> mood tova fear
+Tova: okay. stop. stop, stop. you're not Board.
+Tova: The Board brings Hush. You just hit things.
+> goto tova_join
+
+== tova_join
+Tova: Tova Mensah. I sell wakes on the Steps.
+Tova: if i bleed, i sell. if i buy blood, i talk.
+Tova: the Census took my brother when he was six. Kees. he's ten now.
+Tova: i don't know where he is. they don't tell you.
+?
+- We'll help you find him. -> help
+- ?bg:runner I patrol the canals at ten. Kids don't just vanish while I'm on the run. -> runner
+- What's in it for us? -> what
+- Your brother is your responsibility. -> hard
+* runner
+Tova: canal kid, yeah? you've got the build for it.
+> approve tova 3
+> goto file
+* help
+> approve tova 2
+Tova: ...yeah? alright. okay.
+> goto file
+* what
+Tova: i wake things up. you're a crew, and crews need things woken. right?
+> goto file
+* hard
+Tova: yeah? your business is breathing. here on the Stair.
+Tova: i'm coming with you anyway. you look lost.
+* file
+Tova: the Census keeps files. their office is on the plaza, up the steps.
+Tova: i can't walk in there. they'd test me. a little cut, the screen goes red.
+> ifnot party:courtesy -> port
+> face tova courtesy
+Tova: and your robot. who woke it? it's breathing like a proper one. long and steady.
+Courtesy: THIS UNIT IS ON DUTY.
+* port
+> wait 0.8
+PORT: She bleeds for things. Like her? Does everyone bleed for things?
+> join tova
+> if party:tova -> in
+> anim party
+> join tova
+> if party:tova -> in
+Tova: i'll find you. i always find people.
+> walk tova @back_door
+> exit tova
+* in
+> set tova_joined
+> mood tova calm
+> quest kees 1
+> quest raisedhand 2
+> xp 150
+> autosave
+
+# ---------------------------------------------------------------- Search: the plaza and the miracle
+
+== plaza_enter
+> if plaza_seen -> done
+> ifnot tova_joined -> done
+> goto plaza_first
+* done
+
+== plaza_first
+> set plaza_seen
+> music stair
+> camera @statue_view 1.5
+> wait 1
+> camera hero 1
+> walk hero @hero_turn
+> face hero up
+> wait 0.6
+> face hero right
+> wait 0.8
+> face hero up
+> wait 0.5
+> face hero right
+PORT: That way. Up that way. Why do we keep stopping?
+> face ignace hero
+> emote ignace !
+> walk ignace @crowd3
+> face ignace hero
+Ignace: Friends! Set down your candles. Look at this pilgrim.
+Ignace: Watch the head turn. Again. Again! It always faces the Spire.
+> walk pil1 @crowd1 &
+> walk pil2 @crowd4 &
+> walk pil3 @crowd2 &
+> walk pil5 @crowd5
+> face pil1 hero
+> face pil2 hero
+> face pil3 hero
+> face pil5 hero
+Ignace: Damp from the Deeps, yet the Saint turns her neck to the pilgrim!
+Ignace: Blessed be the turning neck! One gilt to touch the pilgrim's coat.
+> sfx loot
+Ignace: Two for the sleeve, friend. The sleeve is closer to the heart.
+> sfx loot
+?
+- Play along. Turn your head on cue. -> play
+- [Talk 2] Tell them he's trying to sell you. -> expose | exposefail
+- ?bg:choir Answer his blessing in the Choir style. All nine verses. -> choir
+- {ambrose} Ambrose. Out-preach him. -> amb
+- Walk off. -> walk
+* choir
+> set met_church
+Pilgrim: That's a Choir verse. The old one.
+Ignace: ...Friends. The pilgrim speaks the tongue of the terraces. Coin for both of us!
+> sfx loot
+> set ignace_played
+> goto run
+* amb
+Ambrose: Behold, citizens! A pilgrim of uncommon neck! Its twists are recorded in volume four!
+Ambrose: One gilt to hear the definition! Two for the etymology!
+> sfx loot
+Ignace: ...Who is that? He's stealing my sleeve trade.
+> approve ambrose 2
+> set ignace_played
+> goto run
+* play
+> face hero right
+> wait 0.5
+> face hero up
+> wait 0.5
+> face hero right
+> sfx loot
+Ignace: Witness! Witness the neck!
+> set ignace_played
+> if party:tova -> t_play
+> goto run
+* t_play
+Tova: you're good at that. it's a little creepy, though.
+> goto run
+* expose
+> set met_church
+> rep church 1
+Pilgrim: Selling? Brother Ignace, is that so?
+Ignace: Doubt! Even doubt is a form of prayer, friends. Pray at home!
+> set ignace_exposed
+> goto run
+* exposefail
+Ignace: Humble! The touched are always humble, friends. Three gilt, please.
+> sfx loot
+> goto run
+* walk
+> walk hero @plaza_mid
+> face hero right
+Ignace: The pilgrim departs! Follow, friends, but keep a respectful distance!
+* run
+> face ignace right
+> walk ignace @ignace_mid
+> walk ignace @ignace_door
+> face ignace left
+> set ignace_ran
+> walk pil1 12 24 &
+> walk pil2 34 20 &
+> walk pil3 17 28 &
+> walk pil5 25 31
+> ifnot party:tova -> q
+Tova: that's Brother Ignace. he does the plaza every night.
+Tova: he's not a brother of anything. he just walks around the church. east side.
+> goto q2
+* q
+> ifnot party:sallis -> q2
+Sallis: The deacon. East side of the church. Spending our money.
+* q2
+> quest raisedhand 3
+> autosave
+
+== ignace_catch
+> walk hero @catch_spot
+> face hero ignace
+> face ignace hero
+> sfx loot
+> if ignace_joined -> done
+Ignace: Ah. The pilgrim. Go in peace. The door is the other way.
+?
+- Half of that is mine. -> half
+- You sold us to a crowd. -> sold
+- You're good at that. -> good
+* half
+Ignace: Half. Fine. Here.
+> gilt 40
+> goto plain
+* sold
+Ignace: I sold a neck. You kept it. Everybody went home happy.
+> goto plain
+* good
+Ignace: Twenty years of practice. Thank you.
+> approve ignace 1
+* plain
+> wait 0.6
+Ignace: I watched you for ten minutes. Your eyes always drift to the Spire.
+Ignace: What's up there?
+?
+- Something in my neck pulls me toward the Spire. -> truth
+- ?bg:choir I sang at the foot of that Spire until I was sixteen. -> choirkid
+- None of your business. -> none
+- What's it worth to you? -> worth
+* choirkid
+Ignace: A Choir child. No chrome, no candles, nine verses a night. And yet you ran.
+Ignace: I've sold blessings to your lot's parents. They pay in fish.
+> approve ignace 1
+> goto offer
+* truth
+> approve ignace 1
+Ignace: Someone. In the Spire.
+> goto offer
+* none
+Ignace: Then it's my business to find out. I'm nosy.
+> goto offer
+* worth
+Ignace: A miracle with a direction is worth more than candles.
+* offer
+Ignace: You need a bed near the Spire and a door nobody watches. I have both.
+Ignace: I sleep in the crypt under the church.
+Ignace: The vergers pray at six and never come down.
+Ignace: And Velt has a second boat this year. Nobody gets two boats from candles.
+Ignace: I know. I sell candles.
+?
+- Deal. Take us to the crypt. -> deal
+- Why are you helping us? -> why
+* why
+Ignace: Something's happening in that Spire, and Velt knows what it is.
+Ignace: I want to know what Velt knows. And I want to get paid for finding out.
+* deal
+Ignace: Ignatius Hollis. Brother Ignace on the plaza. Iggy, if you're buying.
+Ignace: The stairs down to the crypt are at the back of the nave, on the east side.
+> join ignace
+> if party:ignace -> in
+> anim party
+> join ignace
+> if party:ignace -> in
+Ignace: I'll go ahead and light the candles.
+> walk ignace 37 8
+> exit ignace
+* in
+> set ignace_joined
+> quest ledger 1
+> quest raisedhand 4
+> xp 150
+> autosave
+> end
+* done
+Ignace: The crypt is at the back of the nave, east side.
+
+# ---------------------------------------------------------------- The church and the crypt
+
+== church_enter
+> if church_seen -> done
+> set church_seen
+> ifnot party:ignace -> done
+Ignace: Keep your head down. Walk like you're sorry. Vergers love it.
+* done
+
+== crypt_locked
+> face hero right
+(A steel door sits at the bottom of the stairs. It's locked.)
+> step hero left 1
+
+== crypt_enter
+> if crypt_settled -> done
+> goto crypt_settle
+* done
+
+== crypt_settle
+> set crypt_settled
+> campmap crypt
+> set camp_open
+> music camp
+> wait 0.6
+> walk hero @camp_hero
+> face hero up
+> camera @start 1
+> ifnot party:ignace -> look
+Ignace: Home. Forty-one dead deacons. Nobody else comes down here.
+Ignace: Dry and quiet. Rations are in the niche by the door, leftover soup kitchen supplies.
+* look
+> give ration 3
+> camera hero 0.8
+> ifnot party:sallis -> q
+Sallis: One way in. The stairs. One way out. Same stairs.
+Sallis: I don't like it. I'll sleep by the door.
+* q
+> ifnot party:quaye -> t
+Quaye: Sixteen niches. Four bedrolls. Eleven degrees. But it's dry.
+* t
+> ifnot party:tova -> port
+Tova: okay. dead people and candles. nice. very cozy.
+* port
+> wait 1
+PORT: So this is where we sleep? Beneath the people who pray?
+?
+- For now. At least it's dry. -> now
+- Until we find her. -> her
+- It's free. That's the main thing. -> free
+* now
+PORT: Dry. You're fond of dry.
+> goto spire
+* her
+PORT: But once we find her? Where do we go then?
+> self 1
+> goto spire
+* free
+PORT: Free. You called the rain free, too.
+* spire
+> wait 0.6
+> ifnot party:ignace -> fin
+Ignace: Sleep. Tomorrow I'll show you the Spire. I work the parking lot.
+* fin
+> quest raisedhand 5
+> autosave
+
+# ---------------------------------------------------------------- Search: Mercy Spire
+
+== spire_early
+> set spire_early_seen
+> face hero up
+> wait 0.8
+PORT: Her? Inside? Up in there?
+> wait 0.6
+
+== spire_look
+> set spire_seen
+> music spire
+> walk hero @gate_view
+> face hero up
+> camera @pull 2
+> wait 1.2
+> shake 1
+PORT: Up there. She's up there. Why's there a fence?
+> camera hero 1
+> ifnot party:sallis -> q
+Sallis: Board gate. Two guards at the door, turrets on each side. Not tonight.
+* q
+> ifnot party:quaye -> i
+Quaye: Forty-four floors. The top four never light a window. Never have.
+* i
+> ifnot party:ignace -> noig
+> face hero ignace
+> face ignace hero
+Ignace: I work this lot on Sundays. Grieving people tip.
+Ignace: Every Sunday, a Board car parks behind the Spire. Every single Sunday.
+Ignace: And the Church sends flowers up there every month. Velt signs for them.
+Ignace: Flowers for whom? The archive has the receipts. Hidden behind the vergers.
+> set archive_lead
+> quest raisedhand 7
+> autosave
+> end
+* noig
+PORT: How do we get in? Who knows the way?
+> quest raisedhand 6
+> autosave
+
+# ---------------------------------------------------------------- Find: the archive
+
+== stam_talk
+> face stam hero
+> if archive_open -> open
+> ifnot archive_lead -> closed
+Stam: The Archive is closed. Pray, buy a candle, and go home.
+?
+- ?!stam_failed {ignace} [Talk 2] Let Ignace handle it. -> bluff | bluffed
+- ?!stam_failed [Sneak 2] Wait for his patrol, then slip past. -> sneak | caught
+- ?!stam_failed {quaye} Quaye. Time his patrol. -> qcount
+- ?bg:washout&item:boardpass Present the old Board pass. Archive review. -> pass
+- ?!stam_failed {ambrose} Ambrose. Talk him into it. -> amb
+- $200 Make a donation. For the vergers' fund. -> bribe
+- Then we open it ourselves. -> fight
+- We wait. -> bye
+* qcount
+Quaye: Ninety seconds a round. He limps to the left. Match his limp.
+> approve quaye 1
+> goto sneak
+* pass
+Stam: Board review. Held in the archive. On a Tuesday.
+Stam: ...The stamp is expired. The Board never checks the stamps. Go on.
+> rep church -1
+> goto aside
+* amb
+Ambrose: Verger. Volume six defines you. "Obstruction: an object in a doorway, quickly removed.
+Stam: ...Two minutes. I didn't see you.
+> approve ambrose 1
+> rep church -1
+> goto aside
+* bluff
+Ignace: Verger! The Archdeacon sent me for the founding hymnals.
+Ignace: The damp has gotten to them, Verger. Mold! Mold on the Saint's own words!
+Stam: ...Mold.
+Stam: Two minutes, Hollis. Don't touch anything else.
+> approve ignace 2
+> goto aside
+* bluffed
+Stam: Hollis. You sold my mother a blessing for her lungs. She paid double.
+> set stam_failed
+?
+- $200 It was a donation. For the vergers' fund. -> bribe
+- Then we'll open it ourselves. -> fight
+- Fine. We'll go. -> bye
+* sneak
+> walk stam @nave_mid
+> face stam down
+> wait 1
+> walk hero @archive_in
+> face hero left
+> walk stam @stam_aside
+> face stam right
+> set archive_open
+> goto in
+* caught
+> set stam_failed
+> walk stam @nave_mid
+> wait 0.6
+> face stam hero
+> emote stam !
+Stam: You. Out of the archive aisle. Now.
+> walk stam @stam_spot
+> face stam hero
+?
+- $200 It was a donation. For the vergers' fund. -> bribe
+- Then we'll open it ourselves. -> fight
+- Fine. We'll go. -> bye
+* bribe
+> rep church 1
+Stam: The vergers thank you. The Saint thanks you.
+Stam: Five minutes. I'm counting.
+> walk stam @stam_aside
+> face stam right
+> if party:ignace -> i_bribe
+> goto aside
+* i_bribe
+Ignace: Two hundred. I would've done it for forty.
+* aside
+> walk stam @stam_aside
+> face stam right
+> set archive_open
+> walk hero @archive_in
+> face hero left
+* in
+> end
+* fight
+> goto arch_fight_go
+* bye
+> step hero down 1
+> end
+* open
+Stam: Two minutes. I'm still counting.
+> end
+* closed
+Stam: The archive is closed. The Archdeacon is not receiving.
+
+== arch_fight_go
+> set arch_fight
+> music boss
+> fight arch_ch3
+> goto arch_won
+
+== arch_retry
+Stam: Back again. The Saint forgives. I don't.
+> fight arch_ch3
+> goto arch_won
+
+== arch_won
+> set arch_done
+> set archive_open
+> wait 0.6
+> ifnot party:ignace -> s
+Ignace: You knocked the Head Verger to the floor of his own church.
+Ignace: Words would have worked. They usually do.
+> approve ignace -1
+> goto x
+* s
+> ifnot party:sallis -> x
+Sallis: Archive. Quick. Velt's probably already made a call.
+* x
+> quest raisedhand 7
+
+== archive_ledger
+> face hero left
+> if ledger_found -> again
+> sfx loot
+(A tin box beneath the hymnals. A ledger. Forty years of monthly entries.)
+(F.W.B. TO THE SAINT'S HOUSEHOLD. 4,000 GILT. SIGNED, C. VELT.)
+> give ledgerpage
+> set ledger_found
+> quest ledger 2
+> ifnot party:quaye -> i
+Quaye: Four thousand a month for forty years. That's 1,920,000 gilt.
+* i
+> ifnot party:ignace -> t
+Ignace: Household." You pay a household. A household has people in it.
+Ignace: Four thousand a month for forty years. Who lives inside a statue?
+* t
+> ifnot party:tova -> port
+Tova: the Saint's household. as if she had a kitchen.
+* port
+PORT: Her. They pay for her? Is she a thing you buy?
+> wait 0.8
+> ifnot party:sallis -> go
+Sallis: Out. Back down. Nobody stays near an archive they just robbed.
+* go
+> quest raisedhand 8
+> xp 200
+> rest
+> end
+* again
+(The tin box. The page is gone. You have it.)
+
+# ---------------------------------------------------------------- Find: the statue
+
+== statue_scene
+> walk hero @statue_view
+> face hero up
+> music sad
+> wait 1
+Pilgrim: Light one for her. She was so small, carved in stone. Nine.
+> wait 1.2
+PORT: They say her name at the stone. Light one for her.
+PORT: I say her name. Is it the same her? Is that her, as she was when she was small?
+?
+- It's her. The Saint is Line 1. -> her
+- ?bg:choir The Choir sang her name here every night. I sang it too. -> choirsang
+- She drowned. Everybody knows she drowned. -> drowned
+- Somebody pays four thousand a month to keep her quiet. -> paid
+* choirsang
+PORT: Sing it. Let it come from us. I want to hear it in our voices.
+> self 1
+> goto hand
+* her
+> ifnot party:quaye -> herq
+Quaye: Line 1. Forty years. Someone finally said it out loud.
+> approve quaye 1
+* herq
+> self 1
+PORT: Line 1. Her. She is the stone, and she is risen.
+> goto hand
+* drowned
+PORT: Drowned? In water? But she is risen. I can feel where she is.
+> goto hand
+* paid
+PORT: Quiet. Is that why nobody says her name?
+* hand
+> wait 1
+> sfx port
+> emote hero !
+PORT: I put my hand up. Like hers. Is that right?
+> wait 1
+> ifnot party:ignace -> t
+Ignace: She's alive. The Saint is alive, and they charge admission.
+* t
+> ifnot party:tova -> q
+> mood tova grief
+Tova: the bailers never stopped. a wake stops only when the witch dies.
+Tova: the church says it's her love. but love doesn't outlive anyone. i'd know.
+* q
+> ifnot party:quaye -> s
+Quaye: Forty years. I never once came up here to look at her.
+* s
+> ifnot party:sallis -> a
+Sallis: Alive. Then the Board keeps her. Then the Board bleeds her.
+* a
+> ifnot party:ambrose -> c
+Ambrose: For forty years, the city has prayed to a woman locked in a room.
+* c
+> ifnot party:courtesy -> go
+Courtesy: LOST PROPERTY. PLEASE REPORT LOST PROPERTY.
+* go
+> set statue_seen
+> quest raisedhand 10
+> xp 250
+> wait 1
+> face hero up
+> camera @pull 2
+> wait 1.5
+> camera free
+> rest
+
+# ---------------------------------------------------------------- Take: the crypt at night
+
+== ch3_end
+> music camp
+> set raid_on
+> wait 1
+> walk hero @camp_hero
+> face hero up
+> walk courtesy @courtesy_front
+> face courtesy up
+Courtesy: THIS UNIT IS ON DUTY.
+> wait 1.5
+> sfx door
+> wait 0.6
+> sfx drone
+> emote courtesy !
+Courtesy: THIS UNIT IS TRACKED FOR YOUR SAFETY.
+> enter dowser dowser @door_top down
+> walk dowser @dowser_stand
+> enter tap1 tapper @tap_in1 down
+> enter tap2 tapper @tap_in2 down
+> walk tap1 @tap1_stand &
+> walk tap2 @tap2_stand
+> enter rguard1 boardguard @tap_in1 down
+> enter rguard2 boardguard @tap_in2 down
+> walk rguard1 @guard1_stand &
+> walk rguard2 @guard2_stand
+> enter rsniper boardguard @door_top2 down
+> walk rsniper @sniper_stand
+> enter rdrone drone @door_top down
+> walk rdrone @drone_stand
+> music tense
+Dowser: Good evening, friends. Board Recovery.
+Dowser: I'm here for the property. It's in your crypt.
+Dowser: It's been singing on every lamp from the Lock to the Spire.
+Courtesy: THIS UNIT IS BOARD PROPERTY.
+> if lampeye_crypt -> eye
+> goto opts
+* eye
+Dowser: And Hendrik's eye, by the bedrolls. That's ours, too. I'll send a van.
+* opts
+?
+- Nobody touches Courtesy. -> fight
+- [Sneak 2] Into the niches. Let them find nothing. -> hide | found
+- [Talk 3] Talk to her. -> talk | talkfail
+- ?bg:washout [Talk 1] Procedure eleven. A unit stays with its handler until transfer. -> proc | talkfail
+- It's worth five hundred to you. I'll pay six. -> buy
+* proc
+Dowser: Procedure eleven. Someone should have checked the binder.
+Dowser: You're right, friend. It stays with its handler. Give me two minutes, handler.
+> rep board 1
+> goto talk
+* buy
+> rep board 1
+> ifnot party:quaye -> buyq
+Quaye: Six hundred credits for a robot that isn't for sale? That's waste, kid.
+> approve quaye -1
+* buyq
+Dowser: Five hundred is the reward for reporting it, friend.
+Dowser: It isn't for sale. It told me so itself.
+> goto raid_take
+* talk
+> ifnot party:quaye -> talkq
+> approve quaye 1
+* talkq
+Dowser: You want a minute? Fine. I'm not cruel. I'm busy.
+Dowser: Two minutes. Then it comes with me, and you stay here and live.
+> set raid_talked
+> face courtesy hero
+> face hero courtesy
+?
+- Courtesy. I'm sorry. -> sorry
+- We'll come for you. -> come
+- Don't fight them. Please. -> please
+* sorry
+Courtesy: THANK YOU FOR YOUR PATIENCE. THANK YOU FOR YOUR COOPERATION.
+> emote courtesy heart
+> goto raid_take
+* come
+Courtesy: ASSISTANCE IS ON THE WAY. THIS UNIT WILL CONTINUE MONITORING.
+> goto raid_take
+* please
+Courtesy: PLEASE REMAIN CALM. I AM REMAINING CALM.
+> goto raid_take
+* talkfail
+Dowser: No. You'll talk, and someone will get brave. Tappers.
+> goto raid_take
+* hide
+> set raid_hid
+> walk hero @hide_a
+> face hero right
+> wait 1
+> walk tap1 @hero_back
+> face tap1 left
+> wait 0.8
+> face tap1 right
+Dowser: Hide if you like, friends. I only came for the property.
+> walk tap1 @tap1_stand
+> goto raid_take
+* found
+> set raid_hid
+> walk hero @hide_a
+> face hero right
+> wait 0.8
+> walk tap1 @hide_a
+> face tap1 hero
+Dowser: There you are. Stay in the niche, friend. It's polite.
+> goto raid_take
+* fight
+> set raid_fight
+> rep board -2
+> approve ambrose 2
+> exit tap1
+> exit tap2
+> exit rguard1
+> exit rguard2
+> exit rsniper
+> exit rdrone
+> fight raid_ch3
+> goto raid_after
+
+== raid_retry
+Dowser: Friends, again? Alright.
+> exit tap1
+> exit tap2
+> exit rguard1
+> exit rguard2
+> exit rsniper
+> exit rdrone
+> fight raid_ch3
+> goto raid_after
+
+== raid_after
+> set raid_done
+> wait 1
+> enter tap1 tapper @tap_in1 down
+> enter tap2 tapper @tap_in2 down
+> walk tap1 @tap1_stand &
+> walk tap2 @tap2_stand
+> enter rguard1 boardguard @tap_in1 down
+> walk rguard1 @guard1_stand
+Dowser: Thanks. That was the first van. There are six on the street.
+Dowser: Take a seat, friend. I'd rather not start shooting in a church.
+> goto raid_take
+
+== raid_take
+> wait 0.6
+> walk courtesy @courtesy_front
+> face courtesy up
+Courtesy: STAND CLEAR OF THE CITIZENS.
+Courtesy: THIS UNIT IS ON DUTY. HAVE A SAFE NIGHT.
+> walk tap1 11 7 &
+> walk tap2 13 7
+> face tap1 courtesy
+> face tap2 courtesy
+> sfx hush
+> anim hush courtesy
+> wait 1.2
+> look courtesy patrol_hushed
+> leave courtesy
+> set courtesy_taken
+> wait 1.2
+> ifnot roster:tova -> carry
+> face dowser tova
+> ifnot kees_file -> nofile
+Dowser: Mensah. Someone pulled your brother's file. Form 11 comes to my desk.
+> goto kees
+* nofile
+Dowser: Mensah. You bring a lot of umbrellas to life on the Steps. I keep a file.
+* kees
+Dowser: He's at Sunny Steps. He sings in the choir there. He's very good.
+Dowser: Stay wild, friend. Keep your distance from him.
+> mood tova anger
+Tova: Say his name again.
+Dowser: Kees. Good night, friends.
+> quest kees 3
+* carry
+> walk dowser @door_top
+> exit dowser
+> walk tap1 11 2 &
+> walk tap2 13 2 &
+> walk courtesy 12 2
+> walk tap1 @tap_in1 &
+> walk tap2 @tap_in2 &
+> walk courtesy @door_top
+> exit tap1
+> exit tap2
+> exit courtesy
+> walk rguard1 @door_top
+> exit rguard1
+> if raid_done -> gone
+> walk rguard2 @door_top2
+> exit rguard2
+> walk rsniper @door_top2
+> exit rsniper
+> walk rdrone @door_top
+> exit rdrone
+* gone
+> sfx door
+> unset raid_on
+> wait 2
+> goto ch3_after
+
+== ch3_after
+> music sad
+> camera @courtesy_front 1.5
+> wait 2
+> camera hero 1
+> ifnot roster:ambrose -> s
+> if knee_paid|knee_hacked -> s
+> set ambrose_knee_arrears
+> sfx error
+> wait 0.8
+Ambrose: Ah. Bodywell, of course. Tonight, of all nights.
+Ambrose: My knee. It won't bend. Okay. Okay.
+* s
+> ifnot roster:sallis -> q
+Sallis: Copy.
+Sallis: It stood right in front. Every time.
+* q
+> ifnot roster:quaye -> i
+Quaye: Two bells and four minutes. Six vans. I counted the doors.
+* i
+> ifnot roster:ignace -> t
+Ignace: I've spent twenty years on this plaza. I've never seen anyone walk out to be taken.
+* t
+> ifnot roster:tova -> port
+> mood tova grief
+Tova: it didn't walk out. it just walked out to them.
+* port
+> wait 1.2
+> face hero up
+PORT: You keep staring at the stair.
+PORT: Is that how I look at the Spire? Is that what wanting feels like?
+?
+- We bring Courtesy back. Then we go after her. -> both
+- I want my friend back. That's all. -> friend
+- Lost Property sells what nobody claims. We're going to need money. -> money
+* both
+PORT: Both. You want her now, too.
+> self 1
+> goto fin
+* friend
+PORT: Friend." That's a new one. I'll keep that.
+> self 1
+> goto fin
+* money
+PORT: Money. You always say "money" when it hurts.
+* fin
+> wait 1
+> set ch3_done
+> quest raisedhand done
+> camera @courtesy_front 1.5
+> wait 1.5
+> camera free
+> goto ch4_open

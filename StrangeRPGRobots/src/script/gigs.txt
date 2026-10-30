@@ -1,0 +1,1046 @@
+# Gigs: jobs from two fixers. Opal works from her slate on the Clement (chapters 2 and 5).
+# Kat works from a booth outside Club Violet on the Lantern Steps (chapters 3 and 4) and names every job like a song.
+# Each gig tracks <g>_seen (an alarm went up) and <g>_fought (a fight happened). The fixer pays a bonus for each one that stays unset.
+
+# ---------------------------------------------------------------- Opal
+
+== opal_gigs
+> face opal hero
+Opal: Sweet. Mm. There's work on the slate.
+?
+- ?chapter>=2&!quest:gig_crates Forty Crates. -> g1
+- ?chapter>=2&!quest:gig_eels Eel Run. -> g2
+- ?chapter>=2&!quest:gig_painter The Painter. -> g3
+- ?chapter>=5&!quest:gig_book Drowned Book. -> g9
+- ?chapter>=5&!quest:gig_motors Ninety Kilos. -> g10
+- ?gig_crates_done&!gig_crates_paid Forty Crates is done. -> r1
+- ?gig_eels_done&!gig_eels_paid Eel Run is done. -> r2
+- ?gig_painter_done&!gig_painter_paid The Painter is done. -> r3
+- ?gig_book_done&!gig_book_paid Drowned Book is done. -> r9
+- ?gig_motors_done&!gig_motors_paid Ninety Kilos is done. -> r10
+- ?gig_crates_on&!gig_crates_done|gig_painter_on&!gig_painter_done|gig_motors_on&!gig_motors_done Gus. The pump depot. -> depot
+- ?gig_eels_on&!gig_eels_done|gig_book_on&!gig_book_done Gus. The houseboat. -> boat
+- Nothing tonight. -> bye
+* g1
+Opal: The Board left forty crates of Hush on the dock at the pump depot. Canal Six.
+Opal: Recovery picks them up at four bells. A friend at the Pound wants them in the canal first.
+Opal: The Pound pays me in favors. I pay you in gilt. Three hundred.
+> set gig_crates_on
+> quest gig_crates 1
+> end
+* g2
+Opal: There's a cooler of eels for Rook. He's on a houseboat off Canal Four.
+Opal: Two hundred. Don't open it. Don't look inside. You know the rest, sweet.
+> give eelcooler
+> set gig_eels_on
+> quest gig_eels 1
+> end
+* g3
+Opal: Saar painted the Bailers' names on it. The Board pulled her off Hendrik's knee last night.
+Opal: Board property defaced. She's at the pump depot. Her people want her back.
+Opal: Two hundred. Her people put in fifty of it. In coins.
+> set gig_painter_on
+> quest gig_painter 1
+> end
+* g9
+Opal: Mevrouw Vis lends money on Canal Four. Her houseboat broke its moorings in the flood.
+Opal: Her book is aboard. Half of Canal Four is written in it. I'd like it at the bottom of the canal.
+Opal: Four hundred. I'm not getting paid for this one. I just want it.
+> set gig_book_on
+> quest gig_book 1
+> end
+* g10
+Opal: Two Board sump motors are sitting in the flooded pump depot. Ninety kilos each.
+Opal: Cutters salvage tonight. I have a buyer. Your Quaye might too.
+> set gig_motors_on
+> quest gig_motors 1
+> end
+* depot
+Opal: Gus is at the plank. Mm. Bring me something.
+> warp depot @dock_in up
+> end
+* boat
+Opal: Gus knows that boat. Everybody knows that boat.
+> warp houseboat @jetty_in up
+> end
+* r1
+Opal: Forty crates of Hush at the bottom of Canal Six. The Pound sends its regards.
+> gilt 300
+> if g1_seen -> r1b
+Opal: Nobody saw you. Fifty more.
+> gilt 50
+* r1b
+> if g1_fought -> r1c
+Opal: Nobody got hurt, either. Fifty more, sweet.
+> gilt 50
+* r1c
+> set gig_crates_paid
+> quest gig_crates done
+> end
+* r2
+> if eels_delivered -> r2d
+> if eels_dumped -> r2x
+Opal: Rook paid for eels. Got 'em. That's the job. Sweet. Whatever I thought it was.
+> gilt 200
+> goto r2b
+* r2d
+Opal: Rook paid. I won't ask what you saw in the cooler. And you won't tell me.
+> gilt 200
+> goto r2b
+* r2x
+Opal: Rook says you threw his order in the canal. He wants his money back. He's not getting it.
+> gilt 100
+* r2b
+> if g2_fought -> r2c
+Opal: And nobody bled. Fifty.
+> gilt 50
+* r2c
+> set gig_eels_paid
+> quest gig_eels done
+> end
+* r3
+Opal: This is from Saar's people. Sent to her home. It's coins. Count them, I didn't.
+> gilt 200
+> if g3_seen -> r3b
+> gilt 50
+* r3b
+> if g3_fought -> r3c
+> gilt 50
+* r3c
+> give plumcake 2
+> set gig_painter_paid
+> quest gig_painter done
+> end
+* r9
+Opal: Half of Canal Four owes nobody tonight. Mm. That's a good bowl of soup.
+> gilt 400
+> if g9_seen -> r9b
+> gilt 100
+* r9b
+> if g9_fought -> r9c
+> gilt 100
+* r9c
+> set gig_book_paid
+> quest gig_book done
+> end
+* r10
+> if motors_quaye -> r10q
+Opal: Two motors on Gus's boat. My buyer's happy. You're happy. Sweet.
+> gilt 400
+> goto r10b
+* r10q
+Opal: You gave the motors to Quaye. My buyer's sulking. Here's my cut anyway.
+> gilt 150
+* r10b
+> if g10_fought -> r10c
+> gilt 100
+* r10c
+> set gig_motors_paid
+> quest gig_motors done
+> end
+* bye
+Opal: Eat something first. You look like you've been dipped in water.
+
+== gig_boat_deeps
+> face hero down
+?
+- Back to the Clement. -> back
+- Not yet. -> no
+* back
+> warp camp @gig_back up
+* no
+
+# ---------------------------------------------------------------- G1: Forty Crates (depot)
+
+== g1_officer
+> face dockoff hero
+> if gig_crates_done -> fin
+Officer: Board property. Stand back from the crates.
+?
+- [Talk 2] Transfer order. Recovery, Pound office. They're going on our boat. -> signed | nosign
+- $150 Spillage. It happens on a wet dock. -> paid
+- Never mind. -> fin
+* signed
+Officer: Pound office. Fine. Sign here. Mind the crates, they're heavy.
+> goto gone
+* nosign
+Officer: No transfer order means they don't move through me. Back off the dock.
+> goto fin
+* paid
+Officer: Spillage on a wet dock. I'm writing it up.
+* gone
+> sfx splash
+> anim splash 11 17
+> set gig_crates_done
+> quest gig_crates 2
+> goto g1_down
+* fin
+
+== g1_crates
+> face hero up
+> if gig_crates_done -> fin
+(Board crates. HUSH. FOR RECOVERY. MONTHLY ORDER. FORTY COUNT.)
+?
+- ?item:line9 Wake the forklift with Line 9. Tell it to tip them in. -> wake
+- [Athletics 3] Shove them off the dock. -> shove | caught
+- <diver> [Hack 2] Release the pallet brakes from the yard junction. -> roll | caught
+- {quaye} [Hack 1] Quaye. The pallet brakes. -> roll | caught
+- Leave them be. -> fin
+* wake
+> take line9
+> sfx wake
+> anim breathe 14 13
+> wait 0.6
+> goto roll
+* shove
+> sfx shove
+* roll
+> anim shift hush1 10 17 &
+> anim shift hush2 11 17 &
+> anim shift hush3 12 17
+> sfx splash
+> anim splash 11 17
+> set gig_crates_done
+> quest gig_crates 2
+> ifnot party:courtesy -> down
+Courtesy: LOST PROPERTY. THIS PROPERTY IS LOST.
+* down
+> goto g1_down
+* caught
+> goto g1_alert
+* fin
+
+== g1_down
+> if g1_fought -> fin
+Officer: Shift change. Not my crates anymore.
+> walk g1a @office_door &
+> walk g1b @office_door
+> walk g1c @office_door
+> exit g1a
+> exit g1b
+> exit g1c
+> anim rise g1d
+* fin
+
+== g1_alert
+> if gig_crates_done -> fin
+> set g1_seen
+> sfx alarm
+Officer: Hands where I can see them. Board property, citizens.
+> fight depot_g1
+> set g1_fought
+Officer: Fine. Take the crates. I'm off shift.
+* fin
+
+# ---------------------------------------------------------------- G2: Eel Run (houseboat)
+
+== g2_rook
+> face rook hero
+> if gig_eels_done -> fin
+Rook: Opal's eels. Hand them over.
+?
+- Hand him the cooler. -> deliver
+- [Notice 2] Open it first. Eels don't clink. -> look | deliver
+- What are you really paying Opal for? -> ask
+* ask
+Rook: Eels. It says "eels." Read it.
+> goto deliver
+* look
+> sfx loot
+(Beneath the eels: twenty vials. Cut Line 4. Angry blood.)
+Rook: Wouters's checkpoint on the west bridge. Twenty angry lamps and a turret by morning.
+Rook: The Board had it coming. Opal knew what she was carrying.
+?
+- Fine. They're yours. -> deliver
+- ?item:eel [Talk 2] Keep the vials. He gets the eels and nothing else. -> swap | dump
+- Over the side they go. -> dump
+* deliver
+> take eelcooler
+> set eels_delivered
+> set gig_eels_done
+> quest gig_eels 2
+> ifnot party:sallis -> fin
+Sallis: Angry red on a crowded bridge. People live on that bridge.
+> approve sallis -2
+> goto fin
+* swap
+> take eelcooler
+> take eel
+Rook: ...These are eels.
+Rook: Fine. They're eels. Opal's eels. Get off my boat.
+> set eels_swapped
+> set gig_eels_done
+> quest gig_eels 2
+> approve courtesy 1 sallis 1
+> goto fin
+* dump
+> take eelcooler
+> sfx splash
+> anim splash 13 10
+Rook: That was forty gilt a vial. Boys.
+> set eels_dumped
+> goto g2_fight_go
+* fin
+
+== g2_fight_go
+> set g2_fight
+> fight hb_g2
+> goto g2_won
+
+== g2_retry
+Rook: Back for a swim?
+> fight hb_g2
+> goto g2_won
+
+== g2_won
+> set g2_fought
+> set gig_eels_done
+> quest gig_eels 2
+
+# ---------------------------------------------------------------- G3: The Painter (depot office)
+
+== g3_desk
+> face desk3 hero
+> if gig_painter_done -> fin
+Officer: The office is closed. The painter's being held for defacing. The fine is one hundred and twenty.
+?
+- $120 Pay her fine. -> paid
+- [Talk 3] She's ninety, and she's my aunt. -> talk | no
+- Later. -> fin
+* talk
+Officer: Ninety? She doesn't look ninety. Fine. Take her.
+> goto free
+* paid
+Officer: Paid. Sign for her. Keep her off the Bailers.
+> goto free
+* no
+Officer: Nobody's aunt is ninety. One hundred and twenty.
+> goto fin
+* free
+> goto g3_out
+* fin
+
+== g3_terminal
+> face hero up
+> if gig_painter_done -> fin
+(DEPOT OFFICE. CELL 1: SAAR VENNE. DEFACING BOARD PROPERTY. BAILER 1, LEFT KNEE.)
+?
+- <diver> [Hack 2] Open cell one. -> open | caught
+- {quaye} [Hack 1] Quaye. Cell one. -> open | caught
+- Leave it. -> fin
+* open
+> sfx hack
+> sfx door
+> goto g3_out
+* caught
+> goto g3_alert
+* fin
+
+== g3_saar
+> face saar hero
+> if gig_painter_done -> fin
+Saar: Opal sent you? Then get me out of here before they paint over him again.
+?
+- [Sneak 2] Walk out from behind the desk while he reads his screen. -> sneak | caught
+- Wait. -> fin
+* sneak
+> goto g3_out
+* caught
+> goto g3_alert
+* fin
+
+== g3_alert
+> if gig_painter_done -> fin
+> set g3_seen
+> sfx alarm
+Officer: Hey. Back in your cell. Hands up, all of you.
+> fight depot_g3
+> set g3_fought
+> goto g3_out
+* fin
+
+== g3_out
+> walk saar @office_door
+> face saar hero
+Saar: Forty coats of paint on his knee. I've applied eleven of them.
+Saar: Underneath all that, there's a hand. Small. A child's hand, pressed into the steel.
+Saar: I painted a raised hand over it. Pink. The Board scraped it off by morning.
+> walk saar @dock_in
+> walk saar 1 16
+> exit saar
+> set gig_painter_done
+> quest gig_painter 2
+> if g3_fought -> fin
+> walk g3a @office_door &
+> walk g3c @office_door &
+> walk g3b @office_door
+> exit g3a
+> exit g3b
+> exit g3c
+* fin
+
+# ---------------------------------------------------------------- Kat
+
+== kat_gigs
+> face kat hero
+Kat: Runner. I've got songs tonight.
+?
+- ?chapter>=3&!quest:gig_voice Her Voice. -> g4
+- ?chapter>=3&!quest:gig_relay Blind Spot. -> g5
+- ?chapter>=3&!quest:gig_test Clean Test. -> g6
+- ?chapter>=4&!quest:gig_driver Sunday. -> g7
+- ?chapter>=4&!quest:gig_repo Breathe. -> g8
+- ?gig_voice_done&!gig_voice_paid Her Voice is done. -> r4
+- ?gig_relay_done&!gig_relay_paid Blind Spot is done. -> r5
+- ?gig_test_done&!gig_test_paid Clean Test is done. -> r6
+- ?gig_driver_done&!gig_driver_paid Sunday is done. -> r7
+- ?gig_repo_done&!gig_repo_paid Breathe is done. -> r8
+- ?gig_relay_on&!gig_relay_done Take me up to the relay. -> roof
+- Not tonight. -> bye
+* g4
+Kat: This one's called Her Voice. Nienke sings at Violet, right behind me.
+Kat: Her voicebox is leased through Mevius, the manager. Sing anywhere else, and he'll switch it off.
+Kat: Bring her the lease. Three hundred. Fifty if you're unseen. Fifty if no blood's spilled.
+> set gig_voice_on
+> quest gig_voice 1
+> end
+* g5
+Kat: This one's called Blind Spot. Board Relay 4, on a roof over Terrace 3.
+Kat: It counts heads on the east stairs. A family needs to walk down them tonight without being counted.
+Kat: Blind it till morning. Three hundred. Same bonuses.
+> set gig_relay_on
+> quest gig_relay 1
+> ifnot party:sallis -> fin
+Sallis: Vein family. Has to be. Copy.
+> approve sallis 1
+> end
+* g6
+Kat: This one's called Clean Test. The Census van is parked on Terrace 4 tonight.
+Kat: Mia Dekker, six years old, tested positive this afternoon. The sample goes up in the morning.
+Kat: Her mother wants the result to read negative. Four hundred.
+> set gig_test_on
+> quest gig_test 1
+> ifnot party:tova -> fin
+Tova: four hundred? i'd do it for nothing. i'd do it for a noodle.
+> approve tova 2
+> end
+* g7
+Kat: This one's called Sunday. A Board driver named Hugo wants out of Fathom.
+Kat: He's waiting on the loading dock behind Mercy Spire. Get him to me without the gate noticing.
+Kat: Five hundred. He's paying out of pocket.
+> set gig_driver_on
+> quest gig_driver 1
+> end
+* g8
+Kat: This one's called Breathe. Opa Kok on Terrace 1 is three months behind on his Bodywell lungs.
+Kat: The repo crew comes tonight. His granddaughter pays me. I pay you. Three hundred.
+> set gig_repo_on
+> quest gig_repo 1
+> ifnot party:ambrose -> fin
+Ambrose: Bodywell repossessing a man's breath. I'll attend, with enthusiasm.
+> approve ambrose 1
+> end
+* roof
+Kat: Take the service ladder behind the club. Up you go.
+> warp rooftop @roof_in up
+> end
+* r4
+> rep bodywell -1
+Kat: Nienke sang on the Steps tonight. She finished the set. Three hundred.
+> gilt 300
+> if caught_mevius|g4_seen -> r4b
+> gilt 50
+* r4b
+> if g4_fight -> r4c
+> gilt 50
+* r4c
+> set gig_voice_paid
+> quest gig_voice done
+> end
+* r5
+> rep board -2
+> rep vein 1
+Kat: The family's gone. Nobody counted them. Three hundred.
+> gilt 300
+> if g5_seen -> r5b
+> gilt 50
+* r5b
+> if g5_fought -> r5c
+> gilt 50
+* r5c
+> set gig_relay_paid
+> quest gig_relay done
+> end
+* r6
+> rep board -1
+> rep vein 1
+Kat: Mia Dekker is a no. Her mother cried in my booth. Four hundred.
+> gilt 400
+> if g6_seen -> r6b
+> gilt 50
+* r6b
+> if g6_fought -> r6c
+> gilt 50
+* r6c
+> set gig_test_paid
+> quest gig_test done
+> end
+* r7
+> rep board -2
+Kat: Hugo's on a boat by now. He left you this. Five hundred.
+> gilt 500
+> if g7_seen -> r7b
+> gilt 75
+* r7b
+> if g7_fight -> r7c
+> gilt 75
+* r7c
+> set gig_driver_paid
+> quest gig_driver done
+> end
+* r8
+> rep bodywell -2
+Kat: Opa Kok is breathing on his balcony. Loudly. Three hundred.
+> gilt 300
+> if g8_fight -> r8c
+> gilt 100
+* r8c
+> set gig_repo_paid
+> quest gig_repo done
+> end
+* bye
+Kat: Now go be quiet somewhere else.
+* fin
+
+# ---------------------------------------------------------------- G4: Her Voice (Club Violet)
+
+== violet_bar
+> face vbar hero
+Barman: Two floors. One drink. Nienke doesn't sing anymore. Ask Mevius why.
+> shop steps_noodles
+
+== g4_nienke
+> face nienke hero
+> if gig_voice_done -> after
+> if item:contract -> give
+(Nienke mouths the words, but no sound comes out. The light on her voicebox is gray.)
+> ifnot party:tova -> fin
+?
+- {tova} Tova. The speakers. Clear the office. -> wake
+- Not yet. -> fin
+* wake
+> mood tova anger
+Tova: Fine. Loud. Everybody out.
+> sfx wake
+> anim breathe 9 13
+> anim breathe 20 13
+> shake 1
+> sfx alarm
+> walk vbounce1 14 17 &
+> walk vbounce2 15 17 &
+> walk mevius 24 6
+> walk mevius 14 17
+> exit vbounce1
+> exit vbounce2
+> exit mevius
+> give contract
+> set g4_cleared
+> ifnot party:courtesy -> fin
+Courtesy: STAND CLEAR OF THE DOORS.
+> goto fin
+* give
+> take contract
+> sfx confirm
+> wait 1
+Nienke: ...Oh. It's on.
+> music lanterns
+Nienke: I'm going to sing on the Steps. Out in the rain. Where he can hear me.
+> set gig_voice_done
+> quest gig_voice 2
+> goto fin
+* after
+Nienke: Out on the Steps at eleven bells. Every night. Come and hear it.
+* fin
+
+== g4_mevius
+> face mevius hero
+> if caught_mevius -> caught
+Mevius: The voice is mine, friend. Leased fair and square. Monthly.
+?
+- [Talk 3] Sell me the lease. She sings for you anyway. -> talk | no
+- {ignace} [Talk 2] Let Ignace talk to him. -> ig | no
+- $400 Buy the lease. -> buy
+- Then we take it. -> g4_fight_go
+- Later. -> fin
+* ig
+Ignace: Brother Mevius! The Church takes an interest in voices. In owning them.
+Ignace: The Archdeacon asked for you by name this Sunday. From the pulpit.
+Mevius: ...Take it. Take the thing.
+> goto got
+* talk
+Mevius: She does sing for me. Fine. Paper's paper.
+> goto got
+* buy
+Mevius: Four hundred. A fair price for a voice.
+* got
+> give contract
+> goto fin
+* no
+Mevius: No. Have a drink at the bar. It's on her.
+> goto fin
+* caught
+Mevius: Hands out of my coat. Boys.
+> set g4_seen
+> goto g4_fight_go
+* fin
+
+== g4_terminal
+> face hero up
+> if item:contract|gig_voice_done -> fin
+(VIOLET OFFICE. LEASES: VOICEBOX 220-N. HOLDER: P. MEVIUS. USER: NIENKE.)
+?
+- <diver> [Hack 2] Transfer the lease to the user. -> hack | no
+- {quaye} [Hack 1] Quaye. Transfer it. -> hack | no
+- Leave it. -> fin
+* hack
+> sfx hack
+> give contract
+> goto fin
+* no
+> sfx error
+> set g4_seen
+(ACCESS LOGGED. MANAGER NOTIFIED.)
+* fin
+
+== g4_fight_go
+> set g4_fight
+> fight violet_g4
+> goto g4_won
+
+== g4_retry
+> fight violet_g4
+> goto g4_won
+
+== g4_won
+> give contract
+> set g4_seen
+
+# ---------------------------------------------------------------- G5: Blind Spot (rooftop)
+
+== roof_hatch
+> face hero down
+?
+- Back down to the Steps. -> back
+- Not yet. -> no
+* back
+> warp steps @kat_spot down
+* no
+
+== g5_tech
+> face roof_tech hero
+> if gig_relay_done -> fin
+Officer: Relay maintenance. Board staff. Clear the roof.
+?
+- $200 File a fault. The relay can wait until morning. -> paid
+- [Talk 2] The Board sent us. You're relieved. -> talk | no
+- Fine. -> fin
+* paid
+Officer: Fault filed. Rain in the junction. Standard procedure.
+> goto off
+* talk
+Officer: Relieved. Nobody gives me any updates. Fine.
+* off
+> walk roof_tech @roof_in
+> exit roof_tech
+> set g5_tech_gone
+> set gig_relay_done
+> quest gig_relay 2
+> goto g5_down
+* no
+> goto g5_alert
+* fin
+
+== g5_relay
+> face hero up
+> if gig_relay_done -> fin
+(BOARD RELAY 4. EAST STAIRS. HEADS COUNTED TONIGHT: 214.)
+?
+- <diver> [Hack 2] Loop yesterday's count until morning. -> blind | caught
+- {quaye} [Hack 1] Quaye. Loop it. -> blind | caught
+- {tova} Tova. The junction box. -> wake
+- ?item:line4 Wake the junction with Line 4. Let it burn out. -> line
+- Smash it. -> caught
+- Leave it. -> fin
+* wake
+Tova: one drop. angry. it hates its job anyway.
+> mood tova anger
+> goto g9_burn
+* line
+> take line4
+* burn
+> sfx wake
+> anim breathe relay_box
+> wait 0.8
+> anim sparks 13 4
+> sfx explode
+* blind
+> sfx hack
+> set gig_relay_done
+> quest gig_relay 2
+> ifnot party:sallis -> down
+Sallis: Down the stairs, uncounted. Good.
+* down
+> goto g5_down
+* caught
+> goto g5_alert
+* fin
+
+== g5_down
+> anim rise g5a
+> anim rise g5b
+> walk g5c @roof_in
+> exit g5c
+
+== g5_alert
+> if gig_relay_done -> fin
+> set g5_seen
+> sfx alarm
+Officer: Roof intruders. Relay 4. Deploy the drones.
+> fight roof_g5
+> set g5_fought
+> anim sparks 13 4
+> set gig_relay_done
+> quest gig_relay 2
+* fin
+
+# ---------------------------------------------------------------- G6: Clean Test (terraces)
+
+== g6_mother
+> face dekker hero
+> if gig_test_done -> fin
+Dekker: Mia woke her doll last spring. It sings now. Only when she's asleep.
+Dekker: They'll send her up to placement. I know what placement means.
+* fin
+
+== g6_tester
+> face vantester hero
+> if gig_test_done -> fin
+Tester: Census, Terrace 4. Results are due at six bells.
+?
+- [Talk 3] Run Mia Dekker's sample again. -> talk | no
+- $250 Mia Dekker's sample is negative. -> paid
+- What happens to the positives? -> ask
+- Later. -> fin
+* ask
+Tester: Placement. Mostly Sunny Steps. It's a good home. Warm. They sing.
+> goto fin
+* talk
+Tester: Again. Fine... Negative. Contaminated swab. It happens.
+> goto clean
+* paid
+Tester: Negative. Contaminated swab. It happens.
+* clean
+> goto g6_clean
+* no
+Tester: The first test is the only one that counts.
+* fin
+
+== g6_van
+> face hero up
+> if gig_test_done -> fin
+(The Census van. A sample cooler sits under the back seat, along with a card reader.)
+?
+- [Sneak 2] Swap Mia's vial for a clean one. -> swap | caught
+- <diver> [Hack 2] Alter the reader's log. -> hack | caught
+- {quaye} [Hack 1] Quaye. The reader. -> hack | caught
+- {tova} Tova. The van. -> wake
+- Leave it. -> fin
+* wake
+> mood tova fear
+Tova: it's scared. it's going to leave. move.
+> sfx wake
+> anim shift census_van 30 8
+> emote vantester !
+> walk vantester 31 9
+Tester: The van. The van! Hold it!
+> wait 0.5
+> goto swap
+* hack
+> sfx hack
+> goto g6_clean
+* swap
+> sfx loot
+> goto g6_clean
+* caught
+> goto g6_alert
+* fin
+
+== g6_alert
+> if gig_test_done -> fin
+> set g6_seen
+> sfx alarm
+Officer: Step away from the van, citizen.
+> fight terr_g6
+> set g6_fought
+Tester: Fine. Fine! Negative. Whatever you want. Just go.
+> goto g6_clean
+* fin
+
+== g6_clean
+> set gig_test_done
+> quest gig_test 2
+> if g6_fought -> tova
+> walk g6a 42 8 &
+> walk g6c 44 8 &
+> walk g6b 43 8
+> exit g6a
+> exit g6b
+> exit g6c
+* tova
+> ifnot party:tova -> fin
+> mood tova joy
+Tova: my mum spat in my tube. this is better. this is so much better.
+> approve tova 2
+* fin
+
+# ---------------------------------------------------------------- G7: Sunday (Mercy Spire)
+
+== g7_hugo
+> face hugo hero
+> if gig_driver_done -> fin
+Hugo: Kat's people. Good. I've got a bag. That's all I have.
+Hugo: On Sundays, I drive the Chair to the back door here. He brings the newspapers.
+Hugo: He comes back down without them. Twenty years. I'd like to drive somewhere else.
+?
+- [Sneak 2] Stay low and slip out past the gate. -> sneak | seen
+- Talk our way past the gate. -> talk
+- Wait here. -> fin
+* sneak
+> goto g7_walk
+* seen
+> set g7_seen
+> goto g7_fight_go
+* talk
+> set g7_talk
+Hugo: The gate's at the bottom of the car park. There are two. One's my cousin. He's useless.
+* fin
+
+== g7_gate
+> face gate7a hero
+> if gig_driver_done -> fin
+Officer: The car park is closed. Who's that with you?
+?
+- [Talk 3] An off-shift driver. We're giving him a ride. -> pass | seen
+- <diver> [Hack 2] Let's check the gate camera first. -> pass | seen
+- {quaye} [Hack 1] Quaye. Check the gate camera. -> pass | seen
+- Then we go through you. -> g7_fight_go
+- Never mind. -> fin
+* pass
+Officer: Off-shift. Alright. Go ahead.
+> goto g7_walk
+* seen
+> set g7_seen
+> goto g7_fight_go
+* fin
+
+== g7_fight_go
+> set g7_fight
+> fight spire_g7
+> goto g7_walk
+
+== g7_walk
+> walk hugo @gate_front
+> walk hugo @hugo_out
+> face hugo hero
+Hugo: Tell Kat thanks. Don't mention it to the Chair. He won't ask.
+> walk hugo 19 31
+> exit hugo
+> set g7_out
+> set gig_driver_done
+> quest gig_driver 2
+
+# ---------------------------------------------------------------- G8: Breathe (terraces)
+
+== g8_kok
+> face opakok hero
+> if gig_repo_done -> after
+Kok: They're taking the left one, they say. It's three months overdue. I still have the right one.
+Kok: My granddaughter paid someone. Is that you? You look like someone.
+> goto fin
+* after
+Kok: Listen to that. In, out. Both sides. Ha.
+* fin
+
+== g8_repo
+> face repo2 hero
+> if gig_repo_done -> fin
+Repo: Bodywell repossession. Left lung. One unit. Please step aside.
+?
+- $300 Pay your arrears. Right now. -> paid
+- [Talk 3] Come back Thursday. He'll be dead or paid by then. -> talk | no
+- {ambrose} Ambrose. -> amb
+- <diver> [Hack 3] Void the order yourself. -> hack | no
+- Then you'll have to go through us. -> g8_fight_go
+- Later. -> fin
+* amb
+Ambrose: Sir. I've read every Bodywell clause, mostly while bleeding.
+Ambrose: Clause nine. No repossession of a breathing organ after the eighth bell. That makes it the ninth.
+Repo: ...Clause nine. Fine. Thursday.
+> approve ambrose 2
+> goto go
+* paid
+Repo: Paid. Lovely. Keep breathing, sir.
+> goto go
+* talk
+Repo: Thursday. Fine. It's raining anyway.
+> goto go
+* hack
+> sfx hack
+Repo: Order void? My deck says void. Huh.
+* go
+> walk repo1 42 38 &
+> walk repo3 41 39 &
+> walk repo2 43 38
+> exit repo1
+> exit repo2
+> exit repo3
+> set gig_repo_done
+> quest gig_repo 2
+> goto fin
+* no
+Repo: Please step aside.
+* fin
+
+== g8_fight_go
+> set g8_fight
+> fight terr_g8
+> set gig_repo_done
+> quest gig_repo 2
+
+# ---------------------------------------------------------------- G9: Drowned Book (houseboat, chapter 5)
+
+== g9_vis
+> face vis hero
+> if gig_book_done -> fin
+Vis: Opal sent you. Tell her she owes me eighty gilt.
+Vis: My moorings snapped at the third bell. Everything I own is on this boat. Including the book.
+?
+- [Talk 3] The water took your street, Mevrouw. Let it take the book. -> talk | no
+- $500 I'll buy the book. -> buy
+- {tova} Tova. The boat. -> wake
+- Later. -> fin
+* talk
+Vis: ...Half of them are dead or sunk. Fine. Take it. I'm done.
+> goto g9_burn
+* buy
+Vis: Five hundred. Every debt in it is worth more than that. Take it.
+> goto g9_burn
+* wake
+> mood tova calm
+Tova: calm. calm boat. take us to the clement. slowly.
+> sfx wake
+> anim hull on
+> shake 1
+Vis: What did she do? The boat's breathing. Where is it going?
+> set g9_boat
+> goto g9_burn
+* no
+Vis: No. Debts are debts. Water or no water.
+* fin
+
+== g9_safe
+> face hero up
+> if gig_book_done -> fin
+(A steel box bolted to the floor. Inside, a debt book wrapped in oilcloth.)
+?
+- [Sneak 2] Open it quietly. -> open | caught
+- <diver> [Hack 2] The lock is a Board model. -> open | caught
+- Leave it. -> fin
+* open
+> sfx loot
+> goto g9_burn
+* caught
+> goto g9_alert
+* fin
+
+== g9_alert
+> if gig_book_done -> fin
+> set g9_seen
+> sfx alarm
+Vis: Thieves! Boys, thieves on the boat!
+> fight hb_g9
+> set g9_fought
+> goto g9_burn
+* fin
+
+== g9_burn
+> sfx splash
+> anim splash 15 13
+> set gig_book_done
+> quest gig_book 2
+> if g9_fought -> fin
+> walk g9a @jetty_in &
+> walk g9b @jetty_in &
+> walk g9c @jetty_in
+> wait 1
+> exit g9a
+> exit g9b
+> exit g9c
+* fin
+
+# ---------------------------------------------------------------- G10: Ninety Kilos (depot, chapter 5)
+
+== g10_talk
+> face salv hero
+> if gig_motors_done -> fin
+Cutter: Salvage. The company has left, and the water is coming in. Finders.
+?
+- [Talk 2] Board Recovery is coming back for those. With Hush. -> talk | no
+- $200 Finder's fee. They're mine now. -> paid
+- Then we take them. -> fight
+- We'll deal with it later. -> fin
+* talk
+Cutter: ...Hush. Right. Keep them. We were never here.
+> goto leave
+* paid
+Cutter: Finder's fee. Pleasure.
+* leave
+> walk salv @dock_in
+> walk salv 1 16
+> exit salv
+> set g10_clear
+> goto fin
+* fight
+> set g10_fight
+> fight depot_g10
+> set g10_fought
+> set g10_clear
+> goto fin
+* no
+Cutter: No. Ninety kilos is ninety kilos.
+* fin
+
+== g10_motors
+> face hero up
+> if gig_motors_done -> fin
+> ifnot g10_clear -> guarded
+(Two Board sump motors. Ninety kilos each. Tags read: DRAINAGE, CANAL SIX.)
+?
+- Load them onto Gus's boat for Opal's buyer. -> opal
+- ?roster:quaye Send them to Quaye. -> quaye
+- Leave them. -> fin
+* opal
+> set gig_motors_done
+> quest gig_motors 2
+> goto fin
+* quaye
+> set motors_quaye
+> set gig_motors_done
+> quest gig_motors 2
+> approve quaye 3
+> ifnot party:quaye -> fin
+Quaye: Two motors. Eighteen hundred liters a minute. That's Canal Six. Good.
+> goto fin
+* guarded
+(The salvage crew is standing on them.)
+* fin

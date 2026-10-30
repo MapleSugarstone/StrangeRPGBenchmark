@@ -1,0 +1,539 @@
+# The Deeps in chapter 2: people, readables, and side quests. Side quests: button (Dita's toy),
+# jukebox (the bar on the north road), choir (Doc Seo), floathouse (the Bosmans), umbrella (Piet).
+
+# ---------------------------------------------------------------- Pell Market people
+
+== wanted_poster
+(WANTED. {name}. A runner who boarded the Board barge Clement.)
+(Reward: 2,000 gilt. Keep Fathom dry.)
+> if party:ambrose -> a
+> ifnot party:courtesy -> done
+Courtesy: REPORT THIS CITIZEN. DO NOT REPORT THIS CITIZEN.
+> end
+* a
+Ambrose: The likeness is poor. The artist has done your chin a disservice.
+* done
+
+== checkpoint_talk
+> face checkofficer hero
+Officer: Hold your port up to the reader, please.
+> wait 0.8
+Officer: The reader is broken. Move along. Keep Fathom dry.
+
+== bodywell_kiosk
+(BODYWELL. Your body, our care.)
+> ifnot quest:ambrose -> done
+> if ambrose_debt_paid -> paid
+(Account: A. KWARTENG. Outstanding balance: 400 gilt.)
+?
+- $400 Pay the balance. -> pay
+- Leave it. -> done
+* pay
+> sfx buy
+(Payment received. Thank you for choosing Bodywell.)
+> set ambrose_debt_paid
+> quest ambrose 3
+> approve ambrose 3 quaye 2
+> end
+* paid
+(Account: A. KWARTENG. Balance: 0 gilt. Next payment due in 30 days.)
+* done
+
+== lotte_talk
+> face lotte hero
+> if jukebox_done -> after
+Lotte: Want a drink? It's water with color. Two gilt.
+?
+- What's wrong with the jukebox? -> juke
+- Show me the drinks. -> shop
+- Not tonight. -> bye
+* juke
+> goto jukebox_talk
+* shop
+> if rep:deeps>=4 -> shop_bar_cheap
+> if rep:deeps<-3 -> shop_bar_dear
+> shop bar
+> end
+* after
+Lotte: It plays all night now. Nobody asks it to stop.
+> if rep:deeps>=4 -> shop_bar_cheap
+> if rep:deeps<-3 -> shop_bar_dear
+> shop bar
+* bye
+
+== henk_talk
+> face henk hero
+> if choir_done -> done
+Henk: The Doc's gone. Two men in gray. No chrome on them. Not even a port.
+Henk: They walked her toward the ferries. The Doc doesn't walk like that.
+> quest choir 1
+> end
+* done
+Henk: She fixed my knee. Charged me nothing. Said she owed someone.
+
+== seo2
+> if choir_done -> back
+> end
+* back
+> if seo_gift -> shop
+> set seo_gift
+> if choir_fought -> fought
+> if choir_operated -> operated
+Doc Seo: Two "yeses." I'm stealing that. I'll say it to every patient.
+> goto gift
+* fought
+Doc Seo: You fought monks on a mudflat for me. I don't even know what to do with that.
+> goto gift
+* operated
+Doc Seo: I removed a port on a mudflat. She thanked me. I can't stop thinking about it.
+* gift
+Doc Seo: Stims. Two. Free. Don't argue.
+> give stim 2
+* shop
+Doc Seo: Your port's still warm. Thirty-nine. I'll sell you stims at cost.
+> shop doc_seo
+
+== fishwife_talk
+> face fishwife hero
+> if vein_done -> after
+Wil: The Board was in that house for an hour. Came out with nothing. Went back in.
+Wil: Eel? Eel's from Six. Six is the clean canal. Cleaner.
+> if rep:deeps>=4 -> shop_fish_cheap
+> if rep:deeps<-3 -> shop_fish_dear
+> shop fish
+> end
+* after
+Wil: They took the bodies at two bells. In bags. Board bags.
+> if rep:deeps>=4 -> shop_fish_cheap
+> if rep:deeps<-3 -> shop_fish_dear
+> shop fish
+
+== pit_board
+(TONIGHT: STOKER, 1 TO 4. KWARTENG, 6 TO 1.)
+(Your wagers have been received.)
+
+== garage_ledger
+(CUTTERS. Line 4, cut three to one. Line 9, cut five to one.)
+(Wanted: any amount. L-1. Price open. M.S.)
+> ifnot party:quaye -> done
+Quaye: She wants Line 1. Price open. Nobody writes "price open.
+* done
+
+== spin_washer
+> sfx confirm
+> ifnot party:quaye -> done
+Quaye: Line 2. Cut. Nineteen years ago. They still dance on their days off.
+* done
+
+== opal_camp
+> face opal hero
+Opal: Lovely. Mm. Sit down. Someone ought to have a bite on this barge.
+?
+- What do you have? -> shop
+- Any gigs? -> gigs
+- Are you staying? -> stay
+* shop
+> if rep:deeps>=4 -> shop_opal_camp_cheap
+> if rep:deeps<-3 -> shop_opal_camp_dear
+> shop opal_camp
+> end
+* gigs
+Opal: Gigs only come when I have a boat again. Or when you're up the Wall.
+Opal: I know people up there. Drylanders pay better.
+> end
+* stay
+Opal: Where else? Sieve has my boat money. The Board has my pier.
+Opal: Your barge breathes down my neck at night. I'm getting used to it.
+
+# ---------------------------------------------------------------- Side quest: Mister Button (Dita, Wouters)
+
+== kids2
+> if button_done -> done
+> if item:mrbutton -> give
+> if quest:button -> mid
+Dita: The Board man took Mister Button. At the bridge. He called it living property.
+> ifnot bear_woke -> sum
+Pim: He took Tuesday too. Tuesday danced at him.
+* sum
+Dita: He sells them back. Fifty gilt. I have four.
+> set button_known
+> quest button 1
+> end
+* mid
+Dita: He's in the crate by the bridge. I can hear him breathing.
+> end
+* give
+> take mrbutton
+> sfx loot
+> emote dita heart
+Dita: Mister Button. See? He didn't stop. He just waited.
+> ifnot bear_woke -> thanks
+Pim: Tuesday came out too. He's dancing.
+* thanks
+Courtesy: LOST PROPERTY RETURNED TO OWNER. THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 2
+> set button_done
+> rep deeps 1
+> rep woken 1
+> quest button done "Mister Button is back with Dita."
+> end
+* done
+Dita: Mister Button sleeps in my coat now. He likes the pocket.
+
+== toy_crate
+> if button_done -> done
+> ifnot quest:button -> done
+> face hero left
+?
+- ?!crate_tried [Sneak 2] Lift the lid while Wouters watches the bridge. -> steal | caught
+- {courtesy} Claim it's lost property. -> cour
+- $50 Buy Mister Button back. -> buy
+- Leave it. -> done
+* steal
+> sfx loot
+> give mrbutton
+> quest button 1 "You lifted Mister Button out of the crate. Take him to Dita."
+> end
+* caught
+> set crate_tried
+> face wouters hero
+Wouters: Hands off Board property. That crate is evidence.
+> end
+* cour
+> face courtesy wouters
+Courtesy: THIS IS LOST PROPERTY. LOST PROPERTY IS RETURNED TO THE OWNER.
+Wouters: A robot is reading me procedure. Fine. Take the sock.
+> sfx loot
+> give mrbutton
+> approve courtesy 2
+> quest button 1 "Wouters gave Mister Button up. Take him to Dita."
+> end
+* buy
+Wouters: Fifty. The Board thanks you for your cooperation.
+> sfx loot
+> give mrbutton
+> quest button 1 "You bought Mister Button back. Take him to Dita."
+* done
+
+== button_talk
+> face wouters hero
+Wouters: Woken toys are Board property. I return them to families. For a fee.
+?
+- ?!button_talked [Talk 2] Your sergeant would want to hear about this fee. -> talk | notalk
+- $50 The sock rabbit. Fifty. -> buy
+- Never mind. -> bye
+* talk
+> set button_talked
+Wouters: My sergeant gets a third. Take the rabbit. Take the bear. Go away.
+> sfx loot
+> give mrbutton
+> quest button 1 "Wouters gave Mister Button up. Take him to Dita."
+> end
+* notalk
+> set button_talked
+Wouters: My sergeant is very busy. Fifty gilt.
+> end
+* buy
+Wouters: Fifty. The Board thanks you for your cooperation.
+> sfx loot
+> give mrbutton
+> quest button 1 "You bought Mister Button back. Take him to Dita."
+* bye
+
+# ---------------------------------------------------------------- Side quest: the jukebox (Lotte, the collector)
+
+== jukebox_talk
+> ifnot chapter>=2 -> idle
+> if jukebox_done -> play
+> face collector hero
+> if quest:jukebox -> opts
+Lotte: The jukebox is in debt to the red masks. They call it protection.
+Collector: Forty a week. It pays in songs. Songs aren't gold.
+Lotte: It's awakened. Line 2, years ago. All it knows is how to play.
+> quest jukebox 1
+* opts
+?
+- $120 Pay off its debt. -> pay
+- ?!juke_talked [Talk 2] Mother Sieve likes a waltz. Pay her in songs. -> talk | notalk
+- {quaye} [Hack 1] Quaye lists it as Board property. Nobody touches that. -> hack | nohack
+- Leave the jukebox alone. For now. -> fight
+- Not my business. -> bye
+* pay
+> approve ambrose 1
+Collector: Paid in full. The jukebox is very welcome.
+> set juke_paid
+> rep cutters 1
+> rep woken 1
+> goto leave
+* talk
+> set juke_talked
+> rep cutters 1
+> rep woken 1
+Collector: Mother does like a waltz. Sunday teas.
+Collector: Fine. It plays at her Sunday tea. That's the rate.
+> set juke_waltz
+> goto leave
+* notalk
+> set juke_talked
+> rep cutters 1
+> rep woken 1
+Collector: Songs aren't gold. Forty a week.
+> end
+* hack
+Quaye: Board inspection tag. Woken property, under review. Four seconds.
+Collector: Board property. I don't touch Board property.
+> set juke_tagged
+> rep woken 1
+> goto leave
+* nohack
+Quaye: The Board list is locked. Someone changed the codes. Twenty years too late.
+> end
+* fight
+Collector: Then you can pay in teeth.
+> exit collector
+> exit collector2
+> fight jukebox_cutters
+> set juke_fought
+> rep cutters -2
+> rep woken 1
+> set jukebox_done
+> quest jukebox done "You ran the Cutters off the jukebox."
+> goto play
+* leave
+> walk collector2 @jaws_off2 &
+> walk collector @jaws_off
+> exit collector
+> exit collector2
+> set jukebox_done
+> quest jukebox done "The Cutters left the jukebox alone."
+* play
+> face hero up
+> music lanterns
+> wait 2
+> if juke_heard -> back
+> set juke_heard
+PORT: This is in your ears. Keep it.
+> self 1
+* back
+> wait 4
+> music market
+* idle
+> sfx confirm
+* bye
+
+# ---------------------------------------------------------------- Side quest: the Choir took Doc Seo
+
+== choir_meet
+> set choir_met
+> camera @choir_view 1
+CHOIR: Your neck is singing.
+CHOIR: Humming.
+CHOIR: It's singing, but the note is wrong.
+> camera hero 0.8
+> quest choir 2
+
+== choir_doc
+> face seo hero
+Doc Seo: They want me to remove her chrome. All of it. The port included.
+Doc Seo: She says yes. But I don't pull ports on a mudflat.
+> goto choir_opts
+
+== choir_liv
+> face liv hero
+Liv: I asked for this. I asked them.
+Liv: The chrome took the part of me that wanted things. I want to want again.
+> goto choir_opts
+
+== choir_opts
+?
+- ?!choir_argued [Talk 3] Doc doesn't consent. You need two yeses. -> talk | notalk
+- ?bg:choir&!choir_argued [Talk 1] Brothers. You sang me a name once. Hear me now. -> talk | notalk
+- Let Doc do it. Then she walks. -> let
+- Let her go, or we fight. -> fight
+- I need time to think. -> bye
+* talk
+> set choir_argued
+CHOIR: Two.
+CHOIR: Two yeses.
+CHOIR: One yes is theft. Go, Doctor.
+> set choir_talked
+> rep choir 1
+> rep deeps 1
+> goto leave
+* notalk
+> set choir_argued
+CHOIR: One is enough.
+CHOIR: One suffices.
+CHOIR: One is enough, if it's hers.
+> end
+* let
+Doc Seo: Fine. Hold her hand. I don't want her alone when this happens.
+> fade out 1
+> sfx port
+> wait 2
+> fade in 1
+Liv: It's quiet up here. So quiet.
+Doc Seo: Done. Don't make me do this twice.
+> set choir_operated
+> rep choir 1
+> goto leave
+* fight
+CHOIR: Then we will remove you.
+CHOIR: Gently.
+CHOIR: Or not.
+> fight choir_monks
+> set choir_fought
+> rep choir -3
+> ifnot party:ambrose -> freed
+Ambrose: They fought without a single implant. I respect that, against my better judgment.
+> approve ambrose 1
+> goto freed
+* leave
+> walk monk3 @choir_off &
+> walk monk2 @choir_off &
+> walk monk1 @choir_off
+> wait 0.6
+> exit monk1
+> exit monk2
+> exit monk3
+* freed
+Doc Seo: I'm heading back to the clinic. I owe you. I hate owing.
+> walk liv @choir_off &
+> walk seo @taxi
+> exit seo
+> exit liv
+> set choir_done
+> quest choir done "Doc Seo is back at her clinic."
+* bye
+
+# ---------------------------------------------------------------- Side quest: the Bosmans' floating house
+
+== bosman_talk
+> face bosman hero
+> if floathouse_done -> done
+Bosman: The house is going up on floats. Four generations lived in it. It's not staying down here.
+Bosman: The Board wants three hundred to move a house through the Lock. We have ninety.
+> quest floathouse 1
+?
+- $300 I'll cover the Board's fee. -> pay
+- I'll speak to the Lockmaster. -> bram
+- {quaye} [Hack 2] Quaye could list it as Board cargo. -> hack | nohack
+- Good luck with that. -> bye
+* pay
+> sfx buy
+Bosman: Three hundred. From a stranger. My mother will insist on feeding you.
+> set floathouse_paid
+> rep board 1
+> goto floathouse_done
+* bram
+Bosman: Bram. He waves at the Bailers. Maybe he waves at houses.
+> end
+* hack
+Quaye: Board cargo. One house. Freight class nine. Ninety seconds.
+> set floathouse_hacked
+> goto floathouse_done
+* nohack
+Quaye: Lock's queue is sealed for the new week. Five days.
+> end
+* done
+Bosman: The house went up. We had to leave the chickens behind.
+* bye
+
+== floathouse_done
+Bosman: Ten bells, then. We'll paint the name on the side tonight.
+> if floathouse_hacked -> q
+> goto close
+* q
+> approve quaye 1
+* close
+Courtesy: HAVE A SAFE TRIP.
+> set floathouse_done
+> rep deeps 1
+> quest floathouse done "The Bosmans' house goes up through the Lock at ten bells."
+> approve courtesy 1
+
+# ---------------------------------------------------------------- Side quest: Piet's umbrella
+
+== piet_talk
+> face piet hero
+> if umbrella_done -> done
+Piet: It follows me. Forty-one years. Not a drop on me in forty-one years.
+Piet: Fem woke it at our wedding. She cut her thumb on the cake knife.
+Piet: She didn't know she had red in her. Nobody knew. Nobody can know.
+Piet: People stare at a forty-year wake. Board people stare the longest.
+> quest umbrella 1
+?
+- ?item:hush Pour Hush on it. A few days of quiet. -> hush
+- ?!piet_argued [Talk 2] Nobody looks twice at an umbrella in the rain. -> keep | nokeep
+- {sallis} Sallis. The Vein moves wild witches. Even old ones. -> vein
+- ?!piet_swung [Strike 2] Break it. Quickly, before it opens. -> break | nobreak
+- I'll think about it. -> bye
+* hush
+> take hush
+> sfx hush
+> walk piet @piet_home
+> set umbrella_hushed
+> rep woken -1
+> set umbrella_done
+Piet: It's freezing. It stopped working. I'm soaked.
+> wait 1
+> sfx door
+> enter fem fem @fem_door down
+Fem: Piet, you're wet.
+Piet: I know.
+> exit fem
+> quest umbrella done "Piet's umbrella sleeps for a few days. He's wet for the first time in forty years."
+> end
+* keep
+> set piet_argued
+Piet: It's raining. Of course. Everyone carries an umbrella in the rain.
+> walk piet @piet_home
+> set umbrella_kept
+> rep woken 2
+> set umbrella_done
+> quest umbrella done "Piet kept his umbrella. In the rain nobody looks twice."
+> approve courtesy 1
+> end
+* nokeep
+> set piet_argued
+Piet: You don't understand Board people. They count their umbrellas.
+> end
+* vein
+Sallis: Copy that. Two elderly targets, Canal Four, tonight. Gone by morning.
+Piet: Out. Out of Fathom. Fem always wanted to see the sea from the outside.
+> approve sallis 3
+> walk piet @east_off
+> exit piet
+> set umbrella_vein
+> rep vein 2
+> rep woken 1
+> set umbrella_done
+> quest umbrella done "The Vein took Piet and Fem out of Fathom."
+> end
+* break
+> sfx melee
+> shake 1
+> walk piet @piet_home
+> set umbrella_broken
+> rep woken -2
+> set umbrella_done
+Piet: It's breathing. In fragments. On the boards.
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -3
+> quest umbrella done "You broke Piet's umbrella. The pieces still breathe."
+> end
+* nobreak
+> set piet_swung
+Piet: It closed on your hand. That's what it does.
+> end
+* done
+> if umbrella_kept -> kept
+> if umbrella_hushed -> hushed
+Piet: Fem sweeps the pieces into a box. They breathe inside it.
+> end
+* kept
+Piet: Rain tonight. Good. Nobody's watching.
+> end
+* hushed
+Piet: Three more days of rain beating down on me. Fem laughs at me. Good.
+* bye

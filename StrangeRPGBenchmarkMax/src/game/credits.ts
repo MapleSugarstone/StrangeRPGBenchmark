@@ -16,7 +16,7 @@ function lines(): { t: string; c: number; img?: string }[] {
   out.push({ t: 'GNOMON', c: C.gold3 });
   out.push({ t: '', c: 0 });
   const entry = flag('entry_fact') ? 'Us.' : flag('entry_question') ? "Who's next?" : flag('entry_names') ? 'Everyone.' : G.entryText || '...';
-  out.push({ t: 'The big lead. Owner:', c: C.pale });
+  out.push({ t: 'The big shadow. Owner:', c: C.pale });
   out.push({ t: entry, c: C.white });
   out.push({ t: '', c: 0 });
   for (const id of ['nodus', 'parhelia', 'lot', 'umbraculum', 'minim', 'tik']) {

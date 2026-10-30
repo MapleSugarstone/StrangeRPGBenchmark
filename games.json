@@ -10,11 +10,26 @@
       "polish": "Opus 5.5 medium",
       "folder": "StrangeRPGBenchmarkScoobert",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["test"] },
-      "colors": { "accent": "#7fd6c2", "ink": "#101018" },
-      "hero": { "name": "Mender", "role": "A spare thread of Loom Village", "sprite": "menu/art/patchwork-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "test"
+        ]
+      },
+      "colors": {
+        "accent": "#7fd6c2",
+        "ink": "#101018"
+      },
+      "hero": {
+        "name": "Mender",
+        "role": "A spare thread of Loom Village",
+        "sprite": "menu/art/patchwork-hero.png"
+      },
       "scene": "menu/art/patchwork-ch1.png",
-      "shots": ["menu/art/patchwork-battle.png"],
+      "shots": [
+        "menu/art/patchwork-battle.png"
+      ],
       "chapters": 5,
       "blurb": "The world is a patchwork, and the god who dreamed it is running out of thread. Mender, a spare thread of Loom Village, follows the patchwork godling Ochre into the First Seam. Three endings wait at the Loom.",
       "controls": "Arrows or WASD move. Enter, Space, or Z confirms. Esc or X goes back. C opens the party screen. M saves."
@@ -26,11 +41,24 @@
       "effort": "Ultracode",
       "folder": "StrangeRPGBenchmarkClaude",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist" },
-      "colors": { "accent": "#e8842c", "ink": "#0c0a12" },
-      "hero": { "name": "Wick", "role": "Lamplighter", "sprite": "menu/art/duotone-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#e8842c",
+        "ink": "#0c0a12"
+      },
+      "hero": {
+        "name": "Wick",
+        "role": "Lamplighter",
+        "sprite": "menu/art/duotone-hero.png"
+      },
       "scene": "menu/art/duotone-ch1.png",
-      "shots": ["menu/art/duotone-ch6.png", "menu/art/duotone-battle.png"],
+      "shots": [
+        "menu/art/duotone-ch6.png",
+        "menu/art/duotone-battle.png"
+      ],
       "chapters": 8,
       "blurb": "The Loom prints every tile in Tessel with black and two hues. Wick got black and amber and nothing else, and the village calls that a misprint. A creature's two colors tell you what hurts it.",
       "controls": "Arrows or WASD move. Z confirms. X cancels and opens the menu. C shifts time once you have the Pocket Sundial. M mutes."
@@ -42,11 +70,26 @@
       "effort": "Medium",
       "folder": "StrangeRPGBenchmarkSonnet",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["tools"] },
-      "colors": { "accent": "#ffc83a", "ink": "#15152a" },
-      "hero": { "name": "Wick", "role": "Apprentice Lamp winder", "sprite": "menu/art/long-noon-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "tools"
+        ]
+      },
+      "colors": {
+        "accent": "#ffc83a",
+        "ink": "#15152a"
+      },
+      "hero": {
+        "name": "Wick",
+        "role": "Apprentice Lamp winder",
+        "sprite": "menu/art/long-noon-hero.png"
+      },
       "scene": "menu/art/long-noon-ch1.png",
-      "shots": ["menu/art/long-noon-battle.png"],
+      "shots": [
+        "menu/art/long-noon-battle.png"
+      ],
       "chapters": 12,
       "blurb": "It has been noon for three hundred years. Wick winds the brass Lamp that serves as the sun and finds a forgotten setting on its dial called DUSK. Twelve partymates join the trip to find out who stopped the evening.",
       "controls": "Arrows or WASD move. Z or Enter confirms. X or Esc cancels and opens the menu."
@@ -58,11 +101,27 @@
       "effort": "Ultracode",
       "folder": "StrangeRPGBenchmarkFable",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["sim.js"] },
-      "colors": { "accent": "#2fc1b5", "ink": "#1b1e2a" },
-      "hero": { "name": "Pell", "role": "Salt scraper", "sprite": "menu/art/moth-crown-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "sim.js"
+        ]
+      },
+      "colors": {
+        "accent": "#2fc1b5",
+        "ink": "#1b1e2a"
+      },
+      "hero": {
+        "name": "Pell",
+        "role": "Salt scraper",
+        "sprite": "menu/art/moth-crown-hero.png"
+      },
       "scene": "menu/art/moth-crown-ch1.png",
-      "shots": ["menu/art/moth-crown-ch3.png", "menu/art/moth-crown-battle.png"],
+      "shots": [
+        "menu/art/moth-crown-ch3.png",
+        "menu/art/moth-crown-battle.png"
+      ],
       "chapters": 9,
       "blurb": "Pell scrapes salt at the edge of a world built around a dying star. When the village Lamp starts to fail, a moth the size of a cart lands in the square and says Pell's name.",
       "controls": "Arrows or WASD move. Z or Enter confirms. X or Esc cancels. C opens the menu. Hold Shift to hurry. M mutes."
@@ -75,11 +134,28 @@
       "folder": "StrangeRPGBenchmarkOpusMore",
       "status": "playable",
       "golden": true,
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["game.js.map"] },
-      "colors": { "accent": "#dccb86", "ink": "#0d0b14" },
-      "hero": { "name": "Hello", "role": "Receiver, found in the Shallows", "sprite": "menu/art/please-hold-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "game.js.map"
+        ]
+      },
+      "colors": {
+        "accent": "#dccb86",
+        "ink": "#0d0b14"
+      },
+      "hero": {
+        "name": "Hello",
+        "role": "Receiver, found in the Shallows",
+        "sprite": "menu/art/please-hold-hero.png"
+      },
       "scene": "menu/art/please-hold-ch1.png",
-      "shots": ["menu/art/please-hold-ch2.png", "menu/art/please-hold-ch4.png", "menu/art/please-hold-battle.png"],
+      "shots": [
+        "menu/art/please-hold-ch2.png",
+        "menu/art/please-hold-ch4.png",
+        "menu/art/please-hold-battle.png"
+      ],
       "chapters": 9,
       "blurb": "Every prayer nobody answers falls to the bottom of everything and grows into the thing it asked for. Hello grew from a wish you are about to type. When the falling stops and collectors start sending people back up, Hello goes to ask where they are taking them.",
       "controls": "Arrows or WASD move. Z, Space, or Enter confirms. X or Esc cancels and opens the menu. C listens. Shift runs. Tab shows your goal. M mutes. Gamepads work too."
@@ -93,11 +169,32 @@
       "folder": "StrangeRPGBenchmarkFableMore",
       "status": "playable",
       "golden": true,
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["sim.js", "sim.js.map", "validate.js", "validate.js.map", "debug.js", "art.js"] },
-      "colors": { "accent": "#2fa39a", "ink": "#0b0a10" },
-      "hero": { "name": "Fathom", "role": "Tuner of Hem. Cut bait.", "sprite": "menu/art/plumb-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "sim.js",
+          "sim.js.map",
+          "validate.js",
+          "validate.js.map",
+          "debug.js",
+          "art.js"
+        ]
+      },
+      "colors": {
+        "accent": "#2fa39a",
+        "ink": "#0b0a10"
+      },
+      "hero": {
+        "name": "Fathom",
+        "role": "Tuner of Hem. Cut bait.",
+        "sprite": "menu/art/plumb-hero.png"
+      },
       "scene": "menu/art/plumb-hem.png",
-      "shots": ["menu/art/plumb-ch5.png", "menu/art/plumb-battle.png"],
+      "shots": [
+        "menu/art/plumb-ch5.png",
+        "menu/art/plumb-battle.png"
+      ],
       "chapters": 9,
       "blurb": "Everyone on the Drop has a hook in the back and a line straight up into a sky that drips. Once a year a line goes tight and somebody is reeled up. Fathom's line comes down instead, with a file knotted into it, and every entry comes true.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc cancels. C opens the menu. Tab shows your goal. Shift hurries. M mutes. Player two uses the mouse. Gamepads work."
@@ -112,11 +209,29 @@
       "status": "playable",
       "golden": true,
       "diamond": true,
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["harness.js"] },
-      "colors": { "accent": "#c8ff2e", "ink": "#0b0a10" },
-      "hero": { "name": "Wait", "role": "The last thing the Scrivener wrote", "sprite": "menu/art/rote-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "harness.js"
+        ]
+      },
+      "colors": {
+        "accent": "#c8ff2e",
+        "ink": "#0b0a10"
+      },
+      "hero": {
+        "name": "Wait",
+        "role": "The last thing the Scrivener wrote",
+        "sprite": "menu/art/rote-hero.png"
+      },
       "scene": "menu/art/rote-standing.png",
-      "shots": ["menu/art/rote-editor.png", "menu/art/rote-ch1.png", "menu/art/rote-battle.png", "menu/art/rote-line.png"],
+      "shots": [
+        "menu/art/rote-editor.png",
+        "menu/art/rote-ch1.png",
+        "menu/art/rote-battle.png",
+        "menu/art/rote-line.png"
+      ],
       "chapters": 10,
       "blurb": "Everything that lives runs a rote, a short book of instructions a machine in the sky wrote into it. Wait got one word. When a rote that copies itself into everything comes down the river, Wait finds room under the word and starts writing spells in a language you learn as you go. Seven years later, Wait learns to write into other rotes.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C casts a page. R reads. Tab shows your goal. M mutes. In the rote you type code: Tab completes a word, F1 explains it, and F5 tests the page."
@@ -131,11 +246,24 @@
       "status": "playable",
       "golden": true,
       "diamond": true,
-      "build": { "command": "npm run build", "dist": "dist" },
-      "colors": { "accent": "#f2c8b8", "ink": "#0a0c24" },
-      "hero": { "name": "Ouro", "role": "Has not turned yet", "sprite": "menu/art/whorl-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#f2c8b8",
+        "ink": "#0a0c24"
+      },
+      "hero": {
+        "name": "Ouro",
+        "role": "Has not turned yet",
+        "sprite": "menu/art/whorl-hero.png"
+      },
       "scene": "menu/art/whorl-ch1.png",
-      "shots": ["menu/art/whorl-battle.png", "menu/art/whorl-puzzle.png"],
+      "shots": [
+        "menu/art/whorl-battle.png",
+        "menu/art/whorl-puzzle.png"
+      ],
       "chapters": 15,
       "blurb": "Everything that grows outgrows its shell, and the empty shells walk. Everyone in Turnstone turns when their time comes and leaves a cast behind. Ouro has not. Eight black Stays hold the world shut, and Ouro walks the Lip to turn. Ouro sounds whorls into horns along the way and conjoins them two into one. In the end it matters what the Stays hold out. Past the Margin is a night beach where stars fall at low water.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C wears your lead whorl. Shift hurries. Tab shows your goal. M mutes."
@@ -149,11 +277,24 @@
       "polish": "Opus 5.5",
       "folder": "StrangeRPG5/StrangeRPG5",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist" },
-      "colors": { "accent": "#66ccff", "ink": "#050510" },
-      "hero": { "name": "Kira", "role": "The Dreamweaver", "sprite": "menu/art/too-many-doors-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#66ccff",
+        "ink": "#050510"
+      },
+      "hero": {
+        "name": "Kira",
+        "role": "The Dreamweaver",
+        "sprite": "menu/art/too-many-doors-hero.png"
+      },
       "scene": "menu/art/too-many-doors-ch1.png",
-      "shots": ["menu/art/too-many-doors-battle.png", "menu/art/too-many-doors-luna.png"],
+      "shots": [
+        "menu/art/too-many-doors-battle.png",
+        "menu/art/too-many-doors-luna.png"
+      ],
       "chapters": 6,
       "blurb": "Kira wakes up in a room with a crack in the wall, and the crack is looking back. Reality is a house with too many doors. Kira walks through six of them with a knight named Brass and a star mage named Luna. The last door opens onto home, and the boss there has Kira's face.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back."
@@ -169,11 +310,29 @@
       "folder": "WeirdJRPG",
       "status": "playable",
       "golden": true,
-      "build": { "command": "npm run build", "dist": "dist" },
-      "colors": { "accent": "#f0cc6c", "ink": "#141022" },
-      "hero": { "name": "The Pilgrim", "role": "A consciousness without a shell", "sprite": "menu/art/void-pilgrim-hero.png", "forms": ["menu/art/void-pilgrim-hero.png", "menu/art/void-pilgrim-hero-dice.png", "menu/art/void-pilgrim-hero-plug.png"] },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#f0cc6c",
+        "ink": "#141022"
+      },
+      "hero": {
+        "name": "The Pilgrim",
+        "role": "A consciousness without a shell",
+        "sprite": "menu/art/void-pilgrim-hero.png",
+        "forms": [
+          "menu/art/void-pilgrim-hero.png",
+          "menu/art/void-pilgrim-hero-dice.png",
+          "menu/art/void-pilgrim-hero-plug.png"
+        ]
+      },
       "scene": "menu/art/void-pilgrim-plaza.png",
-      "shots": ["menu/art/void-pilgrim-battle.png", "menu/art/void-pilgrim-void.png"],
+      "shots": [
+        "menu/art/void-pilgrim-battle.png",
+        "menu/art/void-pilgrim-void.png"
+      ],
       "chapters": 5,
       "blurb": "You wake on a brass plaza beside your own empty shell. Strip shells and pull out memories, emotions, and names. Keep your Fragility between fading away and breaking reality all the way down to the Stone of Herself.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C opens your senses. Tab shows your goal. M mutes."
@@ -186,11 +345,25 @@
       "folder": "StrangePuzzleGame",
       "status": "playable",
       "golden": true,
-      "build": { "command": "npm run build", "dist": "dist" },
-      "colors": { "accent": "#ffd23f", "ink": "#120d1c" },
-      "hero": { "name": "Pilcrow", "role": "Codemage, compiler of daemons", "sprite": "menu/art/checksum-hero.png" },
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#ffd23f",
+        "ink": "#120d1c"
+      },
+      "hero": {
+        "name": "Pilcrow",
+        "role": "Codemage, compiler of daemons",
+        "sprite": "menu/art/checksum-hero.png"
+      },
       "scene": "menu/art/checksum-lobby.png",
-      "shots": ["menu/art/checksum-showroom.png", "menu/art/checksum-frycook.png", "menu/art/checksum-warpzone.png"],
+      "shots": [
+        "menu/art/checksum-showroom.png",
+        "menu/art/checksum-frycook.png",
+        "menu/art/checksum-warpzone.png"
+      ],
       "chapters": 16,
       "blurb": "The world crashed, and a dead mall full of broken code is all that is left of it. Tilde is fading in the Lobby, and every datachip Pilcrow recovers heals part of her. Pilcrow's wand compiles stacks of bits into daemons: Rams that roll, Forks that burst, Pingers that fire. Fifteen wings of puzzles each bring their own machinery and end in a boss who drops the keycard to the next wing. The last keycard opens the Atrium, where the Static that is eating Tilde's signal waits.",
       "controls": "Arrows or WASD move. X, or Shift with an arrow, zaps. 1, 2, or 3 drops a bit. Space waits. Z undoes and R restarts. Enter confirms. Esc goes back. H shows help. M mutes."
@@ -202,14 +375,93 @@
       "effort": "Max",
       "folder": "StrangeRPGBenchmarkMax",
       "status": "playable",
-      "build": { "command": "npm run build", "dist": "dist", "exclude": ["scene-entries.json"] },
-      "colors": { "accent": "#e3b04a", "ink": "#0b0910" },
-      "hero": { "name": "Nodus", "role": "Clerk of the town Ledger", "sprite": "menu/art/gnomon-hero.png" },
+      "golden": true,
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "scene-entries.json"
+        ]
+      },
+      "colors": {
+        "accent": "#e3b04a",
+        "ink": "#0b0910"
+      },
+      "hero": {
+        "name": "Nodus",
+        "role": "Clerk of the town Ledger",
+        "sprite": "menu/art/gnomon-hero.png"
+      },
       "scene": "menu/art/gnomon-gate.png",
-      "shots": ["menu/art/gnomon-battle.png", "menu/art/gnomon-overhead.png"],
+      "shots": [
+        "menu/art/gnomon-battle.png",
+        "menu/art/gnomon-overhead.png"
+      ],
       "chapters": 7,
-      "blurb": "Shadows arrive before the things that cast them. People call a shadow a lead. Nodus writes down every lead crossing the square of Stile. A giant lead with nothing at its end lies across the town one morning. Follow it across a world where the sun never moves, steering every attack by moving the light.",
+      "blurb": "Shadows arrive before the things that cast them. Nodus writes down every shadow crossing the square of Stile. A giant shadow with nothing at its end lies across the town one morning. Follow it across a world where the sun never moves, steering every attack by moving the light.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms. X or Esc goes back and opens the menu. C throws a pebble. V sets down the lamp once Parhelia has oil. Shift hurries. M mutes."
+    },
+    {
+      "id": "fathom",
+      "title": "Fathom",
+      "model": "Claude Opus 5.5",
+      "effort": "Max",
+      "folder": "StrangeRPGRobots",
+      "status": "playable",
+      "diamond": true,
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#3ed6d0",
+        "ink": "#07060c"
+      },
+      "hero": {
+        "name": "You",
+        "role": "Runner from the Deeps",
+        "sprite": "menu/art/fathom-hero.png"
+      },
+      "scene": "menu/art/fathom-market.png",
+      "shots": [
+        "menu/art/fathom-title.png",
+        "menu/art/fathom-overlook.png"
+      ],
+      "chapters": 6,
+      "blurb": "Fathom is a neon city forty meters below the sea, kept dry by giant pumps a girl woke with her blood in the Great Flood. One witch in ten thousand bleeds magic that wakes machines. A barge job goes wrong, a case of blood bursts, and your neural port wakes up and pulls you toward the one person it wants. Turn-based tactics on the streets you walk, six companions, and a city that owes someone.",
+      "controls": "Arrows or WASD move, or click a tile. Z, Enter, or Space confirms and talks. X or Esc goes back and opens the menu. C sneaks. Tab changes the leader. In fights: 1 to 0 pick abilities, E ends the turn, Tab shows the turn order, F spends Edge on a failed roll. M mutes."
+    },
+    {
+      "id": "spore-weaver",
+      "title": "Spore-Weaver",
+      "model": "Qwen 3.6 35B A3B",
+      "effort": "No thinking",
+      "agent": "Scoobert",
+      "polish": "Opus 5.5",
+      "folder": "OddRPG",
+      "status": "playable",
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#e8c547",
+        "ink": "#0a0a14"
+      },
+      "hero": {
+        "name": "Buphila",
+        "role": "Beetle girl of the garden",
+        "sprite": "menu/art/spore-weaver-hero.png"
+      },
+      "scene": "menu/art/spore-weaver-garden.png",
+      "shots": [
+        "menu/art/spore-weaver-battle.png",
+        "menu/art/spore-weaver-weave.png",
+        "menu/art/spore-weaver-outside.png"
+      ],
+      "chapters": 8,
+      "blurb": "Rust is spreading through the soil of the garden. Buphila is a beetle girl, and Myco is her mushroom girlfriend. They leave home to find the signal that calls to the Spore Crown, and a clockwork fox named Cogsworth joins them. Each chapter ends with a boss. The garden cracks open after the fourth chapter, and the second act takes place outside the spore. Every dungeon in the second act opens with a puzzle.",
+      "controls": "Arrows or WASD move. Enter confirms and interacts. Space skips a scene. I opens your items. In fights: A attacks, B picks an ability, I uses an item, M moves, F flees, Left and Right pick a target, Esc cancels. Click the puzzles, or use the arrows and Enter."
     }
   ]
 }

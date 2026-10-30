@@ -1,0 +1,111 @@
+# Sluice card tables. Each map with a table runs its scene. `> cards opponent -> win | lose` plays a game.
+
+== sluice_market
+? A card table. Sluice, five cards a side.
+- Play Moss. -> moss
+- Play Gus. -> gus
+- Not now. -> no
+* no
+> end
+* moss
+Moss: Five cards. Higher side takes the square.
+Moss: Ties do nothing. Don't argue with me about it.
+> cards moss -> mw | ml
+* mw
+Moss: Fine. Take the card. I've got more in the tin.
+> end
+* ml
+Moss: See you tomorrow. Bring better cards.
+> end
+* gus
+Gus: Two puddles on the board tonight. A puddle gives a card plus one.
+> cards gus -> gw | gl
+* gw
+Gus: Hm. That one was my lucky Lockjaw.
+> end
+* gl
+Gus: The taxi's still running if you want to cry on the way home.
+> end
+
+== sluice_lock
+? Bram keeps a deck in the tower.
+- Deal. -> play
+- Later. -> no
+* no
+> end
+* play
+Bram: Rule number one: after four cards, the bottom row floods.
+Bram: Flooded cards lose one side. Just like in real life.
+> cards bram -> w | l
+* w
+Bram: I've played this hand for thirty years. Go on, take one.
+> end
+* l
+Bram: Down there, the water always wins. Up here, it's me.
+> end
+
+== sluice_steps
+? A bar table on the Lantern Steps. Lotte is shuffling.
+- Sit. -> play
+- Walk on. -> no
+* no
+> end
+* play
+Lotte: Puddles and Same rule: match two sides, and both flip.
+> cards lotte -> w | l
+* w
+Lotte: alright. alright. You can have Opal. She'd want to go with a winner.
+> end
+* l
+Lotte: Doc Seo says I should let people win. I don't.
+> end
+
+== sluice_plaza
+? A deacon plays cards on the church steps between services.
+- Ask for a game. -> play
+- Leave him to it. -> no
+* no
+> end
+* play
+Deacon: I play by the rites of Same and Woken, friend.
+Deacon: Woken cards score a point beside themselves. A small grace.
+> cards deacon -> w | l
+* w
+Deacon: The Lord takes. Today, He also gives. Take the Archdeacon.
+> end
+* l
+Deacon: A candle runs two gilt if you need consolation.
+> end
+
+== sluice_pound
+? Tilly's cards are kept dry in a tin by the stop.
+- Play Tilly. -> play
+- Not tonight. -> no
+* no
+> end
+* play
+Tilly: Cards? Cards are slow. I like slow.
+Tilly: Woken rules the tide. My passengers taught me that.
+> cards tilly -> w | l
+* w
+Tilly: Won? "Won" is a good word. Take Hendrik. He loved to travel.
+> end
+* l
+Tilly: Lost? That's fine, too. You can ride again and try.
+> end
+
+== sluice_spirebase
+? Board, a clerk on a smoke break, deck in his pocket.
+- Challenge him. -> play
+- Keep walking. -> no
+* no
+> end
+* play
+Board Clerk: Board rules. Cards hold unless you beat them with two.
+> cards clerk -> w | l
+* w
+Board Clerk: That card is company property. Keep your mouth shut.
+> end
+* l
+Board Clerk: Break's over. Well, yours is, at least.
+> end

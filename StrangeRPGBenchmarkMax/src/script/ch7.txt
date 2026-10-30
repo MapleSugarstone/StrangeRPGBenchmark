@@ -12,53 +12,53 @@
 (Past the dark, Stile. Gold light on the roofs. A white glare at the far gate.)
 > camera nodus 1.0
 Tik: Your town. Loud with light.
-Minim: No lead comes out of the dark ahead. Nobody sees us coming.
+Minim: No shadow comes out of the dark ahead. Nobody sees us coming.
 Umbraculum: We're a surprise!! I've never been a surprise!!
 > set ch7_started
 > unlock
 > end
 
 == tut_beam
-(The Great Lamp's beam turns toward whoever stands nearest it. Leads turn with it.)
+(The Great Lamp's beam turns toward whoever stands nearest it. Shadows turn with it.)
 (Watch where the beam goes next. The pale wedge shows it.)
 (Anyone still standing in the beam when the foes move gets burned.)
 > end
 
 == painted_home
-(A lead painted on the cobbles from a front door to the same front door.)
-(Hard edges. Whoever lives here thinks their lead says stay in.)
+(A shadow painted on the cobbles from a front door to the same front door.)
+(Hard edges. Whoever lives here thinks their shadow says stay in.)
 > end
 
 == ch7_painted_folk
 > lock
 > face quarle nodus
-Quarle: Clerk? Name's struck. Can't talk to you. Lead says stay in.
-Nodus: That lead's painted.
+Quarle: Clerk? Name's struck. Can't talk to you. Shadow says stay in.
+Nodus: That shadow's painted.
 Quarle: What?
 ?
 - Look at the edge.
-- I wrote your leads for nine years.
+- Logged your shadow for nine years.
 Quarle: ...
-Quarle: Hard edge. Never had a hard edge on my lead in my life.
-Quarle: Who paints a lady's lead on her own step?
+Quarle: Hard edge. Never had a hard edge on my shadow in my life.
+Quarle: Who paints a lady's shadow on her own step?
 Minim: The Office. From your book.
 > set ch7_quarle_free
 > unlock
 > end
 
 == talk_quarle7
-Quarle: I'm going to the well. My real lead says so. So does my opinion.
+Quarle: I'm going to the well. My real shadow says so. So does my opinion.
 > end
 
 == ch7_mott
 > lock
 > face mott nodus
-Mott: Clerk!! Back. Still here. Still no lead. Cake's long gone.
+Mott: Clerk!! Back. Still here. Still no shadow. Cake's long gone.
 Umbraculum: Sir!! Your house!! Stand at your door!!
 > camera @mott_house 1.0
-(Mott's house sits deep inside the big lead.)
+(Mott's house sits deep inside the big shadow.)
 > camera nodus 0.8
-Umbraculum: Shade eats leads!! A small thing inside a big shade has no lead at all!!
+Umbraculum: Shade eats shadows!! A small thing inside a big shade has no shadow at all!!
 Umbraculum: Not dying, sir. SWALLOWED!!
 Mott: Not dying, then.
 Nodus: Entry: Mott. Swallowed.
@@ -82,9 +82,9 @@ Tib: back. BACK
 Tib: look terrible. who're all these people
 ?
 - Friends.
-- The big lead.
+- The big shadow.
 Tib: wait
-Tib: wait. the big lead. YOU??
+Tib: wait. the big shadow. YOU??
 > ifnot lot_rejoined -> beside
 Tib: hole closed up this morning. kid bit went too. weird
 > goto after
@@ -95,7 +95,7 @@ Tib: hole in it now. person shaped. kid bit next to it
 Tib: that the hole
 Tik: Hello, loud small one.
 Tib: :-]
-Tib: office has old par in the tower. painting everyone's leads
+Tib: office has old par in the tower. painting everyone's shadows
 Tib: big lamp hums all the time. turning tonight, they said
 > set ch7_tib
 > unlock
@@ -107,7 +107,7 @@ Tib: tower's round the back of the office. i'll tell people about the hard edges
 
 == tower_gate
 > ifnot ch7_tib -> shut
-(The Office tower. The door has a lamp lock: a plate that wants a lead on it.)
+(The Office tower. The door has a lamp lock: a plate that wants a shadow on it.)
 > end
 * shut
 (The Office tower. Guards at the door look straight through the party.)
@@ -167,9 +167,9 @@ Parhelia: He took the little lamp up with him. (Of course he did.)
 Anthelion: Registry three-one-one. You are struck. You came back anyway.
 Anthelion: Sister.
 Parhelia: Brother. Hood it.
-Anthelion: The lead over this town has your lamp in it.
+Anthelion: The shadow over this town has your lamp in it.
 Anthelion: I license every light in Stile. Yours took everything I had.
-Anthelion: In one hour the lead turns off the town and you follow it. Somewhere else.
+Anthelion: In one hour the shadow turns off the town and you follow it. Somewhere else.
 ?
 - Look who else is in it.
 - Hood the lamp.
@@ -241,8 +241,8 @@ Parhelia: Don't you dare.
 > face nodus right
 > wait 0.6
 > camera @lead_town 3.0
-(Their lead runs down the hill and across Stile.)
-(It lies exactly where the big lead lay. It fits it to the edge.)
+(Their shadow runs down the hill and across Stile.)
+(It lies exactly where the big shadow lay. It fits it to the edge.)
 > wait 1.0
 > anim town_out
 (People come out of their doors and look down at it.)
@@ -256,7 +256,7 @@ Parhelia: Well, clerk. You've got a blank to fill.
 == ch7_entry
 > lock
 > sfx page
-(The big lead. Owner:)
+(The big shadow. Owner:)
 ? Write the entry.
 - Us. -> fact
 - Who's next? -> question
@@ -304,12 +304,12 @@ Tib: wrote everyone's names in the book. even the stray. even the foot
 Tib: wrote "{entry}" in the book. nobody knows what it means. we love it
 * rest
 > wait 0.4
-Anthelion: Office stopped licensing lamps. Anyone turns their own lead.
+Anthelion: Office stopped licensing lamps. Anyone turns their own shadow.
 Anthelion: Eleven accidents. All minor. I'm told that's freedom.
 Tik: Lamp man. Sit. Soup's hot. Eat it now.
 Anthelion: Eating it now.
 > if lot_beside -> lb
-Tik: Lead's heavy. Talks early sometimes. Fine. It's mine.
+Tik: Shadow's heavy. Talks early sometimes. Fine. It's mine.
 > goto two
 * lb
 Lot: Next to. Still next to.
@@ -321,14 +321,14 @@ Mott: Third wake. This one's a party. Nobody's dying. Cake.
 > if strays_all -> strays
 > goto par
 * strays
-(Every stray stands beside its owner in the square. Their leads fall the right way.)
+(Every stray stands beside its owner in the square. Their shadows fall the right way.)
 * par
 Parhelia: No lamp. First time in my life.
 Parhelia: Can't turn anything. Just go where I'm going. (Awful. Nice.)
 > wait 0.6
 > camera @square_center 1.4
 > anim nodus_lead_new
-(Nodus's lead slides off ahead, past the edge of the square.)
+(Nodus's shadow slides off ahead, past the edge of the square.)
 > wait 0.8
 > walk nodus @square_exit
 > wait 0.6

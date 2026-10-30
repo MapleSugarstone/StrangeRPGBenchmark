@@ -1,0 +1,401 @@
+# World events on the Stair and the Brim, and the choir and vein background quests.
+# Data: src/content/world_upper.ts. Events fire on arrival, rolled from the save's seed.
+# Events with no `maps` run on any outdoor map of their district, so they use no markers and nobody walks on.
+
+# ---------------------------------------------------------------- Stair events, any map
+
+== evu_census_pa
+> sfx pa
+Board: Census reminder. Children under twelve get free testing on Thursdays. A slight discount. No charge.
+> ifnot party:tova -> v
+> mood tova anger
+Tova: free? a small fee? that's how they caught kees.
+> approve tova 1
+* v
+> ifnot bg:vein -> fin
+?
+- Every cellar kid knows that voice. Keep walking. -> walk
+- Cross out the poster beneath it with chalk. -> chalk
+* chalk
+> rep vein 1
+> rep board -1
+* walk
+* fin
+
+== evu_choir_far
+> wait 0.5
+CHOIR: Nine verses. Nine verses for the dry ones.
+CHOIR: Nine verses for the necks that sing wrong.
+PORT: They sing at me. They do not like my song.
+> ifnot bg:choir -> fin
+?
+- Sing the tenth verse back. The one they cut. -> sing
+- Keep walking. -> fin
+* sing
+CHOIR: ...Linnet?
+> rep choir 1
+> self 1
+* fin
+
+== evu_curfew
+> sfx pa
+Board: Curfew on Terraces Three and Four after the twelfth bell. Thank you for keeping Fathom dry.
+> ifnot party:quaye -> a
+Quaye: Twelfth bell. Ninety minutes. Plenty of time.
+> goto fin
+* a
+> ifnot party:ambrose -> fin
+Ambrose: A curfew. In the old dictionaries, it meant to cover the fire. They have forgotten the fire.
+* fin
+
+== evu_vein_chalk
+> wait 0.5
+PORT: Blue on the wall. A circle. A line through it. What does it say?
+?
+- Keep moving. Someone's watching this street. -> move
+- Rub out the line. Make it safe for the next kid. -> rub
+* rub
+> rep vein 1
+PORT: Safe. You made it say safe. Is it?
+> goto fin
+* move
+> rep vein 1
+* fin
+
+# ---------------------------------------------------------------- Brim events, any map
+
+== evu_brim_pa
+> sfx pa
+Board: Residents of the Brim: The Deeps are being managed. Have a dry evening.
+> ifnot party:sallis -> t
+Sallis: Managed." That's the word they use for drowned, up here.
+> goto fin
+* t
+> ifnot party:tova -> fin
+Tova: have a dry evening." wow. okay.
+* fin
+
+== evu_wind
+> shake 1
+> sfx splash
+> ifnot party:courtesy -> q
+Courtesy: WIND OVER FORCE SIX. STAY OFF THE CATWALKS. THIS UNIT IS REMAINING ON.
+> goto fin
+* q
+> ifnot party:quaye -> fin
+Quaye: Force seven. Hats off, kid. Literally.
+* fin
+
+== evu_board_news
+> sfx pa
+Board: Board news. Bailer output is steady. Rumors of a Saint are a matter for the Church.
+PORT: They say "her." They get "her" wrong.
+> ifnot party:ignace -> fin
+Ignace: A matter for the Church. The Church charges two gilt for a matter.
+* fin
+
+# ---------------------------------------------------------------- Events with people, on one map each
+
+== evu_checkpoint
+> camera @bridge_n 1
+> enter ck_off boardguard @lock_top up
+> enter ck_fam crowd:61 @lock_top up
+> walk ck_fam @bridge_n &
+> walk ck_off @gate_view
+> face ck_off up
+Officer: Permits. Stairwell residence or day pass. Let me see them.
+> camera hero 1
+?
+- ?bg:washout Recovery. I have custody of this family. Follow standard procedure. -> pass
+- [Talk 2] They're with me. They have passes. I verified them. -> pass | nope
+- $30 One day pass for the family. My treat. -> pay
+- Keep moving. -> walk
+* pass
+Officer: ...Fine. Go on. Move along.
+> rep board -1
+> rep deeps 1
+> goto off
+* pay
+Officer: Thirty credits. Day pass. Be back by the twelfth bell.
+> rep deeps 1
+> goto off
+* nope
+Officer: Nice try. All of you, down to the Lock.
+> walk ck_fam @lock_top
+> exit ck_fam
+> walk ck_off @lock_top
+> exit ck_off
+> end
+* walk
+> walk ck_fam @lock_top
+> exit ck_fam
+> walk ck_off @lock_top
+> exit ck_off
+> end
+* off
+> walk ck_fam @box7_door
+> walk ck_fam @terraces_in
+> exit ck_fam
+> walk ck_off @lock_top
+> exit ck_off
+
+== evu_abduction
+> camera @top_mid 1
+> enter ab_kid kid2 @spire_in down
+> walk ab_kid @top_mid
+> enter ab_m1 choir @spire_in down
+> enter ab_m2 choir2 @spire_in down
+> walk ab_m1 @van_back &
+> walk ab_m2 @garden
+> face ab_m1 ab_kid
+> face ab_m2 ab_kid
+CHOIR: Little neck. Little wire in the little neck.
+CHOIR: Come home, and we'll take it out.
+> camera hero 1
+?
+- [Talk 2] That kid's port is paid for. Leave them alone. -> free | lost
+- {courtesy} Courtesy. -> cour
+- ?bg:choir Sing the release verse. The one that frees a child. -> free
+- None of my business. -> leave
+* cour
+Courtesy: STAND CLEAR OF THE CHILD. THIS AREA IS MONITORED.
+> approve courtesy 1
+* free
+CHOIR: ...If the neck sings on its own, then. Let it sing.
+> rep choir -1
+> rep deeps 1
+> walk ab_m1 @spire_in &
+> walk ab_m2 @spire_in
+> wait 1
+> exit ab_m1
+> exit ab_m2
+> walk ab_kid @spire_in
+> exit ab_kid
+> end
+* lost
+CHOIR: Nine verses, and the wire comes out. Come.
+> goto take
+* leave
+> rep choir 1
+* take
+> walk ab_kid @spire_in &
+> walk ab_m1 @spire_in &
+> walk ab_m2 @spire_in
+> wait 1.5
+> exit ab_kid
+> exit ab_m1
+> exit ab_m2
+
+== evu_pilgrims
+> camera @statue_view 1
+> enter pg_1 crowd:71 @steps_in up
+> enter pg_2 crowd:73 @steps_in up
+> walk pg_1 @crowd1 &
+> walk pg_2 @crowd2
+> face pg_1 up
+> face pg_2 up
+Faithful: Two gilt for her. Two gilt every night, for forty years.
+> camera hero 1
+?
+- ?truth_told She's not stone. She was upstairs. Go visit someone who's still alive. -> told
+- $5 Light one for them. -> light
+- Keep walking. -> walk
+* told
+Faithful: ...Upstairs. My mother lit them for her. For forty years.
+> rep church -1
+> goto walk
+* light
+> rep church 1
+Faithful: Bless you. She sees it.
+* walk
+> walk pg_1 @steps_in &
+> walk pg_2 @steps_in
+> exit pg_1
+> exit pg_2
+
+== evu_bailer_rest
+> camera @deeps_view 1.5
+> anim bailer
+> wait 1
+> anim bailer
+Sloop: Rest a minute. Just one minute.
+> wait 1.5
+> anim bailer
+PORT: It stopped. It started again. It wanted to.
+> camera hero 1
+> ifnot party:quaye -> fin
+Quaye: Fifty-eight seconds. First rest in forty years. I timed it.
+* fin
+
+== evu_courier
+> camera @plaza_mid 1
+> enter cr_drone drone @stair_top up
+> walk cr_drone @plaza_mid
+> wait 0.8
+> anim rise cr_drone
+> camera hero 1
+> ifnot drone_saved -> fin
+PORT: Another courier. Does it have a rail to sleep on?
+* fin
+
+== evu_spire_sunday
+> camera @bay 1.5
+> sfx door
+> wait 1
+PORT: A Board car. It parks where no one looks.
+> camera hero 1
+> ifnot party:ignace -> fin
+Ignace: Every Sunday. Same car. Same bay. Same no one looking.
+* fin
+
+== evu_recovery
+> sfx pa
+Board: Recovery units to the Steps. Woken property reported. A singing kettle.
+> ifnot bg:washout -> fin
+PORT: You know that voice. Your hand drifts to your belt.
+?
+- Old habit. There's no badge on it anymore. -> fin
+- Find the kettle before they do. Tell its owner to hide it. -> hide
+* hide
+> rep woken 1
+> rep board -1
+* fin
+
+== brim_lift
+> face hero up
+(BOARD PUBLIC LIFT. ALL DISTRICTS. MIND THE DOORS.)
+> travel
+
+# ---------------------------------------------------------------- Choir runaway: Linnet
+
+== bgc_elder
+> face elder hero
+> if bgchoir_done -> after
+> if quest:bgchoir -> wait
+Elder: Linnet.
+Elder: Linnet ran at sixteen and came back with a wire in her neck. We can hear it.
+Elder: Two little ones ran last night. Wren and Pip. They're by the east lamps.
+Elder: Bring them home for the Nine Verses. You know the way. You've used it before.
+> set met_choir
+?
+- I'll talk to them. That's all. -> talk
+- My name isn't Linnet anymore. -> name
+- What does the Choir pay for runaways? -> pay
+* name
+Elder: Names are what the Choir sings. We sing Linnet. You may answer to anything you like.
+> goto start
+* pay
+Elder: Nothing. We never paid for you, either. We only sang.
+> goto start
+* talk
+Elder: Then talk. Wire and all.
+* start
+> quest bgchoir 1
+> end
+* wait
+Elder: The east lamps, Linnet. They are cold.
+> end
+* after
+> if choir_home -> h
+> if choir_freed -> f
+Elder: Two little ones at home, and one big one who won't stay. Sing, Linnet. It's Sunday.
+> end
+* h
+Elder: Linnet takes the high notes on Sundays. The wire holds. We've stopped hearing it.
+> end
+* f
+Elder: Two little ones have gone down the stairs. We sing for them. We sing for you.
+
+== bgc_kids
+> face wren hero
+> face pip hero
+> if bgchoir_done -> fin
+Wren: Don't. We're not going back.
+Pip: We want necks. With the wire. We want to hear the Deeps on the radio.
+Wren: You ran. They sing about you. Linnet, who ran.
+?
+- Take the east stairs. Here's fare for the Lock. -> free
+- Come home with me. I'll make them let you choose when you're sixteen. -> home
+- ?bg:choir [Talk 2] Go back for now. Run at sixteen, like I did. Run properly. -> wait | home
+- It's your business. Not mine. -> leave
+* free
+> gilt -20
+Wren: Twenty gilt. That's a fortune. Pip, that's a fortune.
+> set choir_freed
+> rep choir -3
+> rep deeps 1
+> goto down
+* home
+Pip: ...Sixteen. Do you promise?
+> set choir_home
+> rep choir 3
+> goto up
+* wait
+Wren: Properly. With a bag packed. Okay.
+> set choir_waited
+> rep choir 1
+> goto up
+* leave
+Wren: Fine. We'll go ourselves.
+> set choir_freed
+> rep choir -1
+* down
+> walk wren @steps_in &
+> walk pip @steps_in
+> wait 1
+> exit wren
+> exit pip
+> goto done
+* up
+> walk wren @spire_in &
+> walk pip @spire_in
+> wait 1
+> exit wren
+> exit pip
+* done
+> set bgchoir_done
+> quest bgchoir done
+* fin
+
+# ---------------------------------------------------------------- Vein-raised: File 4471
+
+== bgv_clerk
+Clerk: Personal files are restricted. Records room. Staff only.
+Clerk: Four-four-seven-one. That's an old designation. Cellar intake.
+> set met_vein
+> quest bgvein 1
+> end
+
+== bgv_file
+> face hero up
+> if bgvein_done -> fin
+(4471. FOUND: CELLAR, CANAL TWO. GUARDIAN: UNKNOWN. TEST: NOT TESTED.)
+(NOTE: VEIN CONTACT LIKELY. MONITOR.)
+PORT: That's you. Small. They logged you as small.
+?
+- Burn it. Erase the evidence. -> burn
+- Take it. I want to read the whole thing. -> take
+- [Sneak 2] Wipe the entire cellar shelf. Every kid on it, gone tonight. -> all | burn
+* burn
+> sfx loot
+> set vfile_burned
+> rep board -1
+> rep vein 1
+> goto done
+* take
+> give file4471
+> set vfile_taken
+> rep vein 1
+> goto done
+* all
+> sfx loot
+> wait 1
+PORT: Ninety. Ninety small ones. Removed from the shelf. Where do they go now?
+> set vfile_freed
+> set vfile_burned
+> rep vein 3
+> rep board -2
+* done
+> set bgvein_done
+> quest bgvein done
+* fin

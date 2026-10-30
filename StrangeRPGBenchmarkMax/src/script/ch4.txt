@@ -20,7 +20,7 @@ Parhelia: Don't look down too long. The glass shows what was here. (Rude to star
 
 == mirage_caravan
 (A mirage crosses the dune: a long line of people with lamps, walking toward the sun.)
-(Their leads are short and pale. The glass is older than any of them.)
+(Their shadows are short and pale. The glass is older than any of them.)
 > end
 
 == mirage_bearers
@@ -74,20 +74,20 @@ Minim: Now walk. Yes. I'll show you the way in.
 
 == talk_minim
 > if ch4_done -> cracked
-Minim: In my glass your lead's longer. Once was longer.
+Minim: In my glass your shadow's longer. Once was longer.
 > end
 * cracked
 Minim: The crack skips. Some yesterday falls in it. Not the good bits.
 > end
 
 == tut_pane
-(Minim sets a pane on a tile. An attack whose lead crosses it runs again next round.)
+(Minim sets a pane on a tile. An attack whose shadow crosses it runs again next round.)
 (Recall puts an ally's HP back to what it was at the start of the last round.)
 > end
 
 == tut_mirage
 (That foe's body stands one tile away from where it really is.)
-(Trust its lead. A lead is never a mirage.)
+(Trust its shadow. A shadow is never a mirage.)
 > end
 
 == glass_old_mirror
@@ -109,7 +109,7 @@ Sees: i'm sees. it's my name both ways. minim's is too
 
 == talk_sticks_glass
 > if sticks_mirror_won -> won
-Laval: Glass rules. Leads bounce off the board's edge. Count the bounce.
+Laval: Glass rules. Shadows bounce off the board's edge. Count the bounce.
 > sticks mirror
 > end
 * won
@@ -135,10 +135,10 @@ Laval: You counted the bounce. Take one of mine. It bounces too.
 > music boss
 > camera @warden 1.0
 > wait 0.3
-(A tall Office frame of many panes. In every pane, the Warden stands. Only one of it casts a lead.)
+(A tall Office frame of many panes. In every pane, the Warden stands. Only one of it casts a shadow.)
 Minim: Hides in its own panes. They all look real.
-Minim: All look real they. Only one has a lead.
-Parhelia: Then we hit the one with the lead. (Every time. Don't get clever.)
+Minim: All look real they. Only one has a shadow.
+Parhelia: Then we hit the one with the shadow. (Every time. Don't get clever.)
 > battle ch4_boss
 > goto ch4_after_boss
 
@@ -178,7 +178,7 @@ Reviver: Warm. My back is warm.
 > wait 0.4
 > anim oldest_vision
 (In it: the rim, long ago. A young woman with a lamp, a small child near a crumbling edge.)
-(The woman raises the lamp. The child's lead swings away from the edge, toward the dark.)
+(The woman raises the lamp. The child's shadow swings away from the edge, toward the dark.)
 (The child follows it. Into the dark. The woman lowers the lamp.)
 > wait 0.8
 > camera nodus 0.8
@@ -198,7 +198,7 @@ Parhelia: Not today, clerk. (Ask in the dark. Easier there.)
 > walk minim @road_overhead &
 > walk umbraculum @road_overhead2
 > face parhelia nodus
-Parhelia: Overhead next. No leads at all there. Hold onto something.
+Parhelia: Overhead next. No shadows at all there. Hold onto something.
 Lot: Soon.
 > fade out
 > warp overhead_gate @start

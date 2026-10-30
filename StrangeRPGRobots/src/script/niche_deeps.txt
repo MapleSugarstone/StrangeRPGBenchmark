@@ -1,0 +1,550 @@
+# Niche quests in the Deeps, the Flats, and the tunnels. Details in src/content/details_*.ts open them.
+# Quest data and items are in src/content/world_deeps.ts.
+
+# ---------------------------------------------------------------- Paid Up (market)
+
+== niche_meter
+> if meter_paid|meter_cracked -> after
+(A parking meter on the bridge road. The flag says EXPIRED.)
+(It flips to PAID as you lean in. Then it drops back.)
+> if meter_seen -> ask
+> set meter_seen
+> quest meter 1
+NOTICE: The slot is wider than a gilt. It takes the old money, from before the Flood.
+> ifnot party:courtesy -> ask
+Courtesy: PAYMENT. IS. REQUIRED.
+* ask
+?
+- ?item:halfgilt Feed it the old half-gilt. -> pay
+- [Strike 2] Crack the case. Forty years of coins went in. -> crack | crackfail
+- Feed it a gilt. -> gilt
+- Leave it. -> leave
+* gilt
+(The gilt drops through and rolls out at the bottom.)
+(EXPIRED.)
+> end
+* pay
+> take halfgilt
+> sfx confirm
+(The half-gilt coin drops in. Something chimes inside, once.)
+(The flag rises to PAID and stays.)
+> wait 1.5
+(It never flips back.)
+> set meter_paid
+> approve courtesy 2
+> xp 100
+> quest meter done "The meter got its half-gilt. The flag stays on PAID."
+> end
+* crack
+> sfx melee
+> shake 1
+(The case splits open. Coins spill across the boardwalk, a mix of gold and old currency.)
+(PAID. EXPIRED. PAID. Then the flag lingers halfway.)
+> sfx loot
+> gilt 60
+> set meter_cracked
+> approve courtesy -3 ambrose 1
+> quest meter done "You cracked the meter for sixty gilt. Its flag hangs halfway."
+> end
+* crackfail
+> sfx hit
+(The case rings out and holds. EXPIRED, EXPIRED, EXPIRED, flashing rapidly.)
+> end
+* leave
+> end
+* after
+> if meter_cracked -> broke
+(PAID. It has read PAID since the night you fed it.)
+> end
+* broke
+(The meter hangs open and empty. The flag rests halfway.)
+> end
+
+# ---------------------------------------------------------------- Docking Song (ferries)
+
+== niche_horn
+> if horn_sung|horn_kept|horn_stripped -> after
+(A foghorn from the wheelhouse of a sunken ferry. Brass, green with corrosion at the seams.)
+> if horn_seen -> ask
+> set horn_seen
+> quest horn 1
+> sfx pa
+(One long note. Then a pause, lasting as long as a single line of a song.)
+> wait 1.5
+> sfx pa
+(The note sounds again.)
+NOTICE: It leaves space for words. It wants the docking song sung back.
+* ask
+?
+- ?song_a&song_b&song_c Sing all three lines. -> sing
+- ?song_a&song_b&song_c Sing two lines. Keep the last one. -> keep
+- Unscrew the brass. Forty gilt to anyone with a boat. -> strip
+- Leave it. -> leave
+* sing
+(Toss the rope. The post is close.)
+(Watch your step.)
+(Nine bells have rung, and no one has drowned.)
+> wait 1
+> sfx pa
+(The horn sounds its final note. It is lower than the others.)
+> wait 2
+(It does not sound again.)
+PORT: No one drowned. I'll keep that one.
+> set horn_sung
+> xp 100
+> quest horn done "You sang the docking song back. The foghorn went quiet."
+> end
+* keep
+(Toss the rope. The post is close.)
+(Watch your step.)
+> wait 1.5
+> sfx pa
+(The horn sounds, leaves a pause, then waits.)
+> set horn_kept
+> rep lockjaws 1
+> quest horn done "You left the foghorn wanting its last line. It still sounds at nine bells."
+> end
+* strip
+> sfx melee
+(The bolts are softened by salt. The horn comes away warm in your hands.)
+(It tries to sound. Air escapes from the end, but no note comes.)
+> sfx loot
+> gilt 40
+> set horn_stripped
+> approve courtesy -2
+> quest horn done "You sold the foghorn's brass for forty gilt."
+> end
+* leave
+> end
+* after
+> if horn_kept -> waits
+> if horn_stripped -> holes
+(The foghorn is green and quiet.)
+> end
+* waits
+(The foghorn sounds, leaves a pause, then waits.)
+> end
+* holes
+(Four bolt holes in the wheelhouse roof.)
+> end
+
+# ---------------------------------------------------------------- The Slow Race (pound)
+
+== niche_race
+> if race_done -> after
+(A chalkboard hangs on a lamp post. TONIGHT: CART 2 TO 1. PRAM 9 TO 1.)
+(Beneath it sits a biscuit tin, its lid cut with a slot.)
+> quest race 1
+(A shopping cart and an old pram roll up to a chalk line on the tram loop.)
+?
+- [Notice 2] Watch a lap first. -> watch | bet
+- Put ten on the cart. -> cart
+- Put ten on the pram. -> pram
+- Not tonight. -> leave
+* watch
+NOTICE: The cart rattles as if angry. The pram rolls as if asleep.
+NOTICE: At the canal, the cart stops to stare at the water. Every single lap.
+* bet
+?
+- Put ten on the cart. -> cart
+- Put ten on the pram. -> pram
+- Not tonight. -> leave
+* cart
+> ifgilt 10 -> cart2
+(The tin waits. Your pockets are empty.)
+> end
+* cart2
+> gilt -10
+> set race_cart
+> goto run
+* pram
+> ifgilt 10 -> pram2
+(The tin waits. Your pockets are empty.)
+> end
+* pram2
+> gilt -10
+> set race_pram
+* run
+(The cart speeds off. The pram rolls away slowly.)
+> wait 1.5
+(At the canal, the cart stops. It stares at the water for a long time.)
+> wait 1.5
+(The pram rolls past and crosses the line.)
+> if race_pram -> won
+> set race_done
+> quest race done "The pram won. The cart stopped at the canal, the way it does every lap."
+> end
+* won
+(Ninety gilt in the tin: coins, buttons, and a single ring.)
+?
+- Leave it in the tin. The Pound takes its cut for lamp oil. -> give
+- Take the ninety. -> take
+* take
+> sfx loot
+> gilt 100
+> approve courtesy -1
+> goto close
+* give
+> gilt 10
+> rep woken 2
+> approve courtesy 2
+* close
+> set race_done
+> quest race done "The pram won. The cart stopped at the canal, the way it does every lap."
+> end
+* leave
+> end
+* after
+(TONIGHT: CART 2 TO 1. PRAM 9 TO 1. The odds haven't shifted.)
+> end
+
+# ---------------------------------------------------------------- Return to Sender (vein)
+
+== niche_post
+> if post_done -> after
+(A red postbox clings to the fish market wall, swollen with letters. Its flap is sealed tight.)
+> if post_seen -> ask
+> set post_seen
+> quest post 1
+(Suddenly, the flap opens. It bites your fingers, then snaps shut.)
+(The door at the bottom has rusted open just a finger's width. Envelopes, dozens of them.)
+NOTICE: Every single one is addressed to someone who sailed with the Vein. Names. Streets.
+> ifnot party:sallis -> ask
+Sallis: Ten years of names. Recovery pays per name.
+* ask
+?
+- ?party:sallis|rep:vein>=3 Send them out on the next Vein boat. -> send
+- Burn them here. -> burn
+- Recovery pays four gilt a name. Count them. -> sell
+- Leave them. -> leave
+* send
+> ifnot party:sallis -> send2
+Sallis: Copy. Next boat out. They'll be late.
+* send2
+(A fish crate swallows ten years of letters.)
+> set post_sent
+> rep vein 2
+> approve sallis 3 courtesy 1
+> quest post done "The letters went out on the next Vein boat."
+> goto close
+* burn
+(The letters arrive quickly. The postbox stays warm for an hour.)
+> set post_burned
+> rep vein 1
+> approve sallis 1
+> quest post done "You burned the letters. Nobody can read the names now."
+> goto close
+* sell
+(Thirty names. A Recovery runner on the bridge counts them twice.)
+> sfx loot
+> gilt 120
+> set post_sold
+> rep vein -4
+> rep board 1
+> approve sallis -6 courtesy -2
+> quest post done "Recovery paid a hundred and twenty for the letters."
+> goto close
+* leave
+> end
+* close
+> set post_done
+> end
+* after
+(The postbox is empty. The flap flaps uselessly.)
+> end
+
+# ---------------------------------------------------------------- Sea Glass (flats)
+
+== niche_glass
+> if glass_done -> after
+(Noud's window: driftwood frame, string-hung old glass.)
+(Three strings are bare.)
+> if glass_seen -> ask
+> set glass_seen
+> quest glass 1
+Noud: It's for Ankie's hut. She has no window.
+Noud: I need a blue one, a green one, and a brown one with letters on it. Old city glass.
+Noud: New glass turns white in the salt. Old glass doesn't. Nobody knows why.
+* ask
+> if item:glassblue&item:glassgreen&item:glassbrown -> have
+> end
+* have
+Noud: That's all three! Is that all three?
+?
+- Hang all three. -> give
+- Keep the brown. It reads BOARD MEDICAL. -> keepbrown
+- Kobus pays for old glass. Sell him the lot. -> sell
+* give
+> take glassblue
+> take glassgreen
+> take glassbrown
+(Blue, green, brown. Sunlight hits Ankie's floor.)
+Noud: She'll blame the bakery window. Say it's always been.
+> set glass_window
+> rep waders 2
+> approve courtesy 1
+> quest glass done "Noud finished Ankie's window."
+> goto close
+* keepbrown
+> take glassblue
+> take glassgreen
+> lore board_bottle
+Noud: Two, then. Light leaks in the gap too.
+> set glass_kept
+> rep waders 1
+> quest glass done "Noud's window has a gap. You kept the Board Medical bottle."
+> goto close
+* sell
+> take glassblue
+> take glassgreen
+> take glassbrown
+> sfx loot
+> gilt 30
+Noud: Kobus. Right. He makes net floats from it.
+> set glass_sold
+> rep waders -1
+> quest glass done "You sold the old glass to Kobus for thirty."
+* close
+> set glass_done
+> end
+* after
+> if glass_sold -> empty
+(Old glass panes hang on strings. Light filters through onto Ankie's floor.)
+> end
+* empty
+(Three strings hang empty.)
+> end
+
+# ---------------------------------------------------------------- Opens at Six (flats)
+
+== niche_bell_shop
+> if bell_took|bell_left -> after
+(A bakery. Mud coats the second shelf. A brass bell hangs on a spring above the door.)
+> quest bell 1
+(The door swings with the tide, and the bell rings each time.)
+> ifnot party:courtesy -> ask
+Courtesy: THE SHOP. IS. OPEN.
+* ask
+?
+- Take the bell to Ankie. -> take
+- Leave it ringing. -> leave
+* take
+> give shopbell
+> set bell_took
+> quest bell 2
+(The door swings. Nothing rings.)
+> end
+* leave
+> set bell_left
+> quest bell done "You left the bakery bell on its spring. It rings with the tide."
+> end
+* after
+> if bell_took -> gone
+(The door swings with the tide. The bell rings.)
+> end
+* gone
+(The door swings. Nothing rings.)
+> end
+
+== niche_bell_ankie
+> face ankie hero
+Ankie: That's Meijer's bell. From the bakery door. The bakery opens at six.
+?
+- Give it to her. -> give
+- Hang it on her empty nail. -> hang
+- Kobus pays for brass. Sell it. -> sell
+* give
+> take shopbell
+(She rings it once.)
+> wait 2
+Ankie: Six o'clock. It was six o'clock when they opened.
+Ankie: Meijer drowned in his flour. I was thirty.
+> set bell_given
+> rep waders 1
+> quest bell done "Ankie rang the bakery bell and said it was six o'clock."
+> end
+* hang
+> take shopbell
+(The bell hangs on the nail. When the door moves, it rings.)
+Ankie: There. The bakery's open.
+> set bell_hung
+> rep waders 1
+> quest bell done "The bakery bell hangs on Ankie's door. The bakery is open."
+> end
+* sell
+> take shopbell
+> sfx loot
+> gilt 25
+Ankie: Kobus melts it for the weights. Go on, then.
+> set bell_sold
+> rep waders -1
+> quest bell done "You sold the bakery bell to Kobus for twenty-five."
+> end
+
+# ---------------------------------------------------------------- Head Count (tunnels)
+
+== niche_count
+> if count_done -> after
+(A board by the stairs, chalked in fives. TONIGHT: 41. A list of names beneath it.)
+> if count_seen -> ask
+> set count_seen
+> quest count 1
+NOTICE: Forty names are ticked. One is not: OKKER. Nobody has rubbed it out.
+* ask
+> ifnot item:okkerlamp -> leave
+?
+- Give Spoor the lamp. -> tell
+- Hang the lamp over his name. Say nothing. -> hang
+- Sel pays thirty for a Mole lamp. -> sell
+* tell
+> take okkerlamp
+Spoor: Okker's. He went down to the Works for copper. Dry season.
+Spoor: Forty, then.
+(One stroke is erased from the board.)
+> set count_told
+> rep moles 2
+> goto close
+* hang
+> take okkerlamp
+(The lamp hangs on a nail over OKKER.)
+(At the count that night, they still say forty-one.)
+> set count_hung
+> rep moles 1
+> goto close
+* sell
+> take okkerlamp
+> sfx loot
+> gilt 30
+> set count_sold
+> rep moles -2
+* close
+> set count_done
+> quest count done
+> end
+* leave
+> end
+* after
+> if count_told -> forty
+> if count_hung -> lamp
+(TONIGHT: 41. OKKER is still not ticked.)
+> end
+* forty
+(TONIGHT: 40.)
+> end
+* lamp
+(TONIGHT: 41. A lamp hangs over OKKER.)
+> end
+
+# ---------------------------------------------------------------- The Candle Raft (flood)
+
+== niche_shrine
+> if shrine_done -> after
+(A raft of pallets bears a plaster Saint, surrounded by a hundred candles.)
+(It bumps the school wall. Again. Again.)
+> quest shrine 1
+NOTICE: Every flame leans the same way, up the road, toward the Wall.
+> ifnot party:ignace -> ask
+Ignace: Somebody bled on a shrine while they prayed. It's trying to get to her.
+* ask
+?
+- [Athletics 2] Wade in and push it clear of the school. -> push | pushfail
+- Tie it to the drainpipe, out of the current. -> tie
+- Take the candles. Wax trades well at the Pumpline. -> take
+* push
+> sfx splash
+(The raft swings free, drifting up the flooded road toward the Wall.)
+> set shrine_freed
+> rep church 1
+> approve ignace 2 tova 1
+> goto close
+* pushfail
+> sfx splash
+(The water takes your feet. The raft bumps the wall once more.)
+> end
+* tie
+(It pulls at the rope, then stops, turning in slow circles.)
+> set shrine_tied
+> approve courtesy 1
+> goto close
+* take
+> give candle 3
+> set shrine_taken
+> approve ignace -2 courtesy -1
+(The raft goes dark. It bumps the wall.)
+* close
+> set shrine_done
+> quest shrine done
+> end
+* after
+> if shrine_freed -> gone
+> if shrine_tied -> tied
+(A dark raft bumps the school wall.)
+> end
+* gone
+(Wax coats the school wall at the waterline.)
+> end
+* tied
+(The raft pivots on its rope. The candles lean up the road.)
+> end
+
+# ---------------------------------------------------------------- One Sock (spin)
+
+== niche_dryer
+> if dryer_done -> after
+(The last dryer in the row is spinning. A single red sock circles behind the glass.)
+> if dryer_seen -> ask
+> set dryer_seen
+> quest dryer 1
+TECH: The plug is severed. It powers nothing. It has spun for years.
+> ifnot party:quaye -> ask
+Quaye: Nine years. A kid woke it, sulking over a sock. I sleep to its rhythm.
+* ask
+> ifnot item:redsock -> leave
+?
+- Put the other sock in. -> sock
+- Keep the sock. Let it keep turning. -> keep
+- Roos buys socks in pairs. Take the red one out and sell both. -> sell
+* sock
+> take redsock
+(The door swings open on its own. The sock goes in. The door clicks shut.)
+(Two red socks circle once. Twice. The drum slows.)
+> wait 2
+(It stops. The door cracks open. The socks are warm.)
+> set dryer_stopped
+> approve courtesy 2
+> ifnot party:quaye -> close
+Quaye: Quiet, then.
+> approve quaye -1
+> goto close
+* keep
+(The sock slips back into your pocket. The dryer turns.)
+> set dryer_kept
+> ifnot party:quaye -> close
+Quaye: Good.
+> approve quaye 2
+> goto close
+* sell
+> take redsock
+> sfx shove
+(The door resists you. Then it releases the sock.)
+(The drum spins empty, faster.)
+> gilt 6
+> set dryer_robbed
+> approve courtesy -2 quaye -2
+* close
+> set dryer_done
+> quest dryer done
+> end
+* leave
+> end
+* after
+> if dryer_stopped -> still
+> if dryer_robbed -> empty
+(One red sock goes round and round.)
+> end
+* still
+(The dryer is still. Two red socks lie on top, folded.)
+> end
+* empty
+(The drum spins, empty and unceasing.)
+> end

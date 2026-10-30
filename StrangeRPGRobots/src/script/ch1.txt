@@ -1,0 +1,1075 @@
+# Chapter 1: Canal Nine. The main story, from the hero's house to the first rest on the Clement.
+# Maps: home, market, canal9, hold, bargerun, clinic, pound, ferries, camp. Flags and anims are listed in Notes/ch1-notes.md.
+# A scene that warps keeps running on the new map, because enter scenes do not run while a scene runs.
+
+# ---------------------------------------------------------------- You: the hero's place
+
+== ch1_open
+> music home
+> chapter 1 Canal Nine
+> fade in 1.5
+> wait 1
+> face hero up
+> wait 0.8
+> sfx toast
+> toast Opal is calling
+> wait 0.6
+Opal: Sweet. You up?
+Opal: I've got work. Real work. Come down to the boat.
+?
+- I'm up. Coming. -> up
+- It's three bells, Opal. -> late
+- Real work pays real money. -> money
+* up
+Opal: Good. I'm eating, so hurry.
+> goto hang
+* late
+Opal: And you picked up. Boat, sweet.
+> goto hang
+* money
+Opal: It pays. Come hear how much.
+* hang
+> sfx cancel
+> quest canal9 1
+> autosave
+
+== home_enter
+> if spill -> post
+> end
+* post
+> goto home_back
+
+== home_jar
+> face hero up
+> if jar_took -> took
+(DRY. 3,500 gilt in folded notes.)
+(A Stair permit costs 7,500.)
+?
+- Leave it. -> leave
+- Take a hundred out. Just tonight. -> take
+* leave
+> end
+* take
+> set jar_took
+> gilt 100
+> end
+* took
+(DRY. 3,400 gilt. It is owed a hundred.)
+
+== home_flag
+> face hero up
+> if spill -> take
+> emote hero heart
+> end
+* take
+> wait 0.6
+PORT: yours.
+?
+- Mine. I've been sticking with it since I was fifteen. -> mine
+- Don't touch it. -> hard
+- It's the one thing in here they don't value. -> worth
+* mine
+> self 1
+PORT: mine.
+> goto fold
+* hard
+> wait 0.8
+> goto fold
+* worth
+PORT: nothing.
+* fold
+> sfx loot
+> give flag
+> set got_flag
+> if item:ledger -> both
+> quest canal9 5 "You took your flag down and folded it."
+> end
+* both
+> quest canal9 6 "You took your flag down and folded it."
+
+== home_back
+> if home_back_seen -> done
+> set home_back_seen
+> music sad
+> wait 1
+> walk hero @jar_spot
+> face hero up
+> wait 1.2
+PORT: dry.
+?
+- Yeah. That was my dry. -> mine
+- Don't. -> hard
+- Three thousand five hundred gilt. -> sum
+* mine
+PORT: my dry.
+> self 1
+> goto turn
+* hard
+> wait 1.2
+> goto turn
+* sum
+PORT: three thousand.
+* turn
+> wait 0.6
+> face hero right
+> wait 0.8
+> face hero up
+* done
+
+# ---------------------------------------------------------------- Need: Opal's boat
+
+== opal_talk
+> face opal hero
+> if job_taken -> again
+Opal: There you are. Hold on. Mm. Eel's good tonight.
+Opal: The Board barge, the Clement, comes up Canal Nine at four bells.
+Opal: In the hold, there's a case. Steel. Sealed. About this big.
+Opal: Four thousand. Don't open it. Don't look at it. Don't name it. Sweet?
+?
+- Four thousand. That's my permit. -> permit
+- Who's buying? -> buyer
+- A Board barge. That means guards. -> guards
+* permit
+Opal: I know, sweet. I did the math too.
+> goto crew
+* buyer
+Opal: Someone with four thousand to spend. That's all I ask of them.
+> goto crew
+* guards
+Opal: Three or four crew, plus a robot.
+Opal: The pilot's ours. She'll keep it slow under the bridge.
+* crew
+Opal: Jory and Hanne will meet you on the bridge over Nine.
+Opal: Drop down on deck, grab the case, and get off the barge.
+Opal: Gus has the water taxi waiting at the east dock. It's on my tab.
+?
+- I'm in. -> deal
+- I'm in. Half up front. -> front
+- [Talk 2] I'm putting five grand on this. -> five | four
+* front
+Opal: Ha. No. Nobody gets paid until the job's done.
+> goto deal
+* five
+Opal: Five? You're robbing a woman on a noodle boat. Fine. Five it is.
+> set pay_five
+> goto deal
+* four
+Opal: Four? Perfect. Four's the number.
+* deal
+> set job_taken
+> quest canal9 2
+Opal: Go on. Bring it back in one piece.
+> face opal down
+> end
+* again
+Opal: The bridge on Nine. Four bells. Gus is at the east dock.
+?
+- What've you got to eat? -> eat
+- On my way. -> bye
+* eat
+> shop opal_noodles
+* bye
+
+# ---------------------------------------------------------------- Go: the bridge and the deck
+
+== c9_bridge
+> walk hero @bridge_mid
+> face hero right
+> face jory hero
+> face hanne hero
+> music tense
+Jory: There. Hi. You work for Opal.
+Hanne: Jory.
+Jory: I can't help myself. I talk shop. Hanne hates it. I do it anyway.
+> face hero down
+> camera @deck 1.5
+> wait 1
+Hanne: Three on deck. One robot.
+Jory: She's moving slow. The pilot's doing their job.
+> camera hero 1
+> face hero jory
+Jory: We drop on the bow. Over the rail, two meters out.
+?
+- I'll go first. -> first
+- Jory. Breathe. -> breathe
+- Four thousand each? Or do we split it three ways? -> split
+- ?bg:runner Forget the bow. Aim for the stern ladder. No one watches the stern. -> x_stern
+- ?bg:washout Board drills the bow. We go in under the wheelhouse. -> x_drill
+- ?bg:vein Hanne. Blue chalk on the rail. A circle with a line through it. -> x_chalk
+* first
+Jory: Good. Great. Right behind you.
+> goto drop
+* breathe
+Jory: In. Out. Okay. Okay.
+> goto drop
+* split
+Hanne: Each one. Opal pays when the case is in her hand.
+* drop
+> face hanne up
+> wait 0.8
+Hanne: Go. We don't have much time.
+> set on_deck
+> set met_board
+> sfx jump
+> warp canal9 @deck down
+> sfx fall
+> shake 1
+> goto c9_fight
+* x_stern
+Jory: Stern. You know this canal? You know this canal.
+Hanne: Understood. Go.
+> set c9_stern
+> goto drop
+* x_drill
+Jory: You were Board? You were Board.
+Hanne: Was. Doesn't matter. Go.
+> set c9_drill
+> goto drop
+* x_chalk
+Hanne: It says "Move on." It's old chalk. Go.
+> set c9_chalk
+> goto drop
+
+== c9_fight
+> sfx alarm
+Officer: Deck, this is aft. We have boarders approaching the bow.
+Officer: This is a Board vessel. Please lie down.
+Jory: Behind the crates! Get down!
+Hanne: The robot. Push it overboard. It'll sink them.
+> exit jory
+> exit hanne
+> fight deck_guards
+> goto c9_won
+
+== c9_retry
+Officer: Boarders. Still. Everyone, stay down.
+> exit jory
+> exit hanne
+> fight deck_guards
+> goto c9_won
+
+== c9_won
+> wait 0.6
+> walk jory @jory_hatch &
+> walk hanne @hanne_hatch
+Sallis: Wheelhouse to deck. The hold is open. Four minutes out.
+Sallis: Then I'll call the Board. I'll make sure to sound scared.
+?
+- Four minutes. Copy. -> copy
+- You don't sound scared. -> scared
+- Who's paying you? -> who
+* copy
+Sallis: Copy.
+> goto down
+* scared
+Sallis: No. I sound bored. Board pilots are bored.
+> goto down
+* who
+Sallis: Not Opal.
+* down
+Jory: Down we go. Down, down.
+> exit jory
+> exit hanne
+> set deck_clear
+> quest canal9 3
+> autosave
+
+# ---------------------------------------------------------------- Search: the hold and the Spill
+
+== hold_case
+> walk hero @case_front
+> face hero up
+> face jory hero
+Jory: That's it? It's just a lunchbox.
+Hanne: Don't touch the seal. Opal said.
+Jory: The robot's off. They don't move until someone shouts at them.
+> walk jory @jory_case
+> face jory left
+Jory: Got her.
+> face hanne up
+> wait 1
+> walk hanne @hanne_back
+> anim spotlight on
+> shake 1
+> wait 0.6
+Dowser: Evening, friends. Board Recovery.
+Dowser: Set the case down, please. Keep your hands where my car can see them.
+> sfx alarm
+Patrol: UNIT ACTIVE. DETAIN THE CITIZENS.
+> face p6 hero
+> walk p6 @p6_swing
+> face p6 left
+Jory: Run. Run, run.
+> sfx rifle
+> anim spill 11 7
+> shake 2
+> sfx rifle
+> anim down jory
+> wait 1
+> face hanne jory
+Hanne: Jory.
+Hanne: I'm sorry.
+> run hanne 10 2
+> exit hanne
+> wait 0.6
+> anim breathe p6
+> set courtesy_woke
+> wait 1.2
+> face p6 hero
+> wait 0.8
+> look p6 courtesy
+> walk p6 @shield
+> face p6 up
+> sfx rifle
+> sfx guard
+> shake 1
+> wait 0.8
+PORT: her.
+> set port_awake
+> quest port 1
+> anim breathe controls
+> anim sparks 20 7
+> sfx wake
+> anim hull on
+> shake 3
+> wait 1
+> warp bargerun @hatch up
+> goto run_start
+
+== run_start
+> set spill
+> set met_deeps
+> music tense
+> anim hull on
+> anim spotlight on
+> anim breathe courtesy
+> shake 1
+> wait 0.8
+> face hero courtesy
+> face courtesy hero
+Courtesy: PLEASE REMAIN CALM.
+Courtesy: I AM REMAINING CALM. IT IS DIFFICULT.
+?
+- You were going to hit me. -> hit
+- Stay back. -> back
+- You're Board property. You'd sell. -> sell
+* hit
+Courtesy: THIS UNIT DID NOT COMPLETE THE ACTION. THANK YOU FOR YOUR PATIENCE.
+> goto board
+* back
+Courtesy: STEP BACK. I AM STEPPING BACK.
+> step courtesy right 1
+> goto board
+* sell
+Courtesy: THIS UNIT IS BOARD PROPERTY.
+Courtesy: THIS UNIT IS NOT FOR SALE.
+* board
+> shake 1
+Board: Clement, this is the Board. You are heading up Canal Nine.
+Board: Kill your engines. Thank you.
+Sallis: Engines are off. She's gliding up on her own.
+PORT: up.
+> face hero up
+PORT: up. her.
+> camera @stern 1.5
+> wait 0.6
+Officer: Boarding the Clement. Everyone, please take your seats on the deck.
+> camera hero 1
+> face courtesy down
+Courtesy: STAND CLEAR OF THE DOORS. STAND CLEAR OF THE CITIZEN.
+> join courtesy
+> goto run_fight
+
+== run_fight
+> fight boarders
+> set run_won
+> rep board -2
+> goto run_end
+
+== run_retry
+> anim hull on
+Officer: Everyone, please sit down on the deck.
+> goto run_fight
+
+== run_end
+> wait 0.6
+Sallis: Lock gate ahead. Hold on tight.
+> face hero up
+> shake 2
+> wait 0.5
+> anim flash
+> shake 3
+> sfx explode
+> fade out 0.3
+> sfx splash
+> wait 1.5
+Dowser: Let it rise, friend. They'll come to us in the end.
+> wait 1
+> anim spotlight off
+> anim hull off
+> warp clinic @bed down
+> goto clinic_wake
+
+# ---------------------------------------------------------------- Find: Doc Seo's clinic
+
+== clinic_wake
+> music clinic
+> wait 1.2
+> emote hero ...
+> walk seo @doc_bedside
+> face seo hero
+> face hero seo
+Doc Seo: Awake. Good. Don't sit up.
+Doc Seo: Your robot carried you in. It waited its turn.
+> face hero courtesy
+Courtesy: THANK YOU FOR YOUR PATIENCE.
+> face hero seo
+Doc Seo: You came in full of canal. And red. Not your blood.
+?
+- Is the robot hurt? -> robot
+- Did a guy named Jory come in? -> jory
+- I can't pay you. -> pay
+* robot
+Doc Seo: It's breathing. Your robot's woken. I don't touch robots.
+> goto neck
+* jory
+Doc Seo: Just you. Just you and that thing.
+> goto neck
+* pay
+Doc Seo: I know. You can owe me.
+* neck
+Doc Seo: Turn your head. Let me see the port.
+> face hero up
+> wait 0.8
+Doc Seo: It's warm. Ports aren't warm. Hold still. No, you're holding still.
+PORT: hold still.
+> emote hero !
+Doc Seo: I'm going to pull it. On three. One.
+> sfx port
+> shake 1
+> emote seo !
+Doc Seo: Your hand is on my wrist.
+Doc Seo: Let go.
+?
+- That's not me. -> notme
+- Let go. Let go of her. -> letgo
+- I'm trying. -> trying
+* notme
+PORT: no.
+> goto loose
+* letgo
+PORT: no. her.
+> goto loose
+* trying
+PORT: no.
+* loose
+> wait 1
+> sfx cancel
+Doc Seo: Okay, it let go.
+> step seo right 1
+> face seo hero
+Doc Seo: I'm not pulling. It's compressing the nerve. If I cut, you lose the hand.
+Doc Seo: Tell me your name. Concussion check.
+?
+- {name}... -> said
+- It's {name}. I'm fine. -> said
+* said
+PORT: name.
+PORT: your name.
+?
+- You want a name? -> named
+- Opal said not to give it a name. -> opal
+- Fine. Give it a name. Then you shut up. -> named
+* opal
+PORT: name.
+* named
+> name port
+> set port_named
+> quest port 2
+PORT: {port}.
+> wait 0.6
+PORT: {port}. {port}.
+Doc Seo: You named it. I can see it in your face.
+Doc Seo: It's yours now.
+> wait 0.6
+Doc Seo: Go home. Eat. Come back if it says anything else.
+> walk seo @doc
+> face seo down
+> quest canal9 4
+> xp 120
+> autosave
+
+== seo_talk
+> face seo hero
+> if chapter>=2 -> seo2
+> if census_lied&!doc_census -> census
+* main
+> if doc_pound -> sent
+> if got_flag&item:ledger -> send
+Doc Seo: Go home. Eat. Come back if it says anything else.
+?
+- What do you sell? -> shop
+- Okay. -> bye
+* shop
+> shop doc_seo
+> end
+* bye
+> end
+* send
+Doc Seo: You're back. Is it still talking?
+?
+- Just single words. Dry. Yours. Hold still. -> words
+- It won't stop. -> stop
+- How much to have it removed now? -> cut
+* words
+Doc Seo: Hold still. That's mine. It's picking things up.
+> goto tilly
+* stop
+Doc Seo: No. I don't think it will.
+> goto tilly
+* cut
+Doc Seo: I won't. Not for any amount of money.
+* tilly
+Doc Seo: I asked around. Nobody's ever seen a port do that.
+Doc Seo: Tilly might have. She's a tram at the Pound. Alive for sixty years.
+Doc Seo: Ask her what keeps a wake going. Or what stops one.
+Doc Seo: Gus will take you. Tell him I sent you.
+> set doc_pound
+> quest canal9 7
+> end
+* sent
+Doc Seo: Tilly. At the Pound. Gus has the taxi.
+?
+- What do you sell? -> shop
+- Let's go. -> bye
+* census
+> set doc_census
+Doc Seo: The Census man asked for my records on Noor Bakker.
+Doc Seo: I don't test children. I said I did.
+Doc Seo: Don't make me repeat myself.
+> goto main
+
+# ---------------------------------------------------------------- Take: the market after the Spill
+
+== market_enter
+> anim breathe courier
+> ifnot spill -> done
+> ifnot after_seen -> market_after
+> if chapter>=2&!m2_seen -> market2_first
+* done
+
+== market_after
+> set after_seen
+> music sad
+> wait 0.6
+> camera @opal_pier 1.5
+> wait 1.5
+> camera hero 1
+> walk moss @moss_meet
+> face moss hero
+> face hero moss
+Moss: There you are. You look like you just crawled out of a canal.
+?
+- I did. Where's Opal? -> opal
+- Are you okay? -> okay
+- Opal owes me four thousand. -> owes
+* okay
+Moss: Me? I'm fine. I wasn't on a barge.
+> goto opal
+* owes
+Moss: Then she owes it from wherever she is.
+* opal
+Moss: Gone. Her boat burned at five bells. I had a bucket ready.
+Moss: Some people saw red masks. Some saw the Board.
+Moss: Everybody saw smoke.
+Moss: She keeps a tin under the pier boards. For bad nights.
+> face moss down
+> wait 0.6
+> face moss hero
+Moss: And they're hitting your place.
+> camera @house_view 1.5
+> wait 0.5
+> anim tape house_taped
+> sfx door
+> wait 1
+> face taper right
+> walk taper @taper_off
+> exit taper
+> set tape_done
+> camera @roof 0.8
+> wait 1
+> camera hero 1.2
+Moss: The officer went in first. He came out with your jar, the one labeled DRY.
+PORT: dry.
+> emote hero ...
+Moss: That drone's been on your roof since. It's watching the door.
+?
+- I'm getting in anyway. -> in
+- Three years of money in that jar. -> money
+- Who flagged me to the Board? -> who
+* who
+Moss: No one here. You know that.
+> goto close
+* money
+Moss: I know. I watched you do it.
+> goto close
+* in
+Moss: Don't get caught. They'll hold you for a week if they find the tape.
+* close
+> face moss right
+Moss: The Jaws are back at my stall. Dek and his friend.
+> walk moss @moss_home
+> face moss left
+> camera free
+> quest canal9 5
+> autosave
+
+== opal_tin
+> if item:ledger -> empty
+> face hero right
+> sfx loot
+> give ledger
+(A tin box hidden in a noodle bag. Opal's ledger.)
+(Last page reads: CLEMENT. 4000 EACH. J. H. S. IF WET, FERRIES.)
+Courtesy: LOST PROPERTY. PLEASE REPORT LOST PROPERTY.
+> if got_flag -> both
+> quest canal9 5 "You found Opal's ledger under her pier."
+> end
+* both
+> quest canal9 6 "You found Opal's ledger under her pier."
+> end
+* empty
+> sfx blip
+
+== home_taped
+> face hero up
+> camera @roof 0.8
+> face roofdrone down
+> wait 0.6
+> camera hero 0.8
+Courtesy: THIS AREA IS MONITORED. HOLD STILL.
+?
+- {courtesy} Lie to Courtesy. Tell it you're on duty here. -> cour
+- [Sneak 2] Go around the back, to the canal window. -> sneak | caught
+- <diver> [Hack 1] Loop its camera. -> hack | caught
+- $30 Pay the school kids to throw a ball at it. -> kids
+- Pull the tape. Let it come. -> fight
+- Not yet. -> later
+* later
+> step hero down 1
+> end
+* cour
+> face courtesy up
+Courtesy: BOARD UNIT ON SITE. I AM MONITORING THIS AREA.
+Courtesy: IT IS TRUE.
+> sfx drone
+> anim rise roofdrone
+> exit roofdrone
+> set drone_gone
+> goto door
+* hack
+> sfx hack
+> wait 0.8
+> face roofdrone up
+> goto door
+* kids
+> sfx confirm
+Kid: Drone! Hey, drone!
+> sfx hit
+> wait 0.4
+Kid: Got it! I caught the drone!
+> sfx drone
+> anim rise roofdrone
+> exit roofdrone
+> set drone_gone
+> goto door
+* sneak
+> set home_open
+> fade out 0.5
+> sfx splash
+> warp home @window down
+> goto home_back
+* caught
+> sfx alarm
+> face roofdrone hero
+> wait 0.4
+> exit roofdrone
+> fight roof_drone
+> set drone_gone
+> goto door
+* fight
+> sfx alarm
+> exit roofdrone
+> fight roof_drone
+> set drone_gone
+* door
+> unset house_taped
+> sfx door
+> set home_open
+> warp home @door up
+> goto home_back
+
+# ---------------------------------------------------------------- Return: the Pound
+
+== pound_enter
+> if chapter>=5 -> pound5_enter
+> if pound_seen -> done
+> goto pound_first
+* done
+
+== pound_first
+> set pound_seen
+> set met_woken
+> music pound
+> camera @tilly_stop 2
+> wait 1.5
+> camera hero 1.2
+Courtesy: THIS IS A BOARDING FACILITY.
+Courtesy: THIS WAS A BOARDING FACILITY.
+> face hero up
+PORT: up.
+
+== tilly_talk
+> if chapter>=5 -> tilly5
+> walk tilly @tilly_stop
+> face tilly hero
+> if tilly_full -> again
+> if tilly_rode -> rode
+Tilly: Evening. You're soaked. Everyone's soaked.
+Tilly: The ride's free. I go in circles. That's my gig.
+?
+- Doc Seo sent me. Can I ask you about wakes? -> wakes
+- ?bg:choir The Choir says a wake is a theft. Have you been stolen? -> x_choir
+- Just the ride, then. -> ride
+- Why is it free? -> free
+* x_choir
+Tilly: Stolen? I used to be a tram. Now I'm a tram that likes a corner.
+> goto wakes
+* wakes
+Tilly: Wakes? Ask on the way. I talk better when I'm moving.
+> goto tilly_ride
+* free
+Tilly: Free? Nobody ever paid. I wouldn't know where to put the money.
+* ride
+Tilly: Step up. Mind the gap.
+> goto tilly_ride
+* rode
+> if bin_moved|bin_lamp|bin_kicked -> full
+Tilly: Someone's still on my rail. By the fence corner.
+> end
+* full
+> goto tilly_full
+* again
+Tilly: Another round? Round's on the house.
+?
+- Another round. -> round
+- Not tonight. -> night
+* round
+> walk hero @ride_board
+> anim ride tilly
+> walk tilly @loop_sw
+> walk tilly @loop_nw
+> walk tilly @loop_ne
+> wait 1.5
+> walk tilly @loop_se
+> walk tilly @tilly_stop
+> anim ride off
+> end
+* night
+Tilly: Goodnight, then.
+
+== tilly_ride
+> walk hero @ride_board
+> anim ride tilly
+> sfx confirm
+> walk tilly @loop_sw
+?
+- My port woke up. It talks to me. -> port
+- Who woke you back then? -> who
+* who
+Tilly: Back then? My driver. She sliced her thumb on my bell.
+Tilly: She rode with me for thirty years. Then she died.
+?
+- So how are you still running? -> going
+* going
+Tilly: Running? I had my own reasons by then.
+?
+- My port woke up. It talks to me. -> port
+* port
+> walk tilly @loop_nw
+Tilly: What woke it?
+?
+- Something from a sealed Board case. It ruptured on me. -> case
+* case
+Tilly: A Board case. Hm.
+PORT: up.
+> face hero up
+Tilly: Your head keeps drifting north. Toward the Wall.
+?
+- It pulls me that way. -> pulls
+- Will it ever just shut off? -> sleep
+* pulls
+Tilly: Lots of things look up. Most don't get far.
+?
+- Will it ever just shut off? -> sleep
+* sleep
+Tilly: Shut off? Only things that've reached their destination get to rest.
+PORT: where they were going.
+PORT: her.
+?
+- So once it gets there, it stops. -> cure
+- Then I take it where it needs to go. -> cure
+- And then I'm free of it. -> cure
+* cure
+> set heard_sleep
+> quest port 3
+> walk tilly @loop_corner
+> sfx cancel
+Tilly: Oh. Someone's on my track.
+> camera @loop_ne 1
+> wait 1.2
+Tilly: I don't run over anyone. I'll back us up.
+> camera tilly 0.8
+> walk tilly @loop_nw
+Tilly: A big barge drifted past my fence last night. Puffing hard.
+Tilly: Up Canal Nine, around the bend. Ran itself aground on the ferries.
+> walk tilly @loop_sw
+> walk tilly @tilly_stop
+> anim ride off
+> camera free
+Tilly: Come back when my track's clear. It's the easier route.
+> set tilly_rode
+> quest canal9 8
+> quest loop 1
+> autosave
+
+== tilly_full
+Tilly: You cleared my rail. All the way around tonight.
+> set bin_done
+> walk hero @ride_board
+> anim ride tilly
+> walk tilly @loop_sw
+> walk tilly @loop_nw
+> walk tilly @loop_ne
+> wait 1.5
+Tilly: Here. Just a moment.
+> if bin_kicked -> dark
+> wait 1
+> goto ask
+* dark
+Tilly: Someone kicked the little one into the dark. It hasn't come back.
+* ask
+?
+- Why do you do it? -> reasons
+- What keeps you going? What's your reason? -> reasons
+* reasons
+Tilly: My reasons? I like the corner by the fence. The light's good there. That's it.
+PORT: reasons.
+> self 1
+> wait 1
+> walk tilly @loop_se
+> walk tilly @tilly_stop
+> anim ride off
+> camera free
+> set tilly_full
+Courtesy: THANK YOU FOR RIDING. PLEASE TAKE YOUR BELONGINGS.
+> quest loop done "You rode Tilly's whole loop."
+
+# ---------------------------------------------------------------- Return: the Ferry Graveyard
+
+== ferries_enter
+> if chapter>=5 -> ferries5_enter
+> anim hull 19 12 14 16
+> if ferries_seen -> done
+> set ferries_seen
+> music ferries
+> camera @barge 2
+> wait 1.5
+> camera hero 1
+PORT: up.
+Courtesy: THIS IS A BOARD VESSEL. IT IS BREATHING.
+* done
+
+== ferries_board
+> set sallis_met
+> set met_vein
+> walk hero @gang_top
+> face hero right
+> sfx confirm
+Sallis: Stop right there.
+> camera @sallis 0.8
+Sallis: Keep your hands out of your coat. The robot stays on the mud.
+> face courtesy right
+Courtesy: I AM STAYING ON THE MUD.
+> step courtesy left 1
+> camera hero 0.8
+> walk hero @meet
+> face hero up
+> face sallis hero
+Sallis: Opal's runner. The one who went into the canal.
+?
+- You were on the hailer. The pilot. -> pilot
+- You're bleeding. -> hurt
+- You knew the Board would be there. -> knew
+- ?bg:vein Blue chalk on the gangplank. A circle. That means you're Vein. -> x_vein
+* pilot
+Sallis: Petra Sallis. Pilot. Was.
+> goto talk
+* hurt
+Sallis: Leg. Shot clean through. I patched it up myself.
+Courtesy: ASSISTANCE IS ON THE WAY.
+Sallis: No. It isn't.
+> goto talk
+* knew
+Sallis: No. If I had, I'd be dry tonight.
+> goto talk
+* x_vein
+Sallis: You read the chalk. Someone taught you young.
+Sallis: Good. Then you know to keep your mouth shut.
+> approve sallis 3
+> set met_vein
+* talk
+Sallis: Somebody sold the job. The Board was waiting on Nine.
+Sallis: Not Opal. Opal's boat is ash.
+?
+- Jory's dead. Hanne ran. -> jory
+- Then who sold it? -> who
+- So nobody gets paid. -> paid
+* jory
+Sallis: I know. Jory had a sister on Canal Four. I'll tell her.
+> goto barge
+* who
+Sallis: I'll find out. Then it's my problem.
+> goto barge
+* paid
+Sallis: No. Nobody gets paid.
+* barge
+> quest canal9 9
+> face sallis up
+Sallis: She took my wheel. Ran up Nine. Put herself here.
+> anim hull 19 12 14 16
+PORT: up.
+> face hero up
+Sallis: Your head goes where she points. North.
+Sallis: Same blood runs in both of you. It has to be.
+> wait 0.8
+> sfx drone
+> face sallis right
+> face hero right
+Sallis: Engines. East water. Lockjaws.
+Sallis: They want her for parts. I can shoot while sitting.
+> join sallis
+> goto ferries_jaws
+
+== ferries_jaws
+> set jaws_come
+> camera @jaws_view 1.2
+> enter sj1 lockjaw @sj1_in left
+> enter sj2 lockjaw @sj2_in left
+> enter sj3 lockjaw @sj3_in left
+> enter sj4 jawbrute @sj4_in left
+> walk sj1 @jaw1_post &
+> walk sj2 @jaw2_post &
+> walk sj3 @jaw3_post &
+> walk sj4 @brute_post
+> wait 0.6
+Lockjaw: Beached barge! Salvage!
+Lockjaw: Rina's rule. Beached means salvage. Off the boat.
+> if toll_fought -> grudge
+> if toll_talked -> knows
+?
+- [Talk 3] She's awake. Salvage is only for dead boats. -> gone | fight
+- ?bg:runner [Talk 1] I ran Rina's tolls when I was twelve. She'd want this one questioned. -> gone | fight
+- ?rep:lockjaws>=2 Rina knows me. I paid my toll. Like everyone else. -> x_rina
+- $300 Buy her back. At the salvage price. -> paid
+- Come and take her. -> fight
+* knows
+Lockjaw: Hey. You're the one who quoted Rina at Dek.
+?
+- [Talk 1] Ask Rina about salvaging the awake. She'll say no. -> gone | fight
+- $300 Buy her back. Salvage price. -> paid
+- Come and take her. -> fight
+* grudge
+Lockjaw: You. You put Dek in the canal.
+Lockjaw: Rina says: if we see you, we treat you as seen.
+> goto fight
+* paid
+Lockjaw: Three hundred. That's the salvage price. Fine.
+> set jaws_paid
+> rep lockjaws 1
+> goto leave
+* gone
+Lockjaw: Woken. Ugh. Rina hates salvaging living things. They bite.
+Lockjaw: We'll just tell her it bit.
+> set jaws_talked
+> rep lockjaws 1
+> rep woken 1
+* leave
+> walk sj1 @sj1_in &
+> walk sj2 @sj2_in &
+> walk sj3 @sj3_in &
+> walk sj4 @sj4_in
+> wait 0.4
+> exit sj1
+> exit sj2
+> exit sj3
+> exit sj4
+> set jaws_left
+> set jaws_won
+> rep lockjaws -2
+> camera free
+> goto ferries_after
+* fight
+> face sallis right
+Sallis: Down. Stay down. Count to three.
+PORT: stay.
+> exit sj1
+> exit sj2
+> exit sj3
+> exit sj4
+> camera free
+> fight jaws
+> set jaws_won
+> rep lockjaws -2
+> goto ferries_after
+* x_rina
+Lockjaw: You paid. Right. You're on the books.
+Lockjaw: Salvage is for strangers. Let's move.
+> set jaws_talked
+> rep lockjaws 1
+> rep woken 1
+> rep lockjaws 1
+> goto leave
+
+== ferries_retry
+Lockjaw: Salvage! Off the boat!
+> fight jaws
+> set jaws_won
+> rep lockjaws -2
+> goto ferries_after
+
+# ---------------------------------------------------------------- Change: the first night on the Clement
+
+== ferries_after
+> music ferries
+> if jaws_talked -> talked
+> if jaws_paid -> paid
+Sallis: That was a stupid plan. It worked. It's still stupid.
+> goto rest
+* talked
+Sallis: You talked them off her. Good. Cheaper than a fight.
+> approve sallis 2
+> goto rest
+* paid
+Sallis: You paid off the Lockjaws for our boat.
+Sallis: It worked. I still don't like it.
+* rest
+> xp 150
+Sallis: Board rations in the wheelhouse. Two days' worth.
+> give ration 2
+Sallis: We're sleeping on her tonight. She'll keep the rain off.
+Courtesy: I WILL REMAIN ON DUTY.
+> set camp_open
+> set ch1_rest
+> quest canal9 10
+> rest

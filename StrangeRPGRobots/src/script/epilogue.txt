@@ -1,0 +1,655 @@
+# The epilogue, as ordered slides. Each slide plays only when its condition passes, in this order:
+# who holds the Wall and the city, the Bailers, the Dry Plan, the port, each companion, each faction by standing,
+# the hero's background, and the hero's own fate. Slides that need people set an ep_ flag while the screen is
+# dark, so the map shows them already standing there. Notes: Notes/replay-b-notes.md.
+
+== epilogue_start
+> wait 2
+> fade out 2
+> leave courtesy
+> leave sallis
+> leave quaye
+> leave ambrose
+> leave tova
+> leave ignace
+> music ending
+> goto ep_wall
+
+# ---------------------------------------------------------------- Who holds the Wall
+
+== ep_wall
+> warp seawalk @hero_rail up
+> wait 1
+> sfx pa
+Board: This is the Board. The Chair's desk is empty. Please remain indoors.
+> wait 1
+? Who holds the Wall now?
+- The Board, with fresh faces at the desks. -> board
+- ?rep:deeps>=3|deeps_here A council from the Deeps. Moss and the bailing crews. -> deeps
+- ?rep:vein>=3|vein_here The Vein. Every door on the Wall is marked with a chalk circle. -> vein
+- ?rep:church>=3|route_church The Church. The deacons who walked up with us. -> church
+- ?rep:lockjaws>=3|jaws_here The Lockjaws. Rina collects the toll. -> jaws
+* board
+> set wall_board
+> goto ep_city
+* deeps
+> set wall_deeps
+> goto ep_city
+* vein
+> set wall_vein
+> goto ep_city
+* church
+> set wall_church
+> goto ep_city
+* jaws
+> set wall_jaws
+> goto ep_city
+
+# ---------------------------------------------------------------- The city
+
+== ep_city
+> fade out 1.5
+> warp plaza @statue_view up
+> wait 1
+> sfx pa
+> if teun_killed -> tk
+> if teun_arrested -> ta
+> if teun_forgiven -> tf
+> if teun_exposed -> te
+Board: The Board thanks the city for its patience. Keep Fathom dry.
+> goto dow
+* tk
+Board: The Board mourns its Chair. A new Chair will be appointed on Sunday.
+> goto dow
+* ta
+Board: Recovery Chief Dahl has taken the former Chair into custody. Please remain calm.
+> goto dow
+* tf
+Board: The Chair has resigned. He has requested a flat on the Deeps side.
+> goto dow
+* te
+Board: The broadcast was a glitch. The Chair is on leave.
+* dow
+> if dowser_hunting -> hunt
+> goto hold
+* hunt
+Board: Board Recovery thanks you for reporting woken property.
+* hold
+> wait 1
+> if wall_deeps -> hd
+> if wall_vein -> hv
+> if wall_church -> hc
+> if wall_jaws -> hj
+> ifnot bram_cleared -> hb
+Bram: Seven desks in the Crown now. Mine's by the window. I can see my tower from here.
+> goto truth
+* hb
+Board: The Board now has seven Chairs. They hold public meetings on Thursdays.
+> goto truth
+* hd
+Moss: First council meeting. Spin, Thursday. Bring your own chair. Bring a bucket.
+> goto truth
+* hv
+Vein: Every door on the Wall has a circle on it now. No line through it.
+> goto truth
+* hc
+Deacon: The Crown is a church now. The candles are free. Velt's boats are sold.
+> goto truth
+* hj
+Rina: Same toll for everybody. Even the Board. Especially the Board.
+* truth
+> wait 1
+> ifnot truth_told -> legend
+Pilgrim: She was alive. Upstairs. All that time, she was upstairs.
+Pilgrim: The plaque's wrong now. Somebody should fix it.
+> goto out
+* legend
+Pilgrim: Light one for her. So small, in stone.
+* out
+> wait 2
+> goto ep_bailers
+
+# ---------------------------------------------------------------- The Bailers
+
+== ep_bailers
+> fade out 1.5
+> warp overlook @bench up
+> wait 1
+> if bailers_stop -> stop
+> if tova_saint -> tova
+> if kees_saint -> kees
+> if bailers_reasons -> own
+Pilgrim: The Bailers didn't miss a bell tonight. Not one.
+> goto out
+* stop
+> anim bailer
+Pilgrim: They stopped at the ninth bell. All eleven. Sat down in the canals like old men.
+> goto out
+* tova
+Pilgrim: A girl from the Steps bled on the pump, they say. A wild one.
+Pilgrim: They were walking again by morning.
+> goto out
+* kees
+Pilgrim: The Board's boy keeps them walking. They show him on the screens, Sundays.
+> goto out
+* own
+> anim bailer
+Sloop: Night, Marit.
+Pilgrim: Nobody bled for them. They kept walking anyway.
+* out
+> wait 2
+> goto ep_dryplan
+
+# ---------------------------------------------------------------- The Dry Plan
+
+== ep_dryplan
+> fade out 1.5
+> warp market_flood @school_front down
+> wait 1
+> ifnot dry_plan -> none
+> if bailers_stop -> half
+Moss: We're running four pumps on Canals Four and Six.
+Moss: The Bailers are walking, but nobody's gotten wet this week.
+> goto out
+* half
+Moss: Four pumps on Canals Four and Six. Half the Deeps are dry. Just diesel and a short fuse.
+> goto out
+* none
+> ifnot bailers_stop -> keep
+Moss: The water rose in the Lock overnight. We're bailing by hand, everyone.
+> goto out
+* keep
+Moss: No pumps. No plan. The Bailers are walking, so we just hope they keep it up.
+* out
+> wait 2
+> goto ep_port
+
+# ---------------------------------------------------------------- The port
+
+== ep_port
+> fade out 1.5
+> warp seawalk @hero_rail up
+> wait 1.5
+> if port_lives -> lives
+> if port_took -> took
+> emote hero ...
+> wait 3
+> goto ep_courtesy
+* lives
+PORT: What do you want to do today? I'm asking for myself.
+?
+- Noodles. -> n
+- Watch the sea for a while. -> s
+- Find work. Rent's due. -> w
+* n
+PORT: Noodles. Hot. Yes.
+> goto ep_courtesy
+* s
+PORT: The sea. Yes. That one's mine.
+> goto ep_courtesy
+* w
+PORT: Work. Fine. Then noodles.
+> goto ep_courtesy
+* took
+PORT: We stay here. At the rail. Every night.
+PORT: You were saying something? I didn't catch it.
+> goto ep_courtesy
+
+# ---------------------------------------------------------------- Courtesy
+
+== ep_courtesy
+> fade out 1.5
+> warp market_flood @school_front down
+> wait 1
+> if courtesy_guard -> guard
+Dita: Mister Robot isn't coming. He stopped at the Wall.
+Pim: Go. The water's low. Run.
+> wait 1.5
+> goto ep_sallis
+* guard
+> enter courtesy courtesy @east_off left
+> ifnot courtesy_dog -> walk
+> enter dog dog @east_off left
+* walk
+> walk courtesy @crossing
+> face courtesy up
+> ifnot courtesy_dog -> say
+> walk dog 46 11
+> face dog up
+* say
+Courtesy: EIGHT BELLS. THIS CROSSING IS MONITORED.
+Courtesy: STOP. CHILDREN CROSSING. STOP.
+> wait 1
+Dita: Thanks, Mister Robot.
+> ifnot approval:courtesy>=30 -> plain
+Courtesy: THIS UNIT HAS A DRAWING ON ITS CHEST. IT'S A PICTURE OF A FRIEND.
+* plain
+Courtesy: THANK YOU FOR YOUR COOPERATION. HAVE A SAFE NIGHT.
+> wait 1.5
+> goto ep_sallis
+
+# ---------------------------------------------------------------- Sallis
+
+== ep_sallis
+> fade out 1.5
+> if sallis_dead -> dead
+> if sallis_left -> left
+> set ep_sal
+> if hanne_vein -> h
+> goto go
+* h
+> set ep_hanne
+* go
+> warp seawall @sea_view left
+> face ep_sallis hero
+Sallis: The Vein's new route. Over the Wall, down the sea face. There's a boat waiting at the bottom.
+> ifnot hanne_vein -> kids
+Hanne: Three tonight. Two last night. One of them made it dry.
+* kids
+Sallis: Twelve this week. The case would have paid for twelve. This is cheaper.
+> if sallis_committed -> c
+> if sallis_romance|romance5_sallis -> r
+> if approval:sallis>=30 -> dv
+> if sq_peace -> pq
+Sallis: Copy. Go home. Get some sleep.
+> goto out
+* pq
+Sallis: Quaye fixed the boat engine. Counted every bolt out loud. Good.
+> goto out
+* dv
+Sallis: You fly the Mule on Thursdays. Thumb and index. Never both at once.
+> goto out
+* r
+Sallis: Come down to the boat with us. Just once. See the sea from the bottom.
+> goto out
+* c
+Sallis: Thursday drop. Your bunk's made. Port side. Don't be late.
+> goto out
+* left
+> warp seawall @sea_view left
+> if hanne_killed -> lv
+Hanne: Sallis took a boat south, past the Wall. She didn't say where. She never does.
+> goto out
+* lv
+Vein: Sallis flew south for a cell. She didn't say which one. She never does.
+> goto out
+* dead
+> ifnot hanne_vein -> ep_quaye
+> set ep_hanne
+> warp seawall @sea_view left
+> face ep_hanne hero
+Hanne: Sallis's route. Over the Wall, down the sea face.
+Hanne: I take that route every week. I count the stops. She would have counted, too.
+* out
+> wait 1.5
+> fade out 1.5
+> unset ep_sal
+> unset ep_hanne
+> goto ep_quaye
+
+# ---------------------------------------------------------------- Quaye
+
+== ep_quaye
+> fade out 1.5
+> if quaye_left -> left
+> set ep_q
+> warp seawalk @walk_mid right
+> face ep_quaye hero
+> if dry_plan -> plan
+Quaye: Forty years and a month since I signed on. I come up here to look at the sea.
+Quaye: I worked up here for nineteen years. I never once looked at it.
+> goto more
+* plan
+Quaye: Nine hundred liters a minute per pump. I check them on Tuesdays. Nobody asks me to.
+* more
+> if quaye_committed -> c
+> if quaye_romance|romance5_quaye -> r
+> if approval:quaye>=30 -> dv
+> goto out
+* dv
+Quaye: Count your feet, kid. I'm still counting yours. Two. Good.
+> goto out
+* r
+Quaye: Sit. Ten bells. Eleven. I'll keep count.
+> goto out
+* c
+Quaye: Laundry's Thursdays. Rent's half since you moved in. Forty-one years. Worth it.
+> goto out
+* left
+> warp market_flood @school_front down
+Pim: The Spin is open again. The old lady counts your coins twice. She never talks about the Wall.
+* out
+> wait 1.5
+> fade out 1.5
+> unset ep_q
+> goto ep_ambrose
+
+# ---------------------------------------------------------------- Ambrose
+
+== ep_ambrose
+> fade out 1.5
+> if ambrose_dead -> dead
+> set ep_amb
+> warp steps @box7_door up
+> face ep_ambrose hero
+> if lease_burned|lease_stolen|lease_bought|ambrose_free -> free
+Ambrose: Bodywell switched off my left arm on Thursday. I sing with my right.
+> goto sing
+* free
+Ambrose: Behold. Two arms, one knee, an eye that recites the letter Q. All of it mine.
+* sing
+Jet: Sad songs or happy ones, big man?
+Ambrose: Whichever is longest.
+> music lanterns
+> if ambrose_committed -> c
+> if ambrose_romance|romance5_ambrose -> r
+> ifnot approval:ambrose>=30 -> out
+Ambrose: I kept the oath, friend. I didn't fall. Mostly out of spite.
+> goto out
+* r
+Ambrose: Sit. This one's for you. I picked it from a dictionary.
+> goto out
+* c
+Ambrose: Sit. Every song tonight is for you. I've cleared it with management.
+> goto out
+* dead
+> warp steps @box7_door up
+Jet: This one's for the big man. The one with all the words.
+> music sad
+* out
+> wait 2
+> fade out 1.5
+> unset ep_amb
+> goto ep_tova
+
+# ---------------------------------------------------------------- Tova
+
+== ep_tova
+> fade out 1.5
+> if tova_left -> left
+> if kees_saint -> sunday
+> set ep_tk
+> warp terraces @kids_top up
+> face ep_tova hero
+> if tova_saint -> saint
+Tova: okay, so... he lives with me now. on the steps. he hates it. he loves it.
+> goto race
+* saint
+Tova: forty years. i have to stay alive for forty more. okay. okay, so. no more ledges.
+* race
+Jasper: Rocket! Lid! On three!
+Kees: ha ha ha.
+Tova: you hear that? he's got my laugh.
+> if tova_committed -> c
+> if ti_peace -> pc
+> goto out
+* c
+Tova: and you. you're home for dinner. that's a rule now. i just made it up.
+> goto out
+* pc
+Tova: iggy brings candles on sundays. the honest kind. don't tell him i said that.
+> goto out
+* sunday
+> set ep_tsun
+> warp crown @lobby_in up
+> face ep_tova6 hero
+Tova: visiting hours. sundays. two bells.
+Tova: i bring him the papers. he reads the weather first.
+> goto out
+* left
+> warp terraces @kids_top up
+Jasper: Tova's stall is shut. She went down to the Lock with her brother, Fien says.
+Fien: She left a spoon. It follows Jasper around.
+* out
+> wait 2
+> fade out 1.5
+> unset ep_tk
+> unset ep_tsun
+> goto ep_ignace
+
+# ---------------------------------------------------------------- Ignace
+
+== ep_ignace
+> fade out 1.5
+> if ignace_dead -> dead
+> if ignace_left -> left
+> if ignace_told|ignace_broadcast -> told
+> set ep_ig_rich
+> warp plaza @statue_view up
+> face ep_ignace hero
+Ignace: Velt pays me on the first of the month. I don't spend it on candles.
+Ignace: Two boats are at the Steps now. One is mine.
+> goto more
+* told
+> set ep_ig_told
+> warp plaza @statue_view up
+> face ep_ignace down
+Ignace: She lived! Forty years upstairs, staring at a wall through a window!
+Ignace: No candles tonight, friends. Go visit someone who's still alive.
+* more
+> ifnot ignace_close|approval:ignace>=30 -> out
+Ignace: Friend. Iggy by the fire. Still free. Still the only free thing I say.
+> goto out
+* left
+> warp plaza @statue_view up
+Pilgrim: Brother Ignace? Gone off the Stair. Someone saw his robe on a ferry.
+> goto out
+* dead
+> warp plaza @statue_view up
+(A candle at the statue's feet. A folded robe beneath it.)
+* out
+> wait 2
+> fade out 1.5
+> unset ep_ig_rich
+> unset ep_ig_told
+> goto ep_factions
+
+# ---------------------------------------------------------------- The factions, by standing
+
+== ep_factions
+> fade out 1.5
+> warp plaza @statue_view up
+> wait 1
+> if rep:board>=3 -> b1
+> ifnot rep:board<-2 -> c0
+Officer: Your face is still on the poster by the Lock. It's bigger now.
+> goto c0
+* b1
+Officer: Your file is closed. It says you were commended. Don't go framing it.
+* c0
+> if rep:church>=3 -> c1
+> ifnot rep:church<-2 -> h0
+Deacon: The candle sellers spit when your name comes up. Not in the plaza. Behind it.
+> goto h0
+* c1
+Deacon: There's a candle for you at the statue. Free. The first free one.
+* h0
+> if rep:choir>=3 -> h1
+> ifnot rep:choir<-2 -> w0
+CHOIR: The neck that sang wrong. We remember the neck.
+> goto w0
+* h1
+CHOIR: The neck that sang wrong. It sang well in the end.
+* w0
+> if rep:bodywell>=3 -> w1
+> ifnot rep:bodywell<-2 -> d0
+Auditor: Every lease you touched is flagged. Bodywell has a long memory and a short temper.
+> goto d0
+* w1
+Auditor: Bodywell has made you a preferred customer. That isn't a compliment.
+* d0
+> fade out 1.5
+> warp market_flood @school_front down
+> wait 1
+> if rep:deeps>=3 -> d1
+> ifnot rep:deeps<-2 -> v0
+Moss: Don't come down to the Lock for a while. Nobody's bailing for you here.
+> goto v0
+* d1
+Moss: The Deeps put your name on a bailer. That's an honor. Keep it clean.
+* v0
+> if rep:vein>=3 -> v1
+> ifnot rep:vein<-2 -> u0
+Vein: Your circle's got a slash through it. Move along.
+> goto u0
+* v1
+Vein: Your door's got a circle now. No slash. You're safe in any Fathom cellar.
+* u0
+> if rep:cutters>=3 -> u1
+> ifnot rep:cutters<-2 -> j0
+Cutter: The Cutters have a bounty on your boat. Small, but growing.
+> goto j0
+* u1
+Cutter: The garage saves a bay for you. Free oil. Don't scratch the paint.
+* j0
+> if rep:lockjaws>=3 -> j1
+> ifnot rep:lockjaws<-2 -> k0
+Rina: Double toll for you, forever. No hard feelings.
+> goto k0
+* j1
+Rina: No toll for you at the Lock. Ever. Keep it quiet.
+* k0
+> if rep:woken>=3 -> k1
+> ifnot rep:woken<-2 -> a0
+Tilly: The Pound won't open the gate for you anymore. Anymore?
+> goto a0
+* k1
+Tilly: The Pound kept your corner by the fence. Good lighting there.
+* a0
+> if rep:waders>=3 -> a1
+> ifnot rep:waders<-2 -> m0
+Dirkje: The Waders scrubbed your name off the mud map. Go somewhere else.
+> goto m0
+* a1
+Dirkje: Low water on Thursdays. The mud's yours too now. We walked you onto the map.
+* m0
+> if rep:moles>=3 -> m1
+> ifnot rep:moles<-2 -> out
+Mole: The hatches are closed to you. All of them.
+> goto out
+* m1
+Mole: Knock twice on any drain. Someone will come up.
+* out
+> wait 2
+> goto ep_bg
+
+# ---------------------------------------------------------------- The hero's background
+
+== ep_bg
+> fade out 1.5
+> if bg:washout -> wash
+> if bg:choir -> choir
+> if bg:vein -> vein
+> warp market_flood @school_front down
+> wait 1
+Pim: Canal Nine just hired a new runner. She's eleven. Says she's learning from you.
+> goto out
+* wash
+> warp plaza @statue_view up
+> wait 1
+> if rep:board>=3 -> w2
+Officer: Recovery scrubbed your badge photo off the wall. Someone put it back in the toilets.
+> goto out
+* w2
+Officer: Recovery is training the new recruits using your old binder. Procedure Eleven has a note in it.
+> goto out
+* choir
+> warp terraces @kids_top up
+> wait 1
+> if choir_home -> c2
+> if choir_freed -> c3
+CHOIR: Linnet. Linnet, still singing off-key. Still welcome.
+> goto out
+* c2
+CHOIR: Linnet came home on Sundays. She takes the high notes, and the neck holds.
+> goto out
+* c3
+CHOIR: Two children left the terraces. Linnet showed them the stairs. We sing for them anyway.
+> goto out
+* vein
+> warp plaza @statue_view up
+> wait 1
+> if vfile_burned -> v2
+> if vfile_freed -> v3
+Vein: The Census still has your file. Number 4471. It's thinner. Someone took pages.
+> goto out
+* v2
+Vein: File 4471 burned. The Census says you were never born. Congratulations.
+> goto out
+* v3
+Vein: Every file on that shelf came out blank. Ninety cellar kids, never born. That's your doing.
+* out
+> wait 2
+> goto ep_fate
+
+# ---------------------------------------------------------------- The hero's own fate
+
+== ep_fate
+> fade out 1.5
+> warp seawalk @hero_rail up
+> wait 1.5
+? The jar on the shelf is labeled DRY.
+- Open the jar. Buy the Stair permit. Move up. -> stair
+- Stay in the Deeps. Someone has to run the canals. -> deeps
+- Stay on the Wall and help hold it up. -> wall
+- Take a boat past the Wall. See what's out there. -> sea
+* stair
+> set fate_stair
+> fade out 1.5
+> warp terraces @kids_top up
+> wait 1
+> ifnot port_lives -> s2
+PORT: A window. Ours. It faces the Spire. I don't pull at it anymore.
+* s2
+> goto partner
+* deeps
+> set fate_deeps
+> fade out 1.5
+> warp market_flood @school_front down
+> wait 1
+Pim: Fare to Canal Six, runner? I've got four gilt.
+> ifnot port_lives -> d2
+PORT: Four is enough. Run.
+* d2
+> goto partner
+* wall
+> set fate_wall
+> wait 1
+> sfx pa
+Board: This is the Wall. Residents of every district, please come up. The stairs are open.
+> ifnot port_lives -> w2
+PORT: Everyone's coming up. Is that what you wanted? It's what I want.
+* w2
+> goto partner
+* sea
+> set fate_sea
+> fade out 1.5
+> warp seawall @sea_view left
+> wait 1
+> sfx splash
+> ifnot port_lives -> e2
+PORT: Out there. Past the lights. I want to see what's out there. Do you?
+* e2
+* partner
+> if sallis_committed&!sallis_left&!sallis_dead -> ps
+> if tova_committed&!tova_left -> pt
+> if ambrose_committed&!ambrose_dead -> pa
+> if quaye_committed&!quaye_left -> pq
+> goto ep_end
+* ps
+Sallis: Copy. Wherever. I'll fly.
+> goto ep_end
+* pt
+Tova: wherever. kees comes too. obviously. okay. go.
+> goto ep_end
+* pa
+Ambrose: Lead, and I shall follow. Magnificently.
+> goto ep_end
+* pq
+Quaye: Twenty years left, give or take. Go on, kid. I'm counting.
+> goto ep_end
+
+== ep_end
+> wait 2
+> fade out 3
+> ending

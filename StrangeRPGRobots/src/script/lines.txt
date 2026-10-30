@@ -1,0 +1,820 @@
+# The old Line tunnels: the metro that drowned under the Deeps. Optional, from chapter 2.
+# The Moles live in Pell Station and greet with "Next stop." and part with "Last stop."
+# Stationmaster Spoor talks in timetable. The Stillman starts everything he says with "Log."
+
+# ---------------------------------------------------------------- Ways in
+
+== metro_hatch
+> face hero down
+> if rep:moles<-3 -> x_shut
+> if metro_open -> down
+(A round iron hatch in the boardwalk, secured by a Board chain.)
+(CONDEMNED. FLOOD RISK.)
+> sfx door
+([Someone knocks twice from underneath.])
+Mole: Next stop, Pell Station! Two gilt a head! Exact change!
+?
+- [Talk 2] We're just passing through. We'll mind the station. -> talk | no
+- $8 Two each. There are four of us. -> pay
+- [Athletics 2] Pull the chain off the hatch. -> pull | no
+- Not today. -> later
+* talk
+Mole: Minding's a fare too. Fine. Down you come. Mind the ladder.
+> goto open
+* pay
+Mole: Spot on. Nobody pays exact change anymore!
+> goto open
+* pull
+> sfx shove
+Mole: Oi! That's a Board chain. Alright, alright. You're in.
+* open
+> set metro_open
+> set met_moles
+> ifnot party:courtesy -> down
+Courtesy: STAND CLEAR. OF THE HATCH.
+* down
+> sfx door
+> warp metro_station @hatch_in down
+> goto station_enter
+* no
+Mole: No fare, no stop. Last stop.
+> end
+* later
+Mole: Last stop.
+> end
+* x_shut
+(Someone knocks once from below. The answer is no.)
+Mole: No fare means no ride. Try the Lock door, if you can find it.
+
+== metro_flooded
+> face hero down
+> if rep:moles<-3 -> shut
+> if metro_open -> down
+(The hatch is submerged under a meter of water.)
+> sfx splash
+(Someone knocks twice from below, through the water.)
+Mole: Next stop! The station is dry, but the tunnels aren't. We ferry people down on the bucket line!
+?
+- Take us down. -> open
+- [Talk 1] We've got people on the roofs who need a dry floor. -> help | open
+- Not today. -> no
+* help
+Mole: Bring them. The mezzanine holds two hundred. Spoor counted the seats.
+> rep moles 1
+> rep deeps 1
+* open
+> set metro_open
+> set met_moles
+* down
+> sfx splash
+> warp metro_station @hatch_in down
+> goto station_enter
+* no
+Mole: Last stop.
+> end
+* shut
+(No one knocks.)
+
+== metro_lockdoor
+> face hero up
+> if metro_lock_open -> go
+(A Board service door is set into the foot of the Wall. LOCK SPUR. NO ENTRY.)
+(It is bolted shut from the far side.)
+> ifnot metro_open -> end_
+(Mole chalk scrawled on the steel reads "NEXT STOP," with an arrow pointing inward.)
+* end_
+> end
+* go
+> sfx door
+> warp metro_tunnel @lock_end left
+> goto tunnel_enter
+
+== lock_unbolt
+> face hero right
+> if spur_welded -> x_weld
+> if metro_lock_open -> done
+(The Lock spur door. The bolts are on this side.)
+> sfx door
+> set metro_lock_open
+> ifnot party:sallis -> done
+Sallis: A second way out. Good. Always two.
+* done
+> end
+* x_weld
+(The spur door is welded shut from the Lock side. Board weld. Brand new.)
+
+# ---------------------------------------------------------------- Pell Station
+
+== station_enter
+> if station_seen -> done
+> set station_seen
+> set met_moles
+> music pound
+> camera @hall_view 2
+> wait 1
+> camera @mezz_view 1.5
+> wait 1
+> camera hero 1
+Spoor: Pell Station. The twelve-bell service to the Lock is cancelled.
+Spoor: It has been cancelled for forty years.
+> ifnot party:quaye -> a
+Quaye: Pell Metro. Three lines.
+Quaye: It closed on the night of the Flood and never reopened.
+* a
+> ifnot party:courtesy -> done
+Courtesy: THIS STATION. IS CLOSED.
+* done
+
+== spoor_talk
+> face spoor hero
+> if spoor_met -> menu
+> set spoor_met
+Spoor: Next stop. I'm Spoor. I keep the station.
+Spoor: Somebody has to keep the timetable.
+Spoor: Line 1 red, every twenty minutes.
+Spoor: Line 9 blue, every half hour. None of them running.
+* menu
+?
+- What's wrong with the lamps? -> lamps
+- Who's using the tubes now? -> tubes
+- ?quest:points&!points_done About the points. -> points
+- ?quest:route&!lock_route&metro_lock_open&rep:moles>=2 The Lock spur. Can it get us up? -> x_spur
+- ?quietwater_done|points_thrown A reward, then. -> reward
+- Last stop. -> bye
+* lamps
+> if still_sealed -> lit
+> if still_robbed -> darkl
+Spoor: Living lamps. Old ones. They're going dim, one each week.
+Spoor: The water's lost its taste lately.
+Spoor: Nothing comes from below. The old workings are down there.
+Spoor: Down the shaft, to the end of the tubes.
+> quest quietwater 1
+> goto menu
+* lit
+Spoor: Bright as the nine-forty used to be. You did that.
+> goto menu
+* darkl
+Spoor: The lamps are out. All of them. We'll go up for candles. At our age, climbing up?
+> goto menu
+* tubes
+Spoor: Us at Tube A. Cutters with boats on Tube B.
+Spoor: Board track robots walk the rails at night.
+Spoor: The Cutters run blood to the Lock.
+Spoor: The signal room can drop the old barrier on them.
+> quest points 1
+> goto menu
+* points
+Spoor: The signal room is west of the pumps.
+Spoor: The box is awake. It won't let go of the lever.
+> goto menu
+* reward
+> if spoor_paid_all -> paid
+> if still_sealed&!spoor_eyes -> eyes
+> if points_thrown&!spoor_bar -> bar
+Spoor: You've taken what I have. The timetable is free.
+> goto menu
+* eyes
+> set spoor_eyes
+Spoor: Night eyes. Bred for the tubes. My husband's.
+Spoor: He won't need them where he's going.
+> give nighteyes
+> goto check
+* bar
+> set spoor_bar
+Spoor: The old signalman's rail bar.
+Spoor: He used it on the points. You've earned it.
+> give railbar
+* check
+> if spoor_eyes&spoor_bar -> all
+> goto menu
+* all
+> set spoor_paid_all
+> goto menu
+* paid
+Spoor: Nothing left to give but the timetable. The 8:10 is cancelled.
+> goto menu
+* x_spur
+Spoor: The spur. Board service stairs to the Lock's pump room. Forty years since a train ran.
+Spoor: The Board forgets everything below the waterline.
+?
+- [Talk 2] Will the Moles open it for us on Lock night? -> x_yes | x_no
+- $100 A fare for the night train. -> x_yes
+- Not yet. -> menu
+* x_yes
+> set route_moles
+> set lock_route
+> rep moles 1
+Spoor: The twelve-bell spur service. Running one night only.
+> quest route done "The Moles will open the old spur under the Grand Lock on Lock night."
+> goto arrears_check
+* x_no
+Spoor: Earn it first. The tubes have work in them.
+> goto menu
+* bye
+Spoor: Last stop.
+
+== sel_talk
+> face sel hero
+Sel: Next stop. Lamps, food, odds and ends.
+Sel: This one's Arend, that one's Big Klaas. I mean the lamps.
+?
+- ?quest:exactchange&!item:tokentin&!gates_done Do you have any fare tokens? -> tokens
+- Show me what you've got. -> shop
+- Last stop. -> bye
+* tokens
+Sel: Tokens. Forty years' worth, stored in a biscuit tin. The gates swallowed the rest.
+?
+- Please. For the Moles' water. -> give
+- $20 I'll take the tin. -> give
+- Give it here. -> hard
+* hard
+Sel: You could've asked nicely. I would've given it to you. Here. Try asking nicely next time.
+* give
+> give tokentin
+> end
+* shop
+> if rep:moles>=4 -> shop_sel_stall_cheap
+> if rep:moles<-3 -> shop_sel_stall_dear
+> shop sel_stall
+> end
+* bye
+Sel: Last stop.
+
+== sluice_metro
+> face grietje hero
+? Grietje deals Sluice on an upturned bin, lit by a lamp.
+- Take a seat. -> play
+- Not now. -> no
+* no
+> end
+* play
+Grietje: Same and Woken. Match two sides, and both flip.
+Grietje: Woken cards lean against each other.
+> cards grietje -> w | l
+* w
+Grietje: Take Spoor. She'd want to go with a winner.
+> end
+* l
+Grietje: The tubes always come out on top. I'm next.
+
+== mole_lamp
+> face hero up
+> if lamps_dark -> dark
+(A woken streetlamp, carried down from the market long ago.)
+(It breathes, and its light breathes with it.)
+> end
+* dark
+(The lamp is cold and frosted. It sleeps now. The Moles sit in the dark.)
+
+== metro_map
+> face hero up
+(PELL METRO. LINE 1 RED: PELL, LOCK ROAD, THE GRAND LOCK.)
+(LINE 4 GREEN: PELL, CANAL SIX, THE FERRIES.)
+(LINE 9 BLUE: PELL, THE STAIR.)
+> ifnot party:quaye -> done
+Quaye: Line 1. Line 4. Line 9. The Board's blood has the same numbers.
+* done
+
+== metro_rules
+> face hero up
+(NO SMOKING. NO SINGING. NO WOKEN ITEMS ON TRAINS.)
+(FARES ARE PAYABLE AT THE GATE.)
+
+== station_train
+> face hero up
+(The old train's doors breathe in and out.)
+(It has stood at this platform for forty years.)
+> ifnot party:courtesy -> done
+Courtesy: THIS TRAIN. IS DELAYED.
+* done
+
+# ---------------------------------------------------------------- The tubes
+
+== tunnel_enter
+> if tunnel_seen -> done
+> set tunnel_seen
+> music tense
+> camera @gates_view 1.5
+> wait 1
+> camera hero 1
+> ifnot party:sallis -> done
+Sallis: Tube A is dry. Tube B is wet. Stay in A. Cross at the junctions.
+* done
+
+== tube_sign
+> face hero up
+(LINE 1 TO LOCK ROAD AND THE GRAND LOCK. MIND THE PLATFORM EDGE.)
+
+== gates_meet
+> set gates_met
+> camera @gates_view 1
+Gates: FARES, PLEASE. EXACT CHANGE ONLY. FARES, PLEASE.
+> camera hero 1
+Mole: They won't let us through to the water.
+Mole: They made us take tokens for forty years. Then the tokens ran out.
+> quest exactchange 1
+
+== gates_talk
+> face hero right
+> if gates_done -> done
+Gates: FARES, PLEASE. EXACT CHANGE ONLY.
+> if chapter>=5 -> menu
+PORT: They want something. Not her. Tokens.
+* menu
+?
+- ?item:tokentin Pay them in tokens. One for each Mole. -> tokens
+- $60 Buy the Moles a season pass. -> season
+- Break them. -> fight
+- ?item:hush Hush them. -> hush
+- Leave them. -> leave
+* tokens
+> take tokentin
+> sfx loot
+Gates: THANK YOU. THANK YOU. THANK YOU.
+Mole: Forty-one tokens. That covers a year of water runs.
+Mole: They took every one like it was cash.
+> set gates_tokens
+> rep moles 2
+> rep woken 1
+> approve courtesy 2
+> goto open
+* season
+Gates: SEASON FARE. VALID. THANK YOU FOR TRAVELING.
+> set gates_paid
+> rep moles 2
+> goto open
+* hush
+> take hush
+> anim hush gate1
+> anim hush gate2
+> anim hush gate3
+> wait 1
+Mole: They stopped. They're just gates now. Right. Well. Thank you.
+> set gates_hushed
+> rep moles 1
+> rep woken -2
+> approve courtesy -2
+> goto open
+* fight
+> exit gate1
+> exit gate2
+> exit gate3
+> set gates_on
+> fight mt_gates
+> set gates_won
+> set gates_broken
+> rep moles 1
+> rep woken -1
+> goto open
+* leave
+> end
+* open
+> fade out 0.5
+> set gates_done
+> fade in 0.5
+> quest exactchange done
+> ifnot gates_broken -> end_
+Mole: You broke them. We can reach the water. It's quieter in here now.
+* end_
+> end
+* done
+Gates: THANK YOU FOR TRAVELING.
+
+== gates_retry
+> face hero right
+> fight mt_gates
+> set gates_won
+> set gates_broken
+> rep moles 1
+> rep woken -1
+> fade out 0.5
+> set gates_done
+> fade in 0.5
+> quest exactchange done
+
+== splint_meet
+> set splint_met
+> camera @splint_view 1
+Splint: Take it easy, dear. It's a small detour. Small boats.
+Splint: Small vials. Nobody bleeds unless they want to.
+> camera hero 1
+> quest points 1
+
+== splint_talk
+> face splint hero
+> if points_thrown -> angry
+> if points_paid -> paidbefore
+Splint: Mother's gone, dear. Someone has to keep the patients supplied.
+Splint: Leave the old points as they are, and there's eighty in it for you.
+Splint: A small fee.
+?
+- Take the eighty. -> paid
+- The Moles want you out of their tubes. -> talk
+- Your route's closed. Now. -> fight
+* paid
+> gilt 80
+> set points_paid
+> rep cutters 2
+> rep moles -2
+> set points_done
+> quest points done "You took Splint's eighty. The Cutters keep their route."
+Splint: Lovely. A clean transaction. Mind the boat on your way out.
+> end
+* paidbefore
+Splint: A clean transaction, dear. Mind the boat.
+> end
+* angry
+Splint: That was our route, dear. That was a very expensive lever.
+?
+- [Talk 3] Take your boats and go. The tubes are closed. -> go | fight
+- Then come and get it back. -> fight
+* go
+Splint: Fine. Fine, dear. There are always the canals.
+> fade out 0.5
+> exit splint
+> exit tc1
+> exit tc3
+> set cutters_gone
+> set points_done
+> fade in 0.5
+> quest points done "The barrier is down on Tube B. The Cutters took their boats to the canals."
+> end
+* talk
+Splint: Out? Dear, the tubes are wet and wide.
+Splint: There's room for everyone's little quirks.
+> end
+* fight
+> exit splint
+> exit tc1
+> exit tc3
+> set cutters_on
+> fight mt_cutters
+> set cutters_won
+> goto cutters_after
+
+== cutters_retry
+> face hero right
+> fight mt_cutters
+> set cutters_won
+> goto cutters_after
+
+== cutters_after
+> set cutters_gone
+> ifnot points_thrown -> open
+> fade out 0.5
+> set points_done
+> fade in 0.5
+> quest points done "The barrier is down on Tube B, and the Cutters are gone from the tubes."
+> end
+* open
+(The Cutters are down. The signal room can lower the barrier now.)
+
+== signal_panel
+> face hero up
+> if points_thrown -> done
+(A woken signal box.)
+(One lever is held firmly over, and the box breathes against it.)
+(BARRIER, TUBE B: RAISED. KEEP RAISED UNTIL THE LAST TRAIN IS CLEAR.)
+> quest points 1
+?
+- [Talk 2] The last train is clear. You can let go now. -> let | hold
+- {courtesy} Be polite. Tell it the train is clear. -> bot
+- {quaye} [Hack 1] Quaye. Override the box. -> let | hold
+- [Athletics 2] Force the lever. -> force | hold
+- Leave it. -> leave
+* bot
+Courtesy: THE LAST TRAIN IS CLEAR. THANK YOU FOR YOUR PATIENCE.
+> goto let
+* force
+> sfx shove
+> anim sparks 17 9
+* let
+> sfx door
+> shake 1
+(The lever comes over.)
+(Somewhere down Tube B, a steel barrier drops into the water.)
+> set points_thrown
+> rep moles 2
+> rep cutters -2
+> if cutters_gone -> closed
+(Down Tube B, someone shouts. Splint will want a word.)
+> end
+* closed
+> fade out 0.5
+> set points_done
+> fade in 0.5
+> quest points done "The barrier is down on Tube B."
+> end
+* hold
+(The box shudders, gripping the lever.)
+> end
+* leave
+> end
+* done
+(The box falls silent. The lever rests, breathing slower.)
+
+== cutter_crate
+> face hero down
+(Cut Line 4 into the canal-water vials: forty of them, labeled "LINE 9" in Mother Sieve's hand.)
+?
+- Take two. They'll sell. -> take
+- Dump them in the tube. -> dump
+- Leave them. -> leave
+* take
+> give line4 2
+> approve sallis -1
+> end
+* dump
+> sfx splash
+> approve sallis 1
+(The vials slide into Tube B.)
+> end
+* leave
+
+== last_train
+> face hero up
+> if train_done -> done
+(The old car's doors breathe in and out.)
+(Inside lies forty years of lost property.)
+(Umbrellas. A school bag. A birdcage.)
+(A handbag with a tag: B. VAN DAM, NO. 11, PELL.)
+> quest lasttrain 1
+> if chapter>=5 -> menu
+PORT: It keeps things for people. Like your jar.
+* menu
+?
+- Take only the handbag. Bep lives on the south boardwalk. -> bag
+- Take the lot. It's salvage. -> loot
+- Leave it all. It's keeping them for someone. -> leave
+* bag
+> sfx door
+(The doors swing wider. The car exhales a long breath.)
+> give bephandbag
+> set train_bag
+> rep woken 1
+> rep deeps 1
+> quest lasttrain 2
+> goto close
+* loot
+> sfx door
+> give bephandbag
+> gilt 90
+> anim still last_train
+(The doors slam, and then they stop breathing.)
+> set train_looted
+> rep woken -2
+> approve courtesy -3
+> ifnot party:courtesy -> l2
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+* l2
+> quest lasttrain 2
+> goto close
+* leave
+> set train_left
+> rep woken 1
+> approve courtesy 1
+> quest lasttrain done "You left the last train its passengers' things."
+* close
+> set train_done
+> end
+* done
+> if train_looted -> still
+(The car breathes. It is still holding them.)
+> end
+* still
+(The car is still now. The lost property sits on the seats.)
+
+== bep_bag
+> face bep hero
+> take bephandbag
+Bep: My bag. The last train. I was forty-one.
+Bep: We sat in that tunnel until the water rose up the steps.
+Bep: I had a lipstick in here that I never finished.
+Bep: There it is. Dried out to a stick.
+> ifnot train_looted -> kept
+Bep: Was the car still breathing when you got there?
+Bep: It used to, you know. Even then.
+> goto end_
+* kept
+Bep: It kept it for me. Forty years. That old car.
+Bep: Tell it thank you, if you go back.
+* end_
+> quest lasttrain done "Bep has her handbag back."
+
+# ---------------------------------------------------------------- Board Works 1
+
+== deep_enter
+> if deep_seen -> done
+> set deep_seen
+> music sad
+> camera @deep_view 2
+> wait 1.5
+> camera hero 1
+> ifnot party:quaye -> a
+Quaye: Board Works 1. Sealed in the year of the Flood.
+Quaye: I never had zero-clearance access.
+* a
+> ifnot party:courtesy -> done
+Courtesy: PLEASE. REMAIN. AWAKE.
+* done
+
+== hushed_thing
+> face hero up
+(It has been asleep and silent for a long time.)
+(The frost on it never melts.)
+
+== works_records
+> face hero up
+(BOARD WORKS 1.)
+(PRODUCTS ARE NAMED AFTER THE PLATFORMS WHERE THEY ARE REFINED.)
+(LINE 1, PLATFORM 1. LINE 4, PLATFORM 4.)
+(LINE 9, PLATFORM 9. PRODUCT H, PLATFORM 0.)
+> set works_read
+> ifnot party:sallis -> done
+Sallis: They named the blood after the trains. Tidy.
+* done
+
+== donor_log
+> face hero up
+> if item:donorfile|producth_done -> done
+(PRODUCT H. DONOR: ONE. FEELING: NONE RECORDED.)
+(BLED DAILY. BLOOD SLEEPS. ALL ELSE WAKES.)
+(DONOR REQUEST: A WINDOW. REQUEST NOTED.)
+> quest producth 1
+?
+- Take the file. -> take
+- Leave it where it is. -> leave
+* take
+> give donorfile
+> quest producth 2
+> end
+* leave
+> set producth_done
+> quest producth done "You left the donor file in Board Works 1."
+> end
+* done
+(The donor log. PRODUCT H. FEELING: NONE RECORDED.)
+
+== donor_window
+> face hero up
+(A drawing taped to the wall.)
+(A window, sketched in pencil on a wall that has no window.)
+> set window_seen
+> ifnot item:donorfile -> done
+> ifnot party:sallis -> q
+Sallis: The Vein needs to see this file. Hush is one person. Just one.
+?
+- Hand it to Sallis for the Vein. -> vein
+- Keep it. -> keep
+* vein
+> take donorfile
+> set donorfile_vein
+> rep vein 2
+> approve sallis 3
+Sallis: Understood. They'll want to know where she went.
+> goto filed
+* keep
+> end
+* q
+> ifnot party:quaye -> done
+Quaye: One donor. Bled daily. And she drew a window.
+Quaye: The record says she felt nothing.
+Quaye: The record is wrong. They all are.
+> end
+* filed
+> set producth_done
+> quest producth done "Sallis took the donor file for the Vein."
+* done
+
+== still_meet
+> set still_met
+> camera @still_view 1
+Stillman: Log. Visitors. Three or four. Unauthorized.
+Stillman: Log. The still is running. It's been running for forty years.
+> camera hero 1
+> quest quietwater 2
+
+== stillman_talk
+> face stillman hero
+> if still_done -> done
+Stillman: Log. Product H, forty liters in stock. Sealed.
+Stillman: Distilled. Sold by the vial. Twelve gilt.
+?
+- [Talk 3] The Hush is in the Moles' water. Shut it off and walk out with us. -> talk | refuse
+- $120 We'll buy the still. All of it. -> buy
+- Turn it off, or we turn you off. -> fight
+* talk
+Stillman: Log entry. The Moles. The lamps. I didn't account for the lamps.
+Stillman: Log entry. Powering down. Walking out. Forty years. End of log.
+> walk stillman @still_front
+> walk stillman 20 13
+> fade out 0.6
+> exit stillman
+> exit sbot1
+> exit stap1
+> exit stap2
+> set stillman_left
+> set still_done
+> fade in 0.6
+> goto still_valve
+* buy
+Stillman: Log entry. The sale. One still, one valve, two hands, one robot. Leaving now.
+> fade out 0.6
+> exit stillman
+> exit sbot1
+> exit stap1
+> exit stap2
+> set stillman_left
+> set still_done
+> fade in 0.6
+> goto still_valve
+* refuse
+Stillman: Log entry. Request denied.
+* fight
+> exit stillman
+> exit sbot1
+> exit stap1
+> exit stap2
+> set still_on
+> fight md_still
+> set still_won
+> set still_done
+> goto still_valve
+* done
+(The still room. The Stillman is gone.)
+
+== still_retry
+> face hero right
+> fight md_still
+> set still_won
+> set still_done
+> goto still_valve
+
+== still_valve
+> face hero down
+> if still_settled -> done
+> ifnot still_done -> notyet
+(The still's outflow pipe leads into the floor.)
+(The water beneath it has no taste.)
+?
+- Seal the still permanently. -> seal
+- Bottle what remains. Sell it to Hush. -> bottle
+- Leave it running. -> leave
+* seal
+> sfx shove
+> fade out 0.5
+> set still_sealed
+> rep moles 3
+> fade in 0.5
+(The pipe stops. Above, a lamp brightens.)
+> approve courtesy 2
+> goto settle
+* bottle
+> give hush 3
+> set still_robbed
+> rep moles -4
+> set lamps_dark
+(You open the still to drain it.)
+(The entire stock rushes through the pipe at once.)
+> approve courtesy -2
+> ifnot party:sallis -> settle
+Sallis: Three vials. The Moles get the rest, mixed into their water. For weeks.
+> goto settle
+* leave
+> end
+* settle
+> set still_settled
+> set quietwater_done
+> quest quietwater done
+> end
+* notyet
+(The still's outflow pipe. The Stillman is watching you.)
+> end
+* done
+(The outflow pipe. Silent.)
+
+== hush_still
+> face hero up
+> if still_done -> valve
+(The Hush holds still. Copper coils, frosted white.)
+(A gauge reads: FORTY LITERS LESS A LITTLE.)
+> end
+* valve
+> goto still_valve
+
+== stillman_locker
+> face hero up
+(A Board locker. A badge: J.)
+(STOLK, CHEMIST, WORKS 1. A tin cup. A pencil.)
+> if locker_taken -> done
+> set locker_taken
+> give bigstim
+> give shockgren
+* done
+
+== pump_panel
+> face hero up
+(PUMP ROOM, TUBE A. PUMPS 1 TO 4: OFF. SUMP: FULL.)
+> ifnot party:quaye -> done
+Quaye: Four pumps, dead forty years. The Bailers took over their job.
+* done

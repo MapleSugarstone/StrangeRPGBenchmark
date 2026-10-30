@@ -1,17 +1,17 @@
-# Chapter 1: The Long Lead
+# Chapter 1: The Long Shadow
 # Maps: home, square, office, wake (Mott's house), gate, gully, quarry.
-# Stile sits under a low gold sun in the west. Every lead in town runs east.
+# Stile sits under a low gold sun in the west. Every shadow in town runs east.
 
 == ch1_open
 > lock
-> chapter 1 The Long Lead
+> chapter 1 The Long Shadow
 > music home
 > fade in
 > wait 0.6
 > walk tib @table
 > face tib nodus
 Tib: up. first bell's been gone for ages
-Tib: your lead was already in the kitchen
+Tib: your shadow was already in the kitchen
 ?
 - Noted. -> noted
 - Was it a long one? -> long
@@ -21,7 +21,7 @@ Tib: you say that about everything
 * long
 Tib: table-length. long day today
 * after
-Tib: mott's lead went yesterday. wake's at fourth bell
+Tib: mott's shadow went yesterday. wake's at fourth bell
 Tib: bring a plate. he asked for plum cake :-]
 Tib: Ledger's on the step again. left it there
 > set ch1_started
@@ -38,7 +38,7 @@ Tib: Ledger's on the step again. left it there
 (The street outside. Something dark lies across it.)
 > end
 * seen
-(The big lead runs past the window and on down the east road.)
+(The big shadow runs past the window and on down the east road.)
 > end
 
 == home_shelf
@@ -75,7 +75,7 @@ Tib: ...
 > camera nodus 1.4
 > emote nodus !
 > music lead
-Nodus: Entry: one lead.
+Nodus: Entry: one shadow.
 Nodus: No owner.
 > camera @desk 1.0
 > wait 0.5
@@ -86,7 +86,7 @@ Nodus: No owner.
 
 == lead_look
 > if ch1_blank -> blank
-(A lead as long as the town. It comes from the sunward hills.)
+(A shadow as long as the town. It comes from the sunward hills.)
 (Nothing stands at its end. Nothing stands anywhere along it.)
 > end
 * blank
@@ -95,9 +95,9 @@ Nodus: No owner.
 
 == talk_plim
 > if ch1_blank -> after
-Plim: Bread's out. Lead beat me to the oven again.
+Plim: Bread's out. Shadow beat me to the oven again.
 Plim: See the big one? Goes right over my roof.
-Plim: Never had a lead on my roof before. Feels personal.
+Plim: Never had a shadow on my roof before. Feels personal.
 > end
 * after
 Plim: Office says stay calm. I'm calm. Baking twice as much.
@@ -105,11 +105,11 @@ Plim: In case it's hungry.
 > end
 
 == talk_quarle
-Quarle: Lead says I'm at the well by third bell. No point rushing.
+Quarle: Shadow says I'm at the well by third bell. No point rushing.
 > if ch1_seen_lead -> more
 > end
 * more
-Quarle: That big one's different. Nobody's lead knows about it.
+Quarle: That big one's different. Nobody's shadow knows about it.
 Quarle: Mine goes straight to the well like nothing's wrong. Rude.
 > end
 
@@ -138,7 +138,7 @@ Wem: you're a little bad
 > sfx pen
 (Plim to the oven. Quarle to the well, third bell. Pip and Wem to the square.)
 (Mott: none.)
-(The big lead. Owner:)
+(The big shadow. Owner:)
 > wait 1.2
 Nodus: Hmm.
 > sfx pen_stop
@@ -155,7 +155,7 @@ Nodus: Blank.
 > face grisaille down
 > sfx pin
 Grisaille: Notice forty-one, by the Office of Bearers!
-Grisaille: The lead over the square is under review.
+Grisaille: The shadow over the square is under review.
 Grisaille: Nobody turns it. Nobody raises an unlicensed light.
 Grisaille: Nobody leaves by the sunward gate until further notice.
 Grisaille: Questions go to the window. In writing. Thank you.
@@ -172,7 +172,7 @@ Anthelion: One blank line.
 - I can't write what I can't see.
 - Entry: unknown.
 Anthelion: Then the blank is the honest entry. Keep it honest.
-Anthelion: The Office is handling the lead.
+Anthelion: The Office is handling the shadow.
 > walk anthelion @office_door
 > exit anthelion
 > set ch1_notice
@@ -199,7 +199,7 @@ Registrar: I mean, I could. I'm choosing not to.
 Anthelion: Registry three-one-one. Clerk of the Ledger.
 ?
 - Why license every lamp?
-- Who turned the big lead?
+- Who turned the big shadow?
 * why
 Anthelion: I license every light in Stile.
 Anthelion: One unlicensed light took everything I had.
@@ -218,7 +218,7 @@ Anthelion: Nobody. That is the purpose of a license.
 > face mott nodus
 Mott: Clerk! You came. Sit anywhere.
 Mott: Plum cake. I asked for plum.
-Brisk: He looks fine. For a man with no lead.
+Brisk: He looks fine. For a man with no shadow.
 Mott: I feel fine. That's what's getting to me.
 Mott: Looked down at second bell yesterday. Nothing. Just the floor.
 ?
@@ -246,7 +246,7 @@ Brisk: Forty wakes I've been to. Never one with cake this good.
 > end
 
 == talk_fenwold
-Fenwold: When a lead goes, it goes. When two leads touch, there's a wedding.
+Fenwold: When a shadow goes, it goes. When two shadows touch, there's a wedding.
 Fenwold: Everything else is weather.
 > end
 
@@ -255,13 +255,13 @@ Fenwold: Everything else is weather.
 > lock
 > face ock nodus
 Ock: Gate's shut. Office order.
-Ock: Your lead's pointing back toward town, clerk. Look at it.
+Ock: Your shadow's pointing back toward town, clerk. Look at it.
 > camera @nodus_lead 1.0
 > wait 0.8
 > camera nodus 0.8
-Ock: Lead says you're going home. So go home.
+Ock: Shadow says you're going home. So go home.
 Nodus: ...
-Ock: Can't argue with a lead. Try arguing with me. I'll still say no.
+Ock: Can't argue with a shadow. Try arguing with me. I'll still say no.
 > set ch1_gate_seen
 > unlock
 > end
@@ -293,14 +293,14 @@ Ochre: The lamp lady? Down past the pits. She cheats at Sticks.
 Parhelia: Ledger under your arm.
 Parhelia: Means you want something written down. (Means you want something.)
 ?
-- The big lead. I want its owner.
+- The big shadow. I want its owner.
 - Tib says you've got a lamp.
 Parhelia: I have a lamp. No oil.
 Parhelia: Office took my oil with my license. (Forty years ago. They're thorough.)
 Parhelia: Old Bearer cache in the pebble quarry.
-Parhelia: Bring me oil and I'll turn your lead.
+Parhelia: Bring me oil and I'll turn your shadow.
 ?
-- Turning leads is a crime. -> crime
+- Turning shadows is a crime. -> crime
 - Deal. -> deal
 * crime
 Parhelia: So is walking off with the town book. You're halfway there.
@@ -328,12 +328,12 @@ Parhelia: Rest if you want. Cot's lumpy. (It's two cots.)
 # Tutorial lines. The battle system calls these the first time each comes up.
 
 == tut_lead
-(Dark tiles are leads. An attack lands where its lead lies.)
+(Dark tiles are shadows. An attack lands where its shadow lies.)
 (Step off the dark tiles before the enemy acts.)
 > end
 
 == tut_downlight
-(Every attack goes away from the light, along the attacker's lead.)
+(Every attack goes away from the light, along the attacker's shadow.)
 (Stand on a foe's sunward side to hit it.)
 > end
 
@@ -342,17 +342,17 @@ Parhelia: Rest if you want. Cot's lumpy. (It's two cots.)
 > end
 
 == tut_depth
-(Long leads also show where a foe stands on later moves: the small dark marks.)
-(A lead you can see is a promise. It won't change.)
+(Long shadows also show where a foe stands on later moves: the small dark marks.)
+(A shadow you can see is a promise. It won't change.)
 > end
 
 == tut_pebble
-(Pebbles: throw one along your lead. Anyone can.)
+(Pebbles: throw one along your shadow. Anyone can.)
 > end
 
 == tut_note
 Parhelia: That one's going to hit its friend. Write it down.
-(Note: mark an enemy's lead. If it hits an enemy, the attack goes in your book.)
+(Note: mark an enemy's shadow. If it hits an enemy, the attack goes in your book.)
 > end
 
 == tut_noted
@@ -361,13 +361,13 @@ Parhelia: You wrote it down. (Of course you did.)
 > end
 
 == quarry_plate
-(A round plate set in the floor. It goes dull where a lead lies on it.)
+(A round plate set in the floor. It goes dull where a shadow lies on it.)
 > end
 
 == quarry_plate_hint
 > set q_hint
-Parhelia: Plates like a lead on them. Crates have long leads out here.
-Parhelia: Ours don't count. People's leads are too thin. (Rude, but true.)
+Parhelia: Plates like a shadow on them. Crates have long shadows out here.
+Parhelia: Ours don't count. People's shadows are too thin. (Rude, but true.)
 > end
 
 == square_enter
@@ -381,7 +381,7 @@ Parhelia: Ours don't count. People's leads are too thin. (Rude, but true.)
 (Old notices. A lost goat. Sticks night at fourth bell. A goat, found.)
 > end
 * forty
-(Notice forty-one. Stay calm. Stay in. Nobody turns the lead.)
+(Notice forty-one. Stay calm. Stay in. Nobody turns the shadow.)
 > end
 
 == bakery_door
@@ -390,11 +390,11 @@ Parhelia: Ours don't count. People's leads are too thin. (Rude, but true.)
 
 == gully_early
 (The path down to the gully. Nothing for a clerk down there.)
-(The big lead goes the other way, toward the sunward gate.)
+(The big shadow goes the other way, toward the sunward gate.)
 > end
 
 == talk_walker1
-Walker: Lead says I'm going round the square twice. So, twice.
+Walker: Shadow says I'm going round the square twice. So, twice.
 > if ch1_seen_lead -> more
 > end
 * more
@@ -416,7 +416,7 @@ Parhelia: Sticks? I'll go easy on you. (I won't.)
 > end
 
 == talk_dunnet
-Dunnet: Lost my lead in the quarry tunnel years ago.
+Dunnet: Lost my shadow in the quarry tunnel years ago.
 Dunnet: Lamp blew out, came out without it. That's the story.
 > end
 
@@ -445,7 +445,7 @@ Parhelia: Stand there. Don't fight it.
 > wait 0.9
 Parhelia: There. See where you're going?
 Nodus: Through the gate.
-Parhelia: Bars have leads too. (Nobody thinks about bars.)
+Parhelia: Bars have shadows too. (Nobody thinks about bars.)
 > turn gate_bar up
 > sfx bar_slide
 > anim gate_open
@@ -489,7 +489,7 @@ Grisaille: This goes in the register. In ink.
 > walk tib @wall_top
 > face tib nodus
 Tib: go on then
-Tib: write if your lead does anything weird
+Tib: write if your shadow does anything weird
 ?
 - I'll write.
 - Noted.

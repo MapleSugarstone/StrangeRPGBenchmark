@@ -28,7 +28,7 @@ interface Chapter {
 
 const LONG = { sun: { dir: [1, 0] as [number, number], lowness: 3 }, dark: false };
 const CHAPTERS: Chapter[] = [
-  { n: 1, name: 'The Long Lead', level: 2, party: ['nodus', 'parhelia'], entries: [], light: LONG, noLamp: true,
+  { n: 1, name: 'The Long Shadow', level: 2, party: ['nodus', 'parhelia'], entries: [], light: LONG, noLamp: true,
     fights: [{ group: 'g_tut' }, { group: 'g_pebblers' }, { group: 'g_hound' }, { group: 'g_hound_peb' }, { group: 'g_gnats' }, { group: 'g_crab' }, { group: 'ch1_boss', level: 3, boss: true }] },
   { n: 2, name: 'Lot Nine', level: 4, party: ['nodus', 'parhelia', 'lot'], entries: ['toss', 'pounce'], light: LONG,
     fights: [{ group: 'g_road_hounds' }, { group: 'g_road_mix' }, { group: 'g_cutpurses' }, { group: 'g_hatmen' }, { group: 'g_inkmites' }, { group: 'g_lampthief' }, { group: 'ch2_boss', level: 5, boss: true }] },
@@ -38,7 +38,7 @@ const CHAPTERS: Chapter[] = [
     fights: [{ group: 'g_cats' }, { group: 'g_fish' }, { group: 'g_hounds_glass' }, { group: 'g_hulk' }, { group: 'ch4_boss', level: 11, boss: true }] },
   { n: 5, name: 'Overhead', level: 12, party: ['nodus', 'parhelia', 'minim'], entries: ['toss', 'pounce', 'shard', 'glare'], light: { sun: null, dark: false },
     fights: [{ group: 'g_gamblers' }, { group: 'g_birds' }, { group: 'g_bearers' }, { group: 'ch5_boss', level: 13, boss: true }] },
-  { n: 6, name: 'The Unled', level: 14, party: ['nodus', 'tik', 'umbraculum'], entries: ['pounce', 'shard', 'glare', 'panelash'], light: { sun: null, dark: true },
+  { n: 6, name: 'The Shadowless', level: 14, party: ['nodus', 'tik', 'umbraculum'], entries: ['pounce', 'shard', 'glare', 'panelash'], light: { sun: null, dark: true },
     fights: [{ group: 'g_feelers' }, { group: 'g_drinkers' }, { group: 'g_dark_mix' }, { group: 'g_oldstray', level: 15, boss: true, optional: true }, { group: 'ch6_boss', level: 15, boss: true }] },
   { n: 7, name: 'Stile', level: 16, party: ['nodus', 'parhelia', 'tik'], entries: ['pounce', 'shard', 'panelash', 'lunge'], light: LONG,
     fights: [{ group: 'g_bearers7' }, { group: 'g_painted' }, { group: 'ch7_boss', level: 17, boss: true, party: ['nodus', 'parhelia', 'tik', 'anthelion'] }] },

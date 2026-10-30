@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fathom",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8766", "--shots"],
+      "port": 8766
+    },
+    {
+      "name": "menu",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../tools/build-site.mjs", "--skip-build", "--serve", "8090"],
+      "port": 8090
+    }
+  ]
+}

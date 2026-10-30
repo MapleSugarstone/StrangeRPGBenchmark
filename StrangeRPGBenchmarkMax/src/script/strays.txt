@@ -1,4 +1,4 @@
-# Strays: twelve loose leads, each waiting somewhere dark for an owner who lost it.
+# Strays: twelve loose shadows, each waiting somewhere dark for an owner who lost it.
 # stray_find_N runs when the party touches the stray. stray_return_N runs when the party talks to the owner while carrying it.
 # A stray needs Lot to be carried. Without Lot, the find scene says so and the stray stays put.
 
@@ -13,7 +13,7 @@ Lot: Lost. Waiting. I carry.
 > end
 
 == stray_return_1
-Dunnet: My lead! Left it in the quarry tunnel nine years ago. Dark in there.
+Dunnet: My shadow! Left it in the quarry tunnel nine years ago. Dark in there.
 Dunnet: Walking around not knowing anything for nine years. Thanks, clerk.
 > end
 
@@ -42,7 +42,7 @@ Drover: Didn't get the goat either.
 
 == stray_return_4
 Apprentice: oh. that's me. fell asleep in the hat box once
-Apprentice: thought i was just a calm person. turns out i had no lead
+Apprentice: thought i was just a calm person. turns out i had no shadow
 > end
 
 == stray_find_5
@@ -50,7 +50,7 @@ Apprentice: thought i was just a calm person. turns out i had no lead
 > end
 
 == stray_return_5
-Sole Child: my lead!! fell in the well when i was littler. stayed down there
+Sole Child: my shadow!! fell in the well when i was littler. stayed down there
 Umbraculum: Splendid!! Now you'll know where you're going!! Mostly to the well!!
 > end
 
@@ -68,8 +68,8 @@ Linesman: Don't tell the Office I took it back. Keep to the road.
 > end
 
 == stray_return_7
-Reviver: A lead. Had one, before the rows. Pale. Like this.
-Reviver: Silvered leads are thin. Read a newspaper through them.
+Reviver: A shadow. Had one, before the rows. Pale. Like this.
+Reviver: Silvered shadows are thin. Read a newspaper through them.
 > end
 
 == stray_find_8
@@ -77,7 +77,7 @@ Reviver: Silvered leads are thin. Read a newspaper through them.
 > end
 
 == stray_return_8
-Laval: Looked into the old mirror once. Ran. Left my lead behind it.
+Laval: Looked into the old mirror once. Ran. Left my shadow behind it.
 Laval: Thanks. Looking forward from now on. Mostly.
 > end
 
@@ -95,7 +95,7 @@ Drip: Fine. Give it. I'll keep it in a box.
 > end
 
 == stray_return_10
-Scuff: A lead. Mine. Danced away from it a long time ago.
+Scuff: A shadow. Mine. Danced away from it a long time ago.
 Scuff: Strange. Something goes first now. Don't like it. Like it.
 > end
 

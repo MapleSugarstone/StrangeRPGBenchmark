@@ -1,0 +1,650 @@
+# Camp on the Clement, chapter 5. Marit lies at marit_bed. The bedroll menu reaches every companion's chapter 5
+# talk, and the chapter 4 hub option redirects here too. Rest scenes are listed in src/content/act5.ts.
+
+# ---------------------------------------------------------------- Camp props
+
+== camp5_bedroll
+?
+- Choose who comes with you. -> pick
+- Talk to someone. -> talk
+- ?!marit_gone Sit with Marit. -> marit
+- Not now. -> no
+* pick
+> anim party
+> end
+* talk
+?
+- ?roster:courtesy A companion named Courtesy. -> camptalk5_courtesy
+- ?roster:sallis Sallis. -> camptalk5_sallis
+- ?roster:quaye Quaye. -> camptalk5_quaye
+- ?roster:ambrose Ambrose. -> camptalk5_ambrose
+- ?roster:tova Tova. -> camptalk5_tova
+- ?roster:ignace Ignace. -> camptalk5_ignace
+- Nobody. -> no
+* marit
+> goto marit5
+* no
+
+== camp5_leave
+?
+- Go ashore, to the Ferry Graveyard. -> ashore
+- Take Gus's boat. -> boat
+- Stay aboard. -> stay
+* ashore
+> warp ferries @gang_bottom left
+> goto ferries_enter
+* boat
+> goto boat5
+* stay
+
+== kees5_camp
+> face kees hero
+Kees: Do you know the Bailer song? The one about Hendrik? I know all eleven verses.
+Kees: Is it true he fell? Mevrouw Lam says that's why they need me here. To help.
+
+# ---------------------------------------------------------------- Marit's bedside
+
+== marit5
+> face marit hero
+Marit: There you are. Sit down, if there's any place to sit on this boat. Who did you bring me?
+?
+- Someone wants to speak with you. -> bring
+- How are you feeling? -> how
+- What does your day cost the Board? -> cost
+- ?item:trampass I went to Lock Road. I found this. -> marit5_pass
+- Rest. I'll come back. -> bye
+* bring
+?
+- ?roster:courtesy&!m5_courtesy With respect. -> marit5_courtesy
+- ?roster:sallis&!m5_sallis Sallis. -> marit5_sallis
+- ?roster:quaye&!m5_quaye Quaye. -> marit5_quaye
+- ?roster:ambrose&!m5_ambrose Ambrose. -> marit5_ambrose
+- ?roster:tova&!m5_tova Tova. -> marit5_tova
+- ?roster:ignace&!m5_ignace Ignace. -> marit5_ignace
+- Nobody. -> bye
+* how
+Marit: Like a woman with four days and a barge, which is three more than you.
+Marit: Ask me tomorrow.
+> end
+* cost
+Marit: Four thousand a month to the Church, says the deacon. I never saw a cent of it.
+> end
+* bye
+
+== marit5_courtesy
+> set m5_courtesy
+> walk courtesy @marit_side
+> face courtesy marit
+> face marit courtesy
+Marit: Here's my tin man. You've slowed down, love. So have I.
+> if courtesy_want -> want
+Courtesy: PLEASE. REMAIN.
+Marit: Calm. I know the rest. Mind the gap.
+Courtesy: MIND. THE. GAP.
+> end
+* want
+Courtesy: THIS UNIT IS A CROSSING GUARD. EIGHT BELLS. EVERY NIGHT.
+Marit: A crossing guard. Teun wanted to be one of those.
+Marit: When he was little, before the Board.
+Marit: Before he sold his sister for a flat with a window. Mind the children, love.
+Courtesy: MIND THE CHILDREN. MIND THE GAP. THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 2
+
+== marit5_sallis
+> set m5_sallis
+> walk sallis @marit_side
+> face sallis marit
+> face marit sallis
+Marit: You're the pilot. You never take a seat. What does your lot charge, your Vein?
+Sallis: Nothing. The Vein charges nothing.
+Marit: Then it's the only honest thing in Fathom.
+Marit: Get the little ones out before they find the next me. Just get them out.
+Marit: Four seconds. What did they pay you for those four seconds?
+Sallis: Copy that.
+> approve sallis 2
+
+== marit5_quaye
+> set m5_quaye
+> walk quaye @marit_side
+> face quaye marit
+> face marit quaye
+Quaye: Halsema. Form B-114. Transfer of a minor to Board custody.
+Quaye: Signed H. Quaye, grade three.
+Quaye: I was thirty-one. It took four seconds.
+Quaye: I counted them later. Forty years of looking back.
+> wait 2
+Marit: Four seconds. How much did they pay you for those four seconds?
+Quaye: Eleven gilts an hour. Call it a tenth of a gilt.
+Marit: A tenth of a gilt. They got me cheap again.
+> wait 1.5
+Marit: You were just a girl with a pen. They had plenty of girls with pens, and a boy who...
+Marit: Sit down, Hester. You're blocking my view.
+> wait 1
+> ifnot quest:dryplan -> done
+Quaye: I'm building one pump. Hendrik, with a motor inside it. For you.
+Marit: Build it for the street. I won't be living in it.
+* done
+> approve quaye 3
+> ifnot roster:sallis -> x_ns
+Sallis: Forty years. You knew where she was for forty years. Copy. I heard.
+> rel sallis quaye -2
+* x_ns
+> set quaye_told
+> quest quaye done "Quaye told Marit about the form. Marit told her to sit down."
+
+== marit5_ambrose
+> set m5_ambrose
+> walk ambrose @marit_side
+> face ambrose marit
+> face marit ambrose
+Marit: That's a lot of arm. What do arms cost these days?
+Ambrose: Madam, these arms lease for forty gilt a month.
+Ambrose: The eye is nine, with ads.
+> if ambrose_free -> free
+Marit: Rented. Like me. The Church paid four thousand for me.
+Marit: You're cheaper, love.
+Ambrose: Good. That one landed.
+> end
+* free
+Ambrose: Leased, I should say. As of tonight, they're mine.
+Ambrose: I'm at a loss for what to lift.
+Marit: Lift a bucket. Lift a child over a canal. Arms are for carrying, my dad said.
+> approve ambrose 2
+
+== marit5_tova
+> set m5_tova
+> walk tova @marit_side
+> face tova marit
+> face marit tova
+Marit: Gloves. I had gloves once. They took them because I bit through one.
+Tova: do they hurt? the tuesdays? every week?
+Marit: Every Tuesday for forty years. You stop counting at about three hundred.
+> ifnot kees_done -> g
+Marit: Your brother. Teun will want him. Teun always wants the one who loves hardest.
+* g
+> ifapprove tova 10 -> show
+Tova: i'm never letting them. never.
+> end
+* show
+Tova: i've never shown anyone. okay. look. little scars. i use a pin.
+Marit: Small hands. Keep them tucked in your pockets, love.
+> set tova_showed
+> approve tova 2
+
+== marit5_ignace
+> set m5_ignace
+> walk ignace @marit_side
+> face ignace marit
+> face marit ignace
+Marit: You're the one with the candles. Two gilt ones, I hear. Two gilt for my face?
+Ignace: Two gilt. I sold your face for nine years.
+Marit: Was it a good likeness?
+Ignace: No. You look more tired.
+Marit: Ha. I am. Sell them anyway, love. Somebody's got to pay for the soup.
+> ifnot ignace_told -> done
+Marit: You told the roof I was alive.
+Marit: Now they'll have to look at me instead of the statue.
+* done
+> approve ignace 2
+
+# ---------------------------------------------------------------- Companion talk
+
+== camptalk5_courtesy
+> face courtesy hero
+> if courtesy_want -> want
+Courtesy: GOOD. EVENING. PLEASE. REMAIN.
+?
+- Hold on, Courtesy. There's a crossing in Pell. -> cross
+- You're slowing down. -> slow
+- What does it cost you, slowing down? -> cost
+* cross
+Courtesy: CHILDREN. CROSSING.
+> end
+* slow
+Courtesy: THIS. UNIT. IS. ON. DUTY.
+> end
+* cost
+Courtesy: WHAT. DOES. THAT. COST?
+> end
+* want
+Courtesy: THIS UNIT HAS A SHIFT. EIGHT BELLS. PELL MARKET. EVERY NIGHT.
+?
+- What do you do when nobody's crossing? -> nobody
+- Will you leave us for the crossing? -> leave
+- Does the school pay you? -> pay
+* nobody
+Courtesy: I AM MONITORING THE CROSSING. I AM MONITORING THE DOG. BOTH.
+> end
+* leave
+Courtesy: STAND CLEAR OF THE DOORS. AFTER. THIS UNIT IS WITH YOU UNTIL AFTER.
+> end
+* pay
+Courtesy: THE SCHOOL PAID ONE DRAWING. IT IS A DRAWING OF THIS UNIT. THANK YOU.
+
+== camptalk5_sallis
+> face sallis hero
+Sallis: Watch rotation. You're two to four bells.
+?
+- ?hanne_done About Hanne. -> hanne
+- The raid. -> raid
+- What do we need to buy, to be ready? -> buy
+- ?rom_sallis_1&!rom_sallis_off&!romance5_sallis Stay a while. -> stay
+- Nothing. -> bye
+* hanne
+> if hanne_killed -> k
+> if hanne_vein -> v
+Sallis: She ran. She'll keep running. She's good at it.
+> end
+* k
+Sallis: Done is done. I asked her one thing. She answered. That's enough.
+> end
+* v
+Sallis: First drop's Thursday. She'll make it. She always made the drops.
+> end
+* raid
+Sallis: They climb the planks. Any boardwalk crowded with people is off-limits.
+Sallis: People are the solution. Bring people to the Wall.
+> end
+* buy
+Sallis: Nothing to buy. Just bring people. People are the key.
+> end
+* stay
+> ifapprove sallis 18 -> st
+Sallis: No. Watch the rotation.
+> end
+* st
+> set romance5_sallis
+> if hanne_done -> q
+Sallis: Sit. Here. Closer. That's an order.
+?
+- I'll follow your orders. -> yes
+- Not tonight. -> no
+- What does an order cost? -> cost
+* q
+Sallis: Stay with me tonight?
+> wait 1.5
+Sallis: That's two. Two questions. Don't count them.
+?
+- Yes. -> yes
+- Not tonight, Petra. -> no
+- What would it cost you if I said yes? -> cost
+* cost
+Sallis: Everything. Yes or no?
+?
+- Yes. -> yes
+- No. -> no
+* yes
+> set sallis_romance
+Sallis: Copy that.
+> approve sallis 2
+> end
+* no
+Sallis: Understood. Two to four bells, then.
+> end
+* bye
+
+== camptalk5_quaye
+> face quaye hero
+Quaye: Kid.
+?
+- ?quest:dryplan&!dry_plan The Dry Plan. -> dry
+- Marit. -> marit
+- Numbers. I need numbers. -> num
+- ?rom_quaye_1&!rom_quaye_off&!romance5_quaye Stay a while. -> stay
+- Nothing. -> bye
+* dry
+> if item:sumpmotor -> m
+Quaye: Ninety kilos of motor. Garage, bottom floor. West side drain.
+> end
+* m
+Quaye: The motor's aboard. Four hands to carry it. Six is safer. Bring people to the Wall.
+> end
+* marit
+> if m5_quaye -> told
+Quaye: I'll tell her. Tonight or tomorrow. Before the fourth day.
+> end
+* told
+Quaye: She told me four seconds. She counts better than I do.
+> end
+* stay
+> ifapprove quaye 18 -> st
+Quaye: Not tonight, kid. Four days left. Ask me in three.
+> end
+* st
+> set romance5_quaye
+Quaye: Kid. Sit. Come closer. I'm seventy-one, not made of glass.
+Quaye: It's been forty-one years since Brouwer. I'm out of practice. I counted that too.
+?
+- Then stay with me tonight. -> qyes
+- Not tonight, Hester. -> qno
+- What does it cost to start over at seventy-one? -> qcost
+* qcost
+Quaye: Nothing I've got left. Yes or no.
+?
+- Yes. -> qyes
+- No. -> qno
+* qyes
+> set quaye_romance
+Quaye: Good. Lights out. You're on watch at two bells anyway.
+> approve quaye 2
+> end
+* qno
+Quaye: Sensible. Get some sleep, kid.
+> end
+* num
+Quaye: Ten Bailers at ninety tons a minute. The rain brings a thousand. Do the math, kid.
+* bye
+
+== camptalk5_ambrose
+> face ambrose hero
+> if ambrose_free -> free
+Ambrose: Good evening. My arms are still on loan. My knee complains with every step.
+> goto menu
+* free
+Ambrose: Good evening. I possess arms of my own. Behold them and be amazed.
+* menu
+?
+- ?!lease_done Bodywell. -> bw
+- The raid. -> raid
+- ?rom_ambrose_1&!rom_ambrose_off&!romance5_ambrose Stay a while. -> stay
+- Nothing. -> bye
+* bw
+Ambrose: The garage. The top floor, where the old woman had her tea. They keep records there.
+> end
+* raid
+Ambrose: Let them come. I fought eleven men in a cage for the price of a dinner.
+Ambrose: The pay is better. It'll be a real fight. Alright, it'll be a fight.
+> end
+* stay
+> ifapprove ambrose 18 -> st
+Ambrose: Another time, perhaps. Tonight, my knee calls the shots.
+> end
+* st
+> set romance5_ambrose
+Ambrose: I wrote eleven speeches for this occasion. Each one was brilliant.
+Ambrose: But I've forgotten them all. Please, stay.
+?
+- I'll stay. -> yes
+- Not tonight. -> no
+- Eleven speeches? Convince me. -> sell
+* sell
+Ambrose: The fourth one started, "Thou art the noodle of my long night." I burned it. Stay?
+?
+- I'll stay. -> yes
+- Not tonight. -> no
+* yes
+> set ambrose_romance
+Ambrose: Alright. Okay. Good.
+> approve ambrose 2
+> end
+* no
+Ambrose: Then I shall remain magnificent, from a respectful distance.
+> end
+* bye
+
+== camptalk5_tova
+> face tova hero
+Tova: hey.
+?
+- Kees. -> kees
+- The Bailers. -> bailers
+- ?rom_tova_1&!rom_tova_off&!romance5_tova Stay a while. -> stay
+- Nothing. -> bye
+* kees
+> if kees_taken -> here
+> if kees_bird -> bird
+Tova: he's up there singing, like he's saving everyone.
+Tova: maybe he is. that's the worst part.
+> end
+* here
+Tova: he's asleep at the wheel. he snores just like dad did, even though he never knew him.
+> end
+* bird
+Tova: the bird is still out there. i can feel it pulling. it's mine.
+> end
+* bailers
+Tova: hendrik's lying in the canal, and no one's bleeding on him.
+Tova: i keep thinking... i could.
+> set tova_thought
+> end
+* stay
+> ifapprove tova 18 -> st
+Tova: not tonight. i'm... not tonight.
+> end
+* st
+> set romance5_tova
+> mood tova joy
+Tova: okay. i like you. that's it. that's the whole thing.
+Tova: you can say something, or not.
+Tova: it's fine. i'm fine. i'm going to stop talking now. now. okay, now.
+?
+- I like you too. -> yes
+- I can't. Not like this. -> no
+- What's the price of us liking each other? -> cost
+* cost
+Tova: probably everything. everything costs everything this week. so?
+?
+- I like you too. -> yes
+- I can't. -> no
+* yes
+> set tova_romance
+Tova: oh. okay. good. don't make it weird. well, it is weird. but good weird.
+> approve tova 2
+> end
+* no
+Tova: yeah. no. yeah. that's fair. really fair. okay.
+> mood tova grief
+> end
+* bye
+
+== camptalk5_ignace
+> face ignace hero
+Ignace: Speak, friend. The plain voice is still free.
+?
+- ?!velt_done Velt. -> velt
+- Do you believe in her now? -> believe
+- ?approval:ignace>=15&!ignace_close Stay with me a while. -> stay
+- Nothing. -> bye
+* velt
+Ignace: On the soup kitchen roof in Pell, wearing his good shoes. I have the page.
+Ignace: I'll know what I've decided when I'm standing in front of him.
+> end
+* believe
+Ignace: In the Saint? No. In Marit? She asked me what a candle costs. Yes.
+> end
+* stay
+> ifapprove ignace 15 -> st
+Ignace: Another night, friend. I'm working on a sermon. It's going badly.
+> end
+* st
+> set ignace_close
+Ignace: Friend. The heavens part. The waters stand still. The candles light themselves.
+Ignace: I made that up. Here is the truth: You are the first friend I have never charged.
+?
+- Then sit. -> yes
+- Not tonight. -> no
+- What does the plain version cost? Two gilt? -> cost
+* cost
+Ignace: Free. It's the first free thing I've ever said.
+?
+- Then sit. -> yes
+- Not tonight. -> no
+* yes
+Ignace: All right. All right. No sermon.
+> approve ignace 2
+> end
+* no
+Ignace: Fair enough. Most years, I would have said no to me, too.
+> end
+* bye
+
+# ---------------------------------------------------------------- Rest scenes
+
+== camp5_clement
+> music camp
+> anim hull on
+> walk hero @camp_bow
+> face hero up
+> wait 1.5
+> face gus hero
+Gus: Your barge drifted two meters off the plank last night. On its own.
+Gus: Kids from Canal Six were on the plank. It slid back after. Nobody believes me.
+?
+- Then it wants passengers. Let the roofs come aboard. -> carry
+- It's sinking. That's all the movement means. -> hard
+- Charge them. A gilt a head. -> fare
+* hard
+Gus: Sinking doesn't move a barge two meters sideways.
+> end
+* fare
+Gus: A gilt up ahead. It moved back when I said that out loud. Two meters.
+> end
+* carry
+> shake 1
+> sfx bailer
+> wait 1
+Gus: There. Feel that? It's breathing like it cares.
+> set clement_want
+> rep woken 1
+> ifnot port_want -> end_
+PORT: It wants something that isn't her. Like me. Hello, barge.
+* end_
+
+== camp5_kees
+> music camp
+> walk tova @camp_tova
+> face kees tova
+> face tova kees
+Kees: Tova, when do I go back up? Mevrouw Lam said Thursday is the big day.
+Tova: you're not going back up. you're staying with me.
+Kees: But I'm going to help. I'm going to keep them walking. I got the highest score.
+> ifnot kees_plan_known -> c
+> mood tova anger
+Tova: ninety-four. you scored ninety-four. do you know what that's for?
+* c
+?
+- Tell him the truth, Tova. All of it. -> truth
+- He's ten. Let him have tonight. -> night
+- Ask him what they promised him. Exactly. -> promise
+* truth
+Tova: they want you on a pump. bleeding. every week. forever. just like her.
+> face kees marit
+Kees: Like the Saint? But that's the best thing. That's the best thing you can be.
+> wait 1.5
+Marit: It isn't, love. It's Tuesdays.
+> set kees_told
+> approve tova 2
+> end
+* night
+Tova: okay. tonight. just one night. sing me the hendrik one.
+> sfx note
+> emote kees note
+> mood tova joy
+> approve tova 1
+> end
+* promise
+Kees: A room on the Brim with the sea in the window. And I'd never be wet again.
+Tova: dry. they promised him dry.
+> approve tova 1
+
+== camp5_bird
+> music camp
+> walk tova @camp_rail
+> face tova up
+> wait 1.5
+> sfx wake
+Tova: it's the bird. it found me. it's wet. hey. hey, you found me.
+Tova: there's writing on it. his writing. all caps.
+Tova: THEY ARE TAKING ME UP TO THE TOP TO MEET MISTER HALSEMA.
+Tova: I AM READY. DON'T WORRY.
+> mood tova fear
+Tova: the top. why would the chairman want a ten-year-old? why him?
+?
+- You know why. Lam's file. -> file
+- We go up and get him. -> up
+- Ask what they pay for kids like him. -> pay
+* file
+Tova: ninety-four. "our kees will keep them walking." oh no. oh no, no.
+> set kees_moved
+> end
+* up
+> mood tova anger
+Tova: yeah. we go up. we go up, and i bleed on everything they own.
+> set kees_moved
+> approve tova 1
+> end
+* pay
+Tova: they don't pay. they never pay. they just take the ones who love it most.
+> set kees_moved
+
+== camp5_port
+> music camp
+> walk hero @camp_bow
+> face hero up
+> wait 1.5
+PORT: Can we do it again? The thing I want. I want it again. Is that how wanting works?
+?
+- That's exactly how it works. -> yes
+- Not every night. You'll wear it out. -> hard
+- Wanting things again is how they get you to pay. -> pay
+* yes
+> self 1
+> if port_rain -> rain
+> if port_barge -> barge
+> if port_song -> song
+PORT: Noodles, then. Opal has noodles. Twelve gilt. I will remember the twelve.
+> end
+* rain
+> wait 2
+PORT: Rain. On our heads. Again. Yes.
+> end
+* barge
+> wait 2
+PORT: Up. Down. The barge. Yes.
+> end
+* song
+PORT: I'm humming it. You can't hear it. I can.
+> end
+* hard
+PORT: Wear it out. Like a shoe. I'll take care of it.
+> end
+* pay
+PORT: I'll pay. I don't have gilt. I have Hold. Is Hold gilt?
+
+== camp5_fading
+> music camp
+> walk hero @camp_bow
+> face hero up
+> wait 2.5
+PORT: her.
+> wait 2
+?
+- I'm still here. -> here
+- Go quiet, then. -> hard
+- You owe me a jar. -> jar
+* here
+> wait 2.5
+> end
+* hard
+> wait 2.5
+> end
+* jar
+> wait 2.5
+
+== camp5_courtesy
+> music camp
+> walk courtesy @camp_rail
+> face courtesy left
+> wait 1
+Courtesy: THIS UNIT HAS A SHIFT. EIGHT BELLS. CHILDREN CROSSING.
+> face dog courtesy
+> wait 1
+Courtesy: THE DOG IS NOT CROSSING. THE DOG IS MONITORED.
+> approve courtesy 1
+
+== camp5_brink
+> music camp
+> face brink marit
+Brink: Eleven years of nights. First one on a boat. She spat the pill at the dog.
+Marit: The dog didn't want it either.
+Brink: Twice a day. I'll keep doing twice a day. I don't know what else to do.

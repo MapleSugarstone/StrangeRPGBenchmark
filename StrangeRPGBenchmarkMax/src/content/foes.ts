@@ -37,7 +37,7 @@ const F = (d: FoeDef) => d;
 
 export const FOES: Record<string, FoeDef> = {
   pebbler: F({ id: 'pebbler', name: 'Pebbler', art: 'pebbler', hp: 4, pow: 0, guard: 0, move: 2, height: 1, skills: ['toss'], xp: 4, mites: 2, ai: 'simple' }),
-  leadhound: F({ id: 'leadhound', name: 'Leadhound', art: 'leadhound', hp: 6, pow: 1, guard: 0, move: 3, height: 1, skills: ['pounce'], xp: 6, mites: 2, ai: 'simple' }),
+  leadhound: F({ id: 'leadhound', name: 'Shadowhound', art: 'leadhound', hp: 6, pow: 1, guard: 0, move: 3, height: 1, skills: ['pounce'], xp: 6, mites: 2, ai: 'simple' }),
   gnat: F({ id: 'gnat', name: 'Gnats', art: 'gnat', hp: 2, pow: 0, guard: 0, move: 3, height: 0, skills: ['nibble'], xp: 2, mites: 1, ai: 'simple' }),
   shalecrab: F({ id: 'shalecrab', name: 'Shale crab', art: 'shalecrab', hp: 6, pow: 1, guard: 1, move: 2, height: 1, skills: ['pinch'], xp: 7, mites: 3, ai: 'simple' }),
   lanternman: F({ id: 'lanternman', name: 'Lantern man', art: 't_office', hp: 6, pow: 0, guard: 0, move: 2, height: 1, skills: ['bolt'], xp: 8, mites: 4, ai: 'smart', lantern: 2 }),
@@ -75,8 +75,8 @@ export const FOES: Record<string, FoeDef> = {
   lampeater: F({ id: 'lampeater', name: 'Lampeater', art: 'lampeater', hp: 64, pow: 4, guard: 1, move: 2, height: 2, skills: ['chomp', 'lunge'], xp: 150, mites: 0, ai: 'boss', boss: true }),
 
   bearer7: F({ id: 'bearer7', name: 'Bearer', art: 't_office', hp: 28, pow: 7, guard: 1, move: 2, height: 1, skills: ['bolt', 'citation'], xp: 22, mites: 14, ai: 'smart', lantern: 3 }),
-  paintedlead: F({ id: 'paintedlead', name: 'Painted lead', art: 'paintedlead', hp: 20, pow: 7, guard: 0, move: 3, height: 1, skills: ['smear', 'brushstroke'], xp: 18, mites: 4, ai: 'wild' }),
-  greatlamp: F({ id: 'greatlamp', name: 'The Great Lamp', art: 'greatlamp', hp: 54, pow: 7, guard: 2, move: 0, height: 3, skills: ['flare_beam'], xp: 300, mites: 0, ai: 'boss', boss: true, still: true, adds: ['paintedlead', 'paintedlead'], addsText: 'More painted leads peel off the walls.' }),
+  paintedlead: F({ id: 'paintedlead', name: 'Painted shadow', art: 'paintedlead', hp: 20, pow: 7, guard: 0, move: 3, height: 1, skills: ['smear', 'brushstroke'], xp: 18, mites: 4, ai: 'wild' }),
+  greatlamp: F({ id: 'greatlamp', name: 'The Great Lamp', art: 'greatlamp', hp: 54, pow: 7, guard: 2, move: 0, height: 3, skills: ['flare_beam'], xp: 300, mites: 0, ai: 'boss', boss: true, still: true, adds: ['paintedlead', 'paintedlead'], addsText: 'More shadows peel off the walls.' }),
 };
 
 export interface GroupDef {

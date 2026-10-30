@@ -1,0 +1,327 @@
+# The Stair in chapter 4: people, readables, and side quests. Side quests: lostfriends (Lost Property),
+# letter (a child at Sunny Steps), lamsfile (Mevrouw Lam's files), brink (Marit's night nurse).
+
+# ---------------------------------------------------------------- Lost Property
+
+== lp_records
+(BOARD RECOVERY. DEPOT 2. LOST PROPERTY.)
+(PATROL 6, UNIT 0447. COURTESY CALL. WOKEN. BEACON ACTIVE. STATUS: SCRAP.)
+(SQUAD 4, UNITS 0441, 0448. STORED AT DEPOT 2. DO NOT WAKE.)
+> set squad4_known
+> ifnot party:courtesy -> lot
+Courtesy: SQUAD FOUR. THIS UNIT WAS PART OF SQUAD FOUR.
+* lot
+> if friends_done -> done
+> ifnot quest:lostfriends -> done
+?
+- $200 Buy the entire lot from Impound 4 at scrap value. -> buy
+- Close the file. -> done
+* buy
+(Lot purchased. Delivery destination: IMPOUND 4.)
+> goto lostfriends_done
+* done
+
+== lp_friend
+> ifnot press_won -> cold
+> if friends_done -> going
+(A Pound tag on the casing reads: IMPOUND 4.)
+?
+- {quaye} [Hack 2] Quaye. Print release orders for the Pound. -> orders | noorders
+- <diver> [Hack 2] Print release orders for the Pound. -> orders | noorders
+- ?!lp_load_failed [Athletics 2] Load them all into the van. -> load | noload
+- ?bg:washout&item:boardpass Recovery release, procedure four. Stamp them back to the Pound. -> wrel
+- Leave them. -> bye
+* cold
+(Hushed. Cold to the touch. Frost in the seams.)
+> end
+* going
+(A delivery tag reads: IMPOUND 4. Morning van.)
+> end
+* wrel
+> sfx confirm
+(RECOVERY RELEASE. RETURN TO IMPOUND 4.)
+> rep board -1
+> rep woken 1
+> goto lostfriends_done
+* orders
+> sfx confirm
+> rep woken 1
+> ifnot party:quaye -> o2
+Quaye: Seven release orders. They're going back to their owners. One owner is a tram.
+> approve quaye 1
+* o2
+> goto lostfriends_done
+* noorders
+> sfx fail
+(RELEASE ORDERS REQUIRE A DEPOT SUPERVISOR.)
+> end
+* load
+> sfx shove
+> shake 1
+> ifnot party:ambrose -> l2
+Ambrose: A vending machine. Asleep. Heavier than grief, colder than ice.
+* l2
+> goto lostfriends_done
+* noload
+> set lp_load_failed
+> sfx fall
+> ifnot party:courtesy -> bye
+Courtesy: PLEASE STAND CLEAR. THIS UNIT WILL LIFT.
+> goto lostfriends_done
+* bye
+
+== lostfriends_done
+> set friends_freed
+> rep woken 3
+> rep board -1
+> set friends_done
+> quest lostfriends done "The Pound's hushed friends are going home to Impound 4."
+> ifnot party:courtesy -> port
+Courtesy: LOST PROPERTY RETURNED TO OWNER.
+> approve courtesy 2
+* port
+> if port_quiet -> end_
+PORT: They're going home. But is home where a thing was first woken?
+* end_
+> ifnot party:tova -> fin
+Tova: good. good. someone should go home tonight.
+> approve tova 1
+* fin
+
+== lp_toys
+> if button_done -> asleep
+> if item:mrbutton -> asleep
+(A crate of confiscated woken toys. A sock rabbit with button eyes sits on top.)
+?
+- Take Mister Button. Dita is waiting. -> take
+- Leave it. -> bye
+* take
+> sfx loot
+> give mrbutton
+> quest button 1 "You found Mister Button in Lost Property. Take him to Dita."
+> end
+* asleep
+(A crate of toys. Each one hushed.)
+* bye
+
+# ---------------------------------------------------------------- Sunny Steps
+
+== sunny_tv
+(SUNNY STEPS. A WARM HOME FOR EVERY TESTED CHILD.)
+(The same advertisement loops on the screen in the Pound.)
+
+== lam_chart
+> face lam hero
+Mevrouw Lam: The compatibility test? Oh, I'm so proud of it. Here. Ninety-four!
+Mevrouw Lam: The Chairman's office calls about Kees every month. Every single month!
+Mevrouw Lam: When the time comes, Kees goes up to the Brim. A room of his own. A window.
+> goto lamsfile_known
+
+== lam_files
+> if lamsfile_done -> done
+(SUNNY STEPS. DIRECTOR'S FILES. LOCKED.)
+> quest lamsfile 1
+?
+- {quaye} [Hack 2] Quaye. Open it. -> open | shut
+- <diver> [Hack 2] Open it. -> open | shut
+- ?!lam_seen [Sneak 2] Wait for Lam to turn to the beans. Read fast. -> open | caught
+- ?bg:choir [Notice 1] Read it upside down across the desk. The Choir taught you how. -> open | shut
+- Ask Lam what the test is for. -> ask
+- Leave it. -> bye
+* ask
+> goto lam_chart
+* shut
+> sfx fail
+(LOCKED. DIRECTOR'S PORT ONLY.)
+> end
+* caught
+> set lam_seen
+> face lam hero
+Mevrouw Lam: Oh! The files? You only had to ask, dear. Let me show you.
+> goto lam_chart
+* open
+> rep board -1
+(PROGRAM HENDRIK. Line 1 succession candidates.)
+(Compatibility with Line 1. K. Mensah, 94. Next best, 61.)
+(Transfer to the Brim upon Line 1 failure. By order of the Chair.)
+> goto lamsfile_known
+* done
+(PROGRAM HENDRIK. K. Mensah, 94.)
+* bye
+
+== lamsfile_known
+> set kees_plan_known
+> set lamsfile_done
+> quest lamsfile done "The Board means Kees to be the next Line 1, when Marit dies."
+> ifnot party:tova -> q
+> mood tova anger
+Tova: When she dies, they move him into her room.
+Tova: That's it. That's the whole plan.
+> approve tova 2
+* q
+> ifnot party:quaye -> fin
+Quaye: Ninety-four. I saw a ninety-six once. Forty years ago.
+* fin
+
+== noor_steps
+> face noor hero
+> if letter_done -> done
+Noor: You're from the market. You smell like it.
+Noor: Tell my mum I have a bed by the window. I can see a tree from it.
+Noor: I wrote it down. Mevrouw Lam says letters upset people.
+> quest letter 1
+?
+- I'll carry it to your mum. -> carry
+- {sallis} Sallis. The Vein could bring her home. -> vein
+- ?bg:vein Chalk a circle on her sleeve. The Vein will see it Sunday. -> chalk
+- $30 Pay a carer to post it. -> post
+- Lam's right. Letters upset people. -> hard
+* carry
+> give letter
+> set letter_carried
+Noor: Her stall is by the soup kitchen. She sells eels on Thursdays.
+> quest letter 2
+> approve courtesy 1
+> goto done_set
+* chalk
+Noor: A circle. Blue. Is that a secret?
+> set noor_vein
+> rep vein 2
+> approve tova 1
+> goto close
+* vein
+Sallis: Copy. One girl. Sunday, when the visitors go out. I'll let my people know.
+> set noor_vein
+> rep vein 2
+> approve sallis 3 tova 2
+> goto close
+* post
+Noor: The post goes out on Fridays. I'll keep an eye out for the answer.
+> set letter_posted
+> goto close
+* hard
+Noor: Alright.
+> face noor up
+> set letter_refused
+> ifnot party:courtesy -> close
+Courtesy: THAT BEHAVIOR IS NOT ALLOWED.
+> approve courtesy -1
+* close
+> quest letter done "You settled Noor's letter."
+* done_set
+> set letter_done
+> end
+* done
+Noor: Did you pass a tree on your way in? There's one right by my window.
+
+== bo_steps
+> face bo hero
+> if letter_done -> done
+Bo: Are you heading down to the Deeps? To Canal Four?
+Bo: My mum sells rope at the Canal Four stall. Tell her I'm in the choir, I sit in the middle row.
+> quest letter 1
+?
+- I'll pass the message along. -> carry
+- ?bg:runner I'll take it down to Canal Four myself. Rope stall, middle row. -> run
+- {sallis} Sallis. The Vein could bring him home. -> vein
+- $30 Hire a carer to post a note. -> post
+- She probably already knows. -> hard
+* carry
+> give letter
+> set letter_carried
+> quest letter 2
+> approve courtesy 1
+> goto done_set
+* run
+Bo: You'd actually go? All the way down? Make sure you tell her I'm in the middle row. The middle.
+> rep deeps 1
+> goto carry
+* vein
+Sallis: Understood. One boy. Sunday. I'll let my people know.
+> set bo_vein
+> rep vein 2
+> approve sallis 3 tova 2
+> goto close
+* post
+Bo: Fridays. The post runs on Fridays.
+> set letter_posted
+> goto close
+* hard
+Bo: Oh.
+> set letter_refused
+* close
+> quest letter done "You settled Bo's message home."
+* done_set
+> set letter_done
+> end
+* done
+Bo: Middle row. Tell her middle row.
+
+# ---------------------------------------------------------------- Mercy Spire
+
+== spire_panel
+(SERVICE BAY. ENTER CODE.)
+> ifnot spire_route -> done
+(11. ACCEPTED. THE CHILDREN'S FAVORITE.)
+* done
+
+== nurse_log
+(WARD 1. PATIENT 1. Blood draws on Tuesdays and Fridays.)
+(Visitor: Sundays. T.H. Brings the papers. One-hour limit.)
+
+== brink_talk
+> face brink hero
+> if brink_done -> done
+Brink: You're here for her. I've covered her night shifts for eleven years.
+Brink: When she's gone, they'll ask who opened the door. I'm the only one with a key.
+> quest brink 1
+?
+- Come with us. She'll need you. -> come
+- $300 Take this and get out of Fathom. -> pay
+- {sallis} Sallis. The Vein. -> vein
+- I'm sorry. -> leave
+* come
+Brink: Her medication. Twice a day. She hides them in her cheek and spits them out the window.
+> give maritmeds
+> set brink_aboard
+> approve courtesy 1 ignace 1
+Brink: I'll go down ahead. I know the stairs they don't use.
+> walk brink @ward_lift
+> exit brink
+> goto close
+* pay
+Brink: Three hundred. There's a morning boat to the outer reef. I've always wanted to go.
+> give maritmeds
+> set brink_gone_reef
+> walk brink @ward_lift
+> exit brink
+> goto close
+* vein
+Sallis: Copy. A nurse with a key. My people will want to meet you.
+> give maritmeds
+> set brink_vein
+> rep vein 1
+> approve sallis 2
+> walk brink @ward_lift
+> exit brink
+> goto close
+* leave
+Brink: Her pills, then. Someone needs to have them.
+> give maritmeds
+> set brink_left
+* close
+> set brink_done
+> set brink_gone
+> quest brink done "You settled what happens to Nurse Brink."
+> end
+* done
+Brink: Twice a day. In her cheek. Watch her.
+
+# ---------------------------------------------------------------- The overlook
+
+== overlook_scope
+> if deeps_flooded -> flood
+(A coin telescope. Two gilt. It frames the Deeps, small and illuminated.)
+> end
+* flood
+(Water laps against the boardwalks. People gather on the roofs. Streetlamps extinguish one by one.)

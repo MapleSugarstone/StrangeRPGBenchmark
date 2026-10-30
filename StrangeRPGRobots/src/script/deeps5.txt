@@ -1,0 +1,571 @@
+# Chapter 5 side quests and people in the flood. Pell Market under water, the Pound, the garage, and the
+# Ferry Graveyard. Quests: Roof Clinic, Roofs, Wet Money, Going Up, and the letter carried from Sunny Steps.
+
+# ---------------------------------------------------------------- Pell Market, under water
+
+== mflood_enter
+> if mflood_seen -> done
+> set mflood_seen
+> music flood
+> camera @crossing 2
+> wait 1
+Board: Residents of Pell Market: Remain in your homes. Evacuation is not authorized.
+Board: Keep Fathom dry.
+> camera @seo_roof 1.5
+> wait 1
+> camera hero 1
+> ifnot party:quaye -> a
+Quaye: One meter twenty and rising. Eleven Bailers kept this place dry. Now only ten.
+* a
+> ifnot party:tova -> b
+Tova: the entire market is up on the rooftops. see that? it's moss's cart. it's floating.
+* b
+> ifnot party:courtesy -> done
+Courtesy: PLEASE. REMAIN. IN YOUR. HOMES.
+* done
+
+== home5
+> face hero up
+(Your door is submerged up to the handle. The Board tape is still on it.)
+> ifnot port_want -> done
+PORT: Our home. The jar is inside. It says "dry." Ha.
+* done
+
+== school5
+> face hero up
+(The school door is barred from the inside. A teacher waves from the third floor.)
+
+== bas_door5
+> face hero up
+(Bas's door is shut tight. The water stops at the sill and doesn't go further.)
+
+== board5
+> face hero up
+(BOARD NOTICE: Pell Market is a dry district. Report any flooding to your block warden.)
+
+== bodywell_kiosk5
+> face hero up
+(BODYWELL: Your lease remains valid during the emergency. Repossessions: Cutters' garage, Canal Two.)
+> ifnot party:ambrose -> done
+Ambrose: They've moved into the garage. Of course they have.
+Ambrose: It's the only dry floor left in the Deeps.
+> if lease_done -> done
+> quest ambrose 6
+* done
+
+== jukebox5
+> face hero up
+(The jukebox is submerged up to its dial. It's still playing, but slower.)
+> ifnot port_want -> done
+> if port_song -> song
+> end
+* song
+PORT: That one. That's the one I kept.
+* done
+
+== moss5
+> face moss hero
+Moss: The cart floated away. I've got the pot and forty buckets.
+Moss: Noodles for anyone with a roof.
+> ifnot quest:highwater=2 -> done
+Moss: You're heading to the Wall? Take me with you. I want to see Hendrik.
+* done
+
+# ---------------------------------------------------------------- Roof Clinic
+
+== seo5
+> face seo hero
+> if roofclinic_done -> after
+> if item:docbox -> give
+Doc Seo: Fourteen patients on a container roof. Two cots. One spoon, which I boil.
+Doc Seo: My Board Medical crate is in the clinic. It's underwater.
+Doc Seo: It's sealed. Probably still dry.
+> quest roofclinic 1
+?
+- I'll get your crate. -> get
+- $150 Give Fenna's stims instead. -> buy
+- They'll be fine. The water will go down. -> hard
+* get
+Doc Seo: The far shelf. Don't open the drawer beneath it. Hold still. No. Go.
+> end
+* buy
+Doc Seo: Fenna's stims. Overpriced. Fine. Thank you.
+> goto close
+* hard
+Doc Seo: The water goes down. But people don't always come back up with it.
+> end
+* give
+> take docbox
+Doc Seo: Dry. It's dry inside. Look at that.
+> give bigstim 2
+* close
+> set roofclinic_done
+> rep deeps 2
+> quest roofclinic done
+> ifnot roster:courtesy -> end_
+> approve courtesy 1
+* end_
+> end
+* after
+Doc Seo: Hold still, Henk. No. You are holding still. Good.
+> ifnot bn_done -> s
+> end
+* s
+Doc Seo: Moss says we hold the Wall tonight. Only those who can stand will make it. I'll be there.
+
+== clinic5
+> face hero up
+> if item:docbox|roofclinic_done -> done
+> ifnot quest:roofclinic -> plain
+(The clinic is packed to the brim. The crate is on the top shelf.)
+?
+- [Athletics 3] Hold your breath and swim in. -> got | fail
+- {courtesy} Courtesy can't hold its breath. Courtesy, retrieve it. -> bot
+- Leave it. -> no
+* bot
+> walk courtesy @clinic_door
+> anim splash 12 9
+> wait 2
+> anim splash 12 9
+Courtesy: DELIVERY. FOR. DOC SEO.
+* got
+> sfx loot
+> give docbox
+> end
+* fail
+> sfx splash
+(The door swings shut on you. You surface, gasping.)
+> end
+* no
+> end
+* plain
+(The clinic is packed to the brim. Doc's sign floats inside.)
+> end
+* done
+(The drowned clinic.)
+
+# ---------------------------------------------------------------- Wet Money
+
+== fenna5
+> face fenna hero
+> if looters_done -> shop
+Fenna: Red masks in my shop. In my shop. I'm standing in my own inventory.
+Fenna: Get them out, and I'll sell what's dry. At a price. A fair one.
+> quest looters 1
+> end
+* shop
+Fenna: The dry goods are on the crates. Prices rose with the water.
+> if rep:deeps>=4 -> shop_fenna5_cheap
+> if rep:deeps<-3 -> shop_fenna5_dear
+> shop fenna5
+
+== looters5
+> face joost hero
+> if looters_done -> done
+Joost: Mother's gone. Nobody pays the red masks anymore.
+Joost: Fenna's stock is floating. Finders keepers.
+> quest looters 1
+?
+- [Talk 2] Pim's on the container roof, Joost. Look at the weather. -> pim | nopim
+- Put it back, or hit the canal. -> fight
+- $100 Here's a hundred. Leave her shop alone. -> pay
+- ?rep:cutters>=4 Joost. You know me. Family doesn't loot family. -> pim
+* pim
+Joost: Pim? Up on a roof? In this mess?
+> face joost right
+> wait 1
+Joost: Put it back. I said, put it all back.
+> walk loot1 15 11 &
+> walk loot2 15 12 &
+> walk loot3 14 11
+> walk loot1 0 11 &
+> walk loot2 0 12 &
+> walk loot3 0 11
+> exit loot1
+> exit loot2
+> exit loot3
+> walk joost 20 22
+> face joost up
+> set looters_turned
+> rep cutters 1
+> rep deeps 1
+> approve courtesy 1
+> goto close
+* pay
+Joost: A hundred. Fine. Fair's fair. Mother used to say that.
+> walk loot1 0 11 &
+> walk loot2 0 12 &
+> walk loot3 0 11 &
+> walk joost 0 10
+> exit loot1
+> exit loot2
+> exit loot3
+> exit joost
+> set looters_paid
+> rep cutters 1
+> goto close
+* nopim
+Joost: Pim's fine. He's always fine. Move out of my light.
+* fight
+> exit joost
+> exit loot1
+> exit loot2
+> exit loot3
+> set looters_on
+> fight mf_looters
+> set looters_won
+> rep cutters -2
+> rep deeps 1
+> goto looters_after
+* close
+> set looters_done
+> quest looters done
+> end
+* done
+Joost: Fenna's counting. She'll know I owe her a knife.
+
+== looters_retry
+> face hero up
+> fight mf_looters
+> set looters_won
+> rep cutters -2
+> rep deeps 1
+> goto looters_after
+
+== looters_after
+> face fenna hero
+Fenna: Out. Good. Most of it's still on the shelf. Though the shelf is underwater.
+> set looters_done
+> quest looters done
+
+== joost5
+> face joost hero
+Joost: Fenna is counting. She'll say I owe her a knife. I owe her a knife.
+> ifnot crossing_done -> done
+Joost: Pim got over. I saw your robot.
+* done
+
+# ---------------------------------------------------------------- The children by the school
+
+== kids5
+> face pim hero
+> if crossing_done -> after
+Pim: The school's dry up top. Miss is waving. See? We can't get over. It pulls at your legs.
+> ifnot party:courtesy -> done
+Dita: Your robot is very tall. Is it tall enough to reach the water?
+> end
+* after
+> if courtesy_want -> guard
+Pim: We got over. The school has blankets. Gray ones.
+> end
+* guard
+Pim: The robot comes at eight bells. It said. Every night.
+* done
+
+# ---------------------------------------------------------------- Roofs
+
+== bep5
+> face bep hero
+> if bep_saved -> safe
+Bep: I've lived on this street for eighty-one years. I'm not getting off my roof for a little water.
+> quest roofs 1
+?
+- [Talk 2] Bep. The water is at your gutter. -> down | stay
+- {courtesy} Courtesy can carry you down. -> carry
+- $40 Pay Gus to bring the boat around. -> boat
+- Suit yourself. -> hard
+* hard
+Bep: I will. I always have.
+> end
+* stay
+Bep: My gutter's been wet before. Go on.
+> end
+* boat
+Bep: Gus? For forty? He did my husband's funeral for less.
+> goto down
+* carry
+Courtesy: PLEASE. HOLD. ON.
+Bep: Oh, you're cold. You're a cold one.
+* down
+> walk bep @bep_ladder
+> walk bep @bep_safe
+> face bep hero
+> set bep_saved
+> rep deeps 1
+> ifnot piet_saved -> end_
+> set roofs_done
+> quest roofs done
+* end_
+> end
+* safe
+Bep: Mrs. Oud cut contact, you know. She went silent and never reached out again. I'm still here.
+
+== piet5
+> face piet hero
+> if piet_saved -> safe
+> quest roofs 1
+> if umbrella_kept -> brella
+Piet: This is Fem's roof. We've sat up here on hot nights for forty-one years.
+Piet: I'm not climbing down it.
+?
+- [Talk 3] Fem would be the one to climb down. In her good shoes. -> down | stay
+- {ambrose} Ambrose can carry you down. -> carry
+- $40 Pay Gus to bring the boat around. -> boat
+- Then stay. -> hard
+* brella
+Piet: The umbrella isn't leaving the roof. It's Fem's umbrella. So I'm not leaving either.
+?
+- Ask it to take you down. It keeps you dry. -> ask
+- [Talk 3] Fem would be the one to climb down. In her good shoes. -> down | stay
+- $40 Pay Gus to bring the boat around. -> boat
+- Then stay. -> hard
+* ask
+Piet: You want me down, love? All right, then.
+> wait 1
+Piet: She's going first. Always ahead of me. She always went first.
+> goto down
+* carry
+Ambrose: Sir, if I may. I have carried heavier men, and none as dignified as you.
+> goto down
+* boat
+Piet: Gus. Gus rowed us to our wedding. Forty-one years ago. He was ten.
+> goto down
+* hard
+Piet: I'll stay, then. It's a good roof.
+> end
+* stay
+Piet: She hated those shoes. Go on.
+> end
+* down
+> walk piet @piet_ladder
+> walk piet @piet_safe
+> face piet hero
+> set piet_saved
+> rep deeps 1
+> ifnot bep_saved -> end_
+> set roofs_done
+> quest roofs done
+* end_
+> end
+* safe
+Piet: The soup line's moved to the roof. It floats now.
+
+# ---------------------------------------------------------------- The letter from Sunny Steps
+
+== ilse5
+> face ilse hero
+> if census_saved -> saved
+> if letter_delivered -> after
+> ifnot letter_carried -> plain
+Ilse: You came down from up there. Did you see her? Noor?
+?
+- She wrote to you. Here. -> give
+- She's fine. She has a bed by a window. -> give
+- A carer up there charges for letters. I didn't. -> give
+* give
+> take letter
+> set letter_delivered
+> rep deeps 1
+Ilse: A tree. She can see a tree. There aren't any trees down here. She can see a tree.
+> quest letter done "You gave Noor's letter to Ilse."
+> approve courtesy 1
+> end
+* plain
+Ilse: They took her to the Steps. I asked the Board for a picture. They sent a form.
+> end
+* after
+Ilse: I read it nine times. I think the tree's an oak. She'd know.
+> end
+* saved
+Ilse: The water's up to the census bay. Nobody's testing anyone tonight.
+> ifnot quest:highwater=3 -> s
+Ilse: The Wall? Moss said. We'll come. Noor wants to see the Bailers close up.
+* s
+
+== roos5
+> face roos hero
+> if letter_delivered -> after
+> ifnot letter_carried -> plain
+Roos: Rope. Twelve meters, nine gilt. You've got that look. Someone sent you.
+?
+- Bo says he's in the choir. Middle row. -> give
+- I've got a message from Bo. It's free. -> give
+- He's up there. He's fine. That's all. -> give
+* give
+> take letter
+> set letter_delivered
+> rep deeps 1
+Roos: Middle row? He always stood at the back. Middle row.
+Roos: Forty meters of rope. For the Wall. Moss can have it. Tell him.
+> quest letter done "You gave Bo's message to his mother, Roos."
+> approve courtesy 1
+> end
+* plain
+Roos: Rope. Twelve meters, nine gilt.
+Roos: The water doesn't care about rope. I still sell it.
+> end
+* after
+Roos: Middle row. I tell everybody. Nine people today.
+
+# ---------------------------------------------------------------- The Lockjaws
+
+== rina5
+> face rina hero
+> if jaws5_paid|lockjaws_ally|toll_paid -> friend
+Rina: Same toll for everyone! Fifty gilt a boat! Even now! Especially now!
+?
+- $50 Fifty. And come bail with us at the Wall. -> pay
+- [Talk 3] Bail's free. We're all drowning the same. -> talk | no
+- Keep your toll. -> hard
+- ?!flats_open What's out past the Wall? -> rina_flats
+* pay
+Rina: Paid! Paid is paid! We'll bring the skis and the buckets!
+> set jaws5_paid
+> rep lockjaws 1
+> end
+* talk
+Rina: Free? Ha! Fine, free for everybody! Same for everybody!
+> set jaws5_paid
+> rep lockjaws 1
+> end
+* no
+Rina: Same toll for everyone! That's the rule!
+> end
+* hard
+Rina: Kept is kept!
+> end
+* friend
+Rina: Same toll for everyone, and tonight the price is a bucket! We'll meet at the Wall!
+> if flats_open -> fend
+?
+- What lies beyond the Wall? -> rina_flats
+- See you at the Wall. -> fend
+* fend
+
+# ---------------------------------------------------------------- Hanne without Sallis
+
+== hanne5
+> face hanne hero
+> if party:sallis -> hanne5_meet
+Hanne: Recovery. Step back, friend. There are two ways off this roof. You're on neither.
+> ifnot roster:sallis -> done
+Hanne: You run with Petra. Don't bring her up here. I'm sorry. Please, don't.
+* done
+
+# ---------------------------------------------------------------- Going Up
+
+== goingup5
+> if goingup_done -> after
+> face teo hero
+Teo: That's Oma. In the bed. The bed is walking. I didn't mean it.
+Teo: The water came in through the window, and I cut my hand on the glass, and I was scared.
+> quest goingup 1
+> camera @bed_start 1
+> wait 1
+Teo: Now it's heading to the Wall. It wants to be up high. She's still asleep.
+> camera hero 1
+?
+- [Athletics 3] Climb up and wake her. -> wake | slip
+- ?item:hush Pour a vial of Hush on the bed. -> hush
+- {tova} Tova. Talk to it. You're the witch. -> tova
+- Let it go. The Brim is dry. -> up
+* slip
+> sfx splash
+Teo: It kicked you. It's never kicked anyone before.
+> end
+* tova
+> walk tova @bed_start
+Tova: hey. hey, bed. i know. it's scary. put her down, and you can still go.
+> wait 1
+> approve tova 2
+> goto wake
+* hush
+> take hush
+> anim hush oma_bed
+> wait 1
+> enter oma oma @bed_start down
+> walk oma 10 11
+> face oma teo
+Oma: Teo. Why's my bed cold? And why's there a river in the street?
+> walk teo @oma_safe
+> set bed_hushed
+> rep woken -1
+> ifnot port_want -> close
+PORT: It wanted up. Now it wants nothing. Was that kind?
+> goto close
+* wake
+> walk hero @bed_start
+> sfx shove
+> enter oma oma @bed_start down
+> walk oma 10 11
+> face oma teo
+Oma: Teo. There's a stranger in my bed. Why's there a river in the street?
+> walk teo @oma_safe
+> camera @bed_start 1
+> anim shift oma_bed 7 4
+> anim shift oma_bed 7 2
+> anim shift oma_bed 7 0
+> camera hero 1
+> set bed_gone
+> ifnot port_want -> wsay
+PORT: It's still going up. With nobody in it. It wants up for itself.
+> self 1
+* wsay
+Teo: It's going up without her. People are watching.
+> goto close
+* up
+Teo: Oma's never been to the Brim. She's never been past the Lock.
+> camera @bed_start 1
+> anim shift oma_bed 7 4
+> anim shift oma_bed 7 2
+> anim shift oma_bed 7 0
+> camera hero 1
+> set bed_gone
+> set oma_up
+> rep woken 1
+Teo: She'll wake up dry. She'll be so cross.
+* close
+> set goingup_done
+> rep deeps 1
+> quest goingup done
+> end
+* after
+> if oma_up -> alone
+Oma: Fifty years that bed. Fifty years and it never once took me anywhere.
+> end
+* alone
+Teo: Oma's up there now. On the Brim. I hope they've got a window for her.
+
+# ---------------------------------------------------------------- The Pound, chapter 5
+
+== pound5_enter
+> if pound5_seen -> done
+> set pound5_seen
+> music pound
+> camera @tilly_stop 2
+> wait 1
+> camera hero 1
+> ifnot party:courtesy -> a
+Courtesy: THE POUND IS AT CAPACITY.
+* a
+> ifnot friends_freed -> done
+> ifnot party:quaye -> done
+Quaye: Seven of the friends from Lost Property, back on their spots. Even the bin.
+* done
+
+# ---------------------------------------------------------------- The Ferry Graveyard and the Pumpline
+
+== ferries5_enter
+> anim hull 19 12 14 16
+> if ferries5_seen -> done
+> set ferries5_seen
+> camera @barge 1.5
+> wait 1
+> camera hero 1
+> ifnot party:sallis -> done
+Sallis: Clement's holding. Mud's gone under. If the Board comes, it comes up the plank.
+* done
+
+== moss_after
+> face moss hero
+Moss: Still bailing. Morning's coming. The Bailers haven't slowed down.

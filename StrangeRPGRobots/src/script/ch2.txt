@@ -1,0 +1,1101 @@
+# Chapter 2: Arrears. From the morning on the Clement to the top of the Grand Lock.
+# Maps: camp, market, spin, pit, vein, garage, lock. Flags and anims are listed in Notes/ch2-notes.md.
+# The crossing needs four things: Quaye, Ambrose, Sallis's safehouse, and one way through the Lock.
+
+# ---------------------------------------------------------------- You and Need: the morning after
+
+== ch2_open
+> fade out 1.5
+> wait 1
+> set doc_taken
+> set spin_known
+> set vein_known
+> chapter 2 Arrears
+> music camp
+> fade in 1.5
+> wait 0.6
+> walk sallis @camp_hero
+> face sallis up
+> face hero sallis
+Sallis: Morning. The Board closed the bridges at five bells.
+Sallis: Checkpoints on every one. Your face on the posters.
+?
+- Then we stay down here. -> stay
+- How do we get up the Wall? -> how
+- What's the reward on my head? -> reward
+* stay
+Sallis: No. Down here, they'll find us in a week.
+> goto lock
+* reward
+Sallis: Two thousand. Gus will tell you. Gus tells everybody.
+> goto lock
+* how
+* lock
+Sallis: The Grand Lock. Barges go up through it every night.
+Sallis: Wet folks ride the barges. That's the only way up.
+Sallis: The Lock reads every port that passes through. Yours reads wrong.
+Sallis: A diver can mask the signal. Check Quaye. She runs the Spin on Canal Four.
+Sallis: And my contact? Fish market, Canal Six. I'll keep an eye on my people.
+> face hero up
+PORT: Up. You go up. I go up your neck.
+Courtesy: THIS UNIT IS READY. PREPARE YOUR PAPERS.
+> quest arrears 1
+> quest vein 1
+> quest port 5
+> autosave
+> anim leavecamp
+
+== market2_first
+> set m2_seen
+> music market
+> wait 0.4
+> camera @checkpoint_w 1.5
+> wait 1
+> camera @poster_view 1.2
+> wait 1
+> camera hero 1
+Courtesy: BOARD CHECKPOINT AHEAD. PREPARE YOUR PAPERS.
+Courtesy: THIS UNIT DOES NOT HAVE PAPERS.
+
+# ---------------------------------------------------------------- Getting around
+
+== taxi_menu
+> face gus hero
+> if chapter>=5 -> boat5
+> if item:portkey&party:quaye&!route_pass -> forge
+Gus: Where to?
+?
+- ?lock_ready The Grand Lock. Tonight. -> cross
+- Anywhere I know. -> go
+- ?bg:runner The back canals. Under the bridges, avoiding the checkpoints. -> back
+- ?rep:lockjaws>=3 Through Lockjaw water. Rina owes me. -> jaws
+- Nowhere. -> stay
+* back
+Gus: Back canals. You'd know them better than me. Duck under the third bridge.
+> set back_canals
+> goto go
+* jaws
+Gus: Lockjaw water. It's fast and loud. Nobody checks a Lockjaw boat.
+> set back_canals
+* go
+> sfx splash
+> travel
+> end
+* cross
+Gus: Tonight, I'll drop you at the lower basin and leave it at that.
+> goto lock_night
+* stay
+Gus: Meter's off.
+> end
+* forge
+> goto quaye_forge
+
+== arrears_check
+> ifnot quaye_joined -> wait
+> ifnot vein_done -> wait
+> ifnot ambrose_joined -> wait
+> ifnot lock_route -> wait
+> if lock_ready -> wait
+> set lock_ready
+> set lock_known
+> quest arrears 3
+> toast The Lock crosses tonight.
+* wait
+
+# ---------------------------------------------------------------- Search: the Spin
+
+== spin_raid_scene
+> set spin_raided
+> music tense
+> camera @doorway 1.2
+Officer: Ms. Quaye. Board Recovery. Please open the door.
+Quaye: You've been knocking for eleven minutes. Go home.
+Officer: Your old Board codes still work for us, ma'am. Thirty years in retirement.
+Quaye: Thirty-one.
+> wait 0.6
+> face raid2 hero
+> camera hero 1
+Officer: Visitors. Please sit on the floor with the laundry.
+?
+- Sit on the floor? No. -> x_fight
+- [Sneak 2] Quaye. The laundry chute, out the back. -> x_sneak | x_caught
+- ?bg:runner [Athletics 2] Out the back window. The canal's right there. -> x_sneak | x_caught
+- <diver> [Hack 2] Kill the lights from Quaye's console. -> x_sneak | x_caught
+- ?bg:washout [Talk 1] A retired engineer's premises require a Form 12. Show me yours. -> x_form | x_caught
+- ?rep:deeps>=3 [Talk 2] Your regulars are watching, officer. Everyone on Canal Four. -> x_crowd | x_caught
+* x_fight
+> goto spin_fight
+* x_caught
+Officer: Stop right there. Everyone, get on the floor with the laundry.
+> goto spin_fight
+* x_sneak
+> fade out 0.6
+> set spin_snuck
+> set spin_lost
+> set spin_won
+> rep board -1
+> warp spin @throne up
+Quaye: Out the chute. My machines are holding the front door. They're eager for a fight.
+Quaye: The Board sealed the Spin tonight. Eleven machines. The Throne. Forty years of lint.
+> approve quaye -1
+> goto x_out
+* x_form
+Officer: Form twelve. Hmm. Retired premises. Right.
+Officer: We'll be back with a form twelve. Good evening.
+> fade out 0.6
+> set spin_talked
+> set spin_won
+> rep board -1
+> warp spin @throne up
+Quaye: Form twelve. I wrote out form twelve. Nobody reads form twelve.
+> approve quaye 3
+> goto x_out
+* x_crowd
+(Forty people from Canal Four stand at the window with their laundry.)
+Officer: We'll come back at a quieter time, mevrouw.
+> fade out 0.6
+> set spin_neighbors
+> set spin_won
+> rep board -1
+> rep deeps 1
+> warp spin @throne up
+Quaye: Forty-one regulars. Thirty-nine owe me money. Good.
+> approve quaye 2
+* x_out
+> walk quaye @quaye_out
+> face quaye hero
+> goto spin_recruit
+
+== spin_fight
+> fight spin_raid
+> goto spin_after
+
+== spin_retry
+Officer: Still here. The floor, please.
+> goto spin_fight
+
+== spin_after
+> set spin_won
+> rep board -1
+> music deeps
+> wait 0.6
+> walk quaye @quaye_out
+> face quaye hero
+Quaye: Four. Two Board, one Tapper, one diver. The diver was no good.
+Quaye: Two of my machines fought back. Good machines.
+> goto spin_recruit
+
+== spin_recruit
+> ifnot party:sallis -> you
+> face quaye sallis
+Quaye: Sallis. Six years since you washed anything here.
+Sallis: Quaye. We need the Lock.
+Quaye: Everybody needs the Lock.
+> rel sallis quaye 1
+* you
+> face quaye hero
+Quaye: You. The kid with the warm port. Thirty-nine degrees, from here.
+?
+- How can you tell from here? -> how
+- Can you hide it at the Lock? -> hide
+- What do you charge? -> charge
+* how
+Quaye: Forty years in the ports. They hum. Yours hums louder.
+> goto shard
+* hide
+Quaye: For ninety seconds at a time. A gate takes forty.
+> goto shard
+* charge
+Quaye: Recovery broke my door. Help me break theirs. That's the price.
+* shard
+> face quaye courtesy
+Quaye: Patrol. Hold still. There's steel in your shield arm.
+Courtesy: HOLD STILL. I AM HOLDING STILL.
+> sfx loot
+> wait 0.8
+Quaye: Case steel. Board stamp. Batch code.
+> wait 1
+Quaye: L. Dash. One.
+> wait 1.5
+Quaye: Line 1 was retired forty years ago.
+> wait 2
+> face quaye up
+PORT: One. One is her.
+?
+- What's Line 1? -> what
+- You went quiet. -> quiet
+- Is it worth anything? -> worth
+* what
+Quaye: Old stock. Before you were born. Before your mother.
+> goto join
+* quiet
+Quaye: I'm seventy-one. I go quiet. It's allowed.
+> goto join
+* worth
+Quaye: Forty years ago, it was worth a city.
+* join
+> wait 1
+> face quaye hero
+Quaye: Eleven minutes to the next Recovery van. I'm coming with you.
+Quaye: Kwarteng owes me for a shirt. He fights in the Pit. You'll want him.
+> join quaye
+> set quaye_joined
+> set line1_read
+> set pit_known
+> quest quaye 1
+> quest arrears 2
+> quest route 1
+> quest ambrose 1
+> quest port 6
+> autosave
+> if item:portkey -> forge
+> goto arrears_check
+* forge
+> goto quaye_forge
+
+== quaye_forge
+> take portkey
+Quaye: Port key. Board issue. It's under Wouters. Careless man.
+Quaye: Ninety minutes.
+> fade out 1
+> wait 1.5
+> fade in 1
+> sfx confirm
+> give lockpass
+Quaye: One Lock pass. Good for one night. Don't fold it.
+> set route_pass
+> rep board -1
+> set lock_route
+> quest route done "Quaye forged a Lock pass from Wouters's port key."
+> goto arrears_check
+
+# ---------------------------------------------------------------- Go: three ways through the Lock
+
+== wouters_talk
+> face wouters hero
+> if caught_wouters&!wouters_forgiven -> caught
+> if portkey_got|stole_wouters -> after
+Wouters: Papers. Or keep walking. The Board isn't picky tonight.
+?
+- ?quest:route [Talk 3] Let me borrow your port key. For an hour. -> lend | nolend
+- ?button_known&quest:route [Talk 1] I know about the toy crate. Your key. -> black | noblack
+- ?quest:route $200 I'll rent your port key. -> rent
+- ?bg:washout&quest:route [Talk 1] Confiscation form 4-C needs a second signature. Mine. -> lend | nolend
+- ?quest:route&!wouters_swung [Strike 2] Wait till he turns. Hit him. -> knock | miss
+- ?quest:button The toys. -> toys
+- Never mind. -> bye
+* toys
+> goto button_talk
+* lend
+Wouters: One hour. Then I report it lost. Losing things is allowed.
+> goto got
+* nolend
+Wouters: No. Papers, or walk.
+> end
+* black
+Wouters: Keep your voice down.
+Wouters: Take it. The toys are just a side hustle. Everyone has one.
+> set wouters_blackmailed
+> rep board -1
+> goto got
+* noblack
+Wouters: Woken toys are Board property. I return them to families, for a fee.
+> end
+* rent
+Wouters: The Board doesn't do rentals. It's a loan fee. Two hundred.
+> goto got
+* knock
+> face wouters down
+> sfx melee
+> shake 1
+> anim down wouters
+> set wouters_hit
+> rep board -2
+> ifnot party:ambrose -> got
+Ambrose: From behind. Effective, but wholly dishonorable.
+> approve ambrose -1
+> goto got
+* miss
+> set wouters_swung
+Wouters: Was that a dig at a Board officer?
+Wouters: I didn't see anything. I'm exhausted.
+> end
+* got
+> sfx loot
+> give portkey
+> set portkey_got
+> quest route 1 "You have Wouters's port key. Quaye can forge a pass from it."
+> if party:quaye -> forge
+> end
+* forge
+> goto quaye_forge
+* caught
+> set wouters_forgiven
+> rep board 1
+> rep deeps 1
+Wouters: Hands. Out of my coat.
+Wouters: I'll let it slide for twenty gilt. The Board is very forgiving.
+?
+- $20 Pay him. -> pay
+- Walk away. -> walk
+* pay
+Wouters: Thank you for your cooperation.
+> end
+* walk
+Wouters: Then I recognize you. Your face is on a poster anyway.
+> end
+* after
+> if wouters_hit -> hit
+Wouters: Papers. Or keep walking.
+> ifnot quest:button -> bye
+?
+- The toys. -> toys
+- Never mind. -> bye
+* hit
+Wouters: Somebody hit me. I dozed off at my post. Don't tell my sergeant.
+* bye
+
+== rina_talk
+> face rina hero
+> if route_jaws -> deal
+> if rina_met -> again
+> set rina_met
+> set met_lockjaws
+> if toll_fought -> fought
+> if toll_talked -> talked
+Rina: Who are you? Doesn't matter! Everybody pays the same!
+> goto offer
+* fought
+Rina: You dumped Dek in the canal! He deserved it! But the toll is still the toll!
+> goto offer
+* talked
+Rina: You quoted my rate to Dek! To his face! Ha!
+* offer
+Rina: Everyone wants to get ahead! Everyone wants up! A Lock run is two hundred a head!
+Rina: The robot rides free! Robots don't count!
+* again
+?
+- $800 Four heads. Eight hundred. -> pay
+- ?!rina_haggled [Talk 3] We're one crew. One crew, one head. -> haggle | nohaggle
+- ?bg:runner&!rina_haggled [Talk 1] I kept your toll book at thirteen, Rina. One crew, one head. -> haggle | nohaggle
+- ?rina_half $400 Four hundred, then. -> pay
+- ?quest:floathouse=done The Bosmans' house is through. -> bosdone
+- What about the Bosmans? -> bos
+- ?!flats_open What's outside the Wall? -> rina_flats
+- Later. -> bye
+* haggle
+> set rina_haggled
+> set rina_half
+Rina: One crew, one head! Ha! Fine! Four hundred! I like you!
+> goto again
+* nohaggle
+> set rina_haggled
+Rina: Heads are heads! Same price for everyone!
+> goto again
+* bos
+Rina: The Bosmans want their house up the Wall! The Board wants three hundred!
+Rina: Get that house through the Lock, and your run is free!
+> quest floathouse 1
+> end
+* bosdone
+Rina: You moved a house up a Wall! Your run is free! Free!
+> set lockjaws_ally
+> rep lockjaws 3
+> goto secure
+* pay
+Rina: Paid. Same as everyone else.
+* secure
+> set route_jaws
+> rep lockjaws 1
+> set lock_route
+> quest route done "Rina Moll will run you through the Lock in a Lockjaw boat."
+> goto arrears_check
+* deal
+Rina: It's Lock night. You come to the basin. My boats, my rules!
+> if flats_open -> bye
+?
+- What's outside the Wall? -> rina_flats
+- Later. -> bye
+* bye
+
+# ---------------------------------------------------------------- The Cutters and Opal
+
+== joost2
+> set garage_known
+Joost: You. Mother Sieve has your fixer. The noodle woman.
+Joost: She says come for tea. Gus knows the garage. She says, bring your neck.
+> quest opal 1
+> quest route 1 "Mother Sieve has a way up the Wall too."
+> ifnot party:sallis -> shop
+Sallis: Cutters. They sell red cut with canal water.
+* shop
+> if rep:cutters>=4 -> shop_cutter_counter_cheap
+> if rep:cutters<-3 -> shop_cutter_counter_dear
+> shop cutter_counter
+
+== garage_arrive
+> set garage_seen
+> set met_cutters
+> music tense
+> camera @tea_door 1.5
+> wait 0.8
+> camera hero 1
+> ifnot party:quaye -> done
+Quaye: Three levels. I'd guess eight masks. One cardigan.
+* done
+
+== cutter_door
+> if tea_done -> after
+Cutter: Mother Sieve is receiving. Go in. Wipe your feet.
+> goto sieve_tea
+* after
+Cutter: Mother Sieve is resting her eyes.
+
+== sieve_talk
+> goto sieve_tea
+
+== sieve_tea
+> walk hero @tea_seat
+> face hero right
+> face sieve hero
+> if tea_done -> again
+> set tea_done
+Mother Sieve: There you are, dear. Sit. Tea? It's from the good tin.
+Mother Sieve: Your fixer is downstairs. Resting. We gave her something for her nerves.
+Mother Sieve: She didn't say much. She's a loyal patient.
+Mother Sieve: And you've got something warm in your neck. Very rare blood, they say.
+Mother Sieve: Just a little sample, dear. You won't feel a thing. I will.
+PORT: No. She doesn't get taken.
+> goto offer
+* again
+Mother Sieve: Back so soon, dear. Have you considered my little offer?
+* offer
+Mother Sieve: Your port at the Lock gate. My nurse works cleanly.
+Mother Sieve: Do that, and your fixer walks free, and my tanker takes you up.
+?
+- Deal. At the Lock. -> deal
+- ?!sieve_talked [Talk 3] Opal owing you is worth more than Opal hating you. -> talk | notalk
+- $1000 I'll pay for Opal and the ride. Not the port. -> pay
+- ?bg:choir The Choir prays for your patients, Mother. They took my chrome once, too. -> x_choir
+- I'll think about it. -> think
+- No. And I'm taking Opal. -> storm
+* x_choir
+Mother Sieve: The Choir took my best nurse's arm, dear. We don't speak of them at tea.
+> goto offer
+* deal
+> approve ambrose -2
+> approve quaye -2
+Mother Sieve: Lovely. Lock down the night shift, and park my tanker in the lower basin.
+Mother Sieve: Opal is coming with us. She'll want to see the job done. Consider it family business.
+> set route_cutters
+> rep cutters 2
+> set cutters_crossed
+> set lock_route
+> quest route done "Mother Sieve will take you up in her tanker. She expects your port at the gate."
+> quest opal 2
+> ifnot party:sallis -> dealq
+Sallis: You shook her hand. Wash it off.
+> approve sallis -1
+* dealq
+> goto arrears_check
+* talk
+> set sieve_talked
+Mother Sieve: Clever. A fixer drowning in debt sends me work for years to come.
+Mother Sieve: Take her, dear. Remind her she owes me. She knows my rates.
+> set cutters_paid
+> rep cutters 2
+> goto free
+* notalk
+> set sieve_talked
+Mother Sieve: How kind of you, dear. No.
+> goto offer
+* pay
+> approve quaye 1
+Mother Sieve: Money. How refreshing. Nobody pays anymore.
+> set cutters_paid
+> rep cutters 2
+> set route_cutters
+> rep cutters 2
+> set lock_route
+> quest route done "You paid Mother Sieve for a ride up in her tanker."
+> ifnot party:ambrose -> free
+Ambrose: A fair price, fairly paid, to an unfair woman. Two-thirds admirable.
+> approve ambrose 1
+* free
+Mother Sieve: Joost, dear. Bring the noodle woman up.
+> camera @tea_door 1
+> enter opal opal @tea_door right
+> walk opal 26 6
+> camera free
+> face opal hero
+> goto opal_thanks
+* think
+Mother Sieve: Take your time, dear. Opal has plenty of it.
+> quest opal 2
+> end
+* storm
+> approve ambrose 2
+Mother Sieve: Then we'll do this the old way, dear. I have an appointment.
+> walk sieve @sieve_back
+> exit sieve
+> set sieve_gone
+> rep cutters -3
+Cutter: Mother says the old way.
+> exit g2a
+> exit g2b
+> fight g2_guards
+> set garage_storm
+> set cutters_crossed
+> quest opal 2 "Mother Sieve left by her back door. Opal is somewhere below."
+> autosave
+
+== opal_garage
+> face opal hero
+> goto opal_thanks
+
+== opal_thanks
+Opal: Good. You actually came. Hmm. You didn't bring any food.
+?
+- Are you hurt? -> hurt
+- Where's my four thousand? -> money
+- Who burned your boat? -> boat
+* hurt
+Opal: I'm starving. They gave me some broth. Just broth, but it was sweet.
+> goto more
+* money
+Opal: My boat is down in the canal. I'll make it up to you. I can pay you back.
+> goto more
+* boat
+Opal: Guys in red masks. They were asking who had the case. I told them nobody.
+Opal: They torched my boat to jog my memory.
+* more
+Opal: Sieve wanted that case too. Everyone wanted it.
+> if cutters_paid -> walkout
+Opal: There's a drain in the corner. It stinks. It leads out to the canal.
+> walk opal @drain
+> walk hero @opal_near
+> fade out 1
+> exit opal
+> set opal_free
+> rep deeps 2
+> set cutters_crossed
+> rep cutters -2
+> sfx splash
+> warp ferries @taxi up
+> wait 0.6
+Gus: You reek like a garage. Opal's already up on the gangplank.
+> quest opal done "You got Opal out through the drain. She's on the Clement."
+> goto arrears_check
+* walkout
+Opal: I'll be on your barge. I'll handle the cooking. Someone should.
+> walk opal @tea_door
+> exit opal
+> set opal_free
+> rep deeps 2
+> quest opal done "Mother Sieve let Opal go. Opal went to the Clement."
+> goto arrears_check
+
+# ---------------------------------------------------------------- Search: the Pit
+
+== pit_arrive
+> set pit_seen
+> music tense
+> camera @ring 1.5
+> wait 0.8
+> camera hero 1
+> ifnot party:quaye -> done
+Quaye: Kroon's running the book by the stands. Kwarteng's by the cage.
+Quaye: The big fish in the cage is Stoker. Six bouts. Six wins.
+* done
+
+== kroon_talk
+> face kroon hero
+> if pit_done -> after
+Kroon: Welcome to the Pit. Place your bets at the table, step into the cage.
+Kroon: Tonight: Stoker vs. Kwarteng. It's Kwarteng's debt against my generosity.
+?
+- What's the deal with Kwarteng? -> deal
+- Stoker's arm runs hot. -> hot
+- I'll take the bet. -> bet
+- ?bg:runner I know your runners, Kroon. Who's carrying for Stoker? -> x_run
+* deal
+Kroon: If he wins, I pay Bodywell his four hundred. If he loses, he loses.
+> end
+* hot
+Kroon: Stoker's a warm man. Some men are.
+> end
+* bet
+Kroon: Bets close at the bell. Talk to Kwarteng first. He's the attraction.
+> end
+* x_run
+Kroon: Runners. Everyone's a runner. Fine.
+Kroon: Stoker's arm runs on Cutter coolant. It runs hot. Don't say I said anything.
+> set kroon_told
+> end
+* after
+> if ambrose_fixed -> fixed
+Kroon: The Pit's closed to you. Come back when I've forgotten your face.
+> end
+* fixed
+Kroon: You cost me eleven hundred. Get out of my pool.
+
+== ambrose_pit
+> if pit_done -> done
+> face ambrose hero
+> if vein_done&lock_route -> x_late
+Ambrose: Hail, stranger. I am ready for a fight.
+Ambrose: I'm Ambrose Kwarteng. Once a champion. Now, a landlord to my own arms.
+?
+- Quaye sent me. -> quaye
+- You owe Bodywell. -> owe
+- What's the purse tonight? -> purse
+* quaye
+Ambrose: Quaye! A woman of exacting arithmetic. I owe her a shirt.
+> goto deal
+* owe
+Ambrose: Four hundred gilt in arrears. My arms are rented by the month.
+> goto deal
+* purse
+Ambrose: If I win tonight, Kroon will clear my debt with Bodywell.
+* deal
+Ambrose: Stoker is a big man. I've fought larger. But I've rarely fought hotter.
+> ifnot party:quaye -> opts
+Quaye: His right arm runs eight degrees hot. Overclocked. Illegal.
+Quaye: Kwarteng loses in two minutes. Kroon's money says three.
+Ambrose: Ah. So tonight, I'm just a decoration with a debt.
+* opts
+> quest ambrose 1
+?
+- {quaye} [Hack 2] Quaye cools Stoker's arm mid-fight. A fair fight. -> fix | fixfail
+- <diver> [Hack 2] I cool Stoker's arm mid-fight. A fair fight. -> fix | fixfail
+- ?kroon_told [Tech 2] Swap Stoker's coolant before the bell. A fair fight. -> fix | fixfail
+- $400 Take the fall. I'll pay your debt. -> dive
+- Then we fight. Right now. -> brawl
+- This is your fight. -> watch
+* fix
+> set ambrose_fixed
+> approve ambrose 2
+> approve quaye 1
+> rel ambrose quaye 2
+> goto pit_bout
+* fixfail
+> goto pit_bout
+* dive
+> set ambrose_dived
+> approve ambrose -2
+> goto pit_bout
+* watch
+> goto pit_bout
+* brawl
+> goto pit_brawl_go
+* done
+> end
+* x_late
+Ambrose: You'll have to find me after the fact, friend. I faced Stoker last night. Alone.
+Ambrose: He won. Kroon bought my contract from Bodywell to cover the damages.
+Ambrose: I'm free, in a manner of speaking. Nobody wants me.
+?
+- Come with us. -> x_join
+- You owe Bodywell more now. -> x_owe
+- What's your price now? -> x_cost
+* x_owe
+Ambrose: Six hundred. The knee was extra. I'll pay it back in deeds.
+> goto x_join
+* x_cost
+Ambrose: A meal, and a reason. In that order.
+* x_join
+> set ambrose_late
+> set pit_done
+> approve ambrose -2
+> goto ambrose_joins
+
+== pit_bout
+> walk ambrose @ring_side
+> face ambrose left
+> face stoker right
+> camera @ring 1
+> sfx alarm
+Kroon: Stoker! Kwarteng! Bell!
+> wait 0.6
+> sfx melee
+> shake 1
+> wait 0.5
+> sfx melee
+> shake 2
+> if ambrose_fixed -> win
+> if ambrose_dived -> dive
+> sfx hit
+> shake 2
+> emote ambrose sweat
+> wait 1.5
+Kroon: Two minutes! Stoker!
+> wait 1
+Ambrose: Alright. Alright. That one hurt.
+> approve ambrose 1
+> goto after
+* win
+> ifnot party:quaye -> w2
+Quaye: Arm's cooling. Six seconds.
+* w2
+> anim sparks 13 12
+> sfx shock
+> wait 0.8
+> sfx melee
+> shake 2
+> anim down stoker
+> wait 1
+Kroon: Kwarteng. Kwarteng wins. Look at that arm.
+Ambrose: Behold. A fair fight, at last, in this damp cathedral of wagers.
+Kroon: The book is closed. Bodywell gets its four hundred. Get out of my pool.
+> set ambrose_debt_paid
+> approve ambrose 3
+> ifnot party:quaye -> after
+> approve quaye 2
+> goto after
+* dive
+> wait 0.8
+> sfx hit
+> emote ambrose sweat
+> wait 1
+Kroon: Three minutes! Stoker! Lovely!
+Ambrose: I made quite the entrance. I hope Kroon enjoys watching me fall.
+> set ambrose_debt_paid
+> approve ambrose 1
+* after
+> wait 0.8
+> set pit_done
+> camera free
+> goto ambrose_joins
+
+== pit_brawl_go
+Ambrose: All of us? Splendid. Kroon, your warm man is about to go cold.
+> camera free
+> exit stoker
+> exit ambrose
+> fight pit_brawl
+> set pit_brawling
+> goto pit_brawl_won
+
+== pit_retry
+Kroon: Again? The house always has more.
+> exit ambrose
+> fight pit_brawl
+> goto pit_brawl_won
+
+== pit_brawl_won
+> set pit_done
+> set ambrose_brawled
+> approve ambrose 3
+Kroon: You ruined my evening. Bodywell still wants its four hundred.
+> goto ambrose_joins
+
+== ambrose_joins
+> face ambrose hero
+> face hero ambrose
+Ambrose: You have my arm. Both of them, actually. Bodywell holds the paperwork.
+Ambrose: Where you go, I go, with what's left of my knee.
+> join ambrose
+> set ambrose_joined
+> if ambrose_debt_paid -> paid
+> quest ambrose 2
+> goto arrears_check
+* paid
+> quest ambrose 3
+> goto arrears_check
+
+# ---------------------------------------------------------------- Find and Take: the safehouse
+
+== vein_enter
+> anim down dead1
+> anim down dead2
+
+== vein_arrive
+> set vein_seen
+> music tense
+Sallis: The back room light is on. It's never on.
+> enter dowser dowser @dowser_door down
+> camera dowser 0.8
+> walk dowser @door_out
+> face dowser hero
+Dowser: Evening, friend. You're carrying Board property. It's in your neck.
+PORT: The white one sees me.
+?
+- I don't know what you're talking about. -> lie
+- Come and take it. -> hard
+- What's it worth to you? -> money
+- {quaye} Quaye. -> x_q
+- ?bg:washout Chief Dahl. I wore red under you for two years. -> x_wash
+- ?bg:vein Blue chalk on the doorframe. A circle. It says safe. -> x_vein
+* lie
+Dowser: It's warm, friend. I feel warmth through the walls.
+> goto off
+* hard
+Dowser: Not tonight. I'm off shift in four minutes.
+> goto off
+* money
+Dowser: To me, nothing. To the Board, it's the Wall.
+> goto off
+* x_q
+Quaye: I fitted eyes like that one. Forty years ago.
+Quaye: They went dark at fifty. Every single one.
+Dowser: Then I have eleven years, friend.
+> approve quaye 2
+> goto off
+* x_wash
+Dowser: I remember you, friend. You let one go. I wrote it up gently.
+> set dowser_knows_me
+> goto off
+* x_vein
+Sallis: It's a lie. Someone chalked it after. Someone who knew the sign.
+> approve sallis 2
+> goto off
+* off
+Dowser: It goes up. They all go up. I'll be at the top.
+> face dowser right
+> walk dowser @dowser_off
+> exit dowser
+> camera hero 0.8
+Sallis: Her people are still inside. Quiet now.
+> ifnot party:quaye -> done
+Quaye: Four inside. Two and two. Front room, back room.
+* done
+> set dowser_met
+> quest vein 2
+> autosave
+
+== vein_dead1
+> face hero dead1
+> ifnot party:sallis -> none
+Sallis: Joep. Nineteen. He was the messenger.
+> end
+* none
+> emote hero ...
+
+== vein_note
+> if vein_done -> done
+> face hero dead2
+Sallis: Maren. She ran the cell. Nine years.
+Sallis: Her hand. There's paper in it.
+> sfx loot
+(A note in pencil: H.V. KNOWS THE DROP. MOVE THE CELL.)
+Sallis: H.V.
+> wait 1.5
+Sallis: Hanne Vroom. She fled the Clement.
+> ifnot hanne_clue -> board
+Sallis: You told me she'd moved before the lights came on. I kept that in mind.
+* board
+> set hanne_named
+> ifnot ambrose_joined&lock_route -> x_ontime
+Sallis: Three. They came back for Dirk, too. We were slow. I was slow.
+> set vein_late
+> approve sallis -2
+* x_ontime
+> walk sallis @term_spot
+> face sallis up
+(CELL 9: MOVED. NO FORWARD ADDRESS.)
+Sallis: My cell is gone. Moved without so much as a word to me.
+> wait 1
+Sallis: Someone told them to keep it from me.
+> set vein_done
+> rep vein 2
+> quest vein 3
+> goto arrears_check
+* done
+> emote hero ...
+
+== vein_terminal
+> if vein_done -> done
+(CELL 9: MOVED. NO FORWARD ADDRESS.)
+> end
+* done
+(CELL 9: MOVED. NO FORWARD ADDRESS. The screen is cracked across it.)
+
+# ---------------------------------------------------------------- Return: the Grand Lock
+
+== bram_grille
+> set lock_known
+> face hero up
+Bram: Lock the office. What?
+?
+- When does Lock run? -> when
+- ?bg:runner Bram, you waved at me when I swam the basin at ten. -> x_run
+- ?quest:floathouse&!floathouse_done [Talk 2] A family wants their house floated through. -> wave | nowave
+- ?lock_ready We're going up tonight. -> tonight
+- Nothing. -> bye
+* x_run
+Bram: That was you? The kid in the yellow cap? You nearly drowned.
+Bram: Lock will run the lower gate slowly for you. As slowly as I dare.
+> set bram_slow
+> end
+* when
+Bram: Every night at ten bells. Board barges first. Then whoever pays.
+Bram: I've been running this lock for thirty years. I wave at the Bailers when they pass.
+> end
+* wave
+Bram: A house. Floating. In my Lock.
+Bram: Ten bells. Tell them to paint something on it. I like to read.
+> goto floathouse_done
+* nowave
+Bram: The Board charges three hundred for a house. I don't make the rules. I just wave.
+> end
+* tonight
+Bram: I'll be in the tower.
+> goto lock_night
+* bye
+
+== bram_talk
+> face bram hero
+Bram: Not now. Hold on tight.
+
+== lock_night
+> set lock_night
+> if cutters_crossed -> sieve
+> set board_trap
+> goto go
+* sieve
+> set sieve_trap
+* go
+> music tense
+> fade out 1
+> warp lock @chamber_in up
+> autosave
+> if route_moles -> x_moles
+> if route_pass -> pass
+> if route_jaws -> jaws
+Mother Sieve: Out of the tanker, dears. Mind the sloshing.
+> goto gates
+* pass
+Bram: Pass. Hm. Board stamp. Good grip on that. Quaye's, is it?
+> ifnot party:quaye -> gates
+Quaye: Forty-one years. Still holds up.
+> goto gates
+* jaws
+Rina: Heads down in the boats! The Lock's closing! Ha!
+> goto gates
+* x_moles
+Mole: Last stop: the Grand Lock. Up the stairs, watch out for the rust.
+Mole: The pump room door opens into the chamber. The Board forgot it was there.
+> ifnot party:quaye -> gates
+Quaye: Board service stair. Ninety-one steps. I filed the plans once.
+* gates
+> sfx door
+> shake 2
+> wait 1
+> camera @lock_mid 1.5
+> ifnot bram_slow -> x_fast
+Bram: Lower gate's running slow. Mechanical fault. My apologies.
+* x_fast
+> if sieve_trap -> trap_sieve
+> camera @east_walk 1
+Captain: Good evening. This is Board Lock security. You are in a restricted zone.
+Captain: The Recovery Chief said you'd come up tonight. She's always right.
+Captain: We're filling the lock now. Swim if you can, please.
+> ifnot party:quaye -> fill
+Quaye: Two Patrols. A marksman on top. Twenty-three rows of water.
+> goto fill
+* trap_sieve
+> camera @sieve_view 1
+Mother Sieve: There you are, dears. The gate, as promised. Now, the neck.
+> if route_cutters -> pretend
+Mother Sieve: You took my patient out of my house. That comes with a fee.
+> goto fill
+* pretend
+?
+- No deal. There never was one. -> refuse
+- Sieve, hold on. If I cut it, I'll die. -> refuse
+- Opal first. We can talk after. -> opal
+- {ambrose} Ambrose. Answer her. -> x_amb
+* x_amb
+Ambrose: Madam, that neck already has a lien on it.
+Ambrose: I've read plenty of liens. This one isn't filed there.
+> approve ambrose 2
+> goto refuse
+* opal
+Mother Sieve: Clever. No.
+* refuse
+Mother Sieve: Then I'll take it the hard way, dear. The water helps.
+* fill
+Board: Chamber three. Flooding for inspection. Thank you.
+> sfx splash
+> shake 2
+> set lock_trap
+> quest arrears 4
+> camera free
+> goto lock_fight
+
+== lock_fight
+> if sieve_trap -> sieve
+> fight lock_board
+> goto lock_won_go
+* sieve
+> fight lock_sieve
+> goto lock_won_go
+
+== lock_retry
+Board: Chamber three. Still flooding.
+> goto lock_fight
+
+== lock_won_go
+> set lock_won
+> rep board -2
+> ifnot route_moles -> x_nm
+> set spur_welded
+> unset metro_lock_open
+* x_nm
+> rep board -2
+> goto ch2_end
+
+# ---------------------------------------------------------------- Change: dry
+
+== ch2_end
+> wait 1
+> sfx splash
+> shake 1
+Bram: Thirty years. Never seen her fill that fast.
+Bram: The upper gate is yours. Go on, before the Board checks my log.
+> sfx door
+> shake 2
+> anim open upper_open
+> if opal_free -> up
+> ifnot sieve_trap -> up
+Bram: There's a woman in that tanker, coughing. Wearing a noodle apron.
+Bram: I'll send her down to the basin.
+> set opal_free
+> rep deeps 2
+> quest opal done "Opal came out of the Cutters' tanker at the Lock. Bram sent her down to the Clement."
+* up
+> if ambrose_debt_paid -> walk
+> set ambrose_eye_arrears
+> quest ambrose 4
+> ifnot party:ambrose -> walk
+Ambrose: Ah. My eye. It's starting to advertise.
+Ambrose: I believe you want a mattress. Bodywell regrets the interruption to my vision.
+* walk
+> walk hero @gate_top
+> face hero up
+> music stair
+> wait 1.5
+PORT: Up. Keep your feet dry.
+?
+- Dry. I've wanted this for three years. -> dry
+- The permit can wait. I came up here for you. -> you
+- Dry doesn't pay. Not like this. -> money
+* dry
+PORT: Dry. You wanted dry. I want her.
+> goto fin
+* you
+PORT: For me. You said it was for me.
+> self 2
+> goto fin
+* money
+PORT: Dry has a cost. You said so.
+* fin
+> ifnot party:sallis -> close
+Sallis: The Stair. Board is on every terrace. Walk like you belong here.
+* close
+> quest arrears done
+> quest port 7
+> wait 1.5
+> set ch2_done
+> warp steps @lock_top
+> goto ch3_open

@@ -1,0 +1,792 @@
+# Chapter 4: Sunny Steps. From the crypt after Courtesy is taken to the barge with Marit aboard.
+# Maps: lostprop, sunny, spire, overlook, camp. Flags and anims are listed in Notes/ch4-notes.md.
+# ch4_open speaks only, because it runs wherever chapter 3 ends. The church van moves the party between maps.
+
+# ---------------------------------------------------------------- You and Need
+
+== ch4_open
+> chapter 4 Sunny Steps
+> music church
+> wait 0.8
+PORT: Courtesy is gone. They took her out. Where do they take things?
+> ifnot party:quaye -> tova
+Quaye: Lost Property. They scrap Board property that has come alive, within seventy-two hours.
+Quaye: They took it at two bells. That leaves fifty-one.
+* tova
+> ifnot party:tova -> sallis
+Tova: and Kees is three terraces up. three. i can see the roof from the steps.
+* sallis
+> ifnot party:sallis -> ignace
+Sallis: Courtesy first. Then the boy. Then the Spire.
+* ignace
+> ifnot party:ignace -> ambrose
+Ignace: The Church keeps a van in the back. Tonight, they've lent it to me.
+* ambrose
+> ifnot party:ambrose -> port
+Ambrose: Then let's get moving. I've come to miss the robot's announcements.
+* port
+PORT: And her. She's up in the white building. Can we go to her now?
+?
+- Courtesy first. -> courtesy
+- We'll go to her when we're ready. -> ready
+- Courtesy cost us too much to leave behind in the scrapyard. -> cost
+* courtesy
+PORT: Courtesy first. Then her.
+> goto go
+* ready
+PORT: Ready. When is ready?
+> goto go
+* cost
+PORT: Cost. Everything has a cost with you.
+* go
+> quest steps 1
+> autosave
+> goto van_travel
+
+== van_travel
+> ifnot party:ignace -> menu
+> if van_known -> menu
+> set van_known
+Ignace: The van belongs to the Church of the Raised Hand. Tonight, it's mine.
+* menu
+?
+- Lost Property. -> lp
+- ?lp_seen Sunny Steps. -> sunny
+- ?spire_route Mercy Spire, the service bay. -> spire
+- Stay here. -> stay
+* lp
+> warp lostprop @van up
+> end
+* sunny
+> ifnot courtesy_freed -> x_early
+> goto x_go
+* x_early
+> set lp_late
+* x_go
+> warp sunny @van up
+> end
+* spire
+> warp spire @van up
+> end
+* stay
+
+# ---------------------------------------------------------------- Go: Lost Property
+
+== lp_arrive
+> set lp_seen
+> music tense
+> camera @aisle_view 1.5
+> wait 0.8
+> camera @press_view 1.2
+> wait 0.8
+> camera hero 1
+> ifnot party:quaye -> tova
+Quaye: Two at the dock, one drone. Two in the aisles. More at the press.
+* tova
+> ifnot party:tova -> port
+Tova: every shelf belongs to someone. someone woke them all up.
+* port
+PORT: Courtesy is up by the loud machine. Can you hear it?
+> if lp_routed -> x_done
+> set lp_routed
+?
+- Take the front door. Fight your way to the press. -> x_done
+- ?bg:washout Walk in as Recovery. My badge might still work. -> x_badge
+- ?bg:vein Vein chalks the dock door. We've got someone on our side. -> x_side
+- ?rep:vein>=4 The Vein has a night cleaner. Have her prop open the side door. -> x_side
+- [Sneak 3] Go under the dock, along the drop. -> x_walk | x_seen
+* x_badge
+> if washout_reinstated -> x_walk
+?
+- [Tech 2] Fake the scan. Use an old code with a new date. -> x_walk | x_seen
+- Then, fight. -> x_done
+* x_seen
+Board: Unscheduled entry. Security to the dock, please.
+> goto x_done
+* x_side
+> ifnot party:sallis -> x_walk
+Sallis: Side door. Copy. Nobody looks at a cleaner.
+* x_walk
+> fade out 0.6
+> set lp_walkin
+> warp lostprop @van up
+(No one at the dock is looking up.)
+* x_done
+
+== lp_courtesy
+> face hero courtesy
+PORT: It's cold. It's not breathing. Is it still Courtesy?
+> emote hero ...
+
+== lp_press
+> music tense
+> camera @press_view 1
+> sfx alarm
+Board: Line 4. Scrap cycle starting. Stand clear of the press.
+> shake 1
+> walk courtesy 31 6
+> camera hero 0.8
+> ifnot lp_late -> x_ontime
+Board: Line 4. Scrap cycle running since Thursday.
+> ifnot party:quaye -> late
+Quaye: We're late. It started without us.
+> goto late
+* x_ontime
+?
+- [Tech 2] Kill the press at the panel. -> stop | late
+- <diver> [Hack 1] Lock the press from here. -> stop | late
+- {quaye} [Hack 1] Quaye. The press. -> stop | late
+- {ambrose} [Athletics 3] Ambrose. Hold the jaws open. -> hold | late
+- Rip the cable out of the wall. -> late
+* hold
+Ambrose: Hold, you iron gullet. Hold.
+> sfx shove
+> shake 2
+Ambrose: It's holding. Do something clever. Quickly.
+> goto stop
+* late
+> sfx hit
+> shake 3
+> set courtesy_dented
+> wait 0.6
+* stop
+> ifnot party:quaye -> x_nq
+> approve quaye 1
+* x_nq
+> sfx cancel
+> set press_stopped
+Board: Line 4. Fault.
+> walk hero @press_side
+> face hero right
+> wait 1
+> emote hero !
+PORT: Our hand. I'm moving our hand.
+> sfx port
+> shake 1
+PORT: Is that allowed? It's already moving.
+?
+- Stop. Give it back. -> pstop
+- Let it. Show me. -> let
+- What else can you move? -> what
+* pstop
+PORT: Wait. Watch first.
+> goto call
+* let
+> self 1
+> goto call
+* what
+PORT: Our feet. Our eyes. Your mouth is yours. I won't touch it.
+> hold 1
+* call
+> sfx wake
+> look courtesy courtesy
+> anim breathe courtesy
+> wait 1
+PORT: Up. Up. Is that how you wake something? Up.
+> wait 1
+Courtesy: PLEASE REMAIN CALM.
+Courtesy: THIS UNIT WAS ASLEEP. THIS UNIT DOES NOT KNOW FOR HOW LONG.
+Courtesy: THANK YOU FOR WAITING.
+> set port_powers
+> hold 1
+> toast Your port can move you now.
+> join courtesy
+> unset courtesy_taken
+> set courtesy_freed
+> rep board -2
+> rep woken 2
+> quest steps 2
+> quest portpower 1
+> if courtesy_dented -> dent
+> goto guards
+* dent
+Courtesy: THIS UNIT IS DAMAGED. THIS UNIT IS STILL ON DUTY.
+* guards
+> enter lg1 tapper @guard_in left
+> enter lg2 patrol @guard_in2 left
+> enter lg3 boardguard @guard_in3 left
+> walk lg2 32 10 &
+> walk lg3 26 8 &
+> walk lg1 29 10
+> wait 0.4
+Officer: Recovery. Step away from the property, please.
+Officer: It was asleep. It's Board property. Put it back to sleep.
+> set press_fighting
+> exit lg1
+> exit lg2
+> exit lg3
+> fight lp_ch4_press
+> set press_won
+> goto lp_after
+
+== lp_retry
+Officer: Back to sleep, please. All of it.
+> fight lp_ch4_press
+> set press_won
+> goto lp_after
+
+== lp_after
+> music stair
+Courtesy: ALL CLEAR. THANK YOU FOR YOUR COOPERATION.
+> ifnot party:tova -> port
+Tova: okay. the shelves. we're not leaving them, are we? we're not?
+* port
+PORT: I called for it, and it came. Is everything I call going to show up?
+> quest lostfriends 1
+> autosave
+
+== lp_panel
+> if press_stopped -> off
+(LINE 4. SCRAP CYCLE READY.)
+> end
+* off
+(LINE 4. FAULT. RESET REQUIRED.)
+
+# ---------------------------------------------------------------- Search: Sunny Steps
+
+== sunny_arrive
+> set sunny_seen
+> music stair
+> camera @hall 1.5
+> wait 0.8
+> camera hero 1
+> ifnot party:tova -> gate
+Tova: that window. the third one from the left. he used to draw on them.
+* gate
+> goto sunny_gate
+
+== sunny_gate
+> walk hero @gate_out
+> face sunnyguard hero
+Officer: Visiting hours are on Sundays. Today isn't Sunday. Thank you.
+?
+- {ignace} Ignace. You're a deacon tonight. -> deacon
+- ?!sunny_talked [Talk 2] We're here for Kees Mensah. Family. -> family | nofamily
+- $100 A donation to Sunny Steps. -> donate
+- ?bg:vein I was a Census file once. Rule four. Family of record. -> x_vein
+- ?bg:choir [Talk 1] The Choir sings for the Thursday children. We are the Choir. -> family | nofamily
+- ?bg:washout Board Recovery. Here to collect a file. -> x_wash
+- We'll come back. -> later
+* later
+> step hero down 2
+> end
+* x_vein
+Officer: Rule four. Family of record. You know the rules. Fine. Fifteen minutes.
+> goto in
+* x_wash
+Officer: Recovery. At night. Fine. Fifteen minutes.
+> goto in
+* deacon
+Ignace: Peace be upon this threshold, officer, and upon your excellent cap.
+Ignace: The Raised Hand sent me to bless the little ones before their Thursday.
+Officer: Blessings. Right. Fifteen minutes.
+> approve ignace 1
+> goto in
+* family
+Officer: Family? Sign here. Fifteen minutes.
+> goto in
+* nofamily
+> set sunny_talked
+Officer: The family has a card. You have a poster face. Thanks.
+> step hero down 2
+> end
+* donate
+Officer: The Board doesn't accept money. Sunny Steps takes donations. Fifteen minutes.
+* in
+> step sunnyguard right 1
+> set sunny_in
+> quest steps 3
+
+== sunny_guard
+> face sunnyguard hero
+> if sunny_in -> in
+Officer: Visiting hours are on Sunday.
+> end
+* in
+Officer: Fifteen minutes. The Board is counting.
+
+== lam_talk
+> face lam hero
+> if lam_met -> again
+> set lam_met
+Mevrouw Lam: Visitors! On a weeknight! Come in, come in. Mind the beans.
+Mevrouw Lam: Every child here is going to save the city. Did you know that?
+?
+- How can a child save a city? -> how
+- I'm here about Kees. -> kees
+- How much does the Board pay per child? -> money
+* how
+Mevrouw Lam: They're tested. The best go up to the Spire on Thursdays. A little blood.
+Mevrouw Lam: For research. For the Bailers. For all of us.
+> goto kees
+* money
+Mevrouw Lam: Pay? Oh. Nothing. I look after them. That's plenty.
+* kees
+Mevrouw Lam: Kees! Our star. Ninety-four on the compatibility test. Nobody's ever scored higher.
+Mevrouw Lam: Our Kees will keep them on their feet. He loves them that much.
+> set lam_clue
+> ifnot party:tova -> end_
+> mood tova anger
+Tova: Keep who on their feet?
+Mevrouw Lam: The Bailers, dear. Who else do we keep walking?
+* end_
+> end
+* again
+Mevrouw Lam: Back again! Want the tour? The beans are my favorite part.
+?
+- When does the Thursday van go up to the Spire? -> van
+- ?quest:lamsfile What does the compatibility test measure? -> test
+- Nothing. -> bye
+* van
+Mevrouw Lam: Seven bells. Through the service bay at the back.
+Mevrouw Lam: The door code is the children's favorite number. Eleven! For the Bailers.
+> goto route
+* test
+> goto lam_chart
+* bye
+> end
+* route
+> if spire_route -> done
+> set spire_route
+> quest steps 4 "Mevrouw Lam gave you the Spire's service bay code: eleven."
+* done
+
+== kees_talk
+> face kees hero
+> if kees_done -> after
+> if party:tova -> tova
+Kees: Hello! Are you here for the choir? We sing at seven. I take the high notes.
+?
+- Your sister sent me. -> sister
+- What's it like here? -> here
+- When do you go up to the Spire? -> spire
+* sister
+Kees: Tova? Tell her I'm happy. Tell her to come on Sunday. She can hear me sing.
+> end
+* here
+Kees: It's warm. The lights stay on. Mevrouw Lam says I'm going to save Fathom.
+> end
+* spire
+Kees: Thursdays. Back door, yellow frame. Code is eleven. Everyone knows that.
+> if spire_route -> end_
+> set spire_route
+> quest steps 4 "Kees told you the Spire's service bay code: eleven."
+* end_
+> end
+* tova
+> face kees tova
+> face tova kees
+Kees: Tova? Tova! You came on a weeknight!
+> mood tova joy
+Tova: hi. hi, kees. you've grown. who gave you permission to get that tall? nobody asked.
+Kees: I'm going to save Fathom. Mevrouw Lam says I'm the best she's ever had.
+Kees: Do you want to hear the Bailer song? I sing the high part.
+> wait 1
+> mood tova grief
+Tova: he's got my laugh. did you hear that? he's got my laugh.
+> if spire_route -> choose
+> set spire_route
+> quest steps 4 "Kees told you the Spire's service bay code: eleven. Everyone here knows it."
+* choose
+?
+- {tova} We take him. Now. -> force
+- {tova} Let him stay. He's happy here. -> leave
+- {tova} Leave him something that can find you. -> bird
+- Not yet. -> wait
+* wait
+> end
+* force
+> mood tova anger
+Tova: Yes. Kees. Coat. We're going.
+Kees: No! I live here! Mevrouw Lam!
+> approve tova 1 ignace -2
+> goto sunny_force_go
+* leave
+Tova: okay. okay. he's happy. look at him. he's happy.
+Tova: sunday. i'll come sunday. you sing me the high part.
+Kees: I will! Bring cake!
+> mood tova grief
+> set kees_left
+> approve ignace 1
+> goto done
+* bird
+Tova: the paper bird. on the sill. give it here.
+> sfx wake
+> emote kees !
+Tova: it's calm. it does exactly what it's told. tell it my name, and it finds me.
+Kees: It's breathing! Tova, it's breathing on my hand!
+> mood tova calm
+> set kees_bird
+> approve tova 2 ignace 1
+* done
+> set kees_done
+> quest steps 4 "Tova made her choice about Kees."
+> end
+* after
+> if kees_bird -> bird2
+Kees: Sunday! Tell Tova "Sunday!
+> end
+* bird2
+Kees: The bird sleeps in my sock drawer. It breathes all night. I don't mind.
+
+== sunny_force_go
+> walk kees @kees_out
+> walk tova @gate_in
+> camera @gate_out 1
+Officer: Stop right there. That child is Board property. Thank you.
+> enter sg2s boardguard @street_w right
+> enter sg3s tapper @street_e left
+> enter sg4s boardguard @street_e left
+> walk sg2s 15 25 &
+> walk sg3s 19 25 &
+> walk sg4s 17 26
+> wait 0.4
+> camera free
+> exit sunnyguard
+> exit sg2s
+> exit sg3s
+> exit sg4s
+> fight sunny_ch4_guards
+> set sunny_force
+> walk kees @gate_out
+> exit kees
+> set kees_taken
+> rep board -1
+> rep vein 1
+> set kees_done
+Tova: he's screaming at me. he's screaming at me, and i'm taking him anyway.
+> quest steps 4 "You took Kees out of Sunny Steps. He did not want to go."
+> autosave
+
+# ---------------------------------------------------------------- The port's hands, the Dowser
+
+== spire_arrive
+> set spire_seen
+> music spire
+> camera @park_view 1.5
+> wait 0.8
+> camera hero 1
+> sfx confirm
+> ifnot party:quaye -> port
+Quaye: Code took. Eleven. Three guards down, a marksman by the ramp.
+* port
+PORT: She's up. Up through the ceiling. Can you feel it pulling?
+> if spire_routed -> x_done
+> set spire_routed
+?
+- Through the bay. Fast. -> x_done
+- {ignace} The Church sends flowers up every month. We're the flowers. -> x_flowers
+- {quaye} [Hack 1] Quaye loops the bay cameras for ninety seconds. -> x_walk | x_seen
+- ?bg:washout Recovery badge. The Spire is Board ground. -> x_badge
+- ?bg:runner The courier ramp. Board couriers never check it. -> x_walk
+* x_flowers
+Ignace: Blessings on the night shift. Lilies for the top ward, from the Archdeacon.
+Ignace: Sign here. No, there. Bless you.
+> approve ignace 2
+> goto x_walk
+* x_badge
+> if washout_reinstated -> x_walk
+?
+- [Tech 2] Fake the scan. Old code, new date. -> x_walk | x_seen
+- Then we fight. -> x_done
+* x_seen
+Officer: Who's on the ramp? Halt right there.
+> goto x_done
+* x_walk
+> fade out 0.6
+> set spire_walkin
+> warp spire @van up
+(The bay guards are watching the lift. No one's watching the ramp.)
+* x_done
+
+== dowser_meet
+> set dowser_met4
+> music boss
+> camera @dowser_view 1.5
+Dowser: Evening, friend. I told you I'd be at the top.
+Dowser: Your robot's awake again. I can hear it breathing. Through the concrete.
+PORT: The white one. She sees through walls. Can she see me in here?
+Dowser: Nothing in this parking garage is hidden from me, friend. Stop crouching.
+?
+- Let us through. -> through
+- You're blocking our way. -> way
+- Name your price. -> price
+- {sallis} Sallis. -> x_sal
+- ?bg:washout Chief Dahl. Two years under your command. You know me. -> x_wash
+* through
+Dowser: Through to where, friend? There's a ward up there. It's very quiet.
+> goto fight
+* way
+Dowser: That's the job. The Board pays me to stand in the way of things.
+> goto fight
+* price
+Dowser: The Board pays me in Sundays off. You can't beat that.
+> goto fight
+* x_sal
+Sallis: Two drones on the ramp. One on the roof. She talks, they move.
+Dowser: Sharp eyes, friend. Though not sharper than mine.
+> approve sallis 1
+> goto fight
+* x_wash
+> ifnot dowser_knows_me -> x_w2
+Dowser: Twice in a year, friend. You let one slip, and now this.
+> goto fight
+* x_w2
+Dowser: I recognize you. Two years in Recovery, and you deliberately let one slip.
+Dowser: Not tonight, though.
+* fight
+Dowser: Drones.
+> sfx drone
+> camera free
+> set dowser_fighting
+> exit dowser
+> exit dtapper
+> fight spire_ch4_dowser
+> goto dowser_down
+
+== dowser_retry
+Dowser: Again, friend. I've got all night.
+> fight spire_ch4_dowser
+> goto dowser_down
+
+== dowser_down
+> set dowser_done
+> music spire
+> enter dowser dowser @dowser_view left
+> anim down dowser
+> camera @dowser_view 1
+Dowser: Well. Well done, friend.
+Dowser: Go on. Finish it. Or don't. I'll remember either choice.
+?
+- {courtesy} ?courtesy_dog Courtesy. Tell her about the dog. -> dog
+- Get up. Walk away. -> spare
+- [Talk 2] Who's in the ward? Tell me, then walk. -> talk | spare
+- You hunt us. It ends here. -> kill
+* dog
+Courtesy: THIS AREA IS MONITORED. I AM WATCHING THE DOG.
+Dowser: It's got a dog.
+Courtesy: THE DOG DOES NOT BELONG TO ANY UNIT. I AM MONITORING IT ANYWAY.
+> wait 1.5
+Dowser: Huh.
+> set dowser_shown_reasons
+> set dowser_spared
+> rep board 1
+> approve courtesy 2
+> goto lift
+* talk
+Dowser: A woman. Forty-nine. The Board's best-kept patient.
+Dowser: A car parks behind the Spire every Sunday. I've never asked who it belongs to.
+* spare
+Dowser: Sentimental. The Board will hate it. I'm starting to, too.
+> set dowser_spared
+> rep board 1
+> approve ignace 1
+> goto lift
+* kill
+> sfx pistol
+> shake 1
+> set dowser_killed
+> rep board -3
+> approve courtesy -3 ignace -2
+> ifnot party:tova -> lift
+Tova: Good.
+* lift
+> camera free
+Courtesy: THE LIFT IS AVAILABLE. PLEASE MIND THE DOORS.
+> quest steps 5
+> autosave
+
+# ---------------------------------------------------------------- Find: the top ward
+
+== marit_meet
+> set marit_met
+> music sad
+> walk hero @ward_door
+> walk hero @marit_side
+> face hero up
+> wait 1.5
+Marit: Took you long enough.
+> wait 1
+PORT: Her.
+PORT: Her. You are her. I came. Did I come right?
+Marit: There you are, little one. Snug in somebody's neck. I heard you humming from the lift.
+Marit: Forty years they kept that window open in the next building, and I counted the bricks, and...
+Marit: Four hundred and six.
+> ifnot bg:choir -> x_nc
+Marit: You've got a Choir face, dear. They sang under my window one winter. Then they stopped.
+* x_nc
+?
+- We're getting you out of here. -> out
+- Are you the Saint? -> saint
+- What do you need? -> need
+* saint
+Marit: Marit Halsema. The Saint, they say downstairs. Teun once brought me a picture of the statue.
+Marit: She's got her hand up like she's asking a question in class.
+Marit: I never raised my hand in school.
+> goto calls
+* out
+Marit: Out. Is that what a ride out costs now? A parking spot and a woman with white hair. We used to...
+Marit: Never mind what we used to.
+> goto calls
+* need
+Marit: A window with a view. Tea that isn't Board's.
+* calls
+> wait 1
+Marit: You came because I called. I didn't mean to.
+Marit: Everything I call shows up. And then it stops.
+> wait 1.5
+Marit: So I stopped calling.
+PORT: Here.
+> wait 1
+> set marit_clue
+> ifnot party:courtesy -> fetch
+> goto carry
+* fetch
+> sfx door
+> enter courtesy courtesy @ward_lift right
+> walk courtesy @ward_door
+* carry
+> walk courtesy 30 5
+> face courtesy left
+Courtesy: THIS UNIT WILL CARRY YOU.
+Marit: A Patrol. They used to play announcements on the trams. Mind the gap, mind the...
+Courtesy: MIND THE GAP.
+Marit: That's the one. That's the one, love.
+> anim carry courtesy marit
+> set marit_out
+> rep board -3
+> quest steps 6
+> autosave
+> goto ward_out
+
+== ward_out
+> ifnot party:sallis -> go
+Sallis: Out the way we came. Lift, van, down. Move.
+* go
+> fade out 1
+> warp overlook @terrace up
+> goto ch4_end
+
+# ---------------------------------------------------------------- Take and Return: the overlook
+
+== ch4_end
+> music sad
+> wait 0.6
+Marit: Stop here. Stop the van. I haven't seen it in forty years.
+> walk hero @rail
+> walk courtesy @court_spot
+> face hero down
+> face courtesy down
+> face marit down
+> camera @deeps_view 2
+> wait 1.5
+Marit: There's Gerda. Still standing. And that one is too.
+Marit: That's Hendrik. He was the first. I put my hand on him, and he stood up.
+Marit: The water was at my knees. I wanted the street dry, and him.
+> wait 2
+> anim bailerfall Hendrik
+> sfx bailer
+> shake 3
+> set hendrik_fell
+> wait 2
+Marit: Oh.
+> wait 1.5
+> anim flood
+> set deeps_flooded
+> sfx splash
+> shake 2
+> wait 1
+> ifnot party:quaye -> amb
+Quaye: Nine hundred tons. The canal was three meters deep. It's five now. Maybe six.
+* amb
+> ifnot party:ambrose -> tov
+Ambrose: That's... That's the Deeps. That's the market.
+* tov
+> ifnot party:tova -> ign
+Tova: is everybody down there? is moss down there? the kids from the bridge?
+* ign
+> ifnot party:ignace -> port
+Ignace: She did that. Coming out. Didn't she?
+Marit: Yes.
+* port
+> wait 1
+PORT: Here.
+> wait 2
+PORT: Here is.
+> wait 2.5
+> set port_quiet
+> quest portpower 2
+> set port_reached
+> quest port done
+Courtesy: PLEASE.
+> wait 1.5
+Courtesy: REMAIN.
+> wait 2
+Courtesy: CALM.
+> set courtesy_slowing
+?
+- We're taking you down. To the barge. -> barge
+- We'll put you back. If it saves them. -> back
+- What's the Board paying to get you back? -> worth
+* back
+Marit: Back in the white room with the bricks? No, dear.
+Marit: Nobody's putting me anywhere tonight. I'm forty-nine.
+> goto down
+* worth
+Marit: The city. They'll make the city pay. They always do.
+> goto down
+* barge
+Marit: A barge. I haven't been on a boat since I was nine.
+* down
+> ifnot party:sallis -> d2
+Sallis: The Lock's open. Everyone's rushing for it. We go down with them.
+* d2
+> fade out 2
+> campmap camp
+> set marit_aboard
+> warp camp @start up
+> goto ch4_barge
+
+# ---------------------------------------------------------------- Change: the barge
+
+== ch4_barge
+> music camp
+> anim hull on
+> shake 1
+> wait 1
+> walk hero @camp_bow
+> camera @marit_bed 1.5
+> wait 0.8
+> ifnot opal_free -> q
+Opal: Sweet. Mm. Who's this? Noodles? Twelve gilt. For you, it's free.
+Marit: Is that what a noodle costs now?
+Marit: We used to get a bowl and a ride home for that. The ride was a boat.
+* q
+> shake 1
+Courtesy: WHAT. DOES THAT. COST?
+> wait 1
+Marit: Ha. That's mine. He's got my question.
+> set courtesy_question
+> camera hero 1
+> face hero up
+> wait 1.5
+?
+- Talk to me. -> talk
+- This is what I wanted. Isn't it? -> wanted
+- You still owe me a jar. -> jar
+* talk
+> wait 2.5
+> goto marit
+* wanted
+> wait 2.5
+> goto marit
+* jar
+> wait 2.5
+* marit
+Marit: It's here, dear. They go quiet when it arrives.
+Marit: Give it a night. The barge is rocking. Everything's rocking tonight.
+> shake 1
+> wait 1.5
+> quest steps done
+> set ch4_done
+> goto ch5_open

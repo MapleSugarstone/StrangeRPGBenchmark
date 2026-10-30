@@ -1,0 +1,56 @@
+import type { MapDef } from '../../world/map';
+import { C, LIGHT } from '../../engine/palette';
+
+export const test: MapDef = {
+  id: 'test',
+  name: 'Test Street',
+  district: 'deeps',
+  ambient: 0x4a5aa8,
+  ambientLevel: 0.2,
+  rain: 1,
+  rows: [
+    '##########KKKKKK##########SSSSSS',
+    '##########KKKKKK##########SSSSSS',
+    '##########KKKKKK##########SSSSSS',
+    '####GGGG##KKKKKK###GGGG###SSSSSS',
+    '.V..oo..L.....U...c.o..L...v...V',
+    '....o......oo.....cc.........o..',
+    '..N.....v.....b.........e.......',
+    '...o..Y.......oo..D....oo...Y...',
+    '____________________________o...',
+    '____________________________....',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~ww..',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~ww..',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~ww..',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~ww..',
+    '~~~~~~~~~~~~~~~~~~~~~~~~~~~~ww..',
+    '__________________________..ww..',
+    '..L.....k....V......R...........',
+    '##########################......',
+    '##########################......',
+    '##########################......',
+  ],
+  signs: [
+    { x: 4.2, y: 3.15, text: 'NOODLE', color: C.mag3, light: LIGHT.magenta },
+    { x: 19.3, y: 3.15, text: 'RIPPER', color: C.cyan3, light: LIGHT.cyan },
+    { x: 11, y: 0.4, icon: 'eye', color: C.grn3, light: LIGHT.green },
+    { x: 27, y: 1.4, text: 'BAR', color: C.amb3, light: LIGHT.amber },
+    { x: 21, y: 0.3, text: 'LINE 9', color: C.cyan3, light: LIGHT.cyan, holo: true },
+    { x: 6, y: 17.2, text: 'KEEP FATHOM DRY', color: C.red2, light: LIGHT.red, r: 40 },
+  ],
+  lights: [
+    { x: 14, y: 9, r: 50, i: 0.9, color: LIGHT.violet },
+    { x: 26, y: 8, r: 40, i: 0.9, color: LIGHT.cyan },
+    { x: 3, y: 9, r: 40, i: 0.8, color: LIGHT.magenta },
+  ],
+  bailers: [{ name: 'Big Wim', path: [[2, 12], [24, 12]], speed: 5 }],
+  markers: { start: [10, 6] },
+  npcs: [
+    { id: 'opal', at: [6, 7], look: 'opal', talk: 'test_hello', dir: 'down' },
+    { id: 'c1', at: [16, 5], look: 'crowd:11', bark: ['Rain again.', 'The Bailer passed by an hour ago.'] },
+    { id: 'c2', at: [24, 7], look: 'crowd:22' },
+  ],
+  encounters: [
+    { id: 'guards', start: 'sight', units: [{ kind: 'boardguard', at: [29, 17], dir: 'left' }, { kind: 'boardguard', at: [27, 19], dir: 'left' }, { kind: 'patrol', at: [30, 19], dir: 'left' }] },
+  ],
+};

@@ -1,0 +1,969 @@
+# The Flats: the tidal mud on the sea side of the Wall, the Waders' stilt camp, and Old Lock Road at low water.
+# Optional from chapter 2. Rina Moll opens the run (flats_open), and Gus's taxi and boat menus reach her dock.
+# Waders greet and part with "Low water." Old Ankie talks about the drowned city as if it still runs.
+# Dirkje calls places by what they were before the Flood.
+
+# ---------------------------------------------------------------- Getting there
+
+== rina_flats
+> face rina hero
+> set flats_heard
+Rina: Outside? The Flats! At low tide, the sea recedes two kilometers!
+Rina: It exposes the old city!
+Rina: The Waders live there! No chrome on them! The salt eats chrome!
+Rina: My skis run the sluice under the Lock at the low-tide mark!
+Rina: Same toll as everyone else!
+?
+- $50 Fifty, then. -> open
+- ?lockjaws_ally You said I ride free. -> free
+- [Talk 2] Pay the standard rate. What do Waders pay? -> talk | no
+- Later. -> later
+* free
+Rina: Free is free! Ha!
+> goto open
+* talk
+Rina: A fish? Waders pay in fish? Fine! You owe me a fish!
+> goto open
+* no
+Rina: Fifty! Same as everyone else!
+> end
+* later
+Rina: The tide goes out twice a day! It'll wait!
+> end
+* open
+> set flats_open
+> set met_lockjaws
+Rina: Tell Gus, "Rina's dock!" Tak will take you from there!
+> quest waders 1
+
+== flats_skiff
+> face tak hero
+> if jawrun_stole -> owed
+Tak: In or out! Standard fare! Tonight, Rina's got the tab!
+* menu
+?
+- Head back. Take me wherever Gus can go. -> pell
+- ?!quest:jawrun Does Rina have any work out here? -> job
+- ?quest:jawrun=2&!quest:jawrun=done Rina's crates have been delivered. -> paid
+- Not yet. -> stay
+* owed
+Tak: You took Rina's cargo! Fifty per ride now! That's the price for thieves!
+?
+- $50 Fifty. Head back. -> pell
+- Not yet. -> stay
+* job
+Tak: Work! Three crates to a boat at the far tide line! Before the turn!
+Tak: Board drones are flying the mud lane. Keep them off the crates!
+Tak: Pay's a hundred upon delivery. Standard rate for everyone.
+?
+- I'll carry them. -> take
+- What's inside? -> what
+- A hundred's light work. Make it two hundred. -> haggle
+* what
+Tak: Crates! Rina's crates! What's in yours?
+> goto take
+* haggle
+Tak: A hundred! Same as everyone else! That's Rina's rule!
+* take
+> give jawcrates
+> quest jawrun 1
+> end
+* paid
+> if jawrun_stole -> stay
+Tak: Delivered! The light's still on! A hundred! Same as everyone else!
+> gilt 100
+> quest jawrun done
+> end
+* pell
+> sfx splash
+> travel
+> end
+* stay
+Tak: The tide comes, the tide goes! I'm here until it doesn't!
+
+# ---------------------------------------------------------------- The camp
+
+== flats_enter
+> if flats_seen -> done
+> set flats_seen
+> set met_waders
+> music ferries
+> camera @wall_view 2.5
+> wait 1.5
+> camera @sea_view 2
+> wait 1.5
+> camera hero 1
+> ifnot party:quaye -> a
+Quaye: The outer face. Ninety meters of Board steel. I've never seen it from this side.
+* a
+> ifnot party:sallis -> b
+Sallis: No cameras on the mud. The Board watches this side from the air.
+* b
+> ifnot party:ambrose -> c
+Ambrose: Behold the far side of the Wall. It seems far less interested in us.
+* c
+> ifnot party:courtesy -> d
+Courtesy: THIS AREA. IS NOT. MONITORED.
+* d
+> if chapter>=5 -> p5
+PORT: Your feet are wet. Hers, up there, are dry. Up.
+> goto done
+* p5
+> ifnot port_want -> done
+PORT: Is that all the sea? All of it? I want to look at it longer.
+* done
+
+== ankie_talk
+> face ankie hero
+> if waders_ally -> ally
+> if ankie_met -> menu
+> set ankie_met
+> set met_waders
+Ankie: Low tide. You're from the deep. You've got that "in" look. Dry ankles.
+Ankie: The bakery opens at six. The trams run until twelve bells. Everything you need is out there.
+> quest waders 2
+* menu
+?
+- Who are the Waders? -> who
+- How do I earn your trust? -> marks
+- ?item:tidemark I've got tide marks. -> count
+- ?quest:salt&!salt_done About Ria. -> ria
+- Low tide. -> bye
+* who
+Ankie: Salvagers. We reclaim the old city, bucket by bucket, at low tide.
+Ankie: No chrome. Salt gets in it and you lose your arm. We keep ours.
+> goto menu
+* marks
+Ankie: A favor earns you a tide mark. A knot in the salt rope. Three knots, and you're a Wader.
+Ankie: Waders answer when Waders call. Even if you're from the deep. Even if you're up by the Wall.
+> goto menu
+* count
+> if rep:waders<-3 -> x_grudge
+Ankie: Let me count them.
+> take tidemark 1
+> ifnot item:tidemark -> one
+> take tidemark 1
+> ifnot item:tidemark -> two
+> take tidemark 1
+Ankie: Three knots. Tied. You're a Wader now, dry ankles and all.
+> set waders_ally
+> rep waders 2
+> quest waders done "The Waders will come when you call them, even up the Wall."
+> face dirkje hero
+Dirkje: My gaff reached the bakery's back door for nine years. It'll reach yours.
+> give gaffhook
+Dirkje: When you call, I come. Even up by the Wall, if that's where you are.
+> end
+* two
+Ankie: Two. One more favor.
+> give tidemark 2
+> end
+* one
+Ankie: One. Two more favors.
+> give tidemark 1
+> end
+* ria
+Ankie: A port is a way back in. Doors, money, the trams up there.
+Ankie: Take it out, and she's ours for good.
+Ankie: Sixteen is old enough to want that. Maybe not to know it yet.
+?
+- [Talk 2] She knows. Let Zout take it out. -> out | refuse
+- She keeps it. You're right. -> keep
+- $80 Pay Zout to seal it against the salt instead. -> seal
+* out
+Ankie: Then Zout cuts tonight. Someone hold her hand.
+> set ria_portless
+> rep waders 1
+> face ria hero
+Ria: Out. It's out. My head's quiet. Here. My first knot.
+> give tidemark
+> ifnot party:courtesy -> o2
+Courtesy: THANK YOU. FOR YOUR. COOPERATION.
+* o2
+> goto salt_end
+* refuse
+Ankie: No. Bring it up again when she's seventeen.
+> face ria ankie
+Ria: Then I'm going back in. On Tak's skiff. Tonight.
+> walk ria @dock
+> walk ria 19 26
+> exit ria
+> set ria_left
+> rep waders -1
+> goto salt_end
+* keep
+Ankie: Good. She'll forgive you at twenty. I forgave my mother at thirty.
+> set ria_kept
+> goto salt_end
+* seal
+Doc Zout: Resin in the seams. Salt can't get in. She can still go back if she wants.
+Ria: Sealed. So I can go back. But I won't want to.
+> set ria_sealed
+> rep waders 1
+Ankie: A mark for the resin. That was clever.
+> give tidemark
+* salt_end
+> set salt_done
+> quest salt done
+> end
+* ally
+Ankie: Low tide, Wader. Dirkje is waiting for your call.
+> end
+* bye
+Ankie: Low tide.
+> end
+* x_grudge
+Ankie: Not coming from you. Not this tide. The mud remembers what you did.
+
+== dirkje_talk
+> face dirkje hero
+> if waders_ally -> ally
+Dirkje: Low tide, dry-foot. I'm Dirkje. I run the far mud.
+?
+- Where is the drowned street? -> street
+- What's out on the mud? -> mud
+- What do you charge to guide? -> charge
+- Low tide. -> bye
+* street
+Dirkje: East. Past the Morgenster, past the bakery chimney. That's Lock Road.
+Dirkje: The cinema is on the left. Don't stay in the cinema at the turn.
+> end
+* mud
+Dirkje: Wrecks. Things that woke up and went out, then got stuck. Board drones hunting the wrecks.
+Dirkje: And wreckers from inland, who want everything.
+> end
+* charge
+Dirkje: Nothing. You'll owe me. Everyone out here owes Dirkje.
+> end
+* ally
+Dirkje: Low tide. When you call, I come. I don't need the skiff. I walk the mud.
+* bye
+
+== dirkje_mud
+> face dirkje hero
+Dirkje: The Morgenster is the old Pell ferry. The bakery's two wrecks east.
+Dirkje: Watch the gullies.
+
+== kobus_talk
+> face kobus hero
+Kobus: Rope or fish. Fish or rope. A few other things. The Lockjaws pay me in rope.
+> if rep:waders>=4 -> shop_wader_trade_cheap
+> if rep:waders<-3 -> shop_wader_trade_dear
+> shop wader_trade
+
+== tide_board
+> face hero up
+(A hand-painted tide board. LOW WATER AT TWO BELLS AND FOURTEEN BELLS.)
+(OUT BY THE TURN.)
+(Painted underneath: THE STREET IS OPEN. MIND THE CINEMA.)
+
+== wader_rope
+> face hero up
+(A rope hangs from the deck rail, knotted all the way down.)
+(Each knot has a tag with a name burned into it.)
+> ifnot waders_ally -> done
+(The last knot is new. The tag bears your name.)
+* done
+
+== camp_jukebox
+> face hero up
+(The jukebox is lashed to the deck with salt rope.)
+(As the tide turns, it pulls toward the sea.)
+> ifnot party:courtesy -> done
+Courtesy: PLEASE. REMAIN. ON THE DECK.
+* done
+
+# ---------------------------------------------------------------- Salt
+
+== zout_talk
+> face zout hero
+Doc Zout: Salt works its way into the seams. Six weeks later, the joint seizes. I have to pull it out first.
+?
+- Can you remove my port? -> port
+- {ambrose} Look at Ambrose's arms. -> amb
+- ?item:jawcrates&jawrun_opened Rina's medicine. It's yours. -> meds
+- ?quest:salt&!salt_done About Ria. -> ria
+- Nothing. Low tide. -> bye
+* port
+Doc Zout: Hold still. Hm. This one's got a grip. It's buried past the bone.
+Doc Zout: I'd have to take your spine out with it. No.
+> if chapter>=5 -> bye
+PORT: Not removing it. You said my port. Your port. Not removing it.
+> end
+* amb
+Doc Zout: It's leased from Bodywell. I don't touch leased chrome. Their lawyers are sharks.
+Ambrose: A wise policy, and a cowardly one. I respect both.
+> end
+* meds
+> take jawcrates
+Doc Zout: Board antibiotics. Forty tins. That's two winters of coughs out here.
+Doc Zout: Rina will want these back. She won't get them. Here.
+> give tidemark
+> set jawrun_stole
+> rep lockjaws -3
+> rep waders 1
+> set jawrun_zout
+> quest jawrun done "The Board's medicine went to Doc Zout. Tak charges you fifty a ride now."
+> end
+* ria
+Doc Zout: She wants it out. I'll cut if Ankie says so. Ankie hasn't said.
+> end
+* bye
+
+== ria_talk
+> face ria hero
+> if salt_done -> done
+Ria: You're from inside. Tell Ankie I'm sixteen. Tell her that's old enough.
+> quest salt 1
+?
+- Old enough for what? -> what
+- None of my business. -> hard
+- What's it worth to you? -> pay
+* what
+Ria: My port. I want it cleared out. Zout will do it if Ankie agrees.
+Ria: My parents drowned on Canal Six. Nothing in there opens for me anymore.
+> end
+* hard
+Ria: None of your business. That's the whole point of the Wall.
+> end
+* pay
+Ria: A knot. I'd tie you my first knot. That's all I've got to offer.
+> end
+* done
+> if ria_portless -> out
+> if ria_sealed -> sealed
+Ria: I'll forgive you when I'm twenty. That's what Ankie says.
+> end
+* out
+Ria: Low tide. My head goes quiet. No ads, no doors, nothing.
+> end
+* sealed
+Ria: Resin. It itches. I'm keeping it anyway. Maybe.
+
+# ---------------------------------------------------------------- Going Out
+
+== goingout_juke
+> face hero down
+> if goingout_done -> done
+> if goingout_known -> menu
+> set goingout_known
+(A jukebox stands knee-deep in the mud, breathing. It plays one song, slowly.)
+> quest goingout 1
+Mudlark: It broke loose! It walked right past the Lock and kept going! Then it got stuck!
+Mudlark: Every high tide, it walks a bit further out. It wants the sea.
+Mudlark: Dirkje says its witch drowned in the Flood. But it never stopped anyway.
+> if chapter>=5 -> menu
+PORT: Never stopped. Just like the tram. It has its reasons?
+* menu
+?
+- Dig it up. Carry it to the water. Let it go. -> out
+- [Athletics 2] Haul it to camp. The kids can keep it. -> camp | slip
+- {ambrose} Ambrose. Bring it to the camp. -> camp
+- ?item:hush Shut it down. Kobus will pay for the parts. -> hush
+- Leave it. -> leave
+* out
+> walk hero @juke_side
+> sfx shove
+> anim shift jukebox_out 40 29
+> wait 0.8
+> anim shift jukebox_out 40 31
+> anim splash 40 31
+> wait 1
+> set jukebox_gone
+> set jukebox_out
+> rep waders 1
+> rep woken 1
+Mudlark: Bye! Bye! It's off! It's still playing!
+> approve courtesy 2
+> give tidemark
+> ifnot port_want -> close
+PORT: It went where it wanted. I need to see that again.
+> self 1
+> goto close
+* camp
+> sfx shove
+> fade out 0.5
+> set jukebox_gone
+> set jukebox_camp
+> rep waders 2
+> fade in 0.5
+Mudlark: It's coming home! It's ours!
+> give tidemark
+> ifnot party:courtesy -> close
+Courtesy: THIS UNIT. WILL MONITOR. THE JUKEBOX.
+> goto close
+* slip
+> sfx splash
+Mudlark: It stepped on you. It's never done that before.
+> end
+* hush
+> take hush
+> anim hush jukebox_out
+> wait 1
+Mudlark: It stopped. It stopped playing.
+> gilt 120
+> fade out 0.5
+> set jukebox_gone
+> fade in 0.5
+> set jukebox_hushed
+> rep woken -2
+> approve courtesy -3
+> ifnot party:courtesy -> close
+Courtesy: THAT BEHAVIOR. IS NOT PERMITTED.
+> goto close
+* leave
+> end
+* close
+> set goingout_done
+> quest goingout done
+> end
+* done
+(The mud where the jukebox stood. The water is filling its footprints.)
+
+== mud_car
+> face hero up
+(A car fused shut to its doors, breathing.)
+(Its horn blows once a minute, faintly.)
+
+== mud_vend
+> face hero up
+(A vending machine lies on its back, breathing. It flickers to life as you pass.)
+(Every can is filled with sand.)
+
+== mud_washer
+> face hero up
+(A washing machine has sunk into its drum.)
+(It turns a quarter-turn with each incoming tide.)
+
+== mud_enter
+> if mud_seen -> done
+> set mud_seen
+> camera @mud_view 2
+> wait 1
+> camera hero 1
+> ifnot party:sallis -> done
+Sallis: Low ground. No cover except wrecks. Move between them.
+* done
+
+# ---------------------------------------------------------------- Salvage Rights
+
+== claim_beacon
+> face sv hero
+> if claim_done -> done
+Salvage: Board salvage claim B-4471. The Morgenster is Board property. Step back, please.
+> quest salvage 1
+?
+- <diver> [Hack 1] Rewrite the claim to the Waders. -> hack | caught
+- {quaye} [Hack 2] Quaye. Rewrite the claim. -> hack | caught
+- $150 Buy the salvage license in the Waders' name. -> buy
+- Smash the beacon. -> fight
+- Let the Board have it. -> give
+* hack
+> sfx hack
+Salvage: Claim B-4471 is registered to WADERS. That isn't a company.
+Salvage: The paperwork says it is now. Drones, back to base, please.
+> goto leave
+* caught
+Salvage: That's a Board terminal. Step back. Drones.
+> goto fight
+* buy
+Salvage: One hundred fifty. License issued to WADERS. Thank you for your payment.
+> ifnot party:sallis -> b2
+Sallis: You paid via your port. The Board knows where we stand. Let's move.
+* b2
+> goto leave
+* give
+Salvage: Thanks for your cooperation. Cutting begins at the next low tide.
+> set claim_board
+> rep waders -2
+> rep board 1
+> set claim_done
+> quest salvage done "The Board took the Morgenster."
+> end
+* fight
+> exit sv
+> set claim_on
+> fight fm_claim
+> set claim_won
+> goto claim_after
+* leave
+> walk sv 34 26
+> fade out 0.6
+> exit sv
+> fade in 0.6
+> goto claim_after
+* done
+(The claim beacon is gone. Someone has marked "WADERS" on the Morgenster's hull.)
+
+== claim_retry
+> face hero up
+> fight fm_claim
+> set claim_won
+> goto claim_after
+
+== claim_after
+> fade out 0.4
+> set claim_waders
+> rep waders 2
+> rep board -1
+> set claim_done
+> fade in 0.4
+> give tidemark
+> quest salvage done "The Morgenster is the Waders' again."
+> ifnot party:courtesy -> done
+Courtesy: SALVAGE CLAIM CANCELLED. HAVE A SAFE NIGHT.
+* done
+
+# ---------------------------------------------------------------- Before the Tide
+
+== stuck_call
+> set stuck_called
+> camera @noud 1.5
+Noud: Hey! Dry-foot! Over here! I'm stuck up to my waist!
+> camera @hook 1
+Hook: Keep walking. This wreck is ours until the turn. The kid's his own problem.
+> camera hero 1
+> quest stuck 1
+
+== stuck_talk
+> if noud_saved -> done
+> face hook hero
+Hook: Wreckers. Locals. We'll take the copper and leave before the turn. Just business.
+Noud: They took the Waders' cut! I tried to stop them! Now I'm stuck!
+Noud: The tide comes in fast here. Really fast.
+> quest stuck 1
+?
+- [Athletics 2] Pull Noud out first. -> pull | sink
+- {ambrose} Ambrose. Lift him out. -> pull
+- {courtesy} Courtesy. Lift him out. -> pull
+- Put the copper back, Hook. Then we talk. -> fight
+- $60 Pay the wreckers to dig him out. -> pay
+* sink
+> sfx splash
+Noud: Ow! Deeper! It's going deeper!
+Hook: Ha. The tide's coming. Better move, dry-foot.
+> goto fight
+* pay
+Hook: Sixty. Business. Lads, dig him out.
+> goto pulled
+* pull
+> walk hero @noud_front
+> sfx shove
+* pulled
+> fade out 0.5
+> set noud_saved
+> rep waders 2
+> enter noud noud @noud_front up
+> fade in 0.5
+Noud: Out! I'm out! But my boot's still in there.
+> if stuck_won -> close
+Hook: Fine. Now get moving. We keep the copper.
+?
+- Keep it. Go before the turn. -> keep
+- The copper goes back to the Waders. -> fight
+* keep
+> set stuck_copper_lost
+> fade out 0.6
+> exit hook
+> exit wk2
+> exit wk3
+> fade in 0.6
+> set stuck_done
+> goto close
+* fight
+> exit hook
+> exit wk2
+> exit wk3
+> set stuck_on
+> fight fm_wreckers
+> set stuck_won
+> goto stuck_after
+* close
+> give tidemark
+Noud: Here. A knot. Ankie says you give one when someone pulls you out.
+> set stuck_done
+> quest stuck done
+> end
+* done
+Noud: My boot's still out there. It's a good boot.
+
+== stuck_retry
+> face hero up
+> fight fm_wreckers
+> set stuck_won
+> goto stuck_after
+
+== stuck_after
+> set stuck_done
+> set stuck_copper
+> rep waders 1
+> if noud_saved -> back
+> walk hero @noud_front
+> sfx splash
+Noud: It's at my chin! Pull! Pull!
+> fade out 0.5
+> set noud_saved
+> rep waders 2
+> set noud_hurt
+> enter noud noud @noud_front up
+> fade in 0.5
+Noud: Out. My leg. It twisted. I'm free.
+* back
+> give tidemark
+Noud: The copper's ours again. Here. A knot. That's two favors, really.
+> quest stuck done
+
+== noud_camp
+> face noud hero
+> if noud_hurt -> hurt
+Noud: Low water, dry-foot. I found my boot. The tide brought it in.
+> end
+* hurt
+Noud: Doc Zout wrapped it up. I can't run the far mud for a month. I'll stick to the near mud.
+
+# ---------------------------------------------------------------- The Lockjaw Run
+
+== jawrun_buyer
+> face buyer hero
+> ifnot item:jawcrates -> plain
+Lightman: Rina's crates. Three of them. Load them onto the boat.
+?
+- Here. All three. -> deliver
+- Let's open one first. -> open
+- [Talk 3] These are worth double out here. Pay double. -> double | same
+* open
+> set jawrun_opened
+(Board Medical tins. Antibiotics. Every single one stamped "NOT FOR THE DEEPS.)
+> ifnot party:sallis -> o2
+Sallis: Board medicine. They sell it to the boats at triple the price.
+* o2
+?
+- Deliver them anyway. -> deliver
+- These go to Doc Zout. The Waders need them. -> keep
+- [Talk 3] Then pay double. -> double | same
+* keep
+Lightman: Then there's no boat for Rina next month. Tell her that.
+> set jawrun_kept
+> quest jawrun 1 "You kept Rina's crates. Doc Zout at the camp could use them."
+> end
+* double
+Lightman: Double. Fine. The lights pay what the lights pay.
+> gilt 100
+> goto deliver
+* same
+Lightman: Rina's price. Standard rate. Rina said you'd say that.
+* deliver
+> take jawcrates
+Lightman: Tell Rina the light is still lit.
+> set jawrun_done
+> rep lockjaws 2
+> quest jawrun 2
+> end
+* plain
+Lightman: The lights don't talk to the mud. They only talk to Rina.
+
+# ---------------------------------------------------------------- Under the Cinema
+
+== lieve_talk
+> face lieve hero
+> if jelle_home -> home
+> if cinema_done -> lost
+Lieve: Jelle went out at the last low tide. Lock Road, the cinema.
+Lieve: He should've been back by the turn of the tide.
+Lieve: He's come back soaked twice before. This time has lasted longer than that.
+> quest cinema 1
+?
+- I'll find him. -> find
+- Divers drown. That's what happens when you dive. -> hard
+- What is he diving for? -> what
+* find
+Lieve: The cinema. Go before the next tide. Sem, stop staring at the mud.
+> end
+* hard
+Lieve: Yes. That's diving. Go and see if that's what he was doing.
+> end
+* what
+Lieve: Something the Board left behind in there.
+Lieve: He found its edge last month. He wouldn't say what it was.
+> end
+* home
+Lieve: He's home. Soaked to the neck. Here. It belonged to his father. Stiff with salt.
+> if lieve_gave -> after
+> set lieve_gave
+> give saltcoat
+> end
+* after
+Lieve: Low tide. He's mending nets today. Poorly.
+> end
+* lost
+Lieve: Low tide.
+
+== jelle_home
+> face jelle hero
+> if relief_kept -> kept
+Jelle: The water's low. I've been holed up under a cinema for two days.
+Jelle: I'm done with the movies. Never going back.
+> end
+* kept
+Jelle: You kept the box. I would have, too. Don't tell Lieve I said that.
+
+== jelle_talk
+> face jelle hero
+> if cinema_done -> done
+> quest cinema 1
+Jelle: Shh. Board salvage. Three of them. They found the relief box.
+Jelle: Flood relief supplies, from the night of the Flood.
+Jelle: Sealed. Nobody ever got their hands on one.
+Jelle: Forty years nobody's seen it. I want it back. For the camp.
+?
+- [Sneak 2] We get you out. Leave the box. -> sneak | caught
+- We take the box from them. -> fight
+- $100 I'll pay the officer to look the other way. -> bribe
+* sneak
+> walk jelle @cinema_hall
+> walk jelle @cinema_door
+> walk jelle 26 13
+> fade out 0.6
+> exit jelle
+> set jelle_home
+> rep waders 1
+> set cinema_done
+> fade in 0.6
+> quest cinema done "Jelle got out of the cinema. The relief box stayed with the Board."
+> end
+* bribe
+Salvage: One hundred. I didn't see a diver. I saw a seal. Seals aren't Board property.
+> goto sneak
+* caught
+Salvage: Diver! Stop right there. And you, too.
+* fight
+> exit cs1
+> exit cs2
+> exit cs3
+> exit cs4
+> set cinema_on
+> fight dr_cinema
+> set cinema_won
+> goto cinema_after
+* done
+
+== cinema_retry
+> face hero up
+> fight dr_cinema
+> set cinema_won
+> goto cinema_after
+
+== cinema_after
+> face jelle hero
+Jelle: The box. Forty years, untouched. "FLOOD RELIEF. PELL. DO NOT OPEN BEFORE DAWN.
+Jelle: Dawn never came for Lock Road. Look at it. Gilt. Bandages. A list of names.
+?
+- Take it all to the camp. -> waders
+- Split it with Jelle. -> split
+- It's mine. I fought for it. -> keep
+* waders
+Jelle: All of it? Ankie will cry. Ankie doesn't cry.
+> set relief_waders
+> rep waders 2
+> give tidemark
+> approve courtesy 1
+> goto out
+* split
+Jelle: Half. Fair. Half is fair.
+> gilt 150
+> set relief_split
+> goto out
+* keep
+Jelle: Yours. Alright. Yours. You fought for it. I dove for it. Alright.
+> gilt 300
+> set relief_kept
+> rep waders -1
+> approve courtesy -1
+* out
+> walk jelle @cinema_door
+> walk jelle 26 13
+> fade out 0.6
+> exit jelle
+> set relief_taken
+> set jelle_home
+> rep waders 1
+> set cinema_done
+> fade in 0.6
+> quest cinema done "Jelle is out of the cinema, with the relief box."
+
+== relief_box
+> face hero up
+(A Board strongbox, red seal: "FLOOD RELIEF. PELL. DO NOT OPEN BEFORE DAWN.)
+
+== cinema_marquee
+> face hero up
+(STAR CINEMA. TONIGHT: THE DRY YEARS. SUNDAY MATINEE, CHILDREN HALF PRICE.)
+
+== cinema_projector
+> face hero up
+(The projector still has a reel in it.)
+(The label reads: "NEWSREEL. THE NEW ELECTRIC PUMPS OF PELL.)
+> ifnot party:quaye -> done
+Quaye: Electric pumps. Eleven of them. They drowned in nine minutes. I read the report.
+* done
+
+# ---------------------------------------------------------------- Old Lock Road
+
+== drowned_enter
+> if drowned_seen -> done
+> set drowned_seen
+> music sad
+> camera @street_view 2
+> wait 1.5
+> camera hero 1
+> quest halsema 1
+> ifnot party:quaye -> a
+Quaye: Lock Road. Trams ran over it twice a day for forty years. The curbs are still square.
+* a
+> ifnot party:ambrose -> b
+Ambrose: A street in a dead city, yet the cinema still sells Sunday tickets.
+* b
+> ifnot party:courtesy -> done
+Courtesy: STAND CLEAR. OF THE TRAMS.
+* done
+
+== halsema_door
+> face hero up
+(Number 14. The door is swollen shut.)
+(The front window beside it is gone, frame and all.)
+
+== halsema_chart
+> face hero up
+(Pencil marks climb the doorframe, buried under forty years of silt.)
+(TEUN 9. MARIT 4. TEUN 11. MARIT 6. TEUN 13. MARIT 8.)
+> set hal_chart
+> if chapter>=5 -> c5
+> ifnot party:ambrose -> check
+Ambrose: The Saint was just a child who drew pencil lines on a door.
+Ambrose: Nobody marks a candle like that.
+> goto check
+* c5
+> ifnot roster:tova -> c5b
+Tova: eight. she stopped at eight. she was nine at the flood.
+> goto check
+* c5b
+> ifnot party:quaye -> check
+Quaye: Eight. Then nine, in the vault. Nobody measured her after that.
+* check
+> goto halsema_check
+
+== halsema_teun
+> face hero up
+(A narrow bed. A white sash hangs on the bedpost.)
+(JUNIOR CROSSING PATROL. PELL SCHOOL.)
+> set hal_teun
+> ifnot party:courtesy -> check
+Courtesy: CROSSING. PATROL.
+> wait 1
+Courtesy: THIS UNIT. HAS HEARD THAT.
+> set courtesy_sash
+* check
+> goto halsema_check
+
+== halsema_table
+> face hero up
+> if hal_table -> again
+(Two plates on the table, and a newspaper that has turned to felt.)
+(BOARD SAYS THE WALL WILL HOLD.)
+(Beneath the plates lies a child's tram pass. LINE 14. SUNDAYS. M. HALSEMA.)
+> give trampass
+> set hal_table
+> goto halsema_check
+* again
+(Two plates, and the newspaper. THE WALL WILL HOLD.)
+
+== halsema_check
+> ifnot hal_chart&hal_teun&hal_table -> done
+> quest halsema 2
+* done
+
+== pump_fence
+> face hero up
+(A rusted fence surrounding an empty pump pit.)
+(One spike is bent, as if someone grabbed it.)
+(A ribbon is knotted to the bent spike. It might have been red once.)
+> ifnot party:quaye -> done
+> if hendrik_fell -> fell
+Quaye: Pump Station 1. Hendrik's pit. He climbed out of that and walked to the canal.
+> end
+* fell
+Quaye: Hendrik's pit. He climbed out of that forty years ago.
+Quaye: He's lying at the Wall now.
+* done
+
+== pump_plaque
+> face hero up
+(PELL PUMP STATION 1. FATHOM WATER BOARD. KEEP FATHOM DRY.)
+(Scratched beneath it in a child's capitals: HENDRIK.)
+
+== tram_stop
+> face hero up
+(LINE 14. PELL MARKET, LOCK ROAD, THE GRAND LOCK. EVERY TWENTY MINUTES.)
+> if chapter>=5 -> done
+> ifnot tilly_rode -> done
+PORT: Fourteen. The tram. Your ride. Free.
+* done
+
+== board_notice
+> face hero up
+(BOARD NOTICE. The new Wall will run inside Lock Road.)
+(Outer streets will be relocated.)
+(It is dated the week after the Flood. KEEP FATHOM DRY.)
+> ifnot party:quaye -> s
+Quaye: Relocation order, form R-9. I typed ninety of those a day that year.
+* s
+> ifnot party:sallis -> done
+Sallis: They let her street go first. The street she bled for.
+* done
+
+# ---------------------------------------------------------------- The Sluice table
+
+== sluice_flats
+> face riek hero
+? Riek deals Sluice on a crate lid. Fish for stakes.
+- Sit down. -> play
+- Not now. -> no
+* no
+> end
+* play
+Riek: Tide and puddles. After four cards, the bottom row floods. Puddles give plus one.
+Riek: I bet a fish. You bet a fish. Nobody here has a fish.
+> cards riek -> w | l
+* w
+Riek: Take a card. Take Ankie. She'd want to go with the winner.
+> end
+* l
+Riek: The mud wins. Then me. Come back at low water.
+
+# ---------------------------------------------------------------- Chapter 5: the pass, for Marit
+
+== marit5_pass
+> take trampass
+> face marit hero
+Marit: Line Fourteen. Sundays.
+Marit: I sang the whole ride, and they still made me buy a pass. Look.
+Marit: M. Halsema. That's Teun's handwriting.
+Marit: He wrote my name on everything so I wouldn't lose it.
+> wait 1.5
+Marit: Was the house still there, dear? No. Don't tell me. What about the doorframe?
+?
+- ?hal_chart The pencil marks are still there. Marit four, six, eight. -> marks
+- It's all buried under the mud, twice a day. -> mud
+- That frame is worth more than the whole Wall. -> worth
+* marks
+Marit: Eight. I stopped at eight. They had me by nine.
+> goto end_
+* mud
+Marit: Twice a day. Then it's just a street again, for an hour. That's something.
+> goto end_
+* worth
+Marit: Ha. The Wall says otherwise. The Wall always says otherwise.
+* end_
+> wait 1
+Marit: Keep it for me. No, I'll keep it. I've got a pocket now.
+> quest halsema done "Marit has her tram pass back."

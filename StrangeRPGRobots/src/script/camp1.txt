@@ -1,0 +1,226 @@
+# Camp on the Clement, chapter 1. The rest command plays the first ready scene from src/content/act1.ts.
+# camp_ch1 closes the chapter. The others play on later rests, one per rest.
+
+== camp_enter
+> anim hull on
+
+== camp_bedroll
+> if chapter>=5 -> camp5_bedroll
+> goto camp2_bedroll
+
+== camp_leave
+> if chapter>=5 -> camp5_leave
+?
+- Go ashore. -> go
+- Stay aboard. -> stay
+* go
+> anim leavecamp
+* stay
+
+# ---------------------------------------------------------------- Change: the first night
+
+== camp_ch1
+> music camp
+> anim hull on
+> wait 1
+> walk courtesy @camp_courtesy
+> face courtesy up
+> walk sallis @camp_sallis
+> face sallis right
+> walk hero @camp_hero
+> face hero sallis
+Sallis: Rations. Eat. You fought on an empty stomach.
+?
+- Thanks. -> eat
+- Board food. Great. -> board
+- What do I owe you? -> owe
+* eat
+Sallis: Copy.
+> goto hanne
+* board
+Sallis: Board food fills you up just the same.
+> goto hanne
+* owe
+Sallis: Nothing. Eat.
+* hanne
+> wait 1.2
+Sallis: Somebody sold us out. I'll find them.
+?
+- Hanne moved before the light came on. -> clue
+- Opal wouldn't sell us. -> opal
+- If it pays, I'm in. -> pays
+* clue
+> set hanne_clue
+Sallis: Before.
+> wait 1.2
+Sallis: Copy. I'll keep that in mind.
+> approve sallis 2
+> goto port
+* opal
+Sallis: No. Opal wouldn't. Opal's ash for it.
+> goto port
+* pays
+Sallis: It pays nothing. I find them anyway.
+* port
+> face sallis down
+> wait 1
+> walk hero @camp_bow
+> face hero up
+> camera @camp_wall 2
+> wait 1.5
+PORT: up.
+PORT: her. up.
+?
+- Stay, then. For now. -> stay
+- You stay until someone can cut you out. -> hard
+- You cost me four thousand and a jar. You stay until you pay it back. -> owed
+* stay
+> self 1
+> goto close
+* hard
+> wait 0.8
+> goto close
+* owed
+> wait 0.8
+* close
+PORT: stay.
+> wait 1
+PORT: stay.
+> wait 1.5
+> face courtesy hero
+Courtesy: HAVE A SAFE NIGHT.
+> set ch1_done
+> quest port 4
+> quest canal9 done
+> camera @camp_wall 2
+> wait 2
+> camera free
+> goto ch2_open
+
+# ---------------------------------------------------------------- Later rests
+
+== camp_courtesy_1
+> music camp
+> walk courtesy @camp_rail
+> face courtesy up
+> walk hero @camp_rail_side
+> face hero courtesy
+Courtesy: THIS UNIT IS ON DUTY.
+Courtesy: NO UNIT HAS RELIEVED THIS UNIT.
+?
+- I'll relieve you. Go to sleep. -> relieve
+- What do you want, Courtesy? -> want
+- The Board wants you back. You're worth five hundred. -> worth
+* relieve
+Courtesy: THANK YOU. THIS UNIT DOES NOT SLEEP. THIS UNIT REMAINS ON DUTY.
+> approve courtesy 1
+> goto beacon
+* want
+> wait 1.2
+> if courtesy_crossing -> cross
+Courtesy: THIS UNIT IS ON DUTY.
+> goto beacon
+* cross
+Courtesy: CHILDREN CROSSING. PLEASE STAND CLEAR.
+> emote courtesy ...
+> set courtesy_want_seed
+> goto beacon
+* worth
+Courtesy: REPORT LOST PROPERTY. DO NOT REPORT THIS UNIT.
+* beacon
+> wait 1
+Courtesy: THIS UNIT IS TRACKED FOR YOUR SAFETY.
+?
+- Tracked? By whom? -> who
+- Then they know where we sleep. -> know
+* who
+Courtesy: THE BOARD RECOVERY TEAM THANKS YOU FOR YOUR PATIENCE.
+* know
+> set beacon_known
+> if party:sallis -> s
+> goto end_
+* s
+Sallis: Beacon. In its chest. We cut it out. Not tonight.
+* end_
+Courtesy: HAVE A SAFE NIGHT.
+
+== camp_sallis_1
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+> sfx drone
+Sallis: Mule. Up. Mind the mud.
+Sallis: Mule carried my lunch for six years. Now, it carries a gun.
+?
+- Why do you keep doing this? -> why
+- Your hand. That burn. -> hand
+- What does the Vein pay you? -> pay
+* why
+Sallis: I smuggle people out of Fathom. The dangerous ones.
+Sallis: That case covered twelve escapes. Now it covers none.
+> approve sallis 1
+> goto end_
+* hand
+Sallis: Engine fire. A long time ago. It doesn't hurt anymore.
+> goto end_
+* pay
+Sallis: Nothing. The Vein pays nothing. That's the point.
+* end_
+> wait 1
+Sallis: They bugged your house. You're marked now. Just like me.
+> face sallis up
+> wait 1.5
+
+== camp_port_rain
+> music camp
+> walk hero @camp_bow
+> face hero up
+> wait 1.5
+PORT: marked.
+?
+- It's just rain. -> rain
+- Stand in it with me. -> stand
+- It's water. Free water. -> free
+* rain
+PORT: rain.
+> self 1
+> goto end_
+* stand
+> wait 2.5
+PORT: rain. marked. rain.
+> self 2
+> goto end_
+* free
+PORT: free.
+> self 1
+* end_
+> wait 1
+
+== camp_clement
+> music camp
+> anim hull on
+> walk hero @camp_stern
+> face hero down
+> walk sallis @camp_sallis
+> face sallis hero
+Sallis: She shifted during the night. Bow to the Wall.
+Sallis: She turns every night. A meter. Two.
+PORT: up.
+?
+- She wants to go up. Like the thing in my neck. -> up
+- She's beached. She isn't going anywhere. -> beached
+- What's a woken barge worth? -> worth
+* up
+Sallis: Copy. Same blood. Same pull.
+> goto end_
+* beached
+Sallis: She knows. She turns anyway.
+> goto end_
+* worth
+Sallis: More than us. Don't sell her.
+> approve sallis -1
+* end_
+> face hero up
+> wait 1.5

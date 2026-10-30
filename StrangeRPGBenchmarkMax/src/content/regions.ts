@@ -25,7 +25,7 @@ const gold = 0xffd890;
 export const REGIONS: Record<string, Region> = {
   stile: { id: 'stile', name: 'Stile', sun: { dx: 1, dy: 0.18, z: 0.35, intensity: 0.75, color: gold }, lowness: 3, battleLowness: 3, dir8: [1, 0], ambient: [0.42, 0.34, 0.36], shade: SHADES.plum, step: 'stone' },
   road: { id: 'road', name: 'The Long', sun: { dx: 1, dy: 0.18, z: 0.35, intensity: 0.78, color: gold }, lowness: 3, battleLowness: 3, dir8: [1, 0], ambient: [0.44, 0.36, 0.36], shade: SHADES.plum, step: 'grass' },
-  market: { id: 'market', name: 'The Lead Market', sun: { dx: 1, dy: 0.2, z: 0.4, intensity: 0.7, color: gold }, lowness: 3, battleLowness: 3, dir8: [1, 0], ambient: [0.44, 0.36, 0.34], shade: SHADES.plum, step: 'stone' },
+  market: { id: 'market', name: 'The Shadow Market', sun: { dx: 1, dy: 0.2, z: 0.4, intensity: 0.7, color: gold }, lowness: 3, battleLowness: 3, dir8: [1, 0], ambient: [0.44, 0.36, 0.34], shade: SHADES.plum, step: 'stone' },
   bright: { id: 'bright', name: 'The Bright', sun: { dx: 0, dy: -1, z: 2.2, intensity: 0.85, color: 0xfff6e0 }, lowness: 1, battleLowness: 1, dir8: [0, -1], ambient: [0.55, 0.55, 0.52], shade: SHADES.teal, step: 'sand' },
   glass: { id: 'glass', name: 'The Glass', sun: { dx: -0.4, dy: -1, z: 3.5, intensity: 0.85, color: 0xf0fff4 }, lowness: 0.5, battleLowness: 1, dir8: [0, -1], ambient: [0.55, 0.6, 0.58], shade: SHADES.green, step: 'glass' },
   overhead: { id: 'overhead', name: 'Overhead', sun: { dx: 0, dy: 0, z: 9, intensity: 0.95, color: 0xfff0f4 }, lowness: 0, battleLowness: 0, dir8: [0, 0], ambient: [0.6, 0.56, 0.58], shade: SHADES.ink, step: 'stone' },

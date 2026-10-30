@@ -1,0 +1,602 @@
+# Hub side quests on the Stair and the Brim. Most react to earlier choices. Data and journal text: src/content/hubs.ts.
+# Quests: hq_vend, hq_pa, hq_lid, hq_lamps, hq_ring (Steps and terraces), hq_audit, hq_tears (plaza),
+# hq_visit (Mercy Spire), hq_bram, hq_drone (Board Plaza).
+
+# ---------------------------------------------------------------- The dancing machine (Steps)
+
+== hq_vend
+> face vendinsp hero
+> if vend_done -> fin
+Inspector: Board wake inspection. This vending machine is active.
+Inspector: Unregistered waking property. Lost Property will collect it tonight.
+> if quest:hq_vend -> opts
+> quest hq_vend 1
+* opts
+?
+- $80 Register it. Pay the fee. -> reg
+- ?!vend_lied [Talk 2] It dances on a timer. It's just a display. -> talk | lied
+- {tova} ?!approval:tova<-10 Tova. It's your wake. -> tova
+- {tova} ?approval:tova<-10 Tova. It's your wake. (Note: Kept duplicate as in original) -> tova_no
+- Take it, then. -> take
+- Later. -> fin
+* tova_no
+Tova: your problem. you fix it.
+> goto opts
+* lied
+> set vend_lied
+Inspector: Timers don't breathe, citizen.
+> goto opts
+* reg
+Inspector: Eighty. Registered. It may dance within regulations.
+> set vend_registered
+> rep board 1
+> approve tova 1
+> goto done
+* talk
+Inspector: A timer. It keeps good time. Fine.
+> set vend_talked
+> approve tova 1
+> goto done
+* tova
+> mood tova calm
+Tova: okay. calm down. hold still for the nice man.
+> sfx wake
+> anim still dancevend
+> wait 1
+Inspector: It's a vending machine. Carry on.
+> set vend_calmed
+Tova: that was a good day, though. whatever.
+> goto done
+* take
+Inspector: Thank you for your cooperation.
+> anim shift dancevend 27 1
+> set vend_taken
+> rep board 1
+> ifnot party:tova -> done
+Tova: that was my good day. he took it away.
+> approve tova -2
+* done
+> walk vendinsp 27 2
+> walk vendinsp 27 0
+> exit vendinsp
+> set vend_done
+> quest hq_vend done
+* fin
+
+# ---------------------------------------------------------------- Mind the Step (Steps)
+
+== hq_pa
+> face palady hero
+> if pa_done -> fin
+Neighbor: That box flashes "mind the step" every eleven seconds, all night long.
+Neighbor: For nine years. I've been watching every single step.
+> if quest:hq_pa -> opts
+> quest hq_pa 1
+* opts
+?
+- <diver> [Hack 2] Turn the box off. -> off | fail
+- {quaye} ?!approval:quaye<-10 [Hack 1] Quaye. Turn it off. -> off | fail
+- {quaye} ?approval:quaye<-10 Quaye. Turn it off. -> q_no
+- <diver> [Hack 3] Record something kinder. -> kind | fail
+- {quaye} [Hack 2] Quaye. Record something kinder. -> kind | fail
+- People trip. Leave it be. -> keep
+- Later. -> fin
+* q_no
+Quaye: No. Four bad calls, kid. Do your own wiring.
+> goto opts
+* off
+> sfx hack
+Neighbor: Oh. Oh, it's quiet now.
+> gilt 60
+> set pa_off
+> rep board -1
+> ifnot party:courtesy -> done
+Courtesy: MIND THE STEP. MIND THE STEP.
+> approve courtesy -1
+> goto done
+* kind
+> sfx hack
+> sfx pa
+Board: Good night, Steps.
+Neighbor: Good night to you too.
+> gilt 40
+> set pa_new
+> rep board -1
+> ifnot party:courtesy -> done
+Courtesy: GOOD NIGHT, STEPS. THIS IS A NEW ANNOUNCEMENT.
+> approve courtesy 2
+> goto done
+* keep
+Neighbor: People do trip, I suppose.
+> set pa_kept
+> ifnot party:courtesy -> done
+Courtesy: MIND THE STEP. THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 1
+> goto done
+* fail
+> sfx error
+> sfx pa
+Board: Mind the step.
+> goto fin
+* done
+> set pa_done
+> quest hq_pa done
+* fin
+
+== hq_pa_box
+> goto hq_pa
+
+# ---------------------------------------------------------------- Lid (terraces)
+
+== hq_lid
+> face rival hero
+> if lid_done -> fin
+> if bins_done -> won
+> if bins_stopped -> stopped
+Daan: No race without Rocket. Lid's bored.
+> end
+* won
+Daan: Rocket beat Lid. Rocket cheated. Rematch.
+> goto drop
+* stopped
+Daan: They stopped the race. I'm racing anyway.
+* drop
+Daan: Lid's had a drop of Line 4. Angry. Watch this.
+> quest hq_lid 1
+> sfx wake
+> anim breathe lid
+> anim breathe lid2
+?
+- ?item:hush Hush it before it goes. -> hush
+- [Athletics 3] Grab it by the lid. -> grab | runs
+- {tova} ?!approval:tova<-10 Tova. Calm it down. -> tova
+- {tova} ?approval:tova<-10 Tova. Calm it down. -> tova_no
+- {courtesy} Courtesy. -> cour
+- Let it go. -> runs
+* hush
+> take hush
+> anim hush lid
+> anim hush lid2
+Daan: Aw. It's asleep. That cost me forty.
+> set lid_hushed
+> goto done
+* grab
+> sfx shove
+Daan: Hey! That's mine! Fine. Fine.
+> set lid_grabbed
+> goto done
+* tova
+> mood tova calm
+Tova: hey, lid. nobody's racing. sit. good bin.
+> sfx wake
+> set lid_calmed
+> approve tova 1
+> goto done
+* tova_no
+Tova: nope. not for you.
+> goto runs
+* cour
+Courtesy: STOP. CHILDREN CROSSING. STOP.
+> wait 0.8
+Daan: It stopped. It actually listened.
+> set lid_stopped
+> approve courtesy 1
+> goto done
+* runs
+> sfx shove
+> shake 1
+Daan: It went over the railing on Two. Straight into someone's tomatoes.
+> set lid_smashed
+* done
+> set lid_done
+> quest hq_lid done
+* fin
+
+# ---------------------------------------------------------------- Board lamps (terraces, Terrace 4)
+
+== hq_lamps
+> face gardener hero
+> if item:letter_gardener -> nq_letter_gardener
+> if lamps_done -> after
+Gardener: Board notice. They're cutting the grow lamps on Terrace 4 tonight.
+Gardener: Twelve years of tomatoes under Board light. Free light.
+> if quest:hq_lamps -> opts
+> quest hq_lamps 1
+* opts
+?
+- {tova} Tova. Wake them with calm blood, so they stay lit. -> tova
+- <diver> [Hack 2] Put the lamps on the Board's own meter. -> hack | dark
+- {quaye} ?!approval:quaye<-10 [Hack 1] Quaye. The Board's own meter. -> hack | dark
+- {quaye} ?approval:quaye<-10 Quaye. The Board's own meter. -> q_no
+- $200 Pay the garden fee for the entire terrace. -> pay
+- Let the lamps go out. Grow mushrooms instead. -> dark
+- Later. -> fin
+* tova
+> mood tova calm
+Tova: stay calm. stay on. stay on for the tomatoes.
+> sfx wake
+> anim breathe 5 9
+> anim breathe 15 9
+> anim breathe 26 9
+> anim breathe 36 9
+> set lamps_woken
+> approve tova 1
+> goto good
+* q_no
+Quaye: Your meter. Your problem.
+> goto opts
+* hack
+> sfx hack
+Gardener: The Board pays for its own light now. Ha.
+> set lamps_hacked
+> rep board -1
+> goto good
+* pay
+Gardener: Two hundred. For the whole crew. Thanks.
+> set lamps_paid
+> rep board 1
+* good
+> give tomato 3
+> goto done
+* dark
+Gardener: Mushrooms. Right.
+> set lamps_dark
+* done
+> set lamps_done
+> quest hq_lamps done
+> end
+* after
+> if lamps_dark -> mush
+Gardener: Tomatoes. Help yourself. Pay what you can.
+> shop greens
+> end
+* mush
+Gardener: Mushrooms are sprouting. Slowly.
+* fin
+
+# ---------------------------------------------------------------- The second ring (terraces, Terrace 2)
+
+== hq_ring
+> face baas2 hero
+> if ring_done -> fin
+Baas: Brother Ignace's friends! We've moved up! Terrace Two! Dry!
+Wendel: The ring worked. Our daughter wants one, too. She's still stuck on Canal Six.
+> ifnot party:ignace -> noig
+> if quest:hq_ring -> opts
+> quest hq_ring 1
+* opts
+?
+- {ignace} Ignace. Sell them another. -> sell
+- {ignace} ?!approval:ignace<-10 Ignace. Tell them the truth. -> truth
+- {ignace} ?approval:ignace<-10 Ignace. Tell them the truth. -> ig_no
+- The ring never did anything. -> hero
+* ig_no
+Ignace: The truth, friend? For you? No.
+> face ignace baas2
+* sell
+Ignace: Blessed be the daughters of the faithful! Fifty, and she'll never know a wet day.
+> gilt 50
+> set ring_sold
+> approve ignace 1
+> ifnot party:courtesy -> done
+Courtesy: THAT BEHAVIOR IS NOT PERMITTED.
+> approve courtesy -1
+> goto done
+* truth
+Ignace: It's brass. I bought it by the bag. You moved up because Wendel got promoted.
+Wendel: ...I did get promoted.
+Baas: Keep the fifty. Buy her a pump, then.
+> set ring_truth
+> approve ignace 2 courtesy 1
+> goto done
+* hero
+Baas: You think you know better than the Brother?
+Wendel: Please step off my terrace.
+> set ring_hero
+> approve ignace -1
+* done
+> set ring_done
+> quest hq_ring done
+> end
+* noig
+Baas: Bring the Brother. We'll wait. We have a view now.
+* fin
+
+# ---------------------------------------------------------------- Paid in full (plaza)
+
+== hq_audit
+> face auditor hero
+> if audit_done -> fin
+Auditor: Bodywell audit. Leases marked paid that no one actually paid.
+> set met_bodywell
+> ifnot doorn_hacked -> k
+Auditor: Doorn, R. Right arm. Two hundred forty gilt.
+* k
+> ifnot knee_hacked -> start
+Auditor: Kwarteng, A. Left knee. Three hundred fifty gilt.
+* start
+> if quest:hq_audit -> opts
+> quest hq_audit 1
+* opts
+?
+- ?doorn_hacked&!audit_doorn_paid $240 Pay Doorn's lease, properly. -> pd
+- ?knee_hacked&!audit_knee_paid $350 Pay for Kwarteng's knee, properly. -> pk
+- ?!audit_tried [Talk 3] A glitch. Your system paid itself. -> glitch | tried
+- <diver> [Hack 3] Bury the audit trail, too. -> bury | lost
+- {quaye} [Hack 2] Quaye. The audit trail. -> bury | lost
+- {ambrose} ?!approval:ambrose<-10 Ambrose. -> amb
+- {ambrose} ?approval:ambrose<-10 Ambrose. -> amb_no
+- Let Bodywell do its job. -> lost
+* tried
+> set audit_tried
+Auditor: Bodywell's system doesn't glitch, citizen. It has never glitched.
+> goto opts
+* pd
+> set audit_doorn_paid
+Auditor: Doorn, paid. Thank you.
+> goto check
+* pk
+> set audit_knee_paid
+Auditor: Kwarteng. Paid. Thank you.
+> ifnot party:ambrose -> check
+Ambrose: Paid twice now, my knee. It's the most expensive knee in Fathom.
+* check
+> if doorn_hacked&!audit_doorn_paid -> opts
+> if knee_hacked&!audit_knee_paid -> opts
+> set audit_paid
+> rep bodywell 2
+> goto done
+* glitch
+Auditor: A glitch. The system pays itself sometimes. Fine.
+> set audit_glitch
+> goto done
+* bury
+> sfx hack
+Auditor: My screen shows no audit. Odd.
+> set audit_buried
+> rep bodywell -2
+> goto done
+* amb_no
+Ambrose: My knee is my own affair, friend. I decline to be your exhibit.
+> goto opts
+* amb
+Ambrose: The knee is mine. I paid for it in blood, monthly, for nine years.
+Ambrose: Write that in your audit, madam.
+Auditor: I'll write "glitch.
+> set audit_glitch
+> goto done
+* lost
+Auditor: Then the leases revert tonight.
+> set audit_lost
+> rep bodywell 1
+> if doorn_hacked&!audit_doorn_paid -> ruud
+> goto knee
+* ruud
+> set ruud_off
+* knee
+> if knee_hacked&!audit_knee_paid -> kn
+> goto done
+* kn
+> set ambrose_knee_arrears
+> ifnot party:ambrose -> done
+> sfx error
+Ambrose: Ah. There it goes. Okay.
+* done
+> walk auditor 23 37
+> walk auditor 23 39
+> exit auditor
+> set audit_done
+> quest hq_audit done
+* fin
+
+# ---------------------------------------------------------------- Saint's Tears (plaza)
+
+== hq_tears
+> face mertens2 hero
+> if tears_done -> fin
+> set met_church
+> if blood_shook -> shook
+Mertens: You again. New plaza, new product. Saint's Tears.
+Mertens: Water from the base of her statue. Twenty gilt a cup.
+> goto start
+* shook
+Mertens: The Brother's tithe doubled, so my stock did too. Now, Saint's Tears.
+* start
+> if quest:hq_tears -> opts
+> quest hq_tears 1
+* opts
+?
+- [Talk 2] Tell the pilgrims where the water comes from. -> expose | no
+- {ignace} ?!approval:ignace<-10 Ignace. This is your stall now. -> ig
+- {ignace} ?approval:ignace<-10 Ignace. This is your stall now. -> ig_no
+- $150 Take the lift down to the Lock. Go home, Mertens. -> ticket
+- Ask the deacon on the porch. -> church
+- Leave him. -> fin
+* expose
+Pilgrim: The statue's drain? Twenty gilt for drain water?
+Mertens: It's always the wet ones. Every single time.
+> set tears_exposed
+> rep church 1
+> approve tova 1
+> goto done
+* no
+Mertens: The faithful know what they're drinking, friend.
+> goto fin
+* ig
+Ignace: Move. This is my stall.
+Ignace: Candles, friends! Pure wax! Two gilt, no guarantees!
+> set tears_ignace
+> rep church -1
+> approve ignace 2
+> goto done
+* ig_no
+Ignace: Blessed be the stall, friend. Not mine. And not for you.
+> goto opts
+* ticket
+Mertens: Down. Fine. The Deeps never asked where the water came from.
+> set tears_gone
+> goto done
+* church
+Mertens: The deacons won't like it. They'll make me kneel. Fine. I'm packing.
+> set tears_church
+> rep church 2
+* done
+> walk mertens2 23 37
+> walk mertens2 23 39
+> exit mertens2
+> set tears_done
+> quest hq_tears done
+* fin
+
+# ---------------------------------------------------------------- Visiting hours (Mercy Spire)
+
+== hq_visit
+> face mourner hero
+> if visit_done -> fin
+Prins: My mother's on the sixth floor. Visiting hours ended at the sixth bell. I got here at the seventh.
+Prins: The bus from Terrace 1 was late. She hasn't had a visitor in four days.
+> if quest:hq_visit -> opts
+> quest hq_visit 1
+* opts
+?
+- <diver> [Hack 2] Print her a night pass at the visitor desk. -> visit | nopass
+- {quaye} [Hack 1] Quaye. A night pass. -> visit | nopass
+- $50 There's a night fee. I'll cover it. -> visit
+- [Sneak 2] Through the loading dock. Stay close. -> visit | caught
+- Come back tomorrow. -> fin
+* nopass
+> sfx error
+Prins: It printed nothing. Oh.
+> goto fin
+* caught
+> sfx alarm
+Officer: Dock's closed. Visiting hours are over. Move along.
+> goto fin
+* visit
+Prins: Floor six. Thanks. Thank you.
+> walk mourner @lane_foot
+> walk mourner 36 5
+> exit mourner
+> set visit_done
+> quest hq_visit done
+* fin
+
+== hq_visit_after
+> face mourner2 hero
+Prins: She was asleep. I sat there for an hour. That was enough.
+Prins: The lift went past forty-four on the way down. It doesn't stop there. It never stops there.
+
+# ---------------------------------------------------------------- The Lockmaster's inquiry (Board Plaza)
+
+== hq_bram
+> face bram hero
+Bram: The Board says a Lockmaster opened his gate for criminals. They're right.
+Bram: Thirty years. They'll strip the tower from me by ten bells.
+> if quest:hq_bram -> opts
+> quest hq_bram 1
+* opts
+?
+- [Talk 3] I'll testify. We forced the gate. You had no choice. -> cleared | fired
+- $200 The inquiry clerk takes filing fees. -> cleared
+- I'll fix the Lock log at the inquiry terminal. -> log
+- You made your choice. It's the job or the gate. -> fired
+* log
+Bram: The terminal by the rail. The log's on it. I can't touch it, they're watching me.
+> end
+* cleared
+Bram: You'd stand up there for me? With your face on their posters?
+> set bram_cleared
+> rep board -1
+> goto done
+* fired
+Bram: Yeah. I chose. I'd choose it again.
+> set bram_fired
+> rep board 1
+* done
+> set bram_done
+> quest hq_bram done
+> approve courtesy 1
+
+== hq_bram_log
+> face hero left
+> if bram_done -> fin
+(INQUIRY: LOCKMASTER B. UPPER GATE OPENED, NIGHT OF THE FLOOD.)
+?
+- <diver> [Hack 2] Alter the log. Claim a pressure fault opened the gate. -> fix | no
+- {quaye} [Hack 1] Blame it on Quaye. A pressure fault. -> fix | no
+- Leave it be. -> fin
+* fix
+> sfx hack
+(LOG UPDATED: PRESSURE FAULT, GATE 3. NO OPERATOR INTERVENTION.)
+> set bram_cleared
+> rep board -2
+> set bram_done
+> quest hq_bram done
+> goto fin
+* no
+> sfx error
+(ACCESS LOGGED.)
+* fin
+
+# ---------------------------------------------------------------- The courier (Board Plaza)
+
+== hq_drone
+> face rectap hero
+> if drone_done -> fin
+Tapper: Woken courier drone. Once owned by Board. Recovery takes it tonight.
+Oud: It carried my parcel up the entire Wall. It's resting on my rail. It belongs to me.
+> if quest:hq_drone -> opts
+> quest hq_drone 1
+* opts
+?
+- [Talk 2] It made the delivery. Delivered goods belong to the owner. -> saved | no
+- $100 The delivery fee has been paid. -> saved
+- {courtesy} ?!approval:courtesy<-10 Get Courtesy to handle this. -> cour
+- {courtesy} ?approval:courtesy<-10 Have Courtesy take care of this. -> cour_no
+- Then come and take it. -> fight
+- Let them silence it. -> hush
+* no
+Tapper: Recovery decides who owns what, friend.
+> goto opts
+* cour_no
+Courtesy: THIS UNIT DECLINES. MONITORING CONTINUES.
+> goto opts
+* cour
+Courtesy: LOST PROPERTY RETURNED TO OWNER.
+Courtesy: THIS IS THE OWNER.
+Tapper: Patrol 6 confirms the owner. Fine. Not my shift.
+> approve courtesy 2
+> goto saved
+* fight
+> set drone_fight
+> rep board -2
+> fight drone_hq
+> set drone_fought
+* saved
+Oud: Go on, then. Back to the rail.
+> set drone_saved
+> goto done
+* hush
+Tapper: [Hushing sound]
+> anim hush oudrone
+Oud: Oh. It's gone gray.
+> set drone_hushed
+> rep board 1
+* done
+> set drone_done
+> quest hq_drone done
+* fin
+
+== hq_drone_retry
+> fight drone_hq
+> set drone_fought
+> set drone_saved
+> set drone_done
+> quest hq_drone done
+
+# ---------------------------------------------------------------- Board commissary (Board Plaza)
+
+== commissary
+> face hero up
+(BOARD COMMISSARY. STAFF PRICES FOR STAFF.)
+> shop brim_commissary

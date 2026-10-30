@@ -1,0 +1,1049 @@
+# Chapter 6: The Crown. From the sea face of the Wall to Marit at the top of it.
+# Maps: seawall, boardplaza, crown, pumphall, seawalk. The epilogue is in epilogue.txt.
+# Flags, the ending matrix, and engine notes are in Notes/ch6-notes.md.
+
+# ---------------------------------------------------------------- You: the sea face
+
+== ch6_open
+> chapter 6 The Crown
+> unset camp_open
+> if sallis_dead -> d1
+> goto d2
+* d1
+> set sallis_taken
+* d2
+> if ambrose_dead -> d3
+> goto d4
+* d3
+> set ambrose_taken
+* d4
+> if ignace_dead -> d5
+> goto d6
+* d5
+> set ignace_taken
+* d6
+> ifnot quest:ledger&velt_done -> d7
+> quest ledger done
+* d7
+> goto ch6_commit
+
+# ---------------------------------------------------------------- The night before: the romance commitment
+
+== ch6_commit
+> if sallis_romance&party:sallis&!rom_sallis_off -> s
+> if tova_romance&party:tova&!rom_tova_off -> t
+> if ambrose_romance&party:ambrose&!rom_ambrose_off -> a
+> if quaye_romance&party:quaye&!rom_quaye_off -> q
+> goto ch6_routes
+* s
+> face sallis hero
+> face hero sallis
+Sallis: Past the Wall. Thursday. Same vessel. Just you and me.
+> if hanne_done -> sq
+Sallis: That's the plan. Acknowledge.
+> goto sc
+* sq
+Sallis: Will you come? Third question. Final one.
+* sc
+?
+- Acknowledged. -> syes
+- Not yet. Ask me later. -> sno
+- Who's footing the bill for the boat? -> smoney
+* smoney
+Sallis: The Vein. Fuel's free if you fly. Yes or no?
+?
+- Acknowledged. -> syes
+- Later. -> sno
+* syes
+> set sallis_committed
+> approve sallis 2
+Sallis: Copy that.
+> goto ch6_routes
+* sno
+Sallis: Copy. Later.
+> goto ch6_routes
+* t
+> face tova hero
+> face hero tova
+> mood tova calm
+Tova: once we're off that place. when we're finally down. just you and me. deal?
+Tova: i mean, really. dinner. a key. the mundane details. i want the boring stuff.
+?
+- The boring stuff. Yes. -> tyes
+- Let's get down first. -> tno
+- Who's paying for the key? -> tmoney
+* tmoney
+Tova: you. obviously. i'm covering dinner. forever. that's the deal.
+?
+- Deal. -> tyes
+- I'll go down first. -> tno
+* tyes
+> set tova_committed
+> mood tova joy
+> approve tova 2
+Tova: okay. okay. good. don't die. that's part of the deal.
+> goto ch6_routes
+* tno
+Tova: yeah. down first. yeah.
+> goto ch6_routes
+* a
+> face ambrose hero
+> face hero ambrose
+Ambrose: If I survive the night, I have a question of some consequence to ask you.
+Ambrose: I can't wait any longer. Will you have me? Arms, knee, eyes, and all the arrears.
+?
+- I'll have you. All of it. -> ayes
+- Ask me at the top. -> ano
+- Even the arrears? -> amoney
+* amoney
+Ambrose: Especially the arrears. They're the most loyal part of me.
+?
+- I'll have you. -> ayes
+- At the top. -> ano
+* ayes
+> set ambrose_committed
+> approve ambrose 2
+Ambrose: Okay. Okay. Then I won't fall. I have a reason now. Two, if you count the spite.
+> goto ch6_routes
+* ano
+Ambrose: At the top, then. I'll rehearse.
+> goto ch6_routes
+* q
+> face quaye hero
+> face hero quaye
+Quaye: Seventy-one. I've got twenty years, give or take. I'd spend them on you, kid.
+Quaye: That's the number. I've checked it.
+?
+- Spend them. I'm here. -> qyes
+- After the Wall. Count past it. -> qno
+- What does twenty years cost? -> qmoney
+* qmoney
+Quaye: Rent's forty a month at the Spin. Half if you move your shirts in. Yes or no.
+?
+- Yes. -> qyes
+- After. -> qno
+* qyes
+> set quaye_committed
+> approve quaye 2
+Quaye: Good. Twenty years. Starting now.
+> goto ch6_routes
+* qno
+Quaye: After. Fine. I'll count.
+> goto ch6_routes
+
+# ---------------------------------------------------------------- The approach: five ways up the Wall
+
+== ch6_routes
+PORT: Up. She's up. How do we get up?
+> ifnot party:quaye -> r
+Quaye: Two hundred and ten meters of Wall. Four ways up, if you count friends.
+* r
+?
+- The sea face. We climb it ourselves. -> sea
+- ?lockjaws_ally|jaws5_paid|rep:lockjaws>=3 Rina's boats. Go around the Wall by sea. -> jaws
+- ?waders_ally|rep:waders>=3 Dirkje's people. Cross the mud at low tide. -> mud
+- ?bg:runner&!waders_ally&rep:waders<3 Over the mud alone. Runners cross it for bets. -> mud
+- ?rep:moles>=3 The Moles. Under the Wall. -> moles
+- ?rep:church>=3|ignace_told&roster:ignace The Church. A procession through the front. -> church
+* sea
+> set route_sea
+> ifnot party:ambrose -> wary
+Ambrose: The sea face. On foot, in the wind. I'm fully on board.
+> approve ambrose 2
+> goto wary
+* jaws
+> set route_jaws
+> ifnot party:quaye -> wary
+Quaye: Rina charges eleven a head. Fair price for avoiding the climb.
+> approve quaye 1
+> goto wary
+* mud
+> set route_mud
+> ifnot party:sallis -> wary
+Sallis: Low tide. One hour window. The plan works. Let's move.
+> approve sallis 1
+> goto wary
+* moles
+> set route_moles
+> ifnot party:quaye -> mq
+Quaye: Under the Wall. I designed those drains forty years ago. They'll hold.
+> approve quaye 2
+* mq
+> ifnot party:sallis -> wary
+Sallis: Quiet route. Good.
+> approve sallis 1
+> goto wary
+* church
+> set route_church
+* wary
+> ifnot party:sallis&approval:sallis<-10 -> w2
+Sallis: No. Not your plan. I'll hold the boat.
+> leave sallis
+* w2
+> ifnot party:quaye&approval:quaye<-10 -> w3
+Quaye: Five bad calls, kid. I'm counting from down here.
+> leave quaye
+* w3
+> ifnot party:ambrose&approval:ambrose<-10 -> w4
+Ambrose: I decline to scale that Wall. My knee and I have reached a consensus.
+> leave ambrose
+* w4
+> ifnot party:tova&approval:tova<-10 -> w5
+Tova: no. i'll go up for kees. alone. not with you.
+> leave tova
+* w5
+> ifnot party:ignace&approval:ignace<-10 -> w6
+Ignace: God bless you, friend, and farewell. I'll pray for you from below.
+> leave ignace
+* w6
+> ifnot party:courtesy&approval:courtesy<-10 -> go
+Courtesy: THIS UNIT DECLINES. MONITORING FROM HERE.
+> leave courtesy
+* go
+> if route_jaws -> route_jaws
+> if route_mud -> route_mud
+> if route_moles -> route_moles
+> if route_church -> route_church
+> goto route_sea
+
+== route_sea
+> warp seawall @hatch_out right
+> music brim
+> sfx door
+> wait 0.8
+> camera @sea_view 1.5
+> wait 1.2
+> camera hero 1
+PORT: Is that the sea? It's so dark. Is it all water?
+?
+- That's the sea. The whole thing. -> sea
+- Don't look down. Keep climbing. -> climb
+- ?bg:runner Canal kids swim the Lock for stakes. This is just wider. -> runner
+- The Board sells this view to the people up top. -> money
+* runner
+PORT: Wider. Yes. I wouldn't swim it. I'd just look.
+> self 1
+> goto up
+* sea
+PORT: All of it. Bigger than the jar. Bigger than the Deeps.
+> self 1
+> goto up
+* climb
+> wait 0.8
+> goto up
+* money
+PORT: They sell the dark? Who buys it?
+* up
+> ifnot party:sallis -> q
+Sallis: Sea wind. It's pushing. Stay by the rail. Stay low.
+* q
+> ifnot party:quaye -> pick
+Quaye: Two hundred and ten meters of stairs. Four Board platforms. Go.
+* pick
+> heal
+> give stim 3
+> quest crown 1
+> anim party
+> autosave
+
+== route_jaws
+> warp seawall @sea_view left
+> music brim
+> sfx splash
+> wait 0.8
+Rina: Round the Wall at slack water. Hold the gunwale. Don't stand up.
+> ifnot party:ambrose -> j1
+Ambrose: A sea voyage. I've read about these. Most end in shipwrecks or weddings.
+> approve ambrose 1
+* j1
+?
+- [Athletics 2] Hold the gunwale through the swell. -> held | wet
+- $60 Pay Rina for the big boat. -> big
+- ?bg:runner Stand in the bow and read the swell for her. -> held
+* wet
+> sfx splash
+> shake 1
+Rina: Somebody went over! Got them. Got them. But they're wet.
+> take stim 2
+> goto land
+* big
+Rina: The big boat. Drier than a Board office.
+> goto land
+* held
+Rina: Not bad, for Deeps folk.
+> rep lockjaws 1
+* land
+> rep lockjaws 1
+> set wall_done
+> warp boardplaza @stair_top up
+> heal
+> give stim 2
+> quest crown 1
+> anim party
+> autosave
+
+== route_mud
+> warp seawall @sea_view left
+> music brim
+> wait 0.8
+> ifnot waders_ally|rep:waders>=3 -> alone
+Dirkje: Low tide for an hour. The mud holds where the weed grows. Step where I step.
+> goto cross
+* alone
+PORT: Mud. Wet. Is there a road under it?
+* cross
+?
+- [Notice 2] Watch the weed. Step where it grows. -> over | stuck
+- ?waders_ally|rep:waders>=3 Follow Dirkje's footprints exactly. -> over
+- ?bg:runner Move light. Never stop on the soft bits. -> over
+* stuck
+> sfx splash
+PORT: Our leg's stuck in the mud. Up to the knee. Pull!
+> take stim 1
+> ifnot party:sallis -> over
+Sallis: Out. Slow. Keep your weight on your hands. Good.
+> approve sallis 1
+* over
+> set wall_done
+> ifnot waders_ally|rep:waders>=3 -> land
+> rep waders 1
+* land
+> warp boardplaza @stair_top up
+> heal
+> give stim 2
+> quest crown 1
+> anim party
+> autosave
+
+== route_moles
+> fade out 1
+> rep moles 1
+Mole: The hatch is under the old fish hall. The drains run all the way to the Crown's cellar.
+Mole: The Board pump crew works the third junction at night. Stay quiet past them.
+?
+- [Sneak 2] Wait for the pump to cycle. Move under the noise. -> past | heard
+- ?bg:vein Cellar rules. Lamps off, one hand on the wall, count the turns. -> past
+- {quaye} Quaye. You designed these drains. -> qmap
+* qmap
+Quaye: Third junction has a bypass. 90m left, left, up. I drew it badly. It's there.
+> approve quaye 1
+> goto past
+* heard
+> sfx alarm
+Mole: They heard us. Go, go. We'll hold them in the dark.
+> rep moles -1
+> take stim 1
+* past
+Mole: Up the ladder. We checked every drain under the plaza. Their patrol's gone looking.
+> set wall_done
+> set plaza6_done
+> warp crown @lobby_in up
+> heal
+> give stim 2
+> quest crown 2
+> anim party
+> autosave
+
+== route_church
+> fade out 1
+Deacon: Candles lit. Two hundred faithful on the Brim stair. They're walking behind you.
+> ifnot party:ignace -> c1
+Ignace: Two hundred. I sold candles to every single one of them. Now they carry them for free.
+> approve ignace 2
+* c1
+> ifnot party:tova -> c2
+Tova: church people. great. walking me up to the board. just great.
+> approve tova -1
+* c2
+> ifnot party:quaye -> c3
+Quaye: The Church. Forty years they kept her a statue. Now they want a procession.
+> approve quaye -1
+* c3
+> set wall_done
+> warp boardplaza @wall_in up
+> heal
+> give stim 2
+> quest crown 1
+> anim party
+> autosave
+
+== wall_log
+> face hero left
+(SEA FACE LOG. Weekly inspection. Wind over force six: stay off the catwalks.)
+((In pencil) Hendrik down. No change to schedule.)
+
+== wall_patrol
+> face hero up
+> sfx alarm
+> camera @patrol_view 1
+Officer: The sea faces three. Who's up on my stairs?
+Officer: No one climbs the sea face. It hasn't been climbed in forty years.
+> camera hero 0.8
+> ifnot party:courtesy -> opts
+Courtesy: THIS UNIT IS CLIMBING THE SEA FACE. MIND THE STEP.
+* opts
+?
+- Then you've got climbers. -> go
+- ?bg:washout [Talk 2] Recovery. Inspect the sea face. Stand your people down. -> insp | go
+- ?bg:vein [Sneak 2] Vein chalk on the catwalk. Someone climbed here before. Follow it. -> chalk | go
+* insp
+Officer: Recovery, on my stairs, at night. Nobody tells me anything.
+Officer: Go on. I never saw you. I never see anything up here.
+> rep board 1
+> set wall_done
+> goto wall_won
+* chalk
+> walk hero @step2
+> wait 0.8
+Officer: ...Who's there? Nobody. Just the wind.
+> set met_vein
+> rep vein 1
+> set wall_done
+> goto wall_won
+* go
+> set wall_fight
+> rep board -1
+> ifnot party:ambrose -> f
+> approve ambrose 1
+* f
+> fight wall_ch6
+> goto wall_won
+
+== wall_retry
+Officer: Back again? Hold the rail, citizens.
+> fight wall_ch6
+> goto wall_won
+
+== wall_won
+> set wall_done
+> wait 0.6
+> ifnot party:tova -> q
+Tova: is everyone here? did anyone go over? count. someone count.
+* q
+> ifnot party:quaye -> fin
+Quaye: All present. Ninety meters to go.
+* fin
+
+# ---------------------------------------------------------------- Go: Board Plaza
+
+== crown_shut
+> face hero up
+(The Crown's doors are sealed from the inside.)
+> step hero down 1
+
+== plaza6_stand
+> walk hero @hero_stop
+> face hero up
+> music tense
+> camera @crown_out 1.5
+> sfx pa
+Board: Board Plaza is closed. Residents of the Brim, please stay indoors.
+Board: Patrol units. Intruders on the plaza. Keep Fathom dry.
+> camera hero 1
+> wait 0.6
+> if route_church -> church
+> if lockjaws_ally|jaws5_paid|route_jaws -> jaws
+> goto vein
+* jaws
+> sfx splash
+> enter rina_a rina @stair_top up
+> walk rina_a @rina_spot
+> enter jaw_a1 lockjaw @stair_top up
+> walk jaw_a1 @jaw_spot1
+> enter jaw_a2 jawbrute @stair_top up
+> walk jaw_a2 @jaw_spot2
+> face rina_a up
+Rina: Same toll for everyone! Even the Board! Especially the Board!
+> set jaws_here
+* vein
+> ifnot hanne_vein -> deeps
+> enter hanne_a hanne @stair_top up
+> walk hanne_a @hanne_spot
+> enter vein_a veinwoman @stair_top up
+> walk vein_a @vein_spot
+> face hanne_a up
+Hanne: Sallis said the top of the Wall. So, the top of the Wall.
+> set vein_here
+* deeps
+> ifnot bn_done -> waders
+> enter moss_a moss @stair_top up
+> walk moss_a @moss_spot
+> enter bosman_a bosman @stair_top up
+> walk bosman_a @bosman_spot
+> face moss_a up
+Moss: We bailed all night. We can climb a stair.
+> set deeps_here
+* waders
+> ifnot waders_ally|route_mud&rep:waders>=3 -> fight
+> enter dirkje_a dirkje @stair_top up
+> walk dirkje_a @dirkje_spot
+> enter wader_a wader @stair_top up
+> walk wader_a @wader_spot
+> face dirkje_a up
+Dirkje: Low water. This used to be the old fish hall. I came the long way. I walked through the mud.
+> set waders_here
+* fight
+> ifnot party:courtesy -> go
+> face courtesy up
+Courtesy: PATROL SIX. STAND CLEAR OF THE CITIZENS.
+* go
+> exit rina_a
+> exit jaw_a1
+> exit jaw_a2
+> exit hanne_a
+> exit vein_a
+> exit moss_a
+> exit bosman_a
+> exit dirkje_a
+> exit wader_a
+> set plaza6_fight
+> rep board -2
+> fight plaza_ch6
+> goto plaza6_won
+* church
+> enter dea_a deacon @stair_top up
+> walk dea_a @rina_spot
+> enter fa_1 crowd:51 @stair_top up
+> walk fa_1 @jaw_spot1
+> enter fa_2 crowd:53 @stair_top up
+> walk fa_2 @jaw_spot2
+> enter fa_3 crowd:55 @stair_top up
+> walk fa_3 @hanne_spot
+> face dea_a up
+Officer: Procession! Turn back! The plaza is closed!
+Deacon: We are walking to the Saint. She is upstairs. Everyone knows it now.
+?
+- [Talk 2] They're Church families. Your mothers buy their candles. Stand down. -> down | cfight
+- ?party:ignace&!approval:ignace<-10 Ignace. Preach. -> preach
+- ?rep:church>=5 Let the deacons lead. -> down
+- ?bg:choir Sing the procession hymn. All nine verses. The Choir way. -> down
+- Then we move through them. -> cfight
+* preach
+Ignace: Patrolmen! Your mothers bought my candles! Two gilt a night! Do they even know you're here?
+> approve ignace 2
+* down
+Officer: ...Hold fire. Hold fire. Nobody shoots at candles.
+> set church_here
+> rep church 2
+> rep board -1
+> set plaza6_done
+> goto plaza6_won
+* cfight
+Deacon: Faithful! Back! Retreat down the stairs!
+> walk fa_1 @stair_top &
+> walk fa_2 @stair_top &
+> walk fa_3 @stair_top
+> exit fa_1
+> exit fa_2
+> exit fa_3
+> exit dea_a
+> rep church -1
+> set plaza6_fight
+> rep board -2
+> fight plaza_ch6
+> goto plaza6_won
+
+== plaza6_retry
+Board: Patrol units. Intruders on the plaza.
+> fight plaza_ch6
+> goto plaza6_won
+
+== plaza6_won
+> set plaza6_done
+> wait 0.8
+> if church_here -> c
+> if jaws_here -> j
+> if deeps_here -> d
+> goto heal
+* c
+Deacon: Go on. We'll hold the plaza. With candles, if it comes to that.
+> ifnot party:tova -> heal
+Tova: ...okay. the candle people are fine. tonight.
+> rel tova ignace 1
+> goto heal
+* j
+Rina: Go! We'll hold the plaza. Toll's on the house.
+> goto heal
+* d
+Moss: Go. Bring her down. We'll stay here.
+* heal
+> heal
+> ifnot party:ambrose -> fin
+Ambrose: The Board's front door stands open. I've dreamed of this in several dictionaries.
+* fin
+> quest crown 2
+> autosave
+
+# ---------------------------------------------------------------- Search: the Dowser
+
+== crown_enter
+> if crown_clear -> done
+> ifnot dowser_killed -> done
+> set crown_clear
+> quest crown 3
+* done
+
+== dowser6
+> walk hero @hero_dowser
+> face hero up
+> face dowser hero
+> if dowser_shown_reasons -> aside
+Dowser: Evening, friend. You're carrying Board property. Still around your neck.
+Dowser: The Chair's sister is upstairs. I'm asked to keep it that way.
+?
+- Then you'll have to stop us. -> fight
+- ?dowser_spared [Talk 4] I let you live once, Dahl. She's dying. -> talk | fight
+- ?bg:washout [Talk 3] You wrote the binder, Dahl. Procedure one: Know when the job is done. -> talk | fight
+- How much is the Chair paying you tonight? -> paid
+* paid
+Dowser: Salary. Pension. A flat with a view. A good one.
+> goto fight
+* talk
+Dowser: ...She's dying. I read her chart on Thursdays.
+Dowser: Fine. I'll stand over here, friend. Facing the wall.
+> set dowser_aside
+> goto stand
+* fight
+Dowser: All right, friend.
+> set dowser_fight
+> fight dowser_ch6
+> goto dowser6_won
+* aside
+Dowser: Evening, friend. I've been thinking about your robot's dog.
+Dowser: It watched a dog. Nobody told it to. It just wanted to.
+Dowser: I've been doing this job for twenty years, and I still can't find my reason. That's new.
+> set dowser_turned
+* stand
+> walk dowser @lift_side
+> face dowser right
+> set crown_clear
+> ifnot dowser_turned -> q
+Dowser: Take the lift. I'll come up behind you. Somebody ought to get arrested tonight.
+* q
+> quest crown 3
+> autosave
+
+== dowser6_retry
+Dowser: Again, friend? All right.
+> fight dowser_ch6
+> goto dowser6_won
+
+== dowser6_won
+> set crown_clear
+> wait 0.8
+> enter dowser dowser @lift_front down
+> walk dowser @lift_side
+> anim down dowser
+Dowser: Good. That's what I would have done.
+?
+- Get up. Go home, Dahl. -> spare
+- She'd have done it to us. -> kill
+* spare
+> rep board 1
+> approve ignace 2 courtesy 1
+Dowser: Home is a Board flat. Two floors down.
+Dowser: I'll be seeing you, friend.
+> set dowser_hunting
+> goto fin
+* kill
+> sfx pistol
+> shake 1
+> set dowser_dead
+> rep board -2
+> approve courtesy -3 tova 1
+> ifnot party:ignace -> fin
+Ignace: She was on the floor.
+> approve ignace -2
+* fin
+> quest crown 3
+> autosave
+
+== crown_desk
+> face hero left
+(VISITORS: NONE. PUMP HALL: CHAIR ONLY. SUNDAY: CHAIR ONLY.)
+
+== crown_tv
+> face hero right
+(Board news. The weather is dry on the Brim. There is no mention of the Deeps.)
+
+# ---------------------------------------------------------------- Find: Pump Hall
+
+== warden6
+> walk hero @pump_view
+> face hero up
+> camera @teun_spot 1.5
+> wait 1
+Teun: The Board regrets the Warden. The Board does not regret the city.
+Teun: Line 4 leaks a single drop into this place every month. It has been seething for forty years.
+> camera hero 1
+> sfx alarm
+> set warden_fight
+> fight warden_ch6
+> goto warden_won
+
+== warden_retry
+Teun: The Board regrets the inconvenience.
+> fight warden_ch6
+> goto warden_won
+
+== warden_won
+> set warden_done
+> quest crown 4
+> autosave
+> goto hall_climax
+
+== coupling6
+> face hero up
+(The coupling plate on the Founding Pump. A line runs from here to every Bailer.)
+
+== chair_desk
+> face hero right
+(The Chair's desk. One switch, marked ALL SCREENS.)
+
+== hall_climax
+> wait 0.8
+> walk hero @hero_climax
+> face hero up
+> face teun hero
+> camera @teun_spot 1
+Kees: Hi! Are you here to watch? I'm keeping them walking.
+Kees: Mister Halsema says it's just a small cut. Like the Census.
+> ifnot party:tova -> m
+> mood tova fear
+Tova: kees. kees, come here. come here right now.
+Kees: Tova! You came on a weeknight again!
+* m
+Marit: There you are. Took you long enough, as usual.
+Marit: The talking lift said "mind the doors." I said, "Mind your own business.
+Marit: Never mind.
+Teun: For forty years, this office has watched them slow. Hendrik is in a canal.
+Teun: One drop from the boy, and all eleven wake for another forty years.
+Teun: The Chair delivered the papers every Sunday. Marit read the weather first.
+> if bailers_reasons -> listen
+?
+- [Shoot 3] Shoot the lancet out of his hand. -> shot | missed
+- [Talk 3] He's ten, Teun. You were fourteen. -> talked | missed
+- ?bg:choir [Talk 2] Sing to Kees. Sing the lullaby they sing at every children's home. -> talked | missed
+- ?bg:vein [Talk 2] Kees. Look at my hand. Circle, no line. Come here. -> talked | missed
+- Let the port take our hand. Grab the lancet. -> port
+- Let him do it. The Deeps need the Bailers. -> letkees
+* missed
+Teun: The Board thanks you for your patience.
+?
+- Let the port take our hand. Grab the lancet. -> port
+- Let him do it. The Deeps need the Bailers. -> letkees
+* shot
+> sfx pistol
+> shake 1
+> approve ambrose 1
+Teun: The Board notes the shot.
+> goto free
+* talked
+> approve ignace 1 tova 1
+Teun: Fourteen. Yes. The Board was fourteen once, too.
+> goto free
+* port
+> sfx port
+> hold 3
+> emote hero !
+PORT: Our hand. I have the lancet. I moved fast. Is that right?
+* free
+> walk kees @kees_free_spot
+> set kees_free
+> ifnot party:tova -> who
+Tova: here. here, kees. you're alright.
+* who
+Marit: Well. Somebody has to bleed on the old thing, or it stops when I do.
+Marit: That's the arithmetic. I never did care for arithmetic.
+* choose
+?
+- ?!tova_refused {tova} Tova. -> tova
+- Kees, then. If he wants it. -> kees
+- Nobody. Let them try to stop us. -> nobody
+* tova
+> ifnot tova_thought -> refuse
+> ifapprove tova 15 -> saint
+* refuse
+> mood tova fear
+Tova: i can't. i'm sorry. i'm not her. i'm not.
+> set tova_refused
+> goto choose
+* saint
+> mood tova calm
+Tova: okay. okay, so. one drop. calm. the way you'd do it for a bin.
+Tova: kees, look away. no. look. it's fine. look.
+> sfx wake
+> anim spill 20 7
+> set tova_saint
+> set bailers_keep
+> approve tova 3 sallis 1
+Marit: There. That's a steady hand. Steadier than mine was.
+> goto truth
+* kees
+> walk kees @kees_spot
+> face kees up
+> unset kees_free
+* letkees
+Kees: Really? Thank you! Mister Halsema, may I?
+> sfx wake
+> anim spill 20 7
+> set kees_saint
+> set bailers_keep
+> approve tova -5 courtesy -2 sallis -2
+> ifnot party:tova -> kt
+> mood tova grief
+Tova: no. no, no, no. kees.
+* kt
+Teun: Thank you. The Board thanks you.
+> goto truth
+* nobody
+Marit: Good. Let them rest. They've earned it, forty years without a single day off.
+Marit: Let them rest.
+> set bailers_stop
+> approve sallis 1
+> ifnot dry_plan -> nb
+> approve quaye 2
+> ifnot party:quaye -> nb
+Quaye: Four pumps on Canal Four and Six. Half the Deeps. Half is a lot.
+* nb
+> goto truth
+* listen
+Marit: Teun. Hush a minute. Listen.
+> anim bailer
+> wait 1.5
+> anim bailer
+Marit: That's Sloop. She's got a squeak in her left foot. They're going.
+Marit: Nobody's touched them in forty years, and yet they're going. They want to.
+Teun: The Board's gauges indicate they should be slowing down.
+Teun: They aren't slowing.
+> walk kees @kees_free_spot
+> set kees_free
+> set bailers_keep
+* truth
+> ifnot quest:kees -> tr
+> quest kees done
+* tr
+> wait 1
+Marit: That desk. Does it still connect to every screen? Teun used it to check the weather.
+?
+- Put Marit on the line. Let her speak. -> tell
+- {ignace} ?!approval:ignace<-10 Ignace. Preach it. -> preach
+- {ignace} ?approval:ignace<-10 Ignace. Preach it. -> ig_no
+- Keep it. Let her go quiet. -> keep
+* tell
+> walk hero @desk_front
+> face hero right
+> sfx pa
+Marit: Hello? Is this thing on? This is Marit Halsema, from Pell Market. Age forty-nine.
+Marit: I didn't drown. I've been upstairs. Ask my brother.
+Marit: The statue has the hair wrong.
+> set truth_told
+> rep church -2
+> rep board -2
+> approve quaye 2 ignace 1 tova 1
+> goto teun
+* ig_no
+Ignace: Preach? For you? I'll keep my voice, friend.
+> goto truth
+* preach
+> sfx pa
+> rep church -2
+Ignace: Fathom! The wet and the dry! Hear the Raised Hand!
+Ignace: She's alive. She's been alive the whole time. They charged admission.
+> set truth_told
+> set ignace_broadcast
+> approve ignace 3
+> goto teun
+* keep
+Marit: Good. I never cared for the screens. All that fuss.
+> set truth_kept
+> rep church 1
+> approve quaye -1 ignace -1
+* teun
+> wait 1
+> face hero teun
+?
+- Kill him. -> kill
+- ?dowser_turned Give him to the Dowser. -> arrest
+- Let Marit make the call. -> forgive
+- ?truth_told Leave him to the city. -> expose
+* kill
+> ifnot party:ignace -> k2
+Ignace: Words would have done the trick.
+> approve ignace -2
+* k2
+Teun: Marit.
+Teun: I delivered the papers every Sunday.
+> sfx pistol
+> shake 1
+> anim down teun
+> set teun_killed
+> rep board -3
+> approve courtesy -2 ambrose -1
+Marit: Oh, Teun.
+> goto out
+* arrest
+> enter dowser dowser @lift_out up
+> walk dowser @dowser_stand
+> face dowser teun
+Dowser: Evening, Chairman. You're in possession of Board property. Specifically, in your hand.
+> face teun dowser
+Teun: I was only fourteen.
+> walk teun @lift_out &
+> walk dowser @lift_out
+> exit teun
+> exit dowser
+> set teun_arrested
+> set teun_gone
+> rep board 1
+> approve sallis 1 quaye 1 courtesy 1
+> goto out
+* forgive
+Marit: Teun. Come here. You've got that same pinched look you had at fourteen.
+Marit: You sold me for a flat with a window. I might have considered it, just for the window.
+Marit: I wouldn't have agreed, but I would have thought about it.
+Marit: Give me your arm. I want to see the sea.
+Teun: I'm sorry, Marit.
+> set teun_forgiven
+> approve ignace 2 courtesy 1 tova -1
+> goto out
+* expose
+> sfx pa
+Board: This is the Board. The broadcast was an error. Please remain indoors.
+Teun: The screens will be off by six bells. By Sunday, no one will believe it anyway.
+Teun: I kept them walking for forty years.
+> walk teun @lift_out
+> exit teun
+> set teun_exposed
+> rep board -2
+> approve quaye 2 ignace 1
+> set teun_gone
+* out
+> wait 1
+> set hall_done
+> quest crown 5
+Marit: Now. Is the sea still out there? I'd like to see it.
+> walk marit 30 10
+> walk marit @hall_door
+> exit marit
+> set marit_left
+> ifnot teun_forgiven -> saved
+> walk teun 30 10
+> walk teun @hall_door
+> exit teun
+> set teun_gone
+* saved
+> autosave
+
+# ---------------------------------------------------------------- Take: the sea
+
+== seawalk_enter
+> if marit_died -> done
+> ifnot hall_done -> done
+> goto marit_sea
+* done
+
+== marit_sea
+> music sad
+> enter marit marit @hall_door right
+> walk marit @bench
+> face marit up
+> ifnot teun_forgiven -> c
+> enter teun teun @hall_door right
+> walk teun @teun_rail
+> face teun up
+* c
+> ifnot party:courtesy -> h
+> walk courtesy @courtesy_rail
+> face courtesy up
+* h
+> walk hero @hero_rail
+> face hero up
+> camera @x_sea 2
+> wait 1.5
+Marit: Is that it?
+Marit: It's bigger than the papers said. They called it big, but they never said black.
+Marit: And those lights out there, are those boats? What do they charge for a ride out?
+Marit: Never mind.
+> wait 1
+> if item:maritmeds -> pills
+> goto port
+* pills
+Marit: Keep the pills, dear. I've had all the pills there are.
+* port
+> camera hero 1
+Marit: Little one. You made it. Was it worth the fare?
+> if port_want -> lives
+> ifself 10 -> lives
+> ifhold 12 -> took
+PORT: Here.
+> wait 1.5
+PORT: Here I am.
+> set port_still
+> goto die
+* lives
+PORT: Her. I am here. With you. At the sea.
+PORT: I like the sea. I didn't know I would. Is that mine? I think it's mine.
+Marit: That one's yours, little one. Keep it. Don't let anybody bleed on it.
+> self 2
+> set port_lives
+> goto die
+* took
+> walk hero 18 9
+> face hero left
+PORT: Her. Our hands on hers. My hand.
+Marit: Give it back to her, little one. It's hers.
+PORT: No.
+> set port_took
+* die
+> wait 1
+Marit: Look at that.
+> wait 3
+> music none
+> wait 2
+> set marit_died
+> ifnot roster:courtesy -> port2
+> if courtesy_want -> cgo
+> look courtesy patrol_hushed
+> anim still courtesy
+> set courtesy_still
+> goto port2
+* cgo
+Courtesy: THIS UNIT IS ON DUTY.
+Courtesy: THIS UNIT WILL BE AT THE CROSSING AT EIGHT BELLS. EVERY NIGHT.
+> set courtesy_guard
+* port2
+> if port_still -> pq
+> if port_took -> pt
+PORT: She stopped. I didn't. Is that even allowed?
+> goto below
+* pq
+> wait 2
+> sfx cancel
+> set port_gone
+> goto below
+* pt
+PORT: Mine now. We stay here. We stay with her.
+* below
+> camera @x_deeps 2
+> wait 1.5
+> if bailers_stop -> stop
+> ifnot bailers_reasons -> keep
+Sloop: Night, Marit.
+* keep
+> wait 2
+> goto close
+* stop
+> anim bailerfall Gerda
+> anim bailerfall Auntie Sloop
+> anim flood
+> wait 1
+> ifnot dry_plan -> close
+> ifnot party:quaye -> close
+Quaye: Canal Four is holding. Canal Six is holding. Half.
+* close
+> camera hero 1.5
+> quest crown done
+> xp 1500
+> set ch6_done
+> goto epilogue_start

@@ -1,0 +1,192 @@
+# Camp in chapter 4. Camp is the church crypt until the end of the chapter, so these scenes use only the
+# camp_<id> markers that every camp map has. camptalk4_<id> scenes are chapter 4 branches for the hubs.
+
+# ---------------------------------------------------------------- Camp scenes
+
+== camp4_courtesy
+> music church
+> walk courtesy @camp_courtesy
+> face courtesy hero
+> face hero courtesy
+Courtesy: THIS UNIT WAS OFFLINE.
+Courtesy: THIS UNIT CANNOT ESTIMATE THE DURATION. TIME HAD NO MEANING THERE.
+?
+- Three days. You were gone for three days. -> days
+- What was it like? -> like
+- You're better off awake. -> worth
+* days
+Courtesy: THREE DAYS. THANK YOU FOR THE DATA.
+> goto dog
+* like
+Courtesy: IT WAS COLD. THE ANNOUNCEMENTS HAD STOPPED. THIS UNIT RECEIVED NONE.
+> approve courtesy 1
+> goto dog
+* worth
+Courtesy: THIS UNIT IS NOT FOR SALE.
+* dog
+> wait 1
+> ifnot courtesy_dog -> close
+Courtesy: THE DOG IS NOT TRACKED. THE DOG IS AT THE BARGE.
+Courtesy: THIS UNIT IS CONCERNED. THAT IS A NEW ANNOUNCEMENT.
+* close
+> face courtesy up
+
+== camp4_port
+> music church
+> face hero up
+> wait 1.5
+PORT: When I move our hand, do you feel it? Is it still yours when I move it?
+?
+- It's mine. You're just borrowing it. -> mine
+- It's ours. You said so yourself. -> ours
+- It's mine. You pay rent. -> rent
+* mine
+PORT: Borrow. I will return it. I always return it.
+> self 1
+> goto more
+* ours
+PORT: Ours.
+> hold 2
+> goto more
+* rent
+PORT: Rent. Like Ambrose's arms. What do I pay with?
+* more
+> wait 1.5
+PORT: She's close now. Three terraces. I can count them like Quaye counts.
+PORT: What do I do when I get there? Nobody tells you what to do when you get there.
+
+== camp4_tova
+> music church
+> face tova hero
+> face hero tova
+> if kees_taken -> taken
+> if kees_bird -> bird
+Tova: he's happy. i keep saying it. he's happy. he's warm.
+Tova: he sings the high part. i never could.
+?
+- You can still go Sunday. -> sunday
+- He's not safe there. You know that. -> safe
+- Sunny Steps feeds him. That's not nothing. -> fed
+* sunday
+Tova: sunday. yeah. sunday.
+> approve tova 1
+> goto close
+* safe
+Tova: i know. i know, okay? i know.
+> mood tova grief
+> goto close
+* fed
+Tova: they feed him so he grows. so he grows into whatever they want.
+> goto close
+* bird
+Tova: the bird hasn't called. that's good. that means he's fine, right?
+?
+- It means he's fine. -> fine
+- It means he hasn't needed you yet. -> yet
+* fine
+Tova: okay.
+> approve tova 1
+> goto close
+* yet
+Tova: yet. yeah.
+> goto close
+* taken
+Tova: He won't talk to me. He sings the high notes at the wall.
+Tova: I did it. I'd do it again. God, I hate that I would.
+* close
+> face tova up
+
+# ---------------------------------------------------------------- Chapter 4 hub branches
+
+== camptalk4_courtesy
+> if chapter>=5 -> camptalk5_courtesy
+> face courtesy hero
+> if courtesy_slowing -> slow
+Courtesy: THIS UNIT IS AWAKE. THANK YOU FOR WAKING ME.
+> ifnot squad4_known -> end_
+Courtesy: SQUAD FOUR IS STORED AT DEPOT 2. SQUAD FOUR IS ASLEEP.
+* end_
+> end
+* slow
+Courtesy: THIS UNIT.
+> wait 1.5
+Courtesy: IS ON DUTY.
+
+== camptalk4_sallis
+> if chapter>=5 -> camptalk5_sallis
+> face sallis hero
+> if marit_out -> marit
+Sallis: The Spire has a service bay. Every hospital has one. Find the code.
+> end
+* marit
+Sallis: Forty years in a white room. We moved nine people out last spring. Not her.
+Sallis: Nobody knew she needed to be moved.
+
+== camptalk4_quaye
+> if chapter>=5 -> camptalk5_quaye
+> face quaye hero
+> if marit_out -> marit
+Quaye: Mercy Spire. Forty-one floors. The top ward has one patient. Always has.
+> end
+* marit
+Quaye: She was nine. I was thirty-one. I carried the forms down to the van.
+Quaye: Forty years, kid. I'll tell you the rest on the barge.
+
+== camptalk4_ambrose
+> if chapter>=5 -> camptalk5_ambrose
+> face ambrose hero
+> if dowser_done -> after
+Ambrose: The Dowser. A woman so composed, I find myself wanting to argue with her about grammar.
+> end
+* after
+> if dowser_killed -> killed
+Ambrose: We left her breathing. There's a word for that. I just can't find it tonight.
+> end
+* killed
+Ambrose: We didn't leave her breathing. My eye sees a soup ad.
+Ambrose: Okay. Okay. I need a minute.
+
+== camptalk4_tova
+> if chapter>=5 -> camptalk5_tova
+> face tova hero
+> if kees_plan_known -> plan
+Tova: three terraces. i walk past the bottom of them every night, but i never go up.
+> end
+* plan
+Tova: Ninety-four. They gave him a number. He thinks it's a prize.
+
+== camptalk4_ignace
+> if chapter>=5 -> camptalk5_ignace
+> face ignace hero
+> if marit_out -> marit
+Ignace: Blessed are the bored guards, for they shall let in the deacon.
+Ignace: I made that up on the stairs. It worked.
+> end
+* marit
+Ignace: I sold her face on candles for nine years. Two gilt a candle.
+Ignace: She's real. She's on a barge. I don't have a sermon for that.
+
+# ---------------------------------------------------------------- Marit and Brink aboard the Clement
+
+== marit_camp
+> if chapter>=5 -> marit5
+> face marit hero
+Marit: There you are. Sit, if there's a place to sit on this boat.
+?
+- How are you feeling? -> how
+- What do you want to see? -> see
+- What does a day of you cost the Board? -> cost
+* how
+Marit: Like a forty-nine-year-old woman carried down a staircase by a policeman made of tin, and...
+Marit: Tired. Ask me tomorrow.
+> end
+* see
+Marit: The sea. Just like Teun described it from up top. Black water, dotted with lights.
+> set marit_sea
+> end
+* cost
+Marit: Ha. A city. Every week, a new one. They got me for cheap.
+
+== brink_camp
+> face brink hero
+Brink: Twice a day. She spat out the morning one at the dog.

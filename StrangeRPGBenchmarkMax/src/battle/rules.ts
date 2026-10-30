@@ -352,7 +352,7 @@ export function partySkills(st: BattleState, u: Unit): string[] {
 export function cantUse(st: BattleState, u: Unit, id: string): string | null {
   const sk = SKILLS[id];
   if (!sk) return 'Unknown';
-  if ((sk.kind === 'lead' || sk.kind === 'upsun') && !leadOf(st, u)) return 'No lead here';
+  if ((sk.kind === 'lead' || sk.kind === 'upsun') && !leadOf(st, u)) return 'No shadow here';
   if ((sk.kind === 'lead' || sk.kind === 'upsun') && movedFar(u)) return 'Moved too far to strike';
   if ((id === 'raise' || id === 'hood' || id === 'flare') && (u.status.hooded ?? 0) > 0) return 'Hooded';
   if (id === 'hood' && !st.lamps.some((l) => l.owner === u.uid || l.owner === null)) return 'No lamp up';

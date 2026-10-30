@@ -1,0 +1,21 @@
+# Engine test scenes.
+
+== test_hello
+Opal: Evening, sweet.
+? Want noodles?
+- Yes. -> yes
+- [Talk 2] Haggle for free ones. -> free | nofree
+- No.
+Opal: Suit yourself.
+> end
+* yes
+> gilt -12
+> give noodles
+> end
+* free
+Opal: Fine. Fine! Take them.
+> give noodles
+> end
+* nofree
+Opal: Twelve gilt like everyone else.
+> end

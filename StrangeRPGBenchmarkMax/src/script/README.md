@@ -31,7 +31,7 @@ A scene starts with `== scene_id` and runs until the next `==`.
 | `music track`, `sfx sound` | Changes the music (tracks melt into each other) or plays a sound. |
 | `shake [strength]`, `fade out`, `fade in` | Screen effects. |
 | `lamp actor` or `lamp @marker`, `lamp off` | Lights the scene lamp. Its light arrives before its flame. |
-| `turn target dir` | Swings a lead, and the thing follows it. |
+| `turn target dir` | Swings a shadow, and the thing follows it. |
 | `set flag`, `unset flag` | Story flags. |
 | `if flag -> label`, `ifnot flag -> label` | Conditional jumps. |
 | `give item [n]`, `take item [n]`, `mites n` | Items and money. |

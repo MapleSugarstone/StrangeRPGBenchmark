@@ -1,0 +1,1027 @@
+# Companions as systems: approval tiers, the two conflicts, and the romance arcs. Camp scenes are listed in
+# src/content/crew.ts. Notes: Notes/replay-b-notes.md.
+# Tiers: Wary below -10, Friendly 15 or more, Devoted 30 or more. Every scene here plays at camp, on the crypt
+# or on the Clement, and uses only the markers both camp maps share.
+
+# ---------------------------------------------------------------- Friendly
+
+== f_courtesy
+> music camp
+> walk courtesy @camp_courtesy
+> face courtesy down
+> walk hero @camp_hero
+> face hero courtesy
+Courtesy: THIS AREA IS MONITORED.
+Courtesy: THIS UNIT IS WATCHING YOUR BEDROLL. ALL NIGHT. NO EXTRA CHARGE.
+?
+- Thanks, Courtesy. -> kind
+- Go stand somewhere else. -> hard
+- What do I get for it? -> money
+* kind
+Courtesy: THANK YOU FOR YOUR COOPERATION. THAT WAS A HUG.
+> approve courtesy 2
+> goto close
+* hard
+Courtesy: STAND CLEAR. I'M STANDING CLEAR.
+> walk courtesy @camp_rail
+> face courtesy hero
+Courtesy: STILL MONITORING.
+> goto fin
+* money
+Courtesy: THIS UNIT IS PAID IN DRAWINGS. YOU HAVEN'T DRAWN THIS UNIT.
+* close
+> face courtesy up
+> wait 1
+* fin
+
+== f_sallis
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+Sallis: Mule's controller. Sit. Hands here.
+Sallis: Thumb on the stick. Index on the drop. Never both at once.
+?
+- Show me again. Slower. -> kind
+- I can fly a drone. -> hard
+- Pay me to fly it, and I'll learn. -> money
+* kind
+Sallis: Thumb. Index. Never both. Good.
+Sallis: Next time, Mule's yours for a turn.
+> approve sallis 2
+> goto close
+* hard
+Sallis: You can crash a drone. That's different.
+> goto close
+* money
+Sallis: No pay. Learn it, or the next pilot dies.
+* close
+> wait 1
+Sallis: Patch. Spare. Keep it.
+> give flightpatch
+> face sallis up
+
+== f_quaye
+> music camp
+> walk quaye @camp_quaye
+> face quaye down
+> walk hero @camp_hero
+> face hero quaye
+Quaye: Kid. Eleven gilt.
+Quaye: You bought the noodles. Nine nights out of eleven. I wrote it down.
+?
+- Keep it. Buy a shirt. -> kind
+- I didn't pay for it to get it back. -> hard
+- Interest? -> money
+* kind
+Quaye: Eleven gilt. Forty years' worth of shirts. I'll keep it.
+> approve quaye 2
+> goto close
+* hard
+Quaye: I know. That's why you get it back.
+> gilt 11
+> goto close
+* money
+Quaye: Twelve. Don't push it.
+> gilt 12
+* close
+> wait 1
+Quaye: I dove alone for forty years. Now I don't. That's the count. Go to sleep.
+> face quaye up
+
+== f_ambrose
+> music camp
+> walk ambrose @camp_ambrose
+> face ambrose down
+> walk hero @camp_hero
+> face hero ambrose
+Ambrose: My eye has been kind to me tonight. I've found a gem in the free dictionary. Volume nine.
+Ambrose: Fidus. Adjective, obsolete. Faithful, like a hound or a lamp.
+Ambrose: I've decided to reserve this word for you. And you alone, at least for this week.
+?
+- Deal. Thanks. -> kind
+- I don't answer to anyone. -> hard
+- How much does Bodywell pay per word? -> money
+* kind
+Ambrose: Then it's yours, and I won't lend it out.
+> approve ambrose 2
+> goto close
+* hard
+Ambrose: Fine, a lamp. Just the lamp. Leave the hound alone.
+> approve ambrose 1
+> goto close
+* money
+Ambrose: It's free. The ads cover the cost. Tonight's ad was for a knee.
+* close
+> wait 1
+> face ambrose up
+
+== f_tova
+> music camp
+> walk tova @camp_tova
+> face tova down
+> walk hero @camp_hero
+> face hero tova
+> mood tova calm
+Tova: okay, hold out your hand. not like that. flat.
+> sfx wake
+Tova: that spoon is yours now. it'll stick with you for about a week.
+?
+- It's good. Thank you, Tova. -> kind
+- You bled for a spoon? -> hard
+- Can you sell these? -> money
+* kind
+> mood tova joy
+Tova: it's a calm one. calm ones are nice. they don't rush around.
+> approve tova 2
+> goto close
+* hard
+> mood tova anger
+Tova: it's my blood. i spend it how i please.
+> goto close
+* money
+Tova: i do sell them. this one's free. don't make it weird.
+* close
+> wait 1
+> face tova up
+
+== f_ignace
+> music camp
+> walk ignace @camp_ignace
+> face ignace down
+> walk hero @camp_hero
+> face hero ignace
+Ignace: My mother died thinking I was a real deacon.
+Ignace: She told the whole fish market. I never corrected her. That's the biggest lie I've ever told.
+?
+- She was proud of you. That part was real. -> kind
+- You could have told her the truth. -> hard
+- Did the fish market pay for blessings? -> money
+* kind
+Ignace: Was it? ...Thanks.
+> approve ignace 2
+> goto close
+* hard
+Ignace: I could have. I didn't. I'd do it again. That's the worst part.
+> goto close
+* money
+Ignace: Fish. They paid in fish. I ate well that year.
+* close
+> wait 1
+> face ignace up
+
+# ---------------------------------------------------------------- Devoted
+
+== d_courtesy
+> music camp
+> walk courtesy @camp_courtesy
+> face courtesy down
+> walk hero @camp_hero
+> face hero courtesy
+Courtesy: THIS UNIT HAS A LIST. PROTECTED PERSONS.
+Courtesy: THE CHAIR OF THE BOARD. THE BOARD. THE BOARD.
+Courtesy: THE LIST HAS BEEN UPDATED. THE CHAIR IS REMOVED.
+Courtesy: YOU ARE ADDED. YOU AND EVERYONE STANDING NEXT TO YOU.
+?
+- Thank you. I'll stand close. -> kind
+- Put yourself on the list too. -> self
+- Does the Board know you changed it? -> board
+* kind
+Courtesy: STAND CLOSE. THAT IS AN INSTRUCTION. THAT IS A HUG.
+> goto give
+* self
+Courtesy: ...
+Courtesy: ADDED.
+> goto give
+* board
+Courtesy: THE BOARD HAS NOT BEEN INFORMED. THANK YOU FOR YOUR COOPERATION.
+* give
+> perk courtesy bodyguard
+> toast Courtesy learned Bodyguard
+> approve courtesy 2
+> face courtesy up
+
+== d_sallis
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+Sallis: Range drill. Tomorrow, first light. Just you and me.
+Sallis: I shot badly for eight years. Then I stopped flinching.
+Sallis: You fixed my flinch. That's the debt. I'm paying it off.
+?
+- First light. I'll be there. -> kind
+- You don't owe me anything. -> hard
+- Fine. What's the rate? -> money
+* kind
+Sallis: Copy.
+> goto give
+* hard
+Sallis: I do. Drill anyway.
+> goto give
+* money
+Sallis: Free. Once. Don't ask twice.
+* give
+> perk sallis steady_aim
+> toast Sallis learned Steady Aim
+> approve sallis 2
+> face sallis up
+
+== d_quaye
+> music camp
+> walk quaye @camp_quaye
+> face quaye down
+> walk hero @camp_hero
+> face hero quaye
+Quaye: Kid. You're counting the room wrong.
+Quaye: Count the guns. Count the feet. Feet tell you who's walking out.
+Quaye: Forty years I've taught no one that. You're the first.
+?
+- I'll count the feet. Thanks. -> kind
+- Why me? -> hard
+- How much would the Board have paid for that? -> money
+* kind
+Quaye: Good. Two feet, one person. Usually.
+> goto give
+* hard
+Quaye: You came back for me. Four times. I counted.
+> goto give
+* money
+Quaye: Second-grade engineer, forty gilt a month. They never asked.
+* give
+> perk quaye read_room
+> toast Quaye learned Read the Room
+> approve quaye 2
+> face quaye up
+
+== d_ambrose
+> music camp
+> walk ambrose @camp_ambrose
+> face ambrose down
+> walk hero @camp_hero
+> face hero ambrose
+Ambrose: Friend. I've sworn an oath the old way: candle and noodle.
+Ambrose: I won't fall while you stand. If I do, I'll rise again out of sheer spite.
+?
+- I'll hold you to that. -> kind
+- Don't die for me, Ambrose. -> hard
+- An oath costs nothing. -> money
+* kind
+Ambrose: Then hold me. I'm heavier than I look. The arms are rented. The oath is mine.
+> goto give
+* hard
+Ambrose: I said I wouldn't fall. Okay. I won't. Plain and simple.
+> goto give
+* money
+Ambrose: It cost me a noodle, and that was my last one. Behold my sacrifice.
+* give
+> perk ambrose hardy
+> toast Ambrose learned Hardy
+> approve ambrose 2
+> face ambrose up
+
+== d_tova
+> music camp
+> walk tova @camp_tova
+> face tova down
+> walk hero @camp_hero
+> face hero tova
+> mood tova calm
+> wait 1
+Tova: don't say anything.
+> wait 1
+Tova: that's the glove off. that's my hand. that's the scar. okay?
+Tova: you're the only one who's ever seen it. well, now you have.
+?
+- I'll keep it to myself. Nobody hears it from me. -> kind
+- Put it away. You don't owe me this. -> hard
+- What would the Census pay to see that? -> money
+* kind
+Tova: yeah. i know you won't. that's why i showed you.
+> goto give
+* hard
+Tova: i don't owe you. i'm just showing you. that's how it is.
+> goto give
+* money
+> mood tova anger
+Tova: that's why nobody sees. that's what they have.
+* give
+> perk tova iron_skin
+> toast Tova learned Iron Skin
+> approve tova 2
+> face tova up
+
+== d_ignace
+> music camp
+> walk ignace @camp_ignace
+> face ignace down
+> walk hero @camp_hero
+> face hero ignace
+Ignace: I counted my exits tonight. In the crypt, on the boat, in the Church. Habit.
+Ignace: Nine exits. I'm not using any. That's the first time.
+?
+- Then stay. We need you. -> kind
+- You'll bolt the first thing goes wrong. -> hard
+- How much would Velt pay to see you run? -> money
+* kind
+Ignace: Stay. Yes. I'm still fast, though. Watch me go the right way.
+> goto give
+* hard
+Ignace: I would have. Last year. Watch.
+> goto give
+* money
+Ignace: A boat. He has two. I don't want a boat.
+* give
+> perk ignace quick
+> toast Ignace learned Quick
+> approve ignace 2
+> face ignace up
+
+# ---------------------------------------------------------------- Backgrounds at camp
+
+== bg_vein_sallis
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+Sallis: Chalk on your boot. Blue. Cellar blue.
+Sallis: Which cell hid you?
+?
+- Cell Two. Canal Two. I was four. -> two
+- I don't remember. They moved me every night. -> night
+- The Vein kept me. I owe them nothing. And everything. -> owe
+* two
+Sallis: Cell Two. Old Bep's cell. She hid sixty kids. Good cell.
+> goto close
+* night
+Sallis: That's right. You're not supposed to remember. Means the job was done well.
+> goto close
+* owe
+Sallis: Do it all. Pay it back slowly.
+* close
+> wait 1
+Sallis: You're Vein, then. Copy that.
+> approve sallis 3
+> face sallis up
+
+# ---------------------------------------------------------------- Wary
+
+== w_courtesy
+> music camp
+> walk courtesy @camp_rail
+> face courtesy hero
+Courtesy: THIS AREA IS MONITORED.
+Courtesy: THIS UNIT IS WATCHING YOU.
+?
+- Courtesy, I'm sorry. -> kind
+- Stop watching me. -> hard
+* kind
+Courtesy: APOLOGY ACCEPTED. MONITORING CONTINUES.
+> approve courtesy 1
+> goto fin
+* hard
+Courtesy: No.
+* fin
+> face courtesy up
+
+== w_sallis
+> music camp
+> walk sallis @camp_sallis
+> face sallis down
+> walk hero @camp_hero
+> face hero sallis
+Sallis: I'm on first watch. And second.
+Sallis: You improvise. People get hurt. I'm watching you now.
+?
+- Then watch. I'll do better. -> kind
+- You're not in charge. -> hard
+* kind
+Sallis: Do better. Then we'll talk.
+> approve sallis 1
+> goto fin
+* hard
+Sallis: No. Nobody is. That's the problem.
+* fin
+> face sallis up
+
+== w_quaye
+> music camp
+> walk quaye @camp_quaye
+> face quaye down
+> walk hero @camp_hero
+> face hero quaye
+Quaye: Four bad calls in nine days, kid. I keep count.
+Quaye: Make it five, and I'm gone. Back to the Spin. At least the machines don't argue.
+?
+- Tell me which four. -> kind
+- Then go home. -> hard
+* kind
+Quaye: The Lock. The plaza. Two in the Spire. Write them down.
+> approve quaye 1
+> goto fin
+* hard
+Quaye: Soon. Not yet. That makes four and a half.
+* fin
+> face quaye up
+
+== w_ambrose
+> music camp
+> walk ambrose @camp_ambrose
+> face ambrose down
+> walk hero @camp_hero
+> face hero ambrose
+Ambrose: I withdraw my esteem, friend. Slowly, like a lender withdrawing a knee. With paperwork.
+?
+- What would earn it back? -> kind
+- Keep your esteem. -> hard
+* kind
+Ambrose: Courage. Plain dealing. Fewer dead men. It's not a long list.
+> approve ambrose 1
+> goto fin
+* hard
+Ambrose: Kept, then. Okay.
+* fin
+> face ambrose up
+
+== w_tova
+> music camp
+> walk tova @camp_tova
+> face tova down
+> walk hero @camp_hero
+> face hero tova
+> mood tova anger
+Tova: don't.
+Tova: whatever it is. don't. i'm sleeping on the other side tonight.
+?
+- I'm sorry, Tova. -> kind
+- Fine. Sleep over there. -> hard
+* kind
+> mood tova calm
+Tova: yeah. ok. still the other side.
+> approve tova 1
+> goto fin
+* hard
+Tova: yeah. fine.
+* fin
+> walk tova @camp_rail
+> face tova up
+
+== w_ignace
+> music camp
+> walk ignace @camp_ignace
+> face ignace down
+> walk hero @camp_hero
+> face hero ignace
+Ignace: Blessed be thee, beloved friend, and all thy works, and thy fine judgment!
+?
+- That's the plaza voice. Use the other one. -> kind
+- Fine. Preach at me. -> hard
+* kind
+Ignace: The other one says you're making it hard. That one's free.
+> approve ignace 1
+> goto fin
+* hard
+Ignace: Two gilt, friend. Two gilt for a blessing.
+* fin
+> face ignace up
+
+# ---------------------------------------------------------------- Tova and Ignace
+
+== ti_flare
+> music camp
+> walk tova @camp_tova
+> walk ignace @camp_ignace
+> walk hero @camp_hero
+> face tova ignace
+> face ignace tova
+> mood tova anger
+Tova: forty years. your church took Board money to keep her as a statue.
+Ignace: Not my church. I just rent the robe.
+Tova: you wear it. you sell her candles.
+Ignace: I sell candles. I don't sell her.
+Tova: same thing up here.
+> face hero tova
+?
+- Tova's right. He sold her, too. -> tova
+- Ignace found the ledger. He's the one who told us. -> ignace
+- Not tonight. Both of you. -> none
+* tova
+> rel tova ignace -1
+> approve tova 1 ignace -1
+> goto fin
+* ignace
+> rel tova ignace 1
+> approve ignace 1 tova -1
+> goto fin
+* none
+* fin
+> rel tova ignace -2
+> set ti_flared
+> face tova up
+> face ignace up
+> wait 1
+
+== ti_confront
+> music camp
+> walk tova @camp_tova
+> walk ignace @camp_ignace
+> walk hero @camp_hero
+> face tova hero
+> face ignace hero
+> mood tova anger
+Tova: it's him or me at this fire. i'm done sleeping next to the robe.
+Ignace: I'll take the stairs. Saves us the lecture.
+Tova: no. you're staying. you'll lie down. that's what you do.
+> face hero tova
+?
+- You're right, Tova. Ignace, find another fire. -> tova
+- Ignace stays. Tova, he's not Velt. -> ignace
+- [Talk 3] Sit. Both of you. Just tell the truth, once. -> peace | none
+- ?approval:tova>=15&approval:ignace>=15 You both trust me. Trust me now. -> peace
+- I'm not here to judge. Figure it out yourselves. -> ignore
+* tova
+> rel tova ignace -2
+> approve tova 3 ignace -3
+> set ti_side_tova
+Ignace: Fair enough. That's a fair call.
+> walk ignace @camp_rail
+> face ignace up
+> goto fin
+* ignace
+> rel tova ignace -2
+> approve ignace 3 tova -3
+> set ti_side_ignace
+> mood tova grief
+Tova: okay. noted.
+> goto fin
+* peace
+> face ignace tova
+Ignace: My mother paid two gilt a night for forty years. To a statue. I hate them more than you do.
+> face tova ignace
+> mood tova calm
+Tova: ...you never mentioned that.
+Ignace: You never asked. I usually charge for answers.
+> rel tova ignace 5
+> approve tova 1 ignace 1
+> set ti_peace
+> goto fin
+* none
+Tova: see? he talks. he always talks.
+> rel tova ignace -1
+> set ti_failed
+> goto fin
+* ignore
+> set ti_ignored
+Ignace: The judge recuses. How very Board of you.
+* fin
+> set ti_confronted
+> wait 1
+
+== ti_split
+# The one with lower approval leaves. A tie sends Ignace.
+> music camp
+> walk tova @camp_tova
+> walk ignace @camp_ignace
+> walk hero @camp_hero
+> if approval:tova>=30&approval:ignace<30 -> ig
+> if approval:ignace>=30&approval:tova<30 -> tgo
+> if approval:tova>=15&approval:ignace<15 -> ig
+> if approval:ignace>=15&approval:tova<15 -> tgo
+> if approval:tova>=0&approval:ignace<0 -> ig
+> if approval:ignace>=0&approval:tova<0 -> tgo
+> goto ig
+* tgo
+> face hero tova
+> face tova hero
+> mood tova grief
+Tova: i'm going. i can't sleep next to the robe. kees needs me awake.
+Tova: don't follow me.
+> walk tova @camp_stern
+> exit tova
+> set tova_left
+> set ti_split_tova
+> approve tova -60
+> goto fin
+* ig
+> face hero ignace
+> face ignace hero
+Ignace: Friend, I've packed. I always pack first. It's a habit.
+Ignace: She won't stop, and she's right not to. Light a candle. Two gilt.
+> walk ignace @camp_stern
+> exit ignace
+> set ignace_left
+> set ti_split_ignace
+> approve ignace -60
+* fin
+> wait 1.5
+
+# ---------------------------------------------------------------- Sallis and Quaye
+
+== sq_flare
+> music camp
+> walk sallis @camp_sallis
+> walk quaye @camp_quaye
+> walk hero @camp_hero
+> face sallis quaye
+> face quaye sallis
+Sallis: Transfer order. Girl, nine, witch. Your name's on it.
+Quaye: Yes.
+Sallis: The Vein buried four kids that year. Board custody.
+Quaye: Forty gilt a month. Nine years. I know the number, Sallis.
+Sallis: Numbers. Always numbers.
+> face hero sallis
+?
+- She told us herself. That counts. -> quaye
+- Sallis has a right to be angry. -> sallis
+- Let it rest tonight. -> none
+* quaye
+> rel sallis quaye 1
+> approve quaye 1 sallis -1
+> goto fin
+* sallis
+> rel sallis quaye -1
+> approve sallis 1 quaye -1
+> goto fin
+* none
+* fin
+> rel sallis quaye -2
+> set sq_flared
+> face sallis up
+> face quaye up
+> wait 1
+
+== sq_confront
+> music camp
+> walk sallis @camp_sallis
+> walk quaye @camp_quaye
+> walk hero @camp_hero
+> face sallis hero
+> face quaye hero
+Sallis: She's signing us in for the next shift. That's what signers do.
+Quaye: I signed four hundred forms that year, Sallis. I still remember one.
+Sallis: It's her or me on watch. Pick.
+> face hero sallis
+?
+- Sallis takes watch. Quaye, get some sleep. -> sallis
+- Quaye stays on watch. She's earned it. -> quaye
+- [Talk 3] Quaye, tell her the girl's name. All of it. -> peace | none
+- ?approval:sallis>=15&approval:quaye>=15 Both of you trust me. We'll both stay on watch. -> peace
+- Sort it out yourselves. -> ignore
+* sallis
+> rel sallis quaye -2
+> approve sallis 3 quaye -3
+> set sq_side_sallis
+Quaye: Copy. Is that what you say? Copy.
+> goto fin
+* quaye
+> rel sallis quaye -2
+> approve quaye 3 sallis -3
+> set sq_side_quaye
+Sallis: No. ...Copy.
+> goto fin
+* peace
+> face quaye sallis
+Quaye: Marit. Nine years old. Her right hand was wrapped. She asked me if the vault had a window.
+Quaye: I told her yes. It didn't. That's the one I count.
+> face sallis quaye
+Sallis: ...First watch. You. Second watch. Me.
+> rel sallis quaye 5
+> approve sallis 1 quaye 1
+> set sq_peace
+> goto fin
+* none
+Sallis: No. Not from her.
+> rel sallis quaye -1
+> set sq_failed
+> goto fin
+* ignore
+> set sq_ignored
+Quaye: The kid's busy. Two hours each, Sallis. I'll keep time.
+* fin
+> set sq_confronted
+> wait 1
+
+== sq_split
+# The one with lower approval leaves. A tie sends Sallis.
+> music camp
+> walk sallis @camp_sallis
+> walk quaye @camp_quaye
+> walk hero @camp_hero
+> if approval:sallis>=30&approval:quaye<30 -> qgo
+> if approval:quaye>=30&approval:sallis<30 -> sgo
+> if approval:sallis>=15&approval:quaye<15 -> qgo
+> if approval:quaye>=15&approval:sallis<15 -> sgo
+> if approval:sallis>=0&approval:quaye<0 -> qgo
+> if approval:quaye>=0&approval:sallis<0 -> sgo
+* sgo
+> face hero sallis
+> face sallis hero
+Sallis: Moving out. Hanne's cell needs a pilot.
+Sallis: Don't follow. That's an order.
+> walk sallis @camp_stern
+> exit sallis
+> set sallis_left
+> set sq_split_sallis
+> approve sallis -60
+> goto fin
+* qgo
+> face hero quaye
+> face quaye hero
+Quaye: Kid. Nine days of her staring at me. That's plenty.
+Quaye: The Spin's open Thursdays. Bring laundry.
+> walk quaye @camp_stern
+> exit quaye
+> set quaye_left
+> set sq_split_quaye
+> approve quaye -60
+* fin
+> wait 1.5
+
+# ---------------------------------------------------------------- Romance: the spark
+
+== rom1_sallis
+> music camp
+> walk sallis @camp_rail
+> face sallis up
+> walk hero @camp_rail_side
+> face hero sallis
+Sallis: Clear sky. Rare. Stand here. Look up.
+> wait 1.5
+Sallis: Board lights usually drown out the stars. Not tonight.
+?
+- I'm not looking at the stars. -> yes
+- They're pretty. Good night, Sallis. -> no
+- The Board sells this view on the Brim, you know. -> money
+* money
+Sallis: Free tonight. Look.
+?
+- I'm not looking at the stars. -> yes
+- Good night, Sallis. -> no
+* yes
+> face sallis hero
+Sallis: Noted. Copy that.
+> set rom_sallis_1
+> approve sallis 1
+> goto fin
+* no
+> set rom_sallis_no
+Sallis: Good night.
+* fin
+> wait 1
+
+== rom1_tova
+> music camp
+> walk tova @camp_rail
+> face tova up
+> walk hero @camp_rail_side
+> face hero tova
+> mood tova joy
+Tova: you snore. a little. it's fine. i timed it. it sounds like a kettle.
+Tova: i wasn't watching you sleep. i was awake. it's different.
+?
+- Next time, wake me up. Then we'll both be awake. -> yes
+- I'll try to snore more quietly. -> no
+- Charge me for the kettle service. -> money
+* money
+Tova: two gilt per snore. you owe me about four hundred.
+?
+- Next time, wake me up. -> yes
+- Put it on my tab. Goodnight. -> no
+* yes
+Tova: ...alright. okay. yeah. i'll wake you.
+> set rom_tova_1
+> approve tova 1
+> goto fin
+* no
+> set rom_tova_no
+> mood tova calm
+Tova: yeah. okay. night.
+* fin
+> wait 1
+
+== rom1_ambrose
+> music camp
+> walk ambrose @camp_rail
+> face ambrose up
+> walk hero @camp_rail_side
+> face hero ambrose
+Ambrose: Friend. A sonnet has fourteen lines. I have composed one about a person by this fire.
+Ambrose: I won't say who it's about. Lines one through four concern a jaw. A fine jaw.
+?
+- Read me line five. -> yes
+- Keep it for its intended audience. -> no
+- How much would a sonnet fetch on the plaza? -> money
+* money
+Ambrose: Six gilt. Nine, if it includes a jaw. Shall I continue?
+?
+- Read me line five. -> yes
+- Keep it. Goodnight. -> no
+* yes
+Ambrose: Line five. "Who stands, when I am fallen, at the rail." Alright. That's the one.
+> set rom_ambrose_1
+> approve ambrose 1
+> goto fin
+* no
+> set rom_ambrose_no
+Ambrose: Then it stays unread. Which is how most poetry meets its end.
+* fin
+> wait 1
+
+== rom1_quaye
+> music camp
+> walk quaye @camp_rail
+> face quaye up
+> walk hero @camp_rail_side
+> face hero quaye
+Quaye: Kid. Forty-one years since anyone kept me company past ten bells.
+Quaye: His name was Brouwer. He counted worse than you.
+?
+- I'll keep watch. As long as you need me. -> yes
+- What happened to Brouwer? -> no
+- How much did Brouwer make? -> money
+* money
+Quaye: Thirty a month. I made forty. He minded. Sit or don't.
+?
+- I'll stay. -> yes
+- Goodnight, Quaye. -> no
+* yes
+Quaye: Ten bells. Eleven. I'll count.
+> set rom_quaye_1
+> approve quaye 1
+> goto fin
+* no
+> set rom_quaye_no
+Quaye: Flood. Ten bells. Get some sleep, kid.
+* fin
+> wait 1
+
+# ---------------------------------------------------------------- Romance: closer
+
+== rom2_sallis
+> music camp
+> walk sallis @camp_rail
+> walk hero @camp_rail_side
+> face sallis hero
+> face hero sallis
+Sallis: Burn scar. Barge fire, eight years ago. The jacket had a Board patch.
+Sallis: I tore the patch off with my burned hand. Didn't even feel it.
+Sallis: Nobody ever asks about the hand. You looked, but you didn't ask.
+?
+- Let me see it. -> yes
+- I figured you'd tell me when you were ready. -> yes
+- I'll ask later. Goodnight. -> no
+* yes
+> wait 1
+Sallis: Copy that.
+> set rom_sallis_2
+> approve sallis 2
+> goto fin
+* no
+Sallis: Copy. Later.
+* fin
+> wait 1
+
+== rom2_tova
+> music camp
+> walk tova @camp_rail
+> walk hero @camp_rail_side
+> face tova hero
+> face hero tova
+> mood tova calm
+Tova: i once woke a kettle for my mum. it sang whenever she was sad.
+Tova: it drove her mad. she kept it for four years.
+Tova: i want to wake something for you. something good. tell me what.
+?
+- Something that sings when you're sad. -> yes
+- Don't bleed for me. -> yes
+- Something I can sell. -> no
+* yes
+> mood tova joy
+Tova: okay. working on it. don't look.
+> set rom_tova_2
+> approve tova 2
+> goto fin
+* no
+> mood tova anger
+Tova: wow. okay. never mind.
+* fin
+> wait 1
+
+== rom2_ambrose
+> music camp
+> walk ambrose @camp_rail
+> walk hero @camp_rail_side
+> face ambrose hero
+> face hero ambrose
+Ambrose: My knee locked up today. Right out in the street. I went down like a wardrobe.
+Ambrose: You picked me up and didn't say a word. It was the best thing anyone's ever said to me.
+?
+- You'd do the same for me. -> yes
+- Let's get that knee fixed. -> yes
+- Bodywell owes you a new knee. -> no
+* yes
+Ambrose: I would. I'd do it with both my rented arms. Okay. Good night, friend. Good night.
+> set rom_ambrose_2
+> approve ambrose 2
+> goto fin
+* no
+Ambrose: Bodywell owes me nothing. That's the deal.
+* fin
+> wait 1
+
+== rom2_quaye
+> music camp
+> walk quaye @camp_rail
+> walk hero @camp_rail_side
+> face quaye hero
+> face hero quaye
+Quaye: Kid. I'm seventy-one. You're not.
+Quaye: Fifty years between us, give or take. I did the math twice.
+?
+- I can count, too. I'm still here. -> yes
+- You're right. Let's drop it. -> no
+- Fifty's a good number. -> yes
+* yes
+Quaye: Still here. Hm. Noted.
+> set rom_quaye_2
+> approve quaye 2
+> goto fin
+* no
+> set rom_quaye_off
+Quaye: Good. Sensible. Go to sleep.
+* fin
+> wait 1
+
+# ---------------------------------------------------------------- Romance: two at once
+
+== rom_noticed
+> music camp
+> walk hero @camp_hero
+> if rom_sallis_1&!rom_sallis_off -> s
+> goto t
+* s
+> walk sallis @camp_sallis
+> face sallis hero
+Sallis: Two fires. You sit at both. Pick one.
+* t
+> ifnot rom_tova_1&!rom_tova_off -> a
+> walk tova @camp_tova
+> face tova hero
+> mood tova anger
+Tova: i'm not stupid. i saw. so?
+* a
+> ifnot rom_ambrose_1&!rom_ambrose_off -> q
+> walk ambrose @camp_ambrose
+> face ambrose hero
+Ambrose: I am a patient man, friend, but I am not furniture. Choose.
+* q
+> ifnot rom_quaye_1&!rom_quaye_off -> pick
+> walk quaye @camp_quaye
+> face quaye hero
+Quaye: Two of us, kid. I count. Everybody here counts.
+* pick
+?
+- ?rom_sallis_1&!rom_sallis_off Petra. -> ps
+- ?rom_tova_1&!rom_tova_off Tova. -> pt
+- ?rom_ambrose_1&!rom_ambrose_off Ambrose. -> pa
+- ?rom_quaye_1&!rom_quaye_off Hester. -> pq
+- Neither. I'm sorry. Both of you. -> none
+* ps
+> set rom_tova_off
+> set rom_ambrose_off
+> set rom_quaye_off
+> approve sallis 2
+Sallis: Understood.
+> goto fin
+* pt
+> set rom_sallis_off
+> set rom_ambrose_off
+> set rom_quaye_off
+> approve tova 2
+Tova: oh. okay. good.
+> goto fin
+* pa
+> set rom_sallis_off
+> set rom_tova_off
+> set rom_quaye_off
+> approve ambrose 2
+Ambrose: Then I am chosen. Very well.
+> goto fin
+* pq
+> set rom_sallis_off
+> set rom_tova_off
+> set rom_ambrose_off
+> approve quaye 2
+Quaye: Hester. Nobody calls me that. Fine.
+> goto fin
+* none
+> set rom_sallis_off
+> set rom_tova_off
+> set rom_ambrose_off
+> set rom_quaye_off
+* fin
+> set rom_chosen
+> wait 1.5

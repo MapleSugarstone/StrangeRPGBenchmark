@@ -1,0 +1,321 @@
+# Camp in the crypt under the church, chapter 3. The rest command plays the first ready scene from
+# src/content/act3.ts. Tova and Ignace wait at camp_tova and camp_ignace and run their camptalk hubs.
+# The other companions' hubs are in camp2.txt.
+
+# ---------------------------------------------------------------- Camp props
+
+== crypt_bedroll
+?
+- Choose who joins you. -> pick
+- {courtesy} Speak with Courtesy. -> courtesy
+- {sallis} Speak with Sallis. -> sallis
+- {quaye} Speak with Quaye. -> quaye
+- {ambrose} Speak with Ambrose. -> ambrose
+- {tova} Speak with Tova. -> tova
+- {ignace} Speak with Ignace. -> ignace
+- Not now. -> no
+* pick
+> anim party
+> end
+* courtesy
+> goto camptalk_courtesy
+* sallis
+> goto camptalk_sallis
+* quaye
+> goto camptalk_quaye
+* ambrose
+> goto camptalk_ambrose
+* tova
+> goto camptalk_tova
+* ignace
+> goto camptalk_ignace
+* no
+
+# ---------------------------------------------------------------- Find: Quaye's form
+
+== camp3_quaye
+> music camp
+> walk quaye @camp_quaye
+> face quaye down
+> walk hero @camp_hero
+> face hero quaye
+Quaye: Kid. Sit. I told you I'd explain this on the Stair. This is the Stair.
+Quaye: Forty years ago, I was thirty-one. A Board engineer. Working on the Bailer project.
+Quaye: The night after the Flood, they brought a girl down to the vault.
+Quaye: Nine years old. From the Deeps. A witch. Her right hand was wrapped.
+Quaye: They needed a transfer order. A nine-year-old witch from the Deeps, into Board custody.
+Quaye: I signed it. Hester Quaye, engineer, second grade.
+?
+- You were thirty-one. They would have signed it without you. -> kind
+- You've known since the Spin. You let me walk up here blind. -> hard
+- What did they pay you for it? -> money
+* kind
+Quaye: They put someone else's name on it. Same girl in the vault.
+> approve quaye 2
+> goto line
+* hard
+Quaye: Yes. I did.
+Quaye: I was late. That's what I had.
+> goto line
+* money
+Quaye: A raise. Forty gilt a month. I took it for nine years.
+* line
+> wait 1
+Quaye: The order had a code at the top. Line 1.
+Quaye: Your port has been pulling toward Line 1 since the hold, kid.
+Quaye: I haven't been to that plaza in forty years. I don't look at her statue.
+Quaye: Go look at it. For me.
+> set quaye_confessed
+> quest raisedhand 9
+> face quaye up
+> wait 1.5
+
+# ---------------------------------------------------------------- First nights
+
+== camp3_tova
+> music camp
+> walk tova @camp_tova
+> face tova down
+> walk hero @camp_hero
+> face hero tova
+> mood tova calm
+Tova: you keep staring at my gloves.
+Tova: everyone does. i don't take them off. not in front of people.
+?
+- You don't have to. -> fine
+- Let me see your hands. -> show
+- How much did those cost? -> cost
+* fine
+> approve tova 1
+Tova: ...thanks.
+> goto kees
+* show
+> mood tova anger
+Tova: No.
+Tova: Nobody sees me bleed. Not the crowd, not my crew. Nobody.
+> approve tova -1
+> goto kees
+* cost
+Tova: forty. the leather's from the Brim. the dye isn't.
+* kees
+> wait 1
+> mood tova grief
+Tova: kees laughed like a duck. hah, hah, hah. exactly three times, every time.
+Tova: mum said he inherited it from me. i don't laugh like that.
+Tova: ...i do. a bit.
+Tova: he's got my laugh. and they've got him.
+> face tova up
+> wait 1.5
+
+== camp3_ignace
+> music camp
+> walk ignace @camp_ignace
+> face ignace down
+> walk hero @camp_hero
+> face hero ignace
+Ignace: Bless the crypt, friend. At least it doesn't charge rent to the weary.
+Ignace: That statue on the plaza costs two gilt. You can have it for free.
+?
+- Which voice is the real one? -> real
+- Did you ever actually believe any of it? -> believe
+- How much do you make in a night? -> money
+* real
+Ignace: This one. The quiet one. The other one is the one that pays.
+> approve ignace 1
+> goto close
+* believe
+Ignace: No. Not when I was a boy. Not when I wore the robe.
+Ignace: Then a port-walker steps onto my plaza and turns his head toward the Spire.
+Ignace: I still don't believe. I'm just paying attention.
+> goto close
+* money
+Ignace: Forty on a wet night. Ninety if there's a funeral.
+* close
+> wait 1
+Ignace: My mother lit a candle for her every night of her life.
+Ignace: Two gilt a night. Forty years. That's twenty-nine thousand gilt given to a statue.
+> face ignace up
+> wait 1.2
+
+== camp3_beacon
+> music camp
+> walk courtesy @camp_courtesy
+> face courtesy down
+> walk quaye @camp_quaye
+> face quaye courtesy
+> walk hero @camp_hero
+> face hero quaye
+Quaye: Kid. Your robot's beacon. I took a look while it was on watch.
+Quaye: It's a Board tracker. Pings every forty minutes. Hardwired into the core.
+Quaye: Water kills the signal in the Deeps. Up here, every lamp acts as a receiver.
+?
+- Can you just shut it off? -> cut
+- How long have they known where we are? -> long
+- What would it cost to crack it open? -> key
+* cut
+Quaye: Cut the line and the core dies with it. Your robot's just scrap.
+Quaye: I need a Board bench and the right tools. Lost Property has both.
+> goto close
+* long
+Quaye: Since the Lock. Twenty-six pings. I counted.
+> goto close
+* key
+Quaye: A service key. Six hundred on the street, if anyone had one. But nobody does.
+* close
+> face courtesy hero
+Courtesy: THIS UNIT IS TRACKED FOR YOUR SAFETY.
+Courtesy: THIS UNIT REGRETS THE INCONVENIENCE.
+> set beacon_studied
+> face quaye up
+> wait 1
+
+== camp3_argue
+> music camp
+> walk ambrose @camp_ambrose
+> walk tova @camp_tova
+> face ambrose tova
+> face tova ambrose
+> walk hero @camp_hero
+Ambrose: I hear your blood sells well. A drop for a dancing machine.
+Tova: my blood. mine. i sell it. you rent your arms off Bodywell.
+Ambrose: I do. Rent them by the month, with interest, from men who have never thrown a punch.
+Tova: and the Board buys red from kids like me. in a van. at six.
+Ambrose: Then we're both somebody's property. I just signed the paperwork.
+Tova: i didn't sign anything. i was six.
+> face tova hero
+> face ambrose hero
+?
+- You're both right. -> both
+- Tova's right. Nobody signed for her. -> tova
+- At least his arms are paid for. Most months. -> amb
+* both
+Tova: ugh.
+Ambrose: Diplomatic. The grammar of cowards.
+> goto close
+* tova
+> approve tova 2 ambrose -1
+Ambrose: ...Granted. I concede that point. And only that point.
+> goto close
+* amb
+> approve ambrose 1 tova -1
+Tova: wow. okay.
+* close
+> wait 1
+Ambrose: Tell me, then. Does it hurt? The bleeding.
+Tova: every time. you?
+Ambrose: Every month.
+> face tova up
+> face ambrose up
+> wait 1.2
+
+== camp3_noodles
+> music camp
+> walk hero @camp_hero
+> face hero down
+> sfx loot
+> wait 1
+PORT: What is this? It's in our mouth.
+?
+- Noodles. Hot. Eat slowly. -> slow
+- Food. You don't need it. -> no
+- Twelve gilts a box. Taste it properly. -> paid
+* slow
+> wait 2
+PORT: Hot. Then hotter. Then gone.
+PORT: Is that why you like noodles? I like noodles. Is that allowed?
+> self 2
+> set port_noodles
+> goto close
+* no
+PORT: I don't need it. I want it. Is that different?
+> self 1
+> goto close
+* paid
+PORT: Twelve. That's a small jar.
+* close
+> wait 1.5
+
+# ---------------------------------------------------------------- Companion hubs
+
+== camptalk_tova
+> face tova hero
+Tova: hey. what?
+?
+- Kees. -> kees
+- ?!tova_gloves Your gloves. -> gloves
+- Wake something up for me. -> wake
+- ?chapter>=4 About tonight. -> c4
+- Nothing. -> bye
+* kees
+> if courtesy_taken -> sunny
+> if kees_file -> file
+Tova: census office. on the plaza. his file's in there somewhere.
+> end
+* file
+Tova: form eleven. Recovery has it. Recovery has everything.
+> end
+* sunny
+Tova: sunny steps. i can see the roof from the stairs. it's yellow.
+> end
+* gloves
+> ifapprove tova 8 -> g2
+Tova: no.
+> end
+* g2
+> set tova_gloves
+Tova: ...alright. one finger.
+Tova: see? little scars. i make them with a pin. a sewing pin.
+Tova: don't tell anyone.
+> approve tova 1
+> end
+* wake
+Tova: no. i'm not a trick. ask me in a fight. or don't.
+> approve tova -1
+> end
+* c4
+> goto camptalk4_tova
+* bye
+
+== camptalk_ignace
+> face ignace hero
+Ignace: Speak, friend. The plain voice is free.
+?
+- ?spire_seen&!archive_lead The Spire. -> spire
+- ?!spire_seen The Spire. -> spire0
+- ?ledger_found The ledger. -> ledger
+- Velt. -> velt
+- Preach something. -> preach
+- ?chapter>=4 About tonight. -> c4
+- Nothing. -> bye
+* spire
+Ignace: I work that car park on Sundays. Grieving people tip.
+Ignace: Every Sunday, a Board car parks behind the Spire. Every Sunday.
+Ignace: The Church sends flowers up there every month. Velt signs for them.
+Ignace: The archive keeps the receipts. They're stored behind the vergers. I can get us close.
+> set archive_lead
+> quest raisedhand 7
+> end
+* spire0
+Ignace: Take the east street from the plaza. Sundays are best.
+Ignace: Every Sunday, a Board car parks behind the Spire. Every single Sunday.
+> end
+* ledger
+> if courtesy_taken -> l2
+Ignace: Four thousand a month to a household. Velt's name on every line.
+Ignace: I could sell that page back to Velt for a boat of my own.
+Ignace: Or read it out at the twelfth-bell service. I haven't decided yet.
+> end
+* l2
+Ignace: Not yet. Once we have her, I'll know what that page is worth.
+> end
+* velt
+Ignace: Twenty years as an archdeacon. Two boats. A good voice. Better than mine.
+> end
+* preach
+Ignace: Blessed be the leaseholder, for the arrears shall not find him!
+Ignace: Blessed be the wet, for they are washed already!
+Ignace: Two gilt, friend. Any blessing costs two gilt.
+> end
+* c4
+> goto camptalk4_ignace
+* bye

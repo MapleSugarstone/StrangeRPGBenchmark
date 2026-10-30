@@ -1,0 +1,173 @@
+# The Brim in chapter 6: Bram's view of his Lock, Mevrouw Oud who moved up from Pell Market,
+# a Board records clerk on a smoke break, and the readables on Board Plaza.
+
+== bram6
+> face bram hero
+> if bram_talked -> again
+Bram: Thirty years down there, and they drag me up for one bad night.
+Bram: Inquiry at nine bells. They want to know why the upper gate opened.
+?
+- Because you opened it. -> opened
+- What can you see from up here? -> view
+- What does the Board pay a Lockmaster? -> pay
+- ?bg:washout They washed me out of Recovery for one bad night, too. -> wash
+- ?!bram_done Can we help with the inquiry? -> hq_bram
+* wash
+Bram: Recovery. You'd know. One bad night, thirty good years, and they focus on the one.
+Bram: Glad you got out. Glad somebody did.
+> end
+* opened
+Bram: I did. Thirty years I waved at the Bailers. One night I opened a gate.
+> approve courtesy 1
+> goto view
+* pay
+Bram: Forty a night. Sixty on flood nights. Nobody's paid me for this one yet.
+* view
+> face bram left
+> camera @bram_spot 1
+Bram: My Lock. My tower light. Someone left it on. Me, most likely.
+Bram: The Bailers down below. Tiny as my thumb from here.
+> wait 1
+> face bram hero
+> camera hero 0.8
+Bram: I still wave. They can't see me. I keep waving.
+> set bram_talked
+> give stim 2
+> end
+* again
+> ifnot bram_done -> ask
+> face bram left
+Bram: Still heading down there. Still waving.
+> end
+* ask
+?
+- About the inquiry. -> hq_bram
+- Just waving. -> wave
+* wave
+> face bram left
+Bram: Still waving.
+
+== lock_scope
+> face hero left
+(The Board looms over the basin. Far below lies the Grand Lock.)
+> if bram_fired -> dark
+(The Lockmaster's tower light is on.)
+> goto bailers
+* dark
+(The Lockmaster's tower is dark.)
+* bailers
+> if marit_died -> after
+(The Bailers pace the canals, slow. One canal is empty.)
+> end
+* after
+> if bailers_stop -> stopped
+(The Bailers walk the canals. Slow and steady.)
+> end
+* stopped
+(The canals are filled to the boardwalks. No one is walking.)
+
+== sea_scope
+> face hero right
+(The Board looms over the sea. Dark water. Distant lights drift slowly.)
+PORT: Boats? Do they go anywhere? Where is anywhere?
+
+== board_notice6
+> face hero up
+(BOARD NOTICE. KEEP FATHOM DRY.)
+(The flood in the Deeps is under control. The Brim is unaffected.)
+(Line 1 program: Program Hendrik. Ask at the Crown.)
+
+== oud6
+> face oud hero
+> if oud_talked -> again
+Oud: Come under my awning, dear. There's always room up here.
+Oud: I came up from Pell Market eleven years ago. I haven't been wet since. I check my shoes.
+?
+- ?item:parcel Mevrouw Oud? This was delivered to No. 9 for you. -> parcel
+- What's it like up here, dry? -> dry
+- ?bg:runner I ran parcels to Pell Market when I was nine. Fish stall, Canal Four? -> runner
+- How much does a flat on the Brim cost? -> cost
+* parcel
+> take parcel
+Oud: My nephew's socks! From Pell Market. He knits them too long. Look at that.
+Oud: For the stairs, dear.
+> gilt 40
+> set oud_parcel
+> goto drone
+* dry
+Oud: Quiet. You can't hear the Bailers up here. Some nights I miss the noise.
+> goto drone
+* cost
+Oud: Everything I had. And my brother's boat. He won't speak to me.
+* drone
+> set oud_talked
+> ifnot parcel_sent -> fin
+Oud: And that drone. It hauled a parcel up the whole Wall and it won't go home.
+Oud: He's sleeping on the balcony rail. Breathing, at least.
+* fin
+> end
+* runner
+Oud: The Vos stall. Smells like mackerel and trouble. You must've been the kid on the bike.
+Oud: Oh, dear. Look at you, up on the Brim.
+> rep deeps 1
+> end
+* again
+Oud: Mind the wind, dear. It steals hats.
+
+== filer6
+> face filer hero
+> if clerk_card -> again
+Filer: Smoke break. Ten minutes. You didn't see me.
+?
+- What do you do in there? -> job
+- [Talk 3] About your keycard. The one for the locker by the doors. -> card | nocard
+- $200 Your keycard. -> card
+- ?bg:washout&item:boardpass Let's swap passes. Mine's expired, but the stripe is the same red. -> wcard
+- ?bg:vein Line 1 bloodwork. The Vein would pay to know whose. -> vein
+- Go back in. -> bye
+* wcard
+Filer: Recovery? With a stripe like that? ...Fine. Swap. Nobody really looks at the stripes anyway.
+> take boardpass
+> rep board -1
+> goto card
+* vein
+Filer: Whose? One name, forty years. M. Halsema. Tell your cellar people that.
+Filer: Then forget my face.
+> set met_vein
+> rep vein 2
+> end
+* job
+Filer: Records. Medical. Line 1 bloodwork, Tuesdays and Thursdays.
+Filer: The yield's been dropping for a year. I file the reports. Someone upstairs actually reads them.
+> end
+* card
+Filer: Locker by the doors. It's full of Board gear. Take it.
+> set clerk_card
+> rep board -1
+> ifnot party:quaye -> cq
+Quaye: Two hundred gilt for a locker of Board kit? That's a good price.
+> approve quaye 1
+* cq
+> end
+* nocard
+Filer: No. Ten minutes. Then I'm back at my desk.
+> end
+* again
+Filer: I'm on break. I've been on break all night.
+* bye
+
+== clerk_locker
+> face hero up
+> if clerk_looted -> empty
+> ifnot clerk_card -> locked
+> sfx loot
+> give bigstim 2
+> give vest
+> give shockgren 2
+> set clerk_looted
+> end
+* locked
+(A Board locker with a card reader.)
+> end
+* empty
+(Empty.)

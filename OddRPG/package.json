@@ -1,0 +1,10 @@
+{
+  "name": "spore-weaver",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tile-based role-playing game about a beetle girl, her mushroom girlfriend, and a clockwork fox.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "sim": "node tools/sim.cjs"
+  }
+}

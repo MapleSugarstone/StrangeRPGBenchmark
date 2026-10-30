@@ -97,7 +97,7 @@ export const CH2: MapDef[] = [
     enterScene: 'road1_enter',
   },
   {
-    id: 'market', name: 'The Lead Market', region: 'market', music: 'market', rows: mk.rows(), legend: MARKET,
+    id: 'market', name: 'The Shadow Market', region: 'market', music: 'market', rows: mk.rows(), legend: MARKET,
     markers: {
       east: [38, 9], market_gate: [36, 9], lot_board: [10, 6], stall_front: [11, 8], stall_side: [14, 8], alley_far: [2, 9], alley_mid: [6, 9],
       arch_in: [1, 9], under_stairs: [20, 22], market_sun_exit: [1, 25], from_under: [20, 22], west_exit: [1, 25],
