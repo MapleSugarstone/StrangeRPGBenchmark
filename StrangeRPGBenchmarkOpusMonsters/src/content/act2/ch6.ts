@@ -40,7 +40,7 @@ async function sceneWarp(map: string, x: number, y: number, dir: number): Promis
 
 const awake = () => !!flag('gleanerAwake');
 const sat = () => !!flag('gleanerSat');
-const giftName = () => ((G as any).a2gift?.name as string) || 'the whorl';
+const giftName = () => ((G as any).a2gift?.name as string) || 'the Whorl';
 
 // ---------------------------------------------------------------- the Conch's lip
 
@@ -652,10 +652,10 @@ async function hears(m: Mon): Promise<void> {
 async function chooseGift(): Promise<Mon> {
   for (;;) {
     const all = [...G.party, ...G.rack];
-    const i = await listMenu('Which whorl do you offer?', all.map(monLine), { w: 160 });
+    const i = await listMenu('Which Whorl do you offer?', all.map(monLine), { w: 160 });
     if (i < 0) continue;
     const m = all[i];
-    if (G.party.length === 1 && G.party[0] === m && all.length > 1) { await hint('(Your team must retain at least one whorl.)'); continue; }
+    if (G.party.length === 1 && G.party[0] === m && all.length > 1) { await hint('(Your team must retain at least one Whorl.)'); continue; }
     if (await choose(['Surrender it.', 'Select again.'], false, `${m.name}. It will not return.`) !== 0) continue;
     G.party = G.party.filter(x => x !== m);
     G.rack = G.rack.filter(x => x !== m);
@@ -675,7 +675,7 @@ async function theGift(): Promise<void> {
   await act('mouthcinch', 'bow');
   await cinch('Sit down. You can see its empty hand from this angle.');
   await cinch('It picked every shell off the sand. Clearly, it only ever needed one.');
-  await hint('(Select a whorl to offer it. It will not return.)');
+  await hint('(Select a Whorl to offer it. It will not return.)');
   const m = await chooseGift();
   const labeled = G.flags.labeledUid === m.uid;
   const labeledMon = [...G.party, ...G.rack].find(x => x.uid === G.flags.labeledUid);

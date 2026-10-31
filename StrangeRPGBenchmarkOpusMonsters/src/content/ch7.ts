@@ -54,7 +54,7 @@ defMap({
   zone: { kinds: [['gore', 3], ['thumb', 2], ['quarry', 2], ['portent', 2], ['plinth', 2], ['grotto', 2]], lv: [19, 21], n: 16, area: 'rubble', fitted: 0.25 },
   npcs: [
     { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 20], ['gore', 20]], intro: 'The Hilt is under guard. I am the guard. I am the entire guard.', defeat: 'That is, I was the entire guard.', sight: 4 } },
-    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 20], ['portent', 20]], intro: 'There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!', defeat: 'Both halves are gone. A terrible day for halves.', sight: 4 } },
+    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 20], ['portent', 20]], intro: 'There are conjoined Whorls roaming free out here now. Two shells fused into one. Naturally!', defeat: 'Both halves are gone. A terrible day for halves.', sight: 4 } },
     { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 20], ['quarry', 20]], intro: 'Moonwater is flowing tonight. Everyone is going. Bring a towel.', defeat: 'Very well. You are going too, then.', sight: 3 } },
     { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 20], ['gore', 20], ['crane', 20]], intro: 'Folks ask if it\'s sharp. It\'s a Seal! Sharpness isn\'t the point. I\'m the smith. I\'d know.', defeat: 'Go look for yourself, then.', sight: 4 } },
     { id: 'mwguard', blocks: true, x: 16, y: 28, sprite: 'peeler', name: 'Hermit', when: () => !flag('pithBeaten'), lines: ['Moonwater is closed. Murex says so. If you want to argue, Murex is in the Hermitage.'] },
@@ -196,7 +196,7 @@ defMap({
     { id: 'g1', x: 16, y: 9, sprite: 'keeper', name: 'Guard', lines: () => flag('fullCaught') ? ['We\'ve stood watch over it for two hundred years, and tonight it\'s finally moving.', 'I\'ve never seen a protocol for that. I checked.'] : ['Our job is to guard the sword.', 'No living soul has laid eyes on the blade, which is exactly why we\'re so good at our jobs.'] },
     { id: 'g2', x: 8, y: 17, sprite: 'villager', name: 'Woman', lines: ['The blade is visible! No one alive has ever seen the blade, and now I have!'], when: () => !!flag('fullCaught') },
     { id: 'g3', x: 22, y: 23, sprite: 'child', name: 'Child', wander: true, lines: ['I actually touched it. It\'s not even sharp. I\'m never washing this hand again.'] },
-    { id: 'g4', x: 3, y: 23, sprite: 'elder', name: 'Old man', lines: ['Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before.', 'Must be the moon.'] },
+    { id: 'g4', x: 3, y: 23, sprite: 'elder', name: 'Old man', lines: ['Wild conjoined Whorls are on the road now. Two shells fused into one. Never seen it before.', 'Must be the moon.'] },
     { id: 'sguard', blocks: true, x: 13, y: 28, dir: 3, sprite: 'keeper', name: 'Guard', when: () => !flag('chose_hilt'), lines: ['The crater road heads south. Quillon insists no one passes until the sword is accounted for.', 'And so, no one passes.'] },
     // Quillon and a Hermit by the sword after Quillon's fight.
     { id: 'quillonOut', x: 16, y: 12, sprite: 'quillon', name: 'Quillon', when: () => !!flag('hiltScene') },

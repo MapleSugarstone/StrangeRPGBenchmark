@@ -150,7 +150,7 @@ defMap({
   npcs: [
     { id: 'ohm', x: 6, y: 1, sprite: 'ohm', name: 'Ohm', talk: 'ohm' },
     { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah, alright. Me neither, now.', team: () => [withNotion('piston', 14, 'edgecharm'), withNotion('crane', 14, 'thornvest')] } },
-    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Right whorl gets a notion, and the whole whorl changes. Ohm showed me that. Didn\'t say a word.', defeat: 'Ohm\'s going to be quiet about this. Like, exceptionally quiet.', team: () => [withNotion('furnace', 14, 'embercoat'), withNotion('turbine', 14, 'waxseal')] } },
+    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Right Whorl gets a notion, and the whole Whorl changes. Ohm showed me that. Didn\'t say a word.', defeat: 'Ohm\'s going to be quiet about this. Like, exceptionally quiet.', team: () => [withNotion('furnace', 14, 'embercoat'), withNotion('turbine', 14, 'waxseal')] } },
   ],
 });
 
@@ -249,7 +249,7 @@ defScript('zestPylon', async () => {
   setFlag('wearing');
   field.wearing = true;
   await act('ouro', 'shiver');
-  await hint('(Press C to equip or remove your lead whorl. Its type determines which terrain you can traverse.)');
+  await hint('(Press C to equip or remove your lead Whorl. Its type determines which terrain you can traverse.)');
   await hint('(STONE crosses fractures. A fracture is a crack. TIDE walks on water. ROOT moves through thickets.)');
   await hint('(GEAR passes through dead machines. BEAST climbs ledges. STAR illuminates dark areas.)');
   goal('Pass through the gap in the Pylon.');

@@ -235,7 +235,7 @@ defScript('druse', async () => {
     await emote('druse', 'silence');
     await say(DRUSE, 'All twelve are set. Out in the crater fields, a geode just cracked open. I could hear it from here.');
     await say(DRUSE, 'The east crater, north of Fall. Focus on its south rim. Bring something soft to cover your ears.');
-    if (n + shopSolved() < ALL_PUZZLES.length) await say(DRUSE, 'Inside the Hollow, the whorl is still ticking. It demands every sketch, including the Shellwrights\'.');
+    if (n + shopSolved() < ALL_PUZZLES.length) await say(DRUSE, 'Inside the Hollow, the Whorl is still ticking. It demands every sketch, including the Shellwrights\'.');
     faceToward('druse', 'ouro');
     setFlag('geodeTold');
     return;
@@ -249,11 +249,11 @@ defScript('druse', async () => {
       await say(DRUSE, 'The entrance is a seam in the east crater, a lock of twelve settings.');
       await say(DRUSE, 'Set all 12 sketches and it opens.');
       await act('druse', 'look');
-      await say(DRUSE, 'Inside, there\'s a whorl strung like a necklace. I\'ve never seen it, but I know it\'s there.');
+      await say(DRUSE, 'Inside, there\'s a Whorl strung like a necklace. I\'ve never seen it, but I know it\'s there.');
       save();
       return;
     }
-    await say(DRUSE, `${n} of 12. Inside the geode, the whorl is counting in time with you.`);
+    await say(DRUSE, `${n} of 12. Inside the geode, the Whorl is counting in time with you.`);
     return;
   }
   // Below half, Druse just reacts to how much Ouro has played.

@@ -141,7 +141,7 @@ defScript('a2MovingSpot', async () => {
 
 defScript('a2Gray', async () => {
   await emote('ouro', 'silence');
-  if (!flag('grayTold')) { setFlag('grayTold'); await hint('(A SALT whorl worn in the lead walks you through the gray.)'); }
+  if (!flag('grayTold')) { setFlag('grayTold'); await hint('(A SALT Whorl worn in the lead walks you through the gray.)'); }
 });
 
 defScript('a2MouthOutside', async () => {
@@ -299,7 +299,7 @@ defScript('a2MaculaChild', async () => {
   await wait(30);
   await say('Child', 'Put one on, and you\'ll be able to walk in it. They\'re on the Cowrie\'s back. Go catch one!');
   await unprop('madaku', 16);
-  if (!flag('blankTold')) { setFlag('blankTold'); await hint('(A VOID whorl worn in the lead guides you across the blank.)'); }
+  if (!flag('blankTold')) { setFlag('blankTold'); await hint('(A VOID Whorl worn in the lead guides you across the blank.)'); }
 });
 
 // ---------------------------------------------------------------- the Under-teeth: the teeth
@@ -600,7 +600,7 @@ defScript('a2Gloss', async () => {
   if (!(await keeperFight('Gloss', GLOSS_TEAM, 'You lost to the light. The light lost to you.'))) return;
   await say('Gloss', 'The grain is yours, a gift! A gift, the grain is yours!');
   await giveGrain('Gloss');
-  await hint('(With two grains, your whorls can reach Strand level 18.)');
+  await hint('(With two grains, your Whorls can reach Strand level 18.)');
   await say('Gloss', 'The light came in at low water. At low water, the light came in.');
   await fingerTake();
 });

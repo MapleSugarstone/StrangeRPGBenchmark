@@ -753,7 +753,7 @@ export class Field implements Mode {
     }
     if (scaleNow.strand && !G.flags.strandTold) {
       G.flags.strandTold = 1;
-      await hint('(Out here, your whorls fight at their Strand level. It begins at 3.)');
+      await hint('(Out here, your Whorls fight at their Strand level. It begins at 3.)');
       await hint('(It rises only on the Strand. Moves, habits, notions, and nacre all travel with them.)');
     }
     const r = await battle({ enemy: [w.mon], name: 'Wild', ai: 'wild', wild: true, canRun: true, bg: this.bg(), area: this.map.zone?.area, music: scaleNow.strand ? 'wildStrand' : 'wild' });

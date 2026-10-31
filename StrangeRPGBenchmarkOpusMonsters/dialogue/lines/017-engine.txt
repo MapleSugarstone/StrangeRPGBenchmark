@@ -85,7 +85,7 @@
 [13xcpg4] menu | Projectile: guards take only 0.25x damage.
 [1c1pvfb] menu | Spell: ignores walls. Silence prevents its effect.
 [0zsw8at] menu | Channel: Ends on a stun, silence, or switch.
-[13frs6l] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.
+[192b3yl] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf Whorl takes 0.5x.
 [0f6mx4f] menu | Quick: Goes first.
 [0j3dz24] menu | Late: Acts after the enemy in the round.
 [1856v6d] menu | Splash: Each reserve foe takes a portion of the damage.
@@ -428,7 +428,7 @@
 [0ku32fs] menu | Use only name-screen letters.
 
 == scene: whorlProblems
-[0yiskio] menu | isn't a whorl.
+[00abkqo] menu | isn't a Whorl.
 [04biyac] menu | bears a name the name screen cannot render in {WHORL_NAME_MAX} characters.
 [0kpv3bw] menu | holds a notion the game does not know.
 [0t3ycz2] menu | bears a starborn sigil that defies reading.
@@ -451,17 +451,17 @@
 [1s4ye7p] menu | is a fit with a look that cannot be drawn.
 
 == scene: teamProblems
-[1v73qxv] menu | A roster is a collection of whorls.
-[1hhsfap] menu | Each roster contains {ROSTER_SIZE} whorls.
-[1hsw96i] menu | Two whorls hold {#1}. A roster takes each notion once.
+[0pgcvur] menu | A roster is a collection of Whorls.
+[1669f81] menu | Each roster contains {ROSTER_SIZE} Whorls.
+[1khdmca] menu | Two Whorls hold {#1}. A roster takes each notion once.
 [0ej9pf0] menu | {#1} appears on this roster twice: within {first} and within {who}.
 [0qls52r] menu | Max one legendary per roster. A fit with a legendary parent counts. {legends} is here.
 
 == scene: pickProblems
-[0fto77h] menu | A pick is a selection of whorls drawn from the roster.
-[0cjxhed] menu | Each pick contains {TEAM_SIZE} whorls.
-[0xt6shx] menu | A pick identifies a whorl that is absent from the roster.
-[0z8bz1p] menu | A pick repeats a whorl.
+[1lip0kd] menu | A pick is a selection of Whorls drawn from the roster.
+[018ehbp] menu | Each pick contains {TEAM_SIZE} Whorls.
+[1svyip1] menu | A pick identifies a Whorl that is absent from the roster.
+[111ovm5] menu | A pick repeats a Whorl.
 
 ==== file: src/game/api.ts
 
@@ -478,10 +478,10 @@
 [1g4ore1] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
 [1cg57er] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
 [0la9v9a] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
-[1mjsbar] menu | This always works on a wild whorl.
+[0a39xar] menu | This always works on a wild Whorl.
 
 == scene: act
-[02w5cbk] menu | No whorls to contain it.
+[0q5p2kg] menu | No Whorls to contain it.
 
 == scene: pick
 [0hyqrr8] menu | {m.name} holds no notion.
@@ -490,8 +490,8 @@
 [0kvtnu1] menu | {m.name} is now holding {e.name}.
 
 == scene: drawSub
-[1gqita2] menu | Which whorl?
-[0j3b4ip] menu | To which whorl?
+[0crzbh6] menu | Which Whorl?
+[1anhs5d] menu | To which Whorl?
 
 ==== file: src/game/battleView.ts
 
@@ -511,7 +511,7 @@
 == scene: finishBattle
 [04vgo5w] menu | {full.mon.name} subsides, then rises again, diminished.
 [1rmew1j] menu | {f.mon.name}'s {n.name} has been lost.
-[1e5jd0p] menu | Each whorl in your team takes {xp} experience.
+[1hjepl5] menu | Each Whorl in your team takes {xp} experience.
 [07r8cif] menu | Level {cap} is the maximum the pearls permit.
 [0nmtes2] menu | The bounty awards {bounty} cowries.
 [1iny0e0] menu | Your entire team is defeated.
@@ -521,31 +521,31 @@
 
 == scene: showInfo
 [052kl4f] menu | Its passives are temporarily suppressed.
-[05kid4x] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out whorl moves to the back of the line.
+[1l5sfc1] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out Whorl moves to the back of the line.
 [15kag3h] menu | Fog covers {#1} bench for {#2} rounds: nothing from the other side reaches the reserves.
-[16275ae] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next whorl to emerge consumes it.
+[111zzxi] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next Whorl to emerge consumes it.
 [15voyww] menu | {#1} side can run up to {cr} tide into debt to pay for a crest.
 [18tvcqb] menu | {#1} side owes {#2} tide: incoming tide first pays down this debt.
 [1dshl3x] menu | {#1} side is locked for {#2} rounds: its switches go after the other side acts in joint rounds.
 [0twoj84] menu | {#1} of {#2} tide is pink for {#3} rounds: this tide cannot be used to pay for a crest.
 [1r1ndx3] menu | {#1} crests cost {#2} {#3} tide for {#4} rounds.
 [13gdp17] menu | {#1} is airborne for {o.up} more turn{#3}: dashes from the ground cannot reach it, and ground-based interactions do not affect it.
-[1ctwimj] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other whorls.
+[1pn95d7] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other Whorls.
 [147v5rj] menu | {#1} triggers {#2}, in that sequence. then {#3}: {#4}
 [10u4r83] menu | {#1} guards {#2} from reserve: a foe that strikes {#3} is subject to it.
 [0323ujn] menu | {#1} intercepts all heals intended for {#2}: each heal is redirected to {#3} instead.
-[06zek28] menu | {#1} is Silent: no other whorl's passives, stances, or holes detect its actions.
+[064jr8w] menu | {#1} is Silent: no other Whorl's passives, stances, or holes detect its actions.
 [0xd46mk] menu | {#1}'s next attack or move is stored in the cave and returns later.
 [02r7ki5] menu | {#1}'s {#2} is stored in the cave and will return soon.
 [0glf9fi] menu | {#1} maintains its lock on {#2}: its single-target moves hit that target, whether in play or in reserve.
 [0crnejw] menu | Low Water lasts for {#1} rounds: a star falls every round, and attacks generate no tide.
-[0zuxh06] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out whorl for {#3}% each turn.
+[1ncrz92] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out Whorl for {#3}% each turn.
 [06038ui] menu | {#1} rides {#2}, consuming {#3}% of its max HP each turn its side takes action.
 [11bwr3s] menu | {#1} vs {#2}. {#3}-{#4}. {bt.left} left. No switch. More damage wins. First to 2 wins Empower 2 + 15% heal. Loser gets Stun 1.
-[1pvispe] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+[1ja0ocy] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out Whorls: a TIDE Whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
 [0wo71eb] menu | Wind hits {#1} side for {#2} rounds: throws with it do 1.2x, against it 0.8x.
-[0rjpbd4] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out whorl leaves.
-[1mcbt9h] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out whorl leaves.
+[1m2ll7s] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out Whorl leaves.
+[17jz0ed] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out Whorl leaves.
 [1gvo9li] menu | {#1} has {due} damage over time remaining. If the timer expires, all accumulated damage hits at once.
 [027kit9] menu | {#1} and {#2} have swapped bodies for {o.swap.turns} more of {#4}'s turns. each now uses the other's appearance, types, passives, and moves. if either leaves the field, the swap ends.
 [1xho9uc] menu | {#1} waits: when the other side acts, it casts {#2} first.
@@ -553,7 +553,7 @@
 [1gcc94m] menu | A mirage over {#1} shows the foe {o.mirage.hp} more HP than it has, for {o.mirage.turns} more of its turns.
 [006bovs] menu | {#1} shimmers: a mirage may display more HP than it actually has.
 [1cwjq2s] menu | {#1} is Fractured for {o.fracture.turns} more turn{#3}: no healing can restore its HP above {#4}.
-[13mbqhd] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the whorl becomes Stunned 1.
+[11wi5wx] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the Whorl becomes Stunned 1.
 [0tn5d5b] menu | {#1} is in cold storage for {r.stored.turns} more turn{#3}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals {#4}% of its max hp each turn.
 
 == scene: updateSwitch
@@ -603,8 +603,8 @@
 == scene: say
 [1gb4gyn] menu |  If it hits: +1 tide.
 [0u8izn2] menu | Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can't be forced out.
-[1bi4jip] menu | Your side is trapped, so the foe acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
-[0jxn9um] menu | Acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
+[10pgvgx] menu | Your side is trapped, so the foe acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
+[0kshdni] menu | Acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
 [06e769r] menu | Catch it with a horn. The weaker the foe, the more likely it curls inward.
 [0oz7wrk] menu | Acts first in a round. Leave. It always succeeds.
 [14z5ho8] menu | Wait for the foe to act, then choose. Reads of a waiting foe see you wait.
@@ -625,7 +625,7 @@
 [0x75f6u] menu | {tr.nacre} nacre gained. Any grotto can layer it on.
 
 == scene: encounter
-[1eu1xg5] menu | (Out here, your whorls fight at their Strand level. It begins at 3.)
+[1ehtv91] menu | (Out here, your Whorls fight at their Strand level. It begins at 3.)
 [0exjpou] menu | (It rises only on the Strand. Moves, habits, notions, and nacre all travel with them.)
 [05k78tm] menu | {m.name} has joined your squad.
 [1khg13o] menu | {m.name} heads to the Midden.

@@ -79,7 +79,7 @@
 [0zi4r5y] Gran | Let them know the Seals are the great posts that keep the world sealed shut.
 [0ijw6cb] Gran | That crack in the village means they're pulling too tight.
 [16ngtxu] Gran | Tell the Sealkeepers. Rib is first, heading west along the Midden Road.
-[0s3jgks] Gran | Let them know most people keep their own shed shell as their first whorl.
+[0wyeojw] Gran | Let them know most people keep their own shed shell as their first Whorl.
 [0lylq6t] Gran | Since theirs is still on, they'll need another one.
 [07l3z5i] Gran | Let them know the Strandmonger takes in strays. No specific breeding.
 [1s8i5ge] Gran | Let them know I walked the Rim myself, and came home with a pearl and a cough.
@@ -106,7 +106,7 @@
 [16vs3os] Tack's mum | Don't scratch, Tack.
 [1bzvvh0] Tack | Mum. I haven't scratched for 3 days.
 [1wbnqla] Tack's mum | There it is, pet. Your first shell, intact. It even has your shape.
-[051qlxy] Tack's mum | Every whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
+[06c2jcm] Tack's mum | Every Whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
 [1o07622] Tack | 1. Right, that's 1.
 [1bdfno8] Tack | Name's Tackle. Had it ready 4 years ago. Took you long enough.
 [031naj4] Tack's mum | Oh, love. It's been a rough year.
@@ -119,19 +119,19 @@
 [0hrriyj] goal | Go home to Gran.
 
 == scene: turnBackWest
-[1hiubtb] ? (turnBack) | The west road is for those with a whorl. The mule won't walk it with you, and neither will I.
+[1uk2vzj] ? (turnBack) | The west road is for those with a Whorl. The mule won't walk it with you, and neither will I.
 
 == scene: turnBackNorth
-[191xlq2] ? (turnBack) | No getting past the wood without a whorl. The stream's rude about it.
+[0p7muca] ? (turnBack) | No getting past the wood without a Whorl. The stream's rude about it.
 
 == scene: turnBackSouth
-[1w0swoh] ? (turnBack) | Mum's rule is simple: no beach access unless you have a whorl. Not even for paddling. I checked.
+[04dt93l] ? (turnBack) | Mum's rule is simple: no beach access unless you have a Whorl. Not even for paddling. I checked.
 
 == scene: tackCalls
 [0fr6vk1] Tack | OURO! Not that way! 1 battle first. I'm at the west road!
 
 == scene: crazeHole
-[1tnzzua] ? (turnBack) | Don't go down without a whorl. Half of us went down there. Look how that went.
+[09ldvma] ? (turnBack) | Don't go down without a Whorl. Half of us went down there. Look how that went.
 
 == scene: fellmonger
 [1so0en0] Strandmonger | Opening later, because it's Shedding Day!! Go stand under that sky.
@@ -154,7 +154,7 @@
 [0scn8y3] Strandmonger | That one set me back two cowries and a sandwich. I'm still sore about the sandwich.
 [1xhte1i] Strandmonger | Here's the Register. You catch a species, I log it. Writing's free. Holding it's a cowrie.
 [0vogcvz] Strandmonger | Five periwinkle horns. I charge for those!! Put it on your gran's tab. She'll love it.
-[05nqjqp] Strandmonger | Dull them down a bit, then catch them. A weaker whorl makes for a surer catch.
+[0zcefm9] Strandmonger | Dull them down a bit, then catch them. A weaker Whorl makes for a surer catch.
 [049wioa] Strandmonger | Weak enough, and it never fails.
 [1x57gg3] Strandmonger | Start with the Rib. Knuckle keeps it. Hands on Knuckle, I'd price at a house each.
 [1ho0xon] Strandmonger | The pearl's cheap.
@@ -179,7 +179,7 @@
 [1u6q7h4] Tack | Try {#1}. Tackle is ready. Tackle is always ready.
 [1pt0my4] Tack | Hey. 1 battle before you go. Just you and me.
 [0jm41zp] Tack | Tackle has 4 moves but I've seen 2. Why won't it reveal the rest?
-[0supumr] hint | (Only one whorl fights at a time. The others wait in reserve. Switch to bring one out.)
+[02giq5v] hint | (Only one Whorl fights at a time. The others wait in reserve. Switch to bring one out.)
 [06r5wl5] hint | (Preview a move before choosing it. It says "Strong" when the foe is weak to it.)
 [0q8yo04] Tack | {#1} The road stays closed until you win 1. I'll wait.
 [06oxk7y] Tack | {#1} Alright. I'm writing it down.
@@ -197,14 +197,14 @@
 [1pnbzg8] Hermit | My apologies. Bare told me to bring a deep one to the Mast. This one counts as deep.
 [13vi8vc] Man at the well | She's the only water source in Turnstone!
 [1nzxj77] Hermit | Turnstone's got a fracture too, doesn't it? That's the Seals. They grip too tightly.
-[0kdkfs7] Hermit | Large whorls can wrench a Seal loose. So we take large whorls.
+[1i2bktj] Hermit | Large Whorls can wrench a Seal loose. So we take large Whorls.
 
 == scene: c
 [1xgqr8u] choice | Give it back
 [192818s] choice | Who's Bare?
 
 == scene: peelers
-[0am4k5q] Hermit | She leads the Hermits. Never sheds, just like you.
+[0t1616n] Hermit | She leads the Hermits. She hasn't had her first shed either.
 [1vzk8ld] Hermit | She says the entire Volute is overdue for a shedding. The fractures are it struggling to break free.
 [16fqaoz] Hermit | No can do. It's ours now.
 [0snz6w6] Man at the well | We drink from her! Where is Turnstone supposed to get its water?
@@ -300,10 +300,10 @@
 [1v1elq5] Leeward | Tide rises with every landed strike and successful guard.
 [015zens] Leeward | After a knockout, a spring tide of great abundance.
 [1v6jj7u] Leeward | Pressure: Plummeting!! A crest approaches. Watch the line at the top.
-[1v4qnb4] hint | (A crest is a whorl's most powerful move. A crest consumes tide.
+[1r9ktpc] hint | (A crest is a Whorl's most powerful move. A crest consumes tide.
 [1ts8had] hint | Your entire team shares a single tide pool.)
 [1tmeao7] hint | (You gain tide when an Attack connects, when a move strikes your Guard,
-[0wpgypw] hint | and when a whorl is knocked out.)
+[179otd0] hint | and when a Whorl is knocked out.)
 [1wr20ul] Leeward | A profound calm ensues. The Mast pearl is bestowed upon you, beneath clearing skies.
 [12879x9] notice | Ouro receives the Mast pearl.
 [0sd5t0y] Leeward | Gusts of Hermits at the base. Thirteen, by the count.

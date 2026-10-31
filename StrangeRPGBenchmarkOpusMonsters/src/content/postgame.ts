@@ -171,7 +171,7 @@ function stackTeam(floor: number) {
 }
 
 defScript('stack', async () => {
-  await say('Stackkeeper', 'Every level is a battle! Your whorls stand at fifty, all of them.');
+  await say('Stackkeeper', 'Every level is a battle! Your Whorls stand at fifty, all of them.');
   await say('Stackkeeper', 'Only conjoined foes are permitted on this floor.');
   await say('Stackkeeper', 'Victory means rising one floor higher. Defeat means plunging back to the very bottom.');
   await say('Stackkeeper', `Your highest achievement so far is floor ${G.stackBest}.`);

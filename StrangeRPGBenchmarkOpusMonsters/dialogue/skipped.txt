@@ -96,7 +96,7 @@ not prose	src/content/areas1.ts	without the calluses
 not prose	src/content/areas2.ts	without striking
 not prose	src/content/areas3.ts	without pruning
 not prose	src/content/ch1.ts	The hare would've won :-(
-not prose	src/content/credits.ts	Every whorl Ouro conjoined
+not prose	src/content/credits.ts	Every Whorl Ouro conjoined
 not prose	src/content/credits.ts	Ouro's four at the end
 not prose	src/content/credits.ts	Seals Ouro pulled: {#1}
 not prose	src/content/credits.ts	Species in the Register: {pegged} of {WILD_KINDS.length}
@@ -587,12 +587,12 @@ not text	src/data/species7.ts	sets a stone in itself every breath
 protected	src/content/act2/ch1.ts	Climb over it
 protected	src/content/act2/ch1.ts	Climb over it
 protected	src/content/act2/ch1.ts	Driftwood boy
-protected	src/content/act2/ch1.ts	Leave a whorl in it
-protected	src/content/act2/ch1.ts	Leave a whorl in it
+protected	src/content/act2/ch1.ts	Leave a Whorl in it
+protected	src/content/act2/ch1.ts	Leave a Whorl in it
 protected	src/content/act2/ch1.ts	One got through.
 protected	src/content/act2/ch1.ts	One got through.
 protected	src/content/act2/ch2.ts	Gloss's clerk
 protected	src/content/act2/ch3.ts	Climber on the outside
 protected	src/content/act2/ch4.ts	Cinch's cast
 protected	src/content/act2/ch5.ts	Cinch's cast
-protected	src/content/act2/kit.ts	Leave a whorl in it
+protected	src/content/act2/kit.ts	Leave a Whorl in it

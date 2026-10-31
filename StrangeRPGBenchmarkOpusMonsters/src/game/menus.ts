@@ -199,7 +199,7 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       const per = tanPerLayer(lv);
       para(`Each layer grants ${tanText(per.stat)} to a single stat or ${tanText(per.hp)} to HP at level ${lv}, capping at ${TAN_PER_STAT} layers in any one stat.`, 16, DIM);
       if (m.fitted) { y += 3; para(`The seam reduces every stat by ${Math.round((1 - FIT_STAT) * 100)}%.`, 8, DIM); }
-      if (m.starborn) { y += 3; out.push({ y, s: 'Starborn', x: 8, c: STARLIGHT }); y += 9; para('Roughly one in four hundred wild whorls displays night-sky hues and sparkles.', 16, DIM); }
+      if (m.starborn) { y += 3; out.push({ y, s: 'Starborn', x: 8, c: STARLIGHT }); y += 9; para('Roughly one in four hundred wild Whorls displays night-sky hues and sparkles.', 16, DIM); }
       y += 6;
       para(entryOf(m), 8, PAPER);
       if (m.parents) { y += 3; para(`From ${m.parents[0]} and ${m.parents[1]}.`, 8, DIM); }
@@ -291,7 +291,7 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
 async function fourMenu(): Promise<void> {
   let sel = 0;
   for (;;) {
-    if (!G.party.length) { await say(null, `${HERO} has no whorls yet.`); return; }
+    if (!G.party.length) { await say(null, `${HERO} has no Whorls yet.`); return; }
     const i = await listMenu('Your team', G.party.map(monLine), {
       start: sel,
       w: 120,
@@ -363,7 +363,7 @@ export const KEY_USE: Record<string, () => Promise<boolean>> = {};
 async function charmMenu(): Promise<void> {
   const NAMES: Record<string, string> = {
     rib: 'Rib: lead takes 15% less damage', mast: 'Mast: tide starts at 4', spire: 'Spire: wind-ups land 25% sooner',
-    bole: 'Bole: conjoined whorls +8% damage', pylon: 'Pylon: notion actions twice', tusk: 'Tusk: 20% less wait after Switch',
+    bole: 'Bole: conjoined Whorls +8% damage', pylon: 'Pylon: notion actions twice', tusk: 'Tusk: 20% less wait after Switch',
     hilt: 'Hilt: a KO cuts cooldowns by 1', fall: 'Fall: first turn 25% sooner',
   };
   const opts = ['none', ...G.scales];

@@ -427,7 +427,7 @@ defPassive({ id: 'evaporite_dries', name: 'Dries Out', owner: 'evaporite', text:
   outMul(b, f, t) { return t.k.ringedBy === f.side + 1 ? 1.2 : 1; } });
 defMove({ id: 'evaporite_flake', name: 'Salt Flake', type: 'SALT', owner: 'evaporite', reach: 'single', tags: ['spell'], cd: 2, fx: 'flare | salt line | shatter', text: 'Hits for 125% MGK. Takes a Ring: 4% of the foe\'s max HP to itself.',
   run(c) { c.hit(c.tgt, { mgk: 1.25 }); takeRing(c, c.tgt); } });
-defMove({ id: 'evaporite_ring', name: 'Dry Ring', type: 'STONE', owner: 'evaporite', reach: 'spread', tags: ['spell'], cd: 3, fx: 'stomp | salt*4 orbit | shatter all', text: 'Hits for 91% MGK, +8% per whorl standing. Splash 35%. Heals 15% of it.',
+defMove({ id: 'evaporite_ring', name: 'Dry Ring', type: 'STONE', owner: 'evaporite', reach: 'spread', tags: ['spell'], cd: 3, fx: 'stomp | salt*4 orbit | shatter all', text: 'Hits for 91% MGK, +8% per Whorl standing. Splash 35%. Heals 15% of it.',
   run(c) { const n = standing(c.me).length + standing(c.them).length; const d = c.spread({ mgk: 0.91 }, { mult: 1 + 0.08 * n }); c.heal(c.u, d * 0.15); } });
 defMove({ id: 'evaporite_draw', name: 'Draw Water', type: 'SALT', owner: 'evaporite', reach: 'side', cd: 4, fx: 'sink | salt*2 rise | pillar ally', text: 'Summons a Salt Tomb (20% of its max HP, 3 turns).',
   run(c) { summon(c.b, c.u, 'evaporite_tomb', { hp: 0.2, turns: 3 }); } });
@@ -554,7 +554,7 @@ defMark({ id: 'albedo_empress', name: 'flaring', clock: 'own', volatile: true, v
 defPassive({ id: 'albedo_hard', name: 'Night Glare', owner: 'albedo', text: 'When a foe is KO\'d, and on every 4th hit it lands: gains a Shine, up to 3.',
   anyKO(b, f, v) { if (v.side !== f.side) f.k.shines = Math.min(3, (f.k.shines || 0) + 1); },
   afterDeal(b, f, t, dealt, d) { if (d.dot || d.reserve || t.side === f.side) return; f.k.glare = (f.k.glare || 0) + 1; if (f.k.glare % 4 === 0) f.k.shines = Math.min(3, (f.k.shines || 0) + 1); } });
-defPassive({ id: 'albedo_kept', name: 'Kept Shine', owner: 'albedo', text: 'When a whorl falls, friend or foe: it takes that whorl\'s first passive while out.',
+defPassive({ id: 'albedo_kept', name: 'Kept Shine', owner: 'albedo', text: 'When a Whorl falls, friend or foe: it takes that Whorl\'s first passive while out.',
   anyKO(b, f, v) { if (v === f || f.ko || f.gone || !isOut(b, f)) return; const p = passivesOf(v)[0]; if (p) lendPassive(b, v, f, p, 99); } });
 defMove({ id: 'albedo_glint', name: 'Night Glint', type: 'SALT', owner: 'albedo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | star line | sparkle',
   text: 'Hits for 145% MGK. Weaken 1.',
@@ -732,7 +732,7 @@ defMove({ id: 'crabwise_between', name: 'Between Slots', type: 'SALT', owner: 'c
 // magpie: a magpie that took one of everything and keeps it under its wings, a turn of every good status it sees included.
 defMark({ id: 'magpie_hacked', name: 'pecked', clock: 'own', volatile: true, negative: true, value: -0.15,
   forbid(b, f, what) { return typeof what === 'object' ? 'Hacked.' : null; } });
-defPassive({ id: 'magpie_each', name: 'One of Each', owner: 'magpie', text: 'When any whorl gains a good status: Picagi gains 1 turn of it too.',
+defPassive({ id: 'magpie_each', name: 'One of Each', owner: 'magpie', text: 'When any Whorl gains a good status: Picagi gains 1 turn of it too.',
   anyStatus(b, f, src, t, id) { if (isOut(b, f) && (GOOD as string[]).includes(id)) applyStatus(b, f, f, id, 1); } });
 defPassive({ id: 'magpie_wing', name: 'Under Wing', owner: 'magpie', text: 'The first time it comes out: Hidden 1 and Haste 1.',
   comeOut(b, f) { if (f.k.winged) return; f.k.winged = 1; applyStatus(b, f, f, 'hidden', 1); applyStatus(b, f, f, 'haste', 1); } });
@@ -1158,7 +1158,7 @@ defMove({ id: 'astrolabe_last', name: 'Last Reading', type: 'GEAR', owner: 'astr
   } });
 
 // pallasite: a fallen star, green and cold inside, caught in a shell before it touched sand, which shuts the shell again when hurt.
-defSummon({ id: 'pallasite_wall', name: 'Shell Wall', owner: 'pallasite', text: 'Takes the single-target hits meant for your out whorl.', every: 100, guard: true,
+defSummon({ id: 'pallasite_wall', name: 'Shell Wall', owner: 'pallasite', text: 'Takes the single-target hits meant for your out Whorl.', every: 100, guard: true,
   sprite: { px: ['........', '3.3..3.3', '33333333', '32222223', '32222223', '33333333', '44444444', '44444444'], c: ['#ebf3fa', '#73bbe3', '#395594'] },
   act() { /* the wall only stands */ } });
 defMark({ id: 'pallasite_chill', name: 'chill', max: 3, clock: 'own', negative: true, volatile: true, value: -0.06,
@@ -1197,7 +1197,7 @@ defMove({ id: 'pallasite_nova', name: 'Shell Nova', type: 'STAR', owner: 'pallas
 // halophile: a pink bloom off the saltiest pool on the Strand, which turns the water pink and grows pinker with every whorl that falls.
 defPassive({ id: 'halophile_water', name: 'Pink Water', owner: 'halophile', text: 'When it comes out, 2 of the foe\'s tide turn pink for 3 rounds. Pink pays no crest.',
   comeOut(b, f) { pinkTide(b, otherSide(f), 2, 3); } });
-defPassive({ id: 'halophile_lip', name: 'Lip Color', owner: 'halophile', text: 'Each whorl that falls, on either side, turns 1 of the foe\'s tide pink for 3 rounds.',
+defPassive({ id: 'halophile_lip', name: 'Lip Color', owner: 'halophile', text: 'Each Whorl that falls, on either side, turns 1 of the foe\'s tide pink for 3 rounds.',
   anyKO(b, f, v) { if (v !== f && !f.ko) pinkTide(b, otherSide(f), 1, 3); } });
 defMove({ id: 'halophile_bloom', name: 'Pink Bloom', type: 'ROOT', owner: 'halophile', reach: 'single', tags: ['spell'], cd: 3, fx: 'swell | petal*4 spiral | bloom',
   text: 'Hits for 118% MGK, the first reserve for 30%. Stun 1. 2 of the foe\'s tide turn pink.',
@@ -1413,7 +1413,7 @@ defPassive({ id: 'gleaner_wade', name: 'Wading', owner: 'gleaner', text: 'Turn s
     msg(b, `${label(b, f)} repeats ${m.name}.`);
     runMove(b, f, f.k.wadeMove - 1, {}, false, 0.9);
   } });
-defPassive({ id: 'gleaner_listening', name: 'Listening', owner: 'gleaner', text: '1.3x max HP. Takes 0.75x damage, 1.3x while it holds a whorl to its ear.',
+defPassive({ id: 'gleaner_listening', name: 'Listening', owner: 'gleaner', text: '1.3x max HP. Takes 0.75x damage, 1.3x while it holds a Whorl to its ear.',
   start(b, f) { f.maxHp = Math.round(f.maxHp * 1.3); f.hp = f.maxHp; },
   inMul(b, f) { return marked(f, 'gleaner_ear') ? 1.3 : 0.75; },
   immovable() { return true; },

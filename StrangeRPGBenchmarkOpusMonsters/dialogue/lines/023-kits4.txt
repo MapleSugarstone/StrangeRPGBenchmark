@@ -7,7 +7,7 @@
 
 == scene: kits4
 [0ealxmo] passive Glazing | Glaze cracks for 10% of the foe's max HP on a guard, a Stun, a Root, or its dash.
-[180t3il] passive Hearth | Boosted moves deal 1.15x: its own, and your out whorl's while it is in reserve.
+[0aaq3sd] passive Hearth | Boosted moves deal 1.15x: its own, and your out Whorl's while it is in reserve.
 [1jze73z] move Clinker | Hits for 119% ATK. Slow 1. Glazes the foe for 3 turns.
 [1y02qm3] move Into the Kiln | Fires a move you pick: locked 1 turn, then 1.4x for 2 uses. Unstoppable 1.
 [1qkkyqg] move Pillar Charge | Hits for 119% ATK. On a Glazed foe: 1.4x and Stun 1.
@@ -19,16 +19,16 @@
 [1ijt1qs] move Belt Speed | Haste 2 and Fortify 1 on it and its Coupled ally. Pays 6% max HP.
 [0m4jsjl] move Carry Over | Couples an ally and switches to it: heals 15%, acts at once.
 [001dzpu] passive Clear Signal | Tune In on the same band as last time deals 1.25x, and your team heals 5% of max HP.
-[1kfyhdp] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out whorl's spells add 15% MGK.
+[17pq3kt] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out Whorl's spells add 15% MGK.
 [1igsj6m] move Static Flash | Hits for 111% MGK. Weaken 1. Delays the foe's next turn by 20%.
 [1e3abzt] move Crosstalk | Hits for 75% MGK. The foe's ready moves wait 1 more turn. 1 tide.
 [1skxokz] move Dead Air | Hits for 60% MGK. Stun 1. Every foe can't use the kind you pick for 3 turns.
 [07ldbpo] passive North Point | Deals 1.2x to the foe lowest on HP. Every 3rd attack heals your team 5% of max HP.
-[1oiisr7] passive Beside You | Once, in reserve: your out whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
+[180f4oj] passive Beside You | Once, in reserve: your out Whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
 [1o2nhtn] move Spin on Pin | Hits 2 times for 35% ATK. Slow 1.
 [1b8tmga] move Throw Arrow | Hits the foe lowest on HP, even in reserve: 34% ATK. Returns: 19% ATK. Haste 1.
 [1q42854] move After It | Hits for 85% ATK. If its arrow is out: catches it, then 40% ATK and Stun 1.
-[1wn5cda] move Land Beside | Your lowest-HP whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
+[1fapwqm] move Land Beside | Your lowest-HP Whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
 [0f1v1kd] passive Eject | Once, in reserve: it swaps in for an out ally about to be KO'd, which keeps 1 HP.
 [007l7qz] passive Drogue Chute | Takes 0.5x until its first turn out. Deals 1.15x and takes 0.85x against a Slowed foe.
 [1n6rjsx] move Hot Drop | Hits for 46% MGK. Splash 40%. Slow 1. Burn 2 (18% MGK each turn).
@@ -68,12 +68,12 @@
 [0u3xun2] move Calving Face | Wind-up. Hits for 140% MGK. Splash 35%. Rot 3. Below 15% HP after: KO'd.
 [1s4deva] passive Sleepy Sea | When it heals an out ally at least 5% of its max HP: that ally's next turn comes 20% sooner.
 [107h0uu] passive Sea Born | When a foe wakes from its dream with damage held: your team heals 10% of max HP.
-[1cat43j] move Undertow Mend | Hits for 76% MGK. Your lowest-HP whorl heals 35% of it.
+[1brkhen] move Undertow Mend | Hits for 76% MGK. Your lowest-HP Whorl heals 35% of it.
 [05qlget] move Lullaby | Wind-up. Sleep 2. Dreaming: hits wait, then land at 1.25x when it wakes.
 [0umfaz5] move Seal Bite | Hits for 72% MGK. 1.5x on a sleeping foe. Slow 1. Heals 8% of its max HP.
 [0fbqidz] move Seven Waves | Hits for 100% MGK. Splash 35%. A sleeping foe takes 2x. Stun 1. Slow 2.
 [0np2vca] passive Third Tusk | Every 3rd blow it lands on the foe deals 2x. Its count shows above it.
-[0o05rm8] passive Haul Out | In reserve: your out whorl's dashes deal 1.15x.
+[0vbkiuo] passive Haul Out | In reserve: your out Whorl's dashes deal 1.15x.
 [08ehhpi] move Flipper Slap | Hits for 85% ATK. Slow 1.
 [0jhww5u] move Herd Roll | Wind-up. Hits for 90% ATK, +20% per other ally standing. Stun 1.
 [0u5mi64] move Tusk Gouge | Hits for 68% ATK. Splash 35%. Root 2. Breaks a guard this round, for 2x.
@@ -114,7 +114,7 @@
 [0qab5n4] move Guy Rope | Hits for 100% MGK. Root 2. After the foe's next turn: it takes 50% MGK.
 [1n0jwx1] move Plant Pole | Shields an ally 15% of max HP. It gets Haste 1, and its next move reaches wide.
 [08kqj4n] move Snap Out | Its next move reaches wide (reserves too), or its next 2 tight (1.4x, one foe). Heals 6% max HP.
-[00wvr9t] summon Whetstone | Each turn: your out whorl heals 6% of its max HP.
+[1speomp] summon Whetstone | Each turn: your out Whorl heals 6% of its max HP.
 [0e8rtgx] passive Keen Edge | Every 3rd hit it lands on the foe deals 1.3x and heals it 15% of the damage.
 [1qyh2ok] passive Spin Through | While spinning: immune to Stun and Silence.
 [0z80vyj] move Pommel Chip | Hits for 84% ATK. Its next turn comes 20% sooner.
@@ -182,7 +182,7 @@
 [1t7qg2b] move Sticky Tongue | Hits for 49% MGK. Stun 1. At its next turn: 39% MGK, 2x on a frog.
 [0lgs6on] move Frogspawn | Summons 2 Tadpoles (10% max HP, 3 turns).
 [17ktrkq] passive Boomerang Edge | Its one-foe moves bounce on to 1 foe reserve for 35% of the damage.
-[1nqb2wd] passive Moonward | In reserve: your out whorl's spells deal 1.15x.
+[1ymy9ql] passive Moonward | In reserve: your out Whorl's spells deal 1.15x.
 [1yf33ve] move Pale Beam | Hits for 100% MGK. Delays the foe's next turn by 20%.
 [00qdtpl] move Edges Out | Hits for 75% MGK. Haste 1. The edge comes back at its next turn: 75% MGK.
 [1d8j4jf] move Full Light | Empower 1 on your team. Heals itself 12% of its max HP.
@@ -213,7 +213,7 @@
 [1sf2cq7] move Venom Jet | Hits for 80% ATK. Root 1. Doubles the foe's Poison.
 [19u8rnk] move Deep Sting | Hits for 130% ATK. Poison 4. Slow 3. Weaken 2. Envenomed for 4 turns.
 [1so13t6] summon Joint Sprout | Each turn: pricks the out foe for 25% of Spitoge's ATK. 3 turns.
-[1uqf88v] mark joints in | A whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
+[1esz13z] mark joints in | A Whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
 [0zp9aa3] passive Deep Spines | Its hits add a Joint, up to 3. At 3: true damage of 8% of the foe's max HP.
 [0xznegu] passive Catch a Ride | Takes 0.85x while shielded. While it is out: a Joint jumps into each foe that comes out.
 [0uuflpi] move Jump On | Hits for 100% ATK, 1.5x if the foe switches this round. Delays it 15%.
@@ -221,7 +221,7 @@
 [1ymzjin] move Burst Pad | Hits for 90% ATK, 1.5x at 2+ Joints. Stun 1 if it can't switch, else Slow 2.
 [1tt2xqa] move Cholla Grab | Hits for 110% ATK. Stun 1. Root 3. Every Joint in it goes deep: 8% max HP each.
 [1lqqhqz] summon Sand Polyp | Strikes with Sunaka's attacks and its Polyp Rush. 4 turns.
-[02ioicu] summon Reef Wall | Takes single-target hits meant for your out whorl until it falls. 20% of Sunaka's max HP.
+[14wfpe6] summon Reef Wall | Takes single-target hits meant for your out Whorl until it falls. 20% of Sunaka's max HP.
 [0ipz9yf] mark buried | Cannot come out. It comes out only if nobody else can.
 [1psa7vx] passive Budding | When it attacks: each Polyp also hits for 30% MGK.
 [1bgx7hd] passive Colony | Takes 6% less damage per Polyp.
@@ -241,7 +241,7 @@
 [0bi1833] move Dry Bite | Hits for 85% ATK. Dry 2: the foe's heals do half.
 [0cgvpj8] move Bleached Stare | Hits for 70% ATK. Slow 2. Burn 2 (25% ATK a turn). Locks its last move 2 turns.
 [1xui3yc] move Crack Open | Its next attack deals 1.9x damage and heals 30% of it.
-[0oikmsy] move Ossuary | Raises a Small Bones for each whorl down on either side, at least 1, up to 3.
+[165ul1u] move Ossuary | Raises a Small Bones for each Whorl down on either side, at least 1, up to 3.
 [1ux707l] passive Pivot Eye | The first foe it hits is its Branch: 1.3x damage to it, 0.85x to other foes.
 [1i0khx5] passive Spring Back | Every 3rd hit it takes: strikes back for 50% ATK, heals 30% of it.
 [0zhs09u] move Snip Snip | Hits twice for 48% ATK. Splash 25%.
@@ -252,7 +252,7 @@
 [1kf9fid] passive Push Off | When it switches out: the ally that comes in gets Empower 1.
 [1q2ejaz] move Weed Pull | Hits for 132% ATK. Delays the foe's next turn by 25%.
 [1q77jhq] move Lend a Hand | A reserve ally uses its first ready move at 0.9x from the bench. Foe: Slow 2.
-[1cnkdwc] move Green Thumb | Hits for 100% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.
+[01au870] move Green Thumb | Hits for 100% ATK. Your lowest-HP Whorl heals 30% of the damage. Empower 1.
 [06or93b] move Let Loose | 3 turns: Haste 3. Every 2nd attack also hits for 50% ATK. Splash 35%. Slow 1.
 [0jp1vsy] passive Rootstock | Its first KO makes it Old Wood after a physical foe, else Pale Graft.
 [1f7p7zr] passive Graft Union | Unformed: takes 0.8x. Old Wood: 1.2x DEF and RES, moves heal 25%. Pale Graft: 1.15x ATK and AGI.
@@ -260,14 +260,14 @@
 [0bncdof] move Long Shoot | Short wind-up. Hits for 110% ATK. Slow 2. Old Wood: Stun 1, Root 2. Pale Graft: 1.3x.
 [1sa9t4x] move Splice In | Hits for 90% ATK. Haste 1. Heals 8% max HP. Pale Graft: next move deals 1.3x.
 [0gymtiu] move Grow Inside | Hits for 37% ATK. Untouchable 1. Next turn: 90% ATK + 10% of its max HP.
-[1gib0i5] drop Pear | It heals the whorl that eats it 20% of its max HP.
-[0uezecr] passive Wall Fed | In reserve: your out whorl heals 3% of max HP a turn and deals 1.05x.
-[1pwn1j6] passive Pears Free | Every 2nd move it uses drops a Pear. Either out whorl may eat it to heal 20%.
+[0lga9gt] drop Pear | It heals the Whorl that eats it 20% of its max HP.
+[0uzijrf] passive Wall Fed | In reserve: your out Whorl heals 3% of max HP a turn and deals 1.05x.
+[0ubw6xu] passive Pears Free | Every 2nd move it uses drops a Pear. Either out Whorl may eat it to heal 20%.
 [0r1fxor] move Pear Drop | Hits for 78% MGK. 1.3x on a foe that was already out at its last turn.
 [1ffoer0] move Prop Up | Switches to an ally. It heals 8% of max HP. Empower 2.
 [0sjzmnt] move Wall Sap | Hits for 70% MGK. Heals an ally 12% of its max HP, with Haste 1 and Fortify 1.
 [1pcq233] move Full Trellis | Hits for 78% MGK. Splash 35%. Root 2. Your team heals 10% of max HP.
-[1xk4ydr] summon Landing | At your next turn: heals your out whorl 25% of its max HP. Haste 2. Then it goes.
+[0krljxr] summon Landing | At your next turn: heals your out Whorl 25% of its max HP. Haste 2. Then it goes.
 [18ofz8t] passive Step Higher | Turn start: +1 Step, up to 6. Its attacks add 8% MGK per Step.
 [0s3qh6d] passive Sure Footing | Its switches take 30% of a turn.
 [1jj11vs] move Rung Rap | Hits for 110% MGK, +5% per Step. Slow 1. At 6 Steps it rings: Silence 1.
@@ -300,7 +300,7 @@
 [07kuptn] move Fog Pall | Hits for 60% ATK. Silence 1. Weaken 2. Sea Fog for 4 rounds.
 [1sqiqqi] move Thicken | Hidden 1. Every foe counts as never having hit it.
 [0dqxo1u] move Fogbound | Hidden 1. Hits 3 times for 30% ATK. Splash 35%.
-[1u6ckdm] summon Drowned Image | Takes single-target hits meant for your out whorl. Each turn: hits the foe for 25% ATK.
+[12tb6h6] summon Drowned Image | Takes single-target hits meant for your out Whorl. Each turn: hits the foe for 25% ATK.
 [1suacme] passive Under Pull | Every 4th attack: Expose 2, and each foe reserve takes 55% MGK.
 [0804mpg] passive Bigger Below | Too big to see whole: one hit takes at most 25% of its max HP.
 [0xuwk0x] move Deep Rip | Hits for 84% MGK. Splash 35%. The foe loses 3 DEF, up to 15. Delays it 15%.
@@ -313,10 +313,10 @@
 [1rob5qn] move Over the Edge | Pulls the foe's newest summon to your side, or drags in a reserve and hits it for 72% ATK.
 [1dsmq7g] move Crumble | Hits for 80% ATK. 3 turns: it loses 3% max HP and the foe loses 8%, Slow 1.
 [1sh5qyp] move Pull Apart | Hits for 58% ATK + 4% max HP now and next turn, healing half. Stun 1. Root 2.
-[1mkwp6k] ground Rucked Ground | A hit on the out whorl here also hits each reserve here for 25% of it.
-[1frlggk] summon Raised Corner | Takes single-target hits for your out whorl. Each turn: hits the foe for 30% MGK.
+[0nl8gkc] ground Rucked Ground | A hit on the out Whorl here also hits each reserve here for 25% of it.
+[16r1hpw] summon Raised Corner | Takes single-target hits for your out Whorl. Each turn: hits the foe for 30% MGK.
 [0sfzsk6] passive Fold Over | Its moves deal 1.2x to a foe on rucked ground, and each foe reserve takes 25% of it.
-[1y7o72a] passive Give Way | While its Raised Corner stands: your out whorl heals 2% of max HP a turn.
+[0e3or4y] passive Give Way | While its Raised Corner stands: your out Whorl heals 2% of max HP a turn.
 [1h6hzhr] move Ruck Up | Hits for 47% MGK. At the foe's next 2 turns: it takes 28% MGK.
 [11u9678] move Buckle Under | Rucks the ground under the foe's side for 3 rounds. Hits for 38% MGK.
 [1ueqxh7] move Pucker Up | Hits for 70% MGK, 1.5x on rucked ground. Slow 2. Weaken 1. Delays it 30%.

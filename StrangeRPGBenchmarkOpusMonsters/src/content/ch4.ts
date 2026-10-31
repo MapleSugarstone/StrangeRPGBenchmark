@@ -76,9 +76,9 @@ defMap({
   npcs: [
     { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 11], ['stump', 11]], intro: 'Keep your hat low near the Bole. The rain there falls up and carries hats away.', defeat: 'And there goes mine. Up it goes.', sight: 4 } },
     { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 11], ['yoke', 11]], intro: 'Kid, you\'re blocking the path. We\'re hauling the Bole.', defeat: 'Whatever. The haul continues.', sight: 4 } },
-    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 11], ['hemlock', 12]], intro: 'Tarhaju whorls drop the same fruit as real orchards. I\'ve sampled plenty myself.', defeat: 'Bruised.', sight: 3 } },
+    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 11], ['hemlock', 12]], intro: 'Tarhaju Whorls drop the same fruit as real orchards. I\'ve sampled plenty myself.', defeat: 'Bruised.', sight: 3 } },
     { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 11], ['thumb', 11]], intro: 'She says to ease it off, not yank. So we\'re easing. Very slowly. It\'ll take all day.', defeat: 'Eased off.', sight: 4 } },
-    { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke whorl harnessed and ready to pull. It possesses the patience of a gate.'] },
+    { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke Whorl harnessed and ready to pull. It possesses the patience of a gate.'] },
     { id: 'r4sleep1', x: 10, y: 13, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 17, flag: 'sl_under1' } },
     { id: 'r4sleep2', x: 27, y: 30, sprite: 'stone', mon: 'howl', name: 'Lupusmi', sleeper: { kind: 'howl', lv: 17, flag: 'sl_under2' } },
   ],
@@ -226,9 +226,9 @@ defScript('boleTannery', async () => {
   setFlag('fitter_bole');
   if (!flag('notions')) {
     await say('Shellwright', 'Oh really? The new notions just arrived.');
-    await say('Shellwright', 'They\'re small accessories, but they alter how a whorl approaches combat. Only one per whorl, though.');
+    await say('Shellwright', 'They\'re small accessories, but they alter how a Whorl approaches combat. Only one per Whorl, though.');
     setFlag('notions');
-    await hint('(To equip a notion, press X and select Team. Each whorl can carry one notion.)');
+    await hint('(To equip a notion, press X and select Team. Each Whorl can carry one notion.)');
   }
   await tannery('bole', [...STOCK_4, 'graftwax']);
 });
@@ -254,7 +254,7 @@ defScript('boleHole', async () => { await act('ouro', 'shiver'); });
 defScript('grafton', async () => {
   if (has('bole')) { await say('Grafton', 'The pearl remains yours, and the Seal still lies across the street! (We step over it.)'); return; }
   await say('Grafton', 'You have entered the trunk, and I am thoroughly delighted by the development.');
-  await say('Grafton', 'Each of my four was two whorls, and now each is singular and magnificent. (Do not ask which halves.)');
+  await say('Grafton', 'Each of my four was two Whorls, and now each is singular and magnificent. (Do not ask which halves.)');
   await say('Grafton', 'Fight them, and you will witness the doubled magnificence of what two can achieve.');
   const r = await fightTrainer({ name: 'Grafton', team: () => graftonTeam(14), intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;

@@ -49,7 +49,7 @@ defNotion({ id: 'floatcork', name: 'Float Cork', price: 500, text: '+10% RES. Ea
 defNotion({ id: 'tidemark', name: 'Tide Mark', price: 600, text: '+2 tide each time it guards, up to 3 times a battle.',
   afterGuard(b, f) { if ((f.k.tideMarks || 0) < 3) { f.k.tideMarks = (f.k.tideMarks || 0) + 1; addNerve(b, f.side, 2); } } });
 defNotion({ id: 'reedplug', name: 'Reed Plug', price: 500, text: '+12% RES. The first wind-up aimed at it each battle lands 50% later.', pct: { res: 0.12 } });
-defNotion({ id: 'graftwax', name: 'Graft Wax', price: 600, text: 'On a conjoined whorl, +9% ATK and +9% MGK. On any other, nothing.',
+defNotion({ id: 'graftwax', name: 'Graft Wax', price: 600, text: 'On a conjoined Whorl, +9% ATK and +9% MGK. On any other, nothing.',
   statBonus(f, k) { return f.mon.fitted && (k === 'atk' || k === 'mgk') ? f.st[k] * 0.09 : 0; } });
 defNotion({ id: 'ridercog', name: 'Rider Cog', price: 600, text: '+4% HP, ATK, MGK, DEF, and RES.', pct: { hp: 0.04, atk: 0.04, mgk: 0.04, def: 0.04, res: 0.04 } });
 defNotion({ id: 'riderspoon', name: 'Rider Spoon', price: 500, text: '+15% DEF. When it is forced out or dragged in, it gets Ward 1.', pct: { def: 0.15 } });

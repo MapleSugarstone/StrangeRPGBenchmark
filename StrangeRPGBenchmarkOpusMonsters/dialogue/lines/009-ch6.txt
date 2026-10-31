@@ -79,10 +79,10 @@
 [1it29hz] narration | It performs its usual action. The hand remains steady for it.
 
 == scene: i
-[0xv1luf] ? (listMenu) | Which whorl do you offer?
+[0qvidpz] ? (listMenu) | Which Whorl do you offer?
 
 == scene: chooseGift
-[1l7wwra] hint | (Your team must retain at least one whorl.)
+[0ri10ty] hint | (Your team must retain at least one Whorl.)
 [14x36so] choice | Surrender it.
 [199g7m7] choice | Select again.
 [061qwlv] choice prompt | {m.name}. It will not return.
@@ -90,7 +90,7 @@
 == scene: theGift
 [0i6yn3w] Cinch | Sit down. You can see its empty hand from this angle.
 [0aeli4t] Cinch | It picked every shell off the sand. Clearly, it only ever needed one.
-[0hl0mjn] hint | (Select a whorl to offer it. It will not return.)
+[0n4eoxv] hint | (Select a Whorl to offer it. It will not return.)
 [0ftjsn8] Cinch | Stay put. It's motionless now. The old thing was always good at staying still.
 [01cay3w] Cinch | Take a seat. She has the best spot on the beach.
 [145k8ql] notice | Ouro earns a star grain. That makes six.
@@ -184,16 +184,16 @@
 [0vse1qq] choice | Leave it
 [1cf8v3b] notice | {sitting.name} returns to your team.
 [0bbbzof] notice | {sitting.name} has been tossed into the Midden.
-[1o4nkuq] hint | Ouro must keep at least one whorl before leaving one in a shell.
+[0u6g5wy] hint | Ouro must keep at least one Whorl before leaving one in a shell.
 [0w2dnfp] choice | Leave it
 
 == scene: i
-[1wpkih1] ? (listMenu) | Which whorl are you leaving behind?
+[1wpxtd1] ? (listMenu) | Which Whorl are you leaving behind?
 
 == scene: turnTide
 [1pesbij] hint | (When the tide recedes, the sand is exposed, and stars align in a row.)
 [0mz1jr1] hint | (At low water, an empty shell is gone when the shadow passes over it.)
-[0s4le28] hint | (You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)
+[1pdzj00] hint | (You can leave a Whorl behind in a shell. Since the Whorl moves, the shell stays.)
 [015x8k1] hint | (Ring the tide bell to reverse the flow. When the tide is high, the shallow sand is submerged.)
 
 == scene: giveGrain
@@ -207,7 +207,7 @@
 ==== file: src/content/areakit.ts
 
 == scene: reward
-[1haetq6] notice | {#1} {#2}{#3}, for catching a weak, wild whorl.
+[133grha] notice | {#1} {#2}{#3}, for catching a weak, wild Whorl.
 [10m9syv] notice | A notion: {#1}.{#2}
 [0y8z3re] notice |  x 
 [0p56st6] notice | A notion: 
@@ -220,9 +220,9 @@
 == scene: introduceByssus
 [015vm6c] Shellwright | Byssus, right? That mussel thread.
 [1d4cm7o] Shellwright | I'll spin a line to a distant grotto, and you'll find a team waiting.
-[1xorcnm] Shellwright | Bring six whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
+[1lp0mk2] Shellwright | Bring six Whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
 [1xpqfh8] Shellwright | Include one legendary, at most. No charms.
-[0j6hdmm] Shellwright | Check the roster in the menu to see which whorl breaks what.
+[0malqou] Shellwright | Check the roster in the menu to see which Whorl breaks what.
 [1cr5i6k] Shellwright | Have a friend? Create a code and share it. Solo? Spin for whoever else is online.
 [1pswjat] Shellwright | Track wins and losses. No cowries or pearls. Anything else?
 [1ihm6mj] hint | (Press X, select Register, then press left on the first page. Find the Byssus section in the Guide.)
@@ -295,13 +295,13 @@
 [0cizyey] DRUSE | Still no board. Bezel, in Rib. They've got spares.
 [1cy1e9g] DRUSE | All twelve are set. Out in the crater fields, a geode just cracked open. I could hear it from here.
 [1olc4l9] DRUSE | The east crater, north of Fall. Focus on its south rim. Bring something soft to cover your ears.
-[1il3u0s] DRUSE | Inside the Hollow, the whorl is still ticking. It demands every sketch, including the Shellwrights'.
+[10zypp8] DRUSE | Inside the Hollow, the Whorl is still ticking. It demands every sketch, including the Shellwrights'.
 [0xueww1] DRUSE | {n} set. there's a machine-shaped chamber inside your head now. perfect. I need that space.
 [160lum9] DRUSE | North of Fall, in the crater fields, sits a geode as large as Rib. No one has opened it yet.
 [1upqz8w] DRUSE | The entrance is a seam in the east crater, a lock of twelve settings.
 [191ult4] DRUSE | Set all 12 sketches and it opens.
-[105dj9g] DRUSE | Inside, there's a whorl strung like a necklace. I've never seen it, but I know it's there.
-[0rd7vit] DRUSE | {n} of 12. Inside the geode, the whorl is counting in time with you.
+[117hmqs] DRUSE | Inside, there's a Whorl strung like a necklace. I've never seen it, but I know it's there.
+[1qu7lpx] DRUSE | {n} of 12. Inside the geode, the Whorl is counting in time with you.
 [14ktxg3] DRUSE | That board is pristine. Not a single scratch. Try running something. Break something.
 [0ogizzl] DRUSE | {runs} runs. Inside each one, there's a faint click that tells you whether it works or not.
 [1tds1cd] DRUSE | {runs} runs. Inside that number, there are plenty of stones scattered on the floor.

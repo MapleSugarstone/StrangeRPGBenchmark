@@ -38,12 +38,12 @@ function swapIn(b: Battle, f: Fighter, to: Fighter): boolean {
 // ================================================================ STONE
 
 // cairn: a wayside cairn that takes a stone from every walker who passes and adds every blow it takes to its pile.
-defPassive({ id: 'stacking', name: 'Piled High', owner: 'cairn', text: 'A Stone, up to 6, when hit or when any whorl comes out. Each cuts damage taken 4%.',
+defPassive({ id: 'stacking', name: 'Piled High', owner: 'cairn', text: 'A Stone, up to 6, when hit or when any Whorl comes out. Each cuts damage taken 4%.',
   afterTake(b, f, src, dealt, d) { if (!d.dot) f.k.stone = Math.min(6, (f.k.stone || 0) + 1); },
   anyOut(b, f, who) { if (who !== f && isOut(b, f)) f.k.stone = Math.min(6, (f.k.stone || 0) + 1); },
   inMul(b, f) { return 1 - 0.04 * (f.k.stone || 0); } });
 defMark({ id: 'cairn_way', name: 'pointed at', calls: true, negative: true, value: -0.05 });
-defPassive({ id: 'waymark', name: 'Points the Way', owner: 'cairn', text: 'Reserve: your out whorl takes 0.92x. Coming out: the foe\'s weakest is next out.',
+defPassive({ id: 'waymark', name: 'Points the Way', owner: 'cairn', text: 'Reserve: your out Whorl takes 0.92x. Coming out: the foe\'s weakest is next out.',
   auraIn() { return 0.92; },
   comeOut(b, f) {
     const r = reserves(b.s[1 - f.side]).filter(x => !x.ko && !x.gone).sort((a, z) => a.hp / a.maxHp - z.hp / z.maxHp)[0];
@@ -63,7 +63,7 @@ defMark({ id: 'cairn_grasp', name: 'catching', clock: 'own', volatile: true, val
 defMove({ id: 'topple', name: 'Top Stone', type: 'STONE', owner: 'cairn', reach: 'single', cd: 1, fx: 'lunge | pebble arc | crack',
   text: 'Hits for 125% ATK + 6% max HP. Throws a Stone: +30% ATK. 3 Stones: Stun 1.',
   run(c) { const tall = (c.u.k.stone || 0) >= 3, st = (c.u.k.stone || 0) > 0; if (st && !c.preview) c.u.k.stone -= 1; c.hit(c.tgt, { atk: st ? 1.55 : 1.25, selfHp: 0.06 }); if (tall && !c.tgt.ko) c.st(c.tgt, 'stun', 1); } });
-defSummon({ id: 'cairn_barrier', name: 'Little Cairn', owner: 'cairn', text: 'Takes every single-target hit meant for your out whorl. When knocked down: Kivishi gains 2 Stones.', every: 100, guard: true,
+defSummon({ id: 'cairn_barrier', name: 'Little Cairn', owner: 'cairn', text: 'Takes every single-target hit meant for your out Whorl. When knocked down: Kivishi gains 2 Stones.', every: 100, guard: true,
   sprite: { px: ['........', '........', '...33...', '..2222..', '..4444..', '.222222.', '.444444.', '22222222'], c: ['#9d9da5', '#ddbe9e', '#5e5c64'] },
   act() { /* it only stands */ },
   fall(b, s, owner) { if (owner && !owner.ko) owner.k.stone = Math.min(6, (owner.k.stone || 0) + 2); } });
@@ -110,7 +110,7 @@ defMove({ id: 'skid', name: 'Bury Cobbles', type: 'SALT', owner: 'scree', reach:
   text: 'Hits for 70% ATK. Summons 2 Cobbles (6% of its max HP each).',
   run(c) { c.hit(c.tgt, { atk: 0.7 }); summon(c.b, c.u, 'scree_boulder', { hp: 0.06 }); summon(c.b, c.u, 'scree_boulder', { hp: 0.06 }); } });
 defMove({ id: 'avalanche', name: 'Shingle Bank', type: 'STONE', owner: 'scree', reach: 'single', cd: 6, nerve: 4,
-  fx: 'stomp | pebble*6 sweep | quake crack jolt all big', text: 'Hits for 128% ATK. Neither out whorl can switch for 3 turns. Haste 3.',
+  fx: 'stomp | pebble*6 sweep | quake crack jolt all big', text: 'Hits for 128% ATK. Neither out Whorl can switch for 3 turns. Haste 3.',
   run(c) { c.hit(c.tgt, { atk: 1.28 }); c.mark(c.tgt, 'scree_walled', 1, 3); c.mark(c.u, 'scree_walled', 1, 3); c.st(c.u, 'haste', 3); } });
 
 // plinth: a statue's empty plinth that keeps its top clear for whoever needs to stand on it and bears the weight from below.
@@ -129,7 +129,7 @@ defMark({ id: 'plinth_grave', name: 'on the plinth', clock: 'own', value: 0.2,
 defMark({ id: 'plinth_hold', name: 'held up', clock: 'side', value: 0.1 });
 defPassive({ id: 'pedestal', name: 'Swivel Base', owner: 'plinth', text: 'When it uses a move: its other cooldowns drop by 1, except its crest.',
   afterMove(b, f, m) { f.moves.forEach((id, i) => { const mv = MOVES[id]; if (id !== m.id && mv && !mv.nerve) f.cd[i] = Math.max(0, f.cd[i] - 1); }); } });
-defPassive({ id: 'unmoved', name: 'Bears the Weight', owner: 'plinth', text: 'In reserve: it takes 30% of each hit on your out whorl, down to 1 HP of its own.',
+defPassive({ id: 'unmoved', name: 'Bears the Weight', owner: 'plinth', text: 'In reserve: it takes 30% of each hit on your out Whorl, down to 1 HP of its own.',
   bears(b, f) { return marked(f, 'plinth_hold') ? 0.5 : 0.3; } });
 defMove({ id: 'raise', name: 'Barnacle Cut', type: 'SALT', owner: 'plinth', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | shell line | slash',
   text: 'Hits for 167% MGK. Slow 2. A foe that was already Slowed: Poison 3.',
@@ -276,7 +276,7 @@ defMove({ id: 'stamp', name: 'Heel Down', type: 'STONE', owner: 'tor', reach: 's
 defMove({ id: 'heave', name: 'Roll Downhill', type: 'STONE', owner: 'tor', reach: 'single', tags: ['dash'], cd: 3, fx: 'lunge big | pebble*3 line | quake', text: 'Hits for 71% ATK. Interrupts. Delays the foe\'s next turn by 40%.',
   run(c) { c.hit(c.tgt, { atk: 0.71 }); c.interrupt(c.tgt); c.delay(c.tgt, 40); } });
 defMove({ id: 'quake', name: 'Ground Rings', type: 'STONE', owner: 'tor', reach: 'spread', cd: 6, splash: 0.6, nerve: 6, wu: 90, fx: 'stomp | pebble*6 sweep | quake crack jolt all big',
-  text: 'Wind-up. Hits for 107% ATK, +10% per whorl standing. Splash 60%. Stun 1.',
+  text: 'Wind-up. Hits for 107% ATK, +10% per Whorl standing. Splash 60%. Stun 1.',
   run(c) { const n = standing(c.them).length + standing(c.me).length; c.spread({ atk: 1.07 + 0.1 * n }); c.st(c.tgt, 'stun', 1); } });
 
 // ================================================================ TIDE
@@ -456,7 +456,7 @@ defMove({ id: 'evaporate', name: 'Dry Up', type: 'TIDE', owner: 'brine', reach: 
 defMark({ id: 'eddy_dizzy', name: 'dizzy', clock: 'own', volatile: true, negative: true, value: -0.12,
   spins(b, f, i) { return i < 3 ? (i + 1) % 3 : i; } });
 defPassive({ id: 'turnabout', name: 'Spun Round', owner: 'eddy', text: 'When it forces a foe out or drags one in: a shield of 12% of its max HP.' });
-defPassive({ id: 'spin', name: 'Makes You Turn', owner: 'eddy', text: 'In reserve: your out whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.',
+defPassive({ id: 'spin', name: 'Makes You Turn', owner: 'eddy', text: 'In reserve: your out Whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.',
   auraOut() { return 1.05; },
   anyOut(b, f, who) { if (who.side !== f.side && isOut(b, f) && !f.ko) mark(b, f, who, 'eddy_dizzy', 1, 2); } });
 defMove({ id: 'whirl', name: 'Dizzy Wave', type: 'TIDE', owner: 'eddy', reach: 'spread', tags: ['spell'], cd: 1, splash: 0.35, fx: 'spin | drop*4 spiral | vortex all',
@@ -480,7 +480,7 @@ defMark({ id: 'thicket_slam', name: 'settling', clock: 'own', volatile: true, va
 defPassive({ id: 'thorned', name: 'Buckthorn', owner: 'thicket', text: 'When hit: returns 15% of the damage. Its moves add 25% DEF to their damage.',
   afterTake(b, f, src, dealt) { if (src && src !== f && !src.ko) dealDamage(b, f, src, dealt * 0.15, { ...dot('M'), reflect: true } as DmgInfo, null); },
   addRaw(b, f, t, d) { return d.move ? stat(b, f, 'def') * 0.25 : 0; } });
-defPassive({ id: 'hedge', name: 'Hedged In', owner: 'thicket', text: 'A dash that hits it gets caught in the hedge: Root 2 on the whorl that dashed.',
+defPassive({ id: 'hedge', name: 'Hedged In', owner: 'thicket', text: 'A dash that hits it gets caught in the hedge: Root 2 on the Whorl that dashed.',
   afterTake(b, f, src, dealt, d) {
     if (!src || src.side === f.side || src.ko || d.dot || !d.move?.tags?.includes('dash')) return;
     msg(b, `${label(b, src)} is caught in the hedge.`);
@@ -545,7 +545,7 @@ defMark({ id: 'burr_fly', name: 'along for the ride', clock: 'own', volatile: tr
   turnStart(b, f) { const t = foeOf(b, f); if (t.ko || t.gone) return; applyStatus(b, f, t, 'bleed', 1, stat(b, f, 'atk') * 0.25); mark(b, f, t, 'burr_sap', 1, 4); } });
 defPassive({ id: 'stuckon', name: 'Hooked On', owner: 'burr', text: 'Hooks, up to 5, last 4 turns and stick to the next foe out. +6% damage per Hook.',
   outMul(b, f, t) { return 1 + 0.06 * marked(t, 'burr_sap'); } });
-defPassive({ id: 'seedfall', name: 'Catches On', owner: 'burr', text: 'Takes 0.8x from attacks while Hasted. A whorl that dashes into it gets 2 Hooks.',
+defPassive({ id: 'seedfall', name: 'Catches On', owner: 'burr', text: 'Takes 0.8x from attacks while Hasted. A Whorl that dashes into it gets 2 Hooks.',
   inMul(b, f, src, d) { return d.attack && f.s.haste ? 0.8 : 1; },
   afterTake(b, f, src, dealt, d) {
     if (!src || src.side === f.side || src.ko || d.dot || !d.move?.tags?.includes('dash')) return;

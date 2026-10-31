@@ -908,7 +908,7 @@ export const KIND_RULE: Record<string, string> = {
   projectile: 'Projectile: guards take only 0.25x damage.',
   spell: 'Spell: ignores walls. Silence prevents its effect.',
   channel: 'Channel: Ends on a stun, silence, or switch.',
-  sound: 'Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.',
+  sound: 'Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf Whorl takes 0.5x.',
   quick: 'Quick: Goes first.',
   late: 'Late: Acts after the enemy in the round.',
   splash: 'Splash: Each reserve foe takes a portion of the damage.',

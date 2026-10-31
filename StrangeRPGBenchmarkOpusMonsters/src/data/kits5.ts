@@ -313,7 +313,7 @@ defMove({ id: 'flotsam_nailed', name: 'Nailed Shut', type: 'GEAR', owner: 'flots
   run(c) { c.hit(c.tgt, { atk: 1.07 }); holdTide(c.b, c.tgt.side, c.u.side, 3); } });
 
 // mote: a grain of fallen star warm on one side, whose glints warm the bench, that sets a warm pylon and holds a small sun on a foe to burst.
-defSummon({ id: 'mote_pylon', name: 'Warm Pylon', owner: 'mote', text: 'Each turn: heals your out whorl 12% of its max HP.', every: 100,
+defSummon({ id: 'mote_pylon', name: 'Warm Pylon', owner: 'mote', text: 'Each turn: heals your out Whorl 12% of its max HP.', every: 100,
   sprite: { px: ['........', '..3333..', '.3.33.3.', '..4444..', '...22...', '...22...', '..2222..', '.444444.'], c: ['#efdbbf', '#e9ab20', '#027977'] },
   act(b, s) { const o = b.s[s.side].f[b.s[s.side].out]; const f = ownerOf(b, s); if (o && !o.ko) heal(b, f, o, o.maxHp * (f && has(f, 'mote_grain') ? 0.14 : 0.12)); } });
 defMark({ id: 'mote_sun', name: 'held sun', clock: 'own', negative: true, value: -0.35,
@@ -328,7 +328,7 @@ defMark({ id: 'mote_sun', name: 'held sun', clock: 'own', negative: true, value:
     if (has(by, 'mote_grain')) for (const a of standing(b.s[by.side])) heal(b, by, a, a.maxHp * 0.1);
     f.k.sunBurst = 0;
   } });
-defPassive({ id: 'mote_side', name: 'Warm Side', owner: 'mote', text: 'In reserve: your out whorl heals 3% of max HP at your turns.',
+defPassive({ id: 'mote_side', name: 'Warm Side', owner: 'mote', text: 'In reserve: your out Whorl heals 3% of max HP at your turns.',
   reserveTurn(b, f) { const o = outOf(b, f); if (!o.ko) heal(b, f, o, o.maxHp * 0.03); } });
 defPassive({ id: 'mote_grain', name: 'Mote Grain', owner: 'mote', text: 'When its held sun bursts on a foe: your team heals 10% of max HP.' });
 defMove({ id: 'mote_glint', name: 'Warm Glint', type: 'STAR', owner: 'mote', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | star line | sparkle',
@@ -379,7 +379,7 @@ defMove({ id: 'kipper_flip', name: 'Flip Under', type: 'ROOT', owner: 'kipper', 
   text: 'Hits for 67% MGK, then flips under the wrack: Hidden 1, heals 12% max HP.',
   run(c) { c.hit(c.tgt, { mgk: 0.67 }); c.st(c.u, 'hidden', 1); c.heal(c.u, c.u.maxHp * 0.12); } });
 defMove({ id: 'kipper_cured', name: 'Cured', type: 'SALT', owner: 'kipper', reach: 'single', tags: ['projectile'], cd: 6, nerve: 5, wt: 70, fx: 'swell | fish converge | bite big dark',
-  text: 'Swallows the foe for 2 turns, then spits it out as its side\'s next whorl.',
+  text: 'Swallows the foe for 2 turns, then spits it out as its side\'s next Whorl.',
   run(c) { if (c.blocked(c.tgt) || c.tgt.s.unstop) return; c.msg(`${label(c.b, c.u)} swallows ${label(c.b, c.tgt)} in one gulp.`); banish(c.b, c.tgt, 2, c.u); } });
 
 // actinia: a tide-pool anemone that hosts a friend from the bench, shuts tight against a blow, and stings soft spots.
@@ -426,7 +426,7 @@ defMove({ id: 'actinia_pool', name: 'Pool Challenge', type: 'TIDE', owner: 'acti
   } });
 
 // lacuna: the hollow where a taken shell lay, which looks like other shells, leaves hollow copies, and opens at dead low.
-defSummon({ id: 'lacuna_clone', name: 'Hollow Copy', owner: 'lacuna', sprite: { px: ['........', '........', '........', '...33...', '..3333..', '.222222.', '21122112', '.244442.'], c: ['#a0d7d0', '#d68aa9', '#ffefd8'] }, text: 'Takes single-target hits meant for your out whorl. 3 turns.', every: 100, guard: true,
+defSummon({ id: 'lacuna_clone', name: 'Hollow Copy', owner: 'lacuna', sprite: { px: ['........', '........', '........', '...33...', '..3333..', '.222222.', '21122112', '.244442.'], c: ['#a0d7d0', '#d68aa9', '#ffefd8'] }, text: 'Takes single-target hits meant for your out Whorl. 3 turns.', every: 100, guard: true,
   act() { /* the copy only stands */ } });
 defPassive({ id: 'lacuna_hollow', name: 'Hollow', owner: 'lacuna', text: 'When it comes out: looks like its first reserve until a move hits it.',
   comeOut(b, f) { const a = reserves(b.s[f.side])[0]; if (a) disguise(b, f, a); },
@@ -462,7 +462,7 @@ defMove({ id: 'columba_carry', name: 'Dollar Edge', type: 'STONE', owner: 'colum
 defMove({ id: 'columba_home', name: 'Fly Home', type: 'STAR', owner: 'columba', reach: 'reserveAlly', tags: ['dash'], cd: 4, tag: true, fx: 'lift | feather*3 rise | sparkle ally', text: 'Switches to an ally. It heals 10% of max HP and acts at once.',
   run(c) { c.heal(c.ally!, c.ally!.maxHp * 0.1); c.ally!.k.firstBonus = (c.ally!.k.firstBonus || 0) + 200; } });
 defMove({ id: 'columba_ring', name: 'Ring Home', type: 'STAR', owner: 'columba', reach: 'team', cd: 7, nerve: 6, fx: 'lift | feather*5 rise | ring sparkle big glare',
-  text: 'Brings back your first KO\'d whorl at 25% HP, 40% at night. None: team heals 15%.',
+  text: 'Brings back your first KO\'d Whorl at 25% HP, 40% at night. None: team heals 15%.',
   run(c) {
     const down = c.me.f.find(f => f.ko && !f.gone);
     if (!down) { for (const a of standing(c.me)) c.heal(a, a.maxHp * 0.15); return; }
@@ -472,7 +472,7 @@ defMove({ id: 'columba_ring', name: 'Ring Home', type: 'STAR', owner: 'columba',
 // lobworm: the coiled cast a lugworm left at low water, which keeps curling and pushes up little curls of its own.
 defSummon({ id: 'lobworm_ghoul', name: 'Little Curl', owner: 'lobworm', sprite: { px: ['........', '........', '...22...', '..2332..', '.212212.', '.233332.', '..2222..', '..4..4..'], c: ['#bfa77f', '#a3ebbb', '#806b4f'] }, text: 'Each turn: hits the foe for 20% of Spijire\'s ATK, 30% if it is Collapsed.', every: 100,
   act(b, s, f) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (f && !f.ko && t && !t.ko) strike(b, f, t, stat(b, f, 'atk') * (marked(t, 'lobworm_mist') ? 0.3 : 0.2), 'P', 'ROOT'); } });
-defSummon({ id: 'lobworm_maiden', name: 'Great Curl', owner: 'lobworm', sprite: { px: ['...22...', '..2332..', '..2222..', '...2332.', '..2222..', '.22332..', '.222222.', '43433434'], c: ['#bfa77f', '#a3ebbb', '#806b4f'] }, text: 'Takes single-target hits for your out whorl. Each turn: hits the foe for 50% of Spijire\'s ATK.', every: 100, guard: true,
+defSummon({ id: 'lobworm_maiden', name: 'Great Curl', owner: 'lobworm', sprite: { px: ['...22...', '..2332..', '..2222..', '...2332.', '..2222..', '.22332..', '.222222.', '43433434'], c: ['#bfa77f', '#a3ebbb', '#806b4f'] }, text: 'Takes single-target hits for your out Whorl. Each turn: hits the foe for 50% of Spijire\'s ATK.', every: 100, guard: true,
   act(b, s, f) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (f && !f.ko && t && !t.ko) strike(b, f, t, stat(b, f, 'atk') * 0.5, 'P', 'ROOT'); } });
 defMark({ id: 'lobworm_mist', name: 'collapsed', clock: 'own', negative: true, volatile: true, value: -0.06 });
 defPassive({ id: 'lobworm_castings', name: 'Castings', owner: 'lobworm', text: 'Every 2nd Curl: a Little Curl rises (8% max HP, 3 turns).' });
@@ -578,12 +578,12 @@ defMark({ id: 'pallium_slick', name: 'polished', text: 'Its next hit slips off: 
   afterDeal(b, f, t, dealt, d) { if (!d.dot) unmark(f, 'pallium_slick'); } });
 defMark({ id: 'pallium_radiance', name: 'shine coming', clock: 'own', volatile: true, value: 0.2,
   turnStart(b, f) { unmark(f, 'pallium_radiance'); msg(b, 'Light swallows them.'); for (const a of standing(b.s[f.side])) { heal(b, f, a, a.maxHp * 0.2); if (isOut(b, a)) applyStatus(b, f, a, 'invuln', 1); } } });
-defPassive({ id: 'pallium_polishes', name: 'Polishes', owner: 'pallium', text: 'Its heals are 1.5x on a whorl whose side has a Mantle over it.',
+defPassive({ id: 'pallium_polishes', name: 'Polishes', owner: 'pallium', text: 'Its heals are 1.5x on a Whorl whose side has a Mantle over it.',
   healMul(b, f, t) { return b.s[t.side].mantle ? 1.5 : 1; } });
 defPassive({ id: 'pallium_lieson', name: 'Lies On', owner: 'pallium', text: 'When it uses a move: its next 2 attacks heal your team 7% of max HP.',
   afterMove(b, f) { f.k.brava = 2; },
   afterAttack(b, f) { if (!f.k.brava) return; f.k.brava--; for (const a of standing(b.s[f.side])) heal(b, f, a, a.maxHp * 0.07); } });
-defMove({ id: 'pallium_slide', name: 'Slide Over', type: 'TIDE', owner: 'pallium', reach: 'team', cd: 2, fx: 'sway | shell sweep | sparkle ally', text: 'Your out whorl heals 33% of max HP, reserves 18%.',
+defMove({ id: 'pallium_slide', name: 'Slide Over', type: 'TIDE', owner: 'pallium', reach: 'team', cd: 2, fx: 'sway | shell sweep | sparkle ally', text: 'Your out Whorl heals 33% of max HP, reserves 18%.',
   run(c) { for (const a of standing(c.me)) c.heal(a, a.maxHp * (isOut(c.b, a) ? 0.33 : 0.18)); } });
 defMove({ id: 'pallium_buff', name: 'Mantle Over', type: 'TIDE', owner: 'pallium', reach: 'team', cd: 4, fx: 'swell | shell*3 rise | ring sparkle ally',
   text: 'A Mantle (36% of its max HP) takes your team\'s hits for 3 rounds. Fortify 2.',
@@ -591,11 +591,11 @@ defMove({ id: 'pallium_buff', name: 'Mantle Over', type: 'TIDE', owner: 'pallium
 defMove({ id: 'pallium_dazzle', name: 'Lie Over', type: 'BEAST', owner: 'pallium', reach: 'single', tags: ['spell'], cd: 3, wu: 50, fx: 'swell | shell converge | bite big',
   text: 'Wind-up. Hits for 241% MGK. Stun 1. Polishes the foe: its next hit deals 0.7x.',
   run(c) { c.hit(c.tgt, { mgk: 2.41 }); c.st(c.tgt, 'stun', 1); if (!c.tgt.ko) c.mark(c.tgt, 'pallium_slick', 1, 2); } });
-defMove({ id: 'pallium_shine', name: 'Shine', type: 'TIDE', owner: 'pallium', reach: 'team', cd: 7, nerve: 5, wt: 60, fx: 'lift | star*5 rain | flash sparkle big glare', text: 'Next turn: your team heals 20%, your out whorl is Untouchable 1.',
+defMove({ id: 'pallium_shine', name: 'Shine', type: 'TIDE', owner: 'pallium', reach: 'team', cd: 7, nerve: 5, wt: 60, fx: 'lift | star*5 rain | flash sparkle big glare', text: 'Next turn: your team heals 20%, your out Whorl is Untouchable 1.',
   run(c) { c.mark(c.u, 'pallium_radiance', 1, 2); } });
 
 // seiche: a wave that stopped on the sand and stood up gray, holding the water back until it breaks over the whole line.
-defSummon({ id: 'seiche_wall', name: 'Still Wall', owner: 'seiche', text: 'Takes single-target hits meant for your out whorl. 3 turns.', every: 100, guard: true,
+defSummon({ id: 'seiche_wall', name: 'Still Wall', owner: 'seiche', text: 'Takes single-target hits meant for your out Whorl. 3 turns.', every: 100, guard: true,
   sprite: { px: ['........', '33333333', '24242424', '22222222', '24242424', '22222222', '44444444', '........'], c: ['#6a8aa7', '#eef6fd', '#30506f'] },
   act() { /* the wall only stands */ } });
 defPassive({ id: 'seiche_standing', name: 'Standing Wave', owner: 'seiche', text: 'Cannot be forced out. Takes 0.85x damage while its Still Wall stands.',
@@ -695,7 +695,7 @@ defPassive({ id: 'specie_shut', name: 'Shut Purse', owner: 'specie', text: 'Its 
   outMul(b, f, t, d) { return d.attack ? 1.3 : 1; },
   turnEnd(b, f, action) { if (action === 'attack') b.s[f.side].next += 15; } });
 defMove({ id: 'specie_clip', name: 'Clip', type: 'GEAR', owner: 'specie', reach: 'single', tags: ['projectile'], cd: 1, fx: 'recoil | shell line fast | slash',
-  text: 'Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP whorl heals 40% of it.',
+  text: 'Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP Whorl heals 40% of it.',
   run(c) { const d = c.hit(c.tgt, { atk: 1.11 }); const a = standing(c.me).slice().sort((x, z) => x.hp / x.maxHp - z.hp / z.maxHp)[0]; if (a && d > 0) c.heal(a, d * 0.4); c.u.k.coins = Math.min(10, (c.u.k.coins || 0) + 1); } });
 defMove({ id: 'specie_payout', name: 'Pay Out', type: 'STONE', owner: 'specie', reach: 'single', tags: ['projectile'], cd: 3, fx: 'recoil | shell*3 arc | crack',
   text: 'Hits for 73% ATK. If still out next turn: Root 2, 59% ATK.',
@@ -835,7 +835,7 @@ defMark({ id: 'laggard_twice', name: 'falling behind', clock: 'own', volatile: t
     msg(b, `${label(b, f)}'s reflection fades behind them.`);
     echoMove(b, f, m.id, 100, 0.6);
   } });
-defSummon({ id: 'laggard_image', name: 'Late Image', owner: 'laggard', sprite: { px: ['........', '3..3....', '33.33...', '4322223.', '4212212.', '4322223.', '..4444..', '.4.44.4.'], c: ['#b2b6cb', '#b28b4b', '#785995'] }, text: 'Takes single-target hits meant for your out whorl. 2 turns.', every: 100, guard: true,
+defSummon({ id: 'laggard_image', name: 'Late Image', owner: 'laggard', sprite: { px: ['........', '3..3....', '33.33...', '4322223.', '4212212.', '4322223.', '..4444..', '.4.44.4.'], c: ['#b2b6cb', '#b28b4b', '#785995'] }, text: 'Takes single-target hits meant for your out Whorl. 2 turns.', every: 100, guard: true,
   act() { /* the copy only stands */ } });
 function sigilBurst(b: Battle, f: Fighter, t: Fighter): void {
   if (!marked(t, 'laggard_sigil') || t.ko) return;
@@ -867,7 +867,7 @@ defMove({ id: 'laggard_mirror', name: 'Mirror Back', type: 'VOID', owner: 'lagga
 
 // tain: the silver off the back of a mirror that shows nothing on its own, turns the type chart over, and trades wounds.
 const TAIN_DEMON: SpriteData = { px: ['44....44', '.4.22.4.', '.322223.', '32422423', '32222223', '.333333.', '3.34.3.3', '.334433.'], c: ['#3e3650', '#7c6cc8', '#c4b4e8'] };
-defSummon({ id: 'tain_image', name: 'Silver Image', owner: 'tain', sprite: { px: ['........', '..3..3..', '..3223..', '.324423.', '.344443.', '.324423.', '..3333..', '.33..33.'], c: ['#d4d8e4', '#5a83cd', '#6a5e80'] }, text: 'Takes single-target hits meant for your out whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.', every: 100, guard: true, spill: true,
+defSummon({ id: 'tain_image', name: 'Silver Image', owner: 'tain', sprite: { px: ['........', '..3..3..', '..3223..', '.324423.', '.344443.', '.324423.', '..3333..', '.33..33.'], c: ['#d4d8e4', '#5a83cd', '#6a5e80'] }, text: 'Takes single-target hits meant for your out Whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.', every: 100, guard: true, spill: true,
   act(b, s, f) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (f && !f.ko && t && !t.ko) strike(b, f, t, stat(b, f, 'mgk') * 0.25, 'M', 'VOID'); } });
 defMark({ id: 'tain_demon', name: 'tarnished', clock: 'own', value: 0.2,
   afterAttack(b, f) { for (const r of reserves(b.s[1 - f.side])) dealDamage(b, f, r, stat(b, f, 'mgk') * 0.4, { kind: 'M', move: null, attack: false, dot: false, spread: true, reserve: true }, null); },
@@ -966,7 +966,7 @@ defMove({ id: 'lichen_crust', name: 'Stone Crust', type: 'ROOT', owner: 'lichen'
 // groundswell: the swell that lifted the Auger and set it down, which lifts the price of a foe's crest and lifts shields off.
 /** True when t's side cannot pay for t's crest now. */
 const cantPay = (b: Battle, t: Fighter) => { const m = MOVES[t.moves[3]]; return !!m?.nerve && b.rules.nerve && b.s[t.side].nerve < tideCost(b, t, m); };
-defSummon({ id: 'groundswell_cove', name: 'Water Dome', owner: 'groundswell', sprite: { px: ['........', '..2332..', '.222222.', '22422222', '24442242', '22422222', '44444444', '........'], c: ['#a5dce4', '#effbfb', '#26526f'] }, text: 'Takes single-target hits meant for your out whorl. 3 turns.', every: 100, guard: true,
+defSummon({ id: 'groundswell_cove', name: 'Water Dome', owner: 'groundswell', sprite: { px: ['........', '..2332..', '.222222.', '22422222', '24442242', '22422222', '44444444', '........'], c: ['#a5dce4', '#effbfb', '#26526f'] }, text: 'Takes single-target hits meant for your out Whorl. 3 turns.', every: 100, guard: true,
   act() { /* the cove only stands */ } });
 defPassive({ id: 'groundswell_full', name: 'Full Swell', owner: 'groundswell', text: 'When it comes out: a shield of 8% of its max HP, 3 turns.',
   comeOut(b, f) { giveShield(b, f, f, f.maxHp * 0.08, 3); } });
@@ -1013,7 +1013,7 @@ defMove({ id: 'chalk_hands', name: 'Clean Hands', type: 'SALT', owner: 'chalk', 
 // saltline: the tide line on the Auger's walls that lays a Rising Line under the foe, plants a Salt Post, and walls a foe in salt.
 /** How high the Rising Line under a side stands, as a share of max HP: 15%, and 5% more each round. */
 const saltHeight = (b: Battle, side: 0 | 1) => { const g = b.s[side].ground; return g ? Math.min(0.5, 0.15 + 0.025 * Math.max(0, b.turnNo - g.at)) : 0; };
-defGround({ id: 'saltline_line', name: 'Rising Line', color: '#e4e8f0', text: 'A line on HP bars from 15% of max HP, rising 5% a round. A whorl under it takes 1.3x from hits.',
+defGround({ id: 'saltline_line', name: 'Rising Line', color: '#e4e8f0', text: 'A line on HP bars from 15% of max HP, rising 5% a round. A Whorl under it takes 1.3x from hits.',
   line(b, side) { return saltHeight(b, side); },
   inMul(b, f, src, d) { return !d.dot && f.hp < f.maxHp * saltHeight(b, f.side) ? 1.3 : 1; },
   value(b, side) { return b.s[side].ground?.id === 'saltline_line' ? -0.1 : 0.1; } });
@@ -1035,7 +1035,7 @@ defMove({ id: 'saltline_wall', name: 'Mark the Wall', type: 'STONE', owner: 'sal
   run(c) { c.hit(c.tgt, { mgk: 0.6 }); c.st(c.tgt, 'slow', 1); c.shield(c.u, c.u.maxHp * 0.15, 2); if (!c.blocked(c.tgt)) setGround(c.b, c.tgt.side, 'saltline_line', 5, c.u); } });
 defMove({ id: 'saltline_wash', name: 'Wash Line', type: 'SALT', owner: 'saltline', reach: 'single', tags: ['spell'], cd: 4, fx: 'stomp | salt*4 rise | pillar ally', text: 'Hits for 64% MGK. Summons a Salt Post (10% max HP, 4 turns). Haste 1.',
   run(c) { for (const s of summonsOf(c.b, c.u.side, 'saltline_post')) dismiss(c.b, s); summon(c.b, c.u, 'saltline_post', { hp: 0.1, turns: 4 }); c.u.k.dragonUsed = 0; c.hit(c.tgt, { mgk: 0.64 }); c.st(c.u, 'haste', 1); } });
-defMove({ id: 'saltline_spring', name: 'Spring Line', type: 'SALT', owner: 'saltline', reach: 'single', tags: ['dash', 'spell'], cd: 6, nerve: 5, fx: 'lunge | salt*5 converge | shatter frost jolt big', text: 'Hits for 181% MGK. Neither out whorl can switch for 3 turns.',
+defMove({ id: 'saltline_spring', name: 'Spring Line', type: 'SALT', owner: 'saltline', reach: 'single', tags: ['dash', 'spell'], cd: 6, nerve: 5, fx: 'lunge | salt*5 converge | shatter frost jolt big', text: 'Hits for 181% MGK. Neither out Whorl can switch for 3 turns.',
   run(c) { c.hit(c.tgt, { mgk: 1.81 }); if (!c.tgt.ko) c.mark(c.tgt, 'saltline_ring', 1, 3); c.mark(c.u, 'saltline_ring', 1, 3); } });
 
 // ================================================================ chapter 3: the rolling rooms
@@ -1057,7 +1057,7 @@ defPassive({ id: 'tumbleweed_never', name: 'Never Roots', owner: 'tumbleweed', t
 defPassive({ id: 'tumbleweed_burs', name: 'Burs', owner: 'tumbleweed', text: 'When a dash hits it: the attacker\'s next hit deals 0.5x. Immune to Root.',
   afterTake(b, f, src, dealt, d) { if (enemy(f, src) && d.move?.tags?.includes('dash')) mark(b, f, src, 'tumbleweed_bur', 1, 2); },
   statusImmune(f, id) { return id === 'root'; } });
-defMove({ id: 'tumbleweed_through', name: 'Roll Through', type: 'ROOT', owner: 'tumbleweed', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'spin | leaf*2 line | puff', text: 'Hits for 121% MGK. Your lowest-HP whorl heals 8% of its max HP.',
+defMove({ id: 'tumbleweed_through', name: 'Roll Through', type: 'ROOT', owner: 'tumbleweed', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'spin | leaf*2 line | puff', text: 'Hits for 121% MGK. Your lowest-HP Whorl heals 8% of its max HP.',
   run(c) { c.hit(c.tgt, { mgk: 1.21 }); const a = standing(c.me).sort((x, z) => x.hp / x.maxHp - z.hp / z.maxHp)[0]; if (a) c.heal(a, a.maxHp * 0.08); } });
 defMove({ id: 'tumbleweed_bound', name: 'Roll Off With', type: 'STONE', owner: 'tumbleweed', reach: 'single', tags: ['dash'], cd: 4, quick: true, fx: 'spin fast | sand*3 line | puff',
   text: 'Quick. Hits for 75% MGK. Splash 35%. Steals the next move the foe uses on its side.',
@@ -1112,7 +1112,7 @@ defMark({ id: 'columella_held', name: 'held up', clock: 'own', volatile: true, v
   } });
 defPassive({ id: 'columella_center', name: 'Center', owner: 'columella', text: 'After a move, once every 3 turns: a shield of 10% of its max HP.',
   afterMove(b, f) { if ((f.k.kiAt || -9) > b.turnNo - 6) return; f.k.kiAt = b.turnNo; giveShield(b, f, f, f.maxHp * 0.1, 3); } });
-defPassive({ id: 'columella_climbed', name: 'Climbed', owner: 'columella', text: 'In reserve: your out whorl takes 0.9x damage.',
+defPassive({ id: 'columella_climbed', name: 'Climbed', owner: 'columella', text: 'In reserve: your out Whorl takes 0.9x damage.',
   auraIn() { return 0.9; } });
 defMove({ id: 'columella_axis', name: 'Axis Cut', type: 'STONE', owner: 'columella', reach: 'single', cd: 1, fx: 'spin | shard return | slash', text: 'Hits for 116% ATK. The blade returns at its next turn: 50% ATK, Slow 1.',
   run(c) { c.hit(c.tgt, { atk: 1.16 }); c.mark(c.u, 'columella_blade', 1, 2); } });
@@ -1290,7 +1290,7 @@ defSummon({ id: 'ostium_turret', name: 'Hole Turret', owner: 'ostium', text: 'Ea
   sprite: { px: ['........', '...33...', '..3443..', '.342243.', '..3443..', '...33...', '........', '........'], c: ['#ffffff', '#87e8fe', '#2957b4'] },
   act(b, s, f) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (!f || f.ko || !t || t.ko) return; strike(b, f, t, stat(b, f, 'mgk') * 0.44, 'M', 'STAR'); },
   trap(b, s, who) { const f = ownerOf(b, s); if (f && !f.ko && !who.ko) strike(b, f, who, stat(b, f, 'mgk') * 0.44, 'M', 'STAR'); return false; } });
-defSummon({ id: 'ostium_wall', name: 'Hole Wall', owner: 'ostium', sprite: { px: ['........', '33333333', '34422443', '34444443', '34422443', '33333333', '........', '........'], c: ['#f3f9ff', '#81e2f8', '#2451ae'] }, text: 'Takes single-target hits meant for your out whorl. 3 turns.', every: 100, guard: true,
+defSummon({ id: 'ostium_wall', name: 'Hole Wall', owner: 'ostium', sprite: { px: ['........', '33333333', '34422443', '34444443', '34422443', '33333333', '........', '........'], c: ['#f3f9ff', '#81e2f8', '#2451ae'] }, text: 'Takes single-target hits meant for your out Whorl. 3 turns.', every: 100, guard: true,
   act() { /* the wall only stands */ } });
 defPassive({ id: 'ostium_anywhere', name: 'Opens Anywhere', owner: 'ostium', text: 'Moves hitting the same foe in a row: +15% each, up to +45%.',
   outMul(b, f, t, d) { return d.move && f.k.beamOn === t.side * 8 + t.idx + 1 ? 1 + 0.15 * Math.min(3, f.k.beam || 0) : 1; },

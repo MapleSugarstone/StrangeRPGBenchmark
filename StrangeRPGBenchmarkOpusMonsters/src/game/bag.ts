@@ -118,7 +118,7 @@ export const HORN_TEXT: Record<string, string> = {
   twig: `Its threshold is at ${Math.round(HORN_LINE.twig * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
   brass: `Its threshold is at ${Math.round(HORN_LINE.brass * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
   bone: `Its threshold is at ${Math.round(HORN_LINE.bone * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
-  iron: 'This always works on a wild whorl.',
+  iron: 'This always works on a wild Whorl.',
 };
 
 const isLore = (k: string) => k.startsWith('lore_');
@@ -258,7 +258,7 @@ class BagMode implements Mode {
     this.sub = { kind: 'list' };
     if (a === 'Toss') { const max = countOf(e); if (max > 0) this.sub = { kind: 'count', n: 1, max }; return; }
     if (a === 'Give' || a === 'Take') {
-      if (!G.party.length) { this.note('No whorls to contain it.'); return; }
+      if (!G.party.length) { this.note('No Whorls to contain it.'); return; }
       this.sub = { kind: 'team', i: 0, take: a === 'Take' };
       return;
     }
@@ -367,7 +367,7 @@ class BagMode implements Mode {
     } else if (sub.kind === 'team') {
       const team = G.party, h = team.length * 14 + 18;
       bevel(20, 40, 152, h, '#211e2a', SEL);
-      text(sub.take ? 'Which whorl?' : 'To which whorl?', 26, 44, SEL);
+      text(sub.take ? 'Which Whorl?' : 'To which Whorl?', 26, 44, SEL);
       team.forEach((m, k) => {
         const y = 56 + k * 14, on = k === sub.i;
         if (on) rect(22, y - 2, 148, 12, '#2e2a3a');

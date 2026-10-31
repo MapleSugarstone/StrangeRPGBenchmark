@@ -29,7 +29,7 @@ defScript('gantryCrane', async () => {
   const i = CRANE_X.findIndex(x => fx === x || fx === x + 1);
   if (i < 0) return;
   if (caged()) return;
-  if (!(field.wearing && field.leadTypes().includes('GEAR'))) { await hint('An old crane of the Riders. Wear a GEAR whorl to turn its gears.'); return; }
+  if (!(field.wearing && field.leadTypes().includes('GEAR'))) { await hint('An old crane of the Riders. Wear a GEAR Whorl to turn its gears.'); return; }
   const turn = (k: number, by: number) => { if (k >= 0 && k < 4) setFlag('crane' + k, ((arm(k) + by + 4) % 4) + 1); };
   turn(i, 1); turn(i - 1, -1); turn(i + 1, -1);
   sfx('guard');

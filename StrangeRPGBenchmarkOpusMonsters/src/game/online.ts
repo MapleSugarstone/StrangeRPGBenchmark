@@ -490,7 +490,7 @@ export class PickScreen implements Mode {
     }
     const mine = reveal && this.picked!.timeout[this.me];
     const hint = this.ended ? 'Z returns.' : this.refused ? 'Concluding the match.' : reveal ? (mine ? 'Time expired. Slots 1 through 4 will battle.' : 'The fight begins.')
-      : this.col === 1 ? 'V examines it.' : this.locked ? `Awaiting ${fit(name, 48)}. X modifies it.` : this.row === READY ? 'Z sends your four whorls.' : 'Z flags it. V inspects it.';
+      : this.col === 1 ? 'V examines it.' : this.locked ? `Awaiting ${fit(name, 48)}. X modifies it.` : this.row === READY ? 'Z sends your four Whorls.' : 'Z flags it. V inspects it.';
     // A link that is down stands in front of every other hint until it comes back or the hold runs out.
     const down = this.ended ? '' : linkLine(this.link, this.awayUntil, fit(name, 48));
     if (down) hintLine(down, WARN);
@@ -854,7 +854,7 @@ export class ResultScreen implements Mode {
       if (k === this.sel) { rowBar(70, ry, 52); text('\u0001', 72, ry, SEL); }
       text(l, 82, ry, k === this.sel ? SEL : PAPER);
     });
-    hintLine(this.choices[0] === 'Rematch' ? (this.r.random ? 'The rematch generates new whorls.' : 'The rematch retains both teams.') : this.asked ? 'X leaves.' : 'Press Z to go back.');
+    hintLine(this.choices[0] === 'Rematch' ? (this.r.random ? 'The rematch generates new Whorls.' : 'The rematch retains both teams.') : this.asked ? 'X leaves.' : 'Press Z to go back.');
   }
 }
 
@@ -938,7 +938,7 @@ function serviceText(k: number): string {
   if (k === 0) return 'Generates a link for anyone else seeking a match. A match is the best of three games.';
   if (k === 1) return 'Creates a one-time code for a friend, valid for 15 minutes.';
   if (k === 2) return 'Uses a friend\'s code.';
-  if (k === 3) return 'Each side receives six random whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.';
+  if (k === 3) return 'Each side receives six random Whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.';
   if (k === 4) return p.length ? `${p.length} to fix: ${p[0]}` : 'Six to display, four to battle, all at level 25.';
   return 'Go back to the counter.';
 }
@@ -986,7 +986,7 @@ async function byssusMenu(): Promise<void> {
     o.menu = s;
     if (SERVICE[s] === 'Roster') { await rosterScreen(); save(); continue; }
     if (SERVICE[s] === 'Random battle') {
-      const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'Random encounter: six whorls each.');
+      const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'Random encounter: six Whorls each.');
       if (r >= 0) await matches(r === 0 ? 'public' : r === 1 ? 'host' : 'join', true);
       field.playMapMusic();
       continue;

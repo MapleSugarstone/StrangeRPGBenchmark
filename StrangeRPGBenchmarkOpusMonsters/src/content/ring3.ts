@@ -233,7 +233,7 @@ SPAWNS.saltings = [30, 1];
 
 // The salt workers finish each thought with "and that's salt", whatever it was about.
 function saltLines(i: number): string[] {
-  if (i === 0) return ['A lad named Tack came through, bringing a whorl from our pans. Brine and boy, both salty.', 'And that\'s salt.'];
+  if (i === 0) return ['A lad named Tack came through, bringing a Whorl from our pans. Brine and boy, both salty.', 'And that\'s salt.'];
   return flag('tack3') ? ['I hear they\'re calling it Brack now, the one from our pans. It\'s a good name. It tastes right.', 'And that\'s salt.'] : ['Pan four\'s cast left last spring. Went north with a kid. That\'s salt.'];
 }
 

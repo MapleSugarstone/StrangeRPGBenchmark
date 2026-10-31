@@ -39,8 +39,8 @@
 [1d5ek3n] Spoon-carver | I whittle spoons from the bark the Bole drops.
 [1wb3yp8] Spoon-carver | They have a faint woody flavor, but people don't mind.
 [14ua3ai] look | A note left on the pillow: "Off to see the Bole. I'll be back before dark. Do not eat the jam.
-[0v9gkyn] Child | I'm cultivating a whorl in a crate. It's just a snail at the moment.
-[15gghf8] Child | Snails develop shells, which turn them into whorls. I have all the patience in the world.
+[16wzv5r] Child | I'm cultivating a Whorl in a crate. It's just a snail at the moment.
+[1ipn8no] Child | Snails develop shells, which turn them into Whorls. I have all the patience in the world.
 [1n742am] Tinker | Rider parts. Every one still ticks.
 [1i0juk6] Tinker | I count those ticks so they know someone is listening.
 [0odq7kz] Woman | The Pylon glows through the wall at night, shifting from bright blue to a dimmer hue.
@@ -78,19 +78,19 @@
 [1u6bqw0] Strandmonger | Knock it down a bit, then catch it. Weaker means surer. Then it's yours, and I stop feeding a boot.
 
 == scene: r
-[0n7rcrm] ? | (Your whorl clashes with the boot. Choose one action per turn.)
+[07lh5s2] ? | (Your Whorl clashes with the boot. Choose one action per turn.)
 [1njr3xw] ? | (When your turns are near, you and your opponent choose moves at the same time.
 [0ebsunm] ? | The actions then resolve in order.)
 [13jkfjr] ? | (Attack is unlimited. Special moves hit harder but need a cooldown of several turns.)
 [1lxi6ec] ? | (Preview your options before committing.
 [0dswph3] ? | Each entry details its effect and whether the foe is vulnerable to it.)
 [0ys39jh] ? | (Guard takes priority. It halves incoming damage until your next turn.)
-[08jh913] ? | (Switch also takes priority. It calls forth a whorl from your reserve.
+[1s2349j] ? | (Switch also takes priority. It calls forth a Whorl from your reserve.
 [0wkb3me] ? | You currently have only one available.)
-[13m6ab6] ? | (A horn can catch a whorl at any HP level. The lower the whorl's HP, the higher the success rate.)
+[0jpc2sy] ? | (A horn can catch a Whorl at any HP level. The lower the Whorl's HP, the higher the success rate.)
 [1pg4z49] ? | (The boot is now sufficiently weakened.
 [04mmmjl] ? | Selecting Catch will show "Sure" on the horn list, guaranteeing success.)
-[0ocnomt] ? | (Choose Catch and blow a horn. A caught whorl joins you. If you knock it out, it gets away.)
+[1yuinmd] ? | (Choose Catch and blow a horn. A caught Whorl joins you. If you knock it out, it gets away.)
 
 == scene: lesson
 [0y60rfb] Strandmonger | It's yours, free of charge! But keep your mouth shut. I've got a reputation to protect.
@@ -164,7 +164,7 @@
 [0wv7hfm] Cinch | Take a seat if you're staying. The fire is open to all.
 
 == scene: stack
-[0z6wujx] Stackkeeper | Every level is a battle! Your whorls stand at fifty, all of them.
+[02sb1ot] Stackkeeper | Every level is a battle! Your Whorls stand at fifty, all of them.
 [0zsxil0] Stackkeeper | Only conjoined foes are permitted on this floor.
 [1lwezxt] Stackkeeper | Victory means rising one floor higher. Defeat means plunging back to the very bottom.
 [0a70hq3] Stackkeeper | Your highest achievement so far is floor {G.stackBest}.
@@ -181,7 +181,7 @@
 
 == scene: ring
 [0rb17xh] ? (prisingiron) | An iron bar with a hooked end. Face a crust of old shells and press to pry it off.
-[01yjlzp] ? (stilts) | Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE whorl.
+[06tetyt] ? (stilts) | Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE Whorl.
 [1ye9jy3] ? (jingle) | A hoop made of thin, jingling shells. Press it against a large sleeper to wake it.
 [0zbpt0r] ? (haul) | A harness attached to a rope. Grip the haul stone and pull back to drag it.
 [1to5xp4] ? (letter) | A letter sealed with a black spiral. The Gate Ring's keeper opens the way for it.

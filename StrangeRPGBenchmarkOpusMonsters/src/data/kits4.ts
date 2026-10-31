@@ -86,7 +86,7 @@ defMark({ id: 'kiln_return', name: 'brick coming back', clock: 'own', volatile: 
   turnStart(b, f) { unmark(f, 'kiln_return'); const t = foe(b, f); if (!t) return; msg(b, 'The brick returns.'); strike(b, f, t, stat(b, f, 'atk') * 0.5, 'P', 'GEAR'); if (!t.ko) applyStatus(b, f, t, 'stun', 1); } });
 defPassive({ id: 'kiln_glaze', name: 'Glazing', owner: 'kiln', text: 'Glaze cracks for 10% of the foe\'s max HP on a guard, a Stun, a Root, or its dash.',
   afterDeal(b, f, t, dealt, d) { if (d.move?.tags?.includes('dash') && !d.reserve && t.side !== f.side) kilnCrack(b, t, f); } });
-defPassive({ id: 'kiln_hearth', name: 'Hearth', owner: 'kiln', text: 'Boosted moves deal 1.15x: its own, and your out whorl\'s while it is in reserve.',
+defPassive({ id: 'kiln_hearth', name: 'Hearth', owner: 'kiln', text: 'Boosted moves deal 1.15x: its own, and your out Whorl\'s while it is in reserve.',
   outMul(b, f, t, d) { const i = d.move ? f.moves.indexOf(d.move.id) : -1; return i >= 0 && boostOf(f, i) > 1 ? 1.15 : 1; },
   auraOut(b, f, o, t, d) { const i = d.move ? o.moves.indexOf(d.move.id) : -1; return i >= 0 && boostOf(o, i) > 1 ? 1.15 : 1; } });
 defMove({ id: 'kiln_clinker', name: 'Clinker', type: 'STONE', owner: 'kiln', reach: 'single', tags: ['projectile'], cd: 1, fx: 'hop | pebble*2 arc | crack',
@@ -156,7 +156,7 @@ defMark({ id: 'aerial_jam', name: 'jammed', clock: 'own', negative: true, value:
 defPassive({ id: 'aerial_carrier', name: 'Clear Signal', owner: 'aerial', text: 'Tune In on the same band as last time deals 1.25x, and your team heals 5% of max HP.',
   outMul(b, f, t, d) { return d.move?.id === 'aerial_broadcast' && f.k.bandNow && f.k.bandNow === f.k.bandLast ? 1.25 : 1; },
   afterMove(b, f, m) { if (m.id === 'aerial_broadcast' && f.k.bandNow && f.k.bandNow === f.k.bandLast) for (const a of standing(b.s[f.side])) heal(b, f, a, a.maxHp * 0.05); } });
-defPassive({ id: 'aerial_repeater', name: 'Relay', owner: 'aerial', text: 'Deals 1.2x to a Slowed or Stunned foe. In reserve: your out whorl\'s spells add 15% MGK.',
+defPassive({ id: 'aerial_repeater', name: 'Relay', owner: 'aerial', text: 'Deals 1.2x to a Slowed or Stunned foe. In reserve: your out Whorl\'s spells add 15% MGK.',
   outMul(b, f, t) { return t.s.slow || t.s.stun ? 1.2 : 1; },
   anyMove(b, f, user, m) {
     if (!m?.tags?.includes('spell') || user.side !== f.side || isOut(b, f) || !isOut(b, user)) return;
@@ -199,7 +199,7 @@ defMark({ id: 'vane_hammer', name: 'arrow out', clock: 'own', volatile: true, va
 defPassive({ id: 'vane_landfall', name: 'North Point', owner: 'vane', text: 'Deals 1.2x to the foe lowest on HP. Every 3rd attack heals your team 5% of max HP.',
   outMul(b, f, t) { return nearestFall(b, f) === t ? 1.2 : 1; },
   afterAttack(b, f) { f.k.lum = (f.k.lum || 0) + 1; if (f.k.lum % 3 === 0) for (const a of standing(b.s[f.side])) heal(b, f, a, a.maxHp * 0.05); } });
-defPassive({ id: 'vane_fullsail', name: 'Beside You', owner: 'vane', text: 'Once, in reserve: your out whorl below 25% HP heals 20% of max HP. Foe: Stun 1.',
+defPassive({ id: 'vane_fullsail', name: 'Beside You', owner: 'vane', text: 'Once, in reserve: your out Whorl below 25% HP heals 20% of max HP. Foe: Stun 1.',
   reserveTurn(b, f) {
     if (f.k.landed) return;
     const o = outOf(b, f);
@@ -225,7 +225,7 @@ defMove({ id: 'vane_halyard', name: 'After It', type: 'GEAR', owner: 'vane', rea
   text: 'Hits for 85% ATK. If its arrow is out: catches it, then 40% ATK and Stun 1.',
   run(c) { const out = marked(c.u, 'vane_hammer') > 0; c.hit(c.tgt, { atk: 0.85 }); if (out && !c.tgt.ko) { unmark(c.u, 'vane_hammer'); c.hit(c.tgt, { atk: 0.4 }); c.st(c.tgt, 'stun', 1); } } });
 defMove({ id: 'vane_touchdown', name: 'Land Beside', type: 'STAR', owner: 'vane', reach: 'spread', cd: 6, nerve: 5, fx: 'lift | star*4 rain | sparkle big jolt',
-  text: 'Your lowest-HP whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.',
+  text: 'Your lowest-HP Whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.',
   run(c) { const a = lowestAlly(c); c.heal(a, a.maxHp * 0.3); c.spread({ atk: 0.8 }); c.st(c.tgt, 'stun', 1); } });
 
 // capsule: a re-entry capsule that pulls a falling friend inside and takes its place, seals a reserve away, and turns a foe's side on it.
@@ -452,7 +452,7 @@ defPassive({ id: 'selkie_lull', name: 'Sleepy Sea', owner: 'selkie', text: 'When
   afterHeal(b, f, t, amt) { if (amt >= t.maxHp * 0.05 && t !== f && isOut(b, t)) hastenFighter(b, t, 20); } });
 defPassive({ id: 'selkie_sealegs', name: 'Sea Born', owner: 'selkie', text: 'When a foe wakes from its dream with damage held: your team heals 10% of max HP.' });
 defMove({ id: 'selkie_backwash', name: 'Undertow Mend', type: 'TIDE', owner: 'selkie', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | drop*2 wave | splash',
-  text: 'Hits for 76% MGK. Your lowest-HP whorl heals 35% of it.',
+  text: 'Hits for 76% MGK. Your lowest-HP Whorl heals 35% of it.',
   run(c) { const d = c.hit(c.tgt, { mgk: 0.76 }); c.heal(lowestAlly(c), d * 0.35); } });
 defMove({ id: 'selkie_bubble', name: 'Lullaby', type: 'TIDE', owner: 'selkie', reach: 'single', tags: ['spell'], cd: 4, wu: 50, fx: 'sway | bubble*4 rise | fizz daze',
   text: 'Wind-up. Sleep 2. Dreaming: hits wait, then land at 1.25x when it wakes.',
@@ -475,7 +475,7 @@ defPassive({ id: 'walrus_thirdblow', name: 'Third Tusk', owner: 'walrus', text: 
     f.k.walrusHit = b.turnNo;
     if (blows(f) >= 2) unmark(f, 'walrus_count'); else mark(b, f, f, 'walrus_count', 1, -1);
   } });
-defPassive({ id: 'walrus_pileon', name: 'Haul Out', owner: 'walrus', text: 'In reserve: your out whorl\'s dashes deal 1.15x.',
+defPassive({ id: 'walrus_pileon', name: 'Haul Out', owner: 'walrus', text: 'In reserve: your out Whorl\'s dashes deal 1.15x.',
   auraOut(b, f, o, t, d) { return d.move?.tags?.includes('dash') ? 1.15 : 1; } });
 defMove({ id: 'walrus_flipper', name: 'Flipper Slap', type: 'TIDE', owner: 'walrus', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge | splash',
   text: 'Hits for 85% ATK. Slow 1.',
@@ -631,7 +631,7 @@ defMove({ id: 'pennon_unfurl', name: 'Snap Out', type: 'STAR', owner: 'pennon', 
   run(c) { setReach(c.b, c.u, c.opt === 1 ? 'tight' : 'wide', c.opt === 1 ? 2 : 1); c.heal(c.u, c.u.maxHp * 0.06); } });
 
 // tang: the hidden half of a sword that hands its keen edge to whoever holds it, spins when cornered, and cuts a thousand times.
-defSummon({ id: 'tang_ward', name: 'Whetstone', owner: 'tang', text: 'Each turn: your out whorl heals 6% of its max HP.', every: 100,
+defSummon({ id: 'tang_ward', name: 'Whetstone', owner: 'tang', text: 'Each turn: your out Whorl heals 6% of its max HP.', every: 100,
   sprite: { px: ['........', '..2222..', '.222222.', '22233222', '22311322', '.222222.', '..2222..', '.4.44.4.'], c: ['#9d9da5', '#63f383', '#705037'] },
   act(b, s) { const o = b.s[s.side].f[b.s[s.side].out]; if (o && !o.ko) heal(b, ownerOf(b, s), o, o.maxHp * 0.06); } });
 defMark({ id: 'tang_spin', name: 'spinning', clock: 'own', volatile: true, value: 0.15,
@@ -957,7 +957,7 @@ defPassive({ id: 'lune_rebound', name: 'Boomerang Edge', owner: 'lune', text: 'I
     f.k.bounceAt = b.turnNo;
     dealDamage(b, f, r, dealt * 0.35, { kind: 'T', move: null, attack: false, dot: false, spread: true, reserve: true }, null);
   } });
-defPassive({ id: 'lune_waxing', name: 'Moonward', owner: 'lune', text: 'In reserve: your out whorl\'s spells deal 1.15x.',
+defPassive({ id: 'lune_waxing', name: 'Moonward', owner: 'lune', text: 'In reserve: your out Whorl\'s spells deal 1.15x.',
   auraOut(b, f, o, t, d) { return d.move?.tags?.includes('spell') ? 1.15 : 1; } });
 defMove({ id: 'lune_facet', name: 'Pale Beam', type: 'STAR', owner: 'lune', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'flare | beam | flash',
   text: 'Hits for 100% MGK. Delays the foe\'s next turn by 20%.',
@@ -1084,7 +1084,7 @@ function chollaSprout(b: Battle, by: Fighter): void {
   summon(b, by, 'cholla_sprout', { hp: 0.08, turns: 3 });
 }
 defMark({ id: 'cholla_tremor', name: 'joints in', max: 3, clock: 'own', negative: true, volatile: true, value: -0.08,
-  text: 'A whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.',
+  text: 'A Whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.',
   leave(b, f) {
     const mk = f.m.cholla_tremor, by = mk ? markedBy(b, mk) : null;
     unmark(f, 'cholla_tremor');
@@ -1129,7 +1129,7 @@ defMove({ id: 'cholla_grab', name: 'Cholla Grab', type: 'ROOT', owner: 'cholla',
 defSummon({ id: 'erg_soldier', name: 'Sand Polyp', owner: 'erg', text: 'Strikes with Sunaka\'s attacks and its Polyp Rush. 4 turns.', every: 100,
   sprite: { px: ['........', '........', '...3.3..', '...3.3..', '...3.3..', '...333..', '...33...', '..2222..'], c: ['#efe7d7', '#a90a0e', '#cbbba3'] },
   act() { /* soldiers only strike when commanded */ } });
-defSummon({ id: 'erg_wall', name: 'Reef Wall', owner: 'erg', sprite: { px: ['........', '........', '........', '.3.33.3.', '22222222', '2.24.2.2', '24222242', '........'], c: ['#efe7d7', '#d7a02b', '#b9575f'] }, text: 'Takes single-target hits meant for your out whorl until it falls. 20% of Sunaka\'s max HP.', guard: true });
+defSummon({ id: 'erg_wall', name: 'Reef Wall', owner: 'erg', sprite: { px: ['........', '........', '........', '.3.33.3.', '22222222', '2.24.2.2', '24222242', '........'], c: ['#efe7d7', '#d7a02b', '#b9575f'] }, text: 'Takes single-target hits meant for your out Whorl until it falls. 20% of Sunaka\'s max HP.', guard: true });
 const soldiers = (b: Battle, f: Fighter) => summonsOf(b, f.side, 'erg_soldier').length;
 defMark({ id: 'erg_buried', name: 'buried', clock: 'side', negative: true, value: -0.12, color: '#c9a66b',
   text: 'Cannot come out. It comes out only if nobody else can.',
@@ -1233,7 +1233,7 @@ defMove({ id: 'bonedry_stare', name: 'Bleached Stare', type: 'VOID', owner: 'bon
 defMove({ id: 'bonedry_crack', name: 'Crack Open', type: 'BEAST', owner: 'bonedry', reach: 'self', cd: 3, wt: 50, fx: 'shake | bone*2 orbit | crack self', text: 'Its next attack deals 1.9x damage and heals 30% of it.',
   run(c) { c.mark(c.u, 'bonedry_crit', 1, 2); } });
 defMove({ id: 'bonedry_ossuary', name: 'Ossuary', type: 'BEAST', owner: 'bonedry', reach: 'side', cd: 6, nerve: 5, fx: 'sink | bone*4 rise | crack big tint',
-  text: 'Raises a Small Bones for each whorl down on either side, at least 1, up to 3.',
+  text: 'Raises a Small Bones for each Whorl down on either side, at least 1, up to 3.',
   run(c) { const n = Math.max(1, Math.min(3, c.b.stats.kos[0] + c.b.stats.kos[1])); for (let i = 0; i < n; i++) summon(c.b, c.u, 'bonedry_skeleton', { hp: 0.12, turns: 3 }); } });
 
 // ================================================================ hands orchard
@@ -1301,7 +1301,7 @@ defMove({ id: 'glove_springoff', name: 'Lend a Hand', type: 'BEAST', owner: 'glo
     benchMove(c.b, al, i, 0.9);
   } });
 defMove({ id: 'glove_helping', name: 'Green Thumb', type: 'ROOT', owner: 'glove', reach: 'single', cd: 3, fx: 'shake | leaf*3 line | bloom',
-  text: 'Hits for 100% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.',
+  text: 'Hits for 100% ATK. Your lowest-HP Whorl heals 30% of the damage. Empower 1.',
   run(c) { const d = c.hit(c.tgt, { atk: 1 }); const lo = standing(c.me).slice().sort((x, y) => x.hp / x.maxHp - y.hp / y.maxHp)[0]; if (lo && d > 0) c.heal(lo, d * 0.3); c.st(c.u, 'empower', 1); } });
 defMove({ id: 'glove_unclench', name: 'Let Loose', type: 'BEAST', owner: 'glove', reach: 'self', cd: 6, nerve: 4, wt: 50, fx: 'swell | spark*4 orbit | burst big tint',
   text: '3 turns: Haste 3. Every 2nd attack also hits for 50% ATK. Splash 35%. Slow 1.',
@@ -1341,13 +1341,13 @@ defMove({ id: 'scion_ingrowth', name: 'Grow Inside', type: 'ROOT', owner: 'scion
   run(c) { c.hit(c.tgt, { atk: 0.37 }); c.st(c.u, 'invuln', 1); c.mark(c.u, 'scion_inside', 1, 2); } });
 
 // espalier: a pear trained flat on the orchard wall that feeds whoever leans on it, drops free pears for anyone, and rides out on a friend.
-defDrop({ id: 'espalier_pear', name: 'Pear', text: 'It heals the whorl that eats it 20% of its max HP.',
+defDrop({ id: 'espalier_pear', name: 'Pear', text: 'It heals the Whorl that eats it 20% of its max HP.',
   sprite: { px: ['........', '....3...', '...3....', '...22...', '..2222..', '.222222.', '.222222.', '..2222..'], c: ['#c8c040', '#6a8a30', '#000000'] },
   take(b, f) { heal(b, null, f, f.maxHp * 0.2); } });
-defPassive({ id: 'espalier_trained', name: 'Wall Fed', owner: 'espalier', text: 'In reserve: your out whorl heals 3% of max HP a turn and deals 1.05x.',
+defPassive({ id: 'espalier_trained', name: 'Wall Fed', owner: 'espalier', text: 'In reserve: your out Whorl heals 3% of max HP a turn and deals 1.05x.',
   reserveTurn(b, f) { const o = outOf(b, f); if (!o.ko) heal(b, f, o, o.maxHp * 0.03); },
   auraOut() { return 1.05; } });
-defPassive({ id: 'espalier_pleached', name: 'Pears Free', owner: 'espalier', text: 'Every 2nd move it uses drops a Pear. Either out whorl may eat it to heal 20%.',
+defPassive({ id: 'espalier_pleached', name: 'Pears Free', owner: 'espalier', text: 'Every 2nd move it uses drops a Pear. Either out Whorl may eat it to heal 20%.',
   afterMove(b, f) { f.k.pears = (f.k.pears || 0) + 1; if (f.k.pears % 2 === 0 && (b.drops || []).length < 2) dropItem(b, 'espalier_pear', 3); } });
 defMove({ id: 'espalier_spur', name: 'Pear Drop', type: 'ROOT', owner: 'espalier', reach: 'single', tags: ['projectile', 'spell'], cd: 1, fx: 'lift | pearl arc | burst', text: 'Hits for 78% MGK. 1.3x on a foe that was already out at its last turn.',
   run(c) { const long = c.tgt.outAt < (c.u.k.prevTurn ?? 0); c.hit(c.tgt, { mgk: 0.78 }, { mult: long ? 1.3 : 1 }); } });
@@ -1361,7 +1361,7 @@ defMove({ id: 'espalier_lattice', name: 'Full Trellis', type: 'ROOT', owner: 'es
   run(c) { c.spread({ mgk: 0.78 }); c.st(c.tgt, 'root', 2); for (const a of standing(c.me)) c.heal(a, a.maxHp * 0.1); } });
 
 // rung: a ladder rung that climbs a Step each turn it takes, rings at the top, bars a foe and the one behind it, sets a landing, and holds still.
-defSummon({ id: 'rung_shrine', name: 'Landing', owner: 'rung', sprite: { px: ['4......4', '4......4', '42222224', '42222224', '4.3..3.4', '4.3..3.4', '4......4', '4......4'], c: ['#c49d6d', '#efcf5f', '#266875'] }, text: 'At your next turn: heals your out whorl 25% of its max HP. Haste 2. Then it goes.', every: 100,
+defSummon({ id: 'rung_shrine', name: 'Landing', owner: 'rung', sprite: { px: ['4......4', '4......4', '42222224', '42222224', '4.3..3.4', '4.3..3.4', '4......4', '4......4'], c: ['#c49d6d', '#efcf5f', '#266875'] }, text: 'At your next turn: heals your out Whorl 25% of its max HP. Haste 2. Then it goes.', every: 100,
   act(b, s) { const o = b.s[s.side].f[b.s[s.side].out]; if (o && !o.ko) { heal(b, ownerOf(b, s), o, o.maxHp * 0.25); applyStatus(b, null, o, 'haste', 2); } } });
 defPassive({ id: 'rung_stepup', name: 'Step Higher', owner: 'rung', text: 'Turn start: +1 Step, up to 6. Its attacks add 8% MGK per Step.',
   turnStart(b, f) { f.k.chimes = Math.min(6, (f.k.chimes || 0) + 1); },
@@ -1483,7 +1483,7 @@ defMove({ id: 'murk_fogbound', name: 'Fogbound', type: 'TIDE', owner: 'murk', re
   } });
 
 // undine: something drowned past the edge and too big to see whole, which no one blow can finish, that wraps kelp, shows a part, and sings.
-defSummon({ id: 'undine_image', name: 'Drowned Image', owner: 'undine', sprite: { px: ['........', '4.4.....', '.44.....', '33333333', '22222222', '24442222', '24142222', '22222222'], c: ['#2e4a68', '#70a7bf', '#bfd7cf'] }, text: 'Takes single-target hits meant for your out whorl. Each turn: hits the foe for 25% ATK.', every: 100, guard: true,
+defSummon({ id: 'undine_image', name: 'Drowned Image', owner: 'undine', sprite: { px: ['........', '4.4.....', '.44.....', '33333333', '22222222', '24442222', '24142222', '22222222'], c: ['#2e4a68', '#70a7bf', '#bfd7cf'] }, text: 'Takes single-target hits meant for your out Whorl. Each turn: hits the foe for 25% ATK.', every: 100, guard: true,
   act(b, s, owner) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (t && !t.ko && owner) strike(b, owner, t, stat(b, owner, 'atk') * 0.25, 'P', 'TIDE'); } });
 defPassive({ id: 'undine_undercurrent', name: 'Under Pull', owner: 'undine', text: 'Every 4th attack: Expose 2, and each foe reserve takes 55% MGK.',
   afterAttack(b, f, t) { f.k.rip = (f.k.rip || 0) + 1; if (f.k.rip % 4 !== 0) return; if (!t.ko && !t.gone) applyStatus(b, f, t, 'expose', 2); for (const r of reserves(b.s[1 - f.side])) dealDamage(b, f, r, stat(b, f, 'mgk') * 0.55, { kind: 'M', move: null, attack: false, dot: false, spread: true, reserve: true }, null); } });
@@ -1540,7 +1540,7 @@ defMove({ id: 'lip_pullapart', name: 'Pull Apart', type: 'BEAST', owner: 'lip', 
 // ================================================================ the shallows
 
 // rumple: a wrinkle in loose ground that rucks the ground under the foe's side, so a hit on one corner raises the others, and raises a corner to guard.
-defGround({ id: 'rumple_rucked', name: 'Rucked Ground', color: '#9e805e', text: 'A hit on the out whorl here also hits each reserve here for 25% of it.',
+defGround({ id: 'rumple_rucked', name: 'Rucked Ground', color: '#9e805e', text: 'A hit on the out Whorl here also hits each reserve here for 25% of it.',
   afterTake(b, f, src, dealt, d) {
     if (d.dot || d.reserve || !isOut(b, f)) return;
     for (const r of reserves(b.s[f.side])) dealDamage(b, src, r, dealt * 0.25, { kind: 'T', move: null, attack: false, dot: true, spread: false, reserve: true }, null);
@@ -1548,12 +1548,12 @@ defGround({ id: 'rumple_rucked', name: 'Rucked Ground', color: '#9e805e', text: 
   value(b, side) { return b.s[side].ground?.id === 'rumple_rucked' ? -0.12 : 0.12; } });
 defMark({ id: 'rumple_word', name: 'creased', clock: 'own', negative: true, value: -0.06,
   turnStart(b, f) { const mk = f.m.rumple_word; const by = mk ? markedBy(b, mk) : null; if (by) strike(b, by, f, stat(b, by, 'mgk') * 0.28, 'M', 'ROOT'); } });
-defSummon({ id: 'rumple_golem', name: 'Raised Corner', owner: 'rumple', sprite: { px: ['........', '..3333..', '..2222..', '.232232.', '.222222.', '22222222', '4.4..4.4', '........'], c: ['#9e805e', '#7ad959', '#50405e'] }, text: 'Takes single-target hits for your out whorl. Each turn: hits the foe for 30% MGK.', every: 100, guard: true,
+defSummon({ id: 'rumple_golem', name: 'Raised Corner', owner: 'rumple', sprite: { px: ['........', '..3333..', '..2222..', '.232232.', '.222222.', '22222222', '4.4..4.4', '........'], c: ['#9e805e', '#7ad959', '#50405e'] }, text: 'Takes single-target hits for your out Whorl. Each turn: hits the foe for 30% MGK.', every: 100, guard: true,
   act(b, s, owner) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (t && !t.ko && owner) strike(b, owner, t, stat(b, owner, 'mgk') * 0.3, 'M', 'ROOT'); } });
 defPassive({ id: 'rumple_foldover', name: 'Fold Over', owner: 'rumple', text: 'Its moves deal 1.2x to a foe on rucked ground, and each foe reserve takes 25% of it.',
   outMul(b, f, t, d) { return d.move && t.gnd === 'rumple_rucked' ? 1.2 : 1; },
   afterDeal(b, f, t, dealt, d) { if (!d.move || d.reserve || d.spread || d.dot || t.side === f.side || t.gnd !== 'rumple_rucked' || dealt <= 0) return; for (const r of reserves(b.s[t.side])) dealDamage(b, f, r, dealt * 0.25, { kind: 'T', move: null, attack: false, dot: false, spread: true, reserve: true }, null); } });
-defPassive({ id: 'rumple_give', name: 'Give Way', owner: 'rumple', text: 'While its Raised Corner stands: your out whorl heals 2% of max HP a turn.',
+defPassive({ id: 'rumple_give', name: 'Give Way', owner: 'rumple', text: 'While its Raised Corner stands: your out Whorl heals 2% of max HP a turn.',
   turnStart(b, f) { if (summonsOf(b, f.side, 'rumple_golem').length) heal(b, f, f, f.maxHp * 0.02); },
   reserveTurn(b, f) { if (summonsOf(b, f.side, 'rumple_golem').length) { const o = outOf(b, f); if (!o.ko) heal(b, f, o, o.maxHp * 0.02); } } });
 defMove({ id: 'rumple_ruck', name: 'Ruck Up', type: 'ROOT', owner: 'rumple', reach: 'single', tags: ['spell'], cd: 1, fx: 'stomp | sand line | crack', text: 'Hits for 47% MGK. At the foe\'s next 2 turns: it takes 28% MGK.',

@@ -592,7 +592,7 @@ defScript('a2Turnwise', async () => {
   setFlag('turnwiseGrain');
   await say('Turnwise', 'Yes. You climbed. Take this grain. It fell down here. Years ago. Hff.');
   await giveGrain('Turnwise');
-  await hint('(With three grains your whorls can reach Strand level 23.)');
+  await hint('(With three grains your Whorls can reach Strand level 23.)');
   await say('Turnwise', 'Upward. Keep going up. The summit is above us. Only the smaller figures can make the ascent.');
   await say('Turnwise', 'There it is.');
   await say('Turnwise', 'Proceed. Then, describe it to me. What is the view like from the top?');
@@ -635,7 +635,7 @@ defScript('a2PointEnter', async () => {
   field.wearing = false;
   if (!flag('pointTold')) {
     setFlag('pointTold');
-    await hint('(The space is too narrow for a whorl. Your team remains within its horns.)');
+    await hint('(The space is too narrow for a Whorl. Your team remains within its horns.)');
   }
 });
 field.stepHooks.push(f => { if (f.map.id === 'augerpoint') f.wearing = false; });

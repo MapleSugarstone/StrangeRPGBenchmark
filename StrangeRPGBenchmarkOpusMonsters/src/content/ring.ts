@@ -24,7 +24,7 @@ Object.assign(KEY_NAMES, {
 });
 Object.assign(KEY_TEXT, {
   prisingiron: 'An iron bar with a hooked end. Face a crust of old shells and press to pry it off.',
-  stilts: 'Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE whorl.',
+  stilts: 'Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE Whorl.',
   jingle: 'A hoop made of thin, jingling shells. Press it against a large sleeper to wake it.',
   haul: 'A harness attached to a rope. Grip the haul stone and pull back to drag it.',
   letter: 'A letter sealed with a black spiral. The Gate Ring\'s keeper opens the way for it.',

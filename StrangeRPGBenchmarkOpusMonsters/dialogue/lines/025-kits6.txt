@@ -94,7 +94,7 @@
 [08oaecs] passive Ringed | Takes 4% less damage per Ring it has taken, up to 20%.
 [124ds87] passive Dries Out | Deals 1.2x damage to a foe it took a Ring from.
 [0lpnhbc] move Salt Flake | Hits for 125% MGK. Takes a Ring: 4% of the foe's max HP to itself.
-[17kc8w9] move Dry Ring | Hits for 91% MGK, +8% per whorl standing. Splash 35%. Heals 15% of it.
+[0ydqy7d] move Dry Ring | Hits for 91% MGK, +8% per Whorl standing. Splash 35%. Heals 15% of it.
 [1wworao] move Draw Water | Summons a Salt Tomb (20% of its max HP, 3 turns).
 [02vfwmj] move Dry Room | Hits for 82% MGK. Takes 2 Rings. 3 turns: 1.15x ATK and MGK, attacks Expose 1.
 [17kikg3] passive Hard Hood | Its attacks add 50% DEF to their damage, and its moves add 25% DEF.
@@ -130,7 +130,7 @@
 [0mejsgw] move Cure Through | Spends all Crust: the foe and each reserve take 35% MGK + 2% max HP per Crust on it.
 [01nsiqz] move Pressed Flat | Hidden 1. 3 turns: its attacks also hit each reserve for 60% MGK, adding a Crust.
 [0t236ox] passive Night Glare | When a foe is KO'd, and on every 4th hit it lands: gains a Shine, up to 3.
-[1eksgax] passive Kept Shine | When a whorl falls, friend or foe: it takes that whorl's first passive while out.
+[14brtqh] passive Kept Shine | When a Whorl falls, friend or foe: it takes that Whorl's first passive while out.
 [1dj1exe] move Night Glint | Hits for 145% MGK. Weaken 1.
 [0s3qkdy] move White Field | Spends a Shine: heals 20% max HP. Without one: heals 8%.
 [1cd7nnb] move Glare Link | Hits for 90% MGK. Hidden 1. 3 turns: the foe's hits are never strong.
@@ -186,7 +186,7 @@
 [00s49ot] move Salt Flick | 3 turns: blocks every projectile move at it.
 [1btxbng] move Side Step | Hits for 125% ATK. Its next turn comes 30% sooner.
 [1kl78ui] move Between Slots | Hits for 150% ATK, 1.5x if the foe can't switch. Root 2.
-[0lilub2] passive One of Each | When any whorl gains a good status: Picagi gains 1 turn of it too.
+[0uyh7ta] passive One of Each | When any Whorl gains a good status: Picagi gains 1 turn of it too.
 [1m1eu5z] passive Under Wing | The first time it comes out: Hidden 1 and Haste 1.
 [0yp992p] move Snatch | Hits 3 times for 32% ATK.
 [0vc6gsr] move Three Pecks | Hits for 54% ATK. Pecked 1: it can't use moves at its next turn.
@@ -292,7 +292,7 @@
 [075269e] move Brass Ring | Hits for 41% MGK. Splash 35%. Slow 2. The out foe's ready moves wait 1 more turn.
 [1uh4ujj] move Star Shower | Hits for 38% MGK. At its next 3 turns: hits the foe for 23% MGK, Slow 1.
 [1pohezb] move Last Reading | Hits for 140% MGK. It always lands as the 4th hit of Measuring.
-[1hsj6pf] summon Shell Wall | Takes the single-target hits meant for your out whorl.
+[05c0spf] summon Shell Wall | Takes the single-target hits meant for your out Whorl.
 [1loylhd] passive Caught Shell | Once per battle, instead of a KO: Stasis 1, back at 25% HP.
 [03itu61] passive Shell Shuts | A hit of 25%+ max HP shuts it to the end of its next turn: 0.5x taken, 1.3x dealt.
 [0cdqg0k] move Green Glint | Hits for 85% MGK. Slow 1. +1 Chill (5% less damage each). At 3: Stun 1, Chill ends.
@@ -300,7 +300,7 @@
 [1sd4h3r] move Half Shell | Summons a Shell Wall (20% of its max HP, 2 turns).
 [18mb2ay] move Shell Nova | Hits for 90% MGK, each foe +20% per Chill it carries. Splash 35%. Slow 2.
 [1lsio7i] passive Pink Water | When it comes out, 2 of the foe's tide turn pink for 3 rounds. Pink pays no crest.
-[0ymah3q] passive Lip Color | Each whorl that falls, on either side, turns 1 of the foe's tide pink for 3 rounds.
+[16s8qye] passive Lip Color | Each Whorl that falls, on either side, turns 1 of the foe's tide pink for 3 rounds.
 [00xjjla] move Pink Bloom | Hits for 118% MGK, the first reserve for 30%. Stun 1. 2 of the foe's tide turn pink.
 [1giuhas] move Salt Draw | Hits for 103% MGK. Takes 1 clear tide from the foe's side.
 [03gs8m1] move Stain Water | Hits for 67% MGK. Every tide the foe holds turns pink for 2 rounds.
@@ -325,7 +325,7 @@
 [0hakitz] move Septa | Haste 2 on your team. Fortify 1. Struck grows by 10% of its max HP.
 [1kesvxa] move All Struck | Hits for 100% ATK + all its Struck. Struck of 30% max HP or more: Stun 1.
 [0ydulv7] passive Wading | Turn start, unhit since its last turn: repeats its last attack at 0.9x.
-[0hrfc7m] passive Listening | 1.3x max HP. Takes 0.75x damage, 1.3x while it holds a whorl to its ear.
+[1twjq5u] passive Listening | 1.3x max HP. Takes 0.75x damage, 1.3x while it holds a Whorl to its ear.
 [1a94rtd] move Listen | Hits for 145% ATK. +12% damage per foe move on cooldown, up to 4.
 [1ks4qi2] move Label | Hits for 115% ATK. Labeled 3: can't switch, takes 1.25x from it.
 [1bwt2v3] move Set Down | Hits for 135% ATK. Forces the foe out. Labeled 3 on the new foe.

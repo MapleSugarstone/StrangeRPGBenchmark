@@ -207,7 +207,7 @@ defPassive({ id: 'holm_island', name: 'Island', owner: 'holm',
   inMul(b, f) { return 1 - Math.min(N_HOLM.islandMax, N_HOLM.island * Math.max(0, (f.k.outs || 1) - 1)) / 100; },
   immovable(f) { return (f.k.outs || 0) >= 3; } });
 defPassive({ id: 'holm_house', name: 'House on Its Back', owner: 'holm',
-  text: `Rider: a reserve ally it carries. It heals ${N_HOLM.heal}% max HP a turn and takes ${N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house (${N_HOLM.house}% of its max HP) for the next whorl out.`,
+  text: `Rider: a reserve ally it carries. It heals ${N_HOLM.heal}% max HP a turn and takes ${N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house (${N_HOLM.house}% of its max HP) for the next Whorl out.`,
   pools(b, f) { return f.maxHp * N_HOLM.house / 100; },
   comeOut(b, f) { if (!riderOf(b, f)) { const r = reserves(b.s[f.side])[0]; if (r) board(b, f, r); } } });
 defMove({ id: 'holm_shoulder', name: 'Shoulder', type: 'STONE', owner: 'holm', reach: 'single', tags: ['dash'], cd: 1, fx: 'lunge | quake',

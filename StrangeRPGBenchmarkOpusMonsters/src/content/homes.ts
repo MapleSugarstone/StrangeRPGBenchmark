@@ -135,7 +135,7 @@ home({ id: 'bolenote', name: 'The empty house', town: 'bole', door: [15, 27], w:
 
 home({ id: 'bolesnail', name: 'The crate house', town: 'bole', door: [27, 27], w: 10, h: 8, dx: 5,
   pieces: [['crates', 1, 1], ['crate', 3, 1], ['plant', 8, 1], ['table', 4, 3], ['chair', 6, 3], ['shellcase', 8, 4]],
-  npcs: [who('bolesnail1', 2, 5, 'child', 'Child', ['I\'m cultivating a whorl in a crate. It\'s just a snail at the moment.', 'Snails develop shells, which turn them into whorls. I have all the patience in the world.'], { idle: { every: 160, act: 'hop' } })],
+  npcs: [who('bolesnail1', 2, 5, 'child', 'Child', ['I\'m cultivating a Whorl in a crate. It\'s just a snail at the moment.', 'Snails develop shells, which turn them into Whorls. I have all the patience in the world.'], { idle: { every: 160, act: 'hop' } })],
 });
 
 // ---------------------------------------------------------------- Hum

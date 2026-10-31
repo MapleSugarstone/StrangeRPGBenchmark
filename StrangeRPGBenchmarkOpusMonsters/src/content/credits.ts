@@ -15,7 +15,7 @@ export function credits(): Promise<void> {
   lines.push({ s: 'WHORL', c: PAPER, big: true });
   add(''); add('');
   if (G.fits.length) {
-    add('Every whorl Ouro conjoined', SEL);
+    add('Every Whorl Ouro conjoined', SEL);
     add('');
     G.fits.forEach(f => { add(f.name, PAPER); add(`from ${f.a} and ${f.b}`, DIM); add(''); });
   } else {

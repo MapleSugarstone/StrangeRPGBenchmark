@@ -881,7 +881,7 @@ defMap({
   warps: [{ x: 15, y: 24, to: 'tray', tx: 10, ty: 12, dir: 0 }],
   enter: 'htEnter',
   npcs: HT_WHORLS.map((w): NpcDef => ({
-    id: w.id, x: w.home[0], y: w.home[1], sprite: 'stone', name: SPECIES[w.kind]?.name || 'A whorl', dir: 0,
+    id: w.id, x: w.home[0], y: w.home[1], sprite: 'stone', name: SPECIES[w.kind]?.name || 'A Whorl', dir: 0,
     img: kindSprite(w.kind), talk: w.id, when: () => htActive(w),
   })),
   spots: [

@@ -33,12 +33,12 @@
 [0lehvm6] goal | Head north along the boardwalk to reach Spire.
 
 == scene: fitter
-[07c0aif] Conjoiner | So. Two whorls. You nestle one inside the other, they settle in, and then one emerges.
+[0xy5uon] Conjoiner | So. Two Whorls. You nestle one inside the other, they settle in, and then one emerges.
 [0kdn2bn] Conjoiner | You get to choose what it retains. Four moves, two habits, its appearance, its name. Have at it.
 [0mi47jr] Conjoiner | People ask if it comes apart. It doesn't. Then they ask again. Still doesn't.
 [0b9nh9i] Conjoiner | A person's second cast won't join with anything. I've tried. It won't stick.
 [03dw9th] Conjoiner | Ten cowries per level.
-[01513fo] hint | (Conjoining is permanent. You decide what the new whorl keeps. Every grotto now has a Conjoiner.)
+[0sl0f9g] hint | (Conjoining is permanent. You decide what the new Whorl keeps. Every grotto now has a Conjoiner.)
 
 == scene: tack3
 [1p3zusq] Tack | Try {#1}. Brack is ready. That makes 1 of us.
@@ -55,7 +55,7 @@
 [0sfpcab] Verger | you rang two late. that's entirely understandable.
 [0bv89uc] Verger | when someone above speaks too loudly, the bells ring, and i record them in my ledger of loudnesses.
 [03jvn84] Verger | in a fight, a wind-up is a bell you can hear approaching. stop it, or move out of its path.
-[1uf1yht] hint | (A ! over a whorl indicates a wind-up.
+[1prp18h] hint | (A ! over a Whorl indicates a wind-up.
 [0z60b17] hint | Stun, Silence, Sleep, Taunt, or forcing it out interrupts it.)
 [1v63xy4] Verger | it rang three!! the spire pearl is rightfully yours.
 [0ctnk36] notice | Ouro receives the Spire pearl.
@@ -72,9 +72,9 @@
 [0ja2jgg] Forester | And there goes mine. Up it goes.
 [1mdf3al] Hermit | Kid, you're blocking the path. We're hauling the Bole.
 [15f7dj7] Hermit | Whatever. The haul continues.
-[1hxgjdr] Gatherer | Tarhaju whorls drop the same fruit as real orchards. I've sampled plenty myself.
+[16tqewv] Gatherer | Tarhaju Whorls drop the same fruit as real orchards. I've sampled plenty myself.
 [0dx49w2] Hermit | She says to ease it off, not yank. So we're easing. Very slowly. It'll take all day.
-[1grk1au] Iesbiki | A yoke whorl harnessed and ready to pull. It possesses the patience of a gate.
+[0m0ob7a] Iesbiki | A yoke Whorl harnessed and ready to pull. It possesses the patience of a gate.
 [0jnnhtn] look | In the hollow past the sleeping stump, a heap of acorns and a notion under them.
 [10f4rt1] look | Beyond the sleeping howl in the dell, two nacre wrapped in moss.
 [1llfr7h] look | In the glade within the thicket, a sea biscuit rests on a stump. (It is still crisp.)
@@ -106,8 +106,8 @@
 
 == scene: boleTannery
 [0tm0axr] Shellwright | Oh really? The new notions just arrived.
-[0iwhtlv] Shellwright | They're small accessories, but they alter how a whorl approaches combat. Only one per whorl, though.
-[0jrhjuk] hint | (To equip a notion, press X and select Team. Each whorl can carry one notion.)
+[0jglqeb] Shellwright | They're small accessories, but they alter how a Whorl approaches combat. Only one per Whorl, though.
+[1amagnw] hint | (To equip a notion, press X and select Team. Each Whorl can carry one notion.)
 
 == scene: zestBole
 [1vjczgg] Tellin | Alright, alright, I'm pulling while you observe. That's the routine.
@@ -119,7 +119,7 @@
 == scene: grafton
 [1qsv3y8] Grafton | The pearl remains yours, and the Seal still lies across the street! (We step over it.)
 [0xqw517] Grafton | You have entered the trunk, and I am thoroughly delighted by the development.
-[1l5l1if] Grafton | Each of my four was two whorls, and now each is singular and magnificent. (Do not ask which halves.)
+[0yqxgg7] Grafton | Each of my four was two Whorls, and now each is singular and magnificent. (Do not ask which halves.)
 [0r1qvfi] Grafton | Fight them, and you will witness the doubled magnificence of what two can achieve.
 [1ai7f0l] Grafton | You have triumphed, and now I present you with the Bole's pearl, which is,
 [1fegrmy] Grafton | They are hauling away the Bole, and we are standing inconveniently inside it!! (Run.)
@@ -160,7 +160,7 @@
 == scene: map humgym
 [05jjdtv] Conjoiner's boy | Ohm makes notions. I've worked here two years and Ohm's never said a whole sentence. Not one.
 [1ocjhss] Conjoiner's boy | ...Yeah, alright. Me neither, now.
-[1511lk9] Tinker | Right whorl gets a notion, and the whole whorl changes. Ohm showed me that. Didn't say a word.
+[0to2uw9] Tinker | Right Whorl gets a notion, and the whole Whorl changes. Ohm showed me that. Didn't say a word.
 [1y6debm] Tinker | Ohm's going to be quiet about this. Like, exceptionally quiet.
 
 == scene: map pylon
@@ -199,7 +199,7 @@
 [044q6k3] Bare | Arms in first. Then the head. That's it.
 [0ksq42m] Bare | Now exhale. And push through.
 [1yhlv95] Hermit | Uh, she was talking to herself. Don't mimic her.
-[098q7s4] hint | (Press C to equip or remove your lead whorl. Its type determines which terrain you can traverse.)
+[1iwyjno] hint | (Press C to equip or remove your lead Whorl. Its type determines which terrain you can traverse.)
 [0lbnpt2] hint | (STONE crosses fractures. A fracture is a crack. TIDE walks on water. ROOT moves through thickets.)
 [03x7gwb] hint | (GEAR passes through dead machines. BEAST climbs ledges. STAR illuminates dark areas.)
 [0dwxfmu] goal | Pass through the gap in the Pylon.
@@ -227,7 +227,7 @@
 [1fyo6ii] choice | Draw it back.
 
 == scene: map route6
-[17zexmp] Trapper | Hyolau whorls drift down from the north on their own. We wait at the edge. It's mostly just waiting.
+[07noi5d] Trapper | Hyolau Whorls drift down from the north on their own. We wait at the edge. It's mostly just waiting.
 [1408ugh] Trapper | Fair enough. More time to kill.
 [0399xxi] Herder | An ox cast can pull a sledge forever. I keep meaning to tell it to quit.
 [1yubvav] Herder | Oh. Mine quit.

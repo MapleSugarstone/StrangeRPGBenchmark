@@ -6,10 +6,10 @@
 ==== file: src/data/kits1.ts
 
 == scene: kits1
-[1bi3y7y] passive Piled High | A Stone, up to 6, when hit or when any whorl comes out. Each cuts damage taken 4%.
-[0sfhaxb] passive Points the Way | Reserve: your out whorl takes 0.92x. Coming out: the foe's weakest is next out.
+[1l6msbi] passive Piled High | A Stone, up to 6, when hit or when any Whorl comes out. Each cuts damage taken 4%.
+[1mlmo4v] passive Points the Way | Reserve: your out Whorl takes 0.92x. Coming out: the foe's weakest is next out.
 [0bqch86] move Top Stone | Hits for 125% ATK + 6% max HP. Throws a Stone: +30% ATK. 3 Stones: Stun 1.
-[06wctc7] summon Little Cairn | Takes every single-target hit meant for your out whorl. When knocked down: Kivishi gains 2 Stones.
+[1xjmy3r] summon Little Cairn | Takes every single-target hit meant for your out Whorl. When knocked down: Kivishi gains 2 Stones.
 [1wu48i1] move Little Cairn | Hits for 60% ATK. Summons a Little Cairn (18% of its max HP, 3 turns).
 [18o8wgx] move Catch a Stone | Blocks the next hit before its next turn. Returns 40% of it. +2 Stones.
 [0bx17i9] move Tumbledown | Wind-up. Hits for 112% ATK + 22% per Stone. Splash 50%. Spends the Stones.
@@ -19,9 +19,9 @@
 [1dcchvi] move Shingle Spray | Hits 4 times for 28% ATK.
 [0nybyex] move Slip Shove | Wind-up. Hits for 128% ATK and forces the foe out. If it can't go: Stun 1.
 [10kn3l3] move Bury Cobbles | Hits for 70% ATK. Summons 2 Cobbles (6% of its max HP each).
-[0iiyhje] move Shingle Bank | Hits for 128% ATK. Neither out whorl can switch for 3 turns. Haste 3.
+[15xxr3e] move Shingle Bank | Hits for 128% ATK. Neither out Whorl can switch for 3 turns. Haste 3.
 [0yudzpw] passive Swivel Base | When it uses a move: its other cooldowns drop by 1, except its crest.
-[0n03lp4] passive Bears the Weight | In reserve: it takes 30% of each hit on your out whorl, down to 1 HP of its own.
+[1870s1k] passive Bears the Weight | In reserve: it takes 30% of each hit on your out Whorl, down to 1 HP of its own.
 [1rw11nm] move Barnacle Cut | Hits for 167% MGK. Slow 2. A foe that was already Slowed: Poison 3.
 [1j31wjx] move Top Pool | Heals an ally 54% CHA + 6% max HP. Hits for 86% MGK + 60% of the heal.
 [0ipw43t] move Step Up | Expose 2. Swaps in an ally: Fortify 2. Bears 50% of hits on it for 3 turns.
@@ -55,7 +55,7 @@
 [1bfxi7w] move Craze Line | Hits for 63% ATK. Splash 35%. Root 1. A foe up off the ground comes down.
 [094v0kh] move Heel Down | Its next attack deals 2x and Slow 2, and each foe reserve takes 40% ATK.
 [1de1u4z] move Roll Downhill | Hits for 71% ATK. Interrupts. Delays the foe's next turn by 40%.
-[0uzyn4d] move Ground Rings | Wind-up. Hits for 107% ATK, +10% per whorl standing. Splash 60%. Stun 1.
+[0r5a44t] move Ground Rings | Wind-up. Hits for 107% ATK, +10% per Whorl standing. Splash 60%. Stun 1.
 [0e4wz8i] passive Deep Draw | Its heals are 1.3x on allies below 40% HP.
 [1nxyxbv] passive Full Bucket | When Bucket Drop deals damage: Regen 2 (4% of max HP each turn).
 [0vebl50] move Bucket Drop | Hits for 155% MGK. Slow 1. Heals itself 4% of its max HP.
@@ -99,13 +99,13 @@
 [1xg51rz] move Brine Flood | Hits for 70% MGK. Splash 35%. Slow 2.
 [0w3ipyg] move Dry Up | Hits for 120% MGK. Deals 2x damage to a foe below 40% HP.
 [1km3qpb] passive Spun Round | When it forces a foe out or drags one in: a shield of 12% of its max HP.
-[0x2x68a] passive Makes You Turn | In reserve: your out whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.
+[02cozca] passive Makes You Turn | In reserve: your out Whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.
 [1lgo4h8] move Dizzy Wave | Hits for 56% MGK. Splash 35%. Expose 1. Dizzy 1.
 [0p18gkl] move Spin Bolt | Hits for 95% MGK, 1.4x on a Dizzy foe. Stun 1.
 [0ttoznq] move Hand Round | Switches to an ally: Empower 1, and its first turn comes 40% sooner.
 [1rhhoo7] move Whirlpool | Drags in a reserve. Hits it for 84% MGK. Stun 1. Dizzy 2. Then switches out.
 [1lhc7ge] passive Buckthorn | When hit: returns 15% of the damage. Its moves add 25% DEF to their damage.
-[1baqaaf] passive Hedged In | A dash that hits it gets caught in the hedge: Root 2 on the whorl that dashed.
+[0e5rcfr] passive Hedged In | A dash that hits it gets caught in the hedge: Root 2 on the Whorl that dashed.
 [0fbhfv7] move Roll Across | Hits for 54% ATK + 25% DEF, and the first reserve for half. Slow 1.
 [1yrayi9] move Bristle Up | Thorns 2 (returns 40% of damage taken). Fortify 2.
 [0digz3g] move Catch a Sleeve | Hits for 42% ATK. Taunt 2: it takes 1.25x from Yabuko till then.
@@ -118,7 +118,7 @@
 [1dmqdbb] move Rot Down | Hits for 45% MGK, then deals all of the foe's remaining Poison at once.
 [09znlwc] move Through Roots | Hits for 80% MGK. Poison 4. Rot 2. Each reserve gets Poison 2.
 [14a9y8g] passive Hooked On | Hooks, up to 5, last 4 turns and stick to the next foe out. +6% damage per Hook.
-[008e2x7] passive Catches On | Takes 0.8x from attacks while Hasted. A whorl that dashes into it gets 2 Hooks.
+[0trt78r] passive Catches On | Takes 0.8x from attacks while Hasted. A Whorl that dashes into it gets 2 Hooks.
 [0qmq60u] move Hook On | Hits for 59% ATK. 2 Hooks.
 [11trsz0] move Seed Burst | Hits for 60% ATK. Splash 35%. A Hook on each foe. Bleed 2. Delays it 20%.
 [17v865z] move Hitch a Ride | Haste 2. At its next 2 turns: Bleed 1 and a Hook on the foe.

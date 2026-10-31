@@ -26,7 +26,7 @@
 
 == scene: gyms
 [03d9fyr] ? | The drill: three paces of sight. Move only when they turn their backs. If seen, head for the door.
-[0jwarar] ? | Perihel keeps the hall dark. A star-type whorl worn at the front illuminates it.
+[1dgxe37] ? | Perihel keeps the hall dark. A star-type Whorl worn at the front illuminates it.
 [0pts194] ? | You will have read this.
 [1dhzsfp] Fall hall | , hole filled
 
@@ -122,7 +122,7 @@
 [1lc4ljl] Child in a whelk | I'm ROCKING, Dad.
 
 == scene: i
-[1jssr7m] ? (listMenu) | Which whorl do you want to leave?
+[06nccki] ? (listMenu) | Which Whorl do you want to leave?
 
 == scene: a2PoolShell
 [1jt54nd] notice | {sitting.name} returns to your team.
@@ -288,12 +288,12 @@
 [09o2fzm] The Sifter | {#1} measures spent. {sack} left in the sack. Not a single grain lost!
 [0h6suaj] The Sifter | Ten
 [1jdtxa6] The Sifter | Four of mine, one by one. Ending with one grain. A fair contest, clearly measured.
-[0r9u2ke] The Sifter | Two of my four whorls are salt, which overcomes both roots and beasts. Keep that in mind.
+[0l5vvtq] The Sifter | Two of my four Whorls are salt, which overcomes both roots and beasts. Keep that in mind.
 [1cwljza] The Sifter | Salt is defeated by two forces: the tide and the void.
 [15881w9] The Sifter | That accounts for every possible pinch of salt.
 [1iwhhld] ? (keeperFight) | A handful of losses weighs nothing. Come back with a fuller sack.
 [1j93wzv] The Sifter | Four down. One up. A most proper and pleasing trade.
-[0ru60qu] hint | (Star grains raise the cap on Strand levels. With one grain, your whorls can reach Strand level 13.)
+[1n6korq] hint | (Star grains raise the cap on Strand levels. With one grain, your Whorls can reach Strand level 13.)
 [0rsxbxv] The Sifter | One more sackful, and then home for supper. A hearty, well-deserved meal.
 
 == scene: sifterTake

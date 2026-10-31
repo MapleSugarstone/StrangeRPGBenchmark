@@ -219,14 +219,14 @@ defScript('spireTannery', async () => { setFlag('fitter_spire'); await tannery('
 
 defScript('fitter', async () => {
   if (!flag('fitting')) {
-    await say('Conjoiner', 'So. Two whorls. You nestle one inside the other, they settle in, and then one emerges.');
+    await say('Conjoiner', 'So. Two Whorls. You nestle one inside the other, they settle in, and then one emerges.');
     await say('Conjoiner', 'You get to choose what it retains. Four moves, two habits, its appearance, its name. Have at it.');
     await say('Conjoiner', 'People ask if it comes apart. It doesn\'t. Then they ask again. Still doesn\'t.');
     await say('Conjoiner', 'A person\'s second cast won\'t join with anything. I\'ve tried. It won\'t stick.');
     await say('Conjoiner', 'Ten cowries per level.');
     setFlag('fitting');
     setFlag('fitter_spire');
-    await hint('(Conjoining is permanent. You decide what the new whorl keeps. Every grotto now has a Conjoiner.)');
+    await hint('(Conjoining is permanent. You decide what the new Whorl keeps. Every grotto now has a Conjoiner.)');
   }
   await fitterMenu();
 });
@@ -311,7 +311,7 @@ defScript('verger', async () => {
   await say('Verger', 'you rang two late. that\'s entirely understandable.');
   await say('Verger', 'when someone above speaks too loudly, the bells ring, and i record them in my ledger of loudnesses.');
   await say('Verger', 'in a fight, a wind-up is a bell you can hear approaching. stop it, or move out of its path.');
-  await hint('(A ! over a whorl indicates a wind-up.');
+  await hint('(A ! over a Whorl indicates a wind-up.');
   await hint('Stun, Silence, Sleep, Taunt, or forcing it out interrupts it.)');
   const r = await fightTrainer({ name: 'Verger', team: [['grotesque', 10], ['siren', 10], ['fogbank', 10], ['flare', 10]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;

@@ -40,7 +40,7 @@ const SLEEPER_KINDS = ['thicket', 'umbra', 'hemlock', 'skep', 'undertow'];
 const kelpNpcs: NpcDef[] = KSTART.map(([x, y], i) => ({ id: 'kelp' + i, x: KX + x, y: KY + y, sprite: 'stone', mon: SLEEPER_KINDS[i], name: 'Sleeper', dir: i % 4, talk: 'kelpRing', movable: true }));
 
 defScript('kelpRing', async () => {
-  if (!hasKey('jingle')) { await say(null, 'Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.'); return; }
+  if (!hasKey('jingle')) { await say(null, 'Big old Whorls slept in the kelp lanes. Nothing short of a jingle would wake them.'); return; }
   const now = kelpNpcs.map(d => { const n = field.npc(d.id)!; return [n.x - KX, n.y - KY] as [number, number]; });
   const after = kRing(now, field.x - KX, field.y - KY);
   sfx('blip'); await wait(6); sfx('blip'); await wait(6); sfx('blip');

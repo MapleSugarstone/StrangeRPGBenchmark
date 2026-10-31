@@ -1,4 +1,4 @@
-# WHORL game text, exported 2026-10-31T04:57:54.465Z. 5292 lines.
+# WHORL game text, exported 2026-10-31T05:53:04.712Z. 5292 lines.
 # Each line is [id] speaker | text. Rewrite only the text after " | ". Keep each [id] and speaker as they are.
 # Keep every {placeholder} and every number. In the story set, " // " splits a line into more text boxes.
 # Put it back with: node scripts/lines.mjs import <file> [--dry]. A file may hold only the lines that changed.
@@ -71,7 +71,7 @@
 [0zi4r5y] Gran | Let them know the Seals are the great posts that keep the world sealed shut.
 [0ijw6cb] Gran | That crack in the village means they're pulling too tight.
 [16ngtxu] Gran | Tell the Sealkeepers. Rib is first, heading west along the Midden Road.
-[0s3jgks] Gran | Let them know most people keep their own shed shell as their first whorl.
+[0wyeojw] Gran | Let them know most people keep their own shed shell as their first Whorl.
 [0lylq6t] Gran | Since theirs is still on, they'll need another one.
 [07l3z5i] Gran | Let them know the Strandmonger takes in strays. No specific breeding.
 [1s8i5ge] Gran | Let them know I walked the Rim myself, and came home with a pearl and a cough.
@@ -94,7 +94,7 @@
 [16vs3os] Tack's mum | Don't scratch, Tack.
 [1bzvvh0] Tack | Mum. I haven't scratched for 3 days.
 [1wbnqla] Tack's mum | There it is, pet. Your first shell, intact. It even has your shape.
-[051qlxy] Tack's mum | Every whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
+[06c2jcm] Tack's mum | Every Whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
 [1o07622] Tack | 1. Right, that's 1.
 [1bdfno8] Tack | Name's Tackle. Had it ready 4 years ago. Took you long enough.
 [031naj4] Tack's mum | Oh, love. It's been a rough year.
@@ -106,15 +106,15 @@
 [04vwjit] Gran | Tell them supper is ready, and the explanation comes with it.
 [0hrriyj] goal | Go home to Gran.
 == scene: turnBackWest
-[1hiubtb] ? (turnBack) | The west road is for those with a whorl. The mule won't walk it with you, and neither will I.
+[1uk2vzj] ? (turnBack) | The west road is for those with a Whorl. The mule won't walk it with you, and neither will I.
 == scene: turnBackNorth
-[191xlq2] ? (turnBack) | No getting past the wood without a whorl. The stream's rude about it.
+[0p7muca] ? (turnBack) | No getting past the wood without a Whorl. The stream's rude about it.
 == scene: turnBackSouth
-[1w0swoh] ? (turnBack) | Mum's rule is simple: no beach access unless you have a whorl. Not even for paddling. I checked.
+[04dt93l] ? (turnBack) | Mum's rule is simple: no beach access unless you have a Whorl. Not even for paddling. I checked.
 == scene: tackCalls
 [0fr6vk1] Tack | OURO! Not that way! 1 battle first. I'm at the west road!
 == scene: crazeHole
-[1tnzzua] ? (turnBack) | Don't go down without a whorl. Half of us went down there. Look how that went.
+[09ldvma] ? (turnBack) | Don't go down without a Whorl. Half of us went down there. Look how that went.
 == scene: fellmonger
 [1so0en0] Strandmonger | Opening later, because it's Shedding Day!! Go stand under that sky.
 [097r0vn] Strandmonger | It's a two-cowrie sky and today it's free.
@@ -134,7 +134,7 @@
 [0scn8y3] Strandmonger | That one set me back two cowries and a sandwich. I'm still sore about the sandwich.
 [1xhte1i] Strandmonger | Here's the Register. You catch a species, I log it. Writing's free. Holding it's a cowrie.
 [0vogcvz] Strandmonger | Five periwinkle horns. I charge for those!! Put it on your gran's tab. She'll love it.
-[05nqjqp] Strandmonger | Dull them down a bit, then catch them. A weaker whorl makes for a surer catch.
+[0zcefm9] Strandmonger | Dull them down a bit, then catch them. A weaker Whorl makes for a surer catch.
 [049wioa] Strandmonger | Weak enough, and it never fails.
 [1x57gg3] Strandmonger | Start with the Rib. Knuckle keeps it. Hands on Knuckle, I'd price at a house each.
 [1ho0xon] Strandmonger | The pearl's cheap.
@@ -155,7 +155,7 @@
 [1u6q7h4] Tack | Try {#1}. Tackle is ready. Tackle is always ready.
 [1pt0my4] Tack | Hey. 1 battle before you go. Just you and me.
 [0jm41zp] Tack | Tackle has 4 moves but I've seen 2. Why won't it reveal the rest?
-[0supumr] hint | (Only one whorl fights at a time. The others wait in reserve. Switch to bring one out.)
+[02giq5v] hint | (Only one Whorl fights at a time. The others wait in reserve. Switch to bring one out.)
 [06r5wl5] hint | (Preview a move before choosing it. It says "Strong" when the foe is weak to it.)
 [0q8yo04] Tack | {#1} The road stays closed until you win 1. I'll wait.
 [06oxk7y] Tack | {#1} Alright. I'm writing it down.
@@ -170,12 +170,12 @@
 [1pnbzg8] Hermit | My apologies. Bare told me to bring a deep one to the Mast. This one counts as deep.
 [13vi8vc] Man at the well | She's the only water source in Turnstone!
 [1nzxj77] Hermit | Turnstone's got a fracture too, doesn't it? That's the Seals. They grip too tightly.
-[0kdkfs7] Hermit | Large whorls can wrench a Seal loose. So we take large whorls.
+[1i2bktj] Hermit | Large Whorls can wrench a Seal loose. So we take large Whorls.
 == scene: c
 [1xgqr8u] choice | Give it back
 [192818s] choice | Who's Bare?
 == scene: peelers
-[0am4k5q] Hermit | She leads the Hermits. Never sheds, just like you.
+[0t1616n] Hermit | She leads the Hermits. She hasn't had her first shed either.
 [1vzk8ld] Hermit | She says the entire Volute is overdue for a shedding. The fractures are it struggling to break free.
 [16fqaoz] Hermit | No can do. It's ours now.
 [0snz6w6] Man at the well | We drink from her! Where is Turnstone supposed to get its water?
@@ -260,10 +260,10 @@
 [1v1elq5] Leeward | Tide rises with every landed strike and successful guard.
 [015zens] Leeward | After a knockout, a spring tide of great abundance.
 [1v6jj7u] Leeward | Pressure: Plummeting!! A crest approaches. Watch the line at the top.
-[1v4qnb4] hint | (A crest is a whorl's most powerful move. A crest consumes tide.
+[1r9ktpc] hint | (A crest is a Whorl's most powerful move. A crest consumes tide.
 [1ts8had] hint | Your entire team shares a single tide pool.)
 [1tmeao7] hint | (You gain tide when an Attack connects, when a move strikes your Guard,
-[0wpgypw] hint | and when a whorl is knocked out.)
+[179otd0] hint | and when a Whorl is knocked out.)
 [1wr20ul] Leeward | A profound calm ensues. The Mast pearl is bestowed upon you, beneath clearing skies.
 [12879x9] notice | Ouro receives the Mast pearl.
 [0sd5t0y] Leeward | Gusts of Hermits at the base. Thirteen, by the count.
@@ -303,12 +303,12 @@
 == scene: route3Enter
 [0lehvm6] goal | Head north along the boardwalk to reach Spire.
 == scene: fitter
-[07c0aif] Conjoiner | So. Two whorls. You nestle one inside the other, they settle in, and then one emerges.
+[0xy5uon] Conjoiner | So. Two Whorls. You nestle one inside the other, they settle in, and then one emerges.
 [0kdn2bn] Conjoiner | You get to choose what it retains. Four moves, two habits, its appearance, its name. Have at it.
 [0mi47jr] Conjoiner | People ask if it comes apart. It doesn't. Then they ask again. Still doesn't.
 [0b9nh9i] Conjoiner | A person's second cast won't join with anything. I've tried. It won't stick.
 [03dw9th] Conjoiner | Ten cowries per level.
-[01513fo] hint | (Conjoining is permanent. You decide what the new whorl keeps. Every grotto now has a Conjoiner.)
+[0sl0f9g] hint | (Conjoining is permanent. You decide what the new Whorl keeps. Every grotto now has a Conjoiner.)
 == scene: tack3
 [1p3zusq] Tack | Try {#1}. Brack is ready. That makes 1 of us.
 [1vaczbi] Tack | this is the 3rd try. I have 2 pearls, and you have 2. it's tied. I despise ties.
@@ -322,7 +322,7 @@
 [0sfpcab] Verger | you rang two late. that's entirely understandable.
 [0bv89uc] Verger | when someone above speaks too loudly, the bells ring, and i record them in my ledger of loudnesses.
 [03jvn84] Verger | in a fight, a wind-up is a bell you can hear approaching. stop it, or move out of its path.
-[1uf1yht] hint | (A ! over a whorl indicates a wind-up.
+[1prp18h] hint | (A ! over a Whorl indicates a wind-up.
 [0z60b17] hint | Stun, Silence, Sleep, Taunt, or forcing it out interrupts it.)
 [1v63xy4] Verger | it rang three!! the spire pearl is rightfully yours.
 [0ctnk36] notice | Ouro receives the Spire pearl.
@@ -338,9 +338,9 @@
 [0ja2jgg] Forester | And there goes mine. Up it goes.
 [1mdf3al] Hermit | Kid, you're blocking the path. We're hauling the Bole.
 [15f7dj7] Hermit | Whatever. The haul continues.
-[1hxgjdr] Gatherer | Tarhaju whorls drop the same fruit as real orchards. I've sampled plenty myself.
+[16tqewv] Gatherer | Tarhaju Whorls drop the same fruit as real orchards. I've sampled plenty myself.
 [0dx49w2] Hermit | She says to ease it off, not yank. So we're easing. Very slowly. It'll take all day.
-[1grk1au] Iesbiki | A yoke whorl harnessed and ready to pull. It possesses the patience of a gate.
+[0m0ob7a] Iesbiki | A yoke Whorl harnessed and ready to pull. It possesses the patience of a gate.
 [0jnnhtn] look | In the hollow past the sleeping stump, a heap of acorns and a notion under them.
 [10f4rt1] look | Beyond the sleeping howl in the dell, two nacre wrapped in moss.
 [1llfr7h] look | In the glade within the thicket, a sea biscuit rests on a stump. (It is still crisp.)
@@ -367,8 +367,8 @@
 [0vk7mw3] goal | Grafton retains possession of the Bole. The gym is located within the trunk.
 == scene: boleTannery
 [0tm0axr] Shellwright | Oh really? The new notions just arrived.
-[0iwhtlv] Shellwright | They're small accessories, but they alter how a whorl approaches combat. Only one per whorl, though.
-[0jrhjuk] hint | (To equip a notion, press X and select Team. Each whorl can carry one notion.)
+[0jglqeb] Shellwright | They're small accessories, but they alter how a Whorl approaches combat. Only one per Whorl, though.
+[1amagnw] hint | (To equip a notion, press X and select Team. Each Whorl can carry one notion.)
 == scene: zestBole
 [1vjczgg] Tellin | Alright, alright, I'm pulling while you observe. That's the routine.
 [1ho9wtj] Tellin | nothing's changed, so keep your eyes on it, yeah?
@@ -378,7 +378,7 @@
 == scene: grafton
 [1qsv3y8] Grafton | The pearl remains yours, and the Seal still lies across the street! (We step over it.)
 [0xqw517] Grafton | You have entered the trunk, and I am thoroughly delighted by the development.
-[1l5l1if] Grafton | Each of my four was two whorls, and now each is singular and magnificent. (Do not ask which halves.)
+[0yqxgg7] Grafton | Each of my four was two Whorls, and now each is singular and magnificent. (Do not ask which halves.)
 [0r1qvfi] Grafton | Fight them, and you will witness the doubled magnificence of what two can achieve.
 [1ai7f0l] Grafton | You have triumphed, and now I present you with the Bole's pearl, which is,
 [1fegrmy] Grafton | They are hauling away the Bole, and we are standing inconveniently inside it!! (Run.)
@@ -415,7 +415,7 @@
 == scene: map humgym
 [05jjdtv] Conjoiner's boy | Ohm makes notions. I've worked here two years and Ohm's never said a whole sentence. Not one.
 [1ocjhss] Conjoiner's boy | ...Yeah, alright. Me neither, now.
-[1511lk9] Tinker | Right whorl gets a notion, and the whole whorl changes. Ohm showed me that. Didn't say a word.
+[0to2uw9] Tinker | Right Whorl gets a notion, and the whole Whorl changes. Ohm showed me that. Didn't say a word.
 [1y6debm] Tinker | Ohm's going to be quiet about this. Like, exceptionally quiet.
 == scene: map pylon
 [0bib013] Hermit | She says, "Breathe out." So I breathe out. It doesn't help me, but I do it anyway.
@@ -447,7 +447,7 @@
 [044q6k3] Bare | Arms in first. Then the head. That's it.
 [0ksq42m] Bare | Now exhale. And push through.
 [1yhlv95] Hermit | Uh, she was talking to herself. Don't mimic her.
-[098q7s4] hint | (Press C to equip or remove your lead whorl. Its type determines which terrain you can traverse.)
+[1iwyjno] hint | (Press C to equip or remove your lead Whorl. Its type determines which terrain you can traverse.)
 [0lbnpt2] hint | (STONE crosses fractures. A fracture is a crack. TIDE walks on water. ROOT moves through thickets.)
 [03x7gwb] hint | (GEAR passes through dead machines. BEAST climbs ledges. STAR illuminates dark areas.)
 [0dwxfmu] goal | Pass through the gap in the Pylon.
@@ -472,7 +472,7 @@
 [0ywawwz] choice | Lock it in.
 [1fyo6ii] choice | Draw it back.
 == scene: map route6
-[17zexmp] Trapper | Hyolau whorls drift down from the north on their own. We wait at the edge. It's mostly just waiting.
+[07noi5d] Trapper | Hyolau Whorls drift down from the north on their own. We wait at the edge. It's mostly just waiting.
 [1408ugh] Trapper | Fair enough. More time to kill.
 [0399xxi] Herder | An ox cast can pull a sledge forever. I keep meaning to tell it to quit.
 [1yubvav] Herder | Oh. Mine quit.
@@ -534,7 +534,7 @@
 == scene: map route7
 [1wnbqz5] Guard | The Hilt is under guard. I am the guard. I am the entire guard.
 [0xmw8px] Guard | That is, I was the entire guard.
-[10xswd3] Pilgrim | There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!
+[1acyos7] Pilgrim | There are conjoined Whorls roaming free out here now. Two shells fused into one. Naturally!
 [1myjlf0] Pilgrim | Both halves are gone. A terrible day for halves.
 [1fn4rsr] Hermit | Moonwater is flowing tonight. Everyone is going. Bring a towel.
 [052qjtx] Hermit | Very well. You are going too, then.
@@ -555,7 +555,7 @@
 [0ekohrz] Guard | No living soul has laid eyes on the blade, which is exactly why we're so good at our jobs.
 [0cpzfwy] Woman | The blade is visible! No one alive has ever seen the blade, and now I have!
 [10c0wct] Child | I actually touched it. It's not even sharp. I'm never washing this hand again.
-[1lkx9qe] Old man | Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before.
+[1jox7fq] Old man | Wild conjoined Whorls are on the road now. Two shells fused into one. Never seen it before.
 [1s60tjv] Old man | Must be the moon.
 [1wrjsex] Guard | The crater road heads south. Quillon insists no one passes until the sword is accounted for.
 [0900maa] Guard | And so, no one passes.
@@ -940,7 +940,7 @@
 [1wv0a70] Fencer | The battle ended before my gran was born. Nobody told the swords. I'm not gonna be the one.
 [0tnnw67] Arrow-finder | One arrow never hit the ground. I stay underneath it. Wearing a hat. I'm not stupid.
 [0maqt06] Arrow-finder | Still hovering above. Most likely.
-[128w8y8] Groom | I brush the war horses. They've been whorls for a hundred years, and they still love a good brush.
+[18fp8mo] Groom | I brush the war horses. They've been Whorls for a hundred years, and they still love a good brush.
 [0u1nwkp] look | A sword is stuck in the earth, with a helmet dangling from its hilt.
 [0ojaclz] look | A snail has taken up residence in the helmet. It wears it.
 [0doiavl] look | A banner clings to the blade.
@@ -1042,7 +1042,7 @@
 [1o36bbd] Guard on drill | Hey. You. Head back to the door.
 == scene: gyms
 [03d9fyr] ? | The drill: three paces of sight. Move only when they turn their backs. If seen, head for the door.
-[0jwarar] ? | Perihel keeps the hall dark. A star-type whorl worn at the front illuminates it.
+[1dgxe37] ? | Perihel keeps the hall dark. A star-type Whorl worn at the front illuminates it.
 [0pts194] ? | You will have read this.
 [1dhzsfp] Fall hall | , hole filled
 
@@ -1123,7 +1123,7 @@
 [0ky4z4e] Man in a whelk | Keep going, Mim. That's the spirit. Big rocks. Perfect.
 [1lc4ljl] Child in a whelk | I'm ROCKING, Dad.
 == scene: i
-[1jssr7m] ? (listMenu) | Which whorl do you want to leave?
+[06nccki] ? (listMenu) | Which Whorl do you want to leave?
 == scene: a2PoolShell
 [1jt54nd] notice | {sitting.name} returns to your team.
 [00zkeir] notice | {sitting.name} heads to the Midden.
@@ -1266,12 +1266,12 @@
 [09o2fzm] The Sifter | {#1} measures spent. {sack} left in the sack. Not a single grain lost!
 [0h6suaj] The Sifter | Ten
 [1jdtxa6] The Sifter | Four of mine, one by one. Ending with one grain. A fair contest, clearly measured.
-[0r9u2ke] The Sifter | Two of my four whorls are salt, which overcomes both roots and beasts. Keep that in mind.
+[0l5vvtq] The Sifter | Two of my four Whorls are salt, which overcomes both roots and beasts. Keep that in mind.
 [1cwljza] The Sifter | Salt is defeated by two forces: the tide and the void.
 [15881w9] The Sifter | That accounts for every possible pinch of salt.
 [1iwhhld] ? (keeperFight) | A handful of losses weighs nothing. Come back with a fuller sack.
 [1j93wzv] The Sifter | Four down. One up. A most proper and pleasing trade.
-[0ru60qu] hint | (Star grains raise the cap on Strand levels. With one grain, your whorls can reach Strand level 13.)
+[1n6korq] hint | (Star grains raise the cap on Strand levels. With one grain, your Whorls can reach Strand level 13.)
 [0rsxbxv] The Sifter | One more sackful, and then home for supper. A hearty, well-deserved meal.
 == scene: sifterTake
 [1dad865] The Sifter | Just one house. By my measure, none now.
@@ -1310,7 +1310,7 @@
 [1yajk02] Seiche-stander | Back in the gray. It's warm in there, I swear it is.
 [1cz2zzc] look | Resting in a depression worn smooth by feet atop the dome is a triton horn.
 == scene: a2Gray
-[1leabt1] hint | (A SALT whorl worn in the lead walks you through the gray.)
+[1yy8vqd] hint | (A SALT Whorl worn in the lead walks you through the gray.)
 == scene: a2DrillHole
 [12yxa2z] choice | Drop into the hole.
 [1id3myy] choice | Not now.
@@ -1357,7 +1357,7 @@
 [0uja2rc] Child | That pale patch is the blank. It's where the Cowrie never finished. You can't walk there.
 [0gm8j1o] Child | Mine can! It fell from the sky. It walks on nothing. It's so good at it.
 [1hlay8l] Child | Put one on, and you'll be able to walk in it. They're on the Cowrie's back. Go catch one!
-[0kgj6zl] hint | (A VOID whorl worn in the lead guides you across the blank.)
+[1o3sakh] hint | (A VOID Whorl worn in the lead guides you across the blank.)
 == scene: map underteeth
 [0jmugpc] look | Past the fifth tooth, buried in the packed sand, lie a nautilus horn and a notion.
 [0dyit4j] look | The slit. A line of light rises through it from outside.
@@ -1403,7 +1403,7 @@
 [0i8cqlf] Gloss | Just like your face in the floor, my four are slow.
 [0yx261b] ? (keeperFight) | You lost to the light. The light lost to you.
 [0ea0htt] Gloss | The grain is yours, a gift! A gift, the grain is yours!
-[1abazys] hint | (With two grains, your whorls can reach Strand level 18.)
+[11pgng4] hint | (With two grains, your Whorls can reach Strand level 18.)
 [04ye1c5] Gloss | The light came in at low water. At low water, the light came in.
 == scene: fingerTake
 [0pyt7ol] Gloss | EVERYONE STAMP. Stamp, everyone!!
@@ -1536,7 +1536,7 @@
 [0o5cbnu] hint | (At low tide both sides start with 0. Every 4th round a star lands and gives each side 2.)
 [0b4xsb3] ? (keeperFight) | Down. Go back down. Climb later. Everyone falls. I did, often.
 [1p3kdlh] Turnwise | Yes. You climbed. Take this grain. It fell down here. Years ago. Hff.
-[1wpdbkz] hint | (With three grains your whorls can reach Strand level 23.)
+[0cwcmdf] hint | (With three grains your Whorls can reach Strand level 23.)
 [13e1k9x] Turnwise | Upward. Keep going up. The summit is above us. Only the smaller figures can make the ascent.
 [03czbnd] Turnwise | There it is.
 [17fk2h4] Turnwise | Proceed. Then, describe it to me. What is the view like from the top?
@@ -1546,7 +1546,7 @@
 [0jt3q33] Groove | A circular groove encircles the sealed tip, featuring notches in a sequence of four, two, four,
 [1ilrnrj] Groove | one, and four.
 == scene: a2PointEnter
-[1669f7l] hint | (The space is too narrow for a whorl. Your team remains within its horns.)
+[1nug0v5] hint | (The space is too narrow for a Whorl. Your team remains within its horns.)
 == scene: a2PointView
 [0z5hlhb] narration | To the west along the beach lies the Volute, a pale spiral etched into the sand.
 [0qkos43] narration | Further down the beach, the line of hollows runs to the sea,
@@ -1591,7 +1591,7 @@
 [1gnlqyl] ? | Don't look. Not yet.
 [1oaonsk] ? | There. It's happening.
 == scene: grainLine
-[1jz7b2z] hint | (With {#1} grains, your whorls can reach {#2}.)
+[0a3bs3f] hint | (With {#1} grains, your Whorls can reach {#2}.)
 [13l8r7p] hint | Strand level 50
 == scene: c
 [1ygo6ia] choice | Fight again at level 35
@@ -1686,7 +1686,7 @@
 [154cz8y] ? | My old mat lies within this chamber. The scent of being four years old is strongest here.
 [0ql8mrh] ? | This chamber now contains a drawing of itself. Drawn small, by a smaller version of me.
 == scene: siphonFire
-[1u2qc1h] Siphon | Plenty of room here for a brawl! I've got four whorls ready.
+[09tz2xh] Siphon | Plenty of room here for a brawl! I've got four Whorls ready.
 [1qwk4hg] Siphon | The floor near the hood is slick. I suggest you stay toward the dry side.
 [0unyuvz] Siphon | This room offers warmth to those who have been beaten, until they thaw out.
 [01ur1ac] Siphon | A grain of tribute is awarded to whoever prevails here. Take it. Right here.
@@ -2014,16 +2014,16 @@
 == scene: hears
 [1it29hz] narration | It performs its usual action. The hand remains steady for it.
 == scene: i
-[0xv1luf] ? (listMenu) | Which whorl do you offer?
+[0qvidpz] ? (listMenu) | Which Whorl do you offer?
 == scene: chooseGift
-[1l7wwra] hint | (Your team must retain at least one whorl.)
+[0ri10ty] hint | (Your team must retain at least one Whorl.)
 [14x36so] choice | Surrender it.
 [199g7m7] choice | Select again.
 [061qwlv] choice prompt | {m.name}. It will not return.
 == scene: theGift
 [0i6yn3w] Cinch | Sit down. You can see its empty hand from this angle.
 [0aeli4t] Cinch | It picked every shell off the sand. Clearly, it only ever needed one.
-[0hl0mjn] hint | (Select a whorl to offer it. It will not return.)
+[0n4eoxv] hint | (Select a Whorl to offer it. It will not return.)
 [0ftjsn8] Cinch | Stay put. It's motionless now. The old thing was always good at staying still.
 [01cay3w] Cinch | Take a seat. She has the best spot on the beach.
 [145k8ql] notice | Ouro earns a star grain. That makes six.
@@ -2107,14 +2107,14 @@
 [0vse1qq] choice | Leave it
 [1cf8v3b] notice | {sitting.name} returns to your team.
 [0bbbzof] notice | {sitting.name} has been tossed into the Midden.
-[1o4nkuq] hint | Ouro must keep at least one whorl before leaving one in a shell.
+[0u6g5wy] hint | Ouro must keep at least one Whorl before leaving one in a shell.
 [0w2dnfp] choice | Leave it
 == scene: i
-[1wpkih1] ? (listMenu) | Which whorl are you leaving behind?
+[1wpxtd1] ? (listMenu) | Which Whorl are you leaving behind?
 == scene: turnTide
 [1pesbij] hint | (When the tide recedes, the sand is exposed, and stars align in a row.)
 [0mz1jr1] hint | (At low water, an empty shell is gone when the shadow passes over it.)
-[0s4le28] hint | (You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)
+[1pdzj00] hint | (You can leave a Whorl behind in a shell. Since the Whorl moves, the shell stays.)
 [015x8k1] hint | (Ring the tide bell to reverse the flow. When the tide is high, the shallow sand is submerged.)
 == scene: giveGrain
 [09tzvbh] notice | {from} provides Ouro with a star grain.
@@ -2125,7 +2125,7 @@
 
 ==== file: src/content/areakit.ts
 == scene: reward
-[1haetq6] notice | {#1} {#2}{#3}, for catching a weak, wild whorl.
+[133grha] notice | {#1} {#2}{#3}, for catching a weak, wild Whorl.
 [10m9syv] notice | A notion: {#1}.{#2}
 [0y8z3re] notice |  x 
 [0p56st6] notice | A notion: 
@@ -2137,9 +2137,9 @@
 == scene: introduceByssus
 [015vm6c] Shellwright | Byssus, right? That mussel thread.
 [1d4cm7o] Shellwright | I'll spin a line to a distant grotto, and you'll find a team waiting.
-[1xorcnm] Shellwright | Bring six whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
+[1lp0mk2] Shellwright | Bring six Whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
 [1xpqfh8] Shellwright | Include one legendary, at most. No charms.
-[0j6hdmm] Shellwright | Check the roster in the menu to see which whorl breaks what.
+[0malqou] Shellwright | Check the roster in the menu to see which Whorl breaks what.
 [1cr5i6k] Shellwright | Have a friend? Create a code and share it. Solo? Spin for whoever else is online.
 [1pswjat] Shellwright | Track wins and losses. No cowries or pearls. Anything else?
 [1ihm6mj] hint | (Press X, select Register, then press left on the first page. Find the Byssus section in the Guide.)
@@ -2204,13 +2204,13 @@
 [0cizyey] DRUSE | Still no board. Bezel, in Rib. They've got spares.
 [1cy1e9g] DRUSE | All twelve are set. Out in the crater fields, a geode just cracked open. I could hear it from here.
 [1olc4l9] DRUSE | The east crater, north of Fall. Focus on its south rim. Bring something soft to cover your ears.
-[1il3u0s] DRUSE | Inside the Hollow, the whorl is still ticking. It demands every sketch, including the Shellwrights'.
+[10zypp8] DRUSE | Inside the Hollow, the Whorl is still ticking. It demands every sketch, including the Shellwrights'.
 [0xueww1] DRUSE | {n} set. there's a machine-shaped chamber inside your head now. perfect. I need that space.
 [160lum9] DRUSE | North of Fall, in the crater fields, sits a geode as large as Rib. No one has opened it yet.
 [1upqz8w] DRUSE | The entrance is a seam in the east crater, a lock of twelve settings.
 [191ult4] DRUSE | Set all 12 sketches and it opens.
-[105dj9g] DRUSE | Inside, there's a whorl strung like a necklace. I've never seen it, but I know it's there.
-[0rd7vit] DRUSE | {n} of 12. Inside the geode, the whorl is counting in time with you.
+[117hmqs] DRUSE | Inside, there's a Whorl strung like a necklace. I've never seen it, but I know it's there.
+[1qu7lpx] DRUSE | {n} of 12. Inside the geode, the Whorl is counting in time with you.
 [14ktxg3] DRUSE | That board is pristine. Not a single scratch. Try running something. Break something.
 [0ogizzl] DRUSE | {runs} runs. Inside each one, there's a faint click that tells you whether it works or not.
 [1tds1cd] DRUSE | {runs} runs. Inside that number, there are plenty of stones scattered on the floor.
@@ -2235,134 +2235,134 @@
 
 ==== file: src/content/guide.ts
 == scene: GUIDE
-[044615r] ? (p) | A whorl is a creature that fights for you. Your team consists of the whorls you take with you. A team can have 4 whorls.
-[1jrscxz] ? (p) | The first whorl in your lineup is your lead. Your lead walks with you and is the first to enter battle.
-[0wfxiq4] ? (p) | Only one whorl fights at a time. This is your out whorl, while the others remain in reserve.
-[0i4lf7x] ? (p) | Select Switch during a battle to bring a whorl from reserve into action. Switching is swift. The incoming whorl waits less time than it would after an Attack. Higher CHA reduces this waiting period even further.
-[1h3i1rv] ? (p) | A whorl that is rooted or taunted cannot be switched out.
-[1h2wp0b] ? (p) | A whorl with 0 HP is knocked out. The game calls this down or a KO. It cannot fight again in that battle. Pick the next whorl to send out.
-[0uj53xd] ? (p) | Battles begin with full HP. A KO'd whorl is fine when the battle ends.
+[0di3y2n] ? (p) | A Whorl is a creature that fights for you. Your team consists of the Whorls you take with you. A team can have 4 Whorls.
+[01fyq3r] ? (p) | The first Whorl in your lineup is your lead. Your lead walks with you and is the first to enter battle.
+[1b061zg] ? (p) | Only one Whorl fights at a time. This is your out Whorl, while the others remain in reserve.
+[1tclyq5] ? (p) | Select Switch during a battle to bring a Whorl from reserve into action. Switching is swift. The incoming Whorl waits less time than it would after an Attack. Higher CHA reduces this waiting period even further.
+[1hryecb] ? (p) | A Whorl that is rooted or taunted cannot be switched out.
+[0p69sbf] ? (p) | A Whorl with 0 HP is knocked out. The game calls this down or a KO. It cannot fight again in that battle. Pick the next Whorl to send out.
+[0fmxv0h] ? (p) | Battles begin with full HP. A KO'd Whorl is fine when the battle ends.
 [0c5xine] ? (p) | If your entire team is defeated, you lose the battle. You will lose 20% of your cowries and respawn at the last grotto you visited. Grottos are the shops found in every town.
-[00l1a5b] ? (p) | When your team is full, any new whorls you catch are sent to the Midden. You can access the Midden from any grotto, where you can swap whorls in and out of your active team.
-[0qe5jfo] ? (p) | Press X to open the menu, select Team, choose a whorl, then pick Make lead.
-[0e42ikp] ? (p) | Each whorl has seven stats. A stat is a number. It shows how good the whorl is at one thing.
-[1niee80] ? (s) | HP is health. A whorl with 0 HP is knocked out. Max HP is the most health it can have.
+[176mcbj] ? (p) | When your team is full, any new Whorls you catch are sent to the Midden. You can access the Midden from any grotto, where you can swap Whorls in and out of your active team.
+[1y8gcuc] ? (p) | Press X to open the menu, select Team, choose a Whorl, then pick Make lead.
+[1j7maix] ? (p) | Each Whorl has seven stats. A stat is a number. It shows how good the Whorl is at one thing.
+[0h7tcio] ? (s) | HP is health. A Whorl with 0 HP is knocked out. Max HP is the most health it can have.
 [1uzujth] ? (s) | ATK makes physical hits stronger.
 [0f7jdzg] ? (s) | MGK boosts magic attacks.
 [1uwbntp] ? (s) | DEF makes physical hits do less damage.
 [0pgy7qb] ? (s) | RES makes magic hits hurt less.
-[0fsriwh] ? (s) | Speed is AGI. A whorl with more AGI takes more turns.
-[09uez61] ? (s) | CHA helps a horn catch whorls. It also reduces the wait time after using a Switch. Some moves use CHA too.
+[0fk9rgx] ? (s) | Speed is AGI. A Whorl with more AGI takes more turns.
+[1glt27d] ? (s) | CHA helps a horn catch Whorls. It also reduces the wait time after using a Switch. Some moves use CHA too.
 [1p27oiq] ? (p) | Every species is strong in different ways. One might have more ATK. Another might have more DEF. They also have different moves, habits, and types.
-[178946e] ? (p) | All species get the same number of stat points. They use them in different ways. A fast species has less DEF. A tough species gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.
-[136hz8p] ? (p) | This picture shows your lead's stats. The stats go up when a whorl levels up. You can find things later that raise them a little more.
+[1n34rdy] ? (p) | All species get the same number of stat points. They use them in different ways. A fast species has less DEF. A tough species gets fewer turns. A conjoined Whorl gets half its points from each of the two old Whorls.
+[1ig77ux] ? (p) | This picture shows your lead's stats. The stats go up when a Whorl levels up. You can find things later that raise them a little more.
 [0rlbygh] ? (p) | Many texts use the % sign. It means parts of 100. 50% is half. 25% is one quarter. 10% is one tenth.
-[1lyryir] ? (p) | Every whorl has a simple Attack. It is either physical or magic. Physical Attacks use ATK. Magic Attacks use MGK.
+[0kkctb7] ? (p) | Every Whorl has a simple Attack. It is either physical or magic. Physical Attacks use ATK. Magic Attacks use MGK.
 [034wdnd] ? (p) | The move's text tells you which stat it uses. Hitting for 110% ATK is a physical hit. Hitting for 90% MGK is a magic hit.
-[1y2mkcl] ? (p) | DEF and RES make hits hurt less. Say a hit has 100 power. It does 70 damage to a whorl with 42 DEF. It does 50 damage to a whorl with 100 DEF.
-[0uqlvzg] ? (p) | DEF works best against physical whorls. RES works best against magic whorls.
-[12ngh60] ? (p) | Press X to see stats. Tap Team, pick the whorl, then tap Look.
-[1jwzyzu] ? (p) | In combat, a whorl pauses after taking an action. Higher AGI reduces this pause. Thus, a quicker whorl gains additional turns.
-[1tuzb5s] ? (p) | Example: Your whorl has 69 AGI, while the foe has 51. Throughout the battle, your whorl gains roughly 9 turns for every 8 the foe gets.
+[022p2rp] ? (p) | DEF and RES make hits hurt less. Say a hit has 100 power. It does 70 damage to a Whorl with 42 DEF. It does 50 damage to a Whorl with 100 DEF.
+[1pt8wdo] ? (p) | DEF works best against physical Whorls. RES works best against magic Whorls.
+[15x7n0o] ? (p) | Press X to see stats. Tap Team, pick the Whorl, then tap Look.
+[1vkqp2i] ? (p) | In combat, a Whorl pauses after taking an action. Higher AGI reduces this pause. Thus, a quicker Whorl gains additional turns.
+[1nvczk0] ? (p) | Example: Your Whorl has 69 AGI, while the foe has 51. Throughout the battle, your Whorl gains roughly 9 turns for every 8 the foe gets.
 [01q6u95] ? (p) | Typically, turns occur in close succession, meaning both sides choose their actions simultaneously. Neither party can see the other's selection at that moment.
-[0sbiscg] ? (p) | Actions resolve in order. The whorl whose turn comes first goes first. The top line indicates who moves first.
+[108apb4] ? (p) | Actions resolve in order. The Whorl whose turn comes first goes first. The top line indicates who moves first.
 [130lgnl] ? (p) | Guard and Switch always go first. Quick moves follow. Late moves wait until the foe has acted.
-[0ne8ati] ? (p) | Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a whorl resistant to it.
-[0ht0blm] ? (p) | Sometimes one side moves much sooner. That side picks alone and moves. So a fast whorl can move twice before a slow one moves once. The top line shows when this happens.
-[0qf1xxk] ? (p) | Some actions have short waits. A whorl waits 80% as long after Guard as after Attack. The incoming whorl waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each whorl.
-[1obvbjt] ? (p) | Slow 1 delays the whorl's next turn. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+[0l98kh2] ? (p) | Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a Whorl resistant to it.
+[195jtju] ? (p) | Sometimes one side moves much sooner. That side picks alone and moves. So a fast Whorl can move twice before a slow one moves once. The top line shows when this happens.
+[09hov8o] ? (p) | Some actions have short waits. A Whorl waits 80% as long after Guard as after Attack. The incoming Whorl waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each Whorl.
+[0hkypy1] ? (p) | Slow 1 delays the Whorl's next turn. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
 [0ybdxjp] ? (p) | Haste operates in the opposite manner, causing each subsequent turn to arrive 30% of a turn earlier.
 [0h6ajqx] ? (p) | A slowed foe often goes last. Slow it twice, and you may get a turn.
-[0waucbi] ? (p) | Some text says the whorl's next turn comes 40% sooner. This means the whorl waits less before it moves again. The wait is about 40% shorter.
+[16pmtcu] ? (p) | Some text says the Whorl's next turn comes 40% sooner. This means the Whorl waits less before it moves again. The wait is about 40% shorter.
 [0uu626p] ? (p) | Some moves change the field for a few rounds. Sea Fog and High Tide are examples. The field affects both sides, so it can help the foe too.
-[06plks6] ? (p) | A wind-up move lands later. A ! appears over the whorl while winding up. The top line shows how many moves you get first.
+[0jjpyl2] ? (p) | A wind-up move lands later. A ! appears over the Whorl while winding up. The top line shows how many moves you get first.
 [01v7l2b] ? (p) | You can stop a foe's wind-up. Stun, Silence, Sleep, or Taunt cuts it off. Forcing the foe out also stops it.
-[16zyhos] ? (p) | You can also switch to a whorl that takes less damage from the move. An Unstoppable wind-up cannot be interrupted.
+[17tbnqk] ? (p) | You can also switch to a Whorl that takes less damage from the move. An Unstoppable wind-up cannot be interrupted.
 [1v0fh4o] ? (p) | A round consists of one turn per side. The field tracks the rounds, as does any prolonged battle.
 [00cy5q9] ? (title) | Attack, moves, and Guard
 [0qb4bnu] ? (p) | On your turn, choose one action: Attack, use a move, Guard, or Switch.
-[03kvu3q] ? (p) | Attack is your whorl's standard strike. You can use it every turn, and it never depletes. Since it has no type, it deals equal damage to all types.
+[1ce6vgm] ? (p) | Attack is your Whorl's standard strike. You can use it every turn, and it never depletes. Since it has no type, it deals equal damage to all types.
 [1drxrtt] ? (p) | Attacks can strike more than once. A habit that functions after an Attack still works once for the entire Attack. A habit that mentions hits applies to each hit.
-[0smqsiu] ? (p) | Each whorl has four moves. These moves deal more damage or provide special effects. Review the move's description before selecting it to understand its effect.
-[10mx4hu] ? (p) | Hits for 110% ATK means a hit with 1.1 times the whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
+[0vqi9ja] ? (p) | Each Whorl has four moves. These moves deal more damage or provide special effects. Review the move's description before selecting it to understand its effect.
+[0tplqaq] ? (p) | Hits for 110% ATK means a hit with 1.1 times the Whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
 [0bpzu3g] ? (p) | After using a move, it must recharge. This recharge period is its cooldown, and the menu displays the remaining turns.
 [0zgjawx] ? (p) | Flatten's cooldown is 3. Squall uses it. It rests for Squall's next 3 turns. It's ready on turn 4.
-[1tcii43] ? (p) | Cooldowns count your side's turns. They decrease while the whorl waits in reserve.
-[0a914uy] ? (p) | Moves matching a whorl's own type deal 20% more damage. Squall is a TIDE whorl, so its TIDE moves deal 20% more damage.
+[0dl84ib] ? (p) | Cooldowns count your side's turns. They decrease while the Whorl waits in reserve.
+[1mn8yxm] ? (p) | Moves matching a Whorl's own type deal 20% more damage. Squall is a TIDE Whorl, so its TIDE moves deal 20% more damage.
 [1cm5at0] ? (p) | Some moves splash damage. The primary target takes full damage, while each foe in reserve takes a portion. The move description specifies the percentage.
 [01k343e] ? (p) | Splash 35% means each foe in reserve takes 35% of the damage. A small splash is called a spray. Splash 100% damages the entire enemy team equally.
-[1jn5ylj] ? (p) | Guard reduces the damage your whorl takes by half. It lasts until your whorl's next turn. A Guard always acts first in a round.
+[175jrs7] ? (p) | Guard reduces the damage your Whorl takes by half. It lasts until your Whorl's next turn. A Guard always acts first in a round.
 [1fdnddl] ? (p) | Guard blocks a larger share of a projectile but does not block a dash at all.
 [09x8n3a] ? (p) | You cannot Guard on consecutive turns. Additionally, Guarding is a swift action.
 [0ny50vg] ? (p) | Many moves have a kind. A small icon shows it. Each kind has one rule.
-[1njutqu] ? (s) | A dash strikes quickly. Until its next turn, the whorl takes 10% less damage. Guard does not block a dash. A rooted whorl cannot dash.
-[1b0ceby] ? (s) | A projectile flies through the air. A guarding whorl takes only a quarter of the damage.
-[1l42rcv] ? (s) | Spells bypass walls raised by summons. A silenced whorl cannot cast spells.
+[0ir5652] ? (s) | A dash strikes quickly. Until its next turn, the Whorl takes 10% less damage. Guard does not block a dash. A rooted Whorl cannot dash.
+[0sl810u] ? (s) | A projectile flies through the air. A guarding Whorl takes only a quarter of the damage.
+[1e0klsv] ? (s) | Spells bypass walls raised by summons. A silenced Whorl cannot cast spells.
 [1mlrdv2] ? (s) | Channeling persists across turns. Stun, Silence, Sleep, or Switch interrupts it.
-[0vrjr6s] ? (p) | Each whorl has two habits. Habits act automatically. You do not select them. In battle, press left or right on the menu to view habits.
-[0l7r7qk] ? (p) | A crest is a whorl's ultimate move. Most whorls have one crest. Crests cost tide.
+[1dk9o3o] ? (p) | Each Whorl has two habits. Habits act automatically. You do not select them. In battle, press left or right on the menu to view habits.
+[02skdws] ? (p) | A crest is a Whorl's ultimate move. Most Whorls have one crest. Crests cost tide.
 [06ro1sy] ? (p) | Tide is a shared resource for your team. It holds up to {NERVE_MAX}. Each battle starts with 2 tide.
 [1f2ue0b] ? (s) | Landing an Attack grants 1 tide.
-[18t3lzs] ? (s) | When a move hits a guarding whorl, its side gains 1 tide. This applies once per Guard.
+[0hh9qew] ? (s) | When a move hits a guarding Whorl, its side gains 1 tide. This applies once per Guard.
 [1h4ru19] ? (s) | Defeating an enemy awards 2 tide.
-[0xalkux] ? (s) | Losing a whorl awards 1 tide.
+[0lyidq1] ? (s) | Losing a Whorl awards 1 tide.
 [1c35mjo] ? (s) | Certain moves, habits, and notions also grant tide.
 [0e6dq1y] ? (p) | Cloudburst is Squall's crest. It costs 5 tide. You start with 2. Land 3 Attacks, and you have 5.
 [0s2nh6s] ? (p) | Enemies have their own tide pool. Watch it. When full, they may use a crest.
 [0a2ht0e] ? (p) | A crest also has a cooldown, like any other move.
-[05z1k3w] ? (p) | Every whorl has one or two types. Every move has one type. Types determine strengths and weaknesses.
+[1tc05m4] ? (p) | Every Whorl has one or two types. Every move has one type. Types determine strengths and weaknesses.
 [15zjicw] ? (p) | There are six types: STONE, TIDE, ROOT, GEAR, BEAST, and STAR.
 [0t9wx3j] ? (p) | Rows show move types. Columns show foe types. Plus means strong. Minus means weak.
 [0yq1q3m] ? (p) | Super effective hits deal 1.5 times the normal damage, while weak hits deal roughly two-thirds.
 [04gpv1f] ? (p) | For example, TIDE is strong against STONE. This means Squall's Rain Shot hits Kivishi for 1.5 times the damage, while Kivishi's STONE moves deal only two-thirds damage to Squall.
-[0zc3aoo] ? (p) | A dual-type whorl counts both. If both are weak to a move, it hits 2 times as hard. A strong one and a weak one cancel out. A hit never does more than 2 times, or less than half.
+[0u0hxmg] ? (p) | A dual-type Whorl counts both. If both are weak to a move, it hits 2 times as hard. A strong one and a weak one cancel out. A hit never does more than 2 times, or less than half.
 [179lcm5] ? (p) | When a hit lands, the battle log shows strong or weak. Before you pick a move, look at it. It tells you when the foe is weak to it.
 [0ac14w0] ? (p) | A plain Attack has no type. Damage from statuses also has no type.
-[1tnlxth] ? (p) | Statuses are short-term whorl effects, shown by an icon near its HP bar.
-[00usk04] ? (p) | Status durations are shown by the number following them. Slow 2 lasts for 2 of the whorl's turns. Bleed and Poison use numbers for stack count.
-[02rohue] ? (s) | Stun: The whorl loses its next turn. Stun also cuts off a wind-up.
-[0pjuzsf] ? (s) | Sleep: The whorl skips turns. It wakes if hit.
-[0nxjnqr] ? (s) | Silence. The whorl cannot cast spells, but its other abilities remain active.
-[1xd2m30] ? (s) | Taunt. The whorl is restricted to using only Attack.
-[1s2cand] ? (s) | Root. The whorl is unable to switch out or dash.
-[14d6knm] ? (s) | Slow. Each subsequent turn of the whorl arrives 30% of a turn later.
-[0pgigme] ? (s) | Burn. The whorl suffers magic damage at the start of each turn.
-[0bliims] ? (s) | Bleed. The whorl takes physical damage at the start of each turn and loses one stack.
-[12mrwac] ? (s) | Poison. At the start of each turn, the whorl loses 3% of its maximum HP per stack, then loses one stack.
-[0l44aip] ? (s) | Rot. The whorl receives half the normal amount of healing.
-[067mdlf] ? (s) | Expose. Increases damage taken by the whorl by 25%.
-[1czyzem] ? (s) | Weaken. Reduces the damage dealt by the whorl by 25%.
-[1frqe2g] ? (s) | Doom. The whorl takes damage every turn and cannot heal or use moves.
-[12nmga8] ? (p) | If a foe inflicts Stun, Sleep, Stasis, a forced skip, or a forced switch, the whorl loses its turn but then becomes immune to that specific effect. It cannot be affected by the same status again until it has acted.
-[14kigzf] ? (p) | Another effect can still land before it acts. Once both expire, the whorl becomes stalwart. For its next 2 turns, it cannot be forced to lose a turn.
-[01ksppu] ? (p) | A forced switch occurs when an opponent forces the whorl to change. The whorl may be forced out, dragged in, spun around, or switched at its next turn. The replacement whorl also counts as forced.
-[1k5se6h] ? (s) | Haste. Each of the whorl's subsequent turns arrives 30% of a turn earlier.
-[176q3wc] ? (s) | Dashing. After dashing, the whorl takes 10% less damage until its next turn.
-[0k6rjv6] ? (s) | Empower: The whorl deals 25% more damage.
-[0rawd6j] ? (s) | Fortify: The whorl takes 25% less damage.
-[1m9r3lz] ? (s) | Regen: The whorl heals slightly at the start of each turn.
-[0wk8n58] ? (s) | Ward blocks the foe's next attack on the whorl. It fades after 2 turns if unused.
-[1df8dov] ? (s) | Thorns. When the whorl is struck, it retaliates for a portion of the damage dealt.
-[1wq7keu] ? (s) | Untouchable. The whorl takes no damage. Applying another instance of Untouchable does not extend its duration. The whorl is Seen through its next turn after Untouchable ends. Until then, it cannot gain Hidden or become Untouchable again.
+[0oita8l] ? (p) | Statuses are short-term Whorl effects, shown by an icon near its HP bar.
+[0l0eeg4] ? (p) | Status durations are shown by the number following them. Slow 2 lasts for 2 of the Whorl's turns. Bleed and Poison use numbers for stack count.
+[1k88mye] ? (s) | Stun: The Whorl loses its next turn. Stun also cuts off a wind-up.
+[1iziztb] ? (s) | Sleep: The Whorl skips turns. It wakes if hit.
+[0speo5v] ? (s) | Silence. The Whorl cannot cast spells, but its other abilities remain active.
+[0o1s8mk] ? (s) | Taunt. The Whorl is restricted to using only Attack.
+[0y2rrpl] ? (s) | Root. The Whorl is unable to switch out or dash.
+[1ih9sj6] ? (s) | Slow. Each subsequent turn of the Whorl arrives 30% of a turn later.
+[0x05d6u] ? (s) | Burn. The Whorl suffers magic damage at the start of each turn.
+[1bk40qc] ? (s) | Bleed. The Whorl takes physical damage at the start of each turn and loses one stack.
+[0xis21g] ? (s) | Poison. At the start of each turn, the Whorl loses 3% of its maximum HP per stack, then loses one stack.
+[1ezxjz5] ? (s) | Rot. The Whorl receives half the normal amount of healing.
+[1o2te5v] ? (s) | Expose. Increases damage taken by the Whorl by 25%.
+[1m6kgim] ? (s) | Weaken. Reduces the damage dealt by the Whorl by 25%.
+[1tkv2vs] ? (s) | Doom. The Whorl takes damage every turn and cannot heal or use moves.
+[16gty34] ? (p) | If a foe inflicts Stun, Sleep, Stasis, a forced skip, or a forced switch, the Whorl loses its turn but then becomes immune to that specific effect. It cannot be affected by the same status again until it has acted.
+[1bnlvq3] ? (p) | Another effect can still land before it acts. Once both expire, the Whorl becomes stalwart. For its next 2 turns, it cannot be forced to lose a turn.
+[0hbf87m] ? (p) | A forced switch occurs when an opponent forces the Whorl to change. The Whorl may be forced out, dragged in, spun around, or switched at its next turn. The replacement Whorl also counts as forced.
+[0q104bt] ? (s) | Haste. Each of the Whorl's subsequent turns arrives 30% of a turn earlier.
+[125j2ho] ? (s) | Dashing. After dashing, the Whorl takes 10% less damage until its next turn.
+[0e3c6ia] ? (s) | Empower: The Whorl deals 25% more damage.
+[1eke1zv] ? (s) | Fortify: The Whorl takes 25% less damage.
+[1oa29pj] ? (s) | Regen: The Whorl heals slightly at the start of each turn.
+[1s1ep8s] ? (s) | Ward blocks the foe's next attack on the Whorl. It fades after 2 turns if unused.
+[0bbktyn] ? (s) | Thorns. When the Whorl is struck, it retaliates for a portion of the damage dealt.
+[0yteqja] ? (s) | Untouchable. The Whorl takes no damage. Applying another instance of Untouchable does not extend its duration. The Whorl is Seen through its next turn after Untouchable ends. Until then, it cannot gain Hidden or become Untouchable again.
 [0gfxzcd] ? (s) | Unstoppable. It is immune to Stun, Silence, Sleep, Root, Taunt, and Slow.
-[0rcrvte] ? (s) | Stasis. The whorl skips its turns. It cannot be damaged or inflicted with status effects.
-[04m4aii] ? (s) | Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
-[1aasx9w] ? (s) | Monument. The whorl cannot be knocked out. It remains at 1 HP.
-[1l53dzl] ? (p) | When a whorl is replaced, it loses most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
+[07kok8i] ? (s) | Stasis. The Whorl skips its turns. It cannot be damaged or inflicted with status effects.
+[19jgz4q] ? (s) | Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The Whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
+[1nfmsd0] ? (s) | Monument. The Whorl cannot be knocked out. It remains at 1 HP.
+[0bck4c1] ? (p) | When a Whorl is replaced, it loses most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
 [1kvmhhk] ? (title) | Marks, summons, and shields
-[051k9c1] ? (p) | A mark is a sign that some moves place on a whorl. Each species has its own marks. Kivishi gains a Stone each time it is hit.
+[0lz7x41] ? (p) | A mark is a sign that some moves place on a Whorl. Each species has its own marks. Kivishi gains a Stone each time it is hit.
 [1csx1z9] ? (s) | A diamond icon by the HP bar shows the mark's stack count.
-[104isuk] ? (p) | To learn what a mark does, check the habits of the whorl that generates it. In battle, press left or right on the menu to view this information.
-[17leij9] ? (p) | Some marks fade after a few turns. Others disappear when the whorl switches out.
-[0iqlst0] ? (p) | Some moves summon a helper to the field. This summon stays by its whorl and has its own small HP bar.
+[139dj70] ? (p) | To learn what a mark does, check the habits of the Whorl that generates it. In battle, press left or right on the menu to view this information.
+[0l7roqd] ? (p) | Some marks fade after a few turns. Others disappear when the Whorl switches out.
+[08wedys] ? (p) | Some moves summon a helper to the field. This summon stays by its Whorl and has its own small HP bar.
 [1bgiufj] ? (p) | Each side holds {SUMMON_CAP} summons. New ones displace the oldest.
-[0aklvz1] ? (p) | Summons act independently. Some attack foes, while others protect their whorl. Protective summons absorb single-hit attacks intended for their whorl.
+[1lmdc65] ? (p) | Summons act independently. Some attack foes, while others protect their Whorl. Protective summons absorb single-hit attacks intended for their Whorl.
 [0vrrkdc] ? (p) | Summons have no DEF or RES. Any damage dealt to them is reduced by half.
-[01c36t7] ? (p) | You can target specific summons. When choosing Attack, select the summon instead of the whorl.
+[1vx6o63] ? (p) | You can target specific summons. When choosing Attack, select the summon instead of the Whorl.
 [1ji9hqy] ? (p) | Summons disappear when their HP reaches zero. Some also vanish after a set number of turns.
 [0x7exn4] ? (p) | Shields add extra HP above your bar, absorbing hits first. They appear as a pale line and fade after a few turns.
-[05hm1r6] ? (p) | You can capture a wild whorl using a horn. Once caught, it joins your team.
-[06bso2b] ? (p) | Select Catch to grab a wild whorl, then choose a horn. You can only catch wild whorls.
+[0j4pewy] ? (p) | You can capture a wild Whorl using a horn. Once caught, it joins your team.
+[1tsa103] ? (p) | Select Catch to grab a wild Whorl, then choose a horn. You can only catch wild Whorls.
 [0qnq4jt] ? (p) | Each horn has a threshold line. If the foe's HP is at or below it, the horn always succeeds.
 [0mbqsxh] ? (p) | Selecting Catch displays each horn's success rate. "Sure" indicates it cannot fail.
 [0bmd4v4] ? (s) | Periwinkle horn. The threshold is set at {#1}%. It costs {HORN_PRICE.twig} cowries.
@@ -2370,66 +2370,66 @@
 [1rdlbhq] ? (s) | Triton horn. The threshold is set at {#1}%. It costs {HORN_PRICE.bone} cowries.
 [1ok7uo7] ? (s) | Nautilus horn. It always succeeds. You can find these, but they are not sold in shops.
 [1p2rxnt] ? (p) | Above the threshold, a horn may still succeed. The lower the foe's HP, the higher the chance. A Periwinkle horn guarantees at least a {#1}% chance.
-[1xihcuo] ? (p) | First, weaken the foe, but do not defeat it. A wild whorl that is knocked out will escape.
-[19gpf9i] ? (p) | Certain factors improve your odds. If the foe is stunned or asleep, the threshold increases by {#1}%. If your whorl has higher CHA than the foe, the threshold rises by up to {#2}%. Lower CHA reduces the threshold.
+[0b4wy9c] ? (p) | First, weaken the foe, but do not defeat it. A wild Whorl that is knocked out will escape.
+[1kawxgm] ? (p) | Certain factors improve your odds. If the foe is stunned or asleep, the threshold increases by {#1}%. If your Whorl has higher CHA than the foe, the threshold rises by up to {#2}%. Lower CHA reduces the threshold.
 [0pouokd] ? (p) | If the horn fails, you still lose your turn.
-[14e2wm0] ? (p) | If your team is full, the newly captured whorl is sent to the Midden.
-[185pztv] ? (p) | When fighting a wild whorl, you can always choose to Run. Run always works.
-[1gi5gwy] ? (p) | A notion is a small item held by a whorl. Each whorl can hold one notion.
-[1cnwnib] ? (p) | Some notions boost a stat. For instance, a Whetstone adds 11% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl slightly each time it deals damage.
-[0dh1tz3] ? (p) | To give a notion, press X to open the menu. Select Team, then a whorl, then Give notion. Take notion returns it to the Bag.
+[00yzovs] ? (p) | If your team is full, the newly captured Whorl is sent to the Midden.
+[1qinlqb] ? (p) | When fighting a wild Whorl, you can always choose to Run. Run always works.
+[1id3vtu] ? (p) | A notion is a small item held by a Whorl. Each Whorl can hold one notion.
+[1iplaf7] ? (p) | Some notions boost a stat. For instance, a Whetstone adds 11% ATK. Other notions change how a Whorl fights. Bloodglass heals the Whorl slightly each time it deals damage.
+[0w5gu5b] ? (p) | To give a notion, press X to open the menu. Select Team, then a Whorl, then Give notion. Take notion returns it to the Bag.
 [1ek6pzz] ? (p) | Some notions trigger an action. This appears as a choice in the battle menu. It can be used once per battle and acts quickly, similar to a Switch.
-[146e7c2] ? (p) | Some notions are consumed upon use. A Sea Biscuit restores 35% of the whorl's HP. After that battle, the Sea Biscuit is gone.
+[07lqerm] ? (p) | Some notions are consumed upon use. A Sea Biscuit restores 35% of the Whorl's HP. After that battle, the Sea Biscuit is gone.
 [1h6evgg] ? (p) | You can purchase notions at a grotto. Read the description of each item in your Bag before using it.
 [0jd9a7h] ? (p) | Nacre is the shiny inner lining of a shell. You can find it in hidden spots. Some trainers will give you a piece of nacre after you win. Each piece represents one layer.
-[0lbirpr] ? (p) | At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds the same points to any stat, helping a weak stat just as much as a strong one.
-[03hhb9u] ? (p) | A layer adds more points as a whorl levels up. It adds {#1} to a stat at level {LEVEL_MAX}. Since HP values are larger, it adds {#3} to HP. The Nacre menu shows the specific bonus for your whorl's current level.
-[097qonq] ? (p) | A whorl can hold {TAN_PER_STAT} layers in a single stat. It can hold {TAN_TOTAL} layers in total.
-[16ku5zx] ? (p) | For example, a level {LEVEL_MAX} whorl with 69 ATK would have {#2} ATK after adding {TAN_PER_STAT} layers to that stat.
+[1mgp5db] ? (p) | At a grotto, pick Nacre. Then layer nacre on a Whorl. Each layer adds the same points to any stat, helping a weak stat just as much as a strong one.
+[0i1uez6] ? (p) | A layer adds more points as a Whorl levels up. It adds {#1} to a stat at level {LEVEL_MAX}. Since HP values are larger, it adds {#3} to HP. The Nacre menu shows the specific bonus for your Whorl's current level.
+[1hxkzzq] ? (p) | A Whorl can hold {TAN_PER_STAT} layers in a single stat. It can hold {TAN_TOTAL} layers in total.
+[06dbbp9] ? (p) | For example, a level {LEVEL_MAX} Whorl with 69 ATK would have {#2} ATK after adding {TAN_PER_STAT} layers to that stat.
 [1q1jqgv] ? (p) | You can remove layers for free by selecting "Take all layers off." This returns every layer to your inventory for reuse.
-[1clrav1] ? (p) | Conjoining merges two whorls into one. Use the Conjoiner at a grotto.
-[10wm5zg] ? (p) | You choose the traits for the new whorl. It keeps 2 moves from each parent and 2 habits in total. It also inherits 1 or 2 types. You also pick its appearance and name.
+[1jbs82l] ? (p) | Conjoining merges two Whorls into one. Use the Conjoiner at a grotto.
+[05jaip8] ? (p) | You choose the traits for the new Whorl. It keeps 2 moves from each parent and 2 habits in total. It also inherits 1 or 2 types. You also pick its appearance and name.
 [0nt1tzy] ? (p) | It can have at most 2 crests.
-[047a448] ? (p) | You may retune one move. A retuned move takes on one of the new whorl's types.
-[1nttpoj] ? (p) | The new whorl assumes the higher level of the pair.
-[0t36vxm] ? (p) | 10 cowries per higher whorl level. Two level 20 whorls cost 200 cowries.
-[1756gkk] ? (p) | Conjoining is irreversible. The original whorls are destroyed, but their notions return to your Bag.
-[0m53imz] ? (p) | The seam joins whorls, costing the new one {#1}% of every stat.
-[0np9843] ? (p) | A conjoined whorl cannot be joined again. Some cannot be joined at all. The menu displays these options in gray.
-[1vatoma] ? (p) | Whorls grow by winning battles. Each victory grants experience points (XP), which eventually raise the whorl's level and improve its stats.
-[0zgv1yc] ? (p) | All team whorls gain XP, even if inactive. Midden whorls get half.
-[1x84hrg] ? (p) | When you win, each foe you knocked out or caught gives XP. A level 10 wild whorl gives 24 XP. A level 10 whorl of a trainer gives 32 XP.
-[1x4d4iu] ? (p) | Each level needs more XP than the last. A level 5 whorl needs 72 XP to reach level 6.
-[1so0rzv] ? (p) | A whorl cannot exceed the level cap. You raise this cap by winning pearls, which you obtain by defeating keepers.
+[0nnksvs] ? (p) | You may retune one move. A retuned move takes on one of the new Whorl's types.
+[0bidieb] ? (p) | The new Whorl assumes the higher level of the pair.
+[1l52fxm] ? (p) | 10 cowries per higher Whorl level. Two level 20 Whorls cost 200 cowries.
+[0uova6c] ? (p) | Conjoining is irreversible. The original Whorls are destroyed, but their notions return to your Bag.
+[1aexybf] ? (p) | The seam joins Whorls, costing the new one {#1}% of every stat.
+[1xp862b] ? (p) | A conjoined Whorl cannot be joined again. Some cannot be joined at all. The menu displays these options in gray.
+[1s5jdky] ? (p) | Whorls grow by winning battles. Each victory grants experience points (XP), which eventually raise the Whorl's level and improve its stats.
+[0s6vy78] ? (p) | All team Whorls gain XP, even if inactive. Midden Whorls get half.
+[11mx8a4] ? (p) | When you win, each foe you knocked out or caught gives XP. A level 10 wild Whorl gives 24 XP. A level 10 Whorl of a trainer gives 32 XP.
+[0ksffie] ? (p) | Each level needs more XP than the last. A level 5 Whorl needs 72 XP to reach level 6.
+[1s6kftn] ? (p) | A Whorl cannot exceed the level cap. You raise this cap by winning pearls, which you obtain by defeating keepers.
 [0orjz53] ? (p) | Your team will be notified if you have reached the level cap during a battle.
-[1l9491d] ? (p) | Very long battles make whorls tired. This is called fatigue.
+[0flviap] ? (p) | Very long battles make Whorls tired. This is called fatigue.
 [19pp9pa] ? (p) | A round is one turn for each side. Fatigue starts after round {FATIGUE_ROUND}.
-[1rkp45f] ? (p) | In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
-[0rgndt8] ? (p) | Fatigue goes past DEF, RES, and Guard. The slower whorl gets hit first.
+[1cx0q3n] ? (p) | In round {#1}, each out Whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
+[0hzq9qk] ? (p) | Fatigue goes past DEF, RES, and Guard. The slower Whorl gets hit first.
 [1kc7lj7] ? (p) | So no battle can go on forever. Try to win before fatigue starts.
-[13prga8] ? (p) | You can wear your lead whorl. Press C to equip it, and press C again to unequip it.
-[1a3abkc] ? (p) | Equipping a whorl allows you to traverse terrain matching its type.
+[0gh3xn4] ? (p) | You can wear your lead Whorl. Press C to equip it, and press C again to unequip it.
+[1c7zai4] ? (p) | Equipping a Whorl allows you to traverse terrain matching its type.
 [18gy4p9] ? (s) | STONE enables you to cross fractures, cracks in the ground.
 [1kpfnic] ? (s) | TIDE allows you to walk across water and through shallow areas.
 [1b2qj5x] ? (s) | ROOT lets you pass through thickets.
 [0qaz584] ? (s) | GEAR lets you bypass deactivated machines and rotate old cranes.
 [0817j37] ? (s) | BEAST allows you to climb ledges.
 [16e4yjq] ? (s) | STAR illuminates dark areas.
-[1ozitvl] ? (p) | A whorl with two types grants both abilities.
+[1i661nl] ? (p) | A Whorl with two types grants both abilities.
 [05x5u3q] ? (p) | The Bag stores your carried items. Open the menu with X and select Bag.
 [0br8kqf] ? (p) | The Bag contains six pockets. Use left or right to switch pockets.
 [11j8z5x] ? (s) | Items has horns and things to use, like a Salt Line.
-[0zh5a42] ? (s) | Notions holds notions for your whorls.
+[1poph3m] ? (s) | Notions holds notions for your Whorls.
 [1bk9r6c] ? (s) | Key items are story-critical. You cannot sell or discard them.
 [1lflhdw] ? (s) | Finds includes items you can sell at a grotto.
 [1yhv4j6] ? (s) | Lore contains readable texts.
 [15j23n4] ? (s) | Sketches holds drawings for the Setting board.
 [0afgzm9] ? (p) | Select an item, press Z, then use, read, give, take, or toss it.
 [1vg3qfy] ? (p) | Press V to sort a pocket by name or by kind.
-[1lr27ow] ? (p) | A Salt Line repels wild whorls for 150 steps. A Lure Shell attracts the rarest species on the current map. A Carter's Whistle summons the cart once.
+[02y4b68] ? (p) | A Salt Line repels wild Whorls for 150 steps. A Lure Shell attracts the rarest species on the current map. A Carter's Whistle summons the cart once.
 [1kqujho] ? (p) | Key items unlock new areas or advance the plot. The Register is a key item that catalogs every species you've encountered and caught.
 [1ezp06q] ? (p) | Cowries are shells you spend like money.
-[09fo0rd] ? (p) | You earn cowries by beating trainers. Each whorl pays 12 cowries for every level it has. Two level 10 whorls pay 240 cowries.
+[0f25jx5] ? (p) | You earn cowries by beating trainers. Each Whorl pays 12 cowries for every level it has. Two level 10 Whorls pay 240 cowries.
 [1vxnxf3] ? (p) | Go to a grotto to sell your finds. Tap Sell. The Bag shows the price. The Strandmonger pays 25% more.
 [1n9bgoe] ? (p) | Spend cowries on horns, notions, and things to use. Conjoining costs cowries. A ride on the cart costs 10.
 [1ynct5y] ? (p) | If your whole team is down, you drop 20% of your cowries. If you have 500, you drop 100.
@@ -2438,16 +2438,16 @@
 [1qlpstm] ? (s) | Rib. Your lead takes 15% less damage before it switches out.
 [149dgxp] ? (s) | Mast. Your tide begins at 4 instead of 2.
 [0nvqmps] ? (s) | Spire. Your wind-ups activate 25% faster.
-[1cdh51u] ? (s) | Bole. Your conjoined whorls deal 8% increased damage.
+[01czroy] ? (s) | Bole. Your conjoined Whorls deal 8% increased damage.
 [02vvg9o] ? (s) | Pylon. One notion action occurs twice per battle. Even a consumed notion still triggers once.
-[1r14nr2] ? (s) | Tusk. Your whorl's delay after switching is reduced by 20%.
-[1c2ak6x] ? (s) | Hilt. When your whorl knocks out a foe, its cooldowns decrease by 1.
+[0ieispq] ? (s) | Tusk. Your Whorl's delay after switching is reduced by 20%.
+[1a0p4pl] ? (s) | Hilt. When your Whorl knocks out a foe, its cooldowns decrease by 1.
 [1tv4df2] ? (s) | Fall. Your first turn arrives 25% sooner.
-[045yz85] ? (p) | A Starborn whorl is a rare variant featuring the colors of the night sky. It glows and twinkles.
-[0y48i6o] ? (p) | About 1 in {STARBORN_ODDS} new wild whorls is Starborn. A new conjoined whorl can be Starborn too, at the same odds.
-[1c3olg8] ? (p) | A Starborn whorl is just as strong as others of its species. Only its look is different.
-[0ge635m] ? (p) | A Starborn whorl does not pass on its look when you conjoin it.
-[1ss33nr] ? (p) | Once you encounter a Starborn whorl, the Register marks its species with a star.
+[1o55bhx] ? (p) | A Starborn Whorl is a rare variant featuring the colors of the night sky. It glows and twinkles.
+[1mu5fww] ? (p) | About 1 in {STARBORN_ODDS} new wild Whorls is Starborn. A new conjoined Whorl can be Starborn too, at the same odds.
+[01wyw8o] ? (p) | A Starborn Whorl is just as strong as others of its species. Only its look is different.
+[0sqvtga] ? (p) | A Starborn Whorl does not pass on its look when you conjoin it.
+[0qzafmv] ? (p) | Once you encounter a Starborn Whorl, the Register marks its species with a star.
 [07lnkh4] ? (p) | Setting is a gem-placement puzzle board. Press X to open the menu and select Setting.
 [023l6ay] ? (p) | Each sketch is a new puzzle. Build a machine to craft the piece shown.
 [00rzmkg] ? (p) | Place arms and stations on the board. Each arm follows its assigned tape, which is a list of steps. All arms execute their steps simultaneously.
@@ -2461,31 +2461,31 @@
 [04bk02j] ? (p) | An input outlined in gold provides one piece for each gold dot, and no more.
 [0w4r47x] ? (p) | Practice is on the title screen. Test teams here. Progress isn't saved.
 [1dx1a6g] ? (p) | Form two teams of 3. Your team is on the left. The enemy team is on the right.
-[0far7tl] ? (p) | Select a slot to modify it. You can get a random whorl, find any species by its name, or conjoin two species.
-[0ccmo63] ? (p) | A team can include each species only once. A conjoined whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined whorl on that team.
-[1km2iqy] ? (p) | Practice battles use tide. Every whorl is level 25 unless you change it.
-[0adlnpl] ? (p) | During a practice battle, press V to open the debug menu. This displays the stats for every whorl and the opponent's last move. You can also modify HP and tide here.
+[0f7h86x] ? (p) | Select a slot to modify it. You can get a random Whorl, find any species by its name, or conjoin two species.
+[0vmuxy3] ? (p) | A team can include each species only once. A conjoined Whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined Whorl on that team.
+[0ykp53e] ? (p) | Practice battles use tide. Every Whorl is level 25 unless you change it.
+[0mqigq1] ? (p) | During a practice battle, press V to open the debug menu. This displays the stats for every Whorl and the opponent's last move. You can also modify HP and tide here.
 [1nkx5ze] ? (p) | The game returns you to the teams when the battle ends. Press Start to play the same battle again.
-[1n3vftf] ? (p) | Byssus is online. Opens at a grotto with {ROSTER_SIZE} whorls.
+[0979rar] ? (p) | Byssus is online. Opens at a grotto with {ROSTER_SIZE} Whorls.
 [1nasm7z] ? (p) | To connect with a player, select Find. To play with a friend, select Make a code, and have them select Use a code.
-[0wnf7cm] ? (p) | Bring {ROSTER_SIZE} whorls, pick {TEAM_SIZE}. The Roster screen shows what breaks a rule.
-[0e11c0t] ? (p) | Random battle uses drawn {ROSTER_SIZE} whorls. No roster needed.
+[0nfme1i] ? (p) | Bring {ROSTER_SIZE} Whorls, pick {TEAM_SIZE}. The Roster screen shows what breaks a rule.
+[1bpa29p] ? (p) | Random battle uses drawn {ROSTER_SIZE} Whorls. No roster needed.
 [0q5twgi] ? (s) | Each species and each notion can be used only once.
-[1f56van] ? (s) | You may include at most {LEGENDARY_MAX} legendary whorls. A legendary is one of the {LEGENDS} rarest whorls.
-[15gjp2x] ? (s) | No charms allowed. All whorls fight at level {SYNC_LEVEL}.
+[0am5fn3] ? (s) | You may include at most {LEGENDARY_MAX} legendary Whorls. A legendary is one of the {LEGENDS} rarest Whorls.
+[08tbh09] ? (s) | No charms allowed. All Whorls fight at level {SYNC_LEVEL}.
 [193jgh3] ? (p) | Match is best of {GAMES_MAX}. Pick {TEAM_SIZE} before each game.
-[1nr1n3j] ? (p) | {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick your next whorl. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts in a row loses.
+[0aesrgv] ? (p) | {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick your next Whorl. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts in a row loses.
 [038fcav] ? (p) | If your connection drops, select "Rejoin" within {HOLD_SECONDS} seconds.
-[0y7rzln] ? (p) | After a match, select Rematch to play the same opponent again. A random battle generates new whorls for the rematch.
-[0crxpln] ? (p) | On the Strand, your whorls fight at their Strand level, which starts at 3 and only increases while on the Strand.
+[0ci2a57] ? (p) | After a match, select Rematch to play the same opponent again. A random battle generates new Whorls for the rematch.
+[18l9id7] ? (p) | On the Strand, your Whorls fight at their Strand level, which starts at 3 and only increases while on the Strand.
 [0rbh79g] ? (p) | Star grains increase the maximum Strand level.
 [06fhiaq] ? (p) | The tide ebbs and flows. Ring a tide bell to change the tide.
 [131pvrz] ? (p) | At high tide, each side begins with 3 tide. At low tide, each side starts with zero. A star lands every 4th round, giving each side 2 tide.
 [1auggmf] ? (p) | Two additional types exist on the Strand: SALT and VOID.
 [13cs6mn] ? (s) | SALT beats ROOT and BEAST. TIDE beats SALT.
 [15gys3i] ? (s) | VOID beats STAR and SALT. STONE and GEAR beat VOID.
-[0cp8zsa] ? (p) | A SALT whorl lets you walk through the gray. A VOID whorl lets you cross the blank.
-[01wtyhr] ? (p) | You can embed a whorl in a shell on the Strand. Once embedded, the shell remains.
+[17uf1ii] ? (p) | A SALT Whorl lets you walk through the gray. A VOID Whorl lets you cross the blank.
+[19dao73] ? (p) | You can embed a Whorl in a shell on the Strand. Once embedded, the shell remains.
 
 ==== file: src/content/homes.ts
 == scene: homes
@@ -2522,8 +2522,8 @@
 [1d5ek3n] Spoon-carver | I whittle spoons from the bark the Bole drops.
 [1wb3yp8] Spoon-carver | They have a faint woody flavor, but people don't mind.
 [14ua3ai] look | A note left on the pillow: "Off to see the Bole. I'll be back before dark. Do not eat the jam.
-[0v9gkyn] Child | I'm cultivating a whorl in a crate. It's just a snail at the moment.
-[15gghf8] Child | Snails develop shells, which turn them into whorls. I have all the patience in the world.
+[16wzv5r] Child | I'm cultivating a Whorl in a crate. It's just a snail at the moment.
+[1ipn8no] Child | Snails develop shells, which turn them into Whorls. I have all the patience in the world.
 [1n742am] Tinker | Rider parts. Every one still ticks.
 [1i0juk6] Tinker | I count those ticks so they know someone is listening.
 [0odq7kz] Woman | The Pylon glows through the wall at night, shifting from bright blue to a dimmer hue.
@@ -2557,19 +2557,19 @@
 [1u954l2] Strandmonger | Then it's free, and you've learned all you need.
 [1u6bqw0] Strandmonger | Knock it down a bit, then catch it. Weaker means surer. Then it's yours, and I stop feeding a boot.
 == scene: r
-[0n7rcrm] ? | (Your whorl clashes with the boot. Choose one action per turn.)
+[07lh5s2] ? | (Your Whorl clashes with the boot. Choose one action per turn.)
 [1njr3xw] ? | (When your turns are near, you and your opponent choose moves at the same time.
 [0ebsunm] ? | The actions then resolve in order.)
 [13jkfjr] ? | (Attack is unlimited. Special moves hit harder but need a cooldown of several turns.)
 [1lxi6ec] ? | (Preview your options before committing.
 [0dswph3] ? | Each entry details its effect and whether the foe is vulnerable to it.)
 [0ys39jh] ? | (Guard takes priority. It halves incoming damage until your next turn.)
-[08jh913] ? | (Switch also takes priority. It calls forth a whorl from your reserve.
+[1s2349j] ? | (Switch also takes priority. It calls forth a Whorl from your reserve.
 [0wkb3me] ? | You currently have only one available.)
-[13m6ab6] ? | (A horn can catch a whorl at any HP level. The lower the whorl's HP, the higher the success rate.)
+[0jpc2sy] ? | (A horn can catch a Whorl at any HP level. The lower the Whorl's HP, the higher the success rate.)
 [1pg4z49] ? | (The boot is now sufficiently weakened.
 [04mmmjl] ? | Selecting Catch will show "Sure" on the horn list, guaranteeing success.)
-[0ocnomt] ? | (Choose Catch and blow a horn. A caught whorl joins you. If you knock it out, it gets away.)
+[1yuinmd] ? | (Choose Catch and blow a horn. A caught Whorl joins you. If you knock it out, it gets away.)
 == scene: lesson
 [0y60rfb] Strandmonger | It's yours, free of charge! But keep your mouth shut. I've got a reputation to protect.
 [1krt86v] Strandmonger | Flat, and off it walks. Soften it up, then hit the horn. The boot knew that.
@@ -2632,7 +2632,7 @@
 [1rxfz4l] Cinch | Sit. The ground rises and falls here with the tide. You get used to it.
 [0wv7hfm] Cinch | Take a seat if you're staying. The fire is open to all.
 == scene: stack
-[0z6wujx] Stackkeeper | Every level is a battle! Your whorls stand at fifty, all of them.
+[02sb1ot] Stackkeeper | Every level is a battle! Your Whorls stand at fifty, all of them.
 [0zsxil0] Stackkeeper | Only conjoined foes are permitted on this floor.
 [1lwezxt] Stackkeeper | Victory means rising one floor higher. Defeat means plunging back to the very bottom.
 [0a70hq3] Stackkeeper | Your highest achievement so far is floor {G.stackBest}.
@@ -2648,7 +2648,7 @@
 ==== file: src/content/ring.ts
 == scene: ring
 [0rb17xh] ? (prisingiron) | An iron bar with a hooked end. Face a crust of old shells and press to pry it off.
-[01yjlzp] ? (stilts) | Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE whorl.
+[06tetyt] ? (stilts) | Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE Whorl.
 [1ye9jy3] ? (jingle) | A hoop made of thin, jingling shells. Press it against a large sleeper to wake it.
 [0zbpt0r] ? (haul) | A harness attached to a rope. Grip the haul stone and pull back to drag it.
 [1to5xp4] ? (letter) | A letter sealed with a black spiral. The Gate Ring's keeper opens the way for it.
@@ -2825,7 +2825,7 @@
 [00lwlx5] Stilt-maker | You'll be wading, not drowning.
 [0sjpgv2] ? (giveKeyItem) | Ouro takes the wading stilts.
 [0glpdqv] Stilt-maker | Use them in streams, fords, pools, and inlets. Anywhere it's shallow.
-[0onwhf6] Stilt-maker | Deep water demands a sea whorl on you.
+[1l7atjm] Stilt-maker | Deep water demands a sea Whorl on you.
 == scene: map boathouse
 [11jlr3b] Old man | My boat shed last year. Now I've got two boats and no sea.
 [0ho9xjn] Old man | That one's the boat. That one's its cast. I row both on Sundays. On the floor.
@@ -2856,7 +2856,7 @@
 [04z5056] look | The jetty ends above the Rimwater.
 [17buhjb] look | The Rim appears as a pale line across the water, far in the distance.
 == scene: saltLines
-[0v2e1bb] ? | A lad named Tack came through, bringing a whorl from our pans. Brine and boy, both salty.
+[1jzyifb] ? | A lad named Tack came through, bringing a Whorl from our pans. Brine and boy, both salty.
 [0686304] ? | And that's salt.
 [0bcheut] ? | I hear they're calling it Brack now, the one from our pans. It's a good name. It tastes right.
 [06i5op3] ? | And that's salt.
@@ -2886,7 +2886,7 @@
 
 ==== file: src/content/ring4.ts
 == scene: kelpRing
-[188165j] narration | Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
+[184no7b] narration | Big old Whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
 == scene: ring4
 [0xqd30f] ? | puzzle 6: the chair is reached in {depth} rings, not enough
 == scene: map kelpbeds
@@ -2906,7 +2906,7 @@
 
 ==== file: src/content/ring5.ts
 == scene: gantryCrane
-[0xf380x] hint | An old crane of the Riders. Wear a GEAR whorl to turn its gears.
+[1gc905d] hint | An old crane of the Riders. Wear a GEAR Whorl to turn its gears.
 == scene: ring5
 [0joakcl] ? | puzzle 7: solved in {d} moves. too few.
 == scene: map gantry
@@ -3343,7 +3343,7 @@
 [160yrrm] Register entry: Tegaote | A handhold, worn into the wall by sixty years of touch until it took the shape of a finger. Two cowries. Hold it gently. It is tired.
 [0hujujd] Register entry: Kamopra | Goat! The climbers kept it. It still climbs walls sideways. Two cowries, plus the value of whatever it stands on.
 [1biwln2] Register entry: Pasubame | Swift, which nested at the Auger's peak and never landed lower. It sells for three cowries, up a ladder.
-[12pwh7c] Register entry: Kukira | The draft moving through the Auger's narrow whorls. It got a shell and kept pushing. Two cowries. It will push for one.
+[1ihk7js] Register entry: Kukira | The draft moving through the Auger's narrow Whorls. It got a shell and kept pushing. Two cowries. It will push for one.
 [172v0wp] Register entry: Otosus | The drop beneath the top stair. It kept falling after everyone else stopped, and it falls still. Drop four cowries in and listen for them.
 [0gias0i] Register entry: Huipki | The highest point the Auger has ever reached. It points there still. Up. That way. The five cowries go this way.
 [1qjcd3k] Register entry: Humiri | The low note the Auger hums when air passes through it. This one kept humming on my shelf all night. Three cowries. Please.
@@ -3402,7 +3402,7 @@
 [186f7os] Register entry: Astrolabe | The Tide-reader's grandmother's brass star-measurer. It kept measuring after she died. Six cowries. It measured me. I'm short.
 [0qh2fbq] Register entry: Pallasite | A green-inside fallen star, caught in a shell before hitting sand. It closes when hurt. Seven cowries, worth eight.
 [0ww6fvx] Register entry: Rusumo | A pink bloom from the saltiest pool on the Strand. The water it rests in matches the Conch's lip. Six cowries. Pink if you possess them.
-[0u1uskh] Register entry: Petami | The oldest whorl in the Gleaner's Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.
+[098dpxd] Register entry: Petami | The oldest Whorl in the Gleaner's Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.
 [054xr6e] Register entry: Opaski | The star Gleaner passed, then took. It still points the same way. Seven cowries. Don't ask it for the way home.
 [1ui844f] Register entry: Kotigai | A coiled shell from a beach that's gone. Won't move until you hit it. Then it gives it back! I'd pay the six cowries without arguing.
 [0bgrufs] Register entry: The Gleaner | The Gleaner, seated. Priceless. I do not know who to pay.
@@ -3470,7 +3470,7 @@
 [13xcpg4] menu | Projectile: guards take only 0.25x damage.
 [1c1pvfb] menu | Spell: ignores walls. Silence prevents its effect.
 [0zsw8at] menu | Channel: Ends on a stun, silence, or switch.
-[13frs6l] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.
+[192b3yl] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf Whorl takes 0.5x.
 [0f6mx4f] menu | Quick: Goes first.
 [0j3dz24] menu | Late: Acts after the enemy in the round.
 [1856v6d] menu | Splash: Each reserve foe takes a portion of the damage.
@@ -3731,7 +3731,7 @@
 [1k38xdz] menu | Max {max} letters allowed.
 [0ku32fs] menu | Use only name-screen letters.
 == scene: whorlProblems
-[0yiskio] menu | isn't a whorl.
+[00abkqo] menu | isn't a Whorl.
 [04biyac] menu | bears a name the name screen cannot render in {WHORL_NAME_MAX} characters.
 [0kpv3bw] menu | holds a notion the game does not know.
 [0t3ycz2] menu | bears a starborn sigil that defies reading.
@@ -3752,16 +3752,16 @@
 [0c3xudq] menu | is a fit with a retune it cannot make.
 [1s4ye7p] menu | is a fit with a look that cannot be drawn.
 == scene: teamProblems
-[1v73qxv] menu | A roster is a collection of whorls.
-[1hhsfap] menu | Each roster contains {ROSTER_SIZE} whorls.
-[1hsw96i] menu | Two whorls hold {#1}. A roster takes each notion once.
+[0pgcvur] menu | A roster is a collection of Whorls.
+[1669f81] menu | Each roster contains {ROSTER_SIZE} Whorls.
+[1khdmca] menu | Two Whorls hold {#1}. A roster takes each notion once.
 [0ej9pf0] menu | {#1} appears on this roster twice: within {first} and within {who}.
 [0qls52r] menu | Max one legendary per roster. A fit with a legendary parent counts. {legends} is here.
 == scene: pickProblems
-[0fto77h] menu | A pick is a selection of whorls drawn from the roster.
-[0cjxhed] menu | Each pick contains {TEAM_SIZE} whorls.
-[0xt6shx] menu | A pick identifies a whorl that is absent from the roster.
-[0z8bz1p] menu | A pick repeats a whorl.
+[1lip0kd] menu | A pick is a selection of Whorls drawn from the roster.
+[018ehbp] menu | Each pick contains {TEAM_SIZE} Whorls.
+[1svyip1] menu | A pick identifies a Whorl that is absent from the roster.
+[111ovm5] menu | A pick repeats a Whorl.
 
 ==== file: src/game/api.ts
 == scene: cart
@@ -3775,17 +3775,17 @@
 [1g4ore1] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
 [1cg57er] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
 [0la9v9a] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
-[1mjsbar] menu | This always works on a wild whorl.
+[0a39xar] menu | This always works on a wild Whorl.
 == scene: act
-[02w5cbk] menu | No whorls to contain it.
+[0q5p2kg] menu | No Whorls to contain it.
 == scene: pick
 [0hyqrr8] menu | {m.name} holds no notion.
 [1kt3hlu] menu | {#1} has been retrieved.
 [02j7x8i] menu | {m.name} is already occupied.
 [0kvtnu1] menu | {m.name} is now holding {e.name}.
 == scene: drawSub
-[1gqita2] menu | Which whorl?
-[0j3b4ip] menu | To which whorl?
+[0crzbh6] menu | Which Whorl?
+[1anhs5d] menu | To which Whorl?
 
 ==== file: src/game/battleView.ts
 == scene: foeMsg
@@ -3801,7 +3801,7 @@
 == scene: finishBattle
 [04vgo5w] menu | {full.mon.name} subsides, then rises again, diminished.
 [1rmew1j] menu | {f.mon.name}'s {n.name} has been lost.
-[1e5jd0p] menu | Each whorl in your team takes {xp} experience.
+[1hjepl5] menu | Each Whorl in your team takes {xp} experience.
 [07r8cif] menu | Level {cap} is the maximum the pearls permit.
 [0nmtes2] menu | The bounty awards {bounty} cowries.
 [1iny0e0] menu | Your entire team is defeated.
@@ -3809,31 +3809,31 @@
 [1o58ejl] menu | refuses to curl into the horn.
 == scene: showInfo
 [052kl4f] menu | Its passives are temporarily suppressed.
-[05kid4x] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out whorl moves to the back of the line.
+[1l5sfc1] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out Whorl moves to the back of the line.
 [15kag3h] menu | Fog covers {#1} bench for {#2} rounds: nothing from the other side reaches the reserves.
-[16275ae] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next whorl to emerge consumes it.
+[111zzxi] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next Whorl to emerge consumes it.
 [15voyww] menu | {#1} side can run up to {cr} tide into debt to pay for a crest.
 [18tvcqb] menu | {#1} side owes {#2} tide: incoming tide first pays down this debt.
 [1dshl3x] menu | {#1} side is locked for {#2} rounds: its switches go after the other side acts in joint rounds.
 [0twoj84] menu | {#1} of {#2} tide is pink for {#3} rounds: this tide cannot be used to pay for a crest.
 [1r1ndx3] menu | {#1} crests cost {#2} {#3} tide for {#4} rounds.
 [13gdp17] menu | {#1} is airborne for {o.up} more turn{#3}: dashes from the ground cannot reach it, and ground-based interactions do not affect it.
-[1ctwimj] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other whorls.
+[1pn95d7] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other Whorls.
 [147v5rj] menu | {#1} triggers {#2}, in that sequence. then {#3}: {#4}
 [10u4r83] menu | {#1} guards {#2} from reserve: a foe that strikes {#3} is subject to it.
 [0323ujn] menu | {#1} intercepts all heals intended for {#2}: each heal is redirected to {#3} instead.
-[06zek28] menu | {#1} is Silent: no other whorl's passives, stances, or holes detect its actions.
+[064jr8w] menu | {#1} is Silent: no other Whorl's passives, stances, or holes detect its actions.
 [0xd46mk] menu | {#1}'s next attack or move is stored in the cave and returns later.
 [02r7ki5] menu | {#1}'s {#2} is stored in the cave and will return soon.
 [0glf9fi] menu | {#1} maintains its lock on {#2}: its single-target moves hit that target, whether in play or in reserve.
 [0crnejw] menu | Low Water lasts for {#1} rounds: a star falls every round, and attacks generate no tide.
-[0zuxh06] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out whorl for {#3}% each turn.
+[1ncrz92] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out Whorl for {#3}% each turn.
 [06038ui] menu | {#1} rides {#2}, consuming {#3}% of its max HP each turn its side takes action.
 [11bwr3s] menu | {#1} vs {#2}. {#3}-{#4}. {bt.left} left. No switch. More damage wins. First to 2 wins Empower 2 + 15% heal. Loser gets Stun 1.
-[1pvispe] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+[1ja0ocy] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out Whorls: a TIDE Whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
 [0wo71eb] menu | Wind hits {#1} side for {#2} rounds: throws with it do 1.2x, against it 0.8x.
-[0rjpbd4] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out whorl leaves.
-[1mcbt9h] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out whorl leaves.
+[1m2ll7s] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out Whorl leaves.
+[17jz0ed] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out Whorl leaves.
 [1gvo9li] menu | {#1} has {due} damage over time remaining. If the timer expires, all accumulated damage hits at once.
 [027kit9] menu | {#1} and {#2} have swapped bodies for {o.swap.turns} more of {#4}'s turns. each now uses the other's appearance, types, passives, and moves. if either leaves the field, the swap ends.
 [1xho9uc] menu | {#1} waits: when the other side acts, it casts {#2} first.
@@ -3841,7 +3841,7 @@
 [1gcc94m] menu | A mirage over {#1} shows the foe {o.mirage.hp} more HP than it has, for {o.mirage.turns} more of its turns.
 [006bovs] menu | {#1} shimmers: a mirage may display more HP than it actually has.
 [1cwjq2s] menu | {#1} is Fractured for {o.fracture.turns} more turn{#3}: no healing can restore its HP above {#4}.
-[13mbqhd] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the whorl becomes Stunned 1.
+[11wi5wx] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the Whorl becomes Stunned 1.
 [0tn5d5b] menu | {#1} is in cold storage for {r.stored.turns} more turn{#3}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals {#4}% of its max hp each turn.
 == scene: updateSwitch
 [0g7gjzl] menu | {#1} is up next.
@@ -3880,8 +3880,8 @@
 == scene: say
 [1gb4gyn] menu |  If it hits: +1 tide.
 [0u8izn2] menu | Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can't be forced out.
-[1bi4jip] menu | Your side is trapped, so the foe acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
-[0jxn9um] menu | Acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
+[10pgvgx] menu | Your side is trapped, so the foe acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
+[0kshdni] menu | Acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
 [06e769r] menu | Catch it with a horn. The weaker the foe, the more likely it curls inward.
 [0oz7wrk] menu | Acts first in a round. Leave. It always succeeds.
 [14z5ho8] menu | Wait for the foe to act, then choose. Reads of a waiting foe see you wait.
@@ -3897,7 +3897,7 @@
 == scene: fightTrainer
 [0x75f6u] menu | {tr.nacre} nacre gained. Any grotto can layer it on.
 == scene: encounter
-[1eu1xg5] menu | (Out here, your whorls fight at their Strand level. It begins at 3.)
+[1ehtv91] menu | (Out here, your Whorls fight at their Strand level. It begins at 3.)
 [0exjpou] menu | (It rises only on the Strand. Moves, habits, notions, and nacre all travel with them.)
 [05k78tm] menu | {m.name} has joined your squad.
 [1khg13o] menu | {m.name} heads to the Midden.
@@ -3919,6 +3919,7 @@
 [1w1be0g] menu | Start new game in which file?
 [16q8hjm] menu | Restart file {#1}?
 [1u7svj0] menu | The save will be lost.
+== scene: help
 [1pzvcdp] menu | Z picks. Arrows move. X back.
 [17lfzgt] menu | Press C to export or import a .whorl file.
 == scene: files
@@ -3933,7 +3934,7 @@
 == scene: draw
 [1fjukvu] menu | Customize appearance?
 == scene: fitterMenu
-[0ivwo8h] menu | Two whorls required. You have one.
+[0ev3hqp] menu | Two Whorls required. You have one.
 == scene: ia
 [1t3z23f] menu | Fit which first?
 == scene: fitterMenu
@@ -3966,8 +3967,8 @@
 
 ==== file: src/game/items.ts
 == scene: items
-[1focmzz] item | For 150 steps, wild whorls in the grass will avoid Ouro.
-[0o2399m] item | The next wild whorl that appears on this map will be its rarest species.
+[0obzbm7] item | For 150 steps, wild Whorls in the grass will avoid Ouro.
+[19haszu] item | The next wild Whorl that appears on this map will be its rarest species.
 [0u1w5ke] item | The cart appears once on any road or beach, taking Ouro to a town they have visited.
 [1twb982] item | Glass smoothed by the sea, green in hue. Grottos purchase it.
 [1gkafvl] item | A block of pan salt. Grottos buy it.
@@ -3981,11 +3982,11 @@
 ==== file: src/game/menus.ts
 == scene: rowsOf
 [0ibbifc] menu | Each layer grants {#1} to a single stat or {#2} to HP at level {lv}, capping at {TAN_PER_STAT} layers in any one stat.
-[1e11oaw] menu | Roughly one in four hundred wild whorls displays night-sky hues and sparkles.
+[0nvnlgo] menu | Roughly one in four hundred wild Whorls displays night-sky hues and sparkles.
 == scene: draw
 [1h39pzz] menu | {lr} Scroll/X to exit.
 == scene: fourMenu
-[0bb0l54] menu | {HERO} has no whorls yet.
+[1eiwcbs] menu | {HERO} has no Whorls yet.
 [1k4ou9c] menu | {HERO} takes the {#2}.
 == scene: giveNotion
 [0ch6mzu] menu | {HERO} lacks any notions.
@@ -3993,13 +3994,13 @@
 
 ==== file: src/game/middenScreen.ts
 == scene: move
-[0dg13h6] menu | Your team needs one whorl.
+[0qdycoq] menu | Your team needs one Whorl.
 [1vn9in2] menu | {m.name} is sent to the Midden.
 [1e5gokq] menu | {m.name} joins your team.
 == scene: swap
 [07m1heg] menu | {b.name} enters, {a.name} goes to the Midden.
 == scene: head
-[0q8kc7n] menu | Swap with which team's whorl?
+[0rcmrlf] menu | Swap with which team's Whorl?
 
 ==== file: src/game/minigames/pegboard.ts
 == scene: note
@@ -4059,7 +4060,7 @@
 [0tfviqv] menu | {now.name} has no layers.
 == scene: drawPanel
 [00e5grx] menu | Remove all {#1} layers from {m.name}?
-[03hpo49] menu | A whorl can hold up to {TAN_TOTAL} layers.
+[177vxbt] menu | A Whorl can hold up to {TAN_TOTAL} layers.
 [0fodqs5] menu | A stat can hold up to {TAN_PER_STAT} layers.
 [0z5qycr] menu | You are out of nacre to apply.
 [0yz4utg] menu | A layer grants {name} {#2} for 1 nacre.
@@ -4083,7 +4084,7 @@
 [1lrzdkq] menu | The fight begins.
 [0ckznn8] menu | V examines it.
 [1p5xpor] menu | Awaiting {#1}. X modifies it.
-[0in4ig4] menu | Z sends your four whorls.
+[18uopfo] menu | Z sends your four Whorls.
 [1eu2mcb] menu | Z flags it. V inspects it.
 == scene: endReason
 [027izam] menu | You gave up.
@@ -4116,7 +4117,7 @@
 [085zs49] menu | {this.name} requests a rematch.
 [02ja7iz] menu | Link closed.
 == scene: draw
-[1finv5x] menu | The rematch generates new whorls.
+[0k39vvp] menu | The rematch generates new Whorls.
 [0eluul3] menu | The rematch retains both teams.
 [13qikfk] menu | Press Z to go back.
 [0zqf1d8] menu | Z types, X deletes, V done.
@@ -4124,13 +4125,13 @@
 [12tj6bj] menu | Generates a link for anyone else seeking a match. A match is the best of three games.
 [0309hfk] menu | Creates a one-time code for a friend, valid for 15 minutes.
 [050ko7p] menu | Uses a friend's code.
-[0ybh9jm] menu | Each side receives six random whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
+[1gev8ky] menu | Each side receives six random Whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
 [1ih7l1i] menu | Six to display, four to battle, all at level 25.
 [1ld4of2] menu | Go back to the counter.
 == scene: lines
 [1f751k5] menu | Returns to the match the page left. The room holds the seat for 90 seconds.
 == scene: r
-[0cac1xn] menu | Random encounter: six whorls each.
+[1bywzhn] menu | Random encounter: six Whorls each.
 
 ==== file: src/game/practice.ts
 == scene: draw
@@ -4145,7 +4146,7 @@
 == scene: k
 [0csa9fd] menu | Contains nothing.
 == scene: hint
-[1wnelma] menu | Z modifies this whorl. V examines it.
+[1ogthci] menu | Z modifies this Whorl. V examines it.
 [1wx1nfw] menu | Z begins with these teams.
 [1bd2fn1] menu | Z selects. X returns to the title screen.
 
@@ -4662,10 +4663,10 @@
 
 ==== file: src/data/kits1.ts
 == scene: kits1
-[1bi3y7y] passive Piled High | A Stone, up to 6, when hit or when any whorl comes out. Each cuts damage taken 4%.
-[0sfhaxb] passive Points the Way | Reserve: your out whorl takes 0.92x. Coming out: the foe's weakest is next out.
+[1l6msbi] passive Piled High | A Stone, up to 6, when hit or when any Whorl comes out. Each cuts damage taken 4%.
+[1mlmo4v] passive Points the Way | Reserve: your out Whorl takes 0.92x. Coming out: the foe's weakest is next out.
 [0bqch86] move Top Stone | Hits for 125% ATK + 6% max HP. Throws a Stone: +30% ATK. 3 Stones: Stun 1.
-[06wctc7] summon Little Cairn | Takes every single-target hit meant for your out whorl. When knocked down: Kivishi gains 2 Stones.
+[1xjmy3r] summon Little Cairn | Takes every single-target hit meant for your out Whorl. When knocked down: Kivishi gains 2 Stones.
 [1wu48i1] move Little Cairn | Hits for 60% ATK. Summons a Little Cairn (18% of its max HP, 3 turns).
 [18o8wgx] move Catch a Stone | Blocks the next hit before its next turn. Returns 40% of it. +2 Stones.
 [0bx17i9] move Tumbledown | Wind-up. Hits for 112% ATK + 22% per Stone. Splash 50%. Spends the Stones.
@@ -4675,9 +4676,9 @@
 [1dcchvi] move Shingle Spray | Hits 4 times for 28% ATK.
 [0nybyex] move Slip Shove | Wind-up. Hits for 128% ATK and forces the foe out. If it can't go: Stun 1.
 [10kn3l3] move Bury Cobbles | Hits for 70% ATK. Summons 2 Cobbles (6% of its max HP each).
-[0iiyhje] move Shingle Bank | Hits for 128% ATK. Neither out whorl can switch for 3 turns. Haste 3.
+[15xxr3e] move Shingle Bank | Hits for 128% ATK. Neither out Whorl can switch for 3 turns. Haste 3.
 [0yudzpw] passive Swivel Base | When it uses a move: its other cooldowns drop by 1, except its crest.
-[0n03lp4] passive Bears the Weight | In reserve: it takes 30% of each hit on your out whorl, down to 1 HP of its own.
+[1870s1k] passive Bears the Weight | In reserve: it takes 30% of each hit on your out Whorl, down to 1 HP of its own.
 [1rw11nm] move Barnacle Cut | Hits for 167% MGK. Slow 2. A foe that was already Slowed: Poison 3.
 [1j31wjx] move Top Pool | Heals an ally 54% CHA + 6% max HP. Hits for 86% MGK + 60% of the heal.
 [0ipw43t] move Step Up | Expose 2. Swaps in an ally: Fortify 2. Bears 50% of hits on it for 3 turns.
@@ -4711,7 +4712,7 @@
 [1bfxi7w] move Craze Line | Hits for 63% ATK. Splash 35%. Root 1. A foe up off the ground comes down.
 [094v0kh] move Heel Down | Its next attack deals 2x and Slow 2, and each foe reserve takes 40% ATK.
 [1de1u4z] move Roll Downhill | Hits for 71% ATK. Interrupts. Delays the foe's next turn by 40%.
-[0uzyn4d] move Ground Rings | Wind-up. Hits for 107% ATK, +10% per whorl standing. Splash 60%. Stun 1.
+[0r5a44t] move Ground Rings | Wind-up. Hits for 107% ATK, +10% per Whorl standing. Splash 60%. Stun 1.
 [0e4wz8i] passive Deep Draw | Its heals are 1.3x on allies below 40% HP.
 [1nxyxbv] passive Full Bucket | When Bucket Drop deals damage: Regen 2 (4% of max HP each turn).
 [0vebl50] move Bucket Drop | Hits for 155% MGK. Slow 1. Heals itself 4% of its max HP.
@@ -4755,13 +4756,13 @@
 [1xg51rz] move Brine Flood | Hits for 70% MGK. Splash 35%. Slow 2.
 [0w3ipyg] move Dry Up | Hits for 120% MGK. Deals 2x damage to a foe below 40% HP.
 [1km3qpb] passive Spun Round | When it forces a foe out or drags one in: a shield of 12% of its max HP.
-[0x2x68a] passive Makes You Turn | In reserve: your out whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.
+[02cozca] passive Makes You Turn | In reserve: your out Whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.
 [1lgo4h8] move Dizzy Wave | Hits for 56% MGK. Splash 35%. Expose 1. Dizzy 1.
 [0p18gkl] move Spin Bolt | Hits for 95% MGK, 1.4x on a Dizzy foe. Stun 1.
 [0ttoznq] move Hand Round | Switches to an ally: Empower 1, and its first turn comes 40% sooner.
 [1rhhoo7] move Whirlpool | Drags in a reserve. Hits it for 84% MGK. Stun 1. Dizzy 2. Then switches out.
 [1lhc7ge] passive Buckthorn | When hit: returns 15% of the damage. Its moves add 25% DEF to their damage.
-[1baqaaf] passive Hedged In | A dash that hits it gets caught in the hedge: Root 2 on the whorl that dashed.
+[0e5rcfr] passive Hedged In | A dash that hits it gets caught in the hedge: Root 2 on the Whorl that dashed.
 [0fbhfv7] move Roll Across | Hits for 54% ATK + 25% DEF, and the first reserve for half. Slow 1.
 [1yrayi9] move Bristle Up | Thorns 2 (returns 40% of damage taken). Fortify 2.
 [0digz3g] move Catch a Sleeve | Hits for 42% ATK. Taunt 2: it takes 1.25x from Yabuko till then.
@@ -4774,7 +4775,7 @@
 [1dmqdbb] move Rot Down | Hits for 45% MGK, then deals all of the foe's remaining Poison at once.
 [09znlwc] move Through Roots | Hits for 80% MGK. Poison 4. Rot 2. Each reserve gets Poison 2.
 [14a9y8g] passive Hooked On | Hooks, up to 5, last 4 turns and stick to the next foe out. +6% damage per Hook.
-[008e2x7] passive Catches On | Takes 0.8x from attacks while Hasted. A whorl that dashes into it gets 2 Hooks.
+[0trt78r] passive Catches On | Takes 0.8x from attacks while Hasted. A Whorl that dashes into it gets 2 Hooks.
 [0qmq60u] move Hook On | Hits for 59% ATK. 2 Hooks.
 [11trsz0] move Seed Burst | Hits for 60% ATK. Splash 35%. A Hook on each foe. Bleed 2. Delays it 20%.
 [17v865z] move Hitch a Ride | Haste 2. At its next 2 turns: Bleed 1 and a Hook on the foe.
@@ -4812,7 +4813,7 @@
 
 ==== file: src/data/kits2.ts
 == scene: kits2
-[1o1t1k5] passive Epicycle | In reserve, every 3rd turn your side takes: your out whorl's non-crest cooldowns drop 1.
+[1dhtjlx] passive Epicycle | In reserve, every 3rd turn your side takes: your out Whorl's non-crest cooldowns drop 1.
 [1u2vh50] passive Conjunction | Two Planets on one foe come down at once, with Stun 1.
 [0b1f17a] move Set Orbit | Hits for 98% MGK. A Planet orbits the foe's line: 20% MGK a stop, 115% after 3.
 [15s75f5] move Spin Faster | Hits for 59% MGK. Every Planet moves on 1. Its other non-crest cooldowns drop 2.
@@ -4824,7 +4825,7 @@
 [1g67hjz] move Full Swing | Hits for 60% ATK. Splash 50%. Haste 2, then Slow 1 when it ends.
 [0wo01uw] move Lift and Drop | Goes up 2 turns: dashes can't reach it. Its next attack drops: 1.6x, Stun 1.
 [13d11ko] move Drop the Load | Hits for 108% MGK. Splash 35%. Delays the foe 30%. Up high: 1.4x.
-[0s8ukki] passive Sea Breeze | In reserve: a Slow on your out whorl turns into Haste 1.
+[0g8mxky] passive Sea Breeze | In reserve: a Slow on your out Whorl turns into Haste 1.
 [10cqwu4] passive Light Vanes | Immune to Slow and to delays.
 [1yyri5r] move Vane Cut | Hits for 92% MGK. Slow 1.
 [04y91lp] move Whirlwind | Wind-up. Hits for 84% MGK. Stun 1. Blows away foe summons and every Drop.
@@ -4850,7 +4851,7 @@
 [0vc3m3i] move Hold Pressure | Moves to Far. Until its next turn: takes 0.4x. If hit: next In Stroke deals 1.5x.
 [1uzj0vt] move Long Stroke | Untouchable 1. At its next turn it comes down: 101% ATK, Splash 35%, Slow 2.
 [0t8m4hh] passive Builds Charge | Its damaging moves add a Charge to the foe. A foe at 3 Charges: Stun 1, and they go.
-[173ob1m] passive Static | Charges jump across a dash or an Attack between two whorls. It starts with 2 Charges.
+[1d62b2i] passive Static | Charges jump across a dash or an Attack between two Whorls. It starts with 2 Charges.
 [0crdjae] move Brush Spark | Hits for 136% MGK.
 [03rs4oc] move Jump the Gap | Hits for 105% MGK. On a foe with a Charge: 1.5x damage, 1 more Charge.
 [1xvygem] move Spin Up | Haste 2. Fortify 1. A Charge on the foe, and 2 on itself.
@@ -4925,7 +4926,7 @@
 [0i2zjpw] move Tail Sweep | Hits for 42% MGK + 40% DEF. Splash 35%. Weaken 2.
 [0freguz] move Strike Home | Unstoppable wind-up. Hits for 117% MGK. Splash 35%. Stun 1.
 [1oymwy2] passive Third Band | Every 3rd hit on the same foe: also hits for 30% MGK, heals 5% max HP.
-[0h9syoc] passive Green Cover | In reserve: your out whorl takes 0.9x magic damage.
+[1fgfne4] passive Green Cover | In reserve: your out Whorl takes 0.9x magic damage.
 [1cqkdrs] move Fold Back | Hits for 68% MGK. At its next turn: hits for 40% MGK.
 [1vipfec] move Flicker | Ward 1. Haste 2. Fold Back's cooldown resets.
 [09sxykn] move Green Bands | Hits for 52% MGK. Splash 35%. Slow 2. Delays it 20%. Fogs your bench 2 rounds.
@@ -4937,8 +4938,8 @@
 [0xbhuf8] move Flash Over | Hits for 52% MGK. Slow 1. Its next turn comes 30% sooner. Readies Same Place.
 [1dufmi3] move Whole Sky | Hits for 105% MGK, 1.2x on any foe below 50% HP. Splash 35%.
 [19lf2wo] passive Brightening | When it uses a move: +5% damage, up to 3 times. Its shields last +1 turn.
-[0j744bz] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out whorl heals 8% a turn.
-[00jwz0p] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP whorl heals 30% of it.
+[0dj2xqn] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out Whorl heals 8% a turn.
+[1wyy1bd] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP Whorl heals 30% of it.
 [18axld6] move Hover Over | Heals an ally 12% max HP + 11% CHA. Haste 1. Haloed 2: if it falls, it glows on.
 [117vxxe] move Lit Rim | Hits for 79% MGK. Next attack: +15% foe missing HP, and 40% MGK to reserves.
 [0lpdo6k] move Crowned | Cleanses an ally. It is Untouchable for 2 turns.
@@ -4983,7 +4984,7 @@
 [094b3t7] move Pick Clean | Hits for 49% MGK. Its next 2 turns: 35% MGK, heals 60% of it, takes a good status.
 [0tt26g0] move Crows Come In | Wind-up. Hits for 93% MGK. Splash 35%. Every foe: Afraid 1. Next 2 turns: 45% MGK, Splash 35%.
 [069fmtu] passive Leaves a Blade | Its hits lodge a Blade, up to 8, for 3 turns. When it attacks: its next turn comes 20% sooner.
-[0rzfcpd] passive Spare Blades | In reserve: hits by your out whorl lodge Blades too.
+[0j062up] passive Spare Blades | In reserve: hits by your out Whorl lodge Blades too.
 [1jex0z3] move Nick | Hits for 179% ATK. 1 Blade, or 2 on a foe that came out since its last turn.
 [05uir1n] move Draw Blades | Pulls every Blade: 48% ATK + 59% ATK each. Slow 1. A KO resets its cooldown.
 [0nlfmwc] move Score | Hits for 124% ATK. Expose 1. Doubles the foe's Blades, up to 8.
@@ -5011,7 +5012,7 @@
 [004srh9] move Tunnel Past | Hits for 50% ATK. Its next turn comes 40% sooner.
 [1de8sxl] passive Cold Store | Its hits add Slow 1. Every 4th hit on the same foe: Silence 1.
 [0mqaaov] passive Fills Back Up | Once per battle, below 25% HP: for 1 turn, damage heals it instead.
-[0hq3t2w] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP whorl heals 30% of it.
+[1m3co60] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP Whorl heals 30% of it.
 [0zuyvqg] move Top Shelf | Cleanses an ally. Shield 18% max HP, 3 turns. If it breaks: 60% ATK to the foe.
 [1t6pn4e] move Frost Bite | Hits for 62% ATK. Silence 1. Slow 2. Its moves still cooling wait 1 more turn.
 [1hqgm0w] move Bad Months | For 2 turns: damage heals it instead. Its reserves go into cold storage, 10% a turn.
@@ -5096,7 +5097,7 @@
 [0h6u2x1] move Wave the Claw | Hits for 50% ATK. Taunt 1. Its next attack deals 1.7x damage.
 [1qvap97] move Claw Raised | Attacks and dashes deal it 0 till its next turn. Then: 90% ATK +30% per blow. Splash 35%.
 [0x8ubqv] move Regrow Claw | Hits for 148% ATK. Fortify 3. For 3 turns its attacks also hit each reserve for 40%.
-[00a2yfo] summon Reflection | Takes single-target hits meant for your out whorl. 3 turns.
+[12212pg] summon Reflection | Takes single-target hits meant for your out Whorl. 3 turns.
 [0v68bl9] passive Reflected | Starts with a Reflection (5% max HP, 3 turns). Every 4th attack: another.
 [1pif548] passive Many Places | When it attacks: each Reflection also hits for 15% MGK.
 [001j404] move Heat Glint | Hits for 85% MGK. Slow 1. A Reflection if it has none.
@@ -5141,7 +5142,7 @@
 [0xx0ce0] move Fire a Friend | Hits for 50% ATK. Stun 1. Switches to an ally.
 [1i2bv5m] move Late Shot | Hits for 36% ATK. Splash 35%. Its next 3 turns: 60% ATK, Splash 35%, Slow 1.
 [120n8g0] summon Spray Column | Stands 3 turns. While it stands, Whitewater makes each foe move cost that foe 60% MGK.
-[0d3a9we] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out whorls.
+[03s9c3i] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out Whorls.
 [11zprwk] passive Whitewater | While its Spray Column stands: each foe move costs that foe 60% MGK. Deals 1.15x.
 [0bguo89] move Crash Down | Hits for 84% MGK. Splash 35%.
 [0fasu1i] move Curl Over | Hits for 40% MGK. For 2 turns: attacks deal the foe 0, moves deal it 1.4x.
@@ -5162,7 +5163,7 @@
 [0ggle5k] passive Floats | If nothing hit it since its last turn: its next move deals 1.25x and adds Root 1.
 [085lnwm] passive Bleached | Its moves add 4% of its max HP against a Rooted foe.
 [0lscfpz] move Waterlog | Hits for 131% MGK. Slow 1. 1.5x on a Rooted foe.
-[1q3b25z] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out whorl.
+[01lzwlz] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out Whorl.
 [0lxrozw] move Bark Coat | An ally's next 3 hits deal 0.7x and each heals it 5% max HP.
 [1lgsdcd] move Washed Up | Hits for 119% MGK. Splash 35%. Every foe: Root 2. The foe's side loses 2 tide.
 [1tvk52e] passive Buoyant | Its heals are 1.3x on allies with a bad status.
@@ -5228,7 +5229,7 @@
 [0h3b30i] move Slide Along | Hits for 100% ATK. Its next turn comes 25% sooner.
 [0m186rr] move Open Hymnbook | Summons a Hymnbook (12% of its max HP, 3 turns).
 [147boly] move Box Pew | Hits for 100% ATK + 8% of the foe's missing HP. Slow 1. Its Seat moves to it.
-[1bicomw] move All Kneel | For 2 turns, neither out whorl can fall below 10% HP.
+[042k314] move All Kneel | For 2 turns, neither out Whorl can fall below 10% HP.
 [03j8dx9] passive Reliquary | When it KOs a foe: wears its body 3 turns, then keeps its second move in a fifth slot.
 [11g9lcu] passive Under Glass | In a worn body: takes 0.85x damage. Putting one on heals 15% max HP.
 [1x6i33q] move Gilt Edge | Hits for 161% MGK + 6% of the foe's current HP.
@@ -5279,9 +5280,9 @@
 [1hqr9ki] move Pull Clod | Hits for 85% ATK. Its next turn comes 20% sooner. Spends a Lump: Stun 1.
 [0vjsv0e] move Pack Earth | Drags in a reserve. Hits it for 80% ATK. Spends a Lump: Silence 1.
 [1xcsuqt] move Earthen Hold | Spends every Lump: hits for 100% ATK, +25% per Lump. Next 3 turns: 30% ATK to it.
-[0pe0wqa] summon Root Friend | Takes single-target hits for your out whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
+[1214e8i] summon Root Friend | Takes single-target hits for your out Whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
 [0z7ku39] passive Green Hand | Its heals and shields are 1.15x.
-[0pt1qu0] passive Whiplash | In reserve: Root 1 on a foe that hits your out whorl, once a turn. Hitting a Seed Shield: Root 1.
+[1s0l3qw] passive Whiplash | In reserve: Root 1 on a foe that hits your out Whorl, once a turn. Hitting a Seed Shield: Root 1.
 [1ml0j3n] move Root Pull | Hits for 163% MGK. Root 2. Its next turn comes 20% sooner.
 [1xe61el] move Seed Shield | Shields an ally 15% max HP + 25% CHA. When it ends: 60% MGK, Slow 2.
 [1uj5sg8] move Leafing | Ally: Regen 2 (7% a turn), and its next attack deals 1.4x. Hits the foe for 59% MGK.
@@ -5302,7 +5303,7 @@
 ==== file: src/data/kits4.ts
 == scene: kits4
 [0ealxmo] passive Glazing | Glaze cracks for 10% of the foe's max HP on a guard, a Stun, a Root, or its dash.
-[180t3il] passive Hearth | Boosted moves deal 1.15x: its own, and your out whorl's while it is in reserve.
+[0aaq3sd] passive Hearth | Boosted moves deal 1.15x: its own, and your out Whorl's while it is in reserve.
 [1jze73z] move Clinker | Hits for 119% ATK. Slow 1. Glazes the foe for 3 turns.
 [1y02qm3] move Into the Kiln | Fires a move you pick: locked 1 turn, then 1.4x for 2 uses. Unstoppable 1.
 [1qkkyqg] move Pillar Charge | Hits for 119% ATK. On a Glazed foe: 1.4x and Stun 1.
@@ -5314,16 +5315,16 @@
 [1ijt1qs] move Belt Speed | Haste 2 and Fortify 1 on it and its Coupled ally. Pays 6% max HP.
 [0m4jsjl] move Carry Over | Couples an ally and switches to it: heals 15%, acts at once.
 [001dzpu] passive Clear Signal | Tune In on the same band as last time deals 1.25x, and your team heals 5% of max HP.
-[1kfyhdp] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out whorl's spells add 15% MGK.
+[17pq3kt] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out Whorl's spells add 15% MGK.
 [1igsj6m] move Static Flash | Hits for 111% MGK. Weaken 1. Delays the foe's next turn by 20%.
 [1e3abzt] move Crosstalk | Hits for 75% MGK. The foe's ready moves wait 1 more turn. 1 tide.
 [1skxokz] move Dead Air | Hits for 60% MGK. Stun 1. Every foe can't use the kind you pick for 3 turns.
 [07ldbpo] passive North Point | Deals 1.2x to the foe lowest on HP. Every 3rd attack heals your team 5% of max HP.
-[1oiisr7] passive Beside You | Once, in reserve: your out whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
+[180f4oj] passive Beside You | Once, in reserve: your out Whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
 [1o2nhtn] move Spin on Pin | Hits 2 times for 35% ATK. Slow 1.
 [1b8tmga] move Throw Arrow | Hits the foe lowest on HP, even in reserve: 34% ATK. Returns: 19% ATK. Haste 1.
 [1q42854] move After It | Hits for 85% ATK. If its arrow is out: catches it, then 40% ATK and Stun 1.
-[1wn5cda] move Land Beside | Your lowest-HP whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
+[1fapwqm] move Land Beside | Your lowest-HP Whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
 [0f1v1kd] passive Eject | Once, in reserve: it swaps in for an out ally about to be KO'd, which keeps 1 HP.
 [007l7qz] passive Drogue Chute | Takes 0.5x until its first turn out. Deals 1.15x and takes 0.85x against a Slowed foe.
 [1n6rjsx] move Hot Drop | Hits for 46% MGK. Splash 40%. Slow 1. Burn 2 (18% MGK each turn).
@@ -5363,12 +5364,12 @@
 [0u3xun2] move Calving Face | Wind-up. Hits for 140% MGK. Splash 35%. Rot 3. Below 15% HP after: KO'd.
 [1s4deva] passive Sleepy Sea | When it heals an out ally at least 5% of its max HP: that ally's next turn comes 20% sooner.
 [107h0uu] passive Sea Born | When a foe wakes from its dream with damage held: your team heals 10% of max HP.
-[1cat43j] move Undertow Mend | Hits for 76% MGK. Your lowest-HP whorl heals 35% of it.
+[1brkhen] move Undertow Mend | Hits for 76% MGK. Your lowest-HP Whorl heals 35% of it.
 [05qlget] move Lullaby | Wind-up. Sleep 2. Dreaming: hits wait, then land at 1.25x when it wakes.
 [0umfaz5] move Seal Bite | Hits for 72% MGK. 1.5x on a sleeping foe. Slow 1. Heals 8% of its max HP.
 [0fbqidz] move Seven Waves | Hits for 100% MGK. Splash 35%. A sleeping foe takes 2x. Stun 1. Slow 2.
 [0np2vca] passive Third Tusk | Every 3rd blow it lands on the foe deals 2x. Its count shows above it.
-[0o05rm8] passive Haul Out | In reserve: your out whorl's dashes deal 1.15x.
+[0vbkiuo] passive Haul Out | In reserve: your out Whorl's dashes deal 1.15x.
 [08ehhpi] move Flipper Slap | Hits for 85% ATK. Slow 1.
 [0jhww5u] move Herd Roll | Wind-up. Hits for 90% ATK, +20% per other ally standing. Stun 1.
 [0u5mi64] move Tusk Gouge | Hits for 68% ATK. Splash 35%. Root 2. Breaks a guard this round, for 2x.
@@ -5409,7 +5410,7 @@
 [0qab5n4] move Guy Rope | Hits for 100% MGK. Root 2. After the foe's next turn: it takes 50% MGK.
 [1n0jwx1] move Plant Pole | Shields an ally 15% of max HP. It gets Haste 1, and its next move reaches wide.
 [08kqj4n] move Snap Out | Its next move reaches wide (reserves too), or its next 2 tight (1.4x, one foe). Heals 6% max HP.
-[00wvr9t] summon Whetstone | Each turn: your out whorl heals 6% of its max HP.
+[1speomp] summon Whetstone | Each turn: your out Whorl heals 6% of its max HP.
 [0e8rtgx] passive Keen Edge | Every 3rd hit it lands on the foe deals 1.3x and heals it 15% of the damage.
 [1qyh2ok] passive Spin Through | While spinning: immune to Stun and Silence.
 [0z80vyj] move Pommel Chip | Hits for 84% ATK. Its next turn comes 20% sooner.
@@ -5477,7 +5478,7 @@
 [1t7qg2b] move Sticky Tongue | Hits for 49% MGK. Stun 1. At its next turn: 39% MGK, 2x on a frog.
 [0lgs6on] move Frogspawn | Summons 2 Tadpoles (10% max HP, 3 turns).
 [17ktrkq] passive Boomerang Edge | Its one-foe moves bounce on to 1 foe reserve for 35% of the damage.
-[1nqb2wd] passive Moonward | In reserve: your out whorl's spells deal 1.15x.
+[1ymy9ql] passive Moonward | In reserve: your out Whorl's spells deal 1.15x.
 [1yf33ve] move Pale Beam | Hits for 100% MGK. Delays the foe's next turn by 20%.
 [00qdtpl] move Edges Out | Hits for 75% MGK. Haste 1. The edge comes back at its next turn: 75% MGK.
 [1d8j4jf] move Full Light | Empower 1 on your team. Heals itself 12% of its max HP.
@@ -5508,7 +5509,7 @@
 [1sf2cq7] move Venom Jet | Hits for 80% ATK. Root 1. Doubles the foe's Poison.
 [19u8rnk] move Deep Sting | Hits for 130% ATK. Poison 4. Slow 3. Weaken 2. Envenomed for 4 turns.
 [1so13t6] summon Joint Sprout | Each turn: pricks the out foe for 25% of Spitoge's ATK. 3 turns.
-[1uqf88v] mark joints in | A whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
+[1esz13z] mark joints in | A Whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
 [0zp9aa3] passive Deep Spines | Its hits add a Joint, up to 3. At 3: true damage of 8% of the foe's max HP.
 [0xznegu] passive Catch a Ride | Takes 0.85x while shielded. While it is out: a Joint jumps into each foe that comes out.
 [0uuflpi] move Jump On | Hits for 100% ATK, 1.5x if the foe switches this round. Delays it 15%.
@@ -5516,7 +5517,7 @@
 [1ymzjin] move Burst Pad | Hits for 90% ATK, 1.5x at 2+ Joints. Stun 1 if it can't switch, else Slow 2.
 [1tt2xqa] move Cholla Grab | Hits for 110% ATK. Stun 1. Root 3. Every Joint in it goes deep: 8% max HP each.
 [1lqqhqz] summon Sand Polyp | Strikes with Sunaka's attacks and its Polyp Rush. 4 turns.
-[02ioicu] summon Reef Wall | Takes single-target hits meant for your out whorl until it falls. 20% of Sunaka's max HP.
+[14wfpe6] summon Reef Wall | Takes single-target hits meant for your out Whorl until it falls. 20% of Sunaka's max HP.
 [0ipz9yf] mark buried | Cannot come out. It comes out only if nobody else can.
 [1psa7vx] passive Budding | When it attacks: each Polyp also hits for 30% MGK.
 [1bgx7hd] passive Colony | Takes 6% less damage per Polyp.
@@ -5536,7 +5537,7 @@
 [0bi1833] move Dry Bite | Hits for 85% ATK. Dry 2: the foe's heals do half.
 [0cgvpj8] move Bleached Stare | Hits for 70% ATK. Slow 2. Burn 2 (25% ATK a turn). Locks its last move 2 turns.
 [1xui3yc] move Crack Open | Its next attack deals 1.9x damage and heals 30% of it.
-[0oikmsy] move Ossuary | Raises a Small Bones for each whorl down on either side, at least 1, up to 3.
+[165ul1u] move Ossuary | Raises a Small Bones for each Whorl down on either side, at least 1, up to 3.
 [1ux707l] passive Pivot Eye | The first foe it hits is its Branch: 1.3x damage to it, 0.85x to other foes.
 [1i0khx5] passive Spring Back | Every 3rd hit it takes: strikes back for 50% ATK, heals 30% of it.
 [0zhs09u] move Snip Snip | Hits twice for 48% ATK. Splash 25%.
@@ -5547,7 +5548,7 @@
 [1kf9fid] passive Push Off | When it switches out: the ally that comes in gets Empower 1.
 [1q2ejaz] move Weed Pull | Hits for 132% ATK. Delays the foe's next turn by 25%.
 [1q77jhq] move Lend a Hand | A reserve ally uses its first ready move at 0.9x from the bench. Foe: Slow 2.
-[1cnkdwc] move Green Thumb | Hits for 100% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.
+[01au870] move Green Thumb | Hits for 100% ATK. Your lowest-HP Whorl heals 30% of the damage. Empower 1.
 [06or93b] move Let Loose | 3 turns: Haste 3. Every 2nd attack also hits for 50% ATK. Splash 35%. Slow 1.
 [0jp1vsy] passive Rootstock | Its first KO makes it Old Wood after a physical foe, else Pale Graft.
 [1f7p7zr] passive Graft Union | Unformed: takes 0.8x. Old Wood: 1.2x DEF and RES, moves heal 25%. Pale Graft: 1.15x ATK and AGI.
@@ -5555,14 +5556,14 @@
 [0bncdof] move Long Shoot | Short wind-up. Hits for 110% ATK. Slow 2. Old Wood: Stun 1, Root 2. Pale Graft: 1.3x.
 [1sa9t4x] move Splice In | Hits for 90% ATK. Haste 1. Heals 8% max HP. Pale Graft: next move deals 1.3x.
 [0gymtiu] move Grow Inside | Hits for 37% ATK. Untouchable 1. Next turn: 90% ATK + 10% of its max HP.
-[1gib0i5] drop Pear | It heals the whorl that eats it 20% of its max HP.
-[0uezecr] passive Wall Fed | In reserve: your out whorl heals 3% of max HP a turn and deals 1.05x.
-[1pwn1j6] passive Pears Free | Every 2nd move it uses drops a Pear. Either out whorl may eat it to heal 20%.
+[0lga9gt] drop Pear | It heals the Whorl that eats it 20% of its max HP.
+[0uzijrf] passive Wall Fed | In reserve: your out Whorl heals 3% of max HP a turn and deals 1.05x.
+[0ubw6xu] passive Pears Free | Every 2nd move it uses drops a Pear. Either out Whorl may eat it to heal 20%.
 [0r1fxor] move Pear Drop | Hits for 78% MGK. 1.3x on a foe that was already out at its last turn.
 [1ffoer0] move Prop Up | Switches to an ally. It heals 8% of max HP. Empower 2.
 [0sjzmnt] move Wall Sap | Hits for 70% MGK. Heals an ally 12% of its max HP, with Haste 1 and Fortify 1.
 [1pcq233] move Full Trellis | Hits for 78% MGK. Splash 35%. Root 2. Your team heals 10% of max HP.
-[1xk4ydr] summon Landing | At your next turn: heals your out whorl 25% of its max HP. Haste 2. Then it goes.
+[0krljxr] summon Landing | At your next turn: heals your out Whorl 25% of its max HP. Haste 2. Then it goes.
 [18ofz8t] passive Step Higher | Turn start: +1 Step, up to 6. Its attacks add 8% MGK per Step.
 [0s3qh6d] passive Sure Footing | Its switches take 30% of a turn.
 [1jj11vs] move Rung Rap | Hits for 110% MGK, +5% per Step. Slow 1. At 6 Steps it rings: Silence 1.
@@ -5595,7 +5596,7 @@
 [07kuptn] move Fog Pall | Hits for 60% ATK. Silence 1. Weaken 2. Sea Fog for 4 rounds.
 [1sqiqqi] move Thicken | Hidden 1. Every foe counts as never having hit it.
 [0dqxo1u] move Fogbound | Hidden 1. Hits 3 times for 30% ATK. Splash 35%.
-[1u6ckdm] summon Drowned Image | Takes single-target hits meant for your out whorl. Each turn: hits the foe for 25% ATK.
+[12tb6h6] summon Drowned Image | Takes single-target hits meant for your out Whorl. Each turn: hits the foe for 25% ATK.
 [1suacme] passive Under Pull | Every 4th attack: Expose 2, and each foe reserve takes 55% MGK.
 [0804mpg] passive Bigger Below | Too big to see whole: one hit takes at most 25% of its max HP.
 [0xuwk0x] move Deep Rip | Hits for 84% MGK. Splash 35%. The foe loses 3 DEF, up to 15. Delays it 15%.
@@ -5608,10 +5609,10 @@
 [1rob5qn] move Over the Edge | Pulls the foe's newest summon to your side, or drags in a reserve and hits it for 72% ATK.
 [1dsmq7g] move Crumble | Hits for 80% ATK. 3 turns: it loses 3% max HP and the foe loses 8%, Slow 1.
 [1sh5qyp] move Pull Apart | Hits for 58% ATK + 4% max HP now and next turn, healing half. Stun 1. Root 2.
-[1mkwp6k] ground Rucked Ground | A hit on the out whorl here also hits each reserve here for 25% of it.
-[1frlggk] summon Raised Corner | Takes single-target hits for your out whorl. Each turn: hits the foe for 30% MGK.
+[0nl8gkc] ground Rucked Ground | A hit on the out Whorl here also hits each reserve here for 25% of it.
+[16r1hpw] summon Raised Corner | Takes single-target hits for your out Whorl. Each turn: hits the foe for 30% MGK.
 [0sfzsk6] passive Fold Over | Its moves deal 1.2x to a foe on rucked ground, and each foe reserve takes 25% of it.
-[1y7o72a] passive Give Way | While its Raised Corner stands: your out whorl heals 2% of max HP a turn.
+[0e3or4y] passive Give Way | While its Raised Corner stands: your out Whorl heals 2% of max HP a turn.
 [1h6hzhr] move Ruck Up | Hits for 47% MGK. At the foe's next 2 turns: it takes 28% MGK.
 [11u9678] move Buckle Under | Rucks the ground under the foe's side for 3 rounds. Hits for 38% MGK.
 [1ueqxh7] move Pucker Up | Hits for 70% MGK, 1.5x on rucked ground. Slow 2. Weaken 1. Delays it 30%.
@@ -5682,8 +5683,8 @@
 [0rggo8t] move Stove In | Hits for 131% ATK. Shield of 50% of the damage + 5% max HP.
 [1cajyjw] move Bob Up | Drags in a reserve and hits it for 107% ATK. It cannot switch for 2 turns.
 [186nyca] move Nailed Shut | Hits for 107% ATK. For 3 rounds, tide the foe's side would gain goes to yours.
-[0ajj6vb] summon Warm Pylon | Each turn: heals your out whorl 12% of its max HP.
-[0t6c9gg] passive Warm Side | In reserve: your out whorl heals 3% of max HP at your turns.
+[0ufs2w7] summon Warm Pylon | Each turn: heals your out Whorl 12% of its max HP.
+[1ld7z40] passive Warm Side | In reserve: your out Whorl heals 3% of max HP at your turns.
 [1ombu18] passive Mote Grain | When its held sun bursts on a foe: your team heals 10% of max HP.
 [09oodpc] move Warm Glint | Hits for 96% MGK. Each ally in reserve heals 5% of its max HP.
 [08lvyj3] move Turn Over | Summons a Warm Pylon (15% max HP, 3 turns).
@@ -5702,7 +5703,7 @@
 [08svjhq] move Kipper Slap | Hits for 100% MGK. Splash 35%.
 [1odicpf] move Bubble Up | Heals an ally 14% of max HP. Haste 1.
 [0ms9h64] move Flip Under | Hits for 67% MGK, then flips under the wrack: Hidden 1, heals 12% max HP.
-[12g9ecl] move Cured | Swallows the foe for 2 turns, then spits it out as its side's next whorl.
+[1v5ufb9] move Cured | Swallows the foe for 2 turns, then spits it out as its side's next Whorl.
 [0wcd8ww] mark hosted | Inside the anemone: nothing hits it, it heals, and it comes out next.
 [03ikqcc] passive Stinging Cells | Every 2nd move: a Soft Spot on the foe. A hit there adds 6% max HP true, and Isoko heals 4%.
 [06r5bvb] passive Shy | Attackers get Slow 1. A dash hits it: its hosted ally darts out with its first ready move.
@@ -5710,7 +5711,7 @@
 [16y6x0j] move Close Up | Blocks the next foe move at it before its next turn. Its user: 50% MGK, Stun 1.
 [0onyagy] move Arms Around | Hosts a reserve ally: nothing hits it, it heals 5% a turn, and it comes out next.
 [0vccddd] move Pool Challenge | Hits 4 times for 25% MGK + 7% max HP true. Team heals 10% max HP.
-[1lb5v8y] summon Hollow Copy | Takes single-target hits meant for your out whorl. 3 turns.
+[03amlhu] summon Hollow Copy | Takes single-target hits meant for your out Whorl. 3 turns.
 [1vbxxi2] passive Hollow | When it comes out: looks like its first reserve until a move hits it.
 [1rs7zu6] passive Look Round | Deals 1.3x damage while disguised.
 [01ipo1k] move Scoop | Hits for 80% MGK, then 40% MGK.
@@ -5722,9 +5723,9 @@
 [1e5j1re] move Dove Wing | Heals an ally 10% of max HP + 10% CHA.
 [0monmur] move Dollar Edge | Hits the foe for 75% MGK. An ally gets Empower 2.
 [0tj9s0n] move Fly Home | Switches to an ally. It heals 10% of max HP and acts at once.
-[05ie5u4] move Ring Home | Brings back your first KO'd whorl at 25% HP, 40% at night. None: team heals 15%.
+[1r68vn0] move Ring Home | Brings back your first KO'd Whorl at 25% HP, 40% at night. None: team heals 15%.
 [13b1t8l] summon Little Curl | Each turn: hits the foe for 20% of Spijire's ATK, 30% if it is Collapsed.
-[09wuwg7] summon Great Curl | Takes single-target hits for your out whorl. Each turn: hits the foe for 50% of Spijire's ATK.
+[04hb9gn] summon Great Curl | Takes single-target hits for your out Whorl. Each turn: hits the foe for 50% of Spijire's ATK.
 [030ffcp] passive Castings | Every 2nd Curl: a Little Curl rises (8% max HP, 3 turns).
 [0ixkq1b] passive Ebb Mud | Takes 5% less damage per summon of its own standing.
 [04svhj6] move Curl | Hits for 121% ATK. Heals 6% of max HP, 12% below 50% HP.
@@ -5752,13 +5753,13 @@
 [0ll85jb] move Look Away | Hits for 75% MGK, then moves while nobody looks: Hidden 1.
 [015xo1a] move Many Spots | Summons a Spot Copy (20% max HP, 3 turns). Hidden 1.
 [1uun0ml] mark polished | Its next hit slips off: 0.7x.
-[045kb2t] passive Polishes | Its heals are 1.5x on a whorl whose side has a Mantle over it.
+[0mgjsz9] passive Polishes | Its heals are 1.5x on a Whorl whose side has a Mantle over it.
 [032ul6s] passive Lies On | When it uses a move: its next 2 attacks heal your team 7% of max HP.
-[1qvtgo1] move Slide Over | Your out whorl heals 33% of max HP, reserves 18%.
+[1rwau4h] move Slide Over | Your out Whorl heals 33% of max HP, reserves 18%.
 [15oxmyq] move Mantle Over | A Mantle (36% of its max HP) takes your team's hits for 3 rounds. Fortify 2.
 [07q2lft] move Lie Over | Wind-up. Hits for 241% MGK. Stun 1. Polishes the foe: its next hit deals 0.7x.
-[1bb63dq] move Shine | Next turn: your team heals 20%, your out whorl is Untouchable 1.
-[1ll5gxx] summon Still Wall | Takes single-target hits meant for your out whorl. 3 turns.
+[0dgisla] move Shine | Next turn: your team heals 20%, your out Whorl is Untouchable 1.
+[03km76t] summon Still Wall | Takes single-target hits meant for your out Whorl. 3 turns.
 [0dfixeh] passive Standing Wave | Cannot be forced out. Takes 0.85x damage while its Still Wall stands.
 [1jj8vy7] passive Gray Pin | Deals 1.2x damage to a foe that can't switch.
 [1hc70wa] move Slosh | Hits for 78% MGK. Splash 35%.
@@ -5786,7 +5787,7 @@
 [0zncswz] move Downhill | Long wind-up. Hits for 180% ATK. Splash 50%. Slow 2.
 [1lafe2n] passive Clinks | When a foe is KO'd, and every 3rd attack: a Coin, max 10. +3% ATK per Coin.
 [1tq7b27] passive Shut Purse | Its attacks deal 1.3x. After it attacks: its next turn comes 15% later.
-[06box8r] move Clip | Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP whorl heals 40% of it.
+[1lulnmz] move Clip | Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP Whorl heals 40% of it.
 [059m3ug] move Pay Out | Hits for 73% ATK. If still out next turn: Root 2, 59% ATK.
 [1bz7rip] move Buy Time | Spends 2 Coins to act again at once. Without them: Hidden 1.
 [154uxgm] move Spend It All | Spends every Coin: hits for 78% ATK +10% per Coin. Splash 70%. Team shield 12%.
@@ -5820,14 +5821,14 @@
 [070n5oa] move Roll Tight | Mantle stance: takes 0.85x. Shield 15% max HP. Its next Unroll deals 1.3x.
 [0r5g114] move Whip Out | Rush stance. Hits for 58% ATK. Stun 1. Switches out.
 [06ixuwd] move Unroll | Storm stance. Hits for 80% MGK. Splash 35%. Its other moves are ready now.
-[1t8pa4x] summon Late Image | Takes single-target hits meant for your out whorl. 2 turns.
+[0bkwpyp] summon Late Image | Takes single-target hits meant for your out Whorl. 2 turns.
 [0uyuuiz] passive Behind Glass | Once per battle, below 40% HP: Hidden 1 and a Late Image (10% max HP).
 [0823lrh] passive Late | Its moves deal 1.25x damage to a foe that has acted this round.
 [01a88sp] move Catch Up | Late. Hits for 104% MGK. Sigil 3: its next move on the foe adds 60% MGK.
 [0vmt0t2] move Fall Behind | Hits for 64% MGK. Splash 35%. Its next move hits again 1 turn later at 0.6x.
 [0zzhgmq] move Late Ripple | Hits for 70% MGK. If still out next turn: 50% MGK, Root 2.
 [1isla72] move Mirror Back | Uses its last move again at 1.2x power.
-[1gr1br5] summon Silver Image | Takes single-target hits meant for your out whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.
+[0o9g4ip] summon Silver Image | Takes single-target hits meant for your out Whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.
 [06do1ow] passive Silver Back | When it comes out: summons a Silver Image (10% of its max HP, 3 turns).
 [12jreby] passive Bare Glass | Once per battle, when a strong hit lands on it: Silver Glass for 2 rounds.
 [0xxj7nv] move Backing | Hits for 50% of the foe's higher of ATK or MGK. Slow 1.
@@ -5852,7 +5853,7 @@
 [1b6i92i] move Lichen Feed | Every foe: Poison 1. Root 2. Slow 1. Heals 6% max HP per Poisoned foe.
 [19hv340] move Cling Fang | Hits for 166% MGK. Ready again on a Poisoned foe, but not twice in a row.
 [09u4fni] move Stone Crust | Hits for 164% MGK. Stun 1 if the foe used a move at its last turn, else Slow 2.
-[1kr6nv0] summon Water Dome | Takes single-target hits meant for your out whorl. 3 turns.
+[02qne3w] summon Water Dome | Takes single-target hits meant for your out Whorl. 3 turns.
 [0horzdo] passive Full Swell | When it comes out: a shield of 8% of its max HP, 3 turns.
 [1hua2sk] passive Settle Down | Deals 1.25x damage to a foe that can't pay for its crest.
 [192qtfx] move Swell Up | Hits for 60% MGK. Splash 35%. Slow 1.
@@ -5865,17 +5866,17 @@
 [0utfr2f] move Dust Cloud | Hidden 2. Haste 1. 1 tide.
 [1h6ujg9] move Climb Over | Hits a foe reserve for 30% ATK, +15% per Handprint on it.
 [1antoi7] move Clean Hands | Hits for 58% ATK. Untouchable 1. Hits for 37% ATK + 30% of the foe's missing HP.
-[0qwupfd] ground Rising Line | A line on HP bars from 15% of max HP, rising 5% a round. A whorl under it takes 1.3x from hits.
+[05meuqh] ground Rising Line | A line on HP bars from 15% of max HP, rising 5% a round. A Whorl under it takes 1.3x from hits.
 [1vqtz05] summon Salt Post | While it stands, High Mark gives your side 1.1x attacks. 4 turns.
 [0cyjowz] passive Every Roll | Its first hit on each foe adds 8% of that foe's current HP.
 [1q743mv] passive High Mark | While its Salt Post stands: your side's attacks deal 1.1x.
 [10ybfkx] move Rime Strike | Hits for 173% MGK. -4 DEF, up to 16. Salt Post out: Stun 1 once.
 [1gi0z34] move Mark the Wall | Hits for 60% MGK. Slow 1. Shield 15% max HP. A Rising Line under the foe's side, 5 rounds.
 [0t7s92v] move Wash Line | Hits for 64% MGK. Summons a Salt Post (10% max HP, 4 turns). Haste 1.
-[1idfbkc] move Spring Line | Hits for 181% MGK. Neither out whorl can switch for 3 turns.
+[0qm8vqk] move Spring Line | Hits for 181% MGK. Neither out Whorl can switch for 3 turns.
 [1cyqx8s] passive Never Roots | Immune to Root. Every 3rd turn: a shield of 8% of its max HP.
 [0krxt9c] passive Burs | When a dash hits it: the attacker's next hit deals 0.5x. Immune to Root.
-[1wulaaw] move Roll Through | Hits for 121% MGK. Your lowest-HP whorl heals 8% of its max HP.
+[185u8so] move Roll Through | Hits for 121% MGK. Your lowest-HP Whorl heals 8% of its max HP.
 [03ipxj2] move Roll Off With | Quick. Hits for 75% MGK. Splash 35%. Steals the next move the foe uses on its side.
 [1adaxeb] move Hitch Ride | A reserve ally takes no bench damage and comes out next with a 20% shield. Haste 1.
 [0xqa19r] move Round Up | Haste 3. Its next 2 hits make the foe skip its next turn.
@@ -5886,7 +5887,7 @@
 [1nm25hl] move Kick Plate | Practice +3. Fortify 2. Its next turn comes 30% sooner.
 [1k6n128] move Top Flight | Spends all Practice: 85% ATK, +5% per Practice. Splash 35%. Heals 10% of max HP.
 [1w455lz] passive Center | After a move, once every 3 turns: a shield of 10% of its max HP.
-[1klclnm] passive Climbed | In reserve: your out whorl takes 0.9x damage.
+[17cf6pu] passive Climbed | In reserve: your out Whorl takes 0.9x damage.
 [0fuwmdv] move Axis Cut | Hits for 116% ATK. The blade returns at its next turn: 50% ATK, Slow 1.
 [0bxjzos] move Post Dash | Hits for 87% ATK. Taunt 1.
 [1tdelfu] move Middle Post | Until its next turn: hits on it are split evenly across your team.
@@ -5936,7 +5937,7 @@
 [0m629ns] move Push Air | Hits for 55% MGK. Forces the foe out.
 [03caj1o] move Tune Up | Your team: a shield of 25% max HP, 2 turns. Its Mend heals 2x for 3 turns.
 [0nvau99] summon Hole Turret | Each turn: zaps the foe for 44% of Reikuchi's MGK. It zaps each foe that comes out too.
-[1l169jz] summon Hole Wall | Takes single-target hits meant for your out whorl. 3 turns.
+[030mzsv] summon Hole Wall | Takes single-target hits meant for your out Whorl. 3 turns.
 [00f53iw] passive Opens Anywhere | Moves hitting the same foe in a row: +15% each, up to +45%.
 [1p37wyh] passive Star Burn | Its moves that hit add Burn 2 (8% MGK each turn).
 [19ifq2a] move Hole Through | Hits for 168% MGK.
@@ -6063,7 +6064,7 @@
 [08oaecs] passive Ringed | Takes 4% less damage per Ring it has taken, up to 20%.
 [124ds87] passive Dries Out | Deals 1.2x damage to a foe it took a Ring from.
 [0lpnhbc] move Salt Flake | Hits for 125% MGK. Takes a Ring: 4% of the foe's max HP to itself.
-[17kc8w9] move Dry Ring | Hits for 91% MGK, +8% per whorl standing. Splash 35%. Heals 15% of it.
+[0ydqy7d] move Dry Ring | Hits for 91% MGK, +8% per Whorl standing. Splash 35%. Heals 15% of it.
 [1wworao] move Draw Water | Summons a Salt Tomb (20% of its max HP, 3 turns).
 [02vfwmj] move Dry Room | Hits for 82% MGK. Takes 2 Rings. 3 turns: 1.15x ATK and MGK, attacks Expose 1.
 [17kikg3] passive Hard Hood | Its attacks add 50% DEF to their damage, and its moves add 25% DEF.
@@ -6099,7 +6100,7 @@
 [0mejsgw] move Cure Through | Spends all Crust: the foe and each reserve take 35% MGK + 2% max HP per Crust on it.
 [01nsiqz] move Pressed Flat | Hidden 1. 3 turns: its attacks also hit each reserve for 60% MGK, adding a Crust.
 [0t236ox] passive Night Glare | When a foe is KO'd, and on every 4th hit it lands: gains a Shine, up to 3.
-[1eksgax] passive Kept Shine | When a whorl falls, friend or foe: it takes that whorl's first passive while out.
+[14brtqh] passive Kept Shine | When a Whorl falls, friend or foe: it takes that Whorl's first passive while out.
 [1dj1exe] move Night Glint | Hits for 145% MGK. Weaken 1.
 [0s3qkdy] move White Field | Spends a Shine: heals 20% max HP. Without one: heals 8%.
 [1cd7nnb] move Glare Link | Hits for 90% MGK. Hidden 1. 3 turns: the foe's hits are never strong.
@@ -6155,7 +6156,7 @@
 [00s49ot] move Salt Flick | 3 turns: blocks every projectile move at it.
 [1btxbng] move Side Step | Hits for 125% ATK. Its next turn comes 30% sooner.
 [1kl78ui] move Between Slots | Hits for 150% ATK, 1.5x if the foe can't switch. Root 2.
-[0lilub2] passive One of Each | When any whorl gains a good status: Picagi gains 1 turn of it too.
+[0uyh7ta] passive One of Each | When any Whorl gains a good status: Picagi gains 1 turn of it too.
 [1m1eu5z] passive Under Wing | The first time it comes out: Hidden 1 and Haste 1.
 [0yp992p] move Snatch | Hits 3 times for 32% ATK.
 [0vc6gsr] move Three Pecks | Hits for 54% ATK. Pecked 1: it can't use moves at its next turn.
@@ -6261,7 +6262,7 @@
 [075269e] move Brass Ring | Hits for 41% MGK. Splash 35%. Slow 2. The out foe's ready moves wait 1 more turn.
 [1uh4ujj] move Star Shower | Hits for 38% MGK. At its next 3 turns: hits the foe for 23% MGK, Slow 1.
 [1pohezb] move Last Reading | Hits for 140% MGK. It always lands as the 4th hit of Measuring.
-[1hsj6pf] summon Shell Wall | Takes the single-target hits meant for your out whorl.
+[05c0spf] summon Shell Wall | Takes the single-target hits meant for your out Whorl.
 [1loylhd] passive Caught Shell | Once per battle, instead of a KO: Stasis 1, back at 25% HP.
 [03itu61] passive Shell Shuts | A hit of 25%+ max HP shuts it to the end of its next turn: 0.5x taken, 1.3x dealt.
 [0cdqg0k] move Green Glint | Hits for 85% MGK. Slow 1. +1 Chill (5% less damage each). At 3: Stun 1, Chill ends.
@@ -6269,7 +6270,7 @@
 [1sd4h3r] move Half Shell | Summons a Shell Wall (20% of its max HP, 2 turns).
 [18mb2ay] move Shell Nova | Hits for 90% MGK, each foe +20% per Chill it carries. Splash 35%. Slow 2.
 [1lsio7i] passive Pink Water | When it comes out, 2 of the foe's tide turn pink for 3 rounds. Pink pays no crest.
-[0ymah3q] passive Lip Color | Each whorl that falls, on either side, turns 1 of the foe's tide pink for 3 rounds.
+[16s8qye] passive Lip Color | Each Whorl that falls, on either side, turns 1 of the foe's tide pink for 3 rounds.
 [00xjjla] move Pink Bloom | Hits for 118% MGK, the first reserve for 30%. Stun 1. 2 of the foe's tide turn pink.
 [1giuhas] move Salt Draw | Hits for 103% MGK. Takes 1 clear tide from the foe's side.
 [03gs8m1] move Stain Water | Hits for 67% MGK. Every tide the foe holds turns pink for 2 rounds.
@@ -6294,7 +6295,7 @@
 [0hakitz] move Septa | Haste 2 on your team. Fortify 1. Struck grows by 10% of its max HP.
 [1kesvxa] move All Struck | Hits for 100% ATK + all its Struck. Struck of 30% max HP or more: Stun 1.
 [0ydulv7] passive Wading | Turn start, unhit since its last turn: repeats its last attack at 0.9x.
-[0hrfc7m] passive Listening | 1.3x max HP. Takes 0.75x damage, 1.3x while it holds a whorl to its ear.
+[1twjq5u] passive Listening | 1.3x max HP. Takes 0.75x damage, 1.3x while it holds a Whorl to its ear.
 [1a94rtd] move Listen | Hits for 145% ATK. +12% damage per foe move on cooldown, up to 4.
 [1ks4qi2] move Label | Hits for 115% ATK. Labeled 3: can't switch, takes 1.25x from it.
 [1bwt2v3] move Set Down | Hits for 135% ATK. Forces the foe out. Labeled 3 on the new foe.
@@ -6335,7 +6336,7 @@
 [0bkepya] move Settle | +2 Layers. Heals {N_MUND.heal}% of its max HP.
 [085yvwl] move Peel | Sheds every Layer: hits for {N_MUND.peel}% ATK + {N_MUND.peelPer}% ATK per Layer. Splash 35%. Bare 2.
 [0bwjjmf] passive Island | Each time it comes back out: takes {N_HOLM.island}% less damage, up to {N_HOLM.islandMax}%. From its third time out, cannot be moved.
-[1uds3ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next whorl out.
+[1jxu1ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next Whorl out.
 [0um9aaz] move Shoulder | Hits for {N_HOLM.shoulder}% ATK + 4% of its max HP.
 [1lh32jf] move Carry Them | An ally in reserve boards as its Rider. Shield of {N_HOLM.carry}% CHA for 3 turns.
 [01jylox] move Long Wake | Hits for {N_HOLM.wake}% ATK. Slow 2. Its Rider heals {N_HOLM.wakeHeal}% of its max HP.
@@ -6363,7 +6364,7 @@
 [066rg48] notion Float Cork | +10% RES. Each time it comes out, its first turn comes 20% sooner.
 [0nccdv2] notion Tide Mark | +2 tide each time it guards, up to 3 times a battle.
 [1sos1x3] notion Reed Plug | +12% RES. The first wind-up aimed at it each battle lands 50% later.
-[17sw4yn] notion Graft Wax | On a conjoined whorl, +9% ATK and +9% MGK. On any other, nothing.
+[0qoxslb] notion Graft Wax | On a conjoined Whorl, +9% ATK and +9% MGK. On any other, nothing.
 [0f1qluf] notion Rider Cog | +4% HP, ATK, MGK, DEF, and RES.
 [1bcli12] notion Rider Spoon | +15% DEF. When it is forced out or dragged in, it gets Ward 1.
 [0gy2itv] notion Blade Shard | Its hits deal 1.3x damage to a foe below 40% HP.

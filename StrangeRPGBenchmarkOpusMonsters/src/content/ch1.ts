@@ -346,7 +346,7 @@ async function nightScene(): Promise<void> {
   await say('Gran', 'Let them know the Seals are the great posts that keep the world sealed shut.');
   await say('Gran', 'That crack in the village means they\'re pulling too tight.');
   await say('Gran', 'Tell the Sealkeepers. Rib is first, heading west along the Midden Road.');
-  await say('Gran', 'Let them know most people keep their own shed shell as their first whorl.');
+  await say('Gran', 'Let them know most people keep their own shed shell as their first Whorl.');
   await say('Gran', 'Since theirs is still on, they\'ll need another one.');
   await say('Gran', 'Let them know the Strandmonger takes in strays. No specific breeding.');
   await say('Gran', 'Let them know I walked the Rim myself, and came home with a pearl and a cough.');
@@ -415,7 +415,7 @@ async function slipDay(): Promise<void> {
   face('tackle', 0);
   faceToward('tackmum', 'tackle');
   await say('Tack\'s mum', 'There it is, pet. Your first shell, intact. It even has your shape.');
-  await say('Tack\'s mum', 'Every whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.');
+  await say('Tack\'s mum', 'Every Whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.');
   await act('tack', 'hop');
   await say('Tack', '1. Right, that\'s 1.');
   await say('Tack', 'Name\'s Tackle. Had it ready 4 years ago. Took you long enough.');
@@ -516,9 +516,9 @@ async function turnBack(who: string, line: string, speaker: string, bx: number, 
     await walkTo('ouro', bx, by);
   }
 }
-defScript('turnBackWest', () => turnBack('carter', 'The west road is for those with a whorl. The mule won\'t walk it with you, and neither will I.', 'Carter', 4, 16));
-defScript('turnBackNorth', () => turnBack('oldman', 'No getting past the wood without a whorl. The stream\'s rude about it.', 'Old man', 13, 4));
-defScript('turnBackSouth', () => turnBack('child', 'Mum\'s rule is simple: no beach access unless you have a whorl. Not even for paddling. I checked.', 'Child', 24, 29));
+defScript('turnBackWest', () => turnBack('carter', 'The west road is for those with a Whorl. The mule won\'t walk it with you, and neither will I.', 'Carter', 4, 16));
+defScript('turnBackNorth', () => turnBack('oldman', 'No getting past the wood without a Whorl. The stream\'s rude about it.', 'Old man', 13, 4));
+defScript('turnBackSouth', () => turnBack('child', 'Mum\'s rule is simple: no beach access unless you have a Whorl. Not even for paddling. I checked.', 'Child', 24, 29));
 /** Before Tack's battle, the ways west out of the wood and the cove: Tack shouts from the village, and Ouro steps back. */
 async function tackCalls(bx: number, by: number): Promise<void> {
   await emote('ouro', 'surprise');
@@ -536,7 +536,7 @@ defScript('crazeHole', async () => {
   await wait(30);
   await act('ouro', 'shiver');
   await emote('ouro', 'sweat');
-  await turnBack('pell', 'Don\'t go down without a whorl. Half of us went down there. Look how that went.', 'Pell', 36, 5);
+  await turnBack('pell', 'Don\'t go down without a Whorl. Half of us went down there. Look how that went.', 'Pell', 36, 5);
 });
 
 defScript('fellmonger', async () => {
@@ -566,7 +566,7 @@ defScript('fellmonger', async () => {
     await say('Strandmonger', 'Here\'s the Register. You catch a species, I log it. Writing\'s free. Holding it\'s a cowrie.');
     givePegs('twig', 5);
     await say('Strandmonger', 'Five periwinkle horns. I charge for those!! Put it on your gran\'s tab. She\'ll love it.');
-    await say('Strandmonger', 'Dull them down a bit, then catch them. A weaker whorl makes for a surer catch.');
+    await say('Strandmonger', 'Dull them down a bit, then catch them. A weaker Whorl makes for a surer catch.');
     await say('Strandmonger', 'Weak enough, and it never fails.');
     await say('Strandmonger', 'Start with the Rib. Knuckle keeps it. Hands on Knuckle, I\'d price at a house each.');
     await say('Strandmonger', 'The pearl\'s cheap.');
@@ -601,7 +601,7 @@ defScript('tack1', async () => {
     await say('Tack', 'Hey. 1 battle before you go. Just you and me.');
     await say('Tack', 'Tackle has 4 moves but I\'ve seen 2. Why won\'t it reveal the rest?');
     if (!flag('lesson')) {
-      await hint('(Only one whorl fights at a time. The others wait in reserve. Switch to bring one out.)');
+      await hint('(Only one Whorl fights at a time. The others wait in reserve. Switch to bring one out.)');
       await hint('(Preview a move before choosing it. It says "Strong" when the foe is weak to it.)');
     }
   }
@@ -658,10 +658,10 @@ defScript('peelers', async () => {
   await say('Hermit', 'My apologies. Bare told me to bring a deep one to the Mast. This one counts as deep.');
   await say('Man at the well', 'She\'s the only water source in Turnstone!');
   await say('Hermit', 'Turnstone\'s got a fracture too, doesn\'t it? That\'s the Seals. They grip too tightly.');
-  await say('Hermit', 'Large whorls can wrench a Seal loose. So we take large whorls.');
+  await say('Hermit', 'Large Whorls can wrench a Seal loose. So we take large Whorls.');
   const c = await choose(['Give it back', 'Who\'s Bare?']);
   if (c === 1) {
-    await say('Hermit', 'She leads the Hermits. Never sheds, just like you.');
+    await say('Hermit', 'She leads the Hermits. She hasn\'t had her first shed either.');
     await say('Hermit', 'She says the entire Volute is overdue for a shedding. The fractures are it struggling to break free.');
   } else await say('Hermit', 'No can do. It\'s ours now.');
   await say('Man at the well', 'We drink from her! Where is Turnstone supposed to get its water?');

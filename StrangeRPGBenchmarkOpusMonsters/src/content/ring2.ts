@@ -92,7 +92,7 @@ defScript('stiltmaker', async () => {
   await say('Stilt-maker', 'You\'ll be wading, not drowning.');
   await giveKeyItem('stilts', 'Ouro takes the wading stilts.');
   await say('Stilt-maker', 'Use them in streams, fords, pools, and inlets. Anywhere it\'s shallow.');
-  await say('Stilt-maker', 'Deep water demands a sea whorl on you.');
+  await say('Stilt-maker', 'Deep water demands a sea Whorl on you.');
 });
 
 defMap({

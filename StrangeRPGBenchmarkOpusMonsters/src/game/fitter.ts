@@ -111,7 +111,7 @@ function pickLook(a: SpriteData, b: SpriteData): Promise<{ sprite: SpriteData; s
 
 export async function fitterMenu(): Promise<void> {
   const pool = (): Mon[] => [...G.party, ...G.rack];
-  if (pool().length < 2) { await say('Conjoiner', 'Two whorls required. You have one.'); return; }
+  if (pool().length < 2) { await say('Conjoiner', 'Two Whorls required. You have one.'); return; }
   const all = pool();
   const ia = await listMenu('Fit which first?', all.map(monLine), { w: 120, disabled: k => !!canFit(all[k]),
     detail: k => { const m = all[k]; panel(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });

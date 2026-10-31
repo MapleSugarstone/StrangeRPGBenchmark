@@ -45,7 +45,7 @@ defMap({
     { id: 'lunch', x: 14, y: 5, sprite: 'villager2', name: 'Lunch-bringer', dir: 1, talk: 'lunch' },
     { id: 'fencer', x: 4, y: 3, sprite: 'keeper', name: 'Fencer', dir: 0, trainer: { nacre: 1, name: 'Fencer', team: [['tang', 21], ['buckler', 21]], intro: 'The battle ended before my gran was born. Nobody told the swords. I\'m not gonna be the one.', defeat: 'Sheathed.', sight: 3 } },
     { id: 'archer', x: 28, y: 3, sprite: 'villager', name: 'Arrow-finder', dir: 3, trainer: { name: 'Arrow-finder', team: [['fletch', 21], ['sallet', 21]], intro: 'One arrow never hit the ground. I stay underneath it. Wearing a hat. I\'m not stupid.', defeat: 'Still hovering above. Most likely.', sight: 4 } },
-    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 21], ['mangonel', 21]], intro: 'I brush the war horses. They\'ve been whorls for a hundred years, and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
+    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 21], ['mangonel', 21]], intro: 'I brush the war horses. They\'ve been Whorls for a hundred years, and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
   ],
   spots: [
     look(2, 11, 'A sword is stuck in the earth, with a helmet dangling from its hilt.', 'A snail has taken up residence in the helmet. It wears it.'),

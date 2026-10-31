@@ -22,7 +22,7 @@
 [1cz2zzc] look | Resting in a depression worn smooth by feet atop the dome is a triton horn.
 
 == scene: a2Gray
-[1leabt1] hint | (A SALT whorl worn in the lead walks you through the gray.)
+[1yy8vqd] hint | (A SALT Whorl worn in the lead walks you through the gray.)
 
 == scene: a2DrillHole
 [12yxa2z] choice | Drop into the hole.
@@ -76,7 +76,7 @@
 [0uja2rc] Child | That pale patch is the blank. It's where the Cowrie never finished. You can't walk there.
 [0gm8j1o] Child | Mine can! It fell from the sky. It walks on nothing. It's so good at it.
 [1hlay8l] Child | Put one on, and you'll be able to walk in it. They're on the Cowrie's back. Go catch one!
-[0kgj6zl] hint | (A VOID whorl worn in the lead guides you across the blank.)
+[1o3sakh] hint | (A VOID Whorl worn in the lead guides you across the blank.)
 
 == scene: map underteeth
 [0jmugpc] look | Past the fifth tooth, buried in the packed sand, lie a nautilus horn and a notion.
@@ -131,7 +131,7 @@
 [0i8cqlf] Gloss | Just like your face in the floor, my four are slow.
 [0yx261b] ? (keeperFight) | You lost to the light. The light lost to you.
 [0ea0htt] Gloss | The grain is yours, a gift! A gift, the grain is yours!
-[1abazys] hint | (With two grains, your whorls can reach Strand level 18.)
+[11pgng4] hint | (With two grains, your Whorls can reach Strand level 18.)
 [04ye1c5] Gloss | The light came in at low water. At low water, the light came in.
 
 == scene: fingerTake
@@ -288,7 +288,7 @@
 [0o5cbnu] hint | (At low tide both sides start with 0. Every 4th round a star lands and gives each side 2.)
 [0b4xsb3] ? (keeperFight) | Down. Go back down. Climb later. Everyone falls. I did, often.
 [1p3kdlh] Turnwise | Yes. You climbed. Take this grain. It fell down here. Years ago. Hff.
-[1wpdbkz] hint | (With three grains your whorls can reach Strand level 23.)
+[0cwcmdf] hint | (With three grains your Whorls can reach Strand level 23.)
 [13e1k9x] Turnwise | Upward. Keep going up. The summit is above us. Only the smaller figures can make the ascent.
 [03czbnd] Turnwise | There it is.
 [17fk2h4] Turnwise | Proceed. Then, describe it to me. What is the view like from the top?
@@ -300,7 +300,7 @@
 [1ilrnrj] Groove | one, and four.
 
 == scene: a2PointEnter
-[1669f7l] hint | (The space is too narrow for a whorl. Your team remains within its horns.)
+[1nug0v5] hint | (The space is too narrow for a Whorl. Your team remains within its horns.)
 
 == scene: a2PointView
 [0z5hlhb] narration | To the west along the beach lies the Volute, a pale spiral etched into the sand.

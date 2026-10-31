@@ -128,7 +128,7 @@ const lodge = (b: Battle, f: Fighter, t: Fighter, n: number) => { if (!t.ko && !
 defPassive({ id: 'fleam_lodged', name: 'Leaves a Blade', owner: 'fleam', text: 'Its hits lodge a Blade, up to 8, for 3 turns. When it attacks: its next turn comes 20% sooner.',
   afterDeal(b, f, t, dealt, d) { if (!d.dot && !d.reserve && !f.k.rending) lodge(b, f, t, 1); },
   afterAttack(b, f) { hastenFighter(b, f, 20); } });
-defPassive({ id: 'fleam_letting', name: 'Spare Blades', owner: 'fleam', text: 'In reserve: hits by your out whorl lodge Blades too.',
+defPassive({ id: 'fleam_letting', name: 'Spare Blades', owner: 'fleam', text: 'In reserve: hits by your out Whorl lodge Blades too.',
   auraOut(b, f, o, t, d) { if (!d.dot && !d.reserve && t.side !== f.side) lodge(b, f, t, 1); return 1; } });
 defMove({ id: 'fleam_pierce', name: 'Nick', type: 'GEAR', owner: 'fleam', reach: 'single', tags: ['projectile'], cd: 1, fx: 'shard line fast | slash', text: 'Hits for 179% ATK. 1 Blade, or 2 on a foe that came out since its last turn.',
   run(c) { const fresh = c.tgt.outAt > (c.u.k.prevTurn ?? -1); c.hit(c.tgt, { atk: 1.79 }); if (!c.tgt.ko) c.mark(c.tgt, 'fleam_spear', fresh ? 2 : 1, 3); } });
@@ -273,7 +273,7 @@ defPassive({ id: 'cellar_borrowed', name: 'Cold Store', owner: 'cellar', text: '
 defPassive({ id: 'cellar_coldkeep', name: 'Fills Back Up', owner: 'cellar', text: 'Once per battle, below 25% HP: for 1 turn, damage heals it instead.',
   afterTake(b, f) { if (!f.k.coldkept && f.hp > 0 && pctOut(f, 0.25)) { f.k.coldkept = 1; msg(b, `${label(b, f)} recharges.`); mark(b, f, f, 'cellar_time', 1, 1); } } });
 defMove({ id: 'cellar_coldbreath', name: 'Cold Draft', type: 'STONE', owner: 'cellar', reach: 'single', cd: 1, fx: 'recoil | sand*3 wave | frost',
-  text: 'Pays 4% max HP. Hits for 98% ATK. Your lowest-HP whorl heals 30% of it.',
+  text: 'Pays 4% max HP. Hits for 98% ATK. Your lowest-HP Whorl heals 30% of it.',
   run(c) { payHp(c.b, c.u, c.u.maxHp * 0.04); const d = c.hit(c.tgt, { atk: 0.98 }); c.heal(lowestAlly(c), d * 0.3); } });
 defMove({ id: 'cellar_shelf', name: 'Top Shelf', type: 'STONE', owner: 'cellar', reach: 'ally', cd: 3, fx: 'lift | shell*3 rise | ring ally', text: 'Cleanses an ally. Shield 18% max HP, 3 turns. If it breaks: 60% ATK to the foe.',
   run(c) { c.cleanse(c.ally!); c.shield(c.ally!, c.ally!.maxHp * 0.18, 3); c.mark(c.ally!, 'cellar_shield', 1, 3); } });
@@ -720,7 +720,7 @@ defMove({ id: 'fiddler_regrown', name: 'Regrow Claw', type: 'BEAST', owner: 'fid
   run(c) { c.hit(c.tgt, { atk: 1.48 }); c.st(c.u, 'fortify', 3); c.mark(c.u, 'fiddler_might', 1, 3); } });
 
 // fata: a mirage off the dry sea that stands on its own reflection and shows more of itself than there is.
-defSummon({ id: 'fata_illusion', name: 'Reflection', owner: 'fata', sprite: { px: ['1.44.44.', '1.4.44.4', '14.44.4.', '1.4424..', '14142214', '13333333', '1.3333..', '2.......'], c: ['#69aeed', '#d0513a', '#0534a0'] }, text: 'Takes single-target hits meant for your out whorl. 3 turns.', every: 100, guard: true,
+defSummon({ id: 'fata_illusion', name: 'Reflection', owner: 'fata', sprite: { px: ['1.44.44.', '1.4.44.4', '14.44.4.', '1.4424..', '14142214', '13333333', '1.3333..', '2.......'], c: ['#69aeed', '#d0513a', '#0534a0'] }, text: 'Takes single-target hits meant for your out Whorl. 3 turns.', every: 100, guard: true,
   act() { /* images strike only with Fata */ } });
 const images = (b: Battle, f: Fighter) => summonsOf(b, f.side, 'fata_illusion').length;
 const addImage = (b: Battle, f: Fighter) => summon(b, f, 'fata_illusion', { hp: 0.05, turns: 3 });
@@ -944,7 +944,7 @@ defMark({ id: 'breaker_drain', name: 'dragging', clock: 'own', volatile: true, v
     const d = strike(b, f, t, stat(b, f, 'mgk') * 0.53 * grow, 'M', 'TIDE');
     heal(b, f, f, d);
   } });
-defPassive({ id: 'breaker_steadydraw', name: 'Builds Up', owner: 'breaker', text: 'When it first comes out: the swell starts. At 9 its wave breaks over both out whorls.',
+defPassive({ id: 'breaker_steadydraw', name: 'Builds Up', owner: 'breaker', text: 'When it first comes out: the swell starts. At 9 its wave breaks over both out Whorls.',
   comeOut(b) { if (!b.swell) raiseSwell(b, 0); } });
 defPassive({ id: 'breaker_whitewater', name: 'Whitewater', owner: 'breaker', text: 'While its Spray Column stands: each foe move costs that foe 60% MGK. Deals 1.15x.',
   anyMove(b, f, user, m) { if (!m || user.side === f.side || user.ko || !wardUp(b, f) || f.k.wardHit === b.turnNo) return; f.k.wardHit = b.turnNo; strike(b, f, user, stat(b, f, 'mgk') * 0.6, 'M', 'TIDE'); },
@@ -1040,7 +1040,7 @@ defPassive({ id: 'drift_bleached', name: 'Bleached', owner: 'drift', text: 'Its 
 defMove({ id: 'drift_waterlog', name: 'Waterlog', type: 'ROOT', owner: 'drift', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | drop*2 arc | drip', text: 'Hits for 131% MGK. Slow 1. 1.5x on a Rooted foe.',
   run(c) { c.hit(c.tgt, { mgk: 1.31 }, { mult: c.tgt.s.root ? 1.5 : 1 }); c.st(c.tgt, 'slow', 1); } });
 defMove({ id: 'drift_tideseed', name: 'Weed Seed', type: 'TIDE', owner: 'drift', reach: 'single', tags: ['spell'], cd: 3, fx: 'sway | kelp*2 arc | drip',
-  text: 'Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out whorl.',
+  text: 'Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out Whorl.',
   run(c) { c.hit(c.tgt, { mgk: 0.48 }); if (!c.tgt.ko) c.mark(c.tgt, 'drift_seed', 1, 3); } });
 defMove({ id: 'drift_graincoat', name: 'Bark Coat', type: 'ROOT', owner: 'drift', reach: 'ally', cd: 3, fx: 'lift | leaf*3 converge | ring ally', text: 'An ally\'s next 3 hits deal 0.7x and each heals it 5% max HP.',
   run(c) { unmark(c.ally!, 'drift_armor'); c.mark(c.ally!, 'drift_armor', 3); } });
@@ -1305,7 +1305,7 @@ defMove({ id: 'pew_boxpew', name: 'Box Pew', type: 'ROOT', owner: 'pew', reach: 
     mark(c.b, c.u, c.tgt, 'pew_hunted', 1, -1);
     c.msg(`${label(c.b, c.u)} reserves the seat for ${label(c.b, c.tgt)}.`);
   } });
-defMove({ id: 'pew_respite', name: 'All Kneel', type: 'STONE', owner: 'pew', reach: 'side', cd: 6, nerve: 5, fx: 'sink big | ring ally big tint', text: 'For 2 turns, neither out whorl can fall below 10% HP.',
+defMove({ id: 'pew_respite', name: 'All Kneel', type: 'STONE', owner: 'pew', reach: 'side', cd: 6, nerve: 5, fx: 'sink big | ring ally big tint', text: 'For 2 turns, neither out Whorl can fall below 10% HP.',
   run(c) { c.mark(c.u, 'pew_respite', 1, 2); mark(c.b, c.u, c.tgt, 'pew_respite', 1, 2); } });
 
 // relic: a reliquary with one eye behind the glass that puts on whatever it beats for a while and keeps a piece of it after.
@@ -1519,7 +1519,7 @@ defMark({ id: 'whip_seed', name: 'seed shield', clock: 'own', value: 0.08,
     if (by && t) { strike(b, by, t, stat(b, by, 'mgk') * 0.6, 'M', 'ROOT'); applyStatus(b, by, t, 'slow', 2); }
   },
   expire(b, f, mk) { const by = markedBy(b, mk); const t = foe(b, f); if (by && t) { strike(b, by, t, stat(b, by, 'mgk') * 0.6, 'M', 'ROOT'); applyStatus(b, by, t, 'slow', 2); } } });
-defSummon({ id: 'whip_friend', name: 'Root Friend', owner: 'whip', text: 'Takes single-target hits for your out whorl. Each turn: hits the foe for 55% of Virtsa\'s MGK. Every 3rd hit: Stun 1.', every: 100, guard: true,
+defSummon({ id: 'whip_friend', name: 'Root Friend', owner: 'whip', text: 'Takes single-target hits for your out Whorl. Each turn: hits the foe for 55% of Virtsa\'s MGK. Every 3rd hit: Stun 1.', every: 100, guard: true,
   sprite: { px: ['........', '4......4', '44....44', '.222222.', '21222212', '23333332', '22222222', '.22..22.'], c: ['#5b7a38', '#e3a4ac', '#68a634'] },
   act(b, s, f) {
     const t = b.s[1 - s.side].f[b.s[1 - s.side].out];
@@ -1530,7 +1530,7 @@ defSummon({ id: 'whip_friend', name: 'Root Friend', owner: 'whip', text: 'Takes 
   } });
 defPassive({ id: 'whip_greenhand', name: 'Green Hand', owner: 'whip', text: 'Its heals and shields are 1.15x.',
   healMul() { return 1.15; } });
-defPassive({ id: 'whip_whiplash', name: 'Whiplash', owner: 'whip', text: 'In reserve: Root 1 on a foe that hits your out whorl, once a turn. Hitting a Seed Shield: Root 1.',
+defPassive({ id: 'whip_whiplash', name: 'Whiplash', owner: 'whip', text: 'In reserve: Root 1 on a foe that hits your out Whorl, once a turn. Hitting a Seed Shield: Root 1.',
   watchOver(b, f, out, src) {
     if (f.k.lashed === b.turnNo || src.ko || src.gone || src.s.root) return;
     f.k.lashed = b.turnNo;

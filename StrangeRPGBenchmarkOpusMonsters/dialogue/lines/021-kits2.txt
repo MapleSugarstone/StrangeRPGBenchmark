@@ -6,7 +6,7 @@
 ==== file: src/data/kits2.ts
 
 == scene: kits2
-[1o1t1k5] passive Epicycle | In reserve, every 3rd turn your side takes: your out whorl's non-crest cooldowns drop 1.
+[1dhtjlx] passive Epicycle | In reserve, every 3rd turn your side takes: your out Whorl's non-crest cooldowns drop 1.
 [1u2vh50] passive Conjunction | Two Planets on one foe come down at once, with Stun 1.
 [0b1f17a] move Set Orbit | Hits for 98% MGK. A Planet orbits the foe's line: 20% MGK a stop, 115% after 3.
 [15s75f5] move Spin Faster | Hits for 59% MGK. Every Planet moves on 1. Its other non-crest cooldowns drop 2.
@@ -18,7 +18,7 @@
 [1g67hjz] move Full Swing | Hits for 60% ATK. Splash 50%. Haste 2, then Slow 1 when it ends.
 [0wo01uw] move Lift and Drop | Goes up 2 turns: dashes can't reach it. Its next attack drops: 1.6x, Stun 1.
 [13d11ko] move Drop the Load | Hits for 108% MGK. Splash 35%. Delays the foe 30%. Up high: 1.4x.
-[0s8ukki] passive Sea Breeze | In reserve: a Slow on your out whorl turns into Haste 1.
+[0g8mxky] passive Sea Breeze | In reserve: a Slow on your out Whorl turns into Haste 1.
 [10cqwu4] passive Light Vanes | Immune to Slow and to delays.
 [1yyri5r] move Vane Cut | Hits for 92% MGK. Slow 1.
 [04y91lp] move Whirlwind | Wind-up. Hits for 84% MGK. Stun 1. Blows away foe summons and every Drop.
@@ -44,7 +44,7 @@
 [0vc3m3i] move Hold Pressure | Moves to Far. Until its next turn: takes 0.4x. If hit: next In Stroke deals 1.5x.
 [1uzj0vt] move Long Stroke | Untouchable 1. At its next turn it comes down: 101% ATK, Splash 35%, Slow 2.
 [0t8m4hh] passive Builds Charge | Its damaging moves add a Charge to the foe. A foe at 3 Charges: Stun 1, and they go.
-[173ob1m] passive Static | Charges jump across a dash or an Attack between two whorls. It starts with 2 Charges.
+[1d62b2i] passive Static | Charges jump across a dash or an Attack between two Whorls. It starts with 2 Charges.
 [0crdjae] move Brush Spark | Hits for 136% MGK.
 [03rs4oc] move Jump the Gap | Hits for 105% MGK. On a foe with a Charge: 1.5x damage, 1 more Charge.
 [1xvygem] move Spin Up | Haste 2. Fortify 1. A Charge on the foe, and 2 on itself.
@@ -119,7 +119,7 @@
 [0i2zjpw] move Tail Sweep | Hits for 42% MGK + 40% DEF. Splash 35%. Weaken 2.
 [0freguz] move Strike Home | Unstoppable wind-up. Hits for 117% MGK. Splash 35%. Stun 1.
 [1oymwy2] passive Third Band | Every 3rd hit on the same foe: also hits for 30% MGK, heals 5% max HP.
-[0h9syoc] passive Green Cover | In reserve: your out whorl takes 0.9x magic damage.
+[1fgfne4] passive Green Cover | In reserve: your out Whorl takes 0.9x magic damage.
 [1cqkdrs] move Fold Back | Hits for 68% MGK. At its next turn: hits for 40% MGK.
 [1vipfec] move Flicker | Ward 1. Haste 2. Fold Back's cooldown resets.
 [09sxykn] move Green Bands | Hits for 52% MGK. Splash 35%. Slow 2. Delays it 20%. Fogs your bench 2 rounds.
@@ -131,8 +131,8 @@
 [0xbhuf8] move Flash Over | Hits for 52% MGK. Slow 1. Its next turn comes 30% sooner. Readies Same Place.
 [1dufmi3] move Whole Sky | Hits for 105% MGK, 1.2x on any foe below 50% HP. Splash 35%.
 [19lf2wo] passive Brightening | When it uses a move: +5% damage, up to 3 times. Its shields last +1 turn.
-[0j744bz] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out whorl heals 8% a turn.
-[00jwz0p] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP whorl heals 30% of it.
+[0dj2xqn] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out Whorl heals 8% a turn.
+[1wyy1bd] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP Whorl heals 30% of it.
 [18axld6] move Hover Over | Heals an ally 12% max HP + 11% CHA. Haste 1. Haloed 2: if it falls, it glows on.
 [117vxxe] move Lit Rim | Hits for 79% MGK. Next attack: +15% foe missing HP, and 40% MGK to reserves.
 [0lpdo6k] move Crowned | Cleanses an ally. It is Untouchable for 2 turns.

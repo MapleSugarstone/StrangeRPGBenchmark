@@ -1,0 +1,309 @@
+[0s3jgks] Gran | Let them know most people keep their own shed shell as their first Whorl.
+[051qlxy] Tack's mum | Every Whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
+[1hiubtb] ? (turnBack) | The west road is for those with a Whorl. The mule won't walk it with you, and neither will I.
+[191xlq2] ? (turnBack) | No getting past the wood without a Whorl. The stream's rude about it.
+[1w0swoh] ? (turnBack) | Mum's rule is simple: no beach access unless you have a Whorl. Not even for paddling. I checked.
+[1tnzzua] ? (turnBack) | Don't go down without a Whorl. Half of us went down there. Look how that went.
+[05nqjqp] Strandmonger | Dull them down a bit, then catch them. A weaker Whorl makes for a surer catch.
+[0supumr] hint | (Only one Whorl fights at a time. The others wait in reserve. Switch to bring one out.)
+[0kdkfs7] Hermit | Large Whorls can wrench a Seal loose. So we take large Whorls.
+[1v4qnb4] hint | (A crest is a Whorl's most powerful move. A crest consumes tide.
+[0wpgypw] hint | and when a Whorl is knocked out.)
+[07c0aif] Conjoiner | So. Two Whorls. You nestle one inside the other, they settle in, and then one emerges.
+[01513fo] hint | (Conjoining is permanent. You decide what the new Whorl keeps. Every grotto now has a Conjoiner.)
+[1uf1yht] hint | (A ! over a Whorl indicates a wind-up.
+[1hxgjdr] Gatherer | Tarhaju Whorls drop the same fruit as real orchards. I've sampled plenty myself.
+[1grk1au] Iesbiki | A yoke Whorl harnessed and ready to pull. It possesses the patience of a gate.
+[0iwhtlv] Shellwright | They're small accessories, but they alter how a Whorl approaches combat. Only one per Whorl, though.
+[0jrhjuk] hint | (To equip a notion, press X and select Team. Each Whorl can carry one notion.)
+[1l5l1if] Grafton | Each of my four was two Whorls, and now each is singular and magnificent. (Do not ask which halves.)
+[1511lk9] Tinker | Right Whorl gets a notion, and the whole Whorl changes. Ohm showed me that. Didn't say a word.
+[098q7s4] hint | (Press C to equip or remove your lead Whorl. Its type determines which terrain you can traverse.)
+[17zexmp] Trapper | Hyolau Whorls drift down from the north on their own. We wait at the edge. It's mostly just waiting.
+[10xswd3] Pilgrim | There are conjoined Whorls roaming free out here now. Two shells fused into one. Naturally!
+[1lkx9qe] Old man | Wild conjoined Whorls are on the road now. Two shells fused into one. Never seen it before.
+[128w8y8] Groom | I brush the war horses. They've been Whorls for a hundred years, and they still love a good brush.
+[0jwarar] ? | Perihel keeps the hall dark. A star-type Whorl worn at the front illuminates it.
+[1jssr7m] ? (listMenu) | Which Whorl do you want to leave?
+[0r9u2ke] The Sifter | Two of my four Whorls are salt, which overcomes both roots and beasts. Keep that in mind.
+[0ru60qu] hint | (Star grains raise the cap on Strand levels. With one grain, your Whorls can reach Strand level 13.)
+[1leabt1] hint | (A SALT Whorl worn in the lead walks you through the gray.)
+[0kgj6zl] hint | (A VOID Whorl worn in the lead guides you across the blank.)
+[1abazys] hint | (With two grains, your Whorls can reach Strand level 18.)
+[1wpdbkz] hint | (With three grains your Whorls can reach Strand level 23.)
+[1669f7l] hint | (The space is too narrow for a Whorl. Your team remains within its horns.)
+[1jz7b2z] hint | (With {#1} grains, your Whorls can reach {#2}.)
+[1u2qc1h] Siphon | Plenty of room here for a brawl! I've got four Whorls ready.
+[0xv1luf] ? (listMenu) | Which Whorl do you offer?
+[1l7wwra] hint | (Your team must retain at least one Whorl.)
+[0hl0mjn] hint | (Select a Whorl to offer it. It will not return.)
+[1o4nkuq] hint | Ouro must keep at least one Whorl before leaving one in a shell.
+[1wpkih1] ? (listMenu) | Which Whorl are you leaving behind?
+[0s4le28] hint | (You can leave a Whorl behind in a shell. Since the Whorl moves, the shell stays.)
+[1haetq6] notice | {#1} {#2}{#3}, for catching a weak, wild Whorl.
+[1xorcnm] Shellwright | Bring six Whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
+[0j6hdmm] Shellwright | Check the roster in the menu to see which Whorl breaks what.
+[1il3u0s] DRUSE | Inside the Hollow, the Whorl is still ticking. It demands every sketch, including the Shellwrights'.
+[105dj9g] DRUSE | Inside, there's a Whorl strung like a necklace. I've never seen it, but I know it's there.
+[0rd7vit] DRUSE | {n} of 12. Inside the geode, the Whorl is counting in time with you.
+[044615r] ? (p) | A Whorl is a creature that fights for you. Your team consists of the Whorls you take with you. A team can have 4 Whorls.
+[1jrscxz] ? (p) | The first Whorl in your lineup is your lead. Your lead walks with you and is the first to enter battle.
+[0wfxiq4] ? (p) | Only one Whorl fights at a time. This is your out Whorl, while the others remain in reserve.
+[0i4lf7x] ? (p) | Select Switch during a battle to bring a Whorl from reserve into action. Switching is swift. The incoming Whorl waits less time than it would after an Attack. Higher CHA reduces this waiting period even further.
+[1h3i1rv] ? (p) | A Whorl that is rooted or taunted cannot be switched out.
+[1h2wp0b] ? (p) | A Whorl with 0 HP is knocked out. The game calls this down or a KO. It cannot fight again in that battle. Pick the next Whorl to send out.
+[0uj53xd] ? (p) | Battles begin with full HP. A KO'd Whorl is fine when the battle ends.
+[00l1a5b] ? (p) | When your team is full, any new Whorls you catch are sent to the Midden. You can access the Midden from any grotto, where you can swap Whorls in and out of your active team.
+[0qe5jfo] ? (p) | Press X to open the menu, select Team, choose a Whorl, then pick Make lead.
+[0e42ikp] ? (p) | Each Whorl has seven stats. A stat is a number. It shows how good the Whorl is at one thing.
+[1niee80] ? (s) | HP is health. A Whorl with 0 HP is knocked out. Max HP is the most health it can have.
+[0fsriwh] ? (s) | Speed is AGI. A Whorl with more AGI takes more turns.
+[09uez61] ? (s) | CHA helps a horn catch Whorls. It also reduces the wait time after using a Switch. Some moves use CHA too.
+[178946e] ? (p) | All species get the same number of stat points. They use them in different ways. A fast species has less DEF. A tough species gets fewer turns. A conjoined Whorl gets half its points from each of the two old Whorls.
+[136hz8p] ? (p) | This picture shows your lead's stats. The stats go up when a Whorl levels up. You can find things later that raise them a little more.
+[1lyryir] ? (p) | Every Whorl has a simple Attack. It is either physical or magic. Physical Attacks use ATK. Magic Attacks use MGK.
+[1y2mkcl] ? (p) | DEF and RES make hits hurt less. Say a hit has 100 power. It does 70 damage to a Whorl with 42 DEF. It does 50 damage to a Whorl with 100 DEF.
+[0uqlvzg] ? (p) | DEF works best against physical Whorls. RES works best against magic Whorls.
+[12ngh60] ? (p) | Press X to see stats. Tap Team, pick the Whorl, then tap Look.
+[1jwzyzu] ? (p) | In combat, a Whorl pauses after taking an action. Higher AGI reduces this pause. Thus, a quicker Whorl gains additional turns.
+[1tuzb5s] ? (p) | Example: Your Whorl has 69 AGI, while the foe has 51. Throughout the battle, your Whorl gains roughly 9 turns for every 8 the foe gets.
+[0sbiscg] ? (p) | Actions resolve in order. The Whorl whose turn comes first goes first. The top line indicates who moves first.
+[0ne8ati] ? (p) | Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a Whorl resistant to it.
+[0ht0blm] ? (p) | Sometimes one side moves much sooner. That side picks alone and moves. So a fast Whorl can move twice before a slow one moves once. The top line shows when this happens.
+[0qf1xxk] ? (p) | Some actions have short waits. A Whorl waits 80% as long after Guard as after Attack. The incoming Whorl waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each Whorl.
+[1obvbjt] ? (p) | Slow 1 delays the Whorl's next turn. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+[0waucbi] ? (p) | Some text says the Whorl's next turn comes 40% sooner. This means the Whorl waits less before it moves again. The wait is about 40% shorter.
+[06plks6] ? (p) | A wind-up move lands later. A ! appears over the Whorl while winding up. The top line shows how many moves you get first.
+[16zyhos] ? (p) | You can also switch to a Whorl that takes less damage from the move. An Unstoppable wind-up cannot be interrupted.
+[03kvu3q] ? (p) | Attack is your Whorl's standard strike. You can use it every turn, and it never depletes. Since it has no type, it deals equal damage to all types.
+[0smqsiu] ? (p) | Each Whorl has four moves. These moves deal more damage or provide special effects. Review the move's description before selecting it to understand its effect.
+[10mx4hu] ? (p) | Hits for 110% ATK means a hit with 1.1 times the Whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
+[1tcii43] ? (p) | Cooldowns count your side's turns. They decrease while the Whorl waits in reserve.
+[0a914uy] ? (p) | Moves matching a Whorl's own type deal 20% more damage. Squall is a TIDE Whorl, so its TIDE moves deal 20% more damage.
+[1jn5ylj] ? (p) | Guard reduces the damage your Whorl takes by half. It lasts until your Whorl's next turn. A Guard always acts first in a round.
+[1njutqu] ? (s) | A dash strikes quickly. Until its next turn, the Whorl takes 10% less damage. Guard does not block a dash. A rooted Whorl cannot dash.
+[1b0ceby] ? (s) | A projectile flies through the air. A guarding Whorl takes only a quarter of the damage.
+[1l42rcv] ? (s) | Spells bypass walls raised by summons. A silenced Whorl cannot cast spells.
+[0vrjr6s] ? (p) | Each Whorl has two habits. Habits act automatically. You do not select them. In battle, press left or right on the menu to view habits.
+[0l7r7qk] ? (p) | A crest is a Whorl's ultimate move. Most Whorls have one crest. Crests cost tide.
+[18t3lzs] ? (s) | When a move hits a guarding Whorl, its side gains 1 tide. This applies once per Guard.
+[0xalkux] ? (s) | Losing a Whorl awards 1 tide.
+[05z1k3w] ? (p) | Every Whorl has one or two types. Every move has one type. Types determine strengths and weaknesses.
+[0zc3aoo] ? (p) | A dual-type Whorl counts both. If both are weak to a move, it hits 2 times as hard. A strong one and a weak one cancel out. A hit never does more than 2 times, or less than half.
+[1tnlxth] ? (p) | Statuses are short-term Whorl effects, shown by an icon near its HP bar.
+[00usk04] ? (p) | Status durations are shown by the number following them. Slow 2 lasts for 2 of the Whorl's turns. Bleed and Poison use numbers for stack count.
+[02rohue] ? (s) | Stun: The Whorl loses its next turn. Stun also cuts off a wind-up.
+[0pjuzsf] ? (s) | Sleep: The Whorl skips turns. It wakes if hit.
+[0nxjnqr] ? (s) | Silence. The Whorl cannot cast spells, but its other abilities remain active.
+[1xd2m30] ? (s) | Taunt. The Whorl is restricted to using only Attack.
+[1s2cand] ? (s) | Root. The Whorl is unable to switch out or dash.
+[14d6knm] ? (s) | Slow. Each subsequent turn of the Whorl arrives 30% of a turn later.
+[0pgigme] ? (s) | Burn. The Whorl suffers magic damage at the start of each turn.
+[0bliims] ? (s) | Bleed. The Whorl takes physical damage at the start of each turn and loses one stack.
+[12mrwac] ? (s) | Poison. At the start of each turn, the Whorl loses 3% of its maximum HP per stack, then loses one stack.
+[0l44aip] ? (s) | Rot. The Whorl receives half the normal amount of healing.
+[067mdlf] ? (s) | Expose. Increases damage taken by the Whorl by 25%.
+[1czyzem] ? (s) | Weaken. Reduces the damage dealt by the Whorl by 25%.
+[1frqe2g] ? (s) | Doom. The Whorl takes damage every turn and cannot heal or use moves.
+[12nmga8] ? (p) | If a foe inflicts Stun, Sleep, Stasis, a forced skip, or a forced switch, the Whorl loses its turn but then becomes immune to that specific effect. It cannot be affected by the same status again until it has acted.
+[14kigzf] ? (p) | Another effect can still land before it acts. Once both expire, the Whorl becomes stalwart. For its next 2 turns, it cannot be forced to lose a turn.
+[01ksppu] ? (p) | A forced switch occurs when an opponent forces the Whorl to change. The Whorl may be forced out, dragged in, spun around, or switched at its next turn. The replacement Whorl also counts as forced.
+[1k5se6h] ? (s) | Haste. Each of the Whorl's subsequent turns arrives 30% of a turn earlier.
+[176q3wc] ? (s) | Dashing. After dashing, the Whorl takes 10% less damage until its next turn.
+[0k6rjv6] ? (s) | Empower: The Whorl deals 25% more damage.
+[0rawd6j] ? (s) | Fortify: The Whorl takes 25% less damage.
+[1m9r3lz] ? (s) | Regen: The Whorl heals slightly at the start of each turn.
+[0wk8n58] ? (s) | Ward blocks the foe's next attack on the Whorl. It fades after 2 turns if unused.
+[1df8dov] ? (s) | Thorns. When the Whorl is struck, it retaliates for a portion of the damage dealt.
+[1wq7keu] ? (s) | Untouchable. The Whorl takes no damage. Applying another instance of Untouchable does not extend its duration. The Whorl is Seen through its next turn after Untouchable ends. Until then, it cannot gain Hidden or become Untouchable again.
+[0rcrvte] ? (s) | Stasis. The Whorl skips its turns. It cannot be damaged or inflicted with status effects.
+[04m4aii] ? (s) | Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The Whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
+[1aasx9w] ? (s) | Monument. The Whorl cannot be knocked out. It remains at 1 HP.
+[1l53dzl] ? (p) | When a Whorl is replaced, it loses most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
+[051k9c1] ? (p) | A mark is a sign that some moves place on a Whorl. Each species has its own marks. Kivishi gains a Stone each time it is hit.
+[104isuk] ? (p) | To learn what a mark does, check the habits of the Whorl that generates it. In battle, press left or right on the menu to view this information.
+[17leij9] ? (p) | Some marks fade after a few turns. Others disappear when the Whorl switches out.
+[0iqlst0] ? (p) | Some moves summon a helper to the field. This summon stays by its Whorl and has its own small HP bar.
+[0aklvz1] ? (p) | Summons act independently. Some attack foes, while others protect their Whorl. Protective summons absorb single-hit attacks intended for their Whorl.
+[01c36t7] ? (p) | You can target specific summons. When choosing Attack, select the summon instead of the Whorl.
+[05hm1r6] ? (p) | You can capture a wild Whorl using a horn. Once caught, it joins your team.
+[06bso2b] ? (p) | Select Catch to grab a wild Whorl, then choose a horn. You can only catch wild Whorls.
+[1xihcuo] ? (p) | First, weaken the foe, but do not defeat it. A wild Whorl that is knocked out will escape.
+[19gpf9i] ? (p) | Certain factors improve your odds. If the foe is stunned or asleep, the threshold increases by {#1}%. If your Whorl has higher CHA than the foe, the threshold rises by up to {#2}%. Lower CHA reduces the threshold.
+[14e2wm0] ? (p) | If your team is full, the newly captured Whorl is sent to the Midden.
+[185pztv] ? (p) | When fighting a wild Whorl, you can always choose to Run. Run always works.
+[1gi5gwy] ? (p) | A notion is a small item held by a Whorl. Each Whorl can hold one notion.
+[1cnwnib] ? (p) | Some notions boost a stat. For instance, a Whetstone adds 11% ATK. Other notions change how a Whorl fights. Bloodglass heals the Whorl slightly each time it deals damage.
+[0dh1tz3] ? (p) | To give a notion, press X to open the menu. Select Team, then a Whorl, then Give notion. Take notion returns it to the Bag.
+[146e7c2] ? (p) | Some notions are consumed upon use. A Sea Biscuit restores 35% of the Whorl's HP. After that battle, the Sea Biscuit is gone.
+[0lbirpr] ? (p) | At a grotto, pick Nacre. Then layer nacre on a Whorl. Each layer adds the same points to any stat, helping a weak stat just as much as a strong one.
+[03hhb9u] ? (p) | A layer adds more points as a Whorl levels up. It adds {#1} to a stat at level {LEVEL_MAX}. Since HP values are larger, it adds {#3} to HP. The Nacre menu shows the specific bonus for your Whorl's current level.
+[097qonq] ? (p) | A Whorl can hold {TAN_PER_STAT} layers in a single stat. It can hold {TAN_TOTAL} layers in total.
+[16ku5zx] ? (p) | For example, a level {LEVEL_MAX} Whorl with 69 ATK would have {#2} ATK after adding {TAN_PER_STAT} layers to that stat.
+[1clrav1] ? (p) | Conjoining merges two Whorls into one. Use the Conjoiner at a grotto.
+[10wm5zg] ? (p) | You choose the traits for the new Whorl. It keeps 2 moves from each parent and 2 habits in total. It also inherits 1 or 2 types. You also pick its appearance and name.
+[047a448] ? (p) | You may retune one move. A retuned move takes on one of the new Whorl's types.
+[1nttpoj] ? (p) | The new Whorl assumes the higher level of the pair.
+[0t36vxm] ? (p) | 10 cowries per higher Whorl level. Two level 20 Whorls cost 200 cowries.
+[1756gkk] ? (p) | Conjoining is irreversible. The original Whorls are destroyed, but their notions return to your Bag.
+[0m53imz] ? (p) | The seam joins Whorls, costing the new one {#1}% of every stat.
+[0np9843] ? (p) | A conjoined Whorl cannot be joined again. Some cannot be joined at all. The menu displays these options in gray.
+[1vatoma] ? (p) | Whorls grow by winning battles. Each victory grants experience points (XP), which eventually raise the Whorl's level and improve its stats.
+[0zgv1yc] ? (p) | All team Whorls gain XP, even if inactive. Midden Whorls get half.
+[1x84hrg] ? (p) | When you win, each foe you knocked out or caught gives XP. A level 10 wild Whorl gives 24 XP. A level 10 Whorl of a trainer gives 32 XP.
+[1x4d4iu] ? (p) | Each level needs more XP than the last. A level 5 Whorl needs 72 XP to reach level 6.
+[1so0rzv] ? (p) | A Whorl cannot exceed the level cap. You raise this cap by winning pearls, which you obtain by defeating keepers.
+[1l9491d] ? (p) | Very long battles make Whorls tired. This is called fatigue.
+[1rkp45f] ? (p) | In round {#1}, each out Whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
+[0rgndt8] ? (p) | Fatigue goes past DEF, RES, and Guard. The slower Whorl gets hit first.
+[13prga8] ? (p) | You can wear your lead Whorl. Press C to equip it, and press C again to unequip it.
+[1a3abkc] ? (p) | Equipping a Whorl allows you to traverse terrain matching its type.
+[1ozitvl] ? (p) | A Whorl with two types grants both abilities.
+[0zh5a42] ? (s) | Notions holds notions for your Whorls.
+[1lr27ow] ? (p) | A Salt Line repels wild Whorls for 150 steps. A Lure Shell attracts the rarest species on the current map. A Carter's Whistle summons the cart once.
+[09fo0rd] ? (p) | You earn cowries by beating trainers. Each Whorl pays 12 cowries for every level it has. Two level 10 Whorls pay 240 cowries.
+[1cdh51u] ? (s) | Bole. Your conjoined Whorls deal 8% increased damage.
+[1r14nr2] ? (s) | Tusk. Your Whorl's delay after switching is reduced by 20%.
+[1c2ak6x] ? (s) | Hilt. When your Whorl knocks out a foe, its cooldowns decrease by 1.
+[045yz85] ? (p) | A Starborn Whorl is a rare variant featuring the colors of the night sky. It glows and twinkles.
+[0y48i6o] ? (p) | About 1 in {STARBORN_ODDS} new wild Whorls is Starborn. A new conjoined Whorl can be Starborn too, at the same odds.
+[1c3olg8] ? (p) | A Starborn Whorl is just as strong as others of its species. Only its look is different.
+[0ge635m] ? (p) | A Starborn Whorl does not pass on its look when you conjoin it.
+[1ss33nr] ? (p) | Once you encounter a Starborn Whorl, the Register marks its species with a star.
+[0far7tl] ? (p) | Select a slot to modify it. You can get a random Whorl, find any species by its name, or conjoin two species.
+[0ccmo63] ? (p) | A team can include each species only once. A conjoined Whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined Whorl on that team.
+[1km2iqy] ? (p) | Practice battles use tide. Every Whorl is level 25 unless you change it.
+[0adlnpl] ? (p) | During a practice battle, press V to open the debug menu. This displays the stats for every Whorl and the opponent's last move. You can also modify HP and tide here.
+[1n3vftf] ? (p) | Byssus is online. Opens at a grotto with {ROSTER_SIZE} Whorls.
+[0wnf7cm] ? (p) | Bring {ROSTER_SIZE} Whorls, pick {TEAM_SIZE}. The Roster screen shows what breaks a rule.
+[0e11c0t] ? (p) | Random battle uses drawn {ROSTER_SIZE} Whorls. No roster needed.
+[1f56van] ? (s) | You may include at most {LEGENDARY_MAX} legendary Whorls. A legendary is one of the {LEGENDS} rarest Whorls.
+[15gjp2x] ? (s) | No charms allowed. All Whorls fight at level {SYNC_LEVEL}.
+[1nr1n3j] ? (p) | {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick your next Whorl. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts in a row loses.
+[0y7rzln] ? (p) | After a match, select Rematch to play the same opponent again. A random battle generates new Whorls for the rematch.
+[0crxpln] ? (p) | On the Strand, your Whorls fight at their Strand level, which starts at 3 and only increases while on the Strand.
+[0cp8zsa] ? (p) | A SALT Whorl lets you walk through the gray. A VOID Whorl lets you cross the blank.
+[01wtyhr] ? (p) | You can embed a Whorl in a shell on the Strand. Once embedded, the shell remains.
+[0v9gkyn] Child | I'm cultivating a Whorl in a crate. It's just a snail at the moment.
+[15gghf8] Child | Snails develop shells, which turn them into Whorls. I have all the patience in the world.
+[0n7rcrm] ? | (Your Whorl clashes with the boot. Choose one action per turn.)
+[08jh913] ? | (Switch also takes priority. It calls forth a Whorl from your reserve.
+[13m6ab6] ? | (A horn can catch a Whorl at any HP level. The lower the Whorl's HP, the higher the success rate.)
+[0ocnomt] ? | (Choose Catch and blow a horn. A caught Whorl joins you. If you knock it out, it gets away.)
+[0z6wujx] Stackkeeper | Every level is a battle! Your Whorls stand at fifty, all of them.
+[01yjlzp] ? (stilts) | Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE Whorl.
+[0onwhf6] Stilt-maker | Deep water demands a sea Whorl on you.
+[0v2e1bb] ? | A lad named Tack came through, bringing a Whorl from our pans. Brine and boy, both salty.
+[188165j] narration | Big old Whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
+[0xf380x] hint | An old crane of the Riders. Wear a GEAR Whorl to turn its gears.
+[12pwh7c] Register entry: Kukira | The draft moving through the Auger's narrow Whorls. It got a shell and kept pushing. Two cowries. It will push for one.
+[0u1uskh] Register entry: Petami | The oldest Whorl in the Gleaner's Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.
+[13frs6l] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf Whorl takes 0.5x.
+[0yiskio] menu | isn't a Whorl.
+[1v73qxv] menu | A roster is a collection of Whorls.
+[1hhsfap] menu | Each roster contains {ROSTER_SIZE} Whorls.
+[1hsw96i] menu | Two Whorls hold {#1}. A roster takes each notion once.
+[0fto77h] menu | A pick is a selection of Whorls drawn from the roster.
+[0cjxhed] menu | Each pick contains {TEAM_SIZE} Whorls.
+[0xt6shx] menu | A pick identifies a Whorl that is absent from the roster.
+[0z8bz1p] menu | A pick repeats a Whorl.
+[1mjsbar] menu | This always works on a wild Whorl.
+[02w5cbk] menu | No Whorls to contain it.
+[1gqita2] menu | Which Whorl?
+[0j3b4ip] menu | To which Whorl?
+[1e5jd0p] menu | Each Whorl in your team takes {xp} experience.
+[05kid4x] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out Whorl moves to the back of the line.
+[16275ae] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next Whorl to emerge consumes it.
+[1ctwimj] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other Whorls.
+[06zek28] menu | {#1} is Silent: no other Whorl's passives, stances, or holes detect its actions.
+[0zuxh06] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out Whorl for {#3}% each turn.
+[1pvispe] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out Whorls: a TIDE Whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+[0rjpbd4] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out Whorl leaves.
+[1mcbt9h] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out Whorl leaves.
+[13mbqhd] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the Whorl becomes Stunned 1.
+[1bi4jip] menu | Your side is trapped, so the foe acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
+[0jxn9um] menu | Acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.
+[1eu1xg5] menu | (Out here, your Whorls fight at their Strand level. It begins at 3.)
+[0ivwo8h] menu | Two Whorls required. You have one.
+[1focmzz] item | For 150 steps, wild Whorls in the grass will avoid Ouro.
+[0o2399m] item | The next wild Whorl that appears on this map will be its rarest species.
+[1e11oaw] menu | Roughly one in four hundred wild Whorls displays night-sky hues and sparkles.
+[0bb0l54] menu | {HERO} has no Whorls yet.
+[0dg13h6] menu | Your team needs one Whorl.
+[0q8kc7n] menu | Swap with which team's Whorl?
+[03hpo49] menu | A Whorl can hold up to {TAN_TOTAL} layers.
+[0in4ig4] menu | Z sends your four Whorls.
+[1finv5x] menu | The rematch generates new Whorls.
+[0ybh9jm] menu | Each side receives six random Whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
+[0cac1xn] menu | Random encounter: six Whorls each.
+[1wnelma] menu | Z modifies this Whorl. V examines it.
+[1bi3y7y] passive Piled High | A Stone, up to 6, when hit or when any Whorl comes out. Each cuts damage taken 4%.
+[0sfhaxb] passive Points the Way | Reserve: your out Whorl takes 0.92x. Coming out: the foe's weakest is next out.
+[06wctc7] summon Little Cairn | Takes every single-target hit meant for your out Whorl. When knocked down: Kivishi gains 2 Stones.
+[0iiyhje] move Shingle Bank | Hits for 128% ATK. Neither out Whorl can switch for 3 turns. Haste 3.
+[0n03lp4] passive Bears the Weight | In reserve: it takes 30% of each hit on your out Whorl, down to 1 HP of its own.
+[0uzyn4d] move Ground Rings | Wind-up. Hits for 107% ATK, +10% per Whorl standing. Splash 60%. Stun 1.
+[0x2x68a] passive Makes You Turn | In reserve: your out Whorl deals 1.05x. Out: a foe that comes out goes Dizzy 2.
+[1baqaaf] passive Hedged In | A dash that hits it gets caught in the hedge: Root 2 on the Whorl that dashed.
+[008e2x7] passive Catches On | Takes 0.8x from attacks while Hasted. A Whorl that dashes into it gets 2 Hooks.
+[1o1t1k5] passive Epicycle | In reserve, every 3rd turn your side takes: your out Whorl's non-crest cooldowns drop 1.
+[0s8ukki] passive Sea Breeze | In reserve: a Slow on your out Whorl turns into Haste 1.
+[173ob1m] passive Static | Charges jump across a dash or an Attack between two Whorls. It starts with 2 Charges.
+[0h9syoc] passive Green Cover | In reserve: your out Whorl takes 0.9x magic damage.
+[0j744bz] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out Whorl heals 8% a turn.
+[00jwz0p] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP Whorl heals 30% of it.
+[0rzfcpd] passive Spare Blades | In reserve: hits by your out Whorl lodge Blades too.
+[0hq3t2w] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP Whorl heals 30% of it.
+[00a2yfo] summon Reflection | Takes single-target hits meant for your out Whorl. 3 turns.
+[0d3a9we] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out Whorls.
+[1q3b25z] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out Whorl.
+[1bicomw] move All Kneel | For 2 turns, neither out Whorl can fall below 10% HP.
+[0pe0wqa] summon Root Friend | Takes single-target hits for your out Whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
+[0pt1qu0] passive Whiplash | In reserve: Root 1 on a foe that hits your out Whorl, once a turn. Hitting a Seed Shield: Root 1.
+[180t3il] passive Hearth | Boosted moves deal 1.15x: its own, and your out Whorl's while it is in reserve.
+[1kfyhdp] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out Whorl's spells add 15% MGK.
+[1oiisr7] passive Beside You | Once, in reserve: your out Whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
+[1wn5cda] move Land Beside | Your lowest-HP Whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
+[1cat43j] move Undertow Mend | Hits for 76% MGK. Your lowest-HP Whorl heals 35% of it.
+[0o05rm8] passive Haul Out | In reserve: your out Whorl's dashes deal 1.15x.
+[00wvr9t] summon Whetstone | Each turn: your out Whorl heals 6% of its max HP.
+[1nqb2wd] passive Moonward | In reserve: your out Whorl's spells deal 1.15x.
+[1uqf88v] mark joints in | A Whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
+[02ioicu] summon Reef Wall | Takes single-target hits meant for your out Whorl until it falls. 20% of Sunaka's max HP.
+[0oikmsy] move Ossuary | Raises a Small Bones for each Whorl down on either side, at least 1, up to 3.
+[1cnkdwc] move Green Thumb | Hits for 100% ATK. Your lowest-HP Whorl heals 30% of the damage. Empower 1.
+[1gib0i5] drop Pear | It heals the Whorl that eats it 20% of its max HP.
+[0uezecr] passive Wall Fed | In reserve: your out Whorl heals 3% of max HP a turn and deals 1.05x.
+[1pwn1j6] passive Pears Free | Every 2nd move it uses drops a Pear. Either out Whorl may eat it to heal 20%.
+[1xk4ydr] summon Landing | At your next turn: heals your out Whorl 25% of its max HP. Haste 2. Then it goes.
+[1u6ckdm] summon Drowned Image | Takes single-target hits meant for your out Whorl. Each turn: hits the foe for 25% ATK.
+[1mkwp6k] ground Rucked Ground | A hit on the out Whorl here also hits each reserve here for 25% of it.
+[1frlggk] summon Raised Corner | Takes single-target hits for your out Whorl. Each turn: hits the foe for 30% MGK.
+[1y7o72a] passive Give Way | While its Raised Corner stands: your out Whorl heals 2% of max HP a turn.
+[0ajj6vb] summon Warm Pylon | Each turn: heals your out Whorl 12% of its max HP.
+[0t6c9gg] passive Warm Side | In reserve: your out Whorl heals 3% of max HP at your turns.
+[12g9ecl] move Cured | Swallows the foe for 2 turns, then spits it out as its side's next Whorl.
+[1lb5v8y] summon Hollow Copy | Takes single-target hits meant for your out Whorl. 3 turns.
+[05ie5u4] move Ring Home | Brings back your first KO'd Whorl at 25% HP, 40% at night. None: team heals 15%.
+[09wuwg7] summon Great Curl | Takes single-target hits for your out Whorl. Each turn: hits the foe for 50% of Spijire's ATK.
+[045kb2t] passive Polishes | Its heals are 1.5x on a Whorl whose side has a Mantle over it.
+[1qvtgo1] move Slide Over | Your out Whorl heals 33% of max HP, reserves 18%.
+[1bb63dq] move Shine | Next turn: your team heals 20%, your out Whorl is Untouchable 1.
+[1ll5gxx] summon Still Wall | Takes single-target hits meant for your out Whorl. 3 turns.
+[06box8r] move Clip | Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP Whorl heals 40% of it.
+[1t8pa4x] summon Late Image | Takes single-target hits meant for your out Whorl. 2 turns.
+[1gr1br5] summon Silver Image | Takes single-target hits meant for your out Whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.
+[1kr6nv0] summon Water Dome | Takes single-target hits meant for your out Whorl. 3 turns.
+[0qwupfd] ground Rising Line | A line on HP bars from 15% of max HP, rising 5% a round. A Whorl under it takes 1.3x from hits.
+[1idfbkc] move Spring Line | Hits for 181% MGK. Neither out Whorl can switch for 3 turns.
+[1wulaaw] move Roll Through | Hits for 121% MGK. Your lowest-HP Whorl heals 8% of its max HP.
+[1klclnm] passive Climbed | In reserve: your out Whorl takes 0.9x damage.
+[1l169jz] summon Hole Wall | Takes single-target hits meant for your out Whorl. 3 turns.
+[17kc8w9] move Dry Ring | Hits for 91% MGK, +8% per Whorl standing. Splash 35%. Heals 15% of it.
+[1eksgax] passive Kept Shine | When a Whorl falls, friend or foe: it takes that Whorl's first passive while out.
+[0lilub2] passive One of Each | When any Whorl gains a good status: Picagi gains 1 turn of it too.
+[1hsj6pf] summon Shell Wall | Takes the single-target hits meant for your out Whorl.
+[0ymah3q] passive Lip Color | Each Whorl that falls, on either side, turns 1 of the foe's tide pink for 3 rounds.
+[0hrfc7m] passive Listening | 1.3x max HP. Takes 0.75x damage, 1.3x while it holds a Whorl to its ear.
+[1uds3ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next Whorl out.
+[17sw4yn] notion Graft Wax | On a conjoined Whorl, +9% ATK and +9% MGK. On any other, nothing.

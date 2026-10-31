@@ -16,19 +16,19 @@ defScript('lesson', async () => {
     area: 'back shelf',
     tips: [
       { when: () => true, lines: [
-        '(Your whorl clashes with the boot. Choose one action per turn.)',
+        '(Your Whorl clashes with the boot. Choose one action per turn.)',
         '(When your turns are near, you and your opponent choose moves at the same time.', 'The actions then resolve in order.)',
         '(Attack is unlimited. Special moves hit harder but need a cooldown of several turns.)',
         '(Preview your options before committing.', 'Each entry details its effect and whether the foe is vulnerable to it.)',
       ] },
       { when: b => b.turnNo >= 3, lines: [
         '(Guard takes priority. It halves incoming damage until your next turn.)',
-        '(Switch also takes priority. It calls forth a whorl from your reserve.', 'You currently have only one available.)',
+        '(Switch also takes priority. It calls forth a Whorl from your reserve.', 'You currently have only one available.)',
       ] },
       { when: b => { const me = out(b, 0), foe = out(b, 1); return !foe.ko && G.pegs.twig > 0 && foe.hp <= foe.maxHp * pegLine(b, me, foe, 'twig'); }, lines: [
-        '(A horn can catch a whorl at any HP level. The lower the whorl\'s HP, the higher the success rate.)',
+        '(A horn can catch a Whorl at any HP level. The lower the Whorl\'s HP, the higher the success rate.)',
         '(The boot is now sufficiently weakened.', 'Selecting Catch will show "Sure" on the horn list, guaranteeing success.)',
-        '(Choose Catch and blow a horn. A caught whorl joins you. If you knock it out, it gets away.)',
+        '(Choose Catch and blow a horn. A caught Whorl joins you. If you knock it out, it gets away.)',
       ] },
     ],
   });

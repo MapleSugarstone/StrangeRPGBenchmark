@@ -13,7 +13,7 @@
 [1oaonsk] ? | There. It's happening.
 
 == scene: grainLine
-[1jz7b2z] hint | (With {#1} grains, your whorls can reach {#2}.)
+[0a3bs3f] hint | (With {#1} grains, your Whorls can reach {#2}.)
 [13l8r7p] hint | Strand level 50
 
 == scene: c
@@ -124,7 +124,7 @@
 [0ql8mrh] ? | This chamber now contains a drawing of itself. Drawn small, by a smaller version of me.
 
 == scene: siphonFire
-[1u2qc1h] Siphon | Plenty of room here for a brawl! I've got four whorls ready.
+[09tz2xh] Siphon | Plenty of room here for a brawl! I've got four Whorls ready.
 [1qwk4hg] Siphon | The floor near the hood is slick. I suggest you stay toward the dry side.
 [0unyuvz] Siphon | This room offers warmth to those who have been beaten, until they thaw out.
 [01ur1ac] Siphon | A grain of tribute is awarded to whoever prevails here. Take it. Right here.

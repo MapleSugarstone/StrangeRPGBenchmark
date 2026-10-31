@@ -19,7 +19,7 @@
 [094b3t7] move Pick Clean | Hits for 49% MGK. Its next 2 turns: 35% MGK, heals 60% of it, takes a good status.
 [0tt26g0] move Crows Come In | Wind-up. Hits for 93% MGK. Splash 35%. Every foe: Afraid 1. Next 2 turns: 45% MGK, Splash 35%.
 [069fmtu] passive Leaves a Blade | Its hits lodge a Blade, up to 8, for 3 turns. When it attacks: its next turn comes 20% sooner.
-[0rzfcpd] passive Spare Blades | In reserve: hits by your out whorl lodge Blades too.
+[0j062up] passive Spare Blades | In reserve: hits by your out Whorl lodge Blades too.
 [1jex0z3] move Nick | Hits for 179% ATK. 1 Blade, or 2 on a foe that came out since its last turn.
 [05uir1n] move Draw Blades | Pulls every Blade: 48% ATK + 59% ATK each. Slow 1. A KO resets its cooldown.
 [0nlfmwc] move Score | Hits for 124% ATK. Expose 1. Doubles the foe's Blades, up to 8.
@@ -47,7 +47,7 @@
 [004srh9] move Tunnel Past | Hits for 50% ATK. Its next turn comes 40% sooner.
 [1de8sxl] passive Cold Store | Its hits add Slow 1. Every 4th hit on the same foe: Silence 1.
 [0mqaaov] passive Fills Back Up | Once per battle, below 25% HP: for 1 turn, damage heals it instead.
-[0hq3t2w] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP whorl heals 30% of it.
+[1m3co60] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP Whorl heals 30% of it.
 [0zuyvqg] move Top Shelf | Cleanses an ally. Shield 18% max HP, 3 turns. If it breaks: 60% ATK to the foe.
 [1t6pn4e] move Frost Bite | Hits for 62% ATK. Silence 1. Slow 2. Its moves still cooling wait 1 more turn.
 [1hqgm0w] move Bad Months | For 2 turns: damage heals it instead. Its reserves go into cold storage, 10% a turn.
@@ -132,7 +132,7 @@
 [0h6u2x1] move Wave the Claw | Hits for 50% ATK. Taunt 1. Its next attack deals 1.7x damage.
 [1qvap97] move Claw Raised | Attacks and dashes deal it 0 till its next turn. Then: 90% ATK +30% per blow. Splash 35%.
 [0x8ubqv] move Regrow Claw | Hits for 148% ATK. Fortify 3. For 3 turns its attacks also hit each reserve for 40%.
-[00a2yfo] summon Reflection | Takes single-target hits meant for your out whorl. 3 turns.
+[12212pg] summon Reflection | Takes single-target hits meant for your out Whorl. 3 turns.
 [0v68bl9] passive Reflected | Starts with a Reflection (5% max HP, 3 turns). Every 4th attack: another.
 [1pif548] passive Many Places | When it attacks: each Reflection also hits for 15% MGK.
 [001j404] move Heat Glint | Hits for 85% MGK. Slow 1. A Reflection if it has none.
@@ -177,7 +177,7 @@
 [0xx0ce0] move Fire a Friend | Hits for 50% ATK. Stun 1. Switches to an ally.
 [1i2bv5m] move Late Shot | Hits for 36% ATK. Splash 35%. Its next 3 turns: 60% ATK, Splash 35%, Slow 1.
 [120n8g0] summon Spray Column | Stands 3 turns. While it stands, Whitewater makes each foe move cost that foe 60% MGK.
-[0d3a9we] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out whorls.
+[03s9c3i] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out Whorls.
 [11zprwk] passive Whitewater | While its Spray Column stands: each foe move costs that foe 60% MGK. Deals 1.15x.
 [0bguo89] move Crash Down | Hits for 84% MGK. Splash 35%.
 [0fasu1i] move Curl Over | Hits for 40% MGK. For 2 turns: attacks deal the foe 0, moves deal it 1.4x.
@@ -198,7 +198,7 @@
 [0ggle5k] passive Floats | If nothing hit it since its last turn: its next move deals 1.25x and adds Root 1.
 [085lnwm] passive Bleached | Its moves add 4% of its max HP against a Rooted foe.
 [0lscfpz] move Waterlog | Hits for 131% MGK. Slow 1. 1.5x on a Rooted foe.
-[1q3b25z] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out whorl.
+[01lzwlz] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out Whorl.
 [0lxrozw] move Bark Coat | An ally's next 3 hits deal 0.7x and each heals it 5% max HP.
 [1lgsdcd] move Washed Up | Hits for 119% MGK. Splash 35%. Every foe: Root 2. The foe's side loses 2 tide.
 [1tvk52e] passive Buoyant | Its heals are 1.3x on allies with a bad status.
@@ -264,7 +264,7 @@
 [0h3b30i] move Slide Along | Hits for 100% ATK. Its next turn comes 25% sooner.
 [0m186rr] move Open Hymnbook | Summons a Hymnbook (12% of its max HP, 3 turns).
 [147boly] move Box Pew | Hits for 100% ATK + 8% of the foe's missing HP. Slow 1. Its Seat moves to it.
-[1bicomw] move All Kneel | For 2 turns, neither out whorl can fall below 10% HP.
+[042k314] move All Kneel | For 2 turns, neither out Whorl can fall below 10% HP.
 [03j8dx9] passive Reliquary | When it KOs a foe: wears its body 3 turns, then keeps its second move in a fifth slot.
 [11g9lcu] passive Under Glass | In a worn body: takes 0.85x damage. Putting one on heals 15% max HP.
 [1x6i33q] move Gilt Edge | Hits for 161% MGK + 6% of the foe's current HP.
@@ -315,9 +315,9 @@
 [1hqr9ki] move Pull Clod | Hits for 85% ATK. Its next turn comes 20% sooner. Spends a Lump: Stun 1.
 [0vjsv0e] move Pack Earth | Drags in a reserve. Hits it for 80% ATK. Spends a Lump: Silence 1.
 [1xcsuqt] move Earthen Hold | Spends every Lump: hits for 100% ATK, +25% per Lump. Next 3 turns: 30% ATK to it.
-[0pe0wqa] summon Root Friend | Takes single-target hits for your out whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
+[1214e8i] summon Root Friend | Takes single-target hits for your out Whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
 [0z7ku39] passive Green Hand | Its heals and shields are 1.15x.
-[0pt1qu0] passive Whiplash | In reserve: Root 1 on a foe that hits your out whorl, once a turn. Hitting a Seed Shield: Root 1.
+[1s0l3qw] passive Whiplash | In reserve: Root 1 on a foe that hits your out Whorl, once a turn. Hitting a Seed Shield: Root 1.
 [1ml0j3n] move Root Pull | Hits for 163% MGK. Root 2. Its next turn comes 20% sooner.
 [1xe61el] move Seed Shield | Shields an ally 15% max HP + 25% CHA. When it ends: 60% MGK, Slow 2.
 [1uj5sg8] move Leafing | Ally: Regen 2 (7% a turn), and its next attack deals 1.4x. Hits the foe for 59% MGK.

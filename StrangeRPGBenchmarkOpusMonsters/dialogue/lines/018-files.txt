@@ -17,6 +17,8 @@
 [1w1be0g] menu | Start new game in which file?
 [16q8hjm] menu | Restart file {#1}?
 [1u7svj0] menu | The save will be lost.
+
+== scene: help
 [1pzvcdp] menu | Z picks. Arrows move. X back.
 [17lfzgt] menu | Press C to export or import a .whorl file.
 
@@ -36,7 +38,7 @@
 [1fjukvu] menu | Customize appearance?
 
 == scene: fitterMenu
-[0ivwo8h] menu | Two whorls required. You have one.
+[0ev3hqp] menu | Two Whorls required. You have one.
 
 == scene: ia
 [1t3z23f] menu | Fit which first?
@@ -81,8 +83,8 @@
 ==== file: src/game/items.ts
 
 == scene: items
-[1focmzz] item | For 150 steps, wild whorls in the grass will avoid Ouro.
-[0o2399m] item | The next wild whorl that appears on this map will be its rarest species.
+[0obzbm7] item | For 150 steps, wild Whorls in the grass will avoid Ouro.
+[19haszu] item | The next wild Whorl that appears on this map will be its rarest species.
 [0u1w5ke] item | The cart appears once on any road or beach, taking Ouro to a town they have visited.
 [1twb982] item | Glass smoothed by the sea, green in hue. Grottos purchase it.
 [1gkafvl] item | A block of pan salt. Grottos buy it.
@@ -97,13 +99,13 @@
 
 == scene: rowsOf
 [0ibbifc] menu | Each layer grants {#1} to a single stat or {#2} to HP at level {lv}, capping at {TAN_PER_STAT} layers in any one stat.
-[1e11oaw] menu | Roughly one in four hundred wild whorls displays night-sky hues and sparkles.
+[0nvnlgo] menu | Roughly one in four hundred wild Whorls displays night-sky hues and sparkles.
 
 == scene: draw
 [1h39pzz] menu | {lr} Scroll/X to exit.
 
 == scene: fourMenu
-[0bb0l54] menu | {HERO} has no whorls yet.
+[1eiwcbs] menu | {HERO} has no Whorls yet.
 [1k4ou9c] menu | {HERO} takes the {#2}.
 
 == scene: giveNotion
@@ -113,7 +115,7 @@
 ==== file: src/game/middenScreen.ts
 
 == scene: move
-[0dg13h6] menu | Your team needs one whorl.
+[0qdycoq] menu | Your team needs one Whorl.
 [1vn9in2] menu | {m.name} is sent to the Midden.
 [1e5gokq] menu | {m.name} joins your team.
 
@@ -121,7 +123,7 @@
 [07m1heg] menu | {b.name} enters, {a.name} goes to the Midden.
 
 == scene: head
-[0q8kc7n] menu | Swap with which team's whorl?
+[0rcmrlf] menu | Swap with which team's Whorl?
 
 ==== file: src/game/minigames/pegboard.ts
 
@@ -198,7 +200,7 @@
 
 == scene: drawPanel
 [00e5grx] menu | Remove all {#1} layers from {m.name}?
-[03hpo49] menu | A whorl can hold up to {TAN_TOTAL} layers.
+[177vxbt] menu | A Whorl can hold up to {TAN_TOTAL} layers.
 [0fodqs5] menu | A stat can hold up to {TAN_PER_STAT} layers.
 [0z5qycr] menu | You are out of nacre to apply.
 [0yz4utg] menu | A layer grants {name} {#2} for 1 nacre.
@@ -228,7 +230,7 @@
 [1lrzdkq] menu | The fight begins.
 [0ckznn8] menu | V examines it.
 [1p5xpor] menu | Awaiting {#1}. X modifies it.
-[0in4ig4] menu | Z sends your four whorls.
+[18uopfo] menu | Z sends your four Whorls.
 [1eu2mcb] menu | Z flags it. V inspects it.
 
 == scene: endReason
@@ -271,7 +273,7 @@
 [02ja7iz] menu | Link closed.
 
 == scene: draw
-[1finv5x] menu | The rematch generates new whorls.
+[0k39vvp] menu | The rematch generates new Whorls.
 [0eluul3] menu | The rematch retains both teams.
 [13qikfk] menu | Press Z to go back.
 [0zqf1d8] menu | Z types, X deletes, V done.
@@ -280,7 +282,7 @@
 [12tj6bj] menu | Generates a link for anyone else seeking a match. A match is the best of three games.
 [0309hfk] menu | Creates a one-time code for a friend, valid for 15 minutes.
 [050ko7p] menu | Uses a friend's code.
-[0ybh9jm] menu | Each side receives six random whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
+[1gev8ky] menu | Each side receives six random Whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
 [1ih7l1i] menu | Six to display, four to battle, all at level 25.
 [1ld4of2] menu | Go back to the counter.
 
@@ -288,7 +290,7 @@
 [1f751k5] menu | Returns to the match the page left. The room holds the seat for 90 seconds.
 
 == scene: r
-[0cac1xn] menu | Random encounter: six whorls each.
+[1bywzhn] menu | Random encounter: six Whorls each.
 
 ==== file: src/game/practice.ts
 
@@ -308,7 +310,7 @@
 [0csa9fd] menu | Contains nothing.
 
 == scene: hint
-[1wnelma] menu | Z modifies this whorl. V examines it.
+[1ogthci] menu | Z modifies this Whorl. V examines it.
 [1wx1nfw] menu | Z begins with these teams.
 [1bd2fn1] menu | Z selects. X returns to the title screen.
 

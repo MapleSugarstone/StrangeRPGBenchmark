@@ -236,7 +236,7 @@ sp({ id: 'torr', name: 'Kukira', types: ['GEAR'], basic: 'M', area: 'augerstair'
   moves: ['torr_gust', 'torr_blast', 'torr_breathe', 'torr_blowout'], passives: ['torr_kept', 'torr_narrow'],
   sprite: ['...33333', '....444.', '..33344.', '.2232244', '.2131244', '.2232242', '..2.244.', '.22.224.'], c: ['#b3aca2', '#ffeaaa', '#416147'],
   fit: 'keeps pushing', pegs: 2,
-  entry: 'The draft moving through the Auger\'s narrow whorls. It got a shell and kept pushing. Two cowries. It will push for one.' });
+  entry: 'The draft moving through the Auger\'s narrow Whorls. It got a shell and kept pushing. Two cowries. It will push for one.' });
 
 // ================================================================ chapter 3: the point
 sp({ id: 'plummet', name: 'Otosus', types: ['VOID'], basic: 'M', area: 'augerpoint',

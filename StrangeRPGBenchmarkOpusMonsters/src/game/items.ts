@@ -16,8 +16,8 @@ export interface ItemDef {
 export const ITEMS: Record<string, ItemDef> = {};
 function item(d: ItemDef): void { ITEMS[d.id] = d; }
 
-item({ id: 'saltline', name: 'Salt Line', price: 60, sell: 0, text: 'For 150 steps, wild whorls in the grass will avoid Ouro.' });
-item({ id: 'lure', name: 'Lure Shell', price: 200, sell: 0, text: 'The next wild whorl that appears on this map will be its rarest species.' });
+item({ id: 'saltline', name: 'Salt Line', price: 60, sell: 0, text: 'For 150 steps, wild Whorls in the grass will avoid Ouro.' });
+item({ id: 'lure', name: 'Lure Shell', price: 200, sell: 0, text: 'The next wild Whorl that appears on this map will be its rarest species.' });
 item({ id: 'whistle', name: 'Carter\'s Whistle', price: 80, sell: 0, text: 'The cart appears once on any road or beach, taking Ouro to a town they have visited.' });
 item({ id: 'beachglass', name: 'Beach Glass', price: 0, sell: 40, text: 'Glass smoothed by the sea, green in hue. Grottos purchase it.' });
 item({ id: 'saltcake', name: 'Salt Cake', price: 0, sell: 60, text: 'A block of pan salt. Grottos buy it.' });

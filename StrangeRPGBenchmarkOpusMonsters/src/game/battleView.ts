@@ -541,7 +541,7 @@ class BattleView implements Mode {
       let xp = 0;
       b.s[1].f.forEach(f => { if (f.ko || f.gone) xp += this.o.wild ? 4 + 2 * f.mon.level : 6 + Math.round(2.6 * f.mon.level); });
       xp = Math.round(xp * (this.o.xpScale || 1));
-      if (xp > 0) this.endLines.push(`Each whorl in your team takes ${xp} experience.`);
+      if (xp > 0) this.endLines.push(`Each Whorl in your team takes ${xp} experience.`);
       const cap = capHere();
       let capped = false;
       for (const m of G.party) {
@@ -972,13 +972,13 @@ class BattleView implements Mode {
     }
     for (const sd of [0, 1] as const) {
       const sp = this.b.s[sd].spin;
-      if (sp) lines.push(`${sd === this.side ? 'Your' : 'Their'} side spins for ${sp.turns} more turn${sp.turns > 1 ? 's' : ''}: after each of its turns, its out whorl moves to the back of the line.`);
+      if (sp) lines.push(`${sd === this.side ? 'Your' : 'Their'} side spins for ${sp.turns} more turn${sp.turns > 1 ? 's' : ''}: after each of its turns, its out Whorl moves to the back of the line.`);
     }
     for (const sd of [0, 1] as const) {
       const fg = this.b.s[sd].fog;
       if (fg) lines.push(`Fog covers ${sd === this.side ? 'your' : 'their'} bench for ${Math.ceil(fg.turns)} rounds: nothing from the other side reaches the reserves.`);
       const hc = houseCap(this.b, sd);
-      if (hc > 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} house holds ${this.b.s[sd].pool || 0} of ${hc} HP: healing beyond full capacity fills it, and the next whorl to emerge consumes it.`);
+      if (hc > 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} house holds ${this.b.s[sd].pool || 0} of ${hc} HP: healing beyond full capacity fills it, and the next Whorl to emerge consumes it.`);
       const cr = creditOf(this.b, sd), owed = this.b.s[sd].nerve;
       if (cr) lines.push(`${sd === this.side ? 'Your' : 'Their'} side can run up to ${cr} tide into debt to pay for a crest.`);
       if (owed < 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} side owes ${-owed} tide: incoming tide first pays down this debt.`);
@@ -992,29 +992,29 @@ class BattleView implements Mode {
     for (const sd of [0, 1] as const) {
       const o = this.b.s[sd].f[this.b.s[sd].out];
       if (o && o.up && !o.ko) lines.push(`${who(o)} is airborne for ${o.up} more turn${o.up > 1 ? 's' : ''}: dashes from the ground cannot reach it, and ground-based interactions do not affect it.`);
-      if (o && !o.ko && deaf(this.b, o)) lines.push(`${who(o)} is Deaf: its passives and stances are unaffected by the actions of other whorls.`);
+      if (o && !o.ko && deaf(this.b, o)) lines.push(`${who(o)} is Deaf: its passives and stances are unaffected by the actions of other Whorls.`);
       const fl = o && !o.ko ? foretold(this.b, o) : [];
       if (fl.length) lines.push(`${who(o)} triggers ${fl.map(g => g.name).join(', then ')}, in that sequence. then ${fl[0].name}: ${fl[0].text}`);
       for (const r of watchers(this.b, sd)) if (o && !o.ko) lines.push(`${who(r)} guards ${who(o)} from reserve: a foe that strikes ${who(o)} is subject to it.`);
       const dr = o && !o.ko ? drinkerOf(this.b, o) : null;
       if (dr) lines.push(`${who(dr)} intercepts all heals intended for ${who(o)}: each heal is redirected to ${who(dr)} instead.`);
-      if (o && !o.ko && silent(this.b, o)) lines.push(`${who(o)} is Silent: no other whorl's passives, stances, or holes detect its actions.`);
+      if (o && !o.ko && silent(this.b, o)) lines.push(`${who(o)} is Silent: no other Whorl's passives, stances, or holes detect its actions.`);
       if (o && !o.ko && o.takeIn) lines.push(`${who(o)}'s next attack or move is stored in the cave and returns later.`);
       for (const p of this.b.pend) if (p.kind === 'held' && p.side === sd) lines.push(`${who(this.b.s[sd].f[p.idx])}'s ${p.move ? MOVES[p.move]?.name || 'move' : 'Attack'} is stored in the cave and will return soon.`);
       const at = o && !o.ko ? aimOf(this.b, o) : null;
       if (o && at) lines.push(`${who(o)} maintains its lock on ${who(at)}: its single-target moves hit that target, whether in play or in reserve.`);
     }
     if (this.b.lowWater) lines.push(`Low Water lasts for ${Math.ceil(this.b.lowWater.turns)} rounds: a star falls every round, and attacks generate no tide.`);
-    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) if (w.ko && w.glow) lines.push(`${who(w)} remains active for ${w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out whorl for ${Math.round(w.glow.heal * 100)}% each turn.`);
+    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) if (w.ko && w.glow) lines.push(`${who(w)} remains active for ${w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out Whorl for ${Math.round(w.glow.heal * 100)}% each turn.`);
     for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) { const h = latchHost(this.b, w); if (h) lines.push(`${who(w)} rides ${who(h)}, consuming ${Math.round(LATCH_DRINK * 100)}% of its max HP each turn its side takes action.`); }
     if (boutOn(this.b)) {
       const bt = this.b.bout!;
       lines.push(`${who(this.b.s[0].f[bt.f0])} vs ${who(this.b.s[1].f[bt.f1])}. ${bt.score[0]}-${bt.score[1]}. ${bt.left} left. No switch. More damage wins. First to 2 wins Empower 2 + 15% heal. Loser gets Stun 1.`);
     }
-    if (this.b.swell) lines.push(`The swell is at ${this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.`);
+    if (this.b.swell) lines.push(`The swell is at ${this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out Whorls: a TIDE Whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.`);
     if (this.b.wind) lines.push(`Wind hits ${this.b.wind.to === this.side ? 'your' : 'their'} side for ${Math.ceil(this.b.wind.turns)} rounds: throws with it do 1.2x, against it 0.8x.`);
     const rg = rangeOf(this.b);
-    if (rg) lines.push(rg === 'near' ? 'Near: dashes do 1.2x, projectiles 0.8x, until an out whorl leaves.' : 'Far: projectiles do 1.2x, dashes 0.8x, until an out whorl leaves.');
+    if (rg) lines.push(rg === 'near' ? 'Near: dashes do 1.2x, projectiles 0.8x, until an out Whorl leaves.' : 'Far: projectiles do 1.2x, dashes 0.8x, until an out Whorl leaves.');
     for (const sd of [0, 1] as const) {
       const o = this.b.s[sd].f[this.b.s[sd].out], due = o && !o.ko ? dueOf(o) : 0;
       if (due > 0) lines.push(`${who(o)} has ${due} damage over time remaining. If the timer expires, all accumulated damage hits at once.`);
@@ -1026,7 +1026,7 @@ class BattleView implements Mode {
       if (covering(this.b, sd)) lines.push(`${who(o)} stands before ${sd === this.side ? 'your' : 'their'} bench: it intercepts hits meant for the reserves.`);
       if (o && !o.ko && o.mirage) lines.push(sd === this.side ? `A mirage over ${who(o)} shows the foe ${o.mirage.hp} more HP than it has, for ${o.mirage.turns} more of its turns.` : `${who(o)} shimmers: a mirage may display more HP than it actually has.`);
       if (o && !o.ko && o.fracture) lines.push(`${who(o)} is Fractured for ${o.fracture.turns} more turn${o.fracture.turns > 1 ? 's' : ''}: no healing can restore its HP above ${Math.round(o.maxHp * o.fracture.cap)}.`);
-      if (o && !o.ko && o.poise) lines.push(`${who(o)} rolls with ${o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the whorl becomes Stunned 1.`);
+      if (o && !o.ko && o.poise) lines.push(`${who(o)} rolls with ${o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the Whorl becomes Stunned 1.`);
       for (const r of reserves(this.b.s[sd])) if (r.stored) lines.push(`${who(r)} is in cold storage for ${r.stored.turns} more turn${r.stored.turns > 1 ? 's' : ''}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals ${Math.round(r.stored.heal * 100)}% of its max hp each turn.`);
     }
     const fl = this.b.field, fdef = fl ? FIELDS[fl.id] : null;
@@ -2282,7 +2282,7 @@ class BattleView implements Mode {
       const say: Record<string, string> = {
         attack: `${basicOf(f) === 'P' ? 'A physical hit' : 'A magic hit'} with no type.${this.b.rules.nerve ? ' If it hits: +1 tide.' : ''}`,
         guard: 'Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can\'t be forced out.',
-        switch: this.b.s[f.side].shut ? 'Your side is trapped, so the foe acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.' : 'Acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.',
+        switch: this.b.s[f.side].shut ? 'Your side is trapped, so the foe acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.' : 'Acts first this round. Deploy a Whorl from reserve. Higher CHA Whorls act sooner.',
         peg: 'Catch it with a horn. The weaker the foe, the more likely it curls inward.',
         run: 'Acts first in a round. Leave. It always succeeds.',
         wait: 'Wait for the foe to act, then choose. Reads of a waiting foe see you wait.',

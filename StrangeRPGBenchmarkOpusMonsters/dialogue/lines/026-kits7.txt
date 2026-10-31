@@ -36,7 +36,7 @@
 [0bkepya] move Settle | +2 Layers. Heals {N_MUND.heal}% of its max HP.
 [085yvwl] move Peel | Sheds every Layer: hits for {N_MUND.peel}% ATK + {N_MUND.peelPer}% ATK per Layer. Splash 35%. Bare 2.
 [0bwjjmf] passive Island | Each time it comes back out: takes {N_HOLM.island}% less damage, up to {N_HOLM.islandMax}%. From its third time out, cannot be moved.
-[1uds3ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next whorl out.
+[1jxu1ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next Whorl out.
 [0um9aaz] move Shoulder | Hits for {N_HOLM.shoulder}% ATK + 4% of its max HP.
 [1lh32jf] move Carry Them | An ally in reserve boards as its Rider. Shield of {N_HOLM.carry}% CHA for 3 turns.
 [01jylox] move Long Wake | Hits for {N_HOLM.wake}% ATK. Slow 2. Its Rider heals {N_HOLM.wakeHeal}% of its max HP.
@@ -65,7 +65,7 @@
 [066rg48] notion Float Cork | +10% RES. Each time it comes out, its first turn comes 20% sooner.
 [0nccdv2] notion Tide Mark | +2 tide each time it guards, up to 3 times a battle.
 [1sos1x3] notion Reed Plug | +12% RES. The first wind-up aimed at it each battle lands 50% later.
-[17sw4yn] notion Graft Wax | On a conjoined whorl, +9% ATK and +9% MGK. On any other, nothing.
+[0qoxslb] notion Graft Wax | On a conjoined Whorl, +9% ATK and +9% MGK. On any other, nothing.
 [0f1qluf] notion Rider Cog | +4% HP, ATK, MGK, DEF, and RES.
 [1bcli12] notion Rider Spoon | +15% DEF. When it is forced out or dragged in, it gets Ward 1.
 [0gy2itv] notion Blade Shard | Its hits deal 1.3x damage to a foe below 40% HP.

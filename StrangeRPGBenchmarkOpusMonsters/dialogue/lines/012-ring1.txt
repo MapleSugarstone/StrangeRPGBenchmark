@@ -149,7 +149,7 @@
 [00lwlx5] Stilt-maker | You'll be wading, not drowning.
 [0sjpgv2] ? (giveKeyItem) | Ouro takes the wading stilts.
 [0glpdqv] Stilt-maker | Use them in streams, fords, pools, and inlets. Anywhere it's shallow.
-[0onwhf6] Stilt-maker | Deep water demands a sea whorl on you.
+[1l7atjm] Stilt-maker | Deep water demands a sea Whorl on you.
 
 == scene: map boathouse
 [11jlr3b] Old man | My boat shed last year. Now I've got two boats and no sea.
@@ -188,7 +188,7 @@
 [17buhjb] look | The Rim appears as a pale line across the water, far in the distance.
 
 == scene: saltLines
-[0v2e1bb] ? | A lad named Tack came through, bringing a whorl from our pans. Brine and boy, both salty.
+[1jzyifb] ? | A lad named Tack came through, bringing a Whorl from our pans. Brine and boy, both salty.
 [0686304] ? | And that's salt.
 [0bcheut] ? | I hear they're calling it Brack now, the one from our pans. It's a good name. It tastes right.
 [06i5op3] ? | And that's salt.
@@ -224,7 +224,7 @@
 ==== file: src/content/ring4.ts
 
 == scene: kelpRing
-[188165j] narration | Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
+[184no7b] narration | Big old Whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
 
 == scene: ring4
 [0xqd30f] ? | puzzle 6: the chair is reached in {depth} rings, not enough
@@ -249,7 +249,7 @@
 ==== file: src/content/ring5.ts
 
 == scene: gantryCrane
-[0xf380x] hint | An old crane of the Riders. Wear a GEAR whorl to turn its gears.
+[1gc905d] hint | An old crane of the Riders. Wear a GEAR Whorl to turn its gears.
 
 == scene: ring5
 [0joakcl] ? | puzzle 7: solved in {d} moves. too few.

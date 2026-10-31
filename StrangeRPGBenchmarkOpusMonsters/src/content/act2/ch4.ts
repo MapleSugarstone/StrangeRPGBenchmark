@@ -49,7 +49,7 @@ export const STRAND_CAP_LINE = ['', 'Strand level 13', 'Strand level 18', 'Stran
 /** The system line after a grain. */
 export async function grainLine(): Promise<void> {
   const n = G.flags.a2pearls || 0;
-  await hint(`(With ${['no', 'one', 'two', 'three', 'four', 'five', 'six'][n] || n} grains, your whorls can reach ${STRAND_CAP_LINE[n] || 'Strand level 50'}.)`);
+  await hint(`(With ${['no', 'one', 'two', 'three', 'four', 'five', 'six'][n] || n} grains, your Whorls can reach ${STRAND_CAP_LINE[n] || 'Strand level 50'}.)`);
 }
 /** Sets the tide without the bell's lines or the walk. */
 export function setTide(high: boolean): void {
@@ -401,7 +401,7 @@ const SIPHON_THINGS: [string, string, string][] = [
 
 defScript('siphonFire', async () => {
   if (!flag('siphonBeaten')) {
-    await say('Siphon', 'Plenty of room here for a brawl! I\'ve got four whorls ready.');
+    await say('Siphon', 'Plenty of room here for a brawl! I\'ve got four Whorls ready.');
     await say('Siphon', 'The floor near the hood is slick. I suggest you stay toward the dry side.');
     if (!await keeperFight('Siphon', siphonTeam)) {
       await say('Siphon', 'This room offers warmth to those who have been beaten, until they thaw out.');

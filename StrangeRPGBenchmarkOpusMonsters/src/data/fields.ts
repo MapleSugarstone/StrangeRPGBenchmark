@@ -23,7 +23,7 @@ defField({
 
 defField({
   id: 'hightide', name: 'High Tide', color: TYPE_COLOR.TIDE,
-  text: 'TIDE moves deal 1.3x. STONE whorls\' turns come 15% later.',
+  text: 'TIDE moves deal 1.3x. STONE Whorls\' turns come 15% later.',
   outMul(b, f, t, d) { void b; void t; return d.move && d.move.type === 'TIDE' ? 1.3 : 1; },
   speedMul(b, f) { void b; return typesOf(f).includes('STONE') ? 1.15 : 1; },
   value(b, side) { return lean(b, side, 'TIDE', 0.08) - lean(b, side, 'STONE', 0.05); },
@@ -31,7 +31,7 @@ defField({
 
 defField({
   id: 'starfall', name: 'Starfall', color: TYPE_COLOR.STAR,
-  text: 'Turn start: a whorl takes 4% of its max HP. A STAR whorl heals it instead.',
+  text: 'Turn start: a Whorl takes 4% of its max HP. A STAR Whorl heals it instead.',
   turnStart(b, f) {
     if (!isOut(b, f)) return;
     if (typesOf(f).includes('STAR')) { heal(b, null, f, f.maxHp * 0.04); return; }
@@ -56,14 +56,14 @@ defField({
 
 defField({
   id: 'stillwater', name: 'Still Water', color: '#6a8ab0',
-  text: 'Speed turns over: the slower whorl\'s turns come sooner.',
+  text: 'Speed turns over: the slower Whorl\'s turns come sooner.',
   // A plain turn of 200 / (AGI + 100) becomes (AGI + 100) / 200, so turn gaps grow with AGI instead of shrinking.
   speedMul(b, f) { void b; const a = f.st.agi + 100; return (a * a) / 40000; },
 });
 
 defField({
   id: 'driftsand', name: 'Drift Sand', color: '#c8a870',
-  text: 'Dashes deal 0.75x. Turn start: a rooted whorl takes Slow 1.',
+  text: 'Dashes deal 0.75x. Turn start: a rooted Whorl takes Slow 1.',
   outMul(b, f, t, d) { void b; void f; void t; return tagged(d, 'dash') ? 0.75 : 1; },
   turnStart(b: Battle, f: Fighter) { if (isOut(b, f) && f.s.root) applyStatus(b, null, f, 'slow', 1); },
 });

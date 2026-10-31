@@ -615,7 +615,7 @@ MAPS.fallgym.basin = { x: 1, y: 1, w: 14, h: 13, flag: 'fallSolved', done: (_x, 
 moveNpc('fallgym', 'perihel', 7, 1);
 moveNpc('fallgym', 'sw1', 1, 15, 1);
 moveNpc('fallgym', 'sw2', 14, 15, 3);
-MAPS.fallgym.npcs.push({ id: 'fallsign', x: 10, y: 16, sprite: 'sign', name: undefined, lines: ['Perihel keeps the hall dark. A star-type whorl worn at the front illuminates it.', 'You will have read this.'] });
+MAPS.fallgym.npcs.push({ id: 'fallsign', x: 10, y: 16, sprite: 'sign', name: undefined, lines: ['Perihel keeps the hall dark. A star-type Whorl worn at the front illuminates it.', 'You will have read this.'] });
 (MAPS.fallgym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'fallTop', when: () => !flag('top_fall') });
 defScript('fallTop', hallTop('fall', 'perihel'));
 {

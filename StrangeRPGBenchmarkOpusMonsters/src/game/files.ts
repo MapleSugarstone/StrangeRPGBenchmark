@@ -1,7 +1,7 @@
 import { input } from '../engine/input';
 import { sfx } from '../engine/audio';
 import { dither, mix, rect, INK } from '../engine/screen';
-import { text, textCenter, textRight, textWidth } from '../engine/font';
+import { text, textCenter, textRight, textWidth, wrap } from '../engine/font';
 import { drawSprite, PEOPLE } from '../engine/sprites';
 import { close, run, type Mode } from './modes';
 import type { Mon, SpriteData } from '../battle/model';
@@ -11,6 +11,13 @@ import { refreshMon } from './refresh';
 import { downloadSlot, pickInto } from './saveFile';
 import { drawNight, nightFrame } from './title';
 import { bevel, BOX, panel, DIM, PAPER, PORTRAIT_BG, SEL, WARN } from './ui';
+
+/** Wraps text to fit width with its lines as even as the wrap allows, so a last word never sits alone. */
+function balanced(s: string, width: number): string[] {
+  const lines = wrap(s, width);
+  const even = wrap(s, Math.ceil(textWidth(s) / lines.length) + 16);
+  return even.length === lines.length ? even : lines;
+}
 
 /** A slot's card, with its lead redrawn from the current art. */
 const freshInfo = (n: number) => { const s = slotInfo(n); if (s?.lead) refreshMon(s.lead); return s; };
@@ -92,7 +99,7 @@ export class FileSelect implements Mode {
     for (let n = 0; n < SLOTS; n++) {
       // The cards slide in from the right one after another as the screen comes up.
       const x = 8 + Math.max(0, 14 + n * 4 - this.t) ** 2;
-      const y = 26 + n * 44, s = this.info[n], on = n === this.i;
+      const y = 24 + n * 42, s = this.info[n], on = n === this.i;
       panel(x, y, 176, 38, on ? SEL : this.usable(n) ? DIM : '#3a3442');
       if (on) rect(x + 1, y + 1, 2, 36, SEL);
       text(`File ${n + 1}`, x + 6, y + 5, on ? SEL : DIM);
@@ -111,9 +118,10 @@ export class FileSelect implements Mode {
       textCenter('Yes', 122, 104, this.confirm.yes ? SEL : DIM);
       return;
     }
-    if (this.noteT > 0) textCenter(this.note, 96, 160, SEL, INK);
-    textCenter('Z picks. Arrows move. X back.', 96, 171, DIM, INK);
-    textCenter('Press C to export or import a .whorl file.', 96, 181, DIM, INK);
+    if (this.noteT > 0) textCenter(this.note, 96, 150, SEL, INK);
+    // The help lines stack up from the bottom edge, so a line too wide for the screen wraps instead of running off it.
+    const help = ['Z picks. Arrows move. X back.', ...balanced('Press C to export or import a .whorl file.', 184)];
+    help.forEach((l, k) => textCenter(l, 96, 181 - (help.length - 1 - k) * 10, DIM, INK));
     fadeIn(this.t);
   }
 }

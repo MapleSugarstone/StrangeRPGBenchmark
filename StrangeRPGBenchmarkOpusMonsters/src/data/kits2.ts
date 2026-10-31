@@ -60,7 +60,7 @@ defMark({ id: 'orrery_shift', name: 'on an orbit', clock: 'own', value: 0.2,
     msg(b, `${label(b, f)} completes its orbit.`);
     return true;
   } });
-defPassive({ id: 'epicycle', name: 'Epicycle', owner: 'orrery', text: 'In reserve, every 3rd turn your side takes: your out whorl\'s non-crest cooldowns drop 1.',
+defPassive({ id: 'epicycle', name: 'Epicycle', owner: 'orrery', text: 'In reserve, every 3rd turn your side takes: your out Whorl\'s non-crest cooldowns drop 1.',
   reserveTurn(b, f) { f.k.bottle = (f.k.bottle || 0) + 1; if (f.k.bottle % 3 === 0) { const o = b.s[f.side].f[b.s[f.side].out]; if (!o.ko) cutCooldowns(o, 1); } } });
 defPassive({ id: 'escapement', name: 'Conjunction', owner: 'orrery', text: 'Two Planets on one foe come down at once, with Stun 1.' });
 defMove({ id: 'wind', name: 'Set Orbit', type: 'STAR', owner: 'orrery', reach: 'single', tags: ['projectile', 'spell'], cd: 2, fx: 'flare | star orbit | sparkle',
@@ -141,7 +141,7 @@ defMove({ id: 'staticfield', name: 'Drop the Load', type: 'GEAR', owner: 'crane'
 // turbine: a wind pump that faces into the sea wind and turns it round for its friends.
 defMark({ id: 'turbine_lee', name: 'in the lee', clock: 'own', value: 0.08,
   inMul(b, f, src, d) { return d.move?.tags?.includes('projectile') ? 0.5 : 1; } });
-defPassive({ id: 'tailwind', name: 'Sea Breeze', owner: 'turbine', text: 'In reserve: a Slow on your out whorl turns into Haste 1.',
+defPassive({ id: 'tailwind', name: 'Sea Breeze', owner: 'turbine', text: 'In reserve: a Slow on your out Whorl turns into Haste 1.',
   anyStatus(b, f, src, t, id) {
     if (id !== 'slow' || t === f || t.side !== f.side || !isOut(b, t) || isOut(b, f) || !t.s.slow) return;
     delete t.s.slow;
@@ -294,7 +294,7 @@ defMark({ id: 'dynamo_charge', name: 'charge', max: 3, contact: true, negative: 
   } });
 defPassive({ id: 'charge', name: 'Builds Charge', owner: 'dynamo', text: 'Its damaging moves add a Charge to the foe. A foe at 3 Charges: Stun 1, and they go.',
   afterDeal(b, f, t, dealt, d) { if (d.move && !d.reserve) addCharge(b, f, t); } });
-defPassive({ id: 'ground', name: 'Static', owner: 'dynamo', text: 'Charges jump across a dash or an Attack between two whorls. It starts with 2 Charges.',
+defPassive({ id: 'ground', name: 'Static', owner: 'dynamo', text: 'Charges jump across a dash or an Attack between two Whorls. It starts with 2 Charges.',
   start(b, f) { addCharge(b, f, f, 2); } });
 defMove({ id: 'spark', name: 'Brush Spark', type: 'GEAR', owner: 'dynamo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | bolt zigzag fast | burst', text: 'Hits for 136% MGK.',
   run(c) { c.hit(c.tgt, { mgk: 1.36 }); } });
@@ -669,7 +669,7 @@ defPassive({ id: 'chord', name: 'Third Band', owner: 'curtain', text: 'Every 3rd
     f.k.chording = 0;
     heal(b, f, f, f.maxHp * 0.05);
   } });
-defPassive({ id: 'veil', name: 'Green Cover', owner: 'curtain', text: 'In reserve: your out whorl takes 0.9x magic damage.',
+defPassive({ id: 'veil', name: 'Green Cover', owner: 'curtain', text: 'In reserve: your out Whorl takes 0.9x magic damage.',
   auraIn(b, f, o, src, d) { return d.kind === 'M' ? 0.9 : 1; } });
 defMove({ id: 'ripple', name: 'Fold Back', type: 'STAR', owner: 'curtain', reach: 'single', tags: ['spell'], cd: 1, fx: 'sway | beam ray | flash', text: 'Hits for 68% MGK. At its next turn: hits for 40% MGK.',
   run(c) { c.hit(c.tgt, { mgk: 0.68 }); c.mark(c.u, 'curtain_hex', 1, 2); } });
@@ -709,10 +709,10 @@ defMark({ id: 'halo_hover', name: 'haloed', clock: 'own', value: 0.12,
 defPassive({ id: 'grace', name: 'Brightening', owner: 'halo', text: 'When it uses a move: +5% damage, up to 3 times. Its shields last +1 turn.',
   afterMove(b, f) { f.k.ascent = Math.min(3, (f.k.ascent || 0) + 1); },
   outMul(b, f) { return 1 + 0.05 * (f.k.ascent || 0); } });
-defPassive({ id: 'martyr', name: 'Rim Light', owner: 'halo', text: 'Attacks add 6% foe missing HP. KO\'d: glows 3 turns, your out whorl heals 8% a turn.',
+defPassive({ id: 'martyr', name: 'Rim Light', owner: 'halo', text: 'Attacks add 6% foe missing HP. KO\'d: glows 3 turns, your out Whorl heals 8% a turn.',
   addRaw(b, f, t, d) { return d.attack ? (t.maxHp - t.hp) * 0.06 : 0; },
   glows() { return { turns: 3, heal: 0.08 }; } });
-defMove({ id: 'smite', name: 'Ring Strike', type: 'STAR', owner: 'halo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | hoop line | flash', text: 'Hits for 149% MGK. Slow 1. Your lowest-HP whorl heals 30% of it.',
+defMove({ id: 'smite', name: 'Ring Strike', type: 'STAR', owner: 'halo', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | hoop line | flash', text: 'Hits for 149% MGK. Slow 1. Your lowest-HP Whorl heals 30% of it.',
   run(c) { const d = c.hit(c.tgt, { mgk: 1.49 }); c.st(c.tgt, 'slow', 1); c.heal(lowestAlly(c), d * 0.3); } });
 defMove({ id: 'aegis', name: 'Hover Over', type: 'STAR', owner: 'halo', reach: 'ally', cd: 2, fx: 'lift | hoop rain | sparkle ally',
   text: 'Heals an ally 12% max HP + 11% CHA. Haste 1. Haloed 2: if it falls, it glows on.',

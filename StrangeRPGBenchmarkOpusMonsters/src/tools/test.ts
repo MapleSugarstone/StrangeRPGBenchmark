@@ -2495,7 +2495,7 @@ async function main(): Promise<void> {
     expect('one notion on two whorls', [held(kind('cairn'), 'whetstone'), held(rest[0], 'whetstone'), ...rest.slice(1)], false);
     expect('several whorls holding nothing', [held(kind('cairn'), null), held(rest[0], null), ...rest.slice(1)], true);
     const twice = teamProblems([held(kind('cairn'), 'whetstone'), held(rest[0], 'whetstone'), ...rest.slice(1)]).join(' ');
-    if (!/Two whorls hold .+\. A roster takes each notion once\./.test(twice)) fail(`online rosters: a repeated notion reads "${twice}"`);
+    if (!/Two Whorls hold .+\. A roster takes each notion once\./.test(twice)) fail(`online rosters: a repeated notion reads "${twice}"`);
     expect('nacre past the game\'s cap in one stat', [{ ...kind('cairn'), tan: { atk: 7 } }, ...rest], false);
     expect('nacre past the game\'s total', [{ ...kind('cairn'), tan: { atk: 6, hp: 6, def: 1 } }, ...rest], false);
     expect('full nacre', [{ ...kind('cairn'), tan: { atk: 6, hp: 6 } }, ...rest], true);

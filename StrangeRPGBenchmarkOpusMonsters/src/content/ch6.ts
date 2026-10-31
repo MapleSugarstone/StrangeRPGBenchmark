@@ -70,7 +70,7 @@ defMap({
   ],
   zone: { kinds: [['floe', 3], ['yoke', 3], ['menhir', 2], ['halo', 2], ['curtain', 2], ['squall', 1], ['coma', 1]], lv: [16, 18], n: 16, area: 'snow' },
   npcs: [
-    { id: 'trapper', x: 8, y: 27, sprite: 'villager2', name: 'Trapper', dir: 0, trainer: { name: 'Trapper', team: [['floe', 17], ['squall', 17]], intro: 'Hyolau whorls drift down from the north on their own. We wait at the edge. It\'s mostly just waiting.', defeat: 'Fair enough. More time to kill.', sight: 4 } },
+    { id: 'trapper', x: 8, y: 27, sprite: 'villager2', name: 'Trapper', dir: 0, trainer: { name: 'Trapper', team: [['floe', 17], ['squall', 17]], intro: 'Hyolau Whorls drift down from the north on their own. We wait at the edge. It\'s mostly just waiting.', defeat: 'Fair enough. More time to kill.', sight: 4 } },
     { id: 'herder', x: 24, y: 20, sprite: 'villager2', name: 'Herder', dir: 3, trainer: { nacre: 1, name: 'Herder', team: [['yoke', 17], ['menhir', 17]], intro: 'An ox cast can pull a sledge forever. I keep meaning to tell it to quit.', defeat: 'Oh. Mine quit.', sight: 4 } },
     { id: 'peel6', x: 20, y: 13, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['quarry', 17], ['carrion', 17]], intro: 'We\'re undercutting the Tusk. It\'s the oldest one there is. Should go easy. Probably.', defeat: 'Eh. Who cares. Old shells wander off the sand. Nobody sees them after that.', sight: 3 } },
     { id: 'pilgrim', x: 24, y: 6, sprite: 'elder', name: 'Pilgrim', dir: 3, trainer: { name: 'Pilgrim', team: [['halo', 17], ['curtain', 17], ['floe', 18]], intro: 'Every year I walk out to the saint\'s halo. The saint is still out there somewhere, bareheaded.', defeat: 'Ugh, now my halo\'s gone missing again.', sight: 4 } },

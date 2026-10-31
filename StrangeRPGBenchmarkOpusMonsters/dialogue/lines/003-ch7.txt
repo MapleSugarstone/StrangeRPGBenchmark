@@ -8,7 +8,7 @@
 == scene: map route7
 [1wnbqz5] Guard | The Hilt is under guard. I am the guard. I am the entire guard.
 [0xmw8px] Guard | That is, I was the entire guard.
-[10xswd3] Pilgrim | There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!
+[1acyos7] Pilgrim | There are conjoined Whorls roaming free out here now. Two shells fused into one. Naturally!
 [1myjlf0] Pilgrim | Both halves are gone. A terrible day for halves.
 [1fn4rsr] Hermit | Moonwater is flowing tonight. Everyone is going. Bring a towel.
 [052qjtx] Hermit | Very well. You are going too, then.
@@ -31,7 +31,7 @@
 [0ekohrz] Guard | No living soul has laid eyes on the blade, which is exactly why we're so good at our jobs.
 [0cpzfwy] Woman | The blade is visible! No one alive has ever seen the blade, and now I have!
 [10c0wct] Child | I actually touched it. It's not even sharp. I'm never washing this hand again.
-[1lkx9qe] Old man | Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before.
+[1jox7fq] Old man | Wild conjoined Whorls are on the road now. Two shells fused into one. Never seen it before.
 [1s60tjv] Old man | Must be the moon.
 [1wrjsex] Guard | The crater road heads south. Quillon insists no one passes until the sword is accounted for.
 [0900maa] Guard | And so, no one passes.

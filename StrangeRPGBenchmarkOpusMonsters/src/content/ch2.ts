@@ -244,10 +244,10 @@ defScript('leeward', async () => {
   await say('Leeward', 'After a knockout, a spring tide of great abundance.');
   await say('Leeward', 'Pressure: Plummeting!! A crest approaches. Watch the line at the top.');
   setFlag('nerve');
-  await hint('(A crest is a whorl\'s most powerful move. A crest consumes tide.');
+  await hint('(A crest is a Whorl\'s most powerful move. A crest consumes tide.');
   await hint('Your entire team shares a single tide pool.)');
   await hint('(You gain tide when an Attack connects, when a move strikes your Guard,');
-  await hint('and when a whorl is knocked out.)');
+  await hint('and when a Whorl is knocked out.)');
   const r = await fightTrainer({ name: 'Leeward', team: [['squall', 9], ['coma', 9], ['brine', 9], ['bore', 9]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Leeward', 'A profound calm ensues. The Mast pearl is bestowed upon you, beneath clearing skies.');

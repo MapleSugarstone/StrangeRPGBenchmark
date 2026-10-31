@@ -91,7 +91,7 @@ const known = (k: unknown): k is string => typeof k === 'string' && Object.proto
 
 /** Every reason one wire whorl from untrusted data cannot play. */
 export function whorlProblems(w: unknown): string[] {
-  if (!w || typeof w !== 'object') return ['isn\'t a whorl.'];
+  if (!w || typeof w !== 'object') return ['isn\'t a Whorl.'];
   const m = w as WireMon, out: string[] = [];
   // The room empties a name the word filter refuses, and the whorl then shows a stand-in.
   if (m.name !== '' && nameProblem(m.name, WHORL_NAME_MAX)) out.push(`bears a name the name screen cannot render in ${WHORL_NAME_MAX} characters.`);
@@ -144,16 +144,16 @@ function fitProblems(f: unknown): string[] {
 
 /** Every reason a wire roster cannot queue from its size, each whorl, and the team rule, legendary limit, and notion rule across all six. */
 export function teamProblems(roster: unknown): string[] {
-  if (!Array.isArray(roster)) return ['A roster is a collection of whorls.'];
+  if (!Array.isArray(roster)) return ['A roster is a collection of Whorls.'];
   const out: string[] = [];
-  if (roster.length !== ROSTER_SIZE) out.push(`Each roster contains ${ROSTER_SIZE} whorls.`);
+  if (roster.length !== ROSTER_SIZE) out.push(`Each roster contains ${ROSTER_SIZE} Whorls.`);
   const owner = new Map<string, string>(), holds = new Set<string>();
   let legends = 0;
   roster.forEach((w: WireMon, i) => {
     const who = typeof w?.name === 'string' && w.name.trim() ? w.name : `Whorl ${i + 1}`;
     for (const p of whorlProblems(w)) out.push(`${who} ${p}`);
     if (typeof w?.notion === 'string') {
-      if (holds.has(w.notion)) out.push(`Two whorls hold ${(NOTION_IDS.includes(w.notion) && NOTIONS[w.notion]?.name) || w.notion}. A roster takes each notion once.`);
+      if (holds.has(w.notion)) out.push(`Two Whorls hold ${(NOTION_IDS.includes(w.notion) && NOTIONS[w.notion]?.name) || w.notion}. A roster takes each notion once.`);
       holds.add(w.notion);
     }
     const kinds = wireKinds(w);
@@ -174,11 +174,11 @@ export const DEFAULT_PICK: readonly number[] = Array.from({ length: TEAM_SIZE },
 
 /** Every reason a pick is not four different members of a roster of `size`, given by index in battle order with the lead first. */
 export function pickProblems(pick: unknown, size = ROSTER_SIZE): string[] {
-  if (!Array.isArray(pick)) return ['A pick is a selection of whorls drawn from the roster.'];
+  if (!Array.isArray(pick)) return ['A pick is a selection of Whorls drawn from the roster.'];
   const out: string[] = [];
-  if (pick.length !== TEAM_SIZE) out.push(`Each pick contains ${TEAM_SIZE} whorls.`);
-  if (pick.some(i => !whole(i, 0, size - 1))) out.push('A pick identifies a whorl that is absent from the roster.');
-  else if (new Set(pick).size !== pick.length) out.push('A pick repeats a whorl.');
+  if (pick.length !== TEAM_SIZE) out.push(`Each pick contains ${TEAM_SIZE} Whorls.`);
+  if (pick.some(i => !whole(i, 0, size - 1))) out.push('A pick identifies a Whorl that is absent from the roster.');
+  else if (new Set(pick).size !== pick.length) out.push('A pick repeats a Whorl.');
   return out;
 }
 

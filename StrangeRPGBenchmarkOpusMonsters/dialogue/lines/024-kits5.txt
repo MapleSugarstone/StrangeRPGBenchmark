@@ -54,8 +54,8 @@
 [0rggo8t] move Stove In | Hits for 131% ATK. Shield of 50% of the damage + 5% max HP.
 [1cajyjw] move Bob Up | Drags in a reserve and hits it for 107% ATK. It cannot switch for 2 turns.
 [186nyca] move Nailed Shut | Hits for 107% ATK. For 3 rounds, tide the foe's side would gain goes to yours.
-[0ajj6vb] summon Warm Pylon | Each turn: heals your out whorl 12% of its max HP.
-[0t6c9gg] passive Warm Side | In reserve: your out whorl heals 3% of max HP at your turns.
+[0ufs2w7] summon Warm Pylon | Each turn: heals your out Whorl 12% of its max HP.
+[1ld7z40] passive Warm Side | In reserve: your out Whorl heals 3% of max HP at your turns.
 [1ombu18] passive Mote Grain | When its held sun bursts on a foe: your team heals 10% of max HP.
 [09oodpc] move Warm Glint | Hits for 96% MGK. Each ally in reserve heals 5% of its max HP.
 [08lvyj3] move Turn Over | Summons a Warm Pylon (15% max HP, 3 turns).
@@ -74,7 +74,7 @@
 [08svjhq] move Kipper Slap | Hits for 100% MGK. Splash 35%.
 [1odicpf] move Bubble Up | Heals an ally 14% of max HP. Haste 1.
 [0ms9h64] move Flip Under | Hits for 67% MGK, then flips under the wrack: Hidden 1, heals 12% max HP.
-[12g9ecl] move Cured | Swallows the foe for 2 turns, then spits it out as its side's next whorl.
+[1v5ufb9] move Cured | Swallows the foe for 2 turns, then spits it out as its side's next Whorl.
 [0wcd8ww] mark hosted | Inside the anemone: nothing hits it, it heals, and it comes out next.
 [03ikqcc] passive Stinging Cells | Every 2nd move: a Soft Spot on the foe. A hit there adds 6% max HP true, and Isoko heals 4%.
 [06r5bvb] passive Shy | Attackers get Slow 1. A dash hits it: its hosted ally darts out with its first ready move.
@@ -82,7 +82,7 @@
 [16y6x0j] move Close Up | Blocks the next foe move at it before its next turn. Its user: 50% MGK, Stun 1.
 [0onyagy] move Arms Around | Hosts a reserve ally: nothing hits it, it heals 5% a turn, and it comes out next.
 [0vccddd] move Pool Challenge | Hits 4 times for 25% MGK + 7% max HP true. Team heals 10% max HP.
-[1lb5v8y] summon Hollow Copy | Takes single-target hits meant for your out whorl. 3 turns.
+[03amlhu] summon Hollow Copy | Takes single-target hits meant for your out Whorl. 3 turns.
 [1vbxxi2] passive Hollow | When it comes out: looks like its first reserve until a move hits it.
 [1rs7zu6] passive Look Round | Deals 1.3x damage while disguised.
 [01ipo1k] move Scoop | Hits for 80% MGK, then 40% MGK.
@@ -94,9 +94,9 @@
 [1e5j1re] move Dove Wing | Heals an ally 10% of max HP + 10% CHA.
 [0monmur] move Dollar Edge | Hits the foe for 75% MGK. An ally gets Empower 2.
 [0tj9s0n] move Fly Home | Switches to an ally. It heals 10% of max HP and acts at once.
-[05ie5u4] move Ring Home | Brings back your first KO'd whorl at 25% HP, 40% at night. None: team heals 15%.
+[1r68vn0] move Ring Home | Brings back your first KO'd Whorl at 25% HP, 40% at night. None: team heals 15%.
 [13b1t8l] summon Little Curl | Each turn: hits the foe for 20% of Spijire's ATK, 30% if it is Collapsed.
-[09wuwg7] summon Great Curl | Takes single-target hits for your out whorl. Each turn: hits the foe for 50% of Spijire's ATK.
+[04hb9gn] summon Great Curl | Takes single-target hits for your out Whorl. Each turn: hits the foe for 50% of Spijire's ATK.
 [030ffcp] passive Castings | Every 2nd Curl: a Little Curl rises (8% max HP, 3 turns).
 [0ixkq1b] passive Ebb Mud | Takes 5% less damage per summon of its own standing.
 [04svhj6] move Curl | Hits for 121% ATK. Heals 6% of max HP, 12% below 50% HP.
@@ -124,13 +124,13 @@
 [0ll85jb] move Look Away | Hits for 75% MGK, then moves while nobody looks: Hidden 1.
 [015xo1a] move Many Spots | Summons a Spot Copy (20% max HP, 3 turns). Hidden 1.
 [1uun0ml] mark polished | Its next hit slips off: 0.7x.
-[045kb2t] passive Polishes | Its heals are 1.5x on a whorl whose side has a Mantle over it.
+[0mgjsz9] passive Polishes | Its heals are 1.5x on a Whorl whose side has a Mantle over it.
 [032ul6s] passive Lies On | When it uses a move: its next 2 attacks heal your team 7% of max HP.
-[1qvtgo1] move Slide Over | Your out whorl heals 33% of max HP, reserves 18%.
+[1rwau4h] move Slide Over | Your out Whorl heals 33% of max HP, reserves 18%.
 [15oxmyq] move Mantle Over | A Mantle (36% of its max HP) takes your team's hits for 3 rounds. Fortify 2.
 [07q2lft] move Lie Over | Wind-up. Hits for 241% MGK. Stun 1. Polishes the foe: its next hit deals 0.7x.
-[1bb63dq] move Shine | Next turn: your team heals 20%, your out whorl is Untouchable 1.
-[1ll5gxx] summon Still Wall | Takes single-target hits meant for your out whorl. 3 turns.
+[0dgisla] move Shine | Next turn: your team heals 20%, your out Whorl is Untouchable 1.
+[03km76t] summon Still Wall | Takes single-target hits meant for your out Whorl. 3 turns.
 [0dfixeh] passive Standing Wave | Cannot be forced out. Takes 0.85x damage while its Still Wall stands.
 [1jj8vy7] passive Gray Pin | Deals 1.2x damage to a foe that can't switch.
 [1hc70wa] move Slosh | Hits for 78% MGK. Splash 35%.
@@ -158,7 +158,7 @@
 [0zncswz] move Downhill | Long wind-up. Hits for 180% ATK. Splash 50%. Slow 2.
 [1lafe2n] passive Clinks | When a foe is KO'd, and every 3rd attack: a Coin, max 10. +3% ATK per Coin.
 [1tq7b27] passive Shut Purse | Its attacks deal 1.3x. After it attacks: its next turn comes 15% later.
-[06box8r] move Clip | Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP whorl heals 40% of it.
+[1lulnmz] move Clip | Hits for 111% ATK and clips a Coin off the foe. Your lowest-HP Whorl heals 40% of it.
 [059m3ug] move Pay Out | Hits for 73% ATK. If still out next turn: Root 2, 59% ATK.
 [1bz7rip] move Buy Time | Spends 2 Coins to act again at once. Without them: Hidden 1.
 [154uxgm] move Spend It All | Spends every Coin: hits for 78% ATK +10% per Coin. Splash 70%. Team shield 12%.
@@ -192,14 +192,14 @@
 [070n5oa] move Roll Tight | Mantle stance: takes 0.85x. Shield 15% max HP. Its next Unroll deals 1.3x.
 [0r5g114] move Whip Out | Rush stance. Hits for 58% ATK. Stun 1. Switches out.
 [06ixuwd] move Unroll | Storm stance. Hits for 80% MGK. Splash 35%. Its other moves are ready now.
-[1t8pa4x] summon Late Image | Takes single-target hits meant for your out whorl. 2 turns.
+[0bkwpyp] summon Late Image | Takes single-target hits meant for your out Whorl. 2 turns.
 [0uyuuiz] passive Behind Glass | Once per battle, below 40% HP: Hidden 1 and a Late Image (10% max HP).
 [0823lrh] passive Late | Its moves deal 1.25x damage to a foe that has acted this round.
 [01a88sp] move Catch Up | Late. Hits for 104% MGK. Sigil 3: its next move on the foe adds 60% MGK.
 [0vmt0t2] move Fall Behind | Hits for 64% MGK. Splash 35%. Its next move hits again 1 turn later at 0.6x.
 [0zzhgmq] move Late Ripple | Hits for 70% MGK. If still out next turn: 50% MGK, Root 2.
 [1isla72] move Mirror Back | Uses its last move again at 1.2x power.
-[1gr1br5] summon Silver Image | Takes single-target hits meant for your out whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.
+[0o9g4ip] summon Silver Image | Takes single-target hits meant for your out Whorl. When a hit breaks it, the rest goes through. Each turn: 25% MGK to the foe.
 [06do1ow] passive Silver Back | When it comes out: summons a Silver Image (10% of its max HP, 3 turns).
 [12jreby] passive Bare Glass | Once per battle, when a strong hit lands on it: Silver Glass for 2 rounds.
 [0xxj7nv] move Backing | Hits for 50% of the foe's higher of ATK or MGK. Slow 1.
@@ -224,7 +224,7 @@
 [1b6i92i] move Lichen Feed | Every foe: Poison 1. Root 2. Slow 1. Heals 6% max HP per Poisoned foe.
 [19hv340] move Cling Fang | Hits for 166% MGK. Ready again on a Poisoned foe, but not twice in a row.
 [09u4fni] move Stone Crust | Hits for 164% MGK. Stun 1 if the foe used a move at its last turn, else Slow 2.
-[1kr6nv0] summon Water Dome | Takes single-target hits meant for your out whorl. 3 turns.
+[02qne3w] summon Water Dome | Takes single-target hits meant for your out Whorl. 3 turns.
 [0horzdo] passive Full Swell | When it comes out: a shield of 8% of its max HP, 3 turns.
 [1hua2sk] passive Settle Down | Deals 1.25x damage to a foe that can't pay for its crest.
 [192qtfx] move Swell Up | Hits for 60% MGK. Splash 35%. Slow 1.
@@ -237,17 +237,17 @@
 [0utfr2f] move Dust Cloud | Hidden 2. Haste 1. 1 tide.
 [1h6ujg9] move Climb Over | Hits a foe reserve for 30% ATK, +15% per Handprint on it.
 [1antoi7] move Clean Hands | Hits for 58% ATK. Untouchable 1. Hits for 37% ATK + 30% of the foe's missing HP.
-[0qwupfd] ground Rising Line | A line on HP bars from 15% of max HP, rising 5% a round. A whorl under it takes 1.3x from hits.
+[05meuqh] ground Rising Line | A line on HP bars from 15% of max HP, rising 5% a round. A Whorl under it takes 1.3x from hits.
 [1vqtz05] summon Salt Post | While it stands, High Mark gives your side 1.1x attacks. 4 turns.
 [0cyjowz] passive Every Roll | Its first hit on each foe adds 8% of that foe's current HP.
 [1q743mv] passive High Mark | While its Salt Post stands: your side's attacks deal 1.1x.
 [10ybfkx] move Rime Strike | Hits for 173% MGK. -4 DEF, up to 16. Salt Post out: Stun 1 once.
 [1gi0z34] move Mark the Wall | Hits for 60% MGK. Slow 1. Shield 15% max HP. A Rising Line under the foe's side, 5 rounds.
 [0t7s92v] move Wash Line | Hits for 64% MGK. Summons a Salt Post (10% max HP, 4 turns). Haste 1.
-[1idfbkc] move Spring Line | Hits for 181% MGK. Neither out whorl can switch for 3 turns.
+[0qm8vqk] move Spring Line | Hits for 181% MGK. Neither out Whorl can switch for 3 turns.
 [1cyqx8s] passive Never Roots | Immune to Root. Every 3rd turn: a shield of 8% of its max HP.
 [0krxt9c] passive Burs | When a dash hits it: the attacker's next hit deals 0.5x. Immune to Root.
-[1wulaaw] move Roll Through | Hits for 121% MGK. Your lowest-HP whorl heals 8% of its max HP.
+[185u8so] move Roll Through | Hits for 121% MGK. Your lowest-HP Whorl heals 8% of its max HP.
 [03ipxj2] move Roll Off With | Quick. Hits for 75% MGK. Splash 35%. Steals the next move the foe uses on its side.
 [1adaxeb] move Hitch Ride | A reserve ally takes no bench damage and comes out next with a 20% shield. Haste 1.
 [0xqa19r] move Round Up | Haste 3. Its next 2 hits make the foe skip its next turn.
@@ -258,7 +258,7 @@
 [1nm25hl] move Kick Plate | Practice +3. Fortify 2. Its next turn comes 30% sooner.
 [1k6n128] move Top Flight | Spends all Practice: 85% ATK, +5% per Practice. Splash 35%. Heals 10% of max HP.
 [1w455lz] passive Center | After a move, once every 3 turns: a shield of 10% of its max HP.
-[1klclnm] passive Climbed | In reserve: your out whorl takes 0.9x damage.
+[17cf6pu] passive Climbed | In reserve: your out Whorl takes 0.9x damage.
 [0fuwmdv] move Axis Cut | Hits for 116% ATK. The blade returns at its next turn: 50% ATK, Slow 1.
 [0bxjzos] move Post Dash | Hits for 87% ATK. Taunt 1.
 [1tdelfu] move Middle Post | Until its next turn: hits on it are split evenly across your team.
@@ -308,7 +308,7 @@
 [0m629ns] move Push Air | Hits for 55% MGK. Forces the foe out.
 [03caj1o] move Tune Up | Your team: a shield of 25% max HP, 2 turns. Its Mend heals 2x for 3 turns.
 [0nvau99] summon Hole Turret | Each turn: zaps the foe for 44% of Reikuchi's MGK. It zaps each foe that comes out too.
-[1l169jz] summon Hole Wall | Takes single-target hits meant for your out whorl. 3 turns.
+[030mzsv] summon Hole Wall | Takes single-target hits meant for your out Whorl. 3 turns.
 [00f53iw] passive Opens Anywhere | Moves hitting the same foe in a row: +15% each, up to +45%.
 [1p37wyh] passive Star Burn | Its moves that hit add Burn 2 (8% MGK each turn).
 [19ifq2a] move Hole Through | Hits for 168% MGK.

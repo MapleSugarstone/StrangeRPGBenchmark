@@ -190,7 +190,7 @@ class NacreMode implements Mode {
     if (m) {
       this.drawCard(m, all.length);
       this.drawTable(m);
-    } else textCenter('No whorls.', 96, 90, DIM);
+    } else textCenter('No Whorls.', 96, 90, DIM);
     this.drawPanel(m);
     if (this.t < 10) dither(0, 0, 192, 192, INK, 1 - this.t / 10);
   }
@@ -285,7 +285,7 @@ class NacreMode implements Mode {
     }
     const k = STATS[this.stat], n = layersOf(m, k), used = usedOf(m), name = k.toUpperCase();
     let line: string, c = PAPER;
-    if (used >= TAN_TOTAL) { line = `A whorl can hold up to ${TAN_TOTAL} layers.`; c = DIM; }
+    if (used >= TAN_TOTAL) { line = `A Whorl can hold up to ${TAN_TOTAL} layers.`; c = DIM; }
     else if (n >= TAN_PER_STAT) { line = `A stat can hold up to ${TAN_PER_STAT} layers.`; c = DIM; }
     else if (G.tan <= 0) { line = 'You are out of nacre to apply.'; c = BADC; }
     else line = `A layer grants ${name} ${this.total(m, k, 1)} for 1 nacre.`;
@@ -294,7 +294,7 @@ class NacreMode implements Mode {
     text('Z: lay one on', 8, PANEL_Y + 12, canLay ? HINT : HINT_OFF);
     textRight('C: take one off', 184, PANEL_Y + 12, n ? HINT : HINT_OFF);
     text('V: take all off', 8, PANEL_Y + 21, used ? HINT : HINT_OFF);
-    textRight(this.all.length > 1 ? 'L/R: whorl   X: back' : 'X: back', 184, PANEL_Y + 21, HINT);
+    textRight(this.all.length > 1 ? 'L/R: Whorl   X: back' : 'X: back', 184, PANEL_Y + 21, HINT);
   }
 }
 

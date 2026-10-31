@@ -77,9 +77,9 @@ async function useShell(mapId: string, id: string): Promise<void> {
     save();
     return;
   }
-  if (G.party.length < 2) { await hint('Ouro must keep at least one whorl before leaving one in a shell.'); return; }
-  if (await choose(['Leave a whorl in it', 'Leave it'], true) !== 0) return;
-  const i = await listMenu('Which whorl are you leaving behind?', G.party.map(monLine), { w: 140 });
+  if (G.party.length < 2) { await hint('Ouro must keep at least one Whorl before leaving one in a shell.'); return; }
+  if (await choose(['Leave a Whorl in it', 'Leave it'], true) !== 0) return;
+  const i = await listMenu('Which Whorl are you leaving behind?', G.party.map(monLine), { w: 140 });
   if (i < 0) return;
   const [mon] = G.party.splice(i, 1);
   G.shellMons[k] = mon;
@@ -121,7 +121,7 @@ export async function turnTide(): Promise<void> {
       setFlag('lowTold');
       await hint('(When the tide recedes, the sand is exposed, and stars align in a row.)');
       await hint('(At low water, an empty shell is gone when the shadow passes over it.)');
-      await hint('(You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)');
+      await hint('(You can leave a Whorl behind in a shell. Since the Whorl moves, the shell stays.)');
     }
     if (!flag('sweepOver')) {
       await gleanerWalk();

@@ -332,7 +332,7 @@ class Builder implements Mode {
     btn('Swap sides', 1, 0);
     btn(`Foe AI: ${foeAi[0].toUpperCase() + foeAi.slice(1)}`, 0, 1);
     btn('Start', 1, 1, true);
-    const hint = this.cy < 3 ? 'Z modifies this whorl. V examines it.' : this.cy === 4 && this.cx === 1 ? 'Z begins with these teams.' : 'Z selects. X returns to the title screen.';
+    const hint = this.cy < 3 ? 'Z modifies this Whorl. V examines it.' : this.cy === 4 && this.cx === 1 ? 'Z begins with these teams.' : 'Z selects. X returns to the title screen.';
     textCenter(hint, 96, 183, DIM, INK);
     this.drawSub();
     if (this.busy) dither(0, 0, 192, 192, INK, 0.55);

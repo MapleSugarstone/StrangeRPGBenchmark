@@ -251,7 +251,7 @@ sp({ id: 'heirloom', name: 'Petami', types: ['VOID'], basic: 'M', area: 'tray',
   moves: ['heirloom_dust', 'heirloom_faded', 'heirloom_nobody', 'heirloom_take'], passives: ['heirloom_unknown', 'heirloom_longest'],
   sprite: ['..2222..', '.244442.', '24411442', '24311342', '24444442', '.24.442.', '..2222..', '...33...'], c: ['#d2c2aa', '#a958e6', '#726141'],
   fit: 'takes the best thing you have', pegs: 7,
-  entry: 'The oldest whorl in the Gleaner\'s Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.' });
+  entry: 'The oldest Whorl in the Gleaner\'s Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.' });
 sp({ id: 'lodestar', name: 'Opaski', types: ['STAR'], basic: 'M', area: 'tray',
   moves: ['lodestar_bearing', 'lodestar_fix', 'lodestar_steer', 'lodestar_course'], passives: ['lodestar_walked', 'lodestar_steady'],
   sprite: ['..3.3...', '..2.2...', '.2222...', '2212123.', '.2.223..', '..2.2...', '..4.4...', '........'], c: ['#f6f2de', '#f0b22c', '#4d4d7a'],

@@ -531,7 +531,7 @@ defScript('a2PoolShell', async () => {
   const sitting = shellMon('wrack', 'pool');
   const opts: string[] = [];
   if (low()) opts.push('Climb over it');
-  if (sitting) opts.push(`Call ${sitting.name}`); else if (G.party.length >= 2) opts.push('Leave a whorl in it');
+  if (sitting) opts.push(`Call ${sitting.name}`); else if (G.party.length >= 2) opts.push('Leave a Whorl in it');
   opts.push('Leave it');
   const c = opts[await choose(opts, true)];
   if (c === 'Climb over it') {
@@ -542,8 +542,8 @@ defScript('a2PoolShell', async () => {
     field.stepWho('ouro', d); await wait(9);
     return;
   }
-  if (c === 'Leave a whorl in it') {
-    const i = await listMenu('Which whorl do you want to leave?', G.party.map(monLine), { w: 140 });
+  if (c === 'Leave a Whorl in it') {
+    const i = await listMenu('Which Whorl do you want to leave?', G.party.map(monLine), { w: 140 });
     if (i < 0) return;
     const [m] = G.party.splice(i, 1);
     G.shellMons[k] = m;
@@ -1019,13 +1019,13 @@ defScript('a2Sifter', async () => {
   const used = 12 - sack + (refilled ? 12 : 0);
   await say('The Sifter', `${used === 10 ? 'Ten' : String(used)} measures spent. ${sack} left in the sack. Not a single grain lost!`);
   await say('The Sifter', 'Four of mine, one by one. Ending with one grain. A fair contest, clearly measured.');
-  await say('The Sifter', 'Two of my four whorls are salt, which overcomes both roots and beasts. Keep that in mind.');
+  await say('The Sifter', 'Two of my four Whorls are salt, which overcomes both roots and beasts. Keep that in mind.');
   await say('The Sifter', 'Salt is defeated by two forces: the tide and the void.');
   await say('The Sifter', 'That accounts for every possible pinch of salt.');
   if (!(await keeperFight('The Sifter', SIFTER_TEAM, 'A handful of losses weighs nothing. Come back with a fuller sack.'))) return;
   await say('The Sifter', 'Four down. One up. A most proper and pleasing trade.');
   await giveGrain('The Sifter');
-  await hint('(Star grains raise the cap on Strand levels. With one grain, your whorls can reach Strand level 13.)');
+  await hint('(Star grains raise the cap on Strand levels. With one grain, your Whorls can reach Strand level 13.)');
   await say('The Sifter', 'One more sackful, and then home for supper. A hearty, well-deserved meal.');
   await sifterTake();
 });
