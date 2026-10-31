@@ -26,7 +26,7 @@ defNotion({ id: 'edgecharm', name: 'Edge Charm', price: 600, text: 'When it uses
 defNotion({ id: 'salttear', name: 'Salt Tear', price: 500, text: '+2 tide the first time it uses a move in a battle.',
   afterMove(b, f) { if (!f.k.tear) { f.k.tear = 1; addNerve(b, f.side, 2); } } });
 defNotion({ id: 'spareskin', name: 'Spare Shell', price: 900, text: 'Once, when KO\'d, comes back at 20% HP.',
-  wouldKO(b, f) { if (f.k.spare) return false; f.k.spare = 1; f.hp = Math.max(1, Math.round(f.maxHp * 0.2)); msg(b, `${label(b, f)} steps out of a spare shell.`); return true; } });
+  wouldKO(b, f) { if (f.k.spare) return false; f.k.spare = 1; f.hp = Math.max(1, Math.round(f.maxHp * 0.2)); msg(b, `${label(b, f)} emerges from a spare shell.`); return true; } });
 defNotion({ id: 'crownofhorn', name: 'Crown of Horn', price: 800, text: 'Crests deal 1.4x damage.',
   outMul(b, f, t, d) { return d.move?.nerve ? 1.4 : 1; } });
 defNotion({ id: 'bodkin', name: 'Bodkin', price: 700, text: 'Ignores 35% of the target\'s DEF and RES.' });

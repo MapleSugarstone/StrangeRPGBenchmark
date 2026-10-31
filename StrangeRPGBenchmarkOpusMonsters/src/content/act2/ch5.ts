@@ -88,12 +88,12 @@ defMap({
   zone: { kinds: kinds([['cuttle', 3], ['medusa', 3], ['grenadier', 2]]), lv: [22, 26], n: 10, area: 'strand' },
   npcs: [
     { id: 'slgran', x: 42, y: 13, sprite: 'smallgran', name: 'Small Gran', dir: 2, when: shown('gran') },
-    { id: 'slclimber', onSolid: true, x: 9, y: 7, sprite: 'climber2', name: 'Woman (climbing)', dir: 0, lines: ['Up. And down. Up. And down. My knees have opinions about the big low.'] },
+    { id: 'slclimber', onSolid: true, x: 9, y: 7, sprite: 'climber2', name: 'Woman (climbing)', dir: 0, lines: ['Up. Then down. Up. Then down. My knees are complaining about the big low.'] },
   ],
   spots: [
-    look(6, 11, 'Inside, every climber is climbing at once. The stair is full. (someone is going down the up side)'),
-    look(26, 14, 'A whole wreck, lying on its side on sand nobody here has seen dry.', 'Weed lies flat over it. Something in the hold is breathing slowly.'),
-    look(30, 6, 'The anchor stone. The sea is so far out that its hole is full of stars.'),
+    look(6, 11, 'Inside, climbers ascend and descend simultaneously, filling the stairs.', '(one person descends the upward slope)'),
+    look(26, 14, 'A total wreck, overturned on sand that nobody here has seen dry.', 'Weeds sprawl across it. Something in the hold breathes slowly.'),
+    look(30, 6, 'The anchor stone. The sea has receded so far that its hollow is filled with stars.'),
   ],
 });
 
@@ -155,8 +155,8 @@ defScript('springEnter', async () => {
   // and the Volute's tune comes across the beach, lower than Ouro remembers it.
   face('ouro', 3);
   await wait(40);
-  await narr('Far up the beach, a hand lifts the Volute out of the sand.');
-  await narr('The hand holds the Volute up to where an ear would be.');
+  await narr('High along the shore, a hand lifts the Volute from the sand.');
+  await narr('The hand raises the Volute to the height of an ear.');
   await wait(30);
   await shellTune(false, false, 2);
   if (hold()) sound('guard');
@@ -210,30 +210,30 @@ defMap({
   npcs: [
     { id: 'labelreader', x: 20, y: 9, sprite: 'beach4', name: 'Label-reader', dir: 0, wander: true, talk: 'labelReader' },
     { id: 'marramcutter', x: 12, y: 5, sprite: 'beach2', name: 'Marram-cutter', dir: 1,
-      trainer: { name: 'Marram-cutter', team: [['marram', 24], ['saltwort', 24]], intro: 'Cutting dune grass for thatch. I go round the labels. Feels rude to cut a label.', defeat: 'Eh. Thatch\'ll keep.', sight: 3 } },
+      trainer: { name: 'Marram-cutter', team: [['marram', 24], ['saltwort', 24]], intro: 'I cut dune grass for thatch, going round the labels. Feels rude to cut a label.', defeat: 'Eh, the thatch will hold up fine.', sight: 3 } },
     { id: 'starchaser', x: 30, y: 10, sprite: 'beach3', name: 'Star-chaser', dir: 3, when: lowWater,
-      trainer: { nacre: 1, name: 'Star-chaser', team: [['bolide', 25], ['spoor', 25]], intro: 'Big low! Once a year you get to run right behind the stars! Come on, come on!', defeat: 'Aw. Fine, you win. Now run!', sight: 3 } },
+      trainer: { nacre: 1, name: 'Star-chaser', team: [['bolide', 25], ['spoor', 25]], intro: 'Look at that big low! Once a year, you get to run right behind the stars! Come on, come on!', defeat: 'Alright, alright, you win. Now, run!', sight: 3 } },
     { id: 'jellyturner', x: 38, y: 13, sprite: 'beach1', name: 'Jelly-turner', dir: 3, when: lowWater,
-      trainer: { name: 'Jelly-turner', team: [['medusa', 25], ['cuttle', 25]], intro: 'I turn the jellies over so they don\'t dry out. Do they say thanks? They do not.', defeat: 'Yeah, they\'re not gonna thank you either.', sight: 3 } },
+      trainer: { name: 'Jelly-turner', team: [['medusa', 25], ['cuttle', 25]], intro: 'I flip the jellies over so they don\'t dry out. Do they say thank you? No, they don\'t.', defeat: 'Yeah, don\'t expect any gratitude from them.', sight: 3 } },
   ],
   spots: [
-    look(8, 3, 'A label stuck in a dune, driftwood, pressed with big letters that lean and grow toward the end.', 'KEEP THE SAND.'),
+    look(8, 3, 'A label stuck in a dune, made of driftwood, with large letters that lean and grow toward the end.', 'KEEP THE SAND.'),
     { x: 24, y: 14, script: async () => {
       await say('Label', 'KEEP THE SEA.');
     } },
-    look(33, 4, 'A label on a tall post, its top cut to point upward.', 'KEEP THE SKY.'),
-    look(40, 6, 'A label lying on its side where the wind blew it over. Nobody has stood it back up.', 'KEEP THE WIND.'),
-    look(15, 7, 'A label half buried, the letters smaller and neater, very old.', 'KEEP THE TIDE.'),
-    look(5, 7, 'A label in the marram, with the grass grown up round it.', 'KEEP THE DUNE.'),
-    look(13, 4, 'A label leaning on another label. (the other one leans back)', 'KEEP THE NIGHT.'),
-    look(19, 7, 'A label with a crab living under it. The crab comes out, sees Ouro, and goes back in.', 'KEEP THE FOAM.'),
-    look(27, 4, 'A label stuck in the sand in no order with the others.', 'KEEP THE STARS.'),
-    look(38, 6, 'A label with sand drifted up to the K.', 'KEEP THE SHORE.'),
-    look(43, 3, 'A new label. The letters are the biggest yet.', 'KEEP THE DARK.'),
-    look(45, 13, 'A label in the wet sand, leaning toward the sea.', 'KEEP THE WAVES.'),
-    look(11, 14, 'A label at the edge of the water. Each small wave comes up to it and goes back.', 'KEEP THE EDGE.'),
-    look(30, 13, 'A label. Something has scratched under the letters, small: "not this one".'),
-    stash('ls_dune', 46, 5, 'Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.', { pegs: ['iron', 1], notion: 'warmstone' }),
+    look(33, 4, 'A marker on a tall post, its top trimmed to a sharp point.', 'KEEP THE SKY.'),
+    look(40, 6, 'A marker lying on its side, blown over by the wind, never righted.', 'KEEP THE WIND.'),
+    look(15, 7, 'A marker half-buried in the sand, its smaller, neater letters showing its age.', 'KEEP THE TIDE.'),
+    look(5, 7, 'A marker nestled in the marram grass, surrounded by the blades.', 'KEEP THE DUNE.'),
+    look(13, 4, 'A marker leaning against another, which leans back in support.', 'KEEP THE NIGHT.'),
+    look(19, 7, 'A marker sheltering a crab. The crab emerges, spots Ouro, and retreats.', 'KEEP THE FOAM.'),
+    look(27, 4, 'A label stuck in the sand, out of order with the rest.', 'KEEP THE STARS.'),
+    look(38, 6, 'Sand has drifted up to cover the "K" on this label.', 'KEEP THE SHORE.'),
+    look(43, 3, 'A new label. These letters are the largest yet.', 'KEEP THE DARK.'),
+    look(45, 13, 'A label pressed into the wet sand, tilting toward the sea.', 'KEEP THE WAVES.'),
+    look(11, 14, 'A label at the water\'s edge. Each small wave washes up to it and recedes.', 'KEEP THE EDGE.'),
+    look(30, 13, 'A label. Something has scratched small letters beneath the main text: "not this one".'),
+    stash('ls_dune', 46, 5, 'Tucked into the lee of a dune, sheltered from the wind, lies a nautilus horn and a notion.', { pegs: ['iron', 1], notion: 'warmstone' }),
   ],
 });
 
@@ -250,18 +250,19 @@ defScript('longEnter', async () => {
 
 // The label-reader reads labels and does nothing else.
 defScript('labelReader', async () => {
-  if (flag('sweepOver') && lowWater()) await say('Label-reader', 'Low water. Look at all that sand. Nothing\'s coming to take any of it.');
-  else if (highTide()) { await say('Label-reader', 'High water. KEEP THE SEA\'s under the sea now. Only one out here that got what it asked for.'); return; }
+  if (flag('sweepOver') && lowWater()) await say('Label-reader', 'Low tide. Look at all that sand. Nothing\'s coming to take any of it.');
+  else if (highTide()) { await say('Label-reader', 'High tide. KEEP THE SEA\'s under the sea now. Only one out here got what it asked for.'); return; }
   else {
-    await say('Label-reader', 'I read \'em, that\'s all I do. First word\'s always KEEP. After THE it gets tricky.');
-    await say('Label-reader', 'Old ones are neat and small. New ones are huge. Hurts my neck, honestly.');
+    await say('Label-reader', 'I just read them, that\'s my job. The first word is always KEEP. After THE, it gets tricky.');
+    await say('Label-reader', 'The old ones are neat and small. The new ones are huge. It really hurts my neck.');
   }
-  await say('Label-reader', 'Got a shell for catching, if you want it. Stars land in the same holes here every year. Same holes!');
-  if (!flag('lsStarfallTold')) { setFlag('lsStarfallTold'); await hint('(Starfall on the Long Strand: stars fall only in the footprint columns. Learn the order.)'); }
-  if (await choose(['Catch stars', 'Not now'], true) !== 0) return;
+  await say('Label-reader', 'I\'ve got a shell for catching, if you want it. Stars land in the same spots here every year.');
+  await say('Label-reader', 'The same spots!');
+  if (!flag('lsStarfallTold')) { setFlag('lsStarfallTold'); await hint('(Starfall on the Long Strand: stars only fall in the footprint columns. Memorize the sequence.)'); }
+  if (await choose(['Pick stars', 'Not now'], true) !== 0) return;
   const score = await starfall({ fixed: FOOT_COLS, bestKey: 'starfallLong' });
   field.playMapMusic();
-  await say('Label-reader', score >= 40 ? `${score}! Clean night. I'll write that on a label. A small one, not like theirs.` : `${score}. Watch the holes. They always pick the same holes.`);
+  await say('Label-reader', score >= 40 ? `${score}! Clear night. I'll write that on a label. A small one, unlike theirs.` : `${score}. Keep an eye on the holes. They're consistent. They always choose the same ones.`);
   save();
 });
 
@@ -318,11 +319,11 @@ async function listenMud(i: number): Promise<void> {
     setFlag('mudlarkHeard');
     // A voice comes out of one of the five small shells in a row, and Ouro cannot tell which.
     await act('ouro', 'look');
-    await say('Mudlark', 'Nope. Not coming out. Not at dead low, and not for just anybody.');
-    await say('Mudlark', 'I never stay in the same shell. Never skip past one, either. Always next door.');
-    await say('Mudlark', 'And I don\'t grab a shell I haven\'t had my ear on first.');
-    await hint('(Put your ear to a shell to listen. An empty shell plays with notes missing.)');
-    await hint('(A shell with someone moving in it plays with footsteps in it.)');
+    await say('Mudlark', 'No way. I\'m not emerging. Not at dead low tide, and certainly not for just anyone.');
+    await say('Mudlark', 'I never stay put in one shell. I don\'t skip ahead, either. I always move to the adjacent one.');
+    await say('Mudlark', 'And I don\'t take a shell I haven\'t listened to first.');
+    await hint('(Press your ear to a shell to listen. An empty shell sounds like a melody with missing notes.)');
+    await hint('(A shell housing a resident will sound like footsteps.)');
     return;
   }
   const can = mudCanBe();
@@ -343,22 +344,24 @@ async function foundMud(): Promise<void> {
   offstage('traymudout');
   await walkIn('traymudout', sx, sy, sx === field.x ? sx + 1 : sx, sy + 1);
   faceToward('traymudout', 'ouro');
-  await say('Mudlark', 'Huh. Don\'t usually lose that one. Don\'t mind, though. Much.');
-  await say('Mudlark', 'Rules, if you\'re sticking round. No labeled ones. No standing up at dead low.');
-  await say('Mudlark', 'And I never look up at it. Don\'t need to. You learn the feet, you don\'t forget the feet.');
+  await say('Mudlark', 'Huh. I don\'t usually lose that one. But I don\'t mind. Not really.');
+  await say('Mudlark', 'Here are the rules, if you\'re sticking around. No labeled shells.');
+  await say('Mudlark', 'And don\'t stand up during dead low tide.');
+  await say('Mudlark', 'Plus, I never look up at it. I don\'t need to.');
+  await say('Mudlark', 'Once you learn the rhythm of the feet, you never forget it.');
   // She crawls off to her place by the rows, where she stays.
   await walkOff('traymudout', 22, 17);
   const tm = field.npc('traymud');
   if (tm) tm.hidden = false;
   setFlag('mudlarkHome');
-  goal('Look at the big square in the middle of the Tray.');
+  goal('Examine the large square in the center of the Tray.');
   save();
 }
 
 async function emptySquare(): Promise<void> {
   await say('Label', 'KEEP THE VOLUTE.');
   await choose(['Four white posts.']);
-  await narr('The posts are white and round on top. They are as tall as the posts at the corners of the Margin.');
+  await narr('The posts are white and rounded at the top. They stand as tall as the corner posts at the Margin.');
   if (!flag('mudlarkFound') || flag('squareHeard')) return;
   setFlag('squareHeard');
   // The empty square's sand is silent. The next squares play with gaps. Then, faint, from far up the beach to the
@@ -370,29 +373,30 @@ async function emptySquare(): Promise<void> {
   face('ouro', 3);
   await wait(30);
   await shellTune(false);
-  await say('Mudlark', 'I stay off the big square. Never seen a thing in it. Not once.');
-  await say('Mudlark', 'Listened down every row. Once. Not doing it twice. Not one whole tune in the lot.');
-  await say('Mudlark', 'Never heard one play the whole thing. Except yours, way up the beach.');
-  goal(flag('mudlarkBeaten') ? 'Stand by the big empty square.' : 'Talk to the Mudlark.');
+  await say('Mudlark', 'I keep away from the big square. I\'ve never seen anything in it. Not once.');
+  await say('Mudlark', 'I listened down every row. Just once. I\'m not doing it again.');
+  await say('Mudlark', 'Not a single complete song in the whole batch.');
+  await say('Mudlark', 'I\'ve never heard one play the full tune. Except for yours, way up on the beach.');
+  goal(flag('mudlarkBeaten') ? 'Stand near the large empty square.' : 'Speak with the Mudlark.');
   save();
 }
 
 async function bootSquare(): Promise<void> {
   await say('Label', 'KEEP THE BOOT.');
-  if (await choose(['Take the boot.', 'Leave it.']) !== 0) return;
-  if (flag('mudlarkFound')) await say('Mudlark', 'Labeled. I wouldn\'t. Wouldn\'t stop you, though.');
+  if (await choose(['Take the boot.', 'Leave it be.']) !== 0) return;
+  if (flag('mudlarkFound')) await say('Mudlark', 'It\'s labeled. I wouldn\'t touch it. But I won\'t stop you, either.');
   setFlag('bootTaken');
   giveKey('granboot');
   sfx('level');
-  await notice('Ouro gets Gran\'s boot, full of sand seventy years old.');
+  await notice('Ouro finds Gran\'s boot, filled with sand that is seventy years old.');
   await granSpeaks();
   save();
 }
 
 async function crazedShell(): Promise<void> {
-  await narr('The gray shell is drawn all over with crazes. In the crazes are the shapes of towns.');
+  await narr('The gray shell is crisscrossed with fractures, and within those cracks lie the shapes of towns.');
   await say('Label', 'KEEP THE CRAZES.');
-  if (!flag('springHigh')) await hint('(The old Apex. Cinch would want to see it, when the sea has been in.)');
+  if (!flag('springHigh')) await hint('(This is the old Apex. Cinch would want to see it, when the sea has been in.)');
 }
 
 async function hollowOne(): Promise<void> {
@@ -490,8 +494,9 @@ defScript('trayEnter', async () => {
     await starLine(FOOTPRINTS.tray.slice(0, 4), 24);
     scene = {};
     await panBack();
-    await hint('(At dead low the Gleaner works in the Tray. Its feet are dangerous. Keep out of the rows it is in.)');
-    goal('Something moves in one of the small shells at the north edge of the Tray.');
+    await hint('(At dead low tide, the Gleaner operates in the Tray. Its feet are hazardous.');
+    await hint('Avoid the rows it occupies.)');
+    goal('Something shifts in one of the small shells at the north edge of the Tray.');
     save();
   }
 });
@@ -501,7 +506,7 @@ defScript('trayTack', async () => {
   await act('traytack', 'nod');
   faceToward('traytack', 'ouro');
   await say('Tack', 'Counted 312 squares. Twice. 1 empty. The big 1, in the middle.');
-  await say('Tack', 'It picked up 40 in a row and put every one back in order. Showoff.');
+  await say('Tack', 'It gathered 40 in a row and put every single one back in order. Show-off.');
 });
 
 // The Mudlark says only what she does not do.
@@ -510,27 +515,27 @@ defScript('trayMudlark', async () => {
     if (!flag('htKeyGiven')) {
       setFlag('htKeyGiven');
       await act('traymudup', 'hop');
-      await say('Mudlark', 'No labels. Don\'t need \'em. Don\'t need anybody doing it for me, either.');
-      await say('Mudlark', 'Here. I don\'t keep keys I can\'t use. Opens the last room in the top one.');
+      await say('Mudlark', 'No tags. I don\'t need them. And I sure as hell don\'t need anyone else doing the labeling for me.');
+      await say('Mudlark', 'Here. I don\'t keep keys I can\'t use. This one opens the last room in the top one.');
       giveKey('hollowkey');
       sfx('level');
-      await notice('(Ouro gets the Hollow Top\'s key.)');
+      await notice('(Ouro takes the key to the Hollow Top.)');
       save();
       return;
     }
     if (await strandRematch('The Mudlark', ['magpie', 'cache', 'docket', 'crabwise'], 'mudlark')) return;
-    await say('Mudlark', 'No more lying flat at low. Don\'t miss it. Well. My elbows don\'t.');
+    await say('Mudlark', 'You don\'t have to lie flat at low tide anymore. Don\'t miss it. Well. My elbows don\'t.');
     return;
   }
   if (flag('labelTaken')) {
-    await say('Mudlark', 'Don\'t bother pulling it. I\'ve tried. They don\'t stay off.');
-    await say('Mudlark', 'Mine never stand still at low. Never. You saw why.');
+    await say('Mudlark', 'Save your breath. I\'ve tried pulling it. They just don\'t stay away.');
+    await say('Mudlark', 'Mine never stand still at low tide. Never. You know why.');
     return;
   }
-  if (flag('mudlarkBeaten')) { await say('Mudlark', 'Can\'t carry it flat, I don\'t keep it. That\'s the whole rule.'); return; }
+  if (flag('mudlarkBeaten')) { await say('Mudlark', 'If I can\'t carry it flat, I don\'t keep it. That\'s the rule. Period.'); return; }
   if (!flag('squareHeard')) {
-    await say('Mudlark', 'Told you. No labeled ones. No standing up at dead low.');
-    await say('Mudlark', 'Big square\'s in the middle. Go look. I\'m not going near it.');
+    await say('Mudlark', 'Told you. No tags. Nothing stands up at dead low.');
+    await say('Mudlark', 'The big square is right in the center. Go check it out. I\'m not going anywhere near it.');
     return;
   }
   await leadToYard();
@@ -538,15 +543,15 @@ defScript('trayMudlark', async () => {
 
 async function leadToYard(): Promise<void> {
   // The Mudlark leads Ouro along the edge of the Tray, flat on her elbows the whole way.
-  await say('Mudlark', 'Don\'t live in the rows. Don\'t live far off, either. This way.');
+  await say('Mudlark', 'I don\'t live in the rows, and I don\'t live far off either. Follow me.');
   await Promise.all([walkTo('traymud', 44, 25), (async () => { await wait(24); await walkTo('ouro', 43, 25); })()]);
-  await say('Mudlark', 'Wouldn\'t put my door anywhere its feet don\'t come. Nobody looks where they step.');
+  await say('Mudlark', 'I wouldn\'t put my door anywhere the Gleaner\'s feet don\'t come. Nobody looks where they step.');
   await warp('mudlarkyard', 1, 4, 1);
 }
 
 defScript('trayCinch', async () => {
-  if (flag('ringRead')) { await cinch('Sit. Wade, huh. That\'s a name for somebody small.'); return; }
-  await cinch('Still sitting with that one. Room here if you want to sit with it too.');
+  if (flag('ringRead')) { await cinch('Sit. Wade, huh? That\'s a name for someone small.'); return; }
+  await cinch('Still sitting with that one. Plenty of room here if you want to sit with it too.');
 });
 
 // ---------------------------------------------------------------- the Take: the label, and the Return: the spring high
@@ -573,7 +578,7 @@ defScript('trayTake', async () => {
   await slideProp('gleanerHand', 23, -4, 8, 8);
   await shake(20);
   await act('ouro', 'shiver');
-  await narr('The hand lifts them both, high, up beside the dark where an ear would be.');
+  await narr('The hand raises them both, high up next to the dark, where an ear would be.');
   await Promise.all([act('ouro', 'lift'), act(who, 'lift'), tint('#0b0a10', 0.8, 30)]);
   // It is very quiet up there, and the hand creaks.
   sound('guard');
@@ -596,7 +601,7 @@ defScript('trayTake', async () => {
   // The feet go away east, toward the pink shell at the end of the beach.
   scene.trayFootA = false;
   await shake(10);
-  await hint(gran ? '(Small Gran is marked. The label goes where she goes.)' : `(${lifted?.name} is marked. The label goes where it goes.)`);
+  await hint(gran ? '(Small Gran is marked. The label follows her.)' : `(${lifted?.name} is marked. The label follows it.)`);
   await springHigh(!!gran);
 });
 
@@ -621,21 +626,21 @@ async function springHigh(gran: boolean): Promise<void> {
   await act('traycinch', 'bow');
   await walkTo('traycinch', 23, 12);
   face('traycinch', 1);
-  await cinch('Sit. They let me out at the high. Sent soup.');
+  await cinch('Take a seat. They let me out at high water and brought up soup.');
   // Cinch sits at the corner of the empty square by a white post with the pot between them, and looks at the post,
   // then the new label, then the post again.
   await act('traycinch', 'bow');
   sound('ok');
   for (const d of [2, 1, 2]) { face('traycinch', d); await wait(30); }
-  await cinch('Sit here by me. You can see the pink one from here, down the beach.');
+  await cinch('Stay here with me. You can spot the pink one from here, down the beach.');
   face('ouro', 1);
-  await narr('Down the beach, something very large lies curled in the mouth of the great pink shell.');
-  await cinch('Sit and watch it a while. Same thing, every time.');
-  await cinch('Seen that before. Left one at a post myself. Did the same thing every day.');
-  await cinch('From here it looks like a cast. Somebody\'s. Somebody big.');
-  await cinch('Sit. Nobody\'s in it.');
-  await choose(['Whose is it?']);
-  await cinch('Sit with that one a while. I would.');
+  await narr('Down the beach, something massive lies curled in the mouth of the great pink shell.');
+  await cinch('Sit and watch it for a bit. It\'s the same every time.');
+  await cinch('I\'ve seen that before. I left one at a post myself. It did the same thing every day.');
+  await cinch('From here, it looks like a cast. Someone\'s. Someone large.');
+  await cinch('Sit. Nobody\'s inside.');
+  await choose(['Who owns it?']);
+  await cinch('Stay with that one for a while. I would.');
   // They eat the soup.
   for (let i = 0; i < 3; i++) { await Promise.all([act('ouro', 'nod'), act('traycinch', 'nod')]); }
   await emote('traycinch', 'heart');
@@ -648,11 +653,11 @@ async function springHigh(gran: boolean): Promise<void> {
     faceToward('trayknot', 'traycinch');
     faceToward('traycinch', 'trayknot');
     await wait(90);
-    await cinch('Sit.');
+    await cinch('Stay put.');
     // Knot's hands come down slowly from the height of the post, and it sits on the sand next to Cinch.
     await act('trayknot', 'shiver');
     await act('trayknot', 'bow');
-    await cinch('From down here we look alike. Got my nose, see.');
+    await cinch('From down here, we look alike. Got my nose, see.');
     await wait(90);
   }
   scene = {};
@@ -661,7 +666,7 @@ async function springHigh(gran: boolean): Promise<void> {
   if (flag('bellHeld')) { setFlag('bellHeld', 0); giveKey('handbell'); }
   const lt = (G as any).a2lastTannery;
   if (lt) { G.lastTannery = lt; delete (G as any).a2lastTannery; }
-  goal('Letters wait at the Sand Dollar post. The pink shell lies at the east end of the beach.');
+  goal('Letters at Sand Dollar post. Pink shell at east beach end.');
   save();
 }
 
@@ -711,7 +716,7 @@ defMap({
   npcs: [{ id: 'yardmud', x: 16, y: 5, sprite: 'mudlark', name: 'Mudlark', dir: 2, talk: 'yardMudlark' }],
   spots: [
     ...[[8, 1, 'not this one'], [4, 3, 'not this one either'], [12, 3, 'no'], [10, 5, 'not this one'], [5, 6, 'no']].map(([x, y, s]) =>
-      look(x as number, y as number, `One of the Mudlark's own labels, scratched small in a different hand: "${s}".`)),
+      look(x as number, y as number, `A Mudlark label, small and scratched in a different hand: "${s}".`)),
   ],
 });
 
@@ -737,30 +742,30 @@ defScript('yardEnter', async () => {
   yardT = 0;
   if (!flag('yardSeen')) {
     setFlag('yardSeen');
-    await hint('(The Gleaner\'s feet come down in the yard in the same round of six steps.)');
-    await hint('(With the tide table, a mark shows where the next foot lands.)');
+    await hint('(The Gleaner\'s feet land in the yard, completing the same six-step cycle.)');
+    await hint('(The tide table marks where the next foot will fall.)');
   }
 });
 
 /** The Mudlark, the fifth keeper. Strand level 26. */
 export const mudTeam = () => [mon('magpie', 25), mon('cache', 25), mon('docket', 25), mon('crabwise', 26)];
 defScript('yardDoor', async () => {
-  await say('Mudlark', 'Don\'t fight fair. Don\'t fight long. Get down here.');
+  await say('Mudlark', 'Don\'t bother fighting fair. Don\'t drag it out. Just come down here.');
   if (!await keeperFight('The Mudlark', mudTeam)) {
-    await say('Mudlark', 'Keep it. Never keep what I win anyway.');
+    await say('Mudlark', 'Keep it. I never keep what I win anyway.');
     return;
   }
   setFlag('mudlarkBeaten');
-  await say('Mudlark', 'There. Don\'t give these out much. Don\'t have much to give.');
+  await say('Mudlark', 'There. I don\'t hand these out often. Not much to spare.');
   await giveGrain('The Mudlark');
   await grainLine();
-  await say('Mudlark', 'Go on, then. I don\'t keep anything I can\'t carry flat.');
-  goal(flag('squareHeard') ? 'Stand by the big empty square.' : 'Listen at the big empty square.');
+  await say('Mudlark', 'Go on. I only keep what I can carry flat.');
+  goal(flag('squareHeard') ? 'Stand at the edge of the large empty square.' : 'Listen at the large empty square.');
   save();
 });
 defScript('yardMudlark', async () => {
-  if (!flag('mudlarkBeaten')) { await say('Mudlark', 'Not coming out to the gate. I\'ll wait at the door. Mind the feet.'); return; }
-  await say('Mudlark', 'Back again? I don\'t keep anything I can\'t carry flat. You included.');
+  if (!flag('mudlarkBeaten')) { await say('Mudlark', 'I\'m not coming to the gate. I\'ll wait by the door. Watch your step.'); return; }
+  await say('Mudlark', 'Back so soon? I don\'t keep what I can\'t carry flat. You\'re no exception.');
 });
 
 // ---------------------------------------------------------------- the Hollow Top: stillness
@@ -880,17 +885,17 @@ defMap({
     img: kindSprite(w.kind), talk: w.id, when: () => htActive(w),
   })),
   spots: [
-    look(14, 1, 'In the square the ground is crazed all over.', 'In the middle is a shell-shaped hollow, and nothing in it.'),
-    look(13, 12, 'On a kitchen wall, children\'s heights scratched in the plaster.', 'The top mark is a little higher than the rest.'),
+    look(14, 1, 'The ground in the square is fractured everywhere.', 'A shell-shaped hollow sits in the center, empty.'),
+    look(13, 12, 'Height marks scratched by children on a kitchen wall.', 'The highest mark is slightly above the others.'),
     { x: 11, y: 14, script: async () => {
       if (!flag('found_ht_bowl')) { setFlag('found_ht_bowl'); await reward({ notion: 'quickstone' }); }
       else await emote('ouro', 'silence');
     } },
-    stash('ht_well', 12, 20, 'Down the well, on a ledge above the dry bottom, a nautilus horn.', { pegs: ['iron', 1] }),
-    stash('ht_child', 21, 8, 'In the child\'s room, in a box under the bed, five grains of nacre.', { tan: 5 }),
-    look(19, 21, 'A cart with its shafts down. Nothing is between the shafts.'),
-    look(2, 10, 'A row of washing over a wall, dry for years. It does not move.'),
-    look(HT_LOCKED.x, HT_LOCKED.y, 'A door with a lock. Every other door here opens for stillness. This one wants a key.'),
+    stash('ht_well', 12, 20, 'Down in the well, resting on a ledge above the dry floor, lies a nautilus horn.', { pegs: ['iron', 1] }),
+    stash('ht_child', 21, 8, 'In the child\'s room, five grains of nacre sit in a box under the bed.', { tan: 5 }),
+    look(19, 21, 'A cart rests with its shafts lowered, leaving the space between them completely empty.'),
+    look(2, 10, 'A row of laundry hangs motionless against a wall, having stayed dry for years.'),
+    look(HT_LOCKED.x, HT_LOCKED.y, 'This door is secured with a lock,', 'unlike the others in this place that open simply through stillness.'),
     { x: HT_LOCKED.x, y: HT_LOCKED.y - 1, when: () => !!flag('htLastOpen'), script: async () => {
       if (flag('htLast')) { await emote('ouro', 'silence'); return; }
       setFlag('htLast');
@@ -928,7 +933,7 @@ defScript('htEnter', async () => {
     await pan(15, 10);
     await wait(40);
     await panBack();
-    await hint('(Doors here open only when nothing moves near them.)');
+    await hint('(The doors here only open when there is no movement nearby.)');
   }
 });
 
@@ -950,7 +955,7 @@ defMap({
     { id: 'oacast', x: 11, y: 11, sprite: 'cinch', name: 'Cinch\'s cast', dir: 0, img: pale('cinch'), talk: 'oaCast', when: () => !flag('castBeaten') },
     { id: 'oacinch', x: 3, y: 13, sprite: 'realcinch', name: 'Cinch', dir: 1, talk: 'oaCinch' },
   ],
-  spots: [look(5, 2, 'The flat round place, crazed all over. Through the crazes, far below, the Tray\'s rows.')],
+  spots: [look(5, 2, 'The flat, circular surface is cracked everywhere,', 'revealing the rows of the Tray far below through the fractures.')],
 });
 
 defScript('oaEnter', async () => {
@@ -964,12 +969,12 @@ defScript('oaEnter', async () => {
   await panBack();
   await walkIn('oacinch', 11, 16, 3, 13);
   await act('oacinch', 'bow');
-  await cinch('Sit. That\'s me, there. Still at it.');
+  await cinch('Take a seat. That\'s me over there, still going at it.');
 });
 defScript('oaPost', async () => { await emote('ouro', 'silence'); });
 defScript('oaCinch', async () => {
-  if (flag('castBeaten')) { await cinch('There. Both of us sitting. Only took forty years.'); return; }
-  await cinch('Sit and watch me a while. Funny. Never stops, does it.');
+  if (flag('castBeaten')) { await cinch('There we are, both of us seated. It only took forty years to get here.'); return; }
+  await cinch('Stay and watch me for a bit. It\'s amusing, really. It never seems to end.');
 });
 /** Cinch's cast in the old Apex, release only. Strand level 29. */
 export const castTeam = () => [mon('knot', 29), mon('menhir', 22), mon('halo', 22), mon('orrery', 22)];
@@ -982,7 +987,7 @@ defScript('oaCast', async () => {
   setFlag('castBeaten');
   // The cast's hands come down to its sides for the first time.
   await act('oacast', 'shiver');
-  await cinch('Sit down by me, then. You\'ve stood long enough.');
+  await cinch('Come, sit down beside me. You\'ve been standing long enough.');
   await walkTo('oacast', 4, 13);
   await wait(30);
   await act('oacast', 'bow');
@@ -1001,10 +1006,12 @@ if (kb) {
   (kb.spots ||= []).unshift({ x: 26, y: 10, when: () => !!flag('ringAsked') && !flag('ringRead'), script: ringNight });
   const counter = SCRIPTS.counter;
   defScript('counter', async () => {
-    if (flag('ringRead')) { await say('Counter', 'Four. W, A, D, E. Still four. Only count I\'ve ever been sure of.'); return; }
+    if (flag('ringRead')) { await say('Counter', 'Four. W, A, D, E. Still four. It\'s the only count I\'ve ever been certain of.'); return; }
     if (flag('ringAsked') && flag('springHigh')) {
-      await say('Counter', 'Four. Letters, I think, in the shine on the far knuckle. Can\'t read backward, me.');
-      await say('Counter', 'One. Star, that\'s what it takes. Maybe two. Stand on the far knuckle at night and wait.');
+      await say('Counter', 'Four. I think there are four letters in the shine on the far knuckle.');
+      await say('Counter', 'I can\'t read backwards, you see.');
+      await say('Counter', 'One. It takes a star, that\'s what it needs. Or maybe two.');
+      await say('Counter', 'Stand on the far knuckle at night and wait.');
       return;
     }
     await counter();
@@ -1013,11 +1020,11 @@ if (kb) {
 // The Ring polisher talks only about how the ring shines.
 defScript('ringPolisher', async () => {
   if (flag('ringAsked') && !flag('ringRead')) {
-    await say('Ring polisher', 'It shines now! Forty years of rubbing, and look at it go :-]');
+    await say('Ring polisher', 'It\'s finally gleaming! Forty years of polishing, and look at it shine.');
     await say('Ring polisher', 'When a star falls at night, it shines right across to the far knuckle. All the way!');
     return;
   }
-  await say('Ring polisher', 'Mind the shine on your way out. It gets in your eyes, the good way.');
+  await say('Ring polisher', 'Watch your step on the way out. The glare gets in your eyes, but in a good way.');
 });
 async function ringNight(): Promise<void> {
   // Ouro waits on the far knuckle for night. A star lands in the dust beyond the thumb, and its light goes through
@@ -1032,7 +1039,8 @@ async function ringNight(): Promise<void> {
   await act('ouro', 'look');
   await emote('ouro', 'surprise');
   setFlag('ringRead');
-  await say('Counter', 'Four. W, A, D, E. Four, and I\'m sure. Had the ring down as a knuckle for years. It\'s a name.');
+  await say('Counter', 'Four. W, A, D, E. Four, and I\'m certain of it. I\'d assumed it was a knuckle ring for years.');
+  await say('Counter', 'It\'s a name.');
   evening(false);
   await reward({ tan: 4, notion: 'polishedring' });
 }

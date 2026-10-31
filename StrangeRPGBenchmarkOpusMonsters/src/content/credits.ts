@@ -27,14 +27,14 @@ export function credits(): Promise<void> {
   G.party.forEach((m, i) => { lines.push({ s: `${m.name}, level ${m.level}`, c: PAPER, mon: i }); add(''); });
   add('');
   const pegged = WILD_KINDS.filter(k => G.register[k] === 2).length;
-  add(`Kinds in the Register: ${pegged} of ${WILD_KINDS.length}`, PAPER);
-  add(`Stays Ouro pulled: ${vellumPulls()}`, PAPER);
+  add(`Species in the Register: ${pegged} of ${WILD_KINDS.length}`, PAPER);
+  add(`Seals Ouro pulled: ${vellumPulls()}`, PAPER);
   add(`Wins against Tack: ${G.flags.tackWins || 0}`, PAPER);
   add(`Wins for Tack: ${G.flags.tackBeat || 0}`, PAPER);
   const h = Math.floor(G.time / 3600), mm = Math.floor((G.time % 3600) / 60);
-  add(`Time on the Lip: ${h}:${String(mm).padStart(2, '0')}`, PAPER);
+  add(`Time on the Rim: ${h}:${String(mm).padStart(2, '0')}`, PAPER);
   add(''); add(''); add('');
-  add(G.flags.endHold ? 'The Volute holds.' : 'The Volute turns.', SEL);
+  add(G.flags.endHold ? 'The Volute remains secure.' : 'The Volute sheds.', SEL);
   add(''); add(''); add('');
   add('The end.', PAPER);
 

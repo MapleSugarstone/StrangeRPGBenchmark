@@ -35,7 +35,7 @@ export const cinch = (line: string) => say('Cinch', line, PEOPLE.realcinch);
 export const hold = () => !flag('endRelease');
 export const release = () => !!flag('endRelease');
 export const lowWater = () => !highTide();
-export const SMALL_GRAN = ['Is it today?', 'Mum says don\'t scratch.', 'I can feel it starting.', 'Don\'t look. Don\'t look yet.', 'There. There it goes.'];
+export const SMALL_GRAN = ['Is it happening today?', 'Mum said not to scratch.', 'I can feel it beginning.', 'Don\'t look. Not yet.', 'There. It\'s happening.'];
 export const SMALL_GRAN_KIND = 'smallgranw';
 /** Small Gran, if she is in the four. */
 export const smallGranOut = (): Mon | undefined => G.party.find(m => m.kind === SMALL_GRAN_KIND);
@@ -49,7 +49,7 @@ export const STRAND_CAP_LINE = ['', 'Strand level 13', 'Strand level 18', 'Stran
 /** The system line after a grain. */
 export async function grainLine(): Promise<void> {
   const n = G.flags.a2pearls || 0;
-  await hint(`(With ${['no', 'one', 'two', 'three', 'four', 'five', 'six'][n] || n} grains your whorls can reach ${STRAND_CAP_LINE[n] || 'Strand level 50'}.)`);
+  await hint(`(With ${['no', 'one', 'two', 'three', 'four', 'five', 'six'][n] || n} grains, your whorls can reach ${STRAND_CAP_LINE[n] || 'Strand level 50'}.)`);
 }
 /** Sets the tide without the bell's lines or the walk. */
 export function setTide(high: boolean): void {
@@ -72,7 +72,7 @@ export async function keeperFight(name: string, team: () => Mon[], ai: 'keeper' 
 /** Strand keepers take rematches once Act 2 is over, with both teams synced at level 35. */
 export async function strandRematch(name: string, kindsList: string[], who: string): Promise<boolean> {
   if (!flag('a2done')) return false;
-  const c = await choose(['Fight again at 35', 'Talk'], true, `${name} will fight again. Both teams at level 35.`);
+  const c = await choose(['Fight again at level 35', 'Dialogue'], true, `${name} will fight again. Both teams are at level 35.`);
   if (c !== 0) return c < 0;
   if (await keeperFight(name, () => kindsList.map(k => makeMon(k, 35)), 'keeper', 'keeperStrand', 35)) {
     G.rind += 500;
@@ -117,11 +117,11 @@ const notches = (n: number) => ['', 'one notch', 'two notches', 'three notches',
 menuExtras.push({
   label: 'Tide table', when: () => scaleNow.strand && G.keys.includes('tidetable'),
   run: async () => {
-    if (flag('springLow') && !flag('springHigh')) { await say('Tide table', 'Now. The spring low. Four notches, and a star.'); return; }
-    if (!flag('springLow')) { await say('Tide table', 'The next low goes out four notches, with a star. A spring low.'); return; }
+    if (flag('springLow') && !flag('springHigh')) { await say('Tide table', 'Now. The spring low. Four notches and a star.'); return; }
+    if (!flag('springLow')) { await say('Tide table', 'The next low recedes four notches, marked by a star. A spring low.'); return; }
     const n = ROUND[(4 + (G.flags.a2lows || 0)) % ROUND.length];
     const walk = flag('sweepOver') ? ' No walk.' : n === 4 ? ' A spring low.' : '';
-    await say('Tide table', `The next low goes out ${notches(n)}${n === 4 ? ', with a star' : ''}.${walk}`);
+    await say('Tide table', `The next low water reaches ${notches(n)}${n === 4 ? ', marked by a star' : ''}.${walk}`);
   },
 });
 
@@ -151,7 +151,7 @@ FOOTPRINTS.lowline = [52, 46, 40, 34, 28, 22, 16, 10, 4].map(x => [x, 14] as [nu
 /** The Nautilus folk's goat. */
 export const GOAT: SpriteData = { px: ['......11', '.....121', '1111111.', '12222221', '12222221', '.122221.', '.1.11.1.', '.1.1..1.'], c: ['#d8d0c0', '#8a7a68'] };
 
-const AFTER_LOW = ['I\'m just out on the sand, at low! Feels weird. Good weird.', 'Nobody\'s kicking anymore. My legs don\'t know what to do.', 'Low water. Would you look at all of it.'];
+const AFTER_LOW = ['I\'m standing on the exposed sand at low tide. It feels strange. But in a good way.', 'Nobody\'s kicking anymore. My legs have forgotten how to move.', 'Low tide. Take a look at all this.'];
 /** After Act 2 every townsperson on the Strand says one of three things at low water. */
 export const afterLow = (i: number) => AFTER_LOW[i % 3];
 
@@ -183,32 +183,32 @@ defMap({
   },
   npcs: [
     { id: 'llclimber1', onSolid: true, x: 9, y: 7, sprite: 'climber2', name: 'Woman (climbing)', dir: 0, when: lowWater,
-      lines: () => (flag('sweepOver') ? [afterLow(0)] : ['Up and down. Up and down. My whole life is stairs now.']) },
+      lines: () => (flag('sweepOver') ? [afterLow(0)] : ['Up and down. Up and down. My entire life is just stairs now.']) },
     { id: 'llclimber2', onSolid: true, x: 13, y: 7, sprite: 'climber1', name: 'Old man (climbing)', dir: 0, when: lowWater,
-      lines: () => (flag('sweepOver') ? [afterLow(1)] : ['Long shell, lots of stair. Good thing, I suppose.']) },
+      lines: () => (flag('sweepOver') ? [afterLow(1)] : ['Long shells, endless stairs. I suppose that\'s for the best.']) },
     // Two climbers who come out of the Auger's mouth after it slides.
     { id: 'llClimberOld', x: 5, y: 13, sprite: 'climber2', name: 'Old man', when: () => !!flag('ch3ReturnScene') },
     { id: 'llClimberWoman', x: 7, y: 13, sprite: 'climber1', name: 'Woman', when: () => !!flag('ch3ReturnScene') },
-    { id: 'llfisher1', x: 22, y: 3, sprite: 'nautilus1', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(0)] : ['The Auger\'s come down to live by us. They\'re so loud at low. We pump quiet.']) },
-    { id: 'llfisher2', x: 34, y: 2, sprite: 'nautilus2', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(2)] : ['We pump, they climb. Same thing, really. They\'d say different.']) },
+    { id: 'llfisher1', x: 22, y: 3, sprite: 'nautilus1', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(0)] : ['The Auger have come to live near us. They\'re so loud at low tide. We keep our pumping quiet.']) },
+    { id: 'llfisher2', x: 34, y: 2, sprite: 'nautilus2', name: 'Nautilus fisher', dir: 0, lines: () => (flag('sweepOver') && lowWater() ? [afterLow(2)] : ['We pump, they climb. It\'s essentially the same thing. They\'d disagree, of course.']) },
     { id: 'kelpcutter', x: 24, y: 10, sprite: 'beach2', name: 'Kelp-cutter', dir: 3, when: lowWater,
-      trainer: { name: 'Kelp-cutter', team: [['laminaria', 19], ['eelgrass', 19]], intro: 'I cut kelp at low. It stands right up when the sea goes out. Very polite of it.', defeat: 'Alright. Lie down, then.', sight: 3 } },
+      trainer: { name: 'Kelp-cutter', team: [['laminaria', 19], ['eelgrass', 19]], intro: 'I harvest kelp at low tide. It stands tall when the sea recedes. How polite.', defeat: 'Fine. Go ahead and lie down.', sight: 3 } },
     { id: 'deepfisher', x: 31, y: 15, sprite: 'nautilus2', name: 'Deep-fisher', dir: 1, when: lowWater,
-      trainer: { nacre: 1, name: 'Deep-fisher', team: [['grenadier', 20], ['cirrus', 20]], intro: 'Deep ones come up at low. I wait right at the edge. Very patient. Very wet.', defeat: 'Back down deep, then. Bye.', sight: 3 } },
+      trainer: { nacre: 1, name: 'Deep-fisher', team: [['grenadier', 20], ['cirrus', 20]], intro: 'The deep ones rise at low tide. I wait right at the edge. I\'m very patient. And very wet.', defeat: 'Back down deep, then. Goodbye.', sight: 3 } },
     { id: 'starpicker', x: 50, y: 8, sprite: 'beach3', name: 'Star-picker', dir: 3, when: lowWater,
-      trainer: { name: 'Star-picker', team: [['asterias', 20], ['transit', 20]], intro: 'My gran says starfish fell out of the sky. I pick them up anyway. They don\'t mind.', defeat: 'Fell again.', sight: 3 } },
+      trainer: { name: 'Star-picker', team: [['asterias', 20], ['transit', 20]], intro: 'My grandmother says starfish fell from the sky. I pick them up anyway. They don\'t seem to mind.', defeat: 'Fell again.', sight: 3 } },
     { id: 'brinediver', x: 27, y: 7, sprite: 'beach2', name: 'Brine-diver', dir: 0, when: highTide,
-      trainer: { name: 'Brine-diver', team: [['brinicle', 20], ['slackwater', 20]], intro: 'I dive at high water. Cold down there. Colder every year.', defeat: 'Up for air.', sight: 3 } },
+      trainer: { name: 'Brine-diver', team: [['brinicle', 20], ['slackwater', 20]], intro: 'I dive in at high water. It\'s cold down there. It gets colder each year.', defeat: 'Up for air.', sight: 3 } },
     { id: 'lltack', x: 19, y: 4, sprite: 'tack', name: 'Tack', dir: 0, talk: 'llTack', when: () => release() && !!flag('a2c4') && !flag('sweepOver') },
     { id: 'astrolabe', x: 50, y: 13, sprite: 'stone', name: 'Astrolabe', dir: 0, img: kindSprite('astrolabe'), talk: 'astrolabe', when: () => lowWater() && !!flag('astroAsked') && !flag('astroDone') },
-    { id: 'llgoat', x: 40, y: 13, sprite: 'stone', name: 'A goat', dir: 3, img: () => GOAT, when: () => !!flag('a2done'), lines: ['(The Nautilus folk\'s goat, out on the sand. It looks at Ouro and chews.)'] },
+    { id: 'llgoat', x: 40, y: 13, sprite: 'stone', name: 'A goat', dir: 3, img: () => GOAT, when: () => !!flag('a2done'), lines: ['(The Nautilus folk\'s goat, standing on the sand. It gazes at Ouro while chewing.)'] },
   ],
   spots: [
     { x: 24, y: 14, when: lowWater, script: async () => { await emote('ouro', 'question'); } },
-    stash('ll_anchor', 30, 6, 'Under the anchor stone, pressed into the wet sand, a notion.', { notion: 'lodestone' }),
-    look(30, 6, 'A flat stone with a round hole drilled through it. Somebody\'s anchor. Nobody\'s boat.'),
-    look(18, 15, 'A hollow in the wet sand where something lay until last low. A few small crabs walk round the rim.'),
-    { ...stash('ll_eelgrass', 52, 15, 'Down in the eelgrass, where it lies flat at low water, a nautilus horn.', { pegs: ['iron', 1] }), when: () => lowWater() && !flag('found_ll_eelgrass') },
+    stash('ll_anchor', 30, 6, 'Under the anchor stone, pressed into the damp sand, a notion.', { notion: 'lodestone' }),
+    look(30, 6, 'A flat rock pierced by a round hole, someone\'s anchor, but not for any boat here.'),
+    look(18, 15, 'A depression in the wet sand marks where something rested until the tide receded.', 'A few small crabs circle the edge.'),
+    { ...stash('ll_eelgrass', 52, 15, 'Lying flat in the eelgrass at low water, a nautilus horn.', { pegs: ['iron', 1] }), when: () => lowWater() && !flag('found_ll_eelgrass') },
   ],
   shells: [{ id: 'll1', x: 26, y: 5 }, { id: 'll2', x: 49, y: 10 }],
 });
@@ -223,8 +223,8 @@ defScript('lowlineEnter', async () => {
     await Promise.all([walkIn('llClimberOld', 6, 11, 5, 13), (async () => { await wait(16); await walkIn('llClimberWoman', 6, 11, 7, 13); })()]);
     faceToward('llClimberOld', 'ouro');
     faceToward('llClimberWoman', 'ouro');
-    await say('Old man', 'Never been down here. Low line now. Still getting used to it.');
-    await say('Woman', 'Every low, we climb. Babies too. Carried, but still.');
+    await say('Old man', 'I\'ve never been down here before. I\'m on the low line now. Still getting used to it.');
+    await say('Woman', 'With every low tide, we climb. Even the babies. We carry them, but we climb nonetheless.');
     await Promise.all([walkOff('llClimberOld', 6, 11), (async () => { await wait(16); await walkOff('llClimberWoman', 6, 11); })()]);
     setFlag('ch3ReturnScene', 0);
   }
@@ -234,28 +234,28 @@ defScript('lowlineEnter', async () => {
     await pan(41, 9);
     await wait(40);
     await panBack();
-    goal('Go in at the striped shell\'s hood.');
+    goal('Enter through the hood of the striped shell.');
     save();
   }
 });
 
 defScript('llTack', async () => {
-  if (flag('tackLow')) { await say('Tack', '1 hollow, 1 slate. Crabs on the rim now. 11. Hold still, crabs.'); return; }
+  if (flag('tackLow')) { await say('Tack', '1 hollow, 1 slate. Crabs are on the rim now. 11. stay still, crabs.'); return; }
   await act('lltack', 'nod');
   faceToward('lltack', 'ouro');
   const tries = tackTries('low');
-  if (tries) await say('Tack', `Try ${tries + 1}. The lows don't stop. Neither do I.`);
+  if (tries) await say('Tack', `Try ${tries + 1}. The tides don't stop. Neither do I.`);
   else {
     await say('Tack', '3 lows since we came down. 3 times it walked right past the Auger. Right past.');
-    await say('Tack', 'Battle 3 out here. After this I\'m counting something else. Something that holds still.');
+    await say('Tack', 'Battle 3 out here. After this, I\'m counting something else. Something that stays put.');
   }
   const won = await keeperFight('Tack', tackTeam, 'keeper', 'rival');
   countTack('low', won);
   // Tack stays by the hollow until Ouro wins. Talking to him again starts the rematch.
-  if (!won) { await say('Tack', `${tackWinsLine()} I'm counting that 1 twice. Come back.`); save(); return; }
+  if (!won) { await say('Tack', `${tackWinsLine()} I'm counting that 1 again. Come back.`); save(); return; }
   setFlag('tackLow');
   const t = tackTally();
-  await say('Tack', `${t.ouro} losses, ${t.tack} wins. I'll count them on the Auger stair. 4,000 steps. Plenty of room.`);
+  await say('Tack', `${t.ouro} losses, ${t.tack} wins. I'll tally them on the Auger stairs. 4,000 steps. Plenty of room.`);
   save();
 });
 
@@ -322,25 +322,25 @@ defMap({
     { id: 'lcwindow', onSolid: true, x: 16, y: 1, sprite: 'realcinch', name: 'Cinch', dir: 0, talk: 'cinchWindow', when: () => taken() && !flag('springHigh') },
     { id: 'ballastgirl', x: 19, y: 5, sprite: 'nautilus1', name: 'Ballast-girl', dir: 2, talk: 'ballastgirl' },
     { id: 'pumper', x: 4, y: 3, sprite: 'nautilus2', name: 'Pumper', dir: 0,
-      trainer: { nacre: 1, name: 'Pumper', team: [['ballast', 20], ['sluice', 20]], intro: 'I pump the siphon at low. One of my arms is huge now. The other one\'s fine.', defeat: 'Other arm next time, then.', sight: 2 } },
+      trainer: { nacre: 1, name: 'Pumper', team: [['ballast', 20], ['sluice', 20]], intro: 'I\'m pumping the siphon on low. My one arm\'s swollen huge. The other\'s still normal.', defeat: 'I\'ll hit the other arm next time, then.', sight: 2 } },
     { id: 'doorkeeper', x: 10, y: 11, sprite: 'nautilus2', name: 'Nautilus doorkeeper', dir: 1,
-      lines: () => (hoodShut() ? ['Hood\'s shut for the big low. Only Siphon opens it. Sorry.'] : lowWater() ? ['Low water, hood\'s shut. Knock and I\'ll open it. Knock nice.'] : ['High water. Hood\'s up. Mind your feet, it\'s wet.']) },
-    folk('lcwoman', 3, 6, 'nautilus1', 'Woman', 'We all live in the big room now. The small rooms are where we grew up. Cozy, back then.', 'Pump, pump. Pump, pump.',
-      () => (flag('roarHeard') && !flag('sweepOver') ? 'The goat lay down when it heard that. Goats know.' : null)),
-    folk('lcman', 7, 9, 'nautilus2', 'Man', 'Every few years we build a new wall behind us and move up a room. Moving day\'s the best.', 'Low water. Pump and bob. Pump and bob. Bob\'s my favorite part.'),
-    folk('lcold', 17, 9, 'nautilus1', 'Old woman', 'Nan\'s old room is three walls back. She says it\'s cozy. She can\'t get in, though.', 'Low water! Pump!',
-      () => (taken() && !flag('springHigh') ? 'Sealed in five, at spring? He\'s out at spring high. Bring him soup then. Hot soup.' : null)),
-    folk('lcboy', 14, 4, 'nautilus2', 'Boy', 'Sea comes in at the hood at high water. We like our feet wet. You get used to it.', 'I\'m on the pump with Gran. She\'s faster than me. Way faster.',
-      () => (taken() && !flag('springHigh') ? 'There\'s a man in the wall. He waved at me! I waved back.' : null)),
-    folk('lcgirl', 20, 8, 'nautilus1', 'Girl', 'Tide-reader lives back there, in five. Only comes out at spring high. Bit odd.', 'Pumping. Yep. Still pumping.'),
-    folk('lcnet', 3, 10, 'nautilus2', 'Man with a net', 'We tell the climbers the tides. They tell us about stairs. Fair trade, I think.', 'Shh, I\'m pumping.'),
+      lines: () => (hoodShut() ? ['The hood stays shut during the big low. Only Siphon opens it. Sorry.'] : lowWater() ? ['Low tide means the hood\'s shut. Give a knock and I\'ll let you in. Please be polite about it.'] : ['High tide. The hood is open. Watch your step, it\'s slippery.']) },
+    folk('lcwoman', 3, 6, 'nautilus1', 'Woman', 'We all share the big room now. The smaller chambers are where we grew up. They were snug back then.', 'Pump, pump. Pump, pump.',
+      () => (flag('roarHeard') && !flag('sweepOver') ? 'The goat lay down as soon as it heard that. Goats have a knack for knowing.' : null)),
+    folk('lcman', 7, 9, 'nautilus2', 'Man', 'Every few years we build a wall behind us and move up a room. Moving day is the best.', 'Low tide. Pump and bob. Pump and bob. I\'m partial to the bobbing part.'),
+    folk('lcold', 17, 9, 'nautilus1', 'Old woman', 'Nan\'s old quarters are three walls back. She says it\'s cozy, but she can\'t fit in anymore.', 'Low tide! Pump!',
+      () => (taken() && !flag('springHigh') ? 'Sealed in five, at spring? He comes out at spring high. Bring him soup then. Hot soup.' : null)),
+    folk('lcboy', 14, 4, 'nautilus2', 'Boy', 'Sea comes in to the hood at high water. We like our feet wet. You get used to it.', 'I\'m pumping alongside Gran. She\'s quicker than me. Much quicker.',
+      () => (taken() && !flag('springHigh') ? 'There\'s a man inside the wall. He waved at me! I waved back.' : null)),
+    folk('lcgirl', 20, 8, 'nautilus1', 'Girl', 'The tide-reader lives in five. Only comes out at spring high.', 'Pumping. Yes. Still pumping.'),
+    folk('lcnet', 3, 10, 'nautilus2', 'Man with a net', 'We share the tides. They share the stairs. Fair trade, I reckon.', 'Hush, I\'m pumping.'),
     { id: 'lcgoat', x: 16, y: 6, sprite: 'stone', name: 'A goat', dir: 3, img: () => GOAT, wander: true, when: () => !flag('a2done'),
-      lines: () => [flag('roarHeard') ? '(The goat is lying down.)' : '(A goat. It looks at Ouro and chews something it found.)'] },
+      lines: () => [flag('roarHeard') ? '(The goat is resting on the ground.)' : '(A goat. It gazes at Ouro while chewing on something it discovered.)'] },
   ],
   spots: [
-    look(4, 2, 'A siphon pump, a long handle of shell on a pipe that goes into the floor.', 'The handle is worn bright in two places.'),
-    look(19, 2, 'A siphon pump. Someone has tied a rag round the handle.'),
-    look(11, 7, 'The fire. A pot of kelp soup hangs over it, and nobody is watching it.'),
+    look(4, 2, 'A siphon pump featuring a lengthy shell handle attached to a pipe extending into the floor.', 'The handle shows significant wear, appearing bright in two spots.'),
+    look(19, 2, 'A siphon pump. A cloth has been wrapped around the handle.'),
+    look(11, 7, 'The fire. A pot of kelp soup is suspended above it, unattended.'),
     { x: 9, y: 1, when: sealedNow, script: async () => { sound('bump'); await emote('ouro', 'silence'); } },
   ],
 });
@@ -353,7 +353,7 @@ defScript('livingEnter', async () => {
     await wait(20);
     faceToward('doorkeeper', 'ouro');
     await emote('doorkeeper', 'surprise');
-    await say('Nautilus doorkeeper', 'In, in, quick. We\'re about to pump.');
+    await say('Nautilus doorkeeper', 'Come in, come in, quickly. We are about to begin pumping.');
   }
   if (!flag('nautSeen')) {
     setFlag('nautSeen');
@@ -363,56 +363,56 @@ defScript('livingEnter', async () => {
     await walkTo('ouro', 12, 10);
     await walkIn('lccinch', 12, 13, 14, 11);
     await act('lccinch', 'bow');
-    await cinch('Grab a pot and sit. They\'ve got plenty of pots.');
-    goal('Talk to the round one by the back wall.');
+    await cinch('Take a pot and take a seat. They have an abundance of pots available.');
+    goal('Speak with the round individual standing near the back wall.');
     save();
   }
 });
 
 defScript('lcCinch', async () => {
-  await cinch('Have a pot. They don\'t mind. They\'ve got loads.');
-  await cinch('Sit by the door and you see the whole room at once. Everything they own.');
+  await cinch('There\'s a pot over there. They don\'t mind. They\'ve got plenty.');
+  await cinch('Park yourself by the door and you can take in the entire space. All their belongings, laid bare.');
 });
 
 defScript('cinchWindow', async () => {
-  if (flag('ringRead')) { await cinch('Sit a minute. Not a lot to see from in here. I\'m seeing all of it, though.'); return; }
-  await cinch('Not much to see in here. Seeing it anyway. Pull up some floor.');
+  if (flag('ringRead')) { await cinch('Hang out a moment. Not much to look at from this angle, but I\'m seeing it all.'); return; }
+  await cinch('Not a lot to see in here. I\'m seeing it all, though. Grab a spot on the floor.');
 });
 
 // Siphon speaks only about the room Siphon is standing in.
 defScript('siphonBack', async () => {
-  await say('Siphon', 'WELCOME to this room!! This room is the biggest one. This room is where we all live now.');
-  await say('Siphon', 'This room\'s door is a hood. It shuts at the low, with tremendous decorum.');
-  await say('Siphon', 'This room is a hole in its back wall. That is all this room will say on the matter.');
+  await say('Siphon', 'WELCOME to this chamber!! It is the largest room. This is where we all reside now.');
+  await say('Siphon', 'The entrance to this chamber is a hood. It closes with great dignity when the tide is low.');
+  await say('Siphon', 'The back wall of this chamber is an opening. That is all this chamber will say on the matter.');
   if (!flag('siphonTold')) {
     setFlag('siphonTold');
-    await hint('(Siphon will fight you here, when you come back out through the back.)');
-    goal('Go in at the hole in the back wall.');
+    await hint('(Siphon will fight you here when you come back out through the rear.)');
+    goal('Enter through the opening in the back wall.');
   }
 });
 
 /** Siphon, the fourth keeper. Strand level 20. */
 export const siphonTeam = () => [mon('hood', 19), mon('septum', 19), mon('hyponome', 20), mon('vacuole', 20)];
 const SIPHON_THINGS: [string, string, string][] = [
-  ['sbowl', 'siphonBowl', 'This room is my first bowl now!! This room is a great deal bigger than that bowl was.'],
-  ['smat', 'siphonMat', 'This room has my old mat in it. This room smells most powerfully of being four.'],
-  ['sdrawing', 'siphonDrawing', 'This room now holds a drawing of this room. Drawn small, by a smaller me.'],
+  ['sbowl', 'siphonBowl', 'This chamber is my first bowl now!! This chamber is far larger than that bowl was.'],
+  ['smat', 'siphonMat', 'My old mat lies within this chamber. The scent of being four years old is strongest here.'],
+  ['sdrawing', 'siphonDrawing', 'This chamber now contains a drawing of itself. Drawn small, by a smaller version of me.'],
 ];
 
 defScript('siphonFire', async () => {
   if (!flag('siphonBeaten')) {
-    await say('Siphon', 'This room is amply wide for a fight!! This room is four of mine, at the ready.');
-    await say('Siphon', 'This room\'s floor is wet at the hood end. This room recommends the dry end.');
+    await say('Siphon', 'Plenty of room here for a brawl! I\'ve got four whorls ready.');
+    await say('Siphon', 'The floor near the hood is slick. I suggest you stay toward the dry side.');
     if (!await keeperFight('Siphon', siphonTeam)) {
-      await say('Siphon', 'This room is a fire for beaten people, until they are warm.');
+      await say('Siphon', 'This room offers warmth to those who have been beaten, until they thaw out.');
       return;
     }
     setFlag('siphonBeaten');
-    await say('Siphon', 'This room bestows a grain upon whoever wins in it. This one. Here.');
+    await say('Siphon', 'A grain of tribute is awarded to whoever prevails here. Take it. Right here.');
     await giveGrain('Siphon');
     await grainLine();
-    await say('Siphon', 'This room\'s hood is opening!! The sea is departing this room, as is customary.');
-    goal('Go out under the hood.');
+    await say('Siphon', 'The hood is unlatching! The sea is receding, as it always does.');
+    goal('Exit through the hood.');
     save();
     return;
   }
@@ -430,18 +430,18 @@ defScript('siphonFire', async () => {
   }
   if (said && SIPHON_THINGS.every(([, f]) => flag(f)) && !flag('siphonThings')) {
     setFlag('siphonThings');
-    await say('Siphon', 'This room is in your debt. This room settles its debts in nacre.');
+    await say('Siphon', 'This room owes you. It pays its debts in nacre.');
     await reward({ tan: 4, notion: 'siphonhood' });
     return;
   }
   if (said) return;
   if (await strandRematch('Siphon', ['hood', 'septum', 'hyponome', 'vacuole'], 'siphon')) return;
-  await say('Siphon', 'This room is warmest by the fire, and kelp-scented, as ever.');
+  await say('Siphon', 'The air is warmest near the fire, carrying that familiar scent of kelp.');
 });
 
 defScript('ballastgirl', () => playShellboard({
   id: 'a2peg4', name: 'Ballast-girl', deck: ['hood', 'septum', 'ballast', 'sluice', 'hyponome'], look: true, tier: 6, prize: 'siphoncup', strand: true,
-  lines: ['Wet row\'s the hood end. Always the hood end in here. Wanna play?'],
+  lines: ['The wet side is by the hood. It\'s always the hood side in here. Care to play?'],
 }));
 
 // ---------------------------------------------------------------- the old chambers: the ballast
@@ -471,7 +471,7 @@ export function tilt(): Tilt {
 /** The tilt each septum's hole lines up at, by the outer room's number. */
 const HOLE_TILT: Record<number, Tilt> = { 8: 'L', 7: 'P', 6: 'M', 5: 'L', 4: 'L', 3: 'L', 2: 'P' };
 export const holeOpen = (outer: number) => HOLE_TILT[outer] === tilt();
-const TILT_WORDS: Record<Tilt, string> = { L: 'The shell is level.', P: 'The point end is down.', M: 'The mouth end is down.' };
+const TILT_WORDS: Record<Tilt, string> = { L: 'The shell lies flat.', P: 'The pointed end faces downward.', M: 'The opening faces downward.' };
 const wearingTide = () => field.wearing && field.leadTypes().includes('TIDE');
 const level = (w: number) => (w >= 2 ? 'full' : w === 1 ? 'wet' : 'dry');
 
@@ -479,8 +479,8 @@ const level = (w: number) => (w >= 2 ? 'full' : w === 1 ? 'wet' : 'dry');
 export async function valve(outer: number, mine: number): Promise<void> {
   const inner = outer - 1;
   const here = mine === outer ? 'in' : 'out';
-  const prompt = `${TILT_WORDS[tilt()]} This room is ${level(water(mine))}. The room ${here} is ${level(water(mine === outer ? inner : outer))}.`;
-  const c = await choose(['Pump inward', 'Pump outward', 'Leave it'], true, prompt);
+  const prompt = `${TILT_WORDS[tilt()]} This chamber is ${level(water(mine))}. The chamber ${here} is ${level(water(mine === outer ? inner : outer))}.`;
+  const c = await choose(['Pump water inward', 'Pump water outward', 'Leave as is'], true, prompt);
   if (c < 0 || c === 2) return;
   const [from, to] = c === 0 ? [outer, inner] : [inner, outer];
   if (water(from) < 1) { sfx('switch'); await emote('ouro', 'question'); return; }
@@ -494,7 +494,7 @@ export async function valve(outer: number, mine: number): Promise<void> {
   sound('wind');
   const after = tilt();
   if (after !== before) { await shake(20); await act('ouro', 'shiver'); }
-  if (!flag('ballastTold2')) { setFlag('ballastTold2'); await hint('(The holes line up only at certain tilts. Pump water from room to room at the valves.)'); }
+  if (!flag('ballastTold2')) { setFlag('ballastTold2'); await hint('(The channels only align at specific angles. Pump water between the rooms using the valves.)'); }
   save();
 }
 
@@ -570,23 +570,23 @@ defMap({
   },
   npcs: [
     { id: 'roomsitter', x: 8, y: 8, sprite: 'nautilus1', name: 'Room-sitter', dir: 3,
-      trainer: { name: 'Room-sitter', team: [['evaporite', 21], ['vacuole', 21]], intro: 'I sat in an old room when it sealed. Liked it. So I stayed. It\'s nice in here.', defeat: 'Stay a while. It opens again at spring. I\'ve got snacks.', sight: 3 } },
+      trainer: { name: 'Room-sitter', team: [['evaporite', 21], ['vacuole', 21]], intro: 'I was inside when the walls sealed shut. I liked it, so I never left. It\'s quite cozy here.', defeat: 'Stay a while. It opens again at spring tide. I\'ve got snacks.', sight: 3 } },
     { id: 'protoconch', x: 23, y: 5, sprite: 'stone', name: 'Alkume', dir: 0, img: kindSprite('protoconch'), talk: 'protoconch', when: () => !flag('protoconchDone') },
   ],
   spots: [
     ...VALVES.map(([outer, side, x, y]) => ({ x, y, script: () => valve(outer, side) })),
     plumb(9, 14), plumb(18, 8), plumb(32, 13),
     { x: 1, y: 7, when: () => !flag('siphonBowl') && !G.keys.includes('sbowl'), script: async () => {
-      giveKey('sbowl'); sfx('level'); await notice('Ouro takes a child\'s bowl, very small, with a crack mended in gum.');
+      giveKey('sbowl'); sfx('level'); await notice('Ouro picks up a child\'s bowl, very small, with a crack mended in gum.');
     } },
     { x: 20, y: 14, when: () => !flag('siphonMat') && !G.keys.includes('smat'), script: async () => {
-      giveKey('smat'); sfx('level'); await notice('Ouro takes a sleeping mat of kelp, the size of a small child.');
+      giveKey('smat'); sfx('level'); await notice('Ouro takes a kelp sleeping mat, sized for a small child.');
     } },
     { x: 21, y: 6, when: () => !flag('siphonDrawing') && !G.keys.includes('sdrawing'), script: async () => {
-      giveKey('sdrawing'); sfx('level'); await notice('Ouro takes a shell with a drawing on it: a round room, and a round person.');
+      giveKey('sdrawing'); sfx('level'); await notice('Ouro takes a shell painted with a picture: a circular room and a circular figure.');
     } },
-    stash('oc_nacre', 18, 6, 'In a crack where the septum meets the floor, three grains of nacre.', { tan: 3 }),
-    stash('oc_triton', 32, 12, 'Wedged in the wall of the little room, a triton horn.', { pegs: ['bone', 1] }),
+    stash('oc_nacre', 18, 6, 'Three grains of nacre rest in the crevice where the septum joins the floor.', { tan: 3 }),
+    stash('oc_triton', 32, 12, 'A triton horn is wedged into the wall of the small room.', { pegs: ['bone', 1] }),
   ],
 });
 
@@ -594,8 +594,8 @@ defScript('oldEnter', async () => {
   water(1);
   if (!flag('ballastTold')) {
     setFlag('ballastTold');
-    await hint('(At high tide the Nautilus tips toward whichever end holds more water.)');
-    await hint('(The holes line up only at certain tilts. Pump water from room to room at the valves.)');
+    await hint('(At high tide the Nautilus leans toward whichever end holds more water.)');
+    await hint('(The holes align only at specific angles. Pump water between rooms using the valves.)');
   }
 });
 
@@ -645,8 +645,8 @@ defMap({
     { x: 11, y: 4, script: () => valve(5, 5) },
     plumb(12, 2),
     { x: 6, y: 0, script: () => marks() },
-    look(3, 0, 'Marks cut in the wall, one to four notches each, in rows that go round and up.'),
-    look(9, 0, 'Marks in rows going round and up to a point in the ceiling. The lowest rows are pale with age.'),
+    look(3, 0, 'Rows of notched marks, with one to four notches on each mark, spiral upward around the wall.'),
+    look(9, 0, 'Rows of marks spiral upward to a point on the ceiling, with the lowest lines faded by age.'),
   ],
 });
 
@@ -667,51 +667,54 @@ defScript('tideEnter', async () => {
 });
 
 defScript('tcCinch', async () => {
-  if (flag('marksDone')) { await cinch('Floor\'s good in here. Ears work better sitting down.'); return; }
-  await cinch('Sit on the floor and the low ones are right there to read. They go back a long way.');
+  if (flag('marksDone')) { await cinch('The floor is solid here. You hear better sitting down.'); return; }
+  await cinch('Sit on the floor so you can read the lower marks easily. They go back a long way.');
 });
 
 // The Tide-reader opens every line on a point of the tide.
 defScript('tidereader', async () => {
   if (flag('astroDone') && !flag('astroThanked')) {
     setFlag('astroThanked');
-    await say('Tide-reader', 'At high water, it was my gran\'s, most cherishedly. At low, it is yours, most deservedly.');
+    await say('Tide-reader', 'At high water, it was my gran\'s, most cherishedly. At low water, it is yours, most deservedly.');
     return;
   }
   if (flag('marksDone')) {
     if (!flag('astroAsked')) {
       setFlag('astroAsked');
-      await say('Tide-reader', 'At low, look in the eelgrass for a brass thing with rings in it. A walking instrument.');
-      await say('Tide-reader', 'At my gran\'s low, it fell out the hood. At some low since, it got up. Unprecedented!!');
+      await say('Tide-reader', 'At low tide, look for a brass object with rings in it among the eelgrass. It\'s a walking instrument.');
+      await say('Tide-reader', 'At my grandmother\'s low tide, it fell out of the hood. At some low tide since, it climbed back up.');
+      await say('Tide-reader', 'Unprecedented!!');
       return;
     }
-    if (taken() && !flag('springHigh')) { await say('Tide-reader', 'At the spring high, the old rooms open. At this one they\'re shut, as at the last, and the one befo-'); return; }
-    await say('Tide-reader', 'At this tide, there\'s time to get out through the siphon. Go round. Not back. Round.');
+    if (taken() && !flag('springHigh')) { await say('Tide-reader', 'At the spring high tide, the old rooms open.');
+    await say('Tide-reader', 'At this one, they are shut, just as they were at the last, and the one before-'); return; }
+    await say('Tide-reader', 'At this tide, you have time to escape through the siphon. Go around. Not back. Around.');
     return;
   }
   if (!flag('knifeGiven')) {
-    await say('Tide-reader', 'At half tide, you came in through the back!! Nobody does. Nobody ever has.');
-    await say('Tide-reader', 'At high water, soup. At low, the wall. At flood, at ebb, at slack, at neap, at spr-');
-    await say('Tide-reader', 'At every low since this room was the big room, I have cut one mark. Faithfully.');
-    await say('Tide-reader', 'At some high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.');
-    await say('Tide-reader', 'At any tide you like, cut them back for me. Here\'s the knife, my second-best.');
+    await say('Tide-reader', 'At half tide, you entered through the back!! No one does that. No one ever has.');
+    await say('Tide-reader', 'At high water, soup. At low, the wall. At flood, ebb, slack, neap, spr-');
+    await say('Tide-reader', 'At every low tide since this room was the main hall, I have cut one mark. Faithfully.');
+    await say('Tide-reader', 'At a high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.');
+    await say('Tide-reader', 'At any tide you choose, cut them back for me. Here is the knife, my second-best.');
     await hint('(One to four notches for how far the sea went out. Find the pattern and cut the six blanks.)');
     setFlag('knifeGiven');
     return;
   }
-  await say('Tide-reader', 'At six places, blank. Three by the point, three down the wall. The knife\'s yours till then.');
+  await say('Tide-reader', 'Six blanks. Three by the point, three along the wall. The knife\'s yours till then.');
 });
 
 async function marks(): Promise<void> {
   if (flag('marksDone')) {
-    await say('Marks', 'Newest, near the point, oldest first: two notches. One. One. Two. Three.');
-    await say('Marks', 'Four, and a star. Four, and a star. Three. Two. One.');
+    await say('Marks', 'Start with the newest by the point, oldest first: two notches. Then one. Then one. Then two.');
+    await say('Marks', 'Then three.');
+    await say('Marks', 'Four, with a star. Four, with a star. Three. Two. One.');
     await say('Marks', 'Then one, two, three, cut fresh. Then a place for the next.');
     return;
   }
-  await say('Marks', 'Newest, near the point, oldest first: two notches. Scraped. One. Two. Scraped.');
+  await say('Marks', 'Newest by the point, oldest first: two notches. Scraped. One. Two. Scraped.');
   await say('Marks', 'Four, and a star. Scraped. Three. Two. One.');
-  await say('Marks', 'Then three places scraped smooth.');
+  await say('Marks', 'Then three places were scraped smooth.');
   if (!flag('knifeGiven')) return;
   const cut: number[] = [];
   for (let i = 0; i < 6; i++) {
@@ -723,7 +726,7 @@ async function marks(): Promise<void> {
   if (cut.join() !== MARKS_ANSWER.join()) {
     faceToward('tidereader', 'ouro');
     await act('tidereader', 'look');
-    await say('Tide-reader', 'At low, the sea never went like that!! Never!! Scrape them and cut again.');
+    await say('Tide-reader', 'The sea never receded that far at low tide!! Never!! Scrape them and cut again.');
     return;
   }
   await reading();
@@ -732,30 +735,30 @@ async function marks(): Promise<void> {
 async function reading(): Promise<void> {
   setFlag('marksDone');
   for (const d of [1, 0, 3, 2, 1]) { face('tidereader', d); await wait(20); }
-  await say('Tide-reader', 'At the next low, the sea goes out as far as it ever goes. A spring low, greatest of lows!!');
-  await say('Tide-reader', 'At a spring low, the Gleaner walks the whole beach.');
-  await say('Tide-reader', 'At the first of the ebb, it comes out of the pink shell at the end of the beach.');
-  await say('Tide-reader', 'At half ebb, it\'s at the shut one, up the beach. It lifts it, and puts it down.');
-  await say('Tide-reader', 'At dead low, it\'s back at the rows. It sets something in a row.');
-  await say('Tide-reader', 'At the turn, it goes back into the pink shell and lies down.');
-  await say('Tide-reader', 'At every spring low for three hundred years, that has been the walk. So say the marks.');
+  await say('Tide-reader', 'At the next low, the sea retreats to its absolute limit. A spring low, the deepest of all.');
+  await say('Tide-reader', 'During a spring low, the Gleaner traverses the entire beach.');
+  await say('Tide-reader', 'At the start of the ebb, it emerges from the pink shell at the beach\'s end.');
+  await say('Tide-reader', 'At half ebb, it reaches the sealed one, further up the beach. It lifts the shell, then sets it down.');
+  await say('Tide-reader', 'At dead low, it returns to the rows. It places an object within a row.');
+  await say('Tide-reader', 'At the turn, it retreats into the pink shell and rests.');
+  await say('Tide-reader', 'For three hundred years, this has been the pattern at every spring low. So state the marks.');
   // Low on the wall the marks are older and paler, and one has a star cut deeper than the rest.
   face('ouro', 2);
   await wait(20);
   await emote('ouro', 'surprise');
-  await say('Tide-reader', 'At the low after the shut one last turned, it was soft. It reached in.');
-  await say('Tide-reader', 'At the low after that, it walked with one hand. It\'s walked with one since.');
+  await say('Tide-reader', 'At the low after the shut one last shed, it was soft. It reached in.');
+  await say('Tide-reader', 'After that low, it moved with one hand. It has walked with one hand ever since.');
   if (flag('cinchFollow')) {
     await act('tccinch', 'bow');
-    await cinch('Sit. That\'s a lot to hear standing up.');
+    await cinch('Sit down. That\'s a lot to take in while standing.');
   }
-  await say('Tide-reader', 'At the spring low, the old rooms seal. At the spring high, they open, and seal, and ope-');
-  await say('Tide-reader', 'At this tide, you\'ve still time to get out through the siphon. Go round, not back.');
+  await say('Tide-reader', 'At the spring low, the old rooms seal shut. At the spring high, they open, seal, and ope-');
+  await say('Tide-reader', 'With this tide, you still have time to escape through the siphon. Go around, not back.');
   giveKey('tidetable');
   sfx('level');
-  await notice('(The tide table: the menu now shows how far the next low goes, and marks spring lows.)');
-  await hint('(At low water, footprint marks show on the sand before the stars land.)');
-  goal('Go out through the siphon, by the hole low in the wall.');
+  await notice('(The tide table: the menu now displays how far the next low will drop, and marks the spring lows.)');
+  await hint('(At low water, footprints appear in the sand before the stars arrive.)');
+  goal('Escape through the siphon, near the low hole in the wall.');
   save();
 }
 
@@ -784,12 +787,12 @@ const SR_CORRIDORS: [number, number][] = [
 const SR_VALVES: [number, number, number][] = [[0, 3, 8], [1, 7, 5], [2, 14, 3], [4, 16, 15], [5, 12, 15], [6, 4, 15]];
 const DISC = { x: 20, y: 9 }, LAST_DOOR = { x: 21, y: 9 };
 const SIPHON_LINES: Record<number, string[]> = {
-  0: ['This room is a valve on the left. It seals behind you, and means it.'],
-  1: ['Two holes out, this room. This room was my room when I was six, and a fine room.'],
-  2: ['This room is still my mother\'s cooking, to the nose, and a valve.'],
-  4: ['This room is two holes out and a valve. Eggs were kept in it, in rows.'],
-  5: ['This room is where the pipe bends, ever so gracefully. Two holes out.'],
-  6: ['This room is the small one. This room is a valve and a hole and nothing else.'],
+  0: ['This room is a valve on the left. It seals behind you, and it means it.'],
+  1: ['Two holes out, this room. When I was six, this was my room, and a fine one it was.'],
+  2: ['To the nose, this room still smells of my mother\'s cooking, and it is a valve.'],
+  4: ['This room is two holes out and a valve. Eggs were kept here, arranged in rows.'],
+  5: ['This chamber is where the pipe curves, quite elegantly. Two outlets.'],
+  6: ['This room is the small one. It is a valve, a hole, and nothing more.'],
 };
 
 const sc = new Canvas(23, 19, '#');
@@ -846,13 +849,13 @@ async function siphEnter(r: number): Promise<void> {
   }
   if (r === 0 && !flag('siphTold')) {
     setFlag('siphTold');
-    await hint('(Every room you leave seals behind you. Pass through all six valve rooms and finish at the door.)');
+    await hint('(Each room you leave seals behind you. Traverse all six valve rooms and end at the door.)');
   }
   if (!routeLeft(r)) await siphFail();
 }
 
 async function siphFail(): Promise<void> {
-  await say('Siphon', 'This room is sealed now. This room reopens at the next high water, without fail.');
+  await say('Siphon', 'This chamber is now sealed. It will reopen at the next high water, without exception.');
   // Ouro sits down in the small room and waits until the sea comes in and the rooms open with a sigh.
   await act('ouro', 'bow');
   await tint('#0b0a10', 1, 40);
@@ -907,7 +910,7 @@ defScript('disc', async () => {
   await walkTo('ouro', DISC.x - 1, DISC.y);
   door.when = shut;
   sfx('switch');
-  await say('Siphon', 'This room is on the far side of the door. This room is waiting for you, with great patience.');
+  await say('Siphon', 'This chamber lies on the other side of the door. It awaits you with great patience.');
   await walkTo('ouro', DISC.x, DISC.y);
   door.when = () => true; sfx('switch'); await wait(20);
   await walkTo('ouro', DISC.x - 1, DISC.y);
@@ -926,9 +929,9 @@ defScript('disc', async () => {
   await act('disccinch', 'bow');
   door.when = () => true;
   sfx('switch');
-  await cinch('Ha. This is a sitting job. My favorite kind.');
-  await choose(['Get up.', 'Come with me.']);
-  await cinch('I\'ll sit. Can see you through the door from here. That\'s plenty.');
+  await cinch('Ha. This calls for sitting. My preferred method.');
+  await choose(['Rise.', 'Come along.']);
+  await cinch('I\'ll stay put. I can see you through the doorway from here, and that\'s enough.');
   // Ouro squeezes past Cinch on the disc and goes through.
   field.stepWho('ouro', 1); await wait(9);
   field.stepWho('ouro', 1); await wait(9);
@@ -947,13 +950,13 @@ defScript('disc', async () => {
   sound('heal');
   face('ouro', 2);
   await emote('ouro', 'surprise');
-  await cinch('Sit there, where I can see you through the window.');
+  await cinch('Stay there, where I can watch you through the window.');
   await act('ouro', 'bow');
   await wait(120);
   // Then Cinch lifts one hand off a knee, an inch, and puts it back.
   await act('lcwindow', 'nod');
   await wait(40);
-  goal('Siphon waits by the fire.');
+  goal('Siphon lingers by the hearth.');
   save();
 });
 

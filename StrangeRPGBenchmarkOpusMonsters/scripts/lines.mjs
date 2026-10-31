@@ -13,6 +13,7 @@ const OUT = path.join(root, 'dialogue');
 const LINES = path.join(OUT, 'lines');
 const SIDECAR = path.join(OUT, '.export.json');
 const BACKUP = path.join(OUT, 'backup');
+const DOC = path.join(OUT, 'whorl-text.txt');
 const CHUNK = Number(process.argv.find(a => a.startsWith('--chunk='))?.slice(8) || 20000);
 
 // Contexts whose strings are always player-facing text, by callee name and argument index.
@@ -49,6 +50,16 @@ function contentFiles() {
   return all.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
 }
 const speciesFiles = () => fs.readdirSync(path.join(root, 'src', 'data')).filter(f => /^species\d*\.ts$/.test(f)).sort().map(f => `src/data/${f}`);
+const kitFiles = () => fs.readdirSync(path.join(root, 'src', 'data')).filter(f => /^(kits\d+|notions)\.ts$/.test(f))
+  .sort((a, b) => (a.match(/\d+/)?.[0] || 99) - (b.match(/\d+/)?.[0] || 99)).map(f => `src/data/${f}`);
+// Dev panels, sound and effect spec tables, and test harnesses hold no player-facing text. Server-side net code stays
+// out too, because changing it needs a server deploy.
+const UI_SKIP = /\/(fitlab|fxPreview|practiceDebug|onlinecheck|soundspec|fxspec|harness|wildfit|splash|uicheck|fitcolors)\.ts$|\/moveart\//;
+const uiFiles = () => ['src/battle/engine.ts', 'src/battle/ai.ts', 'src/net/client.ts', 'src/net/wire.ts',
+  ...walkDir(path.join(root, 'src', 'game')).map(rel).filter(f => !UI_SKIP.test(f)).sort()];
+const SETS = { story: 'Story: dialogue, narration, signs, hints, goals, guide pages, and Register entries',
+  ui: 'Interface: battle messages, menus, item text, and minigame text',
+  rules: 'Rules: move, passive, and notion text, written to the templates in Notes/ability-text-style.md' };
 
 function fnv(s, salt = 0) {
   let h = 0x811c9dc5 ^ salt;
@@ -126,11 +137,48 @@ function splitKind(n) {
   return spoken && p.parent && ts.isAwaitExpression(p.parent) && p.parent.parent && ts.isExpressionStatement(p.parent.parent) ? 'stmt' : null;
 }
 
+/**
+ * Where a string in interface or kit code sits: battle messages, item text, rules text, or a sentence in a menu.
+ * Kit files keep only battle messages and rules text, because the rest of their strings are effect and sound specs.
+ */
+function uiPlace(node, mode) {
+  let child = node, p = node.parent;
+  while (p && (ts.isParenthesizedExpression(p) || ts.isConditionalExpression(p) || ts.isTemplateSpan(p) || ts.isTemplateExpression(p) ||
+    (ts.isBinaryExpression(p) && [ts.SyntaxKind.PlusToken, ts.SyntaxKind.BarBarToken, ts.SyntaxKind.QuestionQuestionToken].includes(p.operatorToken.kind)))) {
+    if (ts.isConditionalExpression(p) && child === p.condition) return { deny: true };
+    // A piece of a larger string, such as the fallback name in `${name || 'The summon'} falls.`, is only a sentence when it ends like one.
+    if (!ts.isParenthesizedExpression(p) && !/[.!?]["')]?$/.test(node.getText().slice(1, -1).trim())) return { deny: true };
+    child = p; p = p.parent;
+  }
+  if (!p || ts.isNewExpression(p) || ts.isThrowStatement(p) || ts.isImportDeclaration(p) || ts.isLiteralTypeNode(p) || ts.isElementAccessExpression(p)) return { deny: true };
+  if (ts.isCallExpression(p)) {
+    const c = calleeName(p.expression);
+    if (c === 'msg' && child === p.arguments[p.arguments.length - 1]) return { known: true, who: 'battle' };
+    if (mode === 'kits' || DENY_CALLS.has(c) || ['log', 'warn', 'error', 'debug', 'assert', 'fail', 'check'].includes(c)) return { deny: true };
+    return { known: false, who: 'menu' };
+  }
+  if (ts.isPropertyAssignment(p)) {
+    if (child === p.name) return { deny: true };
+    const k = propKey(p);
+    if (k === 'text' && mode === 'kits') {
+      const obj = p.parent, call = obj.parent;
+      const np = obj.properties.find(q => ts.isPropertyAssignment(q) && propKey(q) === 'name');
+      const kind = call && ts.isCallExpression(call) ? calleeName(call.expression).replace(/^def/, '').toLowerCase() : 'rule';
+      return { known: true, who: `${kind} ${np && ts.isStringLiteral(np.initializer) ? np.initializer.text : '?'}`, set: 'rules' };
+    }
+    if (k === 'text') return { known: false, who: /\/items\.ts$/.test(node.getSourceFile().fileName) ? 'item' : 'menu' };
+    if (mode === 'kits' || DENY_KEYS.has(k)) return { deny: true };
+    return { known: false, who: 'menu' };
+  }
+  if (mode === 'kits') return { deny: true };
+  return { known: false, who: 'menu' };
+}
+
 /** Every exportable string in one file, in source order, with a stable id. */
-function collect(file, prot) {
+function collect(file, prot, mode = 'story') {
   const src = read(path.join(root, file));
   const sf = ts.createSourceFile(file, src, ts.ScriptTarget.Latest, true);
-  const isData = file.startsWith('src/data/');
+  const isData = mode === 'species';
   const out = [];
   const seenRaw = new Map();
 
@@ -233,17 +281,19 @@ function collect(file, prot) {
           text += `{${label}}` + s.literal.text;
         });
       } else text = n.text;
-      const pl = placeOf(n);
-      if (!pl.deny && (pl.who === '?' || pl.who.startsWith('? ('))) {
+      const ui = mode === 'ui' || mode === 'kits';
+      const pl = ui ? uiPlace(n, mode) : placeOf(n);
+      if (!ui && !pl.deny && (pl.who === '?' || pl.who.startsWith('? ('))) {
         const nm = nameAbove(n);
         if (nm) pl.who = SPOKEN_KEYS.test(pl.who) || pl.who === '?' ? nm : `${nm} ${pl.who.slice(2)}`;
       }
       const plain = text.replace(/\{[^}]*\}/g, '');
-      const prose = plain.length >= 12 && /[a-z] [a-z]/i.test(plain) && /[.!?,]/.test(plain);
+      // Interface strings count as sentences only when a word ends with . ! or ?, so labels and spec strings stay out.
+      const prose = plain.length >= 12 && /[a-z] [a-z]/i.test(plain) && (ui ? /[a-z0-9x][.!?]( |$)/i.test(text.replace(/\{[^}]*\}/g, 'x')) : /[.!?,]/.test(plain));
       const why = pl.deny ? 'not text' : text.includes('\n') ? 'multi-line' : prot.has(text) ? 'protected' : !/[a-z]/.test(plain) ? 'no lowercase (label)'
-        : pl.known ? (plain.trim().length ? '' : 'empty') : prose ? '' : 'not prose';
-      if (!why) out.push({ file, raw, n: k, text, exprs, quote: raw[0], who: pl.who, scene: sceneOf(n), split: splitKind(n) });
-      else if (plain.length >= 12 && /[a-z] [a-z]/i.test(plain)) skipped.push(`${why}\t${file}\t${text}`);
+        : pl.known ? (!plain.trim().length ? 'empty' : ui && !/[a-z]{2,} [a-z]/i.test(plain) && !/[a-z][.!?]$/i.test(plain.trim()) ? 'fragment' : '') : prose ? '' : 'not prose';
+      if (!why) out.push({ file, raw, n: k, text, exprs, quote: raw[0], who: pl.who, scene: sceneOf(n), split: ui ? null : splitKind(n), set: pl.set || (ui ? 'ui' : 'story') });
+      else if (!ui && plain.length >= 12 && /[a-z] [a-z]/i.test(plain)) skipped.push(`${why}\t${file}\t${text}`);
       if (ts.isTemplateExpression(n)) for (const s of n.templateSpans) visit(s.expression);
       return;
     }
@@ -265,9 +315,11 @@ function idsFor(items) {
 
 function exportAll() {
   const prot = protectedTexts();
-  const files = [...contentFiles(), ...speciesFiles()];
+  const groups = [[contentFiles(), 'story'], [speciesFiles(), 'species'], [uiFiles(), 'ui'], [kitFiles(), 'kits']];
+  const files = groups.flatMap(g => g[0]);
   scanWrappers(contentFiles());
-  const items = files.flatMap(f => collect(f, prot));
+  const rank = { story: 0, ui: 1, rules: 2 };
+  const items = groups.flatMap(([list, mode]) => list.flatMap(f => collect(f, prot, mode))).sort((a, b) => rank[a.set] - rank[b.set]);
   idsFor(items);
   fs.mkdirSync(LINES, { recursive: true });
   for (const f of fs.readdirSync(LINES)) if (f.endsWith('.txt')) fs.unlinkSync(path.join(LINES, f));
@@ -310,8 +362,25 @@ function exportAll() {
 
   const sidecar = { created: new Date().toISOString(), files: {}, lines: {} };
   for (const f of files) sidecar.files[f] = fnv(read(path.join(root, f)));
-  for (const it of items) sidecar.lines[it.id] = { file: it.file, raw: it.raw, n: it.n, text: it.text, exprs: it.exprs, quote: it.quote, who: it.who, split: it.split };
+  for (const it of items) sidecar.lines[it.id] = { file: it.file, raw: it.raw, n: it.n, text: it.text, exprs: it.exprs, quote: it.quote, who: it.who, split: it.split, set: it.set, scene: it.scene };
   fs.writeFileSync(SIDECAR, JSON.stringify(sidecar));
+
+  // The whole game's text in one document, in story order, for a rewrite pass over everything at once.
+  const perSet = s => items.filter(it => it.set === s).length;
+  const doc = [
+    `# WHORL game text, exported ${sidecar.created}. ${items.length} lines.`,
+    '# Each line is [id] speaker | text. Rewrite only the text after " | ". Keep each [id] and speaker as they are.',
+    '# Keep every {placeholder} and every number. In the story set, " // " splits a line into more text boxes.',
+    '# Put it back with: node scripts/lines.mjs import <file> [--dry]. A file may hold only the lines that changed.',
+  ];
+  let set = null, file = null, scene = null;
+  for (const it of items) {
+    if (it.set !== set) { doc.push('', `##### set: ${it.set}. ${SETS[it.set]}. ${perSet(it.set)} lines.`); set = it.set; file = null; }
+    if (it.file !== file) { doc.push('', `==== file: ${it.file}`); file = it.file; scene = null; }
+    if (it.scene !== scene) { doc.push(`== scene: ${it.scene}`); scene = it.scene; }
+    doc.push(`[${it.id}] ${it.who} | ${it.text}`);
+  }
+  fs.writeFileSync(DOC, doc.join('\n') + '\n');
 
   const speakers = new Map();
   for (const it of items) speakers.set(it.who, (speakers.get(it.who) || 0) + 1);
@@ -319,6 +388,7 @@ function exportAll() {
   fs.writeFileSync(path.join(OUT, 'skipped.txt'), skipped.sort().join('\n') + '\n');
   const chars = items.reduce((s, it) => s + it.text.length, 0);
   console.log(`Exported ${items.length} lines (${chars} characters) from ${files.length} files into ${merged.length} chunks in dialogue/lines.`);
+  console.log(`All of it is also in dialogue/whorl-text.txt: ${Object.keys(SETS).map(s => `${perSet(s)} ${s}`).join(', ')}.`);
   console.log(`${prot.size} protected strings (names, compared values) were left out. Speaker counts: dialogue/speakers.txt.`);
 }
 
@@ -345,11 +415,15 @@ function importAll() {
   const { banned } = validatorRules();
   const glossary = new Set(Object.values(side.lines).map(l => l.who).filter(w => /^[A-Z]/.test(w) && !w.includes(':')));
 
+  // With a file argument, only that file is read. Without one, every chunk in dialogue/lines is.
+  const from = process.argv.slice(3).find(a => !a.startsWith('--'));
+  if (from && !fs.existsSync(from)) { console.log(`No file at ${from}.`); process.exitCode = 1; return; }
+  const sources = from ? [path.resolve(from)] : fs.readdirSync(LINES).filter(f => f.endsWith('.txt')).sort().map(f => path.join(LINES, f));
   const edits = new Map();
-  for (const f of fs.readdirSync(LINES).filter(f => f.endsWith('.txt')).sort()) {
-    for (const line of read(path.join(LINES, f)).split(/\r?\n/)) {
+  for (const f of sources) {
+    for (const line of read(f).split(/\r?\n/)) {
       const m = line.match(/^\s*(?:[-*]\s+)?\[([0-9a-z]{7})\][^|]*\|\s?(.*)$/);
-      if (m) edits.set(m[1], { text: m[2], chunk: f });
+      if (m) edits.set(m[1], { text: m[2], chunk: path.basename(f) });
     }
   }
 
@@ -375,8 +449,13 @@ function importAll() {
     if (parts.length > 1 && parts.some(s => !s)) why.push('empty box');
     if (parts.length > 1 && /\{#/.test(text)) why.push('a line with {#n} placeholders cannot split');
     const content = l.file.startsWith('src/content/');
-    const limit = content ? 100 : Math.max(l.text.length, 140);
-    for (const s of parts) if (s.replace(/\{[^}]*\}/g, 'xxxxxxxx').length > limit) why.push(`a box is over ${limit} characters: "${s.slice(0, 40)}..."`);
+    const len = s => s.replace(/\{[^}]*\}/g, 'xxxxxxxx').length;
+    // Interface text sits in fixed boxes, so it may grow by a quarter at most. Rules text keeps its 70-character cap.
+    // A story line already over 100 characters is a wrapped paragraph, such as a guide page, and grows like interface text.
+    const roomy = Math.max(Math.round(len(l.text) * 1.25), len(l.text) + 8);
+    const limit = content ? (len(l.text) > 100 ? roomy : 100) : l.set === 'ui' ? roomy
+      : l.set === 'rules' ? Math.max(len(l.text), 70) : Math.max(len(l.text), 140);
+    for (const s of parts) if (len(s) > limit) why.push(`a box is over ${limit} characters: "${s.slice(0, 40)}..."`);
     if (content) {
       for (const b of banned) if (b.test(text)) why.push(`validator bans ${b}`);
       if (/;/.test(text) && !/[{}()=]/.test(text)) why.push('validator bans semicolons in text');
@@ -484,4 +563,4 @@ const cmd = process.argv[2];
 if (cmd === 'export') exportAll();
 else if (cmd === 'import') importAll();
 else if (cmd === 'restore') restore();
-else console.log('Usage: node scripts/lines.mjs export [--chunk=20000] | import [--dry] | restore');
+else console.log('Usage: node scripts/lines.mjs export [--chunk=20000] | import [file] [--dry] | restore');

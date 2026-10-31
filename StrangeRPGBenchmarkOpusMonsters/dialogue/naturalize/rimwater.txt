@@ -1,0 +1,6 @@
+[0orqa92] ? (lore_vane) | A tin fish mounted on a pole. It points toward the Rimwater, regardless of the wind's direction.
+[125ldvd] look | The jetty ends above the Rimwater.
+[0auw3x6] look | The Rimwater, flat and gray beneath the cranes. In the distance, the Rim.
+[124ggmu] look | The ice creaks beneath your feet. Beyond it lies the Rimwater, and beyond that, the Rim.
+[1k4759q] look | The Rimwater is gray. The Rim is far away and gray. Between them lie gray stones shaped like blades.
+[1f7fx7n] Fisher | The Rimwater fish taste like batteries.

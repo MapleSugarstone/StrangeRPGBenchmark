@@ -72,14 +72,14 @@ defMap({
   ],
   zone: { kinds: [['fogbank', 3], ['undertow', 3], ['leech', 2], ['mycel', 2], ['grotesque', 2], ['siren', 2], ['brine', 1]], lv: [7, 9], n: 16, area: 'marsh' },
   npcs: [
-    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { nacre: 1, name: 'Reeve', team: [['fogbank', 8], ['undertow', 8]], intro: 'Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!', defeat: 'Two foot.', sight: 4 } },
-    { id: 'eelboy', x: 26, y: 14, sprite: 'boy', name: 'Eel boy', dir: 1, trainer: { name: 'Eel boy', team: [['leech', 8], ['mycel', 8], ['siren', 9]], intro: 'Found a leech cast! That\'s good luck. A leech is the other kind.', defeat: 'Oh. Bad luck for you, then.', sight: 4 } },
-    { id: 'cutter', x: 21, y: 6, sprite: 'tanner', name: 'Cutter', dir: 3, trainer: { name: 'Cutter', team: [['grotesque', 9], ['brine', 8]], intro: 'I cut reeds for Spire. They stuff \'em in the bells so the bells shut up.', defeat: 'Yeah, mine are quiet now.', sight: 3 } },
+    { id: 'reeve', x: 17, y: 26, sprite: 'villager2', name: 'Reeve', dir: 3, trainer: { nacre: 1, name: 'Reeve', team: [['fogbank', 8], ['undertow', 8]], intro: 'Every morning I perform the Official Measurement of the marsh, and it\'s grown by a full foot!', defeat: 'Two foot.', sight: 4 } },
+    { id: 'eelboy', x: 26, y: 14, sprite: 'boy', name: 'Eel boy', dir: 1, trainer: { name: 'Eel boy', team: [['leech', 8], ['mycel', 8], ['siren', 9]], intro: 'I found a leech cast! That\'s a sign of good luck. A live leech is the other sort.', defeat: 'Oh. Then it\'s bad luck for you.', sight: 4 } },
+    { id: 'cutter', x: 21, y: 6, sprite: 'tanner', name: 'Cutter', dir: 3, trainer: { name: 'Cutter', team: [['grotesque', 9], ['brine', 8]], intro: 'I trim reeds for the Spire. They pack them into the bells to muffle the sound.', defeat: 'Yes, mine are silent now.', sight: 3 } },
   ],
   spots: [
-    stash('rm_islet1', 8, 8, 'On a reed islet, in a heron\'s old nest, a cake of salt wrapped in a leaf.', { items: [['saltcake', 2]] }),
-    stash('rm_islet2', 36, 10, 'On the far islet, a heap of drift with nacre caught in it.', { tan: 2, items: [['beachglass', 1]] }),
-    stash('rm_islet3', 8, 25, 'On the west islet, a reed plug cut for a bell, and never used.', { notion: 'reedplug' }),
+    stash('rm_islet1', 8, 8, 'On a reed-covered islet, within an abandoned heron\'s nest, lies a block of salt wrapped in a leaf.', { items: [['saltcake', 2]] }),
+    stash('rm_islet2', 36, 10, 'On the distant islet, a pile of driftwood with nacre caught in it.', { tan: 2, items: [['beachglass', 1]] }),
+    stash('rm_islet3', 8, 25, 'On the west islet, a reed plug trimmed for a bell, left unused.', { notion: 'reedplug' }),
   ],
   enter: 'route3Enter',
 });
@@ -133,13 +133,13 @@ defMap({
   ],
   npcs: [
     { id: 'tanner', x: 9, y: 16, sprite: 'tanner', name: 'Shellwright', talk: 'spireTannery' },
-    { id: 's1', x: 17, y: 20, sprite: 'ringer', name: 'Woman', lines: ['Don\'t shout. They ring if you shout, and then the Verger gets involved.'] },
-    { id: 's2', x: 4, y: 17, sprite: 'villager2', name: 'Man', lines: ['Grandad turned in the nave and his cast\'s been in there singing the same song for sixty years.'] },
-    { id: 's3', x: 24, y: 28, sprite: 'child', name: 'Child', wander: true, lines: ['I tried to make them ring on purpose and it doesn\'t work on purpose! It\'s so unfair.'] },
-    { id: 's4', x: 28, y: 8, sprite: 'oldwoman', name: 'Old woman', lines: ['Conjoiner\'s down the crypt steps, dear. Mind your head. The crypt\'s on the ceiling.'] },
+    { id: 's1', x: 17, y: 20, sprite: 'ringer', name: 'Woman', lines: ['Keep your voice down. If you shout, they ring, and then the Verger gets involved.'] },
+    { id: 's2', x: 4, y: 17, sprite: 'villager2', name: 'Man', lines: ['Grandad shed in the nave, and his cast has been in there singing the same song for sixty years.'] },
+    { id: 's3', x: 24, y: 28, sprite: 'child', name: 'Child', wander: true, lines: ['I tried to make them ring on purpose, but it won\'t work if I try! It\'s so unfair.'] },
+    { id: 's4', x: 28, y: 8, sprite: 'oldwoman', name: 'Old woman', lines: ['The Conjoiner is down the crypt steps, dear. Mind your head. The crypt is actually on the ceiling.'] },
     { id: 'tackspire', x: 6, y: 8, sprite: 'tack', name: 'Tack', dir: 1, when: () => has('mast') && !flag('tack3') && !flag('tackGone3') },
     { id: 'brackspire', x: 30, y: 6, sprite: 'tack', img: () => brack(1).sprite, name: 'Brack', when: () => !!flag('brackOut') && !flag('tack3') },
-    { id: 'sguard', blocks: true, x: 21, y: 1, dir: 3, sprite: 'ringer', name: 'Ringer', when: () => !has('spire'), lines: ['bole road\'s closed if you don\'t have the spire pearl. verger\'s rule. not mine.'] },
+    { id: 'sguard', blocks: true, x: 21, y: 1, dir: 3, sprite: 'ringer', name: 'Ringer', when: () => !has('spire'), lines: ['you can\'t use the bole road without the spire pearl. it\'s the verger\'s rule, not mine.'] },
   ],
   triggers: [{ x: 3, y: 7, w: 5, h: 2, script: 'tack3', when: () => has('mast') && !flag('tack3') }],
   enter: 'spireEnter',
@@ -187,16 +187,16 @@ defMap({
   tileTalk: { K: 'bellRope' },
   npcs: [
     { id: 'verger', x: 7, y: 1, sprite: 'verger', name: 'Verger', talk: 'verger' },
-    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { nacre: 1, name: 'Ringer', team: [['siren', 9], ['grotesque', 9]], intro: 'hear that? yeah that\'s a wind-up. stop it or eat it.', defeat: 'huh. i didn\'t stop it.', sight: 4 } },
-    { id: 'ring2', x: 12, y: 12, sprite: 'ringer', name: 'Ringer', dir: 2, trainer: { name: 'Ringer', team: [['flare', 9], ['fogbank', 9], ['mycel', 10]], intro: 'some big ones can\'t be stopped though. the line on top tells you which.', defeat: 'the line did tell me. i just didn\'t read it.', sight: 3 } },
-    { id: 'note', x: 13, y: 13, sprite: 'sign', name: null as any, lines: ['A card pinned to the pew: "top. bottom. middle. softly." Under it, in other ink: "SOFTER"'] },
+    { id: 'ring1', x: 10, y: 9, sprite: 'ringer', name: 'Ringer', dir: 3, trainer: { nacre: 1, name: 'Ringer', team: [['siren', 9], ['grotesque', 9]], intro: 'hear that? yeah, that\'s a wind-up. stop it or take it.', defeat: 'huh. i guess i didn\'t.', sight: 4 } },
+    { id: 'ring2', x: 12, y: 12, sprite: 'ringer', name: 'Ringer', dir: 2, trainer: { name: 'Ringer', team: [['flare', 9], ['fogbank', 9], ['mycel', 10]], intro: 'some big ones can\'t be stopped, though. the line at the top tells you which ones they are.', defeat: 'it did tell me. i just ignored it.', sight: 3 } },
+    { id: 'note', x: 13, y: 13, sprite: 'sign', name: null as any, lines: ['A card pinned to the pew reads: "Top. Bottom. Middle. Softly." Beneath it, in different ink: "SOFTER'] },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
 defScript('route3Enter', async () => {
-  if (!flag('ch3start')) { setFlag('ch3start'); goal('Follow the boardwalk north to Spire.'); }
+  if (!flag('ch3start')) { setFlag('ch3start'); goal('Head north along the boardwalk to reach Spire.'); }
 });
 
 defScript('spireEnter', async () => {
@@ -219,14 +219,14 @@ defScript('spireTannery', async () => { setFlag('fitter_spire'); await tannery('
 
 defScript('fitter', async () => {
   if (!flag('fitting')) {
-    await say('Conjoiner', 'So. Two whorls. You put one in the other, they kinda settle, and then one comes out.');
-    await say('Conjoiner', 'You get to pick what it keeps. Four moves, two habits, its look, its name. Go nuts.');
+    await say('Conjoiner', 'So. Two whorls. You nestle one inside the other, they settle in, and then one emerges.');
+    await say('Conjoiner', 'You get to choose what it retains. Four moves, two habits, its appearance, its name. Have at it.');
     await say('Conjoiner', 'People ask if it comes apart. It doesn\'t. Then they ask again. Still doesn\'t.');
-    await say('Conjoiner', 'And a person\'s second cast won\'t join with anything. I\'ve tried. It won\'t take.');
-    await say('Conjoiner', 'Ten cowries a level.');
+    await say('Conjoiner', 'A person\'s second cast won\'t join with anything. I\'ve tried. It won\'t stick.');
+    await say('Conjoiner', 'Ten cowries per level.');
     setFlag('fitting');
     setFlag('fitter_spire');
-    await hint('(Conjoining cannot be undone. You pick what the new whorl keeps. Every grotto now has a Conjoiner.)');
+    await hint('(Conjoining is permanent. You decide what the new whorl keeps. Every grotto now has a Conjoiner.)');
   }
   await fitterMenu();
 });
@@ -236,12 +236,12 @@ defScript('tack3', async () => {
   // A rematch skips the walk to the crypt: Brack is already out.
   if (flag('brackOut')) {
     faceToward('brackspire', 'ouro');
-    await say('Tack', `Try ${tackTries('3') + 1}. Brack's warmed up. That's 1 of us.`);
+    await say('Tack', `Try ${tackTries('3') + 1}. Brack is ready. That makes 1 of us.`);
     await tack3Battle();
     return;
   }
-  await say('Tack', '3rd time. I\'ve got 2 pearls, you\'ve got 2. Even. I hate even.');
-  await say('Tack', 'Hang on. 1 minute.');
+  await say('Tack', 'this is the 3rd try. I have 2 pearls, and you have 2. it\'s tied. I despise ties.');
+  await say('Tack', 'Hold on. 1 minute.');
   // Tack walks across town and down the crypt steps, and comes back up with Brack beside him.
   await walkOff('tackspire', 30, 6);
   setFlag('tackGone3');
@@ -254,7 +254,7 @@ defScript('tack3', async () => {
   await Promise.all([walkIn('tackspire', 30, 6), (async () => { await wait(12); await walkIn('brackspire', 30, 6, 6, 9); })()]);
   faceToward('tackspire', 'ouro');
   faceToward('brackspire', 'ouro');
-  await say('Tack', 'It\'s fine. It\'s Brack now. 2 of Tackle\'s moves, 2 of a salt pan\'s.');
+  await say('Tack', 'It\'s all right. It\'s Brack now. 2 moves from Tackle, 2 from a salt pan.');
   await tack3Battle();
 });
 
@@ -264,7 +264,7 @@ async function tack3Battle(): Promise<void> {
   music.play('spire');
   countTack('3', r.result === 'win');
   if (r.result !== 'win') {
-    await say('Tack', `${tackWinsLine()} I'm not going anywhere. 1 more, whenever.`);
+    await say('Tack', `${tackWinsLine()} I'm staying put. 1 more, anytime.`);
     faceToward('brackspire', 'tackspire');
     await emote('brackspire', 'question');
     await walkTo('ouro', 4, 10);
@@ -275,7 +275,7 @@ async function tack3Battle(): Promise<void> {
   await say('Tack', tackLosesLine());
   await act('tackspire', 'nod');
   faceToward('brackspire', 'tackspire');
-  await say('Tack', 'Still even. 2 pearls each. Ugh.');
+  await say('Tack', 'Still tied. 2 pearls apiece. Ugh.');
   // Tack and Brack walk off round the church and out of the south gate.
   await Promise.all([walkOff('tackspire', 16, 24), (async () => { await wait(10); await walkOff('brackspire', 16, 24); })()]);
   setFlag('tack3');
@@ -307,19 +307,20 @@ defScript('bellRope', async () => {
 });
 
 defScript('verger', async () => {
-  if (has('spire')) { await say('Verger', 'the bole lies north, through the understory. half a day\'s perambulation. eleven bells.'); return; }
-  await say('Verger', 'you belled two late. that is entirely forgivable');
-  await say('Verger', 'when someone above speaks too loudly the bells ring, and i enter them in my ledger of loudnesses.');
-  await say('Verger', 'in a fight, a wind-up is a bell you can hear coming. stop it, or get out from under it.');
-  await hint('(A ! over a whorl is a wind-up. Stun, Silence, Sleep, Taunt, or forcing it out cuts it off.)');
+  if (has('spire')) { await say('Verger', 'the bole lies to the north, threading through the understory. it\'s a half-day\'s walk. eleven bells.'); return; }
+  await say('Verger', 'you rang two late. that\'s entirely understandable.');
+  await say('Verger', 'when someone above speaks too loudly, the bells ring, and i record them in my ledger of loudnesses.');
+  await say('Verger', 'in a fight, a wind-up is a bell you can hear approaching. stop it, or move out of its path.');
+  await hint('(A ! over a whorl indicates a wind-up.');
+  await hint('Stun, Silence, Sleep, Taunt, or forcing it out interrupts it.)');
   const r = await fightTrainer({ name: 'Verger', team: [['grotesque', 10], ['siren', 10], ['fogbank', 10], ['flare', 10]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Verger', 'it belled three!! the spire pearl is most rightfully yours');
+  await say('Verger', 'it rang three!! the spire pearl is rightfully yours.');
   giveScale('spire');
-  await notice('Ouro gets the Spire pearl.');
+  await notice('Ouro receives the Spire pearl.');
   if (flag('tack3')) await say('Verger', 'the bell for your friend was the wind.');
-  await say('Verger', 'take this jingle. it belled for the old ones asleep across the roads, and wakes them still');
-  await giveKeyItem('jingle', 'Ouro gets the jingle.');
-  await say('Verger', 'north to the bole, through the understory. half a day. eleven bells, should you not dawdle.');
-  goal('Go north from Spire through the understory to the Bole.');
+  await say('Verger', 'take this jingle. it rang for the old ones sleeping across the roads, and still wakes them.');
+  await giveKeyItem('jingle', 'Ouro receives the jingle.');
+  await say('Verger', 'north to the bole, through the undergrowth. half a day. eleven bells if you hurry.');
+  goal('Travel north from the Spire, crossing the understory to reach the Bole.');
 });

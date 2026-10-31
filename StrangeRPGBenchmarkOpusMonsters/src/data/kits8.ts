@@ -128,7 +128,7 @@ defMove({ id: 'stand', name: 'Tighten', type: 'STONE', owner: 'knot', reach: 'si
   text: `Spends Tension: shield of ${N_KNOT.shield}% max HP each for 3 turns. 2+: Stun 1.`,
   run(c) {
     const n = marked(c.u, TENSION);
-    if (!n) { c.msg('Nothing to tighten.'); return; }
+    if (!n) { c.msg('No tightening needed.'); return; }
     c.shield(c.u, c.u.maxHp * N_KNOT.shield / 100 * n, 3);
     if (n >= 2 && !c.tgt.ko) c.st(c.tgt, 'stun', 1);
     if (!c.preview) setStacks(c.b, c.u, TENSION, 0, 3);
@@ -157,7 +157,7 @@ defPassive({ id: 'overdue', name: 'Layers', owner: 'mundane',
   text: `Layer: a mark, up to 6, starting at ${N_MUND.start}. Takes ${N_MUND.per}x damage per Layer. Every 3rd turn start: +1 Layer.`,
   start(b, f) { setStacks(b, f, LAYER, N_MUND.start, 6); },
   inMul(b, f) { let m = 1; for (let n = layers(f); n > 0; n--) m *= N_MUND.per; return m; },
-  turnStart(b, f) { f.k.od = (f.k.od || 0) + 1; if (f.k.od % 3 === 0) { setStacks(b, f, LAYER, layers(f) + 1, 6); msg(b, `${label(b, f)} grows a layer.`); } } });
+  turnStart(b, f) { f.k.od = (f.k.od || 0) + 1; if (f.k.od % 3 === 0) { setStacks(b, f, LAYER, layers(f) + 1, 6); msg(b, `a new layer forms on ${label(b, f)}.`); } } });
 defPassive({ id: 'oldground', name: 'Old Ground', owner: 'mundane',
   text: `Can't be forced out or dragged in. A crest that hits it takes off a Layer. Bare: deals ${N_MUND.bareOut}x, takes ${N_MUND.bareIn}x.`,
   immovable() { return true; },
@@ -198,7 +198,7 @@ export const riderOf = (b: Battle, f: Fighter): Fighter | null => reserves(b.s[f
 function board(b: Battle, f: Fighter, r: Fighter): void {
   for (const o of b.s[f.side].f) unmark(o, RIDER);
   mark(b, f, r, RIDER, 1, -1);
-  msg(b, `${r.mon.name} climbs aboard ${label(b, f)}.`);
+  msg(b, `${r.mon.name} mounts ${label(b, f)}.`);
 }
 
 defPassive({ id: 'holm_island', name: 'Island', owner: 'holm',

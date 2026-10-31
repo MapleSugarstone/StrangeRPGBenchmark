@@ -74,18 +74,18 @@ defMap({
   ],
   zone: { kinds: [['thicket', 3], ['orchard', 2], ['hemlock', 2], ['stump', 2], ['howl', 2], ['umbra', 1], ['mycel', 1]], lv: [10, 12], n: 16, area: 'brush' },
   npcs: [
-    { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 11], ['stump', 11]], intro: 'Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.', defeat: 'Aaand there goes my hat. Up.', sight: 4 } },
-    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 11], ['yoke', 11]], intro: 'Kid, you\'re standing in the haul. We\'re hauling the Bole here.', defeat: 'Whatever. Haul\'s still going.', sight: 4 } },
-    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 11], ['hemlock', 12]], intro: 'Tarhaju whorls drop fruit, same as real orchards. Same fruit too. I\'ve done a lot of tasting.', defeat: 'Bruised.', sight: 3 } },
-    { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 11], ['thumb', 11]], intro: 'She says ease it, don\'t yank it. So we\'re easing. Very slowly. All day.', defeat: 'Eased off.', sight: 4 } },
-    { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke whorl in harness, waiting to pull. It has the patience of a gate.'] },
+    { id: 'forester', x: 17, y: 24, sprite: 'grafter', name: 'Forester', dir: 1, trainer: { name: 'Forester', team: [['thicket', 11], ['stump', 11]], intro: 'Keep your hat low near the Bole. The rain there falls up and carries hats away.', defeat: 'And there goes mine. Up it goes.', sight: 4 } },
+    { id: 'peel4a', x: 23, y: 13, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['crane', 11], ['yoke', 11]], intro: 'Kid, you\'re blocking the path. We\'re hauling the Bole.', defeat: 'Whatever. The haul continues.', sight: 4 } },
+    { id: 'gatherer', x: 16, y: 33, sprite: 'villager', name: 'Gatherer', dir: 1, trainer: { name: 'Gatherer', team: [['orchard', 11], ['hemlock', 12]], intro: 'Tarhaju whorls drop the same fruit as real orchards. I\'ve sampled plenty myself.', defeat: 'Bruised.', sight: 3 } },
+    { id: 'peel4b', x: 24, y: 24, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { name: 'Hermit', team: [['howl', 11], ['thumb', 11]], intro: 'She says to ease it off, not yank. So we\'re easing. Very slowly. It\'ll take all day.', defeat: 'Eased off.', sight: 4 } },
+    { id: 'r4haul', x: 24, y: 14, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', dir: 3, when: () => !pulled(), lines: ['A yoke whorl harnessed and ready to pull. It possesses the patience of a gate.'] },
     { id: 'r4sleep1', x: 10, y: 13, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 17, flag: 'sl_under1' } },
     { id: 'r4sleep2', x: 27, y: 30, sprite: 'stone', mon: 'howl', name: 'Lupusmi', sleeper: { kind: 'howl', lv: 17, flag: 'sl_under2' } },
   ],
   spots: [
     stash('us_hollow', 3, 13, 'In the hollow past the sleeping stump, a heap of acorns and a notion under them.', { notion: 'warmstone' }),
-    stash('us_dell', 38, 30, 'In the dell past the sleeping howl, two nacre wrapped in moss.', { tan: 2, notions: [['pepperkelp', 1]] }),
-    stash('us_glade', 33, 7, 'In the glade inside the thicket, a sea biscuit someone left on a stump. (still crisp)', { notions: [['seabiscuit', 2]], tan: 2 }),
+    stash('us_dell', 38, 30, 'Beyond the sleeping howl in the dell, two nacre wrapped in moss.', { tan: 2, notions: [['pepperkelp', 1]] }),
+    stash('us_glade', 33, 7, 'In the glade within the thicket, a sea biscuit rests on a stump. (It is still crisp.)', { notions: [['seabiscuit', 2]], tan: 2 }),
   ],
   enter: 'route4Enter',
 });
@@ -144,16 +144,16 @@ defMap({
   tileTalk: { B: 'boleStay', O: 'boleHole', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 25, y: 13, sprite: 'tanner', name: 'Shellwright', talk: 'boleTannery' },
-    { id: 'b1', x: 5, y: 9, sprite: 'grafter', name: 'Man', lines: ['By the trunk the rain goes up. Out here it comes down. We picked out here. We like regular rain.'] },
-    { id: 'b2', x: 17, y: 14, sprite: 'villager', name: 'Woman', lines: ['Grafton conjoins better than the Conjoiner. Don\'t tell either of them. It\'d be a whole thing.'] },
-    { id: 'b3', x: 10, y: 28, sprite: 'child', name: 'Child', wander: true, lines: () => pulled() ? ['It came out like a tooth! A big wobbly one! Does the ground get a cowrie for it?'] : ['There\'s a bunch of big ones at the roots and they\'re pulling and nobody\'s stopping them!'] },
-    { id: 'b4', x: 40, y: 27, sprite: 'elder', name: 'Old man', lines: ['My cast went up into the roots fifty years ago and never came down. Stubborn. Gets that from me.'] },
-    { id: 'b5', x: 18, y: 9, sprite: 'basket', name: 'Bole woman', when: () => !!flag('boleAfterSeen'), lines: ['I dropped a stone down the hole where it was. Still listening. Shh. ...Nope. Still listening.'] },
+    { id: 'b1', x: 5, y: 9, sprite: 'grafter', name: 'Man', lines: ['Rain climbs up the trunk, but out here, it falls. That\'s why we chose this spot.', 'We prefer rain that actually comes down.'] },
+    { id: 'b2', x: 17, y: 14, sprite: 'villager', name: 'Woman', lines: ['Grafton conjoins better than the Conjoiner.', 'Don\'t tell either of them, or it\'ll turn into a whole drama.'] },
+    { id: 'b3', x: 10, y: 28, sprite: 'child', name: 'Child', wander: true, lines: () => pulled() ? ['It popped out like a loose tooth! A big, wobbly one! Does the earth get a cowrie shell for it?'] : ['There\'s a whole cluster of them at the roots, pulling away, and nobody\'s trying to stop them!'] },
+    { id: 'b4', x: 40, y: 27, sprite: 'elder', name: 'Old man', lines: ['My cast went up into the roots fifty years ago and never came down. Stubborn creature.', 'Takes after me, that one.'] },
+    { id: 'b5', x: 18, y: 9, sprite: 'basket', name: 'Bole woman', when: () => !!flag('boleAfterSeen'), lines: ['I dropped a stone down the hollow where it used to be. I\'m still listening. Shh. ...Nope.', 'Still listening.'] },
     { id: 'zest', x: 20, y: 13, sprite: 'zest', name: 'Tellin', dir: 1, when: haulersHere },
     { id: 'haul1', x: 19, y: 11, sprite: 'stone', mon: 'crane', name: 'Notsuru', when: haulersHere },
     { id: 'haul2', x: 23, y: 11, sprite: 'stone', mon: 'yoke', name: 'Iesbiki', when: haulersHere },
     { id: 'haul3', x: 23, y: 13, sprite: 'stone', mon: 'thumb', name: 'Peubi', when: haulersHere },
-    { id: 'pb1', x: 18, y: 12, sprite: 'peeler', name: 'Hermit', dir: 1, when: haulersHere, lines: ['Ease it. Ease it! Don\'t yank it. She\'ll know if you yank it.'] },
+    { id: 'pb1', x: 18, y: 12, sprite: 'peeler', name: 'Hermit', dir: 1, when: haulersHere, lines: ['Gentle. Easy now! Don\'t yank it. She\'ll know if you pull too hard.'] },
     { id: 'grafton', x: 22, y: 14, sprite: 'grafton', name: 'Grafton', when: () => pulled() || !!flag('graftonOut'), talk: 'graftonAfter' },
   ],
   triggers: [{ x: 19, y: 14, w: 5, h: 2, script: 'zestBole', when: () => !flag('zestBole') }],
@@ -182,9 +182,9 @@ defMap({
   warps: [{ x: 5, y: 13, to: 'bole', tx: 21, ty: 13, dir: 0 }, { x: 6, y: 13, to: 'bole', tx: 21, ty: 13, dir: 0 }],
   npcs: [
     { id: 'grafton', x: 5, y: 1, sprite: 'grafton', name: 'Grafton', talk: 'grafton' },
-    { id: 'graft1', x: 8, y: 5, sprite: 'grafter', name: 'Grafter', dir: 3, trainer: { nacre: 1, name: 'Grafter', sight: 4, intro: 'Made my four out of eight. I miss two of \'em. Which two changes day to day.', defeat: 'Okay, now I miss three.',
+    { id: 'graft1', x: 8, y: 5, sprite: 'grafter', name: 'Grafter', dir: 3, trainer: { nacre: 1, name: 'Grafter', sight: 4, intro: 'I made four out of eight. I\'m missing two. Which two changes every day.', defeat: 'Alright, now I\'m missing three.',
       team: () => [fitted('hemlock', 'mycel', 12, ['dose', 'spore', 'wilt', 'mycorrhiza'], ['tincture', 'fruiting'], 'Mycelock'), fitted('stump', 'orchard', 12, ['splinter', 'pick', 'sap', 'harvest'], ['rings', 'overripe'], 'Stumpchard')] } },
-    { id: 'graft2', x: 3, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { name: 'Grafter', sight: 4, intro: 'Sure, there\'s the Conjoiner in Spire. But Grafton\'s here, and Grafton\'s better. Ask anybody.', defeat: 'Grafton\'s better than me too. Obviously.',
+    { id: 'graft2', x: 3, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { name: 'Grafter', sight: 4, intro: 'Sure, the Conjoiner is in Spire. But Grafton is right here, and Grafton is better. Ask anyone.', defeat: 'Grafton is better than me, too. Obviously.',
       team: () => [fitted('howl', 'thicket', 12, ['bite', 'snag', 'tangle', 'pindown'], ['bloodscent', 'thorned'], 'Howlet'), fitted('umbra', 'hemlock', 12, ['shade', 'dose', 'wilt', 'paranoia'], ['corona', 'cup'], 'Umblock')] } },
   ],
 });
@@ -192,7 +192,7 @@ defMap({
 // ---------------------------------------------------------------- scripts
 
 defScript('route4Enter', async () => {
-  if (!flag('ch4start')) { setFlag('ch4start'); goal('Go north through the understory to the Bole.'); }
+  if (!flag('ch4start')) { setFlag('ch4start'); goal('Head north through the understory to reach the Bole.'); }
 });
 
 function rainUp(): void {
@@ -218,16 +218,17 @@ defScript('boleEnter', async () => {
     await pan(21, 8);
     await wait(60);
     await panBack();
-    goal('Grafton keeps the Bole. The gym is inside the trunk.');
+    goal('Grafton retains possession of the Bole. The gym is located within the trunk.');
   }
 });
 
 defScript('boleTannery', async () => {
   setFlag('fitter_bole');
   if (!flag('notions')) {
-    await say('Shellwright', 'Yeah? Notions just came in. Little things to hold. Changes how a whorl fights. One each, though.');
+    await say('Shellwright', 'Oh really? The new notions just arrived.');
+    await say('Shellwright', 'They\'re small accessories, but they alter how a whorl approaches combat. Only one per whorl, though.');
     setFlag('notions');
-    await hint('(To give a notion, press X and pick Team. Each whorl can hold one notion.)');
+    await hint('(To equip a notion, press X and select Team. Each whorl can carry one notion.)');
   }
   await tannery('bole', [...STOCK_4, 'graftwax']);
 });
@@ -236,12 +237,13 @@ defScript('zestBole', async () => {
   setFlag('zestBole');
   await Promise.all([act('haul1', 'shiver'), act('haul2', 'shiver'), act('haul3', 'shiver')]);
   faceToward('zest', 'ouro');
-  await say('Tellin', 'Okay okay, I\'m pulling, you\'re watching, that\'s how this goes,');
-  await say('Tellin', 'nothing\'s changing, so keep watching, yeah?');
-  await say('Tellin', 'No no no, I\'m not stopping, not for a late one, not for anybody, we\'re on a schedule here, okay?');
+  await say('Tellin', 'Alright, alright, I\'m pulling while you observe. That\'s the routine.');
+  await say('Tellin', 'nothing\'s changed, so keep your eyes on it, yeah?');
+  await say('Tellin', 'No no no, I\'m not stopping. Not for a late one, not for anyone.');
+  await say('Tellin', 'We\'re on a tight schedule, understand?');
   const r = await fightTrainer({ name: 'Tellin', team: [['crane', 14], ['yoke', 14], ['thumb', 14]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') { setFlag('zestBole', 0); return; }
-  await say('Tellin', 'Yeah yeah, fine, I\'m off to the trunk and you\'re off to the gym and we\'re both working so it\'s fine.');
+  await say('Tellin', 'Fine, fine. I\'ll head to the trunk, you head to the gym. We\'re both busy, so it works out.');
 });
 
 defScript('boleStay', async () => {
@@ -250,18 +252,18 @@ defScript('boleStay', async () => {
 defScript('boleHole', async () => { await act('ouro', 'shiver'); });
 
 defScript('grafton', async () => {
-  if (has('bole')) { await say('Grafton', 'The pearl remains yours and the Stay remains lying across the street!! (we step over it)'); return; }
-  await say('Grafton', 'You have descended into the trunk and I am most thoroughly gladdened by it.');
-  await say('Grafton', 'Every one of my four was twain and now each is a singular and splendid one. (don\'t ask which halves)');
-  await say('Grafton', 'Engage them and you shall behold the doubled magnificence of what two can do.');
+  if (has('bole')) { await say('Grafton', 'The pearl remains yours, and the Seal still lies across the street! (We step over it.)'); return; }
+  await say('Grafton', 'You have entered the trunk, and I am thoroughly delighted by the development.');
+  await say('Grafton', 'Each of my four was two whorls, and now each is singular and magnificent. (Do not ask which halves.)');
+  await say('Grafton', 'Fight them, and you will witness the doubled magnificence of what two can achieve.');
   const r = await fightTrainer({ name: 'Grafton', team: () => graftonTeam(14), intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Grafton', 'You are victorious and now I bestow upon you the pearl of the Bole, which is-');
+  await say('Grafton', 'You have triumphed, and now I present you with the Bole\'s pearl, which is,');
   sound('boom');
   field.shakeT = 40;
   await wait(40);
   await emote('grafton', 'surprise');
-  await say('Grafton', 'They are pulling the Bole and we are standing most inconveniently inside of it!! (run)');
+  await say('Grafton', 'They are hauling away the Bole, and we are standing inconveniently inside it!! (Run.)');
   setFlag('graftonOut');
   setFlag('boleScene');
   field.warp('bole', 21, 16, 2);
@@ -276,23 +278,23 @@ defScript('grafton', async () => {
   await morphTo('bolePulled', 21, 11, 2);
   field.overlay = null;
   await panBack();
-  await say('Tellin', 'And we\'re off, we\'re off, you\'re still kind of arriving, it\'s coming loose,');
-  await say('Tellin', 'it\'s loose, great work everybody, bye!');
+  await say('Tellin', 'And we\'re off! We\'re off! You\'re still kind of arriving. It\'s coming loose.');
+  await say('Tellin', 'it\'s loose. great job, everyone. bye!');
   // Tellin, the Hermit, and the hauling team walk off north past the hole, and out of town.
   const later = (n: number, id: string, x: number) => (async () => { await wait(n); await walkOff(id, x, 1); })();
   await Promise.all([later(0, 'zest', 21), later(8, 'pb1', 22), later(16, 'haul1', 20), later(24, 'haul2', 23), later(32, 'haul3', 19)]);
   setFlag('boleScene', 0);
-  await say('Grafton', 'Nevertheless the pearl is yours and the Stay is gone, and on this both my heads agree.');
+  await say('Grafton', 'Regardless, the pearl is yours, the Seal is gone, and both my heads agree on this.');
   giveScale('bole');
-  await notice('Ouro gets the Bole pearl.');
+  await notice('Ouro receives the Bole pearl.');
   await act('ouro', 'shiver');
-  await say('Grafton', 'You are scratching and that is most inadvisable for a person of your age!! (quit it)');
-  goal('The Hermits went north to the machine fields and Hum.');
+  await say('Grafton', 'Please stop scratching. It\'s highly unwise for someone your age! (Stop that.)');
+  goal('The Hermits moved north toward the machine fields and Hum.');
 });
 
 defScript('graftonAfter', async () => {
-  await say('Grafton', 'The tree is down and the town, I am delighted to report, is still here!!');
-  await say('Grafton', 'The Hermits have marched north and taken every one of the big ones with them, most discourteously.');
+  await say('Grafton', 'The tree has fallen, but I\'m pleased to say the town remains intact!');
+  await say('Grafton', 'The Hermits have marched north and taken all the large units with them, quite rudely, I might add.');
 });
 
 void evening;

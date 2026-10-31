@@ -13,7 +13,7 @@ export const ROW_WARNINGS: string[] = [];
 /** Pads every row to width w with wall characters. A longer row is cut to w and reported, so the game still loads. */
 export function rows(w: number, fill: string, list: string[]): string[] {
   return list.map((r, i) => {
-    if (r.length > w) { ROW_WARNINGS.push(`row ${i} is ${r.length} wide, more than ${w}: ${r}`); return r.slice(0, w); }
+    if (r.length > w) { ROW_WARNINGS.push(`row ${i} is ${r.length} wide, exceeding ${w}: ${r}`); return r.slice(0, w); }
     return r + fill.repeat(w - r.length);
   });
 }
@@ -49,7 +49,7 @@ export type Reward = { pegs?: [Parameters<typeof givePegs>[0], number]; notion?:
 export async function reward(r: Reward): Promise<void> {
   sfx('level');
   const does = (id: string) => (NOTIONS[id]?.text ? ' ' + NOTIONS[id].text : '');
-  if (r.pegs) { givePegs(r.pegs[0], r.pegs[1]); await notice(`${r.pegs[1]} ${HORN_NAME[r.pegs[0]]}${r.pegs[1] > 1 ? 's' : ''}, for sounding a weak wild whorl.`); }
+  if (r.pegs) { givePegs(r.pegs[0], r.pegs[1]); await notice(`${r.pegs[1]} ${HORN_NAME[r.pegs[0]]}${r.pegs[1] > 1 ? 's' : ''}, for catching a weak, wild whorl.`); }
   if (r.notion) { giveNotion(r.notion); await notice(`A notion: ${NOTIONS[r.notion]?.name || r.notion}.${does(r.notion)}`); }
   for (const [id, n] of r.notions || []) { giveNotion(id, n); await notice(`${n > 1 ? n + ' x ' : 'A notion: '}${NOTIONS[id]?.name || id}.${does(id)}`); }
   for (const [id, n] of r.items || []) { giveItem(id, n); await notice(`${n > 1 ? n + ' x ' : ''}${ITEMS[id]?.name || id}.${ITEMS[id]?.text ? ' ' + ITEMS[id].text : ''}`); }

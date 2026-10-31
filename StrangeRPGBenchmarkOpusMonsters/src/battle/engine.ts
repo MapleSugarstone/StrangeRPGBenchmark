@@ -141,7 +141,7 @@ export function swapBodies(b: Battle, a: Fighter, z: Fighter, turns: number): bo
   a.cd = sz.cd; z.cd = sa.cd;
   a.swap = { with: z.side * 8 + z.idx + 1, turns, at: b.turnNo, spent: a.spent?.length || 0 };
   z.swap = { with: a.side * 8 + a.idx + 1, turns: -1, at: b.turnNo, spent: z.spent?.length || 0 };
-  msg(b, `${label(b, a)} and ${label(b, z)} trade bodies.`);
+  msg(b, `${label(b, a)} and ${label(b, z)} swap bodies.`);
   return true;
 }
 
@@ -160,7 +160,7 @@ export function endSwap(b: Battle, f: Fighter): void {
   if (o) o.swap = null;
   for (const w of o ? [f, o] : [f]) if (w.form?.tag === 'swap') clearForm(b, w);
   if (o) { const cf = f.cd; f.cd = o.cd; o.cd = cf; }
-  msg(b, o ? `${label(b, f)} and ${label(b, o)} take their own bodies back.` : `${label(b, f)} takes its own body back.`);
+  msg(b, o ? `${label(b, f)} and ${label(b, o)} reclaim their original bodies.` : `${label(b, f)} reclaims its original body.`);
 }
 
 /** The turn count at which the swell's wave breaks. */
@@ -168,11 +168,11 @@ export const SWELL_BREAK = 9;
 
 /** Raises the swell by n turns, starting it if it has not started. At SWELL_BREAK the wave breaks and the count starts again. */
 export function raiseSwell(b: Battle, n: number): void {
-  if (!b.swell) { b.swell = { n: 0, at: b.turnNo }; msg(b, 'The swell starts to build.'); }
+  if (!b.swell) { b.swell = { n: 0, at: b.turnNo }; msg(b, 'The swell begins to rise.'); }
   b.swell.n += n;
   if (b.swell.n < SWELL_BREAK) return;
   b.swell.n = 0;
-  msg(b, 'The ninth wave breaks.');
+  msg(b, 'The ninth wave crashes.');
   for (const sd of [0, 1] as const) {
     const o = b.s[sd].f[b.s[sd].out];
     if (!o || o.ko || o.gone) continue;
@@ -186,7 +186,7 @@ export function raiseSwell(b: Battle, n: number): void {
 export function setWind(b: Battle, to: 0 | 1, turns: number): void {
   if (turns <= 0) return;
   b.wind = { to, turns, at: b.turnNo };
-  msg(b, `The wind blows toward ${b.s[to].name}.`);
+  msg(b, `The wind shifts toward ${b.s[to].name}.`);
 }
 
 /** The out whorl of `side` while it covers at least one of its reserves, or null. */
@@ -201,7 +201,7 @@ export function addMirage(b: Battle, f: Fighter, share: number, turns: number): 
   if (f.ko || f.gone || share <= 0 || turns <= 0) return;
   const hp = Math.min(Math.round(f.maxHp * 0.6), (f.mirage?.hp || 0) + Math.round(f.maxHp * share));
   f.mirage = { hp, turns: Math.max(turns, f.mirage?.turns || 0), at: b.turnNo };
-  msg(b, `${label(b, f)} shimmers.`);
+  msg(b, `${label(b, f)} glimmers.`);
 }
 
 /** The HP the other side sees on f: its own, plus any mirage, never above its max HP. */
@@ -266,7 +266,7 @@ export function stealSummon(b: Battle, u: Summon, to: Fighter): boolean {
   u.by = to.idx;
   s.sum.push(u);
   for (const p of b.pend) if (p.kind === 'summon' && p.data?.uid === u.uid) p.side = to.side;
-  msg(b, `${label(b, to)} pulls ${SUMMONS[u.def]?.name || 'a summon'} over to its side.`);
+  msg(b, `${label(b, to)} drags ${SUMMONS[u.def]?.name || 'a summon'} to its side.`);
   return true;
 }
 
@@ -277,7 +277,7 @@ export function hitSummon(b: Battle, u: Summon, amt: number): number {
   u.hp -= d;
   if (u.hp <= 0) {
     const owner = b.s[u.side].f[u.by];
-    msg(b, `${SUMMONS[u.def]?.name || 'The summon'} falls.`);
+    msg(b, `${SUMMONS[u.def]?.name || 'The summon'} collapses.`);
     SUMMONS[u.def]?.fall?.(b, u, owner);
     if (u.link && !owner.ko && !owner.gone) dealDamage(b, null, owner, owner.maxHp * u.link, { kind: 'T', move: null, attack: false, dot: true, spread: false, reserve: false }, null);
     dismiss(b, u);
@@ -357,7 +357,7 @@ export function banish(b: Battle, t: Fighter, turns: number, by: Fighter | null)
   t.k.banishBy = by ? by.side * 8 + by.idx + 1 : 0;
   b.pend = b.pend.filter(p => !(p.side === t.side && p.idx === t.idx));
   b.queue = b.queue.filter(q => !(q.side === t.side && q.who === t.idx));
-  msg(b, `${label(b, t)} is taken off the field.`);
+  msg(b, `${label(b, t)} leaves the field.`);
 }
 
 /** Counts down banished fighters at the start of their side's turn and brings back any whose time is up. */
@@ -386,7 +386,7 @@ function tickGlow(b: Battle, side: 0 | 1): void {
     if (!g.ko || !g.glow) continue;
     const o = s.f[s.out];
     if (o && !o.ko && !o.gone && g.glow.heal > 0) heal(b, null, o, o.maxHp * g.glow.heal);
-    if (--g.glow.turns <= 0) { g.glow = null; msg(b, `The glow of ${label(b, g)} fades.`); }
+    if (--g.glow.turns <= 0) { g.glow = null; msg(b, `${label(b, g)}'s glow dims.`); }
   }
 }
 
@@ -397,7 +397,7 @@ function tickGlow(b: Battle, side: 0 | 1): void {
 export function storeAway(b: Battle, f: Fighter, turns: number, heal: number): boolean {
   if (f.ko || f.gone || isOut(b, f) || turns <= 0) return false;
   f.stored = { turns: Math.max(turns, f.stored?.turns || 0), heal: Math.max(heal, f.stored?.heal || 0) };
-  msg(b, `${label(b, f)} goes into cold storage.`);
+  msg(b, `${label(b, f)} is put into cold storage.`);
   return true;
 }
 
@@ -408,7 +408,7 @@ function tickStored(b: Battle, side: 0 | 1): void {
     if (g.stored.heal > 0) heal(b, null, g, g.maxHp * g.stored.heal);
     // A heal hook can bring it out or knock it out, and either clears its storage.
     if (!g.stored || g.ko || g.gone) continue;
-    if (--g.stored.turns <= 0) { g.stored = null; msg(b, `${label(b, g)} comes out of cold storage.`); }
+    if (--g.stored.turns <= 0) { g.stored = null; msg(b, `${label(b, g)} is retrieved from cold storage.`); }
   }
 }
 
@@ -417,7 +417,7 @@ export function fracture(b: Battle, src: Fighter | null, t: Fighter, turns: numb
   if (t.ko || t.gone || turns <= 0 || t.s.stasis || fogged(b, src, t)) return false;
   const cap = Math.min(t.hp / t.maxHp, t.fracture?.cap ?? 1);
   t.fracture = { cap, turns: Math.max(turns, t.fracture?.turns || 0), at: b.turnNo };
-  msg(b, `${label(b, t)} cracks: no heal takes it above ${Math.round(t.maxHp * cap)} HP.`);
+  msg(b, `${label(b, t)} fractures: healing cannot raise it above ${Math.round(t.maxHp * cap)} HP.`);
   return true;
 }
 
@@ -426,7 +426,7 @@ export function shutIn(b: Battle, side: 0 | 1, turns: number): void {
   if (turns <= 0) return;
   const cur = b.s[side].shut;
   b.s[side].shut = { turns: Math.max(turns, cur?.turns || 0), at: b.turnNo };
-  msg(b, `The door shuts on ${b.s[side].name}: its switches go last.`);
+  msg(b, `The door slams shut on ${b.s[side].name}: its switches act last.`);
 }
 
 /** A latched whorl drinks this share of its host's max HP at each turn its own side takes. */
@@ -445,7 +445,7 @@ export function latchOn(b: Battle, f: Fighter, host: Fighter, turns: number): bo
   f.k.banishBy = f.side * 8 + f.idx + 1;
   b.pend = b.pend.filter(p => !(p.side === f.side && p.idx === f.idx));
   b.queue = b.queue.filter(q => !(q.side === f.side && q.who === f.idx));
-  msg(b, `${label(b, f)} latches onto ${label(b, host)}.`);
+  msg(b, `${label(b, f)} clamps onto ${label(b, host)}.`);
   drinkLatch(b, f);
   return true;
 }
@@ -466,7 +466,7 @@ function drinkLatch(b: Battle, t: Fighter): void {
     if (got > 0) msg(b, `${label(b, t)} drinks from ${label(b, host)}.`);
     if (t.hp < t.maxHp && !host.ko) return;
   }
-  msg(b, host && !host.ko ? `${label(b, t)} lets go of ${label(b, host)}.` : `${label(b, t)} drops off.`);
+  msg(b, host && !host.ko ? `${label(b, t)} releases ${label(b, host)}.` : `${label(b, t)} dismounts.`);
   t.k.banished = 1;
 }
 
@@ -545,7 +545,7 @@ function bearWeight(b: Battle, tgt: Fighter, amt: number, info: DmgInfo): number
     if (moved <= 0) continue;
     r.hp -= moved;
     emit(b, { e: 'dmg', ...seat(r), amt: moved, kind: 'T', eff: 1, shield: 0 });
-    msg(b, `${label(b, r)} bears ${moved} of it.`);
+    msg(b, `${label(b, r)} takes ${moved} damage.`);
     return amt - moved;
   }
   return amt;
@@ -563,7 +563,7 @@ function holdAction(b: Battle, side: 0 | 1, f: Fighter, a: Action, m: MoveDef | 
   f.takeIn = null;
   const at = a as { target?: number; opt?: number };
   b.pend.push({ id: b.pid++, at: b.t + ticks, kind: 'held', side, idx: f.idx, move: m?.id || '', data: { attack: m ? 0 : 1, target: at.target ?? -1, opt: at.opt ?? -1 } });
-  msg(b, `${label(b, f)}'s ${m ? m.name : 'Attack'} goes in, and does not come out yet.`);
+  msg(b, `${label(b, f)}'s ${m ? m.name : 'Attack'} goes in and is not removed yet.`);
   endTurn(b, side, f, m?.wt || 100, 0, 'held');
 }
 
@@ -578,7 +578,7 @@ export function fogBench(b: Battle, side: 0 | 1, turns: number): void {
   if (turns <= 0) return;
   const s = b.s[side];
   s.fog = { turns: Math.max(turns, s.fog?.turns || 0), at: b.turnNo };
-  msg(b, `Fog rolls over ${s.name}'s bench.`);
+  msg(b, `Mist drifts across ${s.name}'s bench.`);
 }
 
 /** Whether fog keeps something from the other side off t: t sits in reserve under its side's fog. */
@@ -602,7 +602,7 @@ function dizzied(b: Battle, side: 0 | 1, a: Action): Action {
   if (a.k !== 'move') return a;
   const f = out(b, side), j = spunSlot(b, f, a.i);
   if (j === a.i) return a;
-  msg(b, `${label(b, f)} is dizzy, and ${moveDef(f, a.i)?.name || 'its move'} comes out as ${moveDef(f, j)?.name || 'another'}.`);
+  msg(b, `${label(b, f)} feels lightheaded, and ${moveDef(f, a.i)?.name || 'its move'} emerges as ${moveDef(f, j)?.name || 'another'}.`);
   return { k: 'move', i: j, aim: a.aim };
 }
 
@@ -626,7 +626,7 @@ function landSticky(b: Battle, f: Fighter): void {
     f.m[x.id] = { ...x.mv, n: Math.min(def?.max ?? 99, (cur?.n || 0) + x.mv.n), at: b.turnNo };
     if (def?.name && !b.quiet) emit(b, { e: 'status', ...seat(f), id: x.id });
   }
-  msg(b, `What stuck to the last one sticks to ${label(b, f)}.`);
+  msg(b, `${label(b, f)} is affected by the same effect.`);
 }
 
 /** Puts spores into one of t's move slots for `turns` of its turns: using that move poisons it 2. */
@@ -635,7 +635,7 @@ export function sporeMove(b: Battle, t: Fighter, slot: number, turns: number): v
   const sp = (t.spore ||= t.moves.map(() => 0));
   const was = sp[slot] || 0;
   sp[slot] = Math.max(was, turns);
-  if (!was) msg(b, `Spores get into ${label(b, t)}'s ${MOVES[t.moves[slot]]?.name || 'move'}.`);
+  if (!was) msg(b, `Spores infiltrate ${label(b, t)}'s ${MOVES[t.moves[slot]]?.name || 'move'}.`);
 }
 
 /** Whether a mark on f mutes its passives. */
@@ -777,7 +777,7 @@ export function returnToMoment(b: Battle, f: Fighter, keep: string[] = []): bool
   f.s = cloneStatus(k.s);
   f.m = copyMarks(k.m);
   for (const id of keep) if (now[id]) f.m[id] = now[id];
-  msg(b, `${label(b, f)} goes back to how it stood.`);
+  msg(b, `${label(b, f)} returns to how it stood.`);
   emit(b, { e: 'heal', ...seat(f), amt: 0 });
   return true;
 }
@@ -893,7 +893,7 @@ export function moveText(m: MoveDef, passives: string[] = []): string {
   if (/Splash \d+%/.test(m.text)) return m.text.replace(/Splash \d+%/, `Splash ${pct}%`);
   // A spread text written before the Splash keyword gets it after its hit. A spread move that deals no damage gets none.
   if (m.reach !== 'spread' || /reserve/i.test(m.text) || !/Hits (every foe )?for /.test(m.text)) return m.text;
-  return m.text.replace(/Hits (?:every foe )?for (.*?)\.(?= |$)/, (_, x: string) => `Hits for ${x}. Splash ${pct}%.`);
+  return m.text.replace(/Hits (?:every foe )?for (.*?)\.(?= |$)/, (_, x: string) => `Deals ${x}. Splash ${pct}%.`);
 }
 
 /** What a move counts as for habits that block or change dashes, projectiles, and spells, such as "Dash. Spell." */
@@ -904,14 +904,14 @@ export function moveKinds(m: MoveDef): string {
 
 /** The rule each kind of move and each order class brings, one short line each, as the move detail and the Guide show them. */
 export const KIND_RULE: Record<string, string> = {
-  dash: 'Dash: takes 0.9x till its next turn. Guard can\'t stop it.',
-  projectile: 'Projectile: a guarding foe takes 0.25x.',
-  spell: 'Spell: passes over walls. Silence stops it.',
-  channel: 'Channel: a stun, silence, or switch ends it.',
-  sound: 'Sound: guard can\'t stop it, and it finds a Hidden foe. Silence stops it. A Deaf whorl takes 0.5x.',
-  quick: 'Quick: goes first in a round.',
-  late: 'Late: goes after the foe in a round.',
-  splash: 'Splash: each foe in reserve takes that share of the hit.',
+  dash: 'Dash: takes 0.9x damage until its next turn. Guard cannot block it.',
+  projectile: 'Projectile: guards take only 0.25x damage.',
+  spell: 'Spell: ignores walls. Silence prevents its effect.',
+  channel: 'Channel: Ends on a stun, silence, or switch.',
+  sound: 'Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.',
+  quick: 'Quick: Goes first.',
+  late: 'Late: Acts after the enemy in the round.',
+  splash: 'Splash: Each reserve foe takes a portion of the damage.',
 };
 
 /** The kind, order, and Splash lines for a move, in a fixed order. */
@@ -986,7 +986,7 @@ export function addNerve(b: Battle, side: 0 | 1, n: number): void {
   if (!b.rules.nerve || n === 0) return;
   // A held side's gains go to the side that holds its tide, once, so two holds cannot pass tide back and forth.
   const held = b.s[side].hold;
-  if (n > 0 && held && held.to !== side) { msg(b, `${b.s[side].name}'s tide goes into the hold.`); side = held.to; }
+  if (n > 0 && held && held.to !== side) { msg(b, `${b.s[side].name}'s tide recedes into the hold.`); side = held.to; }
   const s = b.s[side];
   const before = s.nerve;
   // Tide in debt stays below 0 until gains pay it back, and a loss never takes a side deeper into debt.
@@ -1081,7 +1081,7 @@ export function dealDamage(
   if (src && src.side !== tgt.side && !info.dot && !isOut(b, tgt)) {
     const cov = out(b, tgt.side);
     if (cov && cov !== tgt && !cov.ko && !cov.gone && hooks(cov).some(h => h.covers?.(b, cov, tgt))) {
-      msg(b, `${label(b, cov)} takes it for ${label(b, tgt)}.`);
+      msg(b, `${label(b, cov)} absorbs the hit for ${label(b, tgt)}.`);
       return dealDamage(b, src, cov, raw, { ...info, reserve: false }, mtype, mult, noGuard);
     }
   }
@@ -1147,7 +1147,7 @@ export function dealDamage(
   // A banked hit waits in Fighter.bank: it deals nothing now and wakes nobody.
   if (hooks(tgt).some(h => h.bankHit?.(b, tgt, src, amt, info))) {
     tgt.bank = (tgt.bank || 0) + amt;
-    msg(b, `${label(b, tgt)} holds ${amt} back.`);
+    msg(b, `${label(b, tgt)} restrains ${amt}.`);
     return 0;
   }
   amt = bearWeight(b, tgt, amt, info);
@@ -1156,7 +1156,7 @@ export function dealDamage(
   const pierce = !!info.pierce || (!!src && hooks(src).some(h => h.pierces?.(b, src, tgt, info)));
   let toShield = 0;
   const mn = b.s[tgt.side].mantle;
-  if (pierce && !info.dot && (tgt.shield > 0 || (mn && mn.hp > 0))) msg(b, `The hit goes straight through to ${label(b, tgt)}.`);
+  if (pierce && !info.dot && (tgt.shield > 0 || (mn && mn.hp > 0))) msg(b, `The attack passes straight through to ${label(b, tgt)}.`);
   if (mn && mn.hp > 0 && !info.dot && !pierce) {
     toShield = Math.min(mn.hp, amt);
     mn.hp -= toShield;
@@ -1174,7 +1174,7 @@ export function dealDamage(
   if (src) src.k.dealt = (src.k.dealt || 0) + amt;
   if (!info.dot && b.rnd) tgt.k.hitRound = b.rnd.n;
   emit(b, { e: 'dmg', ...seat(tgt), amt, kind, eff: mtype && kind !== 'T' && !info.dot ? typeOn(b, tgt, mtype, undefined, src) : 1, shield: toShield });
-  if (tgt.s.sleep && !(src && hooks(src).some(h => h.lulls?.(b, src, tgt)))) { delete tgt.s.sleep; msg(b, `${label(b, tgt)} wakes up.`); }
+  if (tgt.s.sleep && !(src && hooks(src).some(h => h.lulls?.(b, src, tgt)))) { delete tgt.s.sleep; msg(b, `${label(b, tgt)} awakens.`); }
   if (guarded && info.move && !tgt.k.guardPaid) {
     tgt.k.guardPaid = 1;
     addNerve(b, tgt.side, 1);
@@ -1199,7 +1199,7 @@ export function dealDamage(
     for (const f of standing(b.s[tgt.side])) {
       if (has(f, 'alarm') && !f.k.alarmUsed) {
         f.k.alarmUsed = 1;
-        msg(b, `${label(b, f)} goes off.`);
+        msg(b, `${label(b, f)} explodes.`);
         addNerve(b, tgt.side, 2);
       }
     }
@@ -1226,7 +1226,7 @@ export function rollHp(b: Battle, a: Fighter, z: Fighter): number {
     if (d > 0) emit(b, { e: 'heal', ...seat(f), amt: d });
     else if (d < 0) emit(b, { e: 'dmg', ...seat(f), amt: -d, kind: 'T', eff: 1, shield: 0 });
   }
-  msg(b, `${label(b, a)} and ${label(b, z)} roll over.`);
+  msg(b, `${label(b, a)} and ${label(b, z)} flip over.`);
   return Math.abs(sa - sz);
 }
 
@@ -1268,7 +1268,7 @@ export function reflect(b: Battle, from: Fighter, to: Fighter, raw: number): voi
 
 export function handleKO(b: Battle, t: Fighter, src: Fighter | null, dmg: number): void {
   if (t === visiting) { t.hp = Math.max(1, t.hp); return; }
-  if (t.s.monument) { t.hp = 1; msg(b, `${label(b, t)} stands like a monument.`); return; }
+  if (t.s.monument) { t.hp = 1; msg(b, `${label(b, t)} stands tall, unshakable.`); return; }
   if (isOut(b, t)) {
     for (const r of reserves(b.s[t.side])) {
       for (const h of hooks(r)) {
@@ -1292,7 +1292,7 @@ export function handleKO(b: Battle, t: Fighter, src: Fighter | null, dmg: number
   let saved = false;
   for (const h of hooks(t)) if (h.wouldKO && h.wouldKO(b, t, src)) { saved = true; break; }
   if (saved && !sk(b, t.side).saved) { sk(b, t.side).saved = 1; return; }
-  if (saved) msg(b, `${label(b, t)} has no second chance left.`);
+  if (saved) msg(b, `${label(b, t)} has no lives left to spare.`);
   endChannel(b, t);
   t.hp = 0;
   t.ko = true;
@@ -1316,8 +1316,8 @@ export function handleKO(b: Battle, t: Fighter, src: Fighter | null, dmg: number
   b.queue = b.queue.filter(q => !(q.side === t.side && q.who === t.idx));
   for (const u of b.s[t.side].sum.filter(x => x.by === t.idx && !SUMMONS[x.def]?.lasting)) dismiss(b, u);
   emit(b, { e: 'ko', ...seat(t) });
-  msg(b, `${label(b, t)} is down.`);
-  if (t.glow) msg(b, `${label(b, t)} glows on over its side.`);
+  msg(b, `${label(b, t)} has fallen.`);
+  if (t.glow) msg(b, `${label(b, t)} glows brightly on their side.`);
   b.stats.kos[t.side]++;
   if (src && src.side !== t.side) addNerve(b, src.side, 2);
   addNerve(b, t.side, 1);
@@ -1368,7 +1368,7 @@ export function turnStatuses(b: Battle, src: Fighter | null, t: Fighter): number
   for (const o of olds) delete t.s[o.id];
   let n = 0;
   for (const o of olds) if (applyStatus(b, src, t, STATUS_TURN[o.id]!, o.n)) n++;
-  if (olds.length) msg(b, `${label(b, t)} hears it backward.`);
+  if (olds.length) msg(b, `${label(b, t)} hears it backwards.`);
   return n;
 }
 
@@ -1382,7 +1382,7 @@ export function dueOf(t: Fighter): number {
 /** Coming due: everything waiting on t happens now. Damage and Regen over time land in one go, its timers go off, and its timed marks that end with an effect end. */
 export function comeDue(b: Battle, src: Fighter | null, t: Fighter): void {
   if (t.ko || t.gone || fogged(b, src, t)) return;
-  msg(b, `Everything on ${label(b, t)} comes due.`);
+  msg(b, `All on ${label(b, t)} comes due.`);
   const info = (kind: 'P' | 'M' | 'T'): DmgInfo => ({ kind, move: null, attack: false, dot: true, spread: false, reserve: !isOut(b, t) });
   const s = t.s, tri = (n: number) => n * (n + 1) / 2;
   const { burn, bleed, poison, regen, doom } = s;
@@ -1395,13 +1395,13 @@ export function comeDue(b: Battle, src: Fighter | null, t: Fighter): void {
   if (!t.ko && doom) { delete s.doom; dealDamage(b, null, t, (doom.v || 10) * doom.n, info('M'), null); }
   if (!t.ko && t.k.tick !== undefined && t.k.tick > 0) {
     delete t.k.tick;
-    msg(b, `The timer on ${label(b, t)} goes off.`);
+    msg(b, `${label(b, t)}'s timer expires.`);
     dealDamage(b, null, t, t.k.tickDmg || 40, info('M'), null);
     if (!t.ko) applyStatus(b, null, t, 'stun', 1);
   }
   if (!t.ko && t.k.badnews !== undefined && t.k.badnews > 0) {
     delete t.k.badnews;
-    msg(b, `Bad news reaches ${label(b, t)}.`);
+    msg(b, `Misfortune strikes ${label(b, t)}.`);
     dealDamage(b, null, t, t.k.badnewsDmg || 40, info('M'), null);
   }
   for (const id of Object.keys(t.m)) {
@@ -1429,7 +1429,7 @@ function wearPoise(b: Battle, src: Fighter | null, f: Fighter, amt: number): voi
   f.poise -= amt;
   if (f.poise > 0) return;
   f.poise = 0;
-  msg(b, `${label(b, f)}'s poise breaks.`);
+  msg(b, `${label(b, f)}'s poise shatters.`);
   applyStatus(b, src, f, 'stun', 1);
 }
 
@@ -1450,7 +1450,7 @@ export function applyStatus(b: Battle, src: Fighter | null, t: Fighter, id: stri
   const sink = src && !drawing ? drawer(b, src, t, id) : null;
   if (sink) {
     drawing++;
-    try { msg(b, `${label(b, sink)} draws it in.`); return applyStatus(b, src, sink, id, n, v); } finally { drawing--; }
+    try { msg(b, `${label(b, sink)} pulls it in.`); return applyStatus(b, src, sink, id, n, v); } finally { drawing--; }
   }
   // An action aimed at a summon spends its statuses on the summon, which carries none.
   if (b.aim && src && src.side === b.aim.side && t.side !== src.side) return false;
@@ -1460,15 +1460,15 @@ export function applyStatus(b: Battle, src: Fighter | null, t: Fighter, id: stri
   }
   // One guard for Hidden and Untouchable: through the turn after either ends, the whorl can go into neither.
   if (id === 'invuln' && (t.m.seen || t.s.revealed)) {
-    if (!b.quiet) msg(b, `${label(b, t)} can't become untouchable yet.`);
+    if (!b.quiet) msg(b, `${label(b, t)} cannot become untouchable yet.`);
     return false;
   }
   if (id === 'hidden' && (t.s.hidden || t.s.revealed || t.m.seen)) {
-    if (!b.quiet) msg(b, t.s.hidden ? `${label(b, t)} is already hidden.` : `${label(b, t)} can't hide yet.`);
+    if (!b.quiet) msg(b, t.s.hidden ? `${label(b, t)} is already concealed.` : `${label(b, t)} cannot hide just yet.`);
     return false;
   }
   const fromFoe = !src || src.side !== t.side;
-  if (fromFoe && t.poise && POISE_STOPS.includes(id)) { msg(b, `${label(b, t)} rolls on through it.`); return false; }
+  if (fromFoe && t.poise && POISE_STOPS.includes(id)) { msg(b, `${label(b, t)} pushes through it.`); return false; }
   if (fromFoe && turnLossBlocked(b, t, id)) return false;
   const sid = id as StatusId;
   if (src && src.side !== t.side && src.mon.notion === 'glassbead' && !src.k.bead && (NEGATIVE as string[]).includes(id)) { src.k.bead = 1; n += 1; }
@@ -1518,9 +1518,9 @@ const steadyId = (id: string): string => `steady_${id}`;
 const STALWART = 'stalwart';
 for (const id of LOSSES) {
   defMark({ id: steadyId(id), name: `steady: ${id}`, color: '#e0d8a0',
-    text: `It lost a turn to ${LOSS_NAME[id]}, which cannot land on it again until it acts. One other effect can.` });
+    text: `It skipped a turn for ${LOSS_NAME[id]}, meaning it can't land on it again until it takes action. One other effect might.` });
 }
-defMark({ id: STALWART, name: 'stalwart', color: '#f0c060', text: 'Nothing can cost it a turn. Lasts 2 of its turns.' });
+defMark({ id: STALWART, name: 'stalwart', color: '#f0c060', text: 'No effect can cost it a turn. This lasts for 2 of its turns.' });
 
 /** How many effects have tagged t steady since it last acted. */
 const steadyTags = (t: Fighter): number => LOSSES.filter(id => t.m[steadyId(id)]).length;
@@ -1652,7 +1652,7 @@ export function keepMove(b: Battle, f: Fighter, id: string): boolean {
   f.keepsake = id;
   f.moves[slot] = id;
   f.cd[slot] = 0;
-  msg(b, `${label(b, f)} keeps ${m.name} in a fifth slot.`);
+  msg(b, `${label(b, f)} holds ${m.name} in a fifth slot.`);
   return true;
 }
 
@@ -1679,7 +1679,7 @@ export function lockMove(b: Battle, t: Fighter, slot: number, turns: number): vo
 export function retype(b: Battle, t: Fighter, types: Type[], turns: number): void {
   if (t.ko || t.gone || !types.length || turns <= 0) return;
   t.retype = { types: types.slice(), turns };
-  msg(b, `${label(b, t)} is ${types.join(' and ')} now.`);
+  msg(b, `${label(b, t)} is now ${types.join(' and ')}.`);
 }
 
 /** Multiplies the hits, heals, and shields of f's move in a slot by `mul` for its next `uses` uses, or till f leaves the field at 0. */
@@ -1708,7 +1708,7 @@ export function retypeMove(b: Battle, f: Fighter, slot: number, type: Type, turn
   const src = b.acting === f.side && isOut(b, f) ? f.turns : -1;
   f.mtype = (f.mtype || []).filter(x => x.slot !== slot);
   f.mtype.push({ slot, type, turns: turns > 0 ? turns : -1, src });
-  msg(b, `${label(b, f)}'s ${MOVES[f.moves[slot]]?.name || 'move'} is ${type} now.`);
+  msg(b, `${label(b, f)}'s ${MOVES[f.moves[slot]]?.name || 'move'} is now ${type}.`);
 }
 
 /**
@@ -1767,7 +1767,7 @@ export function passOn(b: Battle, from: Fighter, to: Fighter): void {
     const d = MARKS[id];
     if (d && !d.negative && (d.value || 0) > 0) to.m[id] = { ...from.m[id] };
   }
-  msg(b, `${label(b, to)} takes on what ${label(b, from)} had.`);
+  msg(b, `${label(b, to)} assumes what ${label(b, from)} had.`);
 }
 
 /** Drops `id` on the field for `turns` rounds, for either side's out whorl to spend a turn taking. */
@@ -1775,7 +1775,7 @@ export function dropItem(b: Battle, id: string, turns: number): void {
   const d = DROPS[id];
   if (!d || turns <= 0) return;
   (b.drops ||= []).push({ id, uid: b.pid++, turns, at: b.turnNo });
-  msg(b, `A ${d.name} drops onto the field.`);
+  msg(b, `A ${d.name} lands on the field.`);
 }
 
 /** Lays a field state over the battle for `turns` rounds, replacing any other. Null clears the field. */
@@ -1785,14 +1785,14 @@ export function setField(b: Battle, id: string | null, turns = 5, by: Fighter | 
   b.field = def ? { id: def.id, turns, by: by ? by.side : -1, at: b.turnNo } : null;
   for (const s of b.s) for (const f of s.f) f.fld = def ? def.id : null;
   emit(b, { e: 'field', id: def ? def.id : null });
-  msg(b, def ? `${def.name} for ${turns} rounds.` : 'The field clears.');
+  msg(b, def ? `${def.name} lasts ${turns} rounds.` : 'The field is cleared.');
 }
 
 /** Spins `side` for its next `turns` turns: after each one, its out whorl goes to the back of the line and the next comes out. */
 export function spinSide(b: Battle, side: 0 | 1, turns: number): void {
   if (turns <= 0) return;
   b.s[side].spin = { turns };
-  msg(b, `${b.s[side].name}'s side starts to spin.`);
+  msg(b, `${b.s[side].name}'s side begins to rotate.`);
 }
 
 /** The end of a spinning side's turn: a whorl that stood its ground or switched by choice stays, and the spin counts down either way. */
@@ -1802,16 +1802,16 @@ function spinOn(b: Battle, side: 0 | 1, f: Fighter, action: string): void {
   if (--sp.turns <= 0) s.spin = null;
   if (action !== 'switch' && !f.ko && !f.gone && isOut(b, f)) {
     const to = nextInLine(s);
-    if (immovable(f)) msg(b, `${label(b, f)} holds its ground.`);
+    if (immovable(f)) msg(b, `${label(b, f)} stands firm.`);
     else if (to >= 0 && to !== s.out && !turnLossBlocked(b, f, 'switch')) {
       const keep = s.next;
       forcedIn(b, f, s.f[to]);
       doSwitch(b, side, to, true);
       s.next = keep;
-      msg(b, `${label(b, f)} goes round, and ${label(b, s.f[to])} comes out.`);
+      msg(b, `${label(b, f)} turns, and ${label(b, s.f[to])} emerges.`);
     }
   }
-  if (!s.spin) msg(b, `${s.name}'s side stops spinning.`);
+  if (!s.spin) msg(b, `${s.name}'s side ceases to spin.`);
 }
 
 /**
@@ -1841,14 +1841,14 @@ export function swapRooms(b: Battle): void {
   for (const u of mx) land(u, 1);
   for (const u of mz) land(u, 0);
   for (const sd of b.s) while (sd.sum.length > SUMMON_CAP) dismiss(b, sd.sum[0]);
-  msg(b, 'The two rooms trade places.');
+  msg(b, 'The two rooms swap positions.');
 }
 
 /** Sends the sea out for `rounds` rounds: Low Water, when a star falls every round and attacks gain no tide. */
 export function setLowWater(b: Battle, rounds: number): void {
   if (rounds <= 0) return;
   b.lowWater = { turns: rounds, at: b.turnNo };
-  msg(b, 'The sea goes out. Low Water.');
+  msg(b, 'The sea recedes. Low Water.');
 }
 
 /** A star lands on the field: each side gains 2 tide, unless a whorl's hook catches it and its side alone gains 4. `called` counts one a kit called down. */
@@ -1856,8 +1856,8 @@ export function starFall(b: Battle, called = false): void {
   let catcher: Fighter | null = null;
   for (const w of everyone(b)) if (!catcher && hooks(w).some(h => h.catchStar?.(b, w))) catcher = w;
   if (called) b.starsCalled = (b.starsCalled || 0) + 1;
-  if (catcher) { msg(b, `A star lands in ${label(b, catcher)}'s keeping.`); addNerve(b, catcher.side, 4); }
-  else { msg(b, 'A star lands on the field.'); addNerve(b, 0, 2); addNerve(b, 1, 2); }
+  if (catcher) { msg(b, `A star comes to rest with ${label(b, catcher)}.`); addNerve(b, catcher.side, 4); }
+  else { msg(b, 'A star appears on the battlefield.'); addNerve(b, 0, 2); addNerve(b, 1, 2); }
   for (const w of everyone(b)) for (const h of hooks(w)) h.starLanded?.(b, w);
 }
 
@@ -1865,7 +1865,7 @@ export function starFall(b: Battle, called = false): void {
 export function wedge(b: Battle, side: 0 | 1, turns: number): void {
   if (turns <= 0) return;
   b.s[side].cut = { turns, at: b.turnNo };
-  msg(b, `${b.s[side].name}'s side is cut off from its bench.`);
+  msg(b, `${b.s[side].name}'s side is severed from its bench.`);
 }
 
 /** Lays a mantle of `hp` over `side` for `turns` rounds, on top of what is left of one already there. */
@@ -1895,7 +1895,7 @@ export function pinkTide(b: Battle, side: 0 | 1, n: number, turns: number): void
   const was = pinkOf(b, side), now = Math.min(s.nerve, was + n);
   if (now <= was) return;
   s.pink = { n: now, turns: Math.max(turns, s.pink?.turns || 0), at: b.turnNo };
-  msg(b, `${now - was} of ${s.name}'s tide turns pink.`);
+  msg(b, `${now - was} of ${s.name}'s tide shifts pink.`);
 }
 
 /** Lets all of `side`'s pink tide run clear at once. */
@@ -1916,7 +1916,7 @@ export function setPrice(b: Battle, side: 0 | 1, add: number, turns: number): vo
 export function holdTide(b: Battle, side: 0 | 1, to: 0 | 1, turns: number): void {
   if (side === to || turns <= 0) return;
   b.s[side].hold = { to, turns, at: b.turnNo };
-  msg(b, `${b.s[side].name}'s tide is nailed in the hold.`);
+  msg(b, `${b.s[side].name}'s tide is locked in the hold.`);
 }
 
 /** Lays ground `id` under `side` for `turns` rounds, replacing what was there. Null clears it. */
@@ -1926,8 +1926,8 @@ export function setGround(b: Battle, side: 0 | 1, id: string | null, turns = 3, 
   const old = s.ground ? GROUNDS[s.ground.id] : null;
   s.ground = def ? { id: def.id, turns, from: by ? by.side : side, by: by ? by.idx : -1, at: b.turnNo } : null;
   for (const f of s.f) f.gnd = def ? def.id : null;
-  if (def) msg(b, `The ground under ${s.name}'s side turns to ${def.name}.`);
-  else if (old) msg(b, `The ${old.name} under ${s.name}'s side settles.`);
+  if (def) msg(b, `The earth beneath ${s.name} shifts into ${def.name}.`);
+  else if (old) msg(b, `The ${old.name} beneath ${s.name}'s side settles.`);
 }
 
 /** The whorl that laid the ground under `side`, while it is still standing. */
@@ -1981,7 +1981,7 @@ export function endChannel(b: Battle, f: Fighter): void {
   if (!f.chan?.length) return;
   for (const p of f.chan) { const t = b.s[p.side].f[p.idx]; if (t?.m[p.id]) delete t.m[p.id]; }
   f.chan = null;
-  msg(b, `${label(b, f)}'s channel breaks.`);
+  msg(b, `${label(b, f)}'s channel shatters.`);
 }
 
 /** Above 0 while a drunk heal lands on its drinker, so the drinker's own heal is never drunk in turn. */
@@ -2088,7 +2088,7 @@ export function interrupt(b: Battle, t: Fighter, by: Fighter | null): boolean {
   if (!hit.length) return false;
   b.pend = b.pend.filter(p => !hit.includes(p));
   emit(b, { e: 'cut', ...seat(t) });
-  msg(b, `${MOVES[hit[0].move]?.name || 'The wind-up'} is cut off.`);
+  msg(b, `${MOVES[hit[0].move]?.name || 'The wind-up'} is severed.`);
   b.stats.interrupts++;
   return before !== b.pend.length;
 }
@@ -2101,7 +2101,7 @@ export function heal(b: Battle, src: Fighter | null, t: Fighter, amt: number): n
   // Drink: the other side's out whorl may take a heal meant for t in its place, once, so two drinkers cannot pass it back.
   const w = drinkingFrom ? null : b.s[1 - t.side].f[b.s[1 - t.side].out];
   if (w && w !== t && !w.ko && !w.gone && hooks(w).some(h => h.drinks?.(b, w, t))) {
-    msg(b, `${label(b, w)} drinks the heal meant for ${label(b, t)}.`);
+    msg(b, `${label(b, w)} consumes the healing intended for ${label(b, t)}.`);
     drinkingFrom++;
     try { return heal(b, src, w, amt); } finally { drinkingFrom--; }
   }
@@ -2115,7 +2115,7 @@ export function heal(b: Battle, src: Fighter | null, t: Fighter, amt: number): n
     if (burning) return 0;
     burning++;
     try {
-      msg(b, `The heal burns ${label(b, t)}.`);
+      msg(b, `The healing scalds ${label(b, t)}.`);
       dealDamage(b, null, t, -a, { kind: 'T', move: null, attack: false, dot: true, spread: false, reserve: !isOut(b, t) }, null);
     } finally { burning--; }
     return 0;
@@ -2150,7 +2150,7 @@ export function cleanse(b: Battle, t: Fighter, max = 99): number {
     if (n >= max) break;
     if (MARKS[id]?.negative) { delete t.m[id]; MARKS[id].leave?.(b, t); n++; }
   }
-  if (n) msg(b, `${label(b, t)} shakes it off.`);
+  if (n) msg(b, `${label(b, t)} shrugs it off.`);
   return n;
 }
 
@@ -2201,7 +2201,7 @@ export function comeOut(b: Battle, f: Fighter, start = false): void {
     const p = s.pool;
     s.pool = 0;
     const got = heal(b, null, f, p);
-    if (got > 0) msg(b, `${label(b, f)} drinks ${got} from the house.`);
+    if (got > 0) msg(b, `${label(b, f)} consumes ${got} from the house.`);
   }
   for (const h of hooks(f)) h.comeOut?.(b, f);
   if (!start) for (const w of everyone(b)) if (!f.ko && hears(b, w, f)) for (const h of hooks(w)) h.anyOut?.(b, w, f);
@@ -2209,7 +2209,7 @@ export function comeOut(b: Battle, f: Fighter, start = false): void {
   if (s.caps > 0 && !start) {
     s.caps--;
     const power = bonus.capMgk || 40;
-    msg(b, `A cap goes off under ${label(b, f)}.`);
+    msg(b, `A cap detonates beneath ${label(b, f)}.`);
     dealDamage(b, null, f, power * 0.9, { kind: 'M', move: null, attack: false, dot: true, spread: false, reserve: false }, null);
     applyStatus(b, null, f, 'poison', 2);
   }
@@ -2257,7 +2257,7 @@ export function doSwitch(b: Battle, side: 0 | 1, to: number, forced = false): vo
   }
   s.out = to;
   const nf = s.f[to];
-  if (!forced) msg(b, `${s.name} sends out ${label(b, nf)}.`);
+  if (!forced) msg(b, `${s.name} deploys ${label(b, nf)}.`);
   b.stats.switches++;
   comeOut(b, nf);
 }
@@ -2291,7 +2291,7 @@ function applyFirstBonus(b: Battle, f: Fighter): void {
 export function forceOut(b: Battle, by: Fighter, side: 0 | 1): boolean {
   const s = b.s[side];
   const t = s.f[s.out];
-  if (immovable(t)) { msg(b, `${label(b, t)} holds its ground.`); return false; }
+  if (immovable(t)) { msg(b, `${label(b, t)} refuses to retreat.`); return false; }
   const foe = by.side !== side;
   if (foe && turnLossBlocked(b, t, 'switch')) return false;
   const to = nextInLine(s);
@@ -2300,7 +2300,7 @@ export function forceOut(b: Battle, by: Fighter, side: 0 | 1): boolean {
   const keepNext = s.next;
   if (foe) forcedIn(b, t, s.f[to]);
   doSwitch(b, side, to, true);
-  msg(b, `${label(b, t)} is forced out. ${label(b, s.f[to])} comes out.`);
+  msg(b, `${label(b, t)} is forced out. ${label(b, s.f[to])} enters the fray.`);
   spoon(b, t); spoon(b, s.f[to]);
   s.next = keepNext;
   applyFirstBonus(b, s.f[to]);
@@ -2320,16 +2320,16 @@ export function dragIn(b: Battle, by: Fighter, side: 0 | 1, idx: number): boolea
   const nf = s.f[idx];
   const cur = s.f[s.out];
   if (nf.ko || nf.gone) return false;
-  if (fogged(b, by, nf)) { msg(b, nf.stored ? `${label(b, nf)} is in cold storage.` : `The fog hides ${label(b, nf)}.`); return false; }
-  if (immovable(cur) && cur.s.guard) { msg(b, `${label(b, cur)} holds its ground.`); return false; }
-  if (hooks(nf).some(h => h.immovable?.(nf))) { msg(b, `${label(b, nf)} won't come.`); return false; }
+  if (fogged(b, by, nf)) { msg(b, nf.stored ? `${label(b, nf)} is shelved.` : `The fog obscures ${label(b, nf)}.`); return false; }
+  if (immovable(cur) && cur.s.guard) { msg(b, `${label(b, cur)} refuses to retreat.`); return false; }
+  if (hooks(nf).some(h => h.immovable?.(nf))) { msg(b, `${label(b, nf)} won't show up.`); return false; }
   const foe = by.side !== side;
   if (foe && (turnLossBlocked(b, cur, 'switch') || turnLossBlocked(b, nf, 'switch'))) return false;
   interrupt(b, cur, by);
   const keepNext = s.next;
   if (foe) forcedIn(b, cur, nf);
   doSwitch(b, side, idx, true);
-  msg(b, `${label(b, nf)} is dragged out.`);
+  msg(b, `${label(b, nf)} is pulled out.`);
   spoon(b, cur); spoon(b, nf);
   s.next = keepNext;
   applyFirstBonus(b, nf);
@@ -2374,20 +2374,20 @@ export function usable(b: Battle, f: Fighter, i: number): { ok: boolean; why: st
   if (f.s.root && !f.s.unstop && m.tags?.includes('dash')) return { ok: false, why: 'Rooted.' };
   if (f.s.doom) return { ok: false, why: 'Doomed.' };
   if (f.s.taunt) return { ok: false, why: 'Taunted.' };
-  if ((f.locks?.[i] || 0) > 0) return { ok: false, why: `Locked for ${f.locks![i]} more turn${f.locks![i] > 1 ? 's' : ''}.` };
+  if ((f.locks?.[i] || 0) > 0) return { ok: false, why: `Unavailable for ${f.locks![i]} more turn${f.locks![i] > 1 ? 's' : ''}.` };
   if (f.cd[i] > 0 && !overdriveCost(b, f, i)) return { ok: false, why: `${f.cd[i]} more turn${f.cd[i] > 1 ? 's' : ''}.` };
   const no = forbidden(b, f, m);
   if (no) return { ok: false, why: no };
-  if (m.rewinds && pastDepth) return { ok: false, why: 'Not while the past plays again.' };
+  if (m.rewinds && pastDepth) return { ok: false, why: 'Not while the past repeats itself.' };
   if (m.nerve) {
-    if (!b.rules.nerve) return { ok: false, why: 'Crests come later.' };
+    if (!b.rules.nerve) return { ok: false, why: 'Crests await later.' };
     const owe = creditOf(b, f.side);
     if (b.s[f.side].nerve + owe < tideCost(b, f, m)) return { ok: false, why: 'Not enough tide.' };
     if (b.s[f.side].nerve - pinkOf(b, f.side) + owe < tideCost(b, f, m)) return { ok: false, why: 'Not enough clear tide.' };
   }
-  if (m.reach === 'reserveAlly' && reserves(b.s[f.side]).length === 0) return { ok: false, why: 'Nobody in reserve.' };
-  if (m.reach === 'dragin' && reserves(b.s[1 - f.side]).length === 0) return { ok: false, why: 'Nobody to drag.' };
-  if (m.reach === 'bench' && reserves(b.s[1 - f.side]).length === 0) return { ok: false, why: 'Nobody in reserve.' };
+  if (m.reach === 'reserveAlly' && reserves(b.s[f.side]).length === 0) return { ok: false, why: 'No reserves available.' };
+  if (m.reach === 'dragin' && reserves(b.s[1 - f.side]).length === 0) return { ok: false, why: 'No one to drag.' };
+  if (m.reach === 'bench' && reserves(b.s[1 - f.side]).length === 0) return { ok: false, why: 'No reserves available.' };
   if (m.tag && !canSwitch(b, f) && reserves(b.s[f.side]).length === 0) return { ok: true, why: '' };
   return { ok: true, why: '' };
 }
@@ -2473,7 +2473,7 @@ function makeCtx(b: Battle, u: Fighter, m: MoveDef, a: { target?: number; opt?: 
         t.s.ward.n--;
         if (t.s.ward.n <= 0) delete t.s.ward;
         emit(b, { e: 'blocked', ...seat(t) });
-        msg(b, `${label(b, t)}'s ward takes ${m.name}.`);
+        msg(b, `${label(b, t)}'s ward claims ${m.name}.`);
         blocked = true;
       }
       wardCache.set(t, blocked);
@@ -2509,7 +2509,7 @@ export function castMove(b: Battle, u: Fighter, id: string, power = 1, a: { targ
   emit(b, { e: 'use', ...seat(u), move: m.id, name: m.name, opt: a.opt });
   const aa = m.reach === 'ally' || m.reach === 'reserveAlly' ? { ...a, target: a.target ?? u.idx } : a;
   if (power < 1) replaying++;
-  try { m.run(makeCtx(b, u, m, aa, false, power)); } catch { msg(b, 'It comes out garbled.'); } finally { if (power < 1) replaying--; }
+  try { m.run(makeCtx(b, u, m, aa, false, power)); } catch { msg(b, 'The signal distorts.'); } finally { if (power < 1) replaying--; }
   return true;
 }
 
@@ -2518,7 +2518,7 @@ export function goUp(b: Battle, f: Fighter, turns: number): boolean {
   if (f.ko || f.gone || turns <= 0 || (f.s.root && !f.s.unstop)) return false;
   f.up = Math.max(f.up || 0, turns);
   f.k.upAt = b.turnNo;
-  msg(b, `${label(b, f)} goes up.`);
+  msg(b, `${label(b, f)} rises.`);
   return true;
 }
 
@@ -2527,7 +2527,7 @@ export function startBout(b: Battle, a: Fighter, z: Fighter, rounds: number): bo
   if (a.side === z.side || !isOut(b, a) || !isOut(b, z) || boutOn(b) || rounds <= 0) return false;
   const [p0, p1] = a.side === 0 ? [a, z] : [z, a];
   b.bout = { f0: p0.idx, f1: p1.idx, score: [0, 0], dealt: [0, 0], left: rounds };
-  msg(b, `${label(b, a)} and ${label(b, z)} square up for a bout.`);
+  msg(b, `${label(b, a)} and ${label(b, z)} face off.`);
   return true;
 }
 
@@ -2555,13 +2555,13 @@ export function boutRound(b: Battle): void {
   const w = bt.score[0] >= 2 ? 0 : bt.score[1] >= 2 ? 1 : -1;
   if (w < 0) {
     if (bt.left > 0) { msg(b, `The bout stands ${bt.score[0]} to ${bt.score[1]}.`); return; }
-    msg(b, 'The bout ends even.');
+    msg(b, 'The match ends in a draw.');
     b.bout = null;
     return;
   }
   const win = w === 0 ? a : z, lose = w === 0 ? z : a;
   b.bout = null;
-  msg(b, `${label(b, win)} wins the bout.`);
+  msg(b, `${label(b, win)} takes the victory.`);
   applyStatus(b, win, win, 'empower', 2);
   heal(b, win, win, win.maxHp * 0.15);
   applyStatus(b, win, lose, 'stun', 1);
@@ -2572,7 +2572,7 @@ export function setFlock(b: Battle, f: Fighter, n: number, turns: number): void 
   if (f.ko || f.gone || n < 2 || turns <= 0) return;
   f.flock = { body: Math.max(1, Math.ceil(f.hp / n)), turns };
   f.k.flockAt = b.turnNo;
-  msg(b, `${label(b, f)} breaks into a flock of ${n}.`);
+  msg(b, `${label(b, f)} dissolves into a flock of ${n}.`);
 }
 
 /** The HP left in the front body of a flock. */
@@ -2597,7 +2597,7 @@ export function rangeOf(b: Battle): 'near' | 'far' | null {
 export function setRange(b: Battle, at: 'near' | 'far' | null): void {
   if (rangeOf(b) === at) return;
   b.range = at ? { at, o0: b.s[0].out, o1: b.s[1].out } : null;
-  msg(b, at === 'near' ? 'They close in to Near.' : at === 'far' ? 'They pull back to Far.' : 'The range is even again.');
+  msg(b, at === 'near' ? 'Near range.' : at === 'far' ? 'They retreat to Far range.' : 'The distance equalizes.');
 }
 
 /** Brings f back down to the ground. */
@@ -2624,7 +2624,7 @@ function rollIn(b: Battle, user: Fighter, m: MoveDef): void {
     const keep = s.next;
     doSwitch(b, side, r.idx, true);
     s.next = keep;
-    msg(b, `${label(b, r)} rolls out to meet it.`);
+    msg(b, `${label(b, r)} advances to engage.`);
     return;
   }
 }
@@ -2641,7 +2641,7 @@ export function lastAct(b: Battle, f: Fighter): boolean {
   if (!f.ko || f.gone || b.over !== null) return false;
   const i = f.moves.findIndex((id, k) => { const m = MOVES[id]; return !!m && !m.nerve && !m.tag && !m.wu && !m.options && (f.cd[k] || 0) <= 0 && targetKind(f, m) === 'none'; });
   if (i < 0) return false;
-  msg(b, `${label(b, f)} keeps going.`);
+  msg(b, `${label(b, f)} presses forward.`);
   return castMove(b, f, f.moves[i], 1, {}, true);
 }
 
@@ -2678,7 +2678,7 @@ function runMoveAt(b: Battle, u: Fighter, i: number, a: { target?: number; tagTo
   // The user's own hook may keep a one-target move on one foe wherever it stands, before that side's hooks hear of it.
   if (!preview && power === 1 && m.reach === 'single') {
     const t = aimOf(b, u);
-    if (t && t !== c.tgt) { msg(b, `${m.name} keeps its bearing on ${label(b, t)}.`); c.tgt = t; }
+    if (t && t !== c.tgt) { msg(b, `${m.name} maintains focus on ${label(b, t)}.`); c.tgt = t; }
   }
   // Passives on the receiving side may stop or turn back a move aimed at them before it runs.
   let caught: 'block' | 'reflect' | 'through' | null = null, catcher: Fighter | null = null;
@@ -2693,13 +2693,13 @@ function runMoveAt(b: Battle, u: Fighter, i: number, a: { target?: number; tagTo
   if (!caught && !preview && power === 1 && m.reach === 'single') {
     for (const w of standing(b.s[1 - u.side])) {
       if (w === c.tgt || !hears(b, w, u) || !hooks(w).some(h => h.redirect?.(b, w, u, m))) continue;
-      msg(b, `${label(b, w)} pulls ${m.name} in.`);
+      msg(b, `${label(b, w)} reels ${m.name} in.`);
       c.tgt = w;
       break;
     }
   }
   if (caught === 'block') msg(b, `${label(b, catcher!)} stops ${m.name}.`);
-  else if (caught === 'reflect') { msg(b, `${label(b, catcher!)} turns ${m.name} back.`); m.run(makeCtx(b, catcher!, m, {}, false, 1)); }
+  else if (caught === 'reflect') { msg(b, `${label(b, catcher!)} repels ${m.name}.`); m.run(makeCtx(b, catcher!, m, {}, false, 1)); }
   else if (caught === 'through') {
     // The move comes out on the user's own side and lands on its next reserve, or nowhere when it has none.
     const back = m.reach === 'single' ? reserves(b.s[u.side]).find(r => !r.ko && !r.gone) : undefined;
@@ -2707,7 +2707,7 @@ function runMoveAt(b: Battle, u: Fighter, i: number, a: { target?: number; tagTo
     else msg(b, `${m.name} goes through ${label(b, catcher!)}'s hole and is gone.`);
   }
   else if (m.reach === 'single' && c.tgt.s.stasis) {
-    msg(b, `${label(b, c.tgt)} can't be touched.`);
+    msg(b, `${label(b, c.tgt)} remains untouchable.`);
   } else {
     m.run(c);
   }
@@ -2717,7 +2717,7 @@ function runMoveAt(b: Battle, u: Fighter, i: number, a: { target?: number; tagTo
     if (!preview && u.reach && (m.reach === 'single' || m.reach === 'spread') && --u.reach.uses <= 0) u.reach = null;
     for (const h of hooks(u)) h.afterMove?.(b, u, m, c);
     if (u.k.burr && !u.ko) {
-      msg(b, `The burr digs into ${label(b, u)}.`);
+      msg(b, `The burr sinks into ${label(b, u)}.`);
       const burrer = u.k.burrSide ? out(b, (u.k.burrSide - 1) as 0 | 1) : null;
       dealDamage(b, burrer && burrer !== u ? burrer : null, u, u.k.burr, { kind: 'P', move: null, attack: false, dot: true, spread: false, reserve: false }, null);
     }
@@ -2763,7 +2763,7 @@ function startTurn(b: Battle, side: 0 | 1): 'act' | 'skip' | 'down' {
   if (!f.ko && f.k.tick !== undefined && f.k.tick > 0) {
     f.k.tick--;
     if (f.k.tick === 0) {
-      msg(b, `The timer on ${label(b, f)} goes off.`);
+      msg(b, `${label(b, f)}'s timer expires.`);
       dealDamage(b, null, f, f.k.tickDmg || 40, dotInfo('M'), null);
       if (!f.ko) applyStatus(b, null, f, 'stun', 1);
       delete f.k.tick;
@@ -2772,7 +2772,7 @@ function startTurn(b: Battle, side: 0 | 1): 'act' | 'skip' | 'down' {
   if (!f.ko && f.k.badnews !== undefined && f.k.badnews > 0) {
     f.k.badnews--;
     if (f.k.badnews === 0) {
-      msg(b, `Bad news reaches ${label(b, f)}.`);
+      msg(b, `News of trouble reaches ${label(b, f)}.`);
       dealDamage(b, null, f, f.k.badnewsDmg || 40, dotInfo('M'), null);
       delete f.k.badnews;
     }
@@ -2784,8 +2784,8 @@ function startTurn(b: Battle, side: 0 | 1): 'act' | 'skip' | 'down' {
   if (b.over !== null) return 'down';
   turnRelief(b, f);
   if (f.s.stasis) return 'skip';
-  if (f.s.stun) { msg(b, `${label(b, f)} can't move.`); return 'skip'; }
-  if (f.s.sleep) { msg(b, `${label(b, f)} is asleep.`); return 'skip'; }
+  if (f.s.stun) { msg(b, `${label(b, f)} is immobilized.`); return 'skip'; }
+  if (f.s.sleep) { msg(b, `${label(b, f)} asleep.`); return 'skip'; }
   return 'act';
 }
 
@@ -2794,12 +2794,12 @@ function turnStartEffects(b: Battle, f: Fighter): void {
   const m = (r: number): DmgInfo => ({ kind: 'M', move: null, attack: false, dot: true, spread: false, reserve: false });
   if (f.k.monsoon) {
     f.k.monsoon = 0;
-    msg(b, 'The monsoon comes round again.');
+    msg(b, 'The monsoon returns.');
     for (const a of standing(b.s[f.side])) heal(b, f, a, a.maxHp * 0.2);
   }
   if (f.k.storm && f.k.storm > 0) {
     f.k.storm--;
-    msg(b, `The storm around ${label(b, f)} strikes.`);
+    msg(b, `The storm strikes ${label(b, f)}.`);
     dealDamage(b, f, foe, stat(b, f, 'mgk') * 0.6, m(0), null);
     if (!foe.ko) addCharge(b, f, foe);
   }
@@ -2809,7 +2809,7 @@ function turnStartEffects(b: Battle, f: Fighter): void {
     f.k.hemo = 0;
     const them = b.s[1 - f.side];
     let total = 0;
-    msg(b, 'The hemorrhage opens.');
+    msg(b, 'The wound opens.');
     for (const t of standing(them)) {
       const share = t.idx === them.out ? 1 : SPREAD_SHARE;
       total += dealDamage(b, f, t, stat(b, f, 'mgk') * 1.2 * hm * share, { kind: 'M', move: null, attack: false, dot: false, spread: true, reserve: t.idx !== them.out }, 'BEAST');
@@ -2839,7 +2839,7 @@ function contactJump(b: Battle, a: Fighter, z: Fighter): void {
       if (to.ko || to.gone) continue;
       const def = MARKS[id], cur = to.m[id];
       to.m[id] = { ...mk, n: Math.min(def.max ?? 99, (cur?.n || 0) + mk.n), at: b.turnNo };
-      msg(b, `The ${def.name || 'mark'} jumps to ${label(b, to)}.`);
+      msg(b, `${def.name || 'mark'} leaps to ${label(b, to)}.`);
       if (def.name && !b.quiet) emit(b, { e: 'status', ...seat(to), id });
       if (to.m[id]) def.arrive?.(b, to, to.m[id]);
     }
@@ -2881,7 +2881,7 @@ function endTurn(b: Battle, side: 0 | 1, f: Fighter, weight: number, extra = 0, 
         if (id === 'stasis' && f.k.thaw) {
           f.k.thaw = 0;
           f.hp = Math.max(f.hp, Math.round(f.maxHp * (f.k.thawPct || 40) / 100));
-          msg(b, `${label(b, f)} thaws.`);
+          msg(b, `${label(b, f)} thaws out.`);
           emit(b, { e: 'heal', ...seat(f), amt: 0 });
         }
       }
@@ -2892,10 +2892,10 @@ function endTurn(b: Battle, side: 0 | 1, f: Fighter, weight: number, extra = 0, 
     }
     tickHeld(f);
     if (f.up && f.k.upAt !== b.turnNo && --f.up <= 0) { f.up = 0; msg(b, `${label(b, f)} comes down.`); }
-    if (f.flock && f.k.flockAt !== b.turnNo && --f.flock.turns <= 0) { f.flock = null; msg(b, `${label(b, f)} gathers back into one.`); }
+    if (f.flock && f.k.flockAt !== b.turnNo && --f.flock.turns <= 0) { f.flock = null; msg(b, `${label(b, f)} coalesces.`); }
     if (f.fracture && f.fracture.at !== b.turnNo && --f.fracture.turns <= 0) { f.fracture = null; msg(b, `${label(b, f)}'s bone sets.`); }
     if (f.swap && f.swap.turns > 0 && f.swap.at !== b.turnNo && --f.swap.turns <= 0) endSwap(b, f);
-    if (f.mirage && f.mirage.at !== b.turnNo && --f.mirage.turns <= 0) { f.mirage = null; msg(b, `The mirage over ${label(b, f)} fades.`); }
+    if (f.mirage && f.mirage.at !== b.turnNo && --f.mirage.turns <= 0) { f.mirage = null; msg(b, `The mirage around ${label(b, f)} fades.`); }
   }
   if (action !== 'switch') f.k.escape = 0;
   // Acting clears a single steady tag. Two tags wait for relief, and stalwart counts down its holder's own turns.
@@ -2910,31 +2910,31 @@ function endTurn(b: Battle, side: 0 | 1, f: Fighter, weight: number, extra = 0, 
   if (b.over === null) stepOrbits(b, side);
   // A field state counts rounds: each turn is half of one.
   if (b.field && b.field.at !== b.turnNo && (b.field.turns -= 0.5) <= 0) setField(b, null);
-  if (b.wind && b.wind.at !== b.turnNo && (b.wind.turns -= 0.5) <= 0) { b.wind = null; msg(b, 'The wind drops.'); }
+  if (b.wind && b.wind.at !== b.turnNo && (b.wind.turns -= 0.5) <= 0) { b.wind = null; msg(b, 'The wind dies down.'); }
   if (b.swell && b.swell.at !== b.turnNo && b.over === null) { b.swell.at = b.turnNo; raiseSwell(b, 1); }
   if (b.clock != null && b.over === null) setClock(b, b.clock + 10);
   // Grounds and drops wear off on the same clock.
   for (const sd of [0, 1] as const) {
     const g = b.s[sd].ground, h = b.s[sd].hold;
     if (g && g.at !== b.turnNo && (g.turns -= 0.5) <= 0) setGround(b, sd, null);
-    if (h && h.at !== b.turnNo && (h.turns -= 0.5) <= 0) { b.s[sd].hold = null; msg(b, `${b.s[sd].name}'s tide comes out of the hold.`); }
-    if (sd === 0 && b.lowWater && b.lowWater.at !== b.turnNo && (b.lowWater.turns -= 0.5) <= 0) { b.lowWater = null; msg(b, 'The sea comes back in.'); }
+    if (h && h.at !== b.turnNo && (h.turns -= 0.5) <= 0) { b.s[sd].hold = null; msg(b, `${b.s[sd].name}'s tide rises from the hold.`); }
+    if (sd === 0 && b.lowWater && b.lowWater.at !== b.turnNo && (b.lowWater.turns -= 0.5) <= 0) { b.lowWater = null; msg(b, 'The sea returns.'); }
     const pr = b.s[sd].price;
-    if (pr && pr.at !== b.turnNo && (pr.turns -= 0.5) <= 0) { b.s[sd].price = null; msg(b, `${b.s[sd].name}'s crests cost what they did.`); }
+    if (pr && pr.at !== b.turnNo && (pr.turns -= 0.5) <= 0) { b.s[sd].price = null; msg(b, `${b.s[sd].name}'s crests cost as much as before.`); }
     const pk = b.s[sd].pink;
     if (pk && pk.at !== b.turnNo && (pk.turns -= 0.5) <= 0) clearPink(b, sd);
     const fg = b.s[sd].fog;
-    if (fg && fg.at !== b.turnNo && (fg.turns -= 0.5) <= 0) { b.s[sd].fog = null; msg(b, `The fog lifts off ${b.s[sd].name}'s bench.`); }
+    if (fg && fg.at !== b.turnNo && (fg.turns -= 0.5) <= 0) { b.s[sd].fog = null; msg(b, `The fog lifts from ${b.s[sd].name}'s bench.`); }
     const sh = b.s[sd].shut;
     if (sh && sh.at !== b.turnNo && (sh.turns -= 0.5) <= 0) { b.s[sd].shut = null; msg(b, `The door opens for ${b.s[sd].name}.`); }
     const ct = b.s[sd].cut;
     if (ct && ct.at !== b.turnNo && (ct.turns -= 0.5) <= 0) { b.s[sd].cut = null; msg(b, `${b.s[sd].name}'s bench can reach again.`); }
     const mt = b.s[sd].mantle;
-    if (mt && mt.at !== b.turnNo && (mt.turns -= 0.5) <= 0) { b.s[sd].mantle = null; msg(b, `The mantle slides off ${b.s[sd].name}'s side.`); }
+    if (mt && mt.at !== b.turnNo && (mt.turns -= 0.5) <= 0) { b.s[sd].mantle = null; msg(b, `${b.s[sd].name} loses the mantle.`); }
   }
   if (b.drops?.length) {
     for (const d of b.drops) if (d.at !== b.turnNo) d.turns -= 0.5;
-    for (const d of b.drops) if (d.turns <= 0) msg(b, `The ${DROPS[d.id]?.name || 'drop'} is gone.`);
+    for (const d of b.drops) if (d.turns <= 0) msg(b, `${DROPS[d.id]?.name || 'drop'} has vanished.`);
     b.drops = b.drops.filter(d => d.turns > 0);
   }
   if (s.spin && b.over === null) spinOn(b, side, f, action);
@@ -2983,14 +2983,14 @@ function resolvePending(b: Battle, p: Pending): void {
     const i = u.moves.indexOf(p.move);
     if (i < 0) return;
     emit(b, { e: 'use', side: p.side, idx: p.idx, move: p.move, name: MOVES[p.move].name, opt: p.data?.opt });
-    msg(b, `${label(b, u)}'s ${MOVES[p.move].name} lands.`);
+    msg(b, `${label(b, u)}'s ${MOVES[p.move].name} strikes.`);
     rollIn(b, u, MOVES[p.move]);
     const prev = b.acting;
     b.acting = null;
     b.aim = p.data?.aim ? { side: p.side, uid: p.data.aim } : null;
     dashIn(b, u, MOVES[p.move]);
     const high = outOfReach(b, u, MOVES[p.move]);
-    if (high) msg(b, `${label(b, u)} can't reach ${label(b, high)} up there.`);
+    if (high) msg(b, `${label(b, u)} can't touch ${label(b, high)} from up there.`);
     else runMove(b, u, i, { target: p.data?.target, opt: p.data?.opt });
     b.aim = null;
     b.acting = prev;
@@ -3026,11 +3026,11 @@ export function fatigueShare(round: number): number {
 function fatigue(b: Battle, round: number): void {
   const outs = [out(b, 0), out(b, 1)].filter(f => !f.ko && !f.gone);
   outs.sort((x, z) => stat(b, x, 'agi') - stat(b, z, 'agi') || b.s[z.side].next - b.s[x.side].next);
-  if (round === FATIGUE_ROUND + 1) msg(b, 'Both sides are tiring.');
+  if (round === FATIGUE_ROUND + 1) msg(b, 'Both sides are growing weary.');
   for (const f of outs) {
     if (b.over !== null) return;
     if (f.ko) continue;
-    msg(b, `Fatigue takes ${label(b, f)}.`);
+    msg(b, `${label(b, f)} is spent.`);
     dealDamage(b, null, f, f.maxHp * fatigueShare(round), { kind: 'T', move: null, attack: false, dot: true, spread: false, reserve: false }, null);
   }
 }
@@ -3192,7 +3192,7 @@ export function castBest(b: Battle, f: Fighter, power: number): void {
  */
 function standIn(b: Battle, v: Visit, a: Action): void {
   const id = a.k === 'move' ? v.body.moves[a.i] : '';
-  if (MOVES[id]) msg(b, `${label(b, v.body)} from ${v.back} round${v.back > 1 ? 's' : ''} on uses ${MOVES[id].name}.`);
+  if (MOVES[id]) msg(b, `${label(b, v.body)} uses ${MOVES[id].name} in ${v.back} round${v.back > 1 ? 's' : ''} on.`);
   visiting = v.body;
   try { castPick(b, v.body, a); } finally { visiting = null; }
   const m = a.k === 'move' ? MOVES[v.body.moves[a.i]] : null;
@@ -3212,8 +3212,8 @@ function trade(b: Battle, v: Visit, a: Action, m: MoveDef): void {
   b.queue = b.queue.filter(q => !(q.side === v.side && q.who === to));
   for (const u of s.sum.filter(x => x.by === to && !SUMMONS[x.def]?.lasting)) dismiss(b, u);
   emit(b, { e: 'ship', side: v.side, idx: to, at: 'trade', sprite: spriteOf(ally) });
-  msg(b, ally.mon === body.mon ? `${label(b, ally)}'s past self climbs into the time machine, and ${label(b, body)} stays in its place.`
-    : `${label(b, ally)} climbs into the time machine, and ${label(b, body)} stays in its place.`);
+  msg(b, ally.mon === body.mon ? `${label(b, ally)}'s past self enters the time machine, leaving ${label(b, body)} behind.`
+    : `${label(b, ally)} enters the time machine, leaving ${label(b, body)} behind.`);
   body.idx = to;
   s.f[to] = body;
   if (wasOut) comeOut(b, body);
@@ -3234,7 +3234,7 @@ function beginRewind(b: Battle): void {
   if (b.over !== null) return;
   const caster = b.s[req.side].f[req.idx];
   if (!caster) return;
-  if (caster.ko || caster.gone) { msg(b, `${label(b, caster)} is not here, so the tide does not turn back.`); caster.k.rewound = 1; return; }
+  if (caster.ko || caster.gone) { msg(b, `${label(b, caster)} is absent, so the tide refuses to turn.`); caster.k.rewound = 1; return; }
   const steps = b.past || [];
   // The crest's own round is the newest step where the caster chose the crest from its slot.
   let crestK = -1;
@@ -3252,7 +3252,7 @@ function beginRewind(b: Battle): void {
   }
   const body = cloneFighter(caster);
   if (at < 0) {
-    msg(b, `There is no earlier round to go back to, so ${label(b, caster)} casts here.`);
+    msg(b, `There is no previous round to return to, so ${label(b, caster)} casts here.`);
     b.visit = { side: req.side, idx: req.idx, crest: req.crest, body, steps: [], until: req.at, present: null, back: 0, here: true };
     b.need = { kind: 'visit', side: req.side };
     return;
@@ -3262,13 +3262,13 @@ function beginRewind(b: Battle): void {
   body.swap = null;
   const present = clone(b), live = { ev: b.ev, quiet: b.quiet, lanes: b.lanes }, st = steps[at];
   emit(b, { e: 'ship', side: req.side, idx: req.idx, at: 'board' });
-  msg(b, `${label(b, caster)} climbs into its time machine.`);
+  msg(b, `${label(b, caster)} boards the time machine.`);
   pastDepth++;
   try {
     restoreInto(b, clone(st.snap), live);
     keepSpent(b, present);
     b.visit = { side: req.side, idx: req.idx, crest: req.crest, body, steps: steps.slice(at), until: req.at, present, back: crestRound - roundAt(st.turnNo), here: false };
-    msg(b, 'The tide turns back.');
+    msg(b, 'The tide rewinds.');
     showRewind(b);
     emit(b, { e: 'ship', side: req.side, idx: req.idx, at: 'arrive' });
   } finally { pastDepth--; }
@@ -3308,7 +3308,7 @@ export function visit(b: Battle, a: Action): void {
   if (!ok) {
     restoreInto(b, clone(v.present!), live);
     b.past = [];
-    msg(b, 'The tide will not turn back.');
+    msg(b, 'The tide will not rewind.');
     showRewind(b);
     const f = b.s[v.side].f[v.idx];
     if (!f.ko && !f.gone) castPick(b, f, pick);
@@ -3519,7 +3519,7 @@ export function advance(b: Battle, chooseReplace?: (b: Battle, side: 0 | 1) => n
       f.forced = null;
       const fa = forcedAction(b, side, k.k, k.i);
       if (k.foe && fa?.k === 'switch') mark(b, null, b.s[side].f[fa.to], steadyId('switch'));
-      msg(b, `${label(b, f)} can't help it.`);
+      msg(b, `${label(b, f)} is unable to stop it.`);
       if (!fa) { endTurn(b, side, f, 50, 0, 'skip'); continue; }
       b.rnd = { n: (b.rnd?.n || 0) + 1, joint: false, commits: [null, null], done: [false, false], first: side };
       b.need = { kind: 'act', side };
@@ -3622,7 +3622,7 @@ export function actJoint(b: Battle, a0: Action, a1: Action): void {
   // Both sides measuring learn nothing, so the round opens again with Measure left out.
   if (a0.k === 'wait' && a1.k === 'wait') {
     b.measureOff = true;
-    msg(b, 'Both sides wait, and neither learns a thing.');
+    msg(b, 'Both sides wait, gaining no insight.');
     return;
   }
   b.measureOff = false;
@@ -3672,9 +3672,9 @@ function resolveQueued(b: Battle, q: Queued): void {
     b.turnBase = null;
   };
   // A whorl the foe moved out or dragged in has no choice of its own this round.
-  if (f.idx !== q.who) { skip(`${label(b, f)} has no turn yet.`); return; }
+  if (f.idx !== q.who) { skip(`${label(b, f)} hasn't acted.`); return; }
   if (q.kind === 'skip' || f.s.stasis) { skip(''); return; }
-  if (f.s.stun) { skip(`${label(b, f)} can't move.`); return; }
+  if (f.s.stun) { skip(`${label(b, f)} cannot move.`); return; }
   if (f.s.sleep) { skip(`${label(b, f)} is asleep.`); return; }
   let a = q.a, forced = false;
   if (f.forced) {
@@ -3683,7 +3683,7 @@ function resolveQueued(b: Battle, q: Queued): void {
     forced = k.k === 'switch';
     a = forcedAction(b, q.side, k.k, k.i);
     if (k.foe && a?.k === 'switch') mark(b, null, s.f[a.to], steadyId('switch'));
-    msg(b, `${label(b, f)} can't help it.`);
+    msg(b, `${label(b, f)} is unable to stop it.`);
     if (!a) { skip(''); return; }
   } else if (!a) { skip(''); return; } else if (a.k === 'wait') {
     // Measure: the side chooses now, with the foe's action resolved. turnBase stays until its action resolves.
@@ -3696,7 +3696,7 @@ function resolveQueued(b: Battle, q: Queued): void {
       const aim = a.aim;
       if (!b.s[1 - q.side].sum.some(u => u.uid === aim)) a = { ...a, aim: undefined };
     }
-    if (!stillLegal(b, q.side, a)) { skip(`${label(b, f)} can't do that now.`); return; }
+    if (!stillLegal(b, q.side, a)) { skip(`${label(b, f)} can't do that.`); return; }
   }
   if (forced) forcedNow++;
   try { doAction(b, q.side, a); } finally { if (forced) forcedNow--; }
@@ -3713,7 +3713,7 @@ export function replace(b: Battle, side: 0 | 1, idx: number): void {
   const f = s.f[idx];
   if (!f || f.ko || f.gone) return;
   s.out = idx;
-  msg(b, `${s.name} sends out ${label(b, f)}.`);
+  msg(b, `${s.name} calls forth ${label(b, f)}.`);
   comeOut(b, f);
   s.next = b.t + Math.max(10, 60 - (f.k.firstBonus || 0));
   f.k.firstBonus = 0;
@@ -3757,14 +3757,14 @@ export function act(b: Battle, a: Action): void {
 
 /** The mark that shows a whorl lying in wait. */
 export const WAITING = 'waiting';
-defMark({ id: WAITING, name: 'lying in wait', color: '#c8d8a0', volatile: true, text: 'It strikes first as the foe starts its next action, whatever that action is.' });
+defMark({ id: WAITING, name: 'lying in wait', color: '#c8d8a0', volatile: true, text: 'It acts first, interrupting the foe\'s next move regardless of what it is.' });
 
 /** Sets f to lie in wait: as the other side starts its next action of any kind, f casts move `id` first. */
 export function lieInWait(b: Battle, f: Fighter, id: string): void {
   if (f.ko || f.gone || !MOVES[id]) return;
   f.wait = { move: id };
   mark(b, f, f, WAITING, 1, -1);
-  msg(b, `${label(b, f)} lies in wait.`);
+  msg(b, `${label(b, f)} lies in ambush.`);
 }
 
 /**
@@ -3777,11 +3777,11 @@ function springWait(b: Battle, side: 0 | 1): boolean {
   const id = w.wait.move;
   w.wait = null;
   unmark(w, WAITING);
-  msg(b, `${label(b, w)} strikes as ${label(b, f)} moves.`);
+  msg(b, `${label(b, w)} strikes just as ${label(b, f)} moves.`);
   castMove(b, w, id);
   if (f.ko || f.gone) return true;
   if (out(b, side) !== f || f.s.stun || f.s.sleep) {
-    if (out(b, side) === f) msg(b, `${label(b, f)} can't move.`);
+    if (out(b, side) === f) msg(b, `${label(b, f)} is immobilized.`);
     endTurn(b, side, f, 50, 0, 'skip');
     return true;
   }
@@ -3807,7 +3807,7 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       if (f.takeIn) { holdAction(b, side, f, a, null); return; }
       const target = foe;
       emit(b, { e: 'use', side, idx: f.idx, move: '', name: 'Attack' });
-      msg(b, `${label(b, f)} attacks.`);
+      msg(b, `${label(b, f)} strikes.`);
       b.aim = a.aim ? { side, uid: a.aim } : null;
       doAttack(b, f, target);
       b.aim = null;
@@ -3822,7 +3822,7 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       f.s.guard = { n: 1 };
       f.k.guardPaid = 0;
       emit(b, { e: 'guard', side, idx: f.idx });
-      msg(b, `${label(b, f)} guards.`);
+      msg(b, `${label(b, f)} defends.`);
       for (const h of hooks(f)) h.afterGuard?.(b, f);
       const w = quickWeight(b, f, 'guard', 80);
       endTurn(b, side, f, w, 0, 'guard');
@@ -3838,7 +3838,7 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       return;
     }
     case 'run': {
-      msg(b, `${b.s[0].name} gets away.`);
+      msg(b, `${b.s[0].name} escapes.`);
       b.over = 'run';
       b.acting = null;
       return;
@@ -3851,10 +3851,10 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
         t.gone = true;
         b.pegged.push(t.idx);
         emit(b, { e: 'peg', idx: t.idx });
-        msg(b, `${b.s[0].name} sounds ${t.mon.name}.`);
+        msg(b, `${b.s[0].name} catches ${t.mon.name}.`);
         if (standing(b.s[1]).length === 0) b.over = 'peg';
       } else {
-        msg(b, `${t.mon.name} won't curl into the horn.`);
+        msg(b, `${t.mon.name} refuses to curl into the horn.`);
       }
       endTurn(b, side, f, 100, 0, 'peg');
       return;
@@ -3862,13 +3862,13 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
     case 'take': {
       const k = (b.drops || []).findIndex(d => d.uid === a.i);
       const d = k >= 0 ? b.drops!.splice(k, 1)[0] : null;
-      if (!d || !DROPS[d.id]) msg(b, 'It is gone.');
-      else { msg(b, `${label(b, f)} takes the ${DROPS[d.id].name}.`); DROPS[d.id].take(b, f); }
+      if (!d || !DROPS[d.id]) msg(b, 'It has vanished.');
+      else { msg(b, `${label(b, f)} claims the ${DROPS[d.id].name}.`); DROPS[d.id].take(b, f); }
       endTurn(b, side, f, 100, 0, 'take');
       return;
     }
     case 'wait': {
-      msg(b, `${label(b, f)} waits.`);
+      msg(b, `${label(b, f)} holds.`);
       endTurn(b, side, f, 50, 0, 'skip');
       return;
     }
@@ -3877,7 +3877,7 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       const uses = s.charm === 'pylon' && !n?.spent ? 2 : 1;
       if (n?.action && (f.k.notionUsed || 0) < uses) {
         f.k.notionUsed = (f.k.notionUsed || 0) + 1;
-        msg(b, `${label(b, f)} uses its ${n.name}.`);
+        msg(b, `${label(b, f)} unleashes its ${n.name}.`);
         n.action.run(b, f);
       }
       endTurn(b, side, f, 50, 0, 'notion');
@@ -3903,12 +3903,12 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       }
       f.movesUsed++;
       f.k.lastMove = a.i + 1;
-      if ((f.spore?.[a.i] || 0) > 0) { msg(b, `Spores puff out of ${m.name}.`); applyStatus(b, null, f, 'poison', 2); }
+      if ((f.spore?.[a.i] || 0) > 0) { msg(b, `Spores billow from ${m.name}.`); applyStatus(b, null, f, 'poison', 2); }
       if (f.takeIn) { holdAction(b, side, f, a, m); return; }
       const unstop = !!m.unstop || (!!f.k.fresh && has(f, 'perihelion'));
       if (m.wu) {
         emit(b, { e: 'wind', side, idx: f.idx, move: m.id });
-        msg(b, `${label(b, f)} winds up ${m.name}.`);
+        msg(b, `${label(b, f)} winds up for ${m.name}.`);
         let wu = b.s[side].charm === 'spire' ? Math.round(m.wu * 0.75) : m.wu;
         const aimed = out(b, side ? 0 : 1);
         if (aimed.mon.notion === 'reedplug' && !aimed.k.plug) { aimed.k.plug = 1; wu = Math.round(wu * 1.5); }
@@ -3925,7 +3925,7 @@ function resolveAction(b: Battle, side: 0 | 1, a: Action): void {
       dashIn(b, f, m);
       const high = outOfReach(b, f, m), thief = high ? null : snatcher(b, f, m);
       if (high) msg(b, `${label(b, f)} can't reach ${label(b, high)} up there.`);
-      else if (thief) { msg(b, `${label(b, thief)} rolls off with ${m.name}.`); castMove(b, thief, m.id); }
+      else if (thief) { msg(b, `${label(b, thief)} rolls off while using ${m.name}.`); castMove(b, thief, m.id); }
       else runMove(b, f, a.i, a);
       b.aim = null;
       if (f.k.fresh && !f.ko) f.k.fresh = 0;
@@ -3963,7 +3963,7 @@ export function doAttack(b: Battle, f: Fighter, t: Fighter, power = 1): void {
   let landed = false, shots = 0;
   for (let h = 0; h < hits; h++) {
     if (t.ko || t.gone) break;
-    if (t.s.stasis) { msg(b, `${label(b, t)} can't be touched.`); break; }
+    if (t.s.stasis) { msg(b, `${label(b, t)} is untouchable.`); break; }
     let raw = stat0 * per;
     const info: DmgInfo = { kind, move: null, attack: true, dot: false, spread: false, reserve: false };
     for (const hk of hooks(f)) if (hk.addRaw) raw += hk.addRaw(b, f, t, info) * per;

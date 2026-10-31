@@ -1,84 +1,86 @@
-# WHORL game text, chunk 6 of 15. Files: src/content/act2/ch2.ts, src/content/act2/ch3.ts
-# Speakers: hint (17), Turnwise (16), choice (15), Gloss (15), Cinch (14), Tack (13), look (13), goal (10), ? (low) (10), Eldest (9), ? (base) (7), Point-watcher (7), narration (6), ? (high) (5), Tooth-sitter (5), Strandmonger (5), ? (take) (4), Child (3), Bell-keeper (3), Spot-counter (2), Seiche-stander (2), Polisher (2), Pig-keeper (2), ? (open) (2), Gloss's clerk (2), Reflection-chaser (2), ? (keeperFight) (2), Dune-sitter (2), Climber on the outside (2), ? (slid) (2), notice (2), Rung-skipper (2), Stair-sleeper (2), Swift-keeper (2), Salt-scraper (2), Slate (2), Madaku (1), Door (1), Old man (1), Woman (1), Kokieri (1), Tumbler (1), Groove (1)
+# WHORL game text, chunk 6 of 26. Files: src/content/act2/ch2.ts, src/content/act2/ch3.ts
+# Speakers: Turnwise (20), hint (17), Gloss (17), choice (15), Tack (14), look (14), Cinch (14), ? (low) (11), Eldest (11), goal (10), Point-watcher (10), ? (base) (7), narration (7), Tooth-sitter (6), ? (high) (5), Strandmonger (5), ? (take) (4), Bell-keeper (4), Child (3), Spot-counter (2), Seiche-stander (2), Polisher (2), Pig-keeper (2), ? (open) (2), Gloss's clerk (2), Reflection-chaser (2), ? (keeperFight) (2), Dune-sitter (2), Climber on the outside (2), ? (slid) (2), notice (2), Rung-skipper (2), Stair-sleeper (2), Swift-keeper (2), Salt-scraper (2), Groove (2), Slate (2), Madaku (1), Door (1), Old man (1), Woman (1), Kokieri (1), Tumbler (1)
 # Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
 # Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
 # See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
 ==== file: src/content/act2/ch2.ts
 
 == scene: a2TackFlats
-[01mfo57] Tack | 47 footprints from the big shell to here. Each 1's the size of a pond. Walked round all of them.
+[1c1dvbw] Tack | Try {#1}. The 47 footprints are the same. The tide hasn't changed.
+[1be2s29] Tack | 47 footprints from the big shell to here. Each 1 is the size of a pond. Walked round all of them.
 [059roxu] Tack | 2nd battle out here, 1st real one. Brack's at Strand level 14. I checked twice.
-[0r9sy3t] Tack | 1 of us is going home wet. Not me.
-[169yxts] Tack | 1 for me. Go on, count it.
-[172w8mb] Tack | {G.flags.tackWins} losses. Even out here. Great.
+[1xtylec] Tack | 1 of us is going home soaked. Not me.
+[1kwr806] Tack | {#1} Go ahead, count them. I'll be right here waiting.
+[14a5rv2] Tack | {t.ouro} losses. {t.tack} wins. Even here, it's a tie. fantastic.
 [0i2wdmd] Tack | Footprints keep going. 1 every 30 steps. I'm counting the rest. Don't wait up.
 
 == scene: map cowrieback
-[0ux2i8v] Spot-counter | I count the Cowrie's spots. They move when I blink. So I don't blink. Ow.
-[1y6n94r] Spot-counter | Lost count. Blinked. From the top.
-[0lqap1t] Seiche-stander | I stand in the gray at high water. It's super warm in there. Nobody believes me.
-[1ofx1zx] Seiche-stander | Back in the gray. It's warm in there, I swear.
-[1e7yfve] look | On top of the dome, in a dip worn by feet, a triton horn.
+[17bjjl7] Spot-counter | I count the Cowrie's spots. They shift when I blink, so I force myself not to. Ow.
+[1mtqi79] Spot-counter | I lost my count. I blinked. Starting over from the top.
+[033mlir] Seiche-stander | I stand in the gray at high water. It's incredibly warm in there. Nobody believes me.
+[1yajk02] Seiche-stander | Back in the gray. It's warm in there, I swear it is.
+[1cz2zzc] look | Resting in a depression worn smooth by feet atop the dome is a triton horn.
 
 == scene: a2Gray
-[1q0it3i] hint | (A SALT whorl worn in the lead walks you through gray.)
+[1leabt1] hint | (A SALT whorl worn in the lead walks you through the gray.)
 
 == scene: a2DrillHole
-[1m8brtg] choice | Climb in the hole
-[1ii32ge] choice | Not now
+[12yxa2z] choice | Drop into the hole.
+[1id3myy] choice | Not now.
 
 == scene: a2CinchPosts
-[1dywtam] Cinch | Still here? Sit. Came down when the stamping started. Heard it from the bar.
-[1ji63x0] Cinch | Four posts. White ones.
-[1oqyluu] Cinch | From down here they look new.
+[1qzjtvx] Cinch | Still around? Take a seat. I came down when the stamping began. I heard it over at the bar.
+[0jfw4q9] Cinch | Four posts. They're white.
+[00g9otn] Cinch | From down here, they look brand new.
 
 == scene: map polish
-[1cvqzph] Polisher | I polish the sky. All of it. You're next, you've got smudges.
-[0mwn9sl] Polisher | Smudged. Leave it. Don't you dare wipe it.
-[0jbikj3] Pig-keeper | My pig's glazed. So's my purse. So's my other pig.
-[064uunp] Pig-keeper | Glaze cracks. Yeah. I knew that.
-[1gkryxs] Madaku | A small dark spot stands on the blank, on nothing at all.
-[13j2y7u] look | A pool of polish. Ouro leans over it. Nothing looks back for three breaths. Then Ouro does.
-[1x90v8f] look | Small handprints pressed into the polish when it was soft, hundreds of them, at one height.
-[151apyo] look | The highest one is a little higher than the rest.
-[0e1xxag] look | A heap of cushions under the drill hole. Somebody plumps them after every drop.
+[1t0fhzq] Polisher | I buff the sky. All of it. You're up next. You've got smudges.
+[1fl7kdc] Polisher | It's smudged. Let it be. Don't you dare try to wipe it off.
+[1xyhp8p] Pig-keeper | My pig is glazed. So is my purse. So is my other pig.
+[1irkdzg] Pig-keeper | The glaze cracks. Yeah, I knew that.
+[07azq3p] Madaku | A tiny dark spot stands out against the blank, against nothing at all.
+[1f7sfdm] look | A pool of polish. Ouro leans over it. Nothing reflects back for three breaths. Then Ouro does.
+[1e8agbw] look | Small handprints pressed into the polish while it was soft, hundreds of them,
+[0b2zof1] look | all at the same height.
+[1jubs6t] look | The highest one sits just a bit higher than the others.
+[1thpi8x] look | A pile of cushions lies beneath the drill hole. Someone fluffs them after every drop.
 
 == scene: a2PolishEnter
-[1edzp2g] goal | Gloss keeps the mouth. The way down is past the blank, at the bottom of town.
+[1ecuqzi] goal | Gloss is the keeper of the mouth. The way down is past the blank, at the bottom of town.
 
 == scene: ch2
-[01f7wa7] ? (base) | We polish the inside every day. You can see your feet in it. A bit late, but you can.
-[16oar4c] ? (low) | Low water. Stamp! Come on, stamp.
-[197xkmm] ? (take) | Something touched the floor. So we stamped. And it went. That's all I know.
-[0slhpmk] ? (base) | Your reflection's three steps behind. Mine's four. I'm older, so.
-[0l843eh] ? (low) | Stamping. My reflection's stamping too, eventually.
-[0kq51w5] ? (open) | There's a draft from the mouth. Haven't felt one since I was three behind.
-[1ungidb] ? (take) | Floor's crooked now. And I'm four behind. Give me a year.
-[1nj7tw6] ? (base) | The mouth's been shut since my gran's gran. We like it shut. Shut is good.
-[069ehb8] ? (low) | You stamp too, okay? Everybody stamps at low.
-[0d0srhv] ? (open) | Who opened the mouth? Was it you? Ugh. Now we'll have to stamp more.
-[0z3x9dq] ? (take) | Posts outside now. Gran says they're for us. Didn't say what for.
-[17jo4kq] ? (base) | At low water we all stamp at once. It's the only dance we've got. It's a good dance.
-[0oiuvcr] ? (high) | High water, and everything's rolled to the seaward wall again. Leave it. I do.
-[18s74nb] ? (take) | From now on we stamp every low. Harder. Way harder.
-[0yzo39u] ? (base) | You lot spend little cowries? Fine by us. They're nobody's.
-[1qsb7kg] ? (base) | Gloss lives at the mouth. Gloss says everything twice. We just say it once. Once is plenty.
-[1el9ge1] ? (high) | High water! Lean or slide. I slide.
-[1ebpgvj] ? (base) | The spots on the sky go round once a year, dear. That one's late. Always is.
+[0f3jgzq] ? (base) | We polish the interior daily. You can see your feet in it. It's a bit late, but you can.
+[0lu6sl1] ? (low) | The water is low. Stamp! Come on, stamp.
+[1ioyg12] ? (take) | Something touched the floor. So we stamped. And it vanished. That's all I know.
+[0jt21h1] ? (base) | Your reflection is three steps behind you. Mine's four. I'm older, so.
+[0pprk3n] ? (low) | We're stamping. My reflection is stamping too, eventually.
+[11jr2eg] ? (open) | There's a draft coming from the mouth. I haven't felt one since I was three steps behind.
+[0zqmk7l] ? (take) | The floor is crooked now. And I'm four steps behind. Give me a year.
+[1em2vnr] ? (base) | The mouth has been shut since my grandmother's grandmother. We prefer it shut. Shut is good.
+[17am5rk] ? (low) | You stamp too, right? Everybody stamps at low tide.
+[0vqun1a] ? (open) | Who cracked it open? You? Great. Now we have to stamp more.
+[1pg9ttc] ? (take) | There are posts outside now. Gran says they're for us. She didn't say what for.
+[18gxvnk] ? (base) | At low water, we all stamp at once. It's the only dance we have. It's a good dance.
+[0t72i3a] ? (high) | High water, and everything has rolled back to the seaward wall. Leave it. I do.
+[00m7epn] ? (take) | From now on, we stamp every low tide. Harder. Way harder.
+[14xgyc6] ? (base) | You lot spend little cowries? Fine by us. They belong to no one.
+[07lqiu0] ? (base) | Gloss lives at the mouth. Gloss repeats everything. We only say it once. Once is enough.
+[0k9nciw] ? (high) | High tide! Tilt or slide. I go with sliding.
+[0uwand8] ? (base) | The spots in the sky complete a circle once a year, dear. That one is late. It always is.
 
 == scene: a2Clerk
-[0v2izgd] Gloss's clerk | I play Gloss's cards. Gloss plays nothing whatsoever, and wins!! Most efficient.
-[0uyqwq0] Gloss's clerk | We observe the Strand rule. The bottom row is wet. Do mind your edges, lest they soggify.
+[05h9vfj] Gloss's clerk | I play Gloss's cards. Gloss plays nothing at all, and wins!! Most efficient.
+[0vlrd7j] Gloss's clerk | We observe the Strand rule. The bottom row is wet. Watch your edges so they don't get soggy.
 
 == scene: a2MaculaChild
-[1k3bcc1] Child | That pale bit's the blank. It's where the Cowrie never finished. You can't walk on it.
-[0vpc6b9] Child | My spot can! It came off the sky. It walks on nothing. It's so good at it.
-[082v1ee] Child | Wear one like it and you can walk it too. They're on the back, outside. Go catch one!
-[1xshulk] hint | (A VOID whorl worn in the lead walks you across the blank.)
+[0uja2rc] Child | That pale patch is the blank. It's where the Cowrie never finished. You can't walk there.
+[0gm8j1o] Child | Mine can! It fell from the sky. It walks on nothing. It's so good at it.
+[1hlay8l] Child | Put one on, and you'll be able to walk in it. They're on the Cowrie's back. Go catch one!
+[0kgj6zl] hint | (A VOID whorl worn in the lead guides you across the blank.)
 
 == scene: map underteeth
-[1atmmmx] look | Past the fifth tooth, in the packed sand, a nautilus horn and a notion.
-[1ue6d81] look | The slit. A line of light comes up through it from outside.
+[0jmugpc] look | Past the fifth tooth, buried in the packed sand, lie a nautilus horn and a notion.
+[0dyit4j] look | The slit. A line of light rises through it from outside.
 
 == scene: toothScript
 [10cqnm5] choice | {#1} tooth {#2}
@@ -87,131 +89,136 @@
 [0kvka9x] choice | Leave it
 
 == scene: openMouth
-[1kpys9n] goal | With the mouth open, starlight crosses the Glaze Halls at low water. The door is in the Polish.
+[12qdcny] goal | Mouth agape, starlight crosses the Glaze Halls at low water. The door is in the Polish.
 
 == scene: a2ToothSitter
-[1agpjah] Tooth-sitter | The tooth at the light end moves whenever you like. That one's the easy one.
-[10lgl03] Tooth-sitter | Any other one moves if the next one lightward's open and the rest past it are shut.
+[1lsfly2] Tooth-sitter | The tooth closest to the light moves at your command. That's the simple one.
+[0ddker4] Tooth-sitter | Any other tooth will only move if the one toward the light is open,
+[09q6abo] Tooth-sitter | while all those beyond it remain closed.
 [1kimsmw] hint | (Open the first four teeth to open the mouth.)
 [1fayi9d] Tooth-sitter | I sit between the teeth. Only gap in town. I got here first.
-[04gjhm9] Tooth-sitter | Okay, gap's yours.
-[0jduck4] Tooth-sitter | Gap's yours. Mind the sand.
+[0lvx5eb] Tooth-sitter | Alright, the gap is yours.
+[11zxw0j] Tooth-sitter | The gap is yours. Watch out for the sand.
 
 == scene: map glazehalls
-[1p4z6dp] Reflection-chaser | I chase my reflection down here! It's always three behind. I'm gonna get it one day.
-[03307bx] Reflection-chaser | Whoa. It caught up. That's never happened before.
+[1se3wn7] Reflection-chaser | I chase my own reflection down here! It's always three steps behind me. I'll catch it one day.
+[1qqwpd8] Reflection-chaser | Whoa. It finally caught up. That's never happened before.
 
 == scene: a2GlazeEnter
-[1iqoc5l] hint | The halls are dark at high tide. At low water, with the mouth open, starlight comes in.
-[03x19jo] hint | (Your reflection walks your path three steps behind you.)
-[0smhusd] hint | (A plate in the glaze opens its door while your reflection stands on it.)
+[1e8m6f7] hint | The halls are pitch-black at high tide. At low water, with the mouth open, starlight streams in.
+[0jnhs8z] hint | (Your reflection follows your path, staying three steps behind you.)
+[1l8srne] hint | (A plate in the glaze opens its door when your reflection stands on it.)
 
 == scene: map glosshall
-[13eo96p] Door | {d.word} marks are cut in it, one above the other.
+[1o5qma8] Door | {d.word} marks are carved into it, stacked one above the other.
 
 == scene: a2GlossEnter
-[0uvxa7p] Gloss | You arrived by the backwardly entrance. By the backwardly entrance, you arrived.
-[0uw821h] Gloss | I keep at the mouth. The mouth keeps at me.
-[0lrpr0q] Gloss | The floor keeps your steps, illustriously. Illustriously, your steps keep the floor.
-[1pqohl3] Gloss | Walk it there and back. Walk it back and there.
-[0berj9i] hint | (The floor keeps your last steps. A door opens when they read the same backward as forward.)
-[0tyhu81] hint | (Bumping a pillar clears the floor. Each door wants as many steps as it has marks.)
+[1n2kt1r] Gloss | You entered through the reverse doorway. Through the reverse doorway, you entered.
+[0y5vsso] Gloss | I remain at the threshold. The threshold remains with me.
+[0uh0nps] Gloss | The floor preserves your steps with distinction. With distinction, your steps preserve the floor.
+[1unzz1n] Gloss | Traverse it there and back. Traverse it back and there.
+[0ujbvyu] hint | (The floor retains your final steps. A door opens when they read the same backward as forward.)
+[03fk7eb] hint | (Colliding with a pillar clears the floor. Each door requires as many steps as it has marks.)
 
 == scene: a2Gloss
-[0rvd24b] Gloss | The Cowrie is marked, alas!! Alas, marked is the Cowrie!!
-[1940tex] Gloss | At every low, we stamp in unison. In unison, we stamp at every low.
-[1bphsaz] Gloss | The light came in at low, most luminously!! Most luminously, at low, the light came in!!
-[05goj99] Gloss | Walk at it there and back. Back and there, walk at it.
-[13nq2vt] Gloss | A grain is the prize of a fight. Of a fight, the prize is a grain.
-[07e7g1j] Gloss | My four are tardy, like your face in the floor. Like your face in the floor, my four are tardy.
-[0zl1ogb] ? (keeperFight) | You lost at the light. The light lost at you.
-[1d3a7lz] Gloss | The grain is yours, bestowed!! Bestowed, the grain is yours!!
-[0xb1sl8] hint | (With two grains your whorls can reach Strand level 18.)
-[09sxaad] Gloss | The light came in at low. At low, the light came in.
+[1vriri5] Gloss | The Cowrie is marked, alas! Alas, the Cowrie is marked!
+[014lv3h] Gloss | At every low water, we stamp in unison. In unison, we stamp at every low water.
+[14wfm3h] Gloss | The light entered at the low water, shining brilliantly!
+[187i1st] Gloss | Brilliantly, at the low water, the light entered!
+[0sp9qyj] Gloss | Pace back and forth. There and back, pace it.
+[0zfojdp] Gloss | A single grain is the reward for a struggle. For a struggle, the reward is a single grain.
+[1m8p63b] Gloss | My four are slow, just like your face in the floor.
+[0i8cqlf] Gloss | Just like your face in the floor, my four are slow.
+[0yx261b] ? (keeperFight) | You lost to the light. The light lost to you.
+[0ea0htt] Gloss | The grain is yours, a gift! A gift, the grain is yours!
+[1abazys] hint | (With two grains, your whorls can reach Strand level 18.)
+[04ye1c5] Gloss | The light came in at low water. At low water, the light came in.
 
 == scene: fingerTake
 [0pyt7ol] Gloss | EVERYONE STAMP. Stamp, everyone!!
-[17t1rkn] Gloss | It touched at the floor. The floor touched at it.
-[0e5hg89] Gloss | You let in the light. The light let in you.
-[157xv4z] Cinch | Sit, sit. Came down when the stamping started. Heard it from the bar.
-[1js5plz] Cinch | Four posts. White ones.
-[1p0y7jt] Cinch | From down here they look new.
+[102bapz] Gloss | It brushed against the floor. The floor brushed against it.
+[0ulnxuh] Gloss | You let the light in. The light let you in.
+[0nmwgwl] Cinch | Sit down. I came down when the stamping started. I heard it from the bar.
+[0hiunei] Cinch | Four posts, painted white.
+[03ph00j] Cinch | They look brand new from down here.
 [1wl9js8] goal | Swim back across the Flats to the Sand Dollar at high water.
 
 == scene: ch2
-[10h86fe] Strandmonger | And that's the driller? Looks like a button. A cheap one. I wouldn't sew it on a sack.
-[0bz58id] Strandmonger | Here's three hundred cowries. Keep that thing off my stock. And my shoes.
-[1ogwqxp] Strandmonger | Somebody's drilling holes in my cowries!! A hole halves the price. Two holes, I weep.
-[0stmedx] Strandmonger | Find the driller. I'll pay you what a sack of whole ones is worth to me, exactly.
-[0kex16m] Strandmonger | Which is less than it's worth to you. That's trade.
-[0vnqn1h] goal | Round holes are turning up in hard things. The first is in a stone on the Flats.
+[0gqrcte] Strandmonger | Is that the driller? It looks like a button. A cheap one. I wouldn't sew it on a sack.
+[0j0gk4c] Strandmonger | Here's three hundred cowries. Keep that thing away from my stock. And my shoes.
+[0sjusg3] Strandmonger | Someone's drilling holes in my cowries! A hole cuts the price in half. Two holes, and I weep.
+[0dakent] Strandmonger | Find the driller. I'll pay you exactly what a sack of whole ones is worth to me.
+[0fu9dis] Strandmonger | That's less than you'd ask for it. That's what trade is.
+[08efgwu] goal | Round holes are appearing in hard objects. The first one was found in a stone on the Flats.
 
 == scene: a2GrayRoad
-[15w6vz3] goal | The Strandmonger is at his counter in the Sand Dollar.
+[0cppcnm] goal | The Strandmonger stands at his counter in the Sand Dollar.
 
 ==== file: src/content/act2/ch3.ts
 
 == scene: map augerdune
-[0bke1rz] Dune-sitter | The dune moves a foot every tide. So I move my chair a foot. We're even.
-[1uki8xc] Dune-sitter | I'll move my chair back a foot. Even again.
-[12fzcv7] look | In the sand under the point, where things fall off it, a nautilus horn.
+[0lddaw9] Dune-sitter | The dune shifts a foot with every tide, so I move my chair a foot. We're square.
+[0m89d0l] Dune-sitter | I'll slide my chair back a foot. Square again.
+[0r46u2a] look | Tucked in the sand beneath the overhang, near the drop-off, lies a nautilus horn.
 
 == scene: a2OutsideClimber
-[0bh1t0a] Climber on the outside | Don't come up this way! Go in at the bottom and climb the inside. Like a normal person.
-[0baj4ya] Climber on the outside | We count rolls out here. That's all the outside's good for, counting.
+[02b0gt4] Climber on the outside | Don't try this route! Enter at the base and climb the inner face. Do it like a sensible person.
+[0lo2x2c] Climber on the outside | We tally our rolls out here. That's the only use for the outside: keeping count.
 
 == scene: map augermouth
-[0b0m0cu] look | A rack of small bells cut from shell. Each has a different chip out of its rim.
-[0r35ww6] look | Bunks on the wall, one above the other. Some have straps.
-[1mzbjgr] look | Bunks on this wall too. The blankets are folded on both sides.
+[109qxyf] look | A rack of small, shell-carved bells hangs nearby. Each one bears a unique chip along its rim.
+[1djcld7] look | Wall-mounted bunks stacked one above the other. Some are equipped with straps.
+[0e0aje6] look | Bunks line this wall as well, with blankets neatly folded on both sides.
 
 == scene: a2MouthEnter
-[1uh0iu8] Cinch | Oof. Sit down here a minute. That's a lot of stair.
-[0qpk3um] Cinch | Bottom step's best for hearing. You can hear them all climbing up there.
-[1cwdu2f] goal | Climb the Auger from the inside.
+[0gn410b] Cinch | Phew. Take a seat here for a moment. That was quite a climb.
+[00dmigu] Cinch | The bottom step offers the best acoustics. You can hear every one of them scrambling up there.
+[06mrc06] goal | Ascend the Auger from the interior.
 
 == scene: a2CinchStep
-[0ebptdh] Cinch | Come up on the step. Water's at my knees, but it's going.
-[132vxmw] Cinch | Felt every bump from this step. Seven. Good step.
-[1w9hzuh] Cinch | Stair'll still be there after a sit. Always is.
-[1azowv0] Cinch | Hear that? Sit on the bottom step and you hear every one of them climbing.
+[15yhe6m] Cinch | Step up. The water's at my knees, but it's moving.
+[0soeeu5] Cinch | I felt every jolt from this step. Number seven. Solid step.
+[03yugbm] Cinch | The stairs will still be here if you take a seat. They always are.
+[1f6n6pq] Cinch | Hear that? Sit on the lowest step and you can hear them all climbing.
 
 == scene: ch3
-[1ykgrl0] ? (low) | We climb all day. Then at night we sleep on the stair, facing up. Facing up's important.
-[0q4hkdz] ? (high) | Rolled again. Up's still up, at least. Everything else moved.
-[0m2b764] ? (slid) | We'll climb every low now. Even Gran. Gran's furious.
-[0nq54bg] ? (low) | When the tide rolls us the floor turns into the wall. You learn to sleep on both.
-[07u5xjt] ? (high) | Rolled. My bunk's the ceiling now. Scoot over, I'm sleeping in yours.
-[14frshz] ? (low) | Nobody's been to the point. Too narrow for anyone grown. Too narrow for me, that's for sure.
-[14rx5c5] ? (low) | Low water, so climb. Climbing keeps it down. That's what my dad said.
+[199ixml] ? (low) | We climb all day. Then we sleep on the stairs at night, facing upward. Facing up matters.
+[1fylgux] ? (high) | We rolled over again. Up is still up, at least. Everything else shifted.
+[0m032dw] ? (slid) | We'll climb every low now. Even Gran. She's furious.
+[0k9tgv1] ? (low) | When the tide rolls the Auger over, the floor becomes the wall. You learn to sleep on both.
+[0l3g5du] ? (high) | We rolled. My bunk is now the ceiling. Move over. I'm sleeping in yours.
+[0satei3] ? (low) | No one has ever reached the point. It's too narrow for any grown person.
+[0u1ux3t] ? (low) | Definitely too narrow for me.
+[0htod4e] ? (low) | Low water, so climb. Climbing keeps the water down. That's what my dad said.
 [1xcx10u] ? (slid) | It's never been down here before. There's the sea. Right there.
-[0x1zodx] ? (low) | My bowl's on the low side. Everyone's bowl's on the low side. Bowls roll.
-[09dtqwa] ? (low) | Everybody up the stair. And down. And up. My legs!!
-[02st30b] ? (low) | We all climb at once and the whole Auger shakes. Best part of the low.
-[07p7ft1] ? (high) | High water. Hear that hum in the stair? That's the air. Hmmmmm.
+[1fogdtd] ? (low) | My bowl is on the low side. Everyone's bowl is on the low side. Bowls roll.
+[0zgn7gh] ? (low) | Everybody up the stairs. And down. And up. My legs!!
+[0z0jae5] ? (low) | We all climb at once and the whole Auger shakes. It's the best part of the low.
+[02k9pam] ? (high) | High water. Hear that hum in the stairs? That's the air. Hmmmmm.
 
 == scene: a2BellKeeper
-[183w89e] Bell-keeper | We ring the tide from in here when we want to roll. Saves a walk to the posts. Lazy, but.
-[1n69033] Bell-keeper | We ring the tide from in here when we wanna roll. Beats walking out to the posts.
-[18uco8n] Bell-keeper | Here, have a spare. It rings the tide wherever you're standing on the beach. Don't lose it.
-[1e37jd1] notice | (Ouro gets the hand bell. Ring it anywhere on the Strand to turn the tide.)
+[1hw8hor] Bell-keeper | We ring the bell from in here to start the tide. Saves a trek to the posts.
+[12vaqxh] Bell-keeper | It's lazy, but effective.
+[03c592u] Bell-keeper | We call the tide from in here when it's time to go. Beats walking out to the posts.
+[1owpxp5] Bell-keeper | Here, take a spare. It rings the tide no matter where you stand on the beach. Don't lose it.
+[04micys] notice | (Ouro takes the hand bell. Ring it anywhere on the Strand to turn the tide.)
 
 == scene: a2RungSkipper
-[07squbu] Rung-skipper | Every other step, that's how I go. Saves time. Costs knees.
-[1mwq3v1] Rung-skipper | Wet row's always the bottom one, whichever way we've rolled.
+[1sdr0t1] Rung-skipper | I take every other step. It's faster. It ruins my knees.
+[10vsi73] Rung-skipper | The wet row is always the lowest one, no matter which way we've rolled.
 
 == scene: a2TackStep
 [0v36m46] Tack | 4,000 steps. And 1 of them's mine. I'm keeping it.
-[1vzzure] Tack | 3,909 for me. The last 91 you went up without me. Too narrow. Rude.
+[161vltz] Tack | 3,909 for me. you climbed the last 91 without me. Too narrow. Rude.
 [0778ukm] choice | It was 91.
 [1urmuio] choice | I didn't count.
 [1eoyax7] Tack | 91? Then it's 4,000. Exactly 4,000! Here, 1 stone. Number's on it.
 [1ii54oi] Tack | Oh, 1 more thing. My score's on the board at the point. 66. Beat that.
 [0gxlxsg] Tack | 1,412 steps so far. 0 of them the same height. Who built this?
-[1db5u7a] Tack | Climbers say 4,000 to the point. Nobody's actually counted. So, me.
+[0vtgho1] Tack | Climbers say it's 4,000 to the point. Nobody's actually counted. So, I did.
 
 == scene: a2TurnwiseMouth
-[1haj19k] Turnwise | Climb. We climb. Everyone climbs now. It puts climbers back down.
+[1hzvple] Turnwise | Climb. We're climbing. Everyone climbs now. It puts climbers back down.
 
 == scene: a2Ch3Return
 [070s32o] Old man | Never been down here. We're on the low line now. I can touch the sea from my bunk.
@@ -229,96 +236,107 @@
 [0nu7vcz] hint | A bell hangs on the wall by every doorway, for rolling the rooms.
 
 == scene: map augerstair
-[17erb4u] Stair-sleeper | Wha. I sleep on the stair facing up. Great for the neck. Go away.
-[1dk9o5g] Stair-sleeper | Back to sleep. Facing up. Night.
-[012dl4t] Swift-keeper | My swift never lands. Me neither, really. I'm up here a lot.
-[0xqimrf] Swift-keeper | We landed. Both of us. Huh.
-[0nqfsah] Salt-scraper | The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!
-[0lh5wq1] Salt-scraper | Higher every roll. Ugh.
-[1waxmel] Point-watcher | I sit beneath the point and listen to it not open. It does so with great consistency.
-[1lpyr2s] Point-watcher | It might open. Some low, at three quavelings past the turn.
+[1hrxhjh] Stair-sleeper | Huh? I nap on the stairs, face-up. It's perfect for my neck. Buzz off.
+[1a0uuzk] Stair-sleeper | Back to snoozing. Face up. Goodnight.
+[05ioer3] Swift-keeper | My swift never comes down. Same here. I spend most of my time up here.
+[095d1oy] Swift-keeper | We both made it down. Weird.
+[0gbfvv4] Salt-scraper | The tide marks the wall. I scrape it off, but it returns higher. Again!
+[1dlh1rg] Salt-scraper | Higher with every wave. So annoying.
+[0wbvret] Point-watcher | I remain below the point, listening to its steadfast refusal to open.
+[00fkybb] Point-watcher | It might open yet. Perhaps when the tide is low, three quavelings past the turn.
 
 == scene: ventScript
-[05ni7la] choice | Pull the plug from vent {#1}
-[13ttht2] choice | Leave it
-[034c87z] choice | Plug vent {#1} ({#2} left)
-[143t3i1] choice | Leave it
+[14c4j0v] choice | Remove the plug from vent {#1}
+[1e12n8v] choice | Leave it alone
+[0chu5mo] choice | Plug vent {#1} ({#2} remaining)
+[1dr31jw] choice | Leave it alone
 
 == scene: playVent
-[02larpq] Point-watcher | That is the one!! Go on, go up. You fit. I, regrettably, do not.
-[1bj6slw] goal | Go up the narrow way to the point.
-[05bhgim] Point-watcher | That was hole {word}. Low, but not low enough, by some two grumbles.
+[0pca9y9] Point-watcher | That's the one! Climb up. You'll fit. I, unfortunately, do not.
+[059mq6e] goal | Ascend the narrow passage to the point.
+[0972l8h] Point-watcher | Vent {word}!! Notch {p} of five. Onward, with melody.
+[009uaps] Point-watcher | Vent {word}. That groove holds no notch there. Not from the beginning.
+[0uhafvd] Point-watcher | Vent {word}. Not the groove's first notch, off by about two grumbles.
 
 == scene: a2PointWatcher
-[18ipvan] Point-watcher | Up you go!! You fit. I exceed the narrow way by six and one quarter shoulders.
-[02za1w1] Point-watcher | Three plugs. Six holes. The tip bears a groove four holes long, the apical furrow.
-[1iciwiq] Point-watcher | Air leaves by the first open hole. That hole is the note it plays. Elementary ventistics.
+[1m880jp] Point-watcher | Up you go! You fit. I exceed the narrow way by six and one-quarter shoulders.
+[10vopjp] Point-watcher | Three plugs. Six vents, counted from the bottom. The tip above features a notched groove.
+[0w2ckay] Point-watcher | The notches read four, two, four, one, four. Sound them in that order, and the tip opens.
+[0um0acz] Point-watcher | When the tide rises, air escapes through the first open vent, creating a sound. Ventistics.
 [01vg1dd] notice | (The point-watcher hands Ouro three plugs of packed weed.)
 
 == scene: map turnwisegym
-[1ez8571] look | The stair goes on up past the landing, turning.
+[0idsb68] look | The staircase continues upward past the landing, winding around a corner.
 
 == scene: a2StrideEnter
-[0gnfyz1] Turnwise | Oh. You climb? Climb with me. I'm just catching my.
-[0i0ktfy] Turnwise | Turnwise. That's me. I keep this. I climb it every day. Never got to the top. Close, once.
-[198wlwd] Turnwise | Stride. Then longer. Each run grows. One more tile than the one before.
+[0sxftxh] Turnwise | Oh. You're climbing? Climb with me. I'm just catching my...
+[11htq0w] Turnwise | Turnwise. That's my name. I maintain this. I climb it every day. Never quite made it to the top.
+[0iudaqv] Turnwise | Got close, once.
+[1uhotds] Turnwise | Stride. Then go longer. Each ascent gets bigger. One more tile than the last.
 [1oos14p] hint | (Each straight run carries you one tile further than the last. You turn only when a run ends.)
 
 == scene: strideFail
-[1rsvz3a] Turnwise | Nope. Start again. The stair resets. Back to one step.
+[19umk5w] Turnwise | No. Start over. The stairs reset. Back to a single step.
 
 == scene: a2Turnwise
-[0s77tp2] Turnwise | Higher. Go on, higher. The point's up there. Only small ones fit. You're small.
-[1o4kvgf] Turnwise | Tell. Tell me. What's up there? Sixty years I've climbed. I'd like to. Know.
-[1fad38f] Turnwise | Stride. Longer. Each run, one more. Than the last one. Phew.
-[0uj88ee] Turnwise | Fight. Fight me first. Then go higher. My four climb too. They're very. Fit.
-[0dxiodk] Turnwise | Tide. Sea tide. It gets in fights. High water fills the pool. Low water drops stars in instead.
+[0n3ridn] Turnwise | Higher. Go on, higher. The Auger's tip is up there. Only small ones fit. You're small.
+[09dpbv6] Turnwise | Tell me. Tell me. What's up there? I've climbed for sixty years. I'd like to... know.
+[15u5cki] Turnwise | Stride. Longer. Each run, one more. Than the previous. Phew.
+[1yfwir6] Turnwise | Fight. Fight me first. Then go higher. My four climb too. They're very... fit.
+[0w5ifh5] Turnwise | Tide. Sea tide. It joins the fray. High water fills the pool. Low water drops stars in instead.
 [1jxq8w9] hint | (On the Strand at high tide, both sides start a battle with 3 tide.)
 [0o5cbnu] hint | (At low tide both sides start with 0. Every 4th round a star lands and gives each side 2.)
-[07odwmd] ? (keeperFight) | Down. Back down you go. Climb again later. Everyone falls at first. I did. Lots.
-[0ty79qt] Turnwise | Yes. You climbed. Take this grain. It fell down here. Years back. Hff.
+[0b4xsb3] ? (keeperFight) | Down. Go back down. Climb later. Everyone falls. I did, often.
+[1p3kdlh] Turnwise | Yes. You climbed. Take this grain. It fell down here. Years ago. Hff.
 [1wpdbkz] hint | (With three grains your whorls can reach Strand level 23.)
-[1ocn6ls] Turnwise | Up. Go up. The point's above us. Only small ones fit up. There.
-[0vde4xu] Turnwise | Go on. Then tell me. What's it like up there? I've been climbing it for sixty years.
-[1jiiibi] goal | The vents are on the upper stair, past the landing.
+[13e1k9x] Turnwise | Upward. Keep going up. The summit is above us. Only the smaller figures can make the ascent.
+[03czbnd] Turnwise | There it is.
+[17fk2h4] Turnwise | Proceed. Then, describe it to me. What is the view like from the top?
+[1x5bc5v] Turnwise | I have been scaling this structure for six decades.
+[04z3797] goal | The ventilation shafts are located on the upper staircase, beyond the landing.
 
 == scene: map augerpoint
-[1edys43] Groove | A groove round the sealed tip, as long as four vents.
+[0jt3q33] Groove | A circular groove encircles the sealed tip, featuring notches in a sequence of four, two, four,
+[1ilrnrj] Groove | one, and four.
 
 == scene: a2PointEnter
-[0amf23e] hint | (Too narrow to wear a whorl. Your team stays in its horns.)
+[1669f7l] hint | (The space is too narrow for a whorl. Your team remains within its horns.)
 
 == scene: a2PointView
-[0wd3c3x] narration | Up the beach to the west lies the Volute, a pale spiral in the sand.
-[1uj86md] narration | Down the beach the line of hollows runs to the sea, then turns east along the low-water line.
-[0dnnzy0] narration | Partway along, the line stops, goes round twice in a small circle, and goes on.
-[1lzcp80] narration | Far off east, on the upper beach, there are rows of squares in the sand.
-[0r64ytl] narration | Past the rows, at the end of the beach, a great pink shell lies with its mouth to the sea.
-[0dg1co4] narration | The sky is very big up here. A faint seam runs round it in a spiral.
+[0z5hlhb] narration | To the west along the beach lies the Volute, a pale spiral etched into the sand.
+[0qkos43] narration | Further down the beach, the line of hollows runs to the sea,
+[1ck2mve] narration | then turns east along the low-water line.
+[01k6m2d] narration | Midway along this line, the pattern halts, circles twice in a small loop, and then resumes.
+[1kifmhw] narration | Far off to the east, on the upper beach, rows of squares are visible in the sand.
+[1wcok7n] narration | Beyond these rows, at the beach's end, a massive pink shell rests with its opening facing the sea.
+[05cxmu7] narration | The sky seems immense from this height. A faint seam spirals around it.
 
 == scene: slideTake
-[0qftebg] Turnwise | Water. It's in. The sea's in. The point let it. In.
-[1781tp2] Turnwise | Hold. Hold on! We're going down. The whole Auger's sliding off the dune.
-[0r8vsx2] Cinch | Sit up on the step with me. Water's at my knees, and going.
-[0okiujd] Cinch | Felt every bump from here. Seven.
-[1roo3ew] Turnwise | Here. We're here. At the edge now. Right where the Gleaner walks. We'll climb every single low.
-[1ts384w] goal | Climb out at the mouth.
+[1tbbfpi] Turnwise | Water. It has entered. The sea is inside. The point allowed it in.
+[1vselgd] Turnwise | Steady! Hold fast! We are descending. The entire Auger is sliding off the dune.
+[00x6n48] Cinch | Sit up on the step beside me. The water is at my knees, and it is moving.
+[08agy8d] Cinch | I felt every single impact from this spot. Seven of them.
+[1r3e3gt] Turnwise | Here. We're here. At the edge now. Right where the Gleaner walks.
+[193zka4] Turnwise | We'll climb every single low water.
+[13uc9qa] goal | Emerge at the mouth.
 
 == scene: a2PointBoard
-[0ixphse] Slate | Best scores. Top: 48.
-[0neul6x] Slate | Best scores. Climbers: 48.{#1} Ouro: {#2}.
+[09evlco] Slate | Top marks. Leader: 48.
+[08z40ul] Slate | Top marks. Climbers: 48.{#1} Ouro: {#2}.
 [0p39g92] choice | Catch stars
 [1s32q8b] choice | Not now
-[1k1q5b7] Tack | {score}. That's over my 66. Fine. Scratching it in.
+[14rj7me] Tack | {score}. That's over my 66. Fine. I'm scratching it in.
 
 == scene: ch3
-[0ul8r4u] Eldest | (yesterday it goes east, with everything else that goes)
-[15x4dtr] Eldest | Yesterday a voice comes over the beach from somewhere high up. A girl's.
-[0lqujlg] Eldest | This morning I will hear that voice on the bar. Seventy years ago, this morning.
-[0vqd7pv] Eldest | (yesterday a girl comes down the beach with a pale one the same size beside her)
-[1ho8vkq] Eldest | Yesterday the girl talks to the pale one. The pale one answers her wrong, very politely.
-[1ueio3n] Eldest | This morning she will take one boot off on the bar to tip the sand out. It will be low water.
-[0v4i008] Eldest | (yesterday the Gleaner comes by, and the boot goes. she goes home hopping)
+[0mxqhcm] Eldest | (yesterday everything drifts east, as all things do)
+[016ci4d] Eldest | Yesterday, a voice drifted down from somewhere high up across the beach. It was a girl's voice.
+[1on0km2] Eldest | I'll hear that voice on the bar this morning. This morning was seventy years ago.
+[02m0j1s] Eldest | (yesterday, a girl walked down the beach, accompanied by a pale figure of equal size)
+[1cqig9t] Eldest | Yesterday, the girl spoke to the pale one.
+[0z6v2zn] Eldest | The pale one replied incorrectly, with excessive politeness.
+[0dkrmnc] Eldest | This morning, she'll pull off one boot on the bar to shake out the sand. It's low water.
+[1hqqh2h] Eldest | (yesterday, the Gleaner passed by, and the boot was lost. she hopped home)
 [1h7x3vs] choice | Which boot?
-[0s8qgso] Eldest | The left, yesterday. This morning I'll say the right. Don't trust this morning.
-[0mfgkeq] Eldest | Yesterday it goes east, with everything else that goes east.
+[10xyekp] Eldest | Yesterday, the left. This morning, I'll claim it was the right.
+[0ciswzy] Eldest | Do not trust what I say this morning.
+[0ji5pxa] Eldest | Yesterday, it moved east, with all the rest that drift eastward.

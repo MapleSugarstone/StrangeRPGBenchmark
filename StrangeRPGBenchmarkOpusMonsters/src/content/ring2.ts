@@ -53,17 +53,17 @@ defMap({
   zone: { kinds: kinds([['scree', 3], ['bore', 3], ['carrion', 2], ['fiddler', 2], ['fata', 1]]), lv: [5, 7], n: 10, area: 'weed' },
   npcs: [
     { id: 'hwsleeper', x: 22, y: 7, sprite: 'stone', mon: 'bore', name: 'Vuoksho', sleeper: { kind: 'bore', lv: 12, flag: 'sl_highwater' } },
-    { id: 'tideline', x: 12, y: 9, sprite: 'elder', name: 'Tide-liner', dir: 0, lines: ['Highest tide ever came up to this line. I put a stick in it. Stick\'s still here. Tide isn\'t, is it.'] },
-    { id: 'hwtrainer', x: 28, y: 11, sprite: 'villager2', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['fiddler', 6], ['carrion', 6]], intro: 'Everything the sea ever threw up is along this line. I\'ve combed it. Twice. Want to see?', defeat: 'Third comb tomorrow, then.', sight: 3 } },
+    { id: 'tideline', x: 12, y: 9, sprite: 'elder', name: 'Tide-liner', dir: 0, lines: ['The highest tide ever reached this line. I stuck a stick in it to mark it. The stick is still here.', 'The tide isn\'t, is it?'] },
+    { id: 'hwtrainer', x: 28, y: 11, sprite: 'villager2', name: 'Beachcomber', dir: 2, trainer: { nacre: 1, name: 'Beachcomber', team: [['fiddler', 6], ['carrion', 6]], intro: 'The sea\'s entire cast-off litter lines this shore. I\'ve sifted it twice. Care to look?', defeat: 'I\'ll do a third comb tomorrow, then.', sight: 3 } },
   ],
   spots: [
-    stash('hw_cove', 22, 3, 'In the side cove, in a nest of old weed, a tide jar someone corked and forgot.', { notions: [['tidejar', 1]] }),
+    stash('hw_cove', 22, 3, 'In the side cove, nestled in a tangle of old weed, sits a tide jar someone corked and left behind.', { notions: [['tidejar', 1]] }),
     { x: 36, y: 3, when: () => !field.objAt(36, 4) && !flag('found_hw_cave'), script: async () => {
       setFlag('found_hw_cave');
       sfx('level');
       await reward({ notion: 'glassbead', items: [['starglass', 1]] });
     } },
-    look(30, 20, 'The slope drops away to the Dry Sea. It is a long jump down and no way back up.'),
+    look(30, 20, 'The slope falls away to the Dry Sea. It\'s a long drop down, with no way back up.'),
   ],
 });
 
@@ -75,27 +75,31 @@ defMap({
   rows: room(['p_p_p_p_', '________', '________', '_cc_____', '________', '________']),
   warps: roomDoor('mast', 4, 7),
   npcs: [{ id: 'stiltmaker', x: 2, y: 3, sprite: 'stilts', name: 'Stilt-maker', dir: 0, talk: 'stiltmaker' }],
-  spots: [look(2, 0, 'Stilts lean on the wall, short ones to very tall. A label on the tallest: FOR THE BIG TIDE.')],
+  spots: [look(2, 0, 'A row of stilts leans against the wall, ranging from short to towering heights.', 'The tallest pair bears a label: FOR THE BIG TIDE.')],
 });
 
 defScript('stiltmaker', async () => {
   if (hasKey('stilts')) { await say('Stilt-maker', 'Shallows come up to here on you. Three hands. Deep water, no stilt\'s tall enough. Not even mine.'); return; }
   if (!fell()) {
-    await say('Stilt-maker', 'Made stilts forty years. Twelve hands tall, these. For the day the sea comes back.');
-    await say('Stilt-maker', 'Sea\'s not back. Mast\'s up. When the Mast goes, I\'ll know something\'s moving. Two hands, or ten.');
+    await say('Stilt-maker', 'I\'ve been making stilts for forty years.');
+    await say('Stilt-maker', 'These are twelve hands tall, built for the day the sea returns.');
+    await say('Stilt-maker', 'The sea hasn\'t returned. The Mast is still standing.');
+    await say('Stilt-maker', 'When the Mast falls, I\'ll know something is shifting. Two hands or ten.');
     return;
   }
-  await say('Stilt-maker', 'Mast\'s down. Felt it in the floor, fourteen hands of shiver.');
-  await say('Stilt-maker', 'Something\'s moving, then. Take these. Short pair, three hands. You\'ll wade, not drown.');
-  await giveKeyItem('stilts', 'Ouro gets the wading stilts.');
-  await say('Stilt-maker', 'Streams, fords, pools, inlets. Anywhere it\'s shallow. Deep water wants a sea whorl on you.');
+  await say('Stilt-maker', 'The Mast is down. I felt it through the floorboards, a fourteen-hand tremor.');
+  await say('Stilt-maker', 'Something\'s moving, then. Take these. They\'re a short pair, three hands high.');
+  await say('Stilt-maker', 'You\'ll be wading, not drowning.');
+  await giveKeyItem('stilts', 'Ouro takes the wading stilts.');
+  await say('Stilt-maker', 'Use them in streams, fords, pools, and inlets. Anywhere it\'s shallow.');
+  await say('Stilt-maker', 'Deep water demands a sea whorl on you.');
 });
 
 defMap({
   id: 'boathouse', name: 'The boat-house', region: 11, indoor: true, music: 'home',
   rows: room(['________', 'ee__ee__', 'ee__ee__', '________', '________', '________']),
   warps: roomDoor('mast', 38, 7),
-  npcs: [{ id: 'boatman', x: 7, y: 4, sprite: 'elder', name: 'Old man', dir: 3, lines: ['My boat turned last year. Now I\'ve two boats and no sea.', 'That one\'s the boat. That one\'s its cast. I row them both on Sundays. On the floor.'] }],
+  npcs: [{ id: 'boatman', x: 7, y: 4, sprite: 'elder', name: 'Old man', dir: 3, lines: ['My boat shed last year. Now I\'ve got two boats and no sea.', 'That one\'s the boat. That one\'s its cast. I row both on Sundays. On the floor.'] }],
 });
 
 // ---------------------------------------------------------------- the Wrecks: the way up to the bay, the flooded hold, the cargo hatch
@@ -110,7 +114,7 @@ defMap({
   w.rows = rows.map(r => r.join(''));
   w.warps = [{ x: 19, y: 0, to: 'route2', tx: 4, ty: 32, dir: 0 }];
   (w.spots ||= []).push(
-    stash('wr_flood', 32, 17, 'In the flooded hold, on a dry crate, a little iron bar with a tide line etched on it.', { notion: 'tidemark' }),
+    stash('wr_flood', 32, 17, 'Inside the flooded hold, resting on a dry crate, lies a small iron bar etched with a tide line.', { notion: 'tidemark' }),
     { x: 13, y: 17, when: () => !field.objAt(13, 17) && !flag('found_wr_hatch'), script: async () => {
       setFlag('found_wr_hatch');
       await reward({ rind: 600, items: [['lure', 1]] });
@@ -125,9 +129,10 @@ SPAWNS.wrecks = [19, 1];
   defScript('master', async () => {
     await before();
     if (flag('masterAsked') && !hasKey('chart') && !flag('doorDug')) {
-      await say('The Master', '(log. chart of the bay issued to visitor. depths before the dry. for looking. noon)');
-      await giveKeyItem('chart', 'Ouro gets the Master\'s chart.');
-      await hint('(Pick the chart in the Bag to look at it.)');
+      await say('The Master', '(a log and chart of the bay, issued to visitors. it shows depths from before the dry. for reference.');
+      await say('The Master', 'noon.)');
+      await giveKeyItem('chart', 'Ouro takes the Master\'s chart.');
+      await hint('(Select the chart from the Bag to examine it.)');
     }
   });
 }
@@ -150,7 +155,7 @@ class ChartView implements Mode {
     clear('#2a1e14');
     rect(ox - 6, oy - 30, 180, 145, '#e8d8b0');
     rect(ox - 6, oy - 30, 180, 1, '#a08a60');
-    text('The bay, before the dry', ox, oy - 26, '#4a3420');
+    text('The bay, prior to the dry', ox, oy - 26, '#4a3420');
     text('by the Master. fathoms', ox, oy - 17, '#8a6a40');
     for (let y = 1; y < m.rows.length - 4; y++) for (let x = 0; x < m.rows[0].length; x++) {
       const ch = m.rows[y][x], px = ox + x * S, py = oy + y * S;
@@ -179,6 +184,6 @@ defScript('digDoor', async () => {
   sfx('cut'); field.shakeT = 6;
   await field.waitFrames(14);
   setFlag('doorDug');
-  await giveKeyItem('lore_door', 'Ouro digs up a small door with a scallop for a knocker.');
+  await giveKeyItem('lore_door', 'Ouro unearths a small door, its knocker shaped like a scallop.');
   save();
 });

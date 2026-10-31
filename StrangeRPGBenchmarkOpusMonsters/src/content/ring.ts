@@ -23,20 +23,20 @@ Object.assign(KEY_NAMES, {
   lore_vane: 'The weathervane', lore_tub: 'The washtub', lore_step: 'The front step', lore_gate: 'The gate',
 });
 Object.assign(KEY_TEXT, {
-  prisingiron: 'A flat bar of iron with a bent end. Face a crust of old shells and press to prise it off.',
-  stilts: 'Two poles with steps on them. Ouro wades shallows on them. Deep water still wants a TIDE whorl.',
-  jingle: 'A hoop of thin jingle shells. Face a big sleeper and press, and it wakes.',
-  haul: 'A harness and a rope. Press at a haul stone to take hold, and back away to drag it.',
-  letter: 'A letter sealed with a black spiral. A gatekeeper of the Gate Ring opens for it.',
-  whelk: 'An empty whelk shell, big enough for a crab to live in. It rattles.',
-  lore_kettle: 'Salt grew on the spout in a frill. It boiled on the back of an island that never stopped walking.',
-  lore_door: 'It fell in the bay the year before the sea turned. The knocker is a scallop. (it still knocks)',
-  lore_window: 'Four panes. Three show the Lip. The fourth is cracked and shows it twice.',
-  lore_chair: 'A sleeper slept on it for some years. One leg is shorter now.',
-  lore_vane: 'A tin fish on a pole. It points at the Lipwater whichever way the wind is.',
-  lore_tub: 'Frozen in a cold year with the washing still in it. The washing is fine.',
-  lore_step: 'A flat stone worn into a dip by one pair of feet over fifty years.',
-  lore_gate: 'It rolled to the star with everything else. It still latches.',
+  prisingiron: 'An iron bar with a hooked end. Face a crust of old shells and press to pry it off.',
+  stilts: 'Two poles with steps. Ouro wades the shallows. Deep water still needs a TIDE whorl.',
+  jingle: 'A hoop made of thin, jingling shells. Press it against a large sleeper to wake it.',
+  haul: 'A harness attached to a rope. Grip the haul stone and pull back to drag it.',
+  letter: 'A letter sealed with a black spiral. The Gate Ring\'s keeper opens the way for it.',
+  whelk: 'An empty whelk shell, large enough for a crab to inhabit. It rattles when shaken.',
+  lore_kettle: 'Salt fringed the spout. It boiled on an island that never stopped walking.',
+  lore_door: 'It washed into the bay the year before the sea shed. The knocker is a scallop. (It still knocks.)',
+  lore_window: 'Four panes. Three display the Rim. The fourth is cracked, revealing it twice.',
+  lore_chair: 'A sleeper slept on it for years. One leg is shorter now.',
+  lore_vane: 'A tin fish mounted on a pole. It points toward the Rimwater, regardless of the wind\'s direction.',
+  lore_tub: 'Frozen during a harsh winter, with the laundry still inside. The clothes are fine.',
+  lore_step: 'A flat stone, worn into a depression by a single pair of feet over fifty years.',
+  lore_gate: 'It rolled up to the star, joining the rest. The latch still holds.',
 });
 
 /** The eight things that fell off Holm's back, in the order Ouro can reach them. */
@@ -44,14 +44,14 @@ export const LORE = ['lore_kettle', 'lore_door', 'lore_window', 'lore_chair', 'l
 
 /** What each key item opens or where it goes, said once when Ouro gets it. */
 const KEY_FOR: Record<string, string> = {
-  prisingiron: 'It prises crusts of old shell off rocks and doorways.',
-  stilts: 'They wade shallows, though not deep water.',
-  jingle: 'It wakes a big sleeper lying across a path.',
-  haul: 'It drags the big haul stones.',
-  chart: 'Pick it in the Bag to read the bay before the dry.',
-  whelk: 'A crab looking for a home might want it.',
+  prisingiron: 'It pries old shell crusts from rocks and doorways.',
+  stilts: 'They wade through the shallows, avoiding deep water.',
+  jingle: 'It wakes a large sleeper blocking the path.',
+  haul: 'It hauls the heavy stones.',
+  chart: 'Check the Bag to see the bay as it was before the dry.',
+  whelk: 'A crab searching for a new home might find it appealing.',
 };
-for (const k of LORE) KEY_FOR[k] = 'It goes back to the Islander in Cockle Cove.';
+for (const k of LORE) KEY_FOR[k] = 'This goes back to the Islander at Cockle Cove.';
 
 export async function giveKeyItem(k: string, line?: string): Promise<void> {
   if (!G.keys.includes(k)) G.keys.push(k);
@@ -91,15 +91,15 @@ field.tileHandlers.push((f, x, y, ch) => {
   if (ch !== '@') return false;
   const o = f.objAt(x, y);
   if (!o) return false;
-  if (!hasKey('haul')) { void f.runBusy(async () => { sound('bump'); await hint('Too heavy to shift by hand. A harness would do it.'); }); return true; }
+  if (!hasKey('haul')) { void f.runBusy(async () => { sound('bump'); await hint('It\'s too heavy to move by hand. You\'d need a harness.'); }); return true; }
   if (f.held === o) { f.held = null; sfx('back'); return true; }
   f.held = o;
   sfx('guard');
   if (!flag('haulTold')) {
     setFlag('haulTold');
     void f.runBusy(async () => {
-      await hint('(Ouro has hold of the stone. Back away and it follows. Turn aside or press again to let go.)');
-      await hint('(Step toward a held stone with deep water past it, and it tips in and sinks.)');
+      await hint('(Ouro is holding the stone. If you back away, it follows. Turn away or push again to release it.)');
+      await hint('(Step toward a stone you\'re holding when there\'s deep water beyond it, and it will tip in and sink.)');
     });
   }
   return true;
@@ -119,7 +119,7 @@ defScript('sleeper', async () => {
   const n = field.npc(d!.id);
   if (n) n.dir = (field.dir + 2) % 4;
   sfx('spot');
-  const c = await choose(['Sound it', 'Let it walk off']);
+  const c = await choose(['Catch it', 'Let it wander off']);
   if (c === 0) {
     const r = await fightWild(mon(s.kind, s.lv));
     if (r.pegged.length) await giveMon(r.pegged[0]);
@@ -158,26 +158,26 @@ export function gatekeeper(gate: keyof typeof GATES, hand: string, lines: { shut
 
 /** What the Strandmonger says as he prices a find out loud. */
 const PRICED: Record<string, string> = {
-  beachglass: 'And beach glass. Green, so fifty. Clear I\'d have said forty and meant it.',
-  saltcake: 'Plus a salt cake. Seventy-five, less what I licked.',
-  ridertin: 'Which is a Rider tin. Sealed. One fifty, and I\'ll never open it.',
-  bellchip: 'And a bell chip. Hums in the hand. One eighty-seven, and the hum\'s extra.',
-  rainjar: 'Plus a jar of upward rain! Four hundred. There\'ll be no more of these.',
-  moonsilt: 'Which is moon silt. Three hundred and twelve. It sinks upward, so mind the lid.',
-  starglass: 'And star glass. Five hundred. I can see my whole stall in it, and the debts.',
-  ambergris: 'Plus ambergris. Seven fifty. It smells of a very big afternoon.',
+  beachglass: 'And beach glass. Green goes for fifty. I\'d say forty for clear, and I mean it.',
+  saltcake: 'Plus a salt cake. Seventy-five, minus what I\'ve tasted.',
+  ridertin: 'Which is a Rider tin. Sealed shut. One-fifty, and I won\'t open it.',
+  bellchip: 'And a bell chip. It hums in the palm. One-eighty-seven, with the hum as a bonus.',
+  rainjar: 'Plus a jar of upward rain! Four hundred. These won\'t last.',
+  moonsilt: 'Which is moon silt. Three hundred and twelve. It sinks upward, so watch the lid.',
+  starglass: 'And star glass. Five hundred. I can see my entire stall in it, along with my debts.',
+  ambergris: 'Plus ambergris. Seven-fifty. It smells like a very long afternoon.',
 };
 
 async function sellMenu(): Promise<void> {
   const monger = field.map.id === 'fellmonger';
   for (;;) {
     const have = Object.keys(ITEMS).filter(id => (G.items[id] || 0) > 0 && ITEMS[id].sell > 0);
-    if (!have.length) { await say(monger ? 'Strandmonger' : 'Shellwright', monger ? 'And that\'s the lot. Lovely.' : 'That\'s all of it. Ta.'); return; }
+    if (!have.length) { await say(monger ? 'Strandmonger' : 'Shellwright', monger ? 'That\'s everything. Splendid.' : 'That\'s the whole lot. Cheers.'); return; }
     const price = (id: string) => id === 'rainjar' && monger ? 400 : Math.round(ITEMS[id].sell * (monger ? 1.25 : 1));
     const i = await listMenu(`Sell  (${G.rind} cowries)`, have.map(id => `${ITEMS[id].name} x${G.items[id]}  ${price(id)}`), { w: 170 });
     if (i < 0) return;
     const id = have[i];
-    const n = await choose(['One', 'All of them'], true, `${ITEMS[id].name}: ${price(id)} cowries each.`);
+    const n = await choose(['One', 'Everything'], true, `${ITEMS[id].name}: ${price(id)} cowries each.`);
     if (n < 0) continue;
     if (monger && PRICED[id]) await say('Strandmonger', PRICED[id]);
     const k = n === 0 ? 1 : G.items[id];
@@ -197,7 +197,7 @@ const outdoorVolute = () => !field.map.indoor && !field.map.strand && !field.map
 function spend(id: string): void { G.items[id] = Math.max(0, (G.items[id] || 0) - 1); }
 
 ITEMS.saltline.use = async () => {
-  if (!field.map.zone) { await hint('(Nothing wild lives here to keep off.)'); return false; }
+  if (!field.map.zone) { await hint('(No wild beasts live here to keep off.)'); return false; }
   spend('saltline');
   G.flags.saltLine = 150;
   sound('wind');
@@ -205,7 +205,7 @@ ITEMS.saltline.use = async () => {
   return true;
 };
 ITEMS.lure.use = async () => {
-  if (!field.map.zone) { await hint('(Nothing wild lives here to lure.)'); return false; }
+  if (!field.map.zone) { await hint('(No wild beasts live here to lure.)'); return false; }
   spend('lure');
   field.lureMap = field.map.id;
   sound('ok');
@@ -214,8 +214,8 @@ ITEMS.lure.use = async () => {
   return true;
 };
 ITEMS.whistle.use = async () => {
-  if (!outdoorVolute()) { await hint('(The cart can\'t come here. It needs a road, or at least a beach.)'); return false; }
-  if (Object.keys(TOWNS).filter(k => G.flags['visited_' + k]).length < 2) { await hint('(The cart only goes between towns Ouro has been to.)'); return false; }
+  if (!outdoorVolute()) { await hint('(The cart can\'t reach this spot. It requires a road, or at least a beach.)'); return false; }
+  if (Object.keys(TOWNS).filter(k => G.flags['visited_' + k]).length < 2) { await hint('(The cart only travels between towns Ouro has visited.)'); return false; }
   const at = G.map;
   await emote('ouro', 'music');
   sound('step');
@@ -241,7 +241,7 @@ export function roomDoor(to: string, x: number, y: number): { x: number; y: numb
 export function standingWild(id: string, x: number, y: number, kind: string, lv: number): import('../game/world').NpcDef {
   defScript(id, async () => {
     await emote(id, 'surprise');
-    if (await choose(['Fight it', 'Leave it']) !== 0) return;
+    if (await choose(['Fight it', 'Let it go']) !== 0) return;
     const r = await fightWild(mon(kind, lv));
     if (r.pegged.length) await giveMon(r.pegged[0]);
     if (r.result === 'lose') { await field.lose(); return; }

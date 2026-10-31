@@ -40,7 +40,7 @@ const SLEEPER_KINDS = ['thicket', 'umbra', 'hemlock', 'skep', 'undertow'];
 const kelpNpcs: NpcDef[] = KSTART.map(([x, y], i) => ({ id: 'kelp' + i, x: KX + x, y: KY + y, sprite: 'stone', mon: SLEEPER_KINDS[i], name: 'Sleeper', dir: i % 4, talk: 'kelpRing', movable: true }));
 
 defScript('kelpRing', async () => {
-  if (!hasKey('jingle')) { await say(null, 'Big old whorls asleep in the kelp lanes. Nothing short of a jingle would wake them.'); return; }
+  if (!hasKey('jingle')) { await say(null, 'Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.'); return; }
   const now = kelpNpcs.map(d => { const n = field.npc(d.id)!; return [n.x - KX, n.y - KY] as [number, number]; });
   const after = kRing(now, field.x - KX, field.y - KY);
   sfx('blip'); await wait(6); sfx('blip'); await wait(6); sfx('blip');
@@ -80,7 +80,7 @@ PUZZLE_DATA.extra.push(() => {
     const next: [number, number][][] = [];
     for (const s of frontier) {
       const r = reach(s);
-      if (r.has(KGOAL.join())) return depth >= 3 ? null : `puzzle 6: the chair is reached in ${depth} rings, too few`;
+      if (r.has(KGOAL.join())) return depth >= 3 ? null : `puzzle 6: the chair is reached in ${depth} rings, not enough`;
       for (const p of r) {
         const [ox, oy] = p.split(',').map(Number);
         const ns = kRing(s, ox, oy), k = key(ns);
@@ -143,13 +143,13 @@ defMap({
   props: [{ x: 13, y: 13, pic: 'kelpchair', when: () => !hasKey('lore_chair') && !flag('back_lore_chair') }, { x: 2, y: 10, pic: 'holmfar', when: holmSeen(4) }],
   npcs: [
     ...kelpNpcs,
-    { id: 'kelpcomber', x: 33, y: 17, sprite: 'villager', name: 'Kelp-cutter', dir: 3, lines: ['Big ones sleep in the kelp. They roll over when you jingle at them. Away from you, always. Rude.'] },
-    { id: 'kelptrainer', x: 27, y: 14, sprite: 'villager2', name: 'Driftwood man', dir: 0, trainer: { nacre: 1, name: 'Driftwood man', team: [['undertow', 12], ['skep', 12]], intro: 'Every stick on this beach has been somewhere. I ask them where. They mostly say the sea.', defeat: 'Fair. Off to ask a plank.', sight: 3 } },
+    { id: 'kelpcomber', x: 33, y: 17, sprite: 'villager', name: 'Kelp-cutter', dir: 3, lines: ['The giants sleep deep in the kelp. If you jingle at them, they roll over. Always away from you.', 'Rude creatures.'] },
+    { id: 'kelptrainer', x: 27, y: 14, sprite: 'villager2', name: 'Driftwood man', dir: 0, trainer: { nacre: 1, name: 'Driftwood man', team: [['undertow', 12], ['skep', 12]], intro: 'Every stick on this shore has traveled somewhere. I ask them where they\'ve been. Most say the sea.', defeat: 'Fair enough. I\'ll go question a plank next.', sight: 3 } },
   ],
   spots: [
-    { x: 13, y: 13, when: () => !hasKey('lore_chair') && !flag('back_lore_chair'), script: async () => { await giveKeyItem('lore_chair', 'Ouro gets a small wooden chair. One leg is shorter.'); } },
+    { x: 13, y: 13, when: () => !hasKey('lore_chair') && !flag('back_lore_chair'), script: async () => { await giveKeyItem('lore_chair', 'Ouro receives a small wooden chair. One leg is shorter than the rest.'); } },
     { x: 25, y: 24, when: () => !field.objAt(25, 24) && !flag('found_kelp_raft'), script: async () => { setFlag('found_kelp_raft'); await reward({ items: [['ridertin', 1]], notions: [['cuttlebone', 1]] }); } },
-    look(7, 15, 'Kelp stands in the shallows like a wood. The Lip shows between the stalks, pale.'),
+    look(7, 15, 'The kelp rises from the shallows like a forest.', 'Between the stalks, the Rim gleams, pale and distant.'),
   ],
 });
 SPAWNS.kelpbeds = [30, 1];
@@ -162,12 +162,13 @@ defMap({
   rows: room(['p_p_p_p_', '________', '__ccc___', '________', '________', '________']),
   warps: roomDoor('bole', 30, 7),
   npcs: [{ id: 'rainseller', x: 3, y: 2, sprite: 'oldwoman', name: 'Rain-seller', dir: 0, talk: 'rainseller' }],
-  spots: [look(2, 0, 'Jars on a shelf. The rain in them falls up and taps the lids. Tap. Tap. Going up.')],
+  spots: [look(2, 0, 'Jars sit on a shelf. The rain inside falls upward, tapping the lids. Tap. Tap. Ascending.')],
 });
 
 defScript('rainseller', async () => {
   if (flag('bolePulled')) { await say('Rain-seller', 'Rain falls down now. Like everywhere. These jars are the last of the up. Going nowhere.'); return; }
-  await say('Rain-seller', 'Jars of upward rain. Caught by the trunk. A hundred and twenty a jar. Going up.');
+  await say('Rain-seller', 'Jars of rain moving upward. Snagged by the tree trunk. One hundred and twenty for each jar.');
+  await say('Rain-seller', 'Moving up.');
   await shop(['rainjar']);
   save();
 });

@@ -68,7 +68,7 @@ PUZZLE_DATA.extra.push(() => {
   for (let d = 0; d < 16 && frontier.length; d++) {
     const next: number[][] = [];
     for (const s of frontier) {
-      if (s.every(v => v === 0)) return d >= 3 ? null : `puzzle 7: solved in ${d} turns, too few`;
+      if (s.every(v => v === 0)) return d >= 3 ? null : `puzzle 7: solved in ${d} moves. too few.`;
       for (let i = 0; i < 4; i++) {
         const n = s.slice();
         n[i] = (n[i] + 1) % 4;
@@ -119,13 +119,13 @@ defMap({
   zone: { kinds: kinds([['crane', 3], ['turbine', 2], ['piston', 3], ['aerial', 2], ['vane', 1]]), lv: [14, 16], n: 9, area: 'wire grass' },
   props: [{ x: 10, y: 9, pic: 'gantryarms' }, { x: 20, y: 3, pic: 'holmfar', when: holmSeen(5) }],
   npcs: [
-    { id: 'craneman', x: 14, y: 12, sprite: 'tanner', name: 'Crane-minder', dir: 2, lines: ['Four cranes, all on shift since the Riders turned. Turn one, the next ones turn back. Union rules.'] },
-    { id: 'gantrytrainer', x: 30, y: 15, sprite: 'villager2', name: 'Rigger', dir: 2, trainer: { name: 'Rigger', team: [['crane', 15], ['aerial', 15]], intro: 'I climb the cranes for the view. The view\'s the Lip. Same as yesterday. I keep checking.', defeat: 'Still the Lip. Good.', sight: 3 } },
+    { id: 'craneman', x: 14, y: 12, sprite: 'tanner', name: 'Crane-minder', dir: 2, lines: ['Four cranes, all staffed since the Riders shed. Turn one, and the others spin back.', 'Union regulations.'] },
+    { id: 'gantrytrainer', x: 30, y: 15, sprite: 'villager2', name: 'Rigger', dir: 2, trainer: { name: 'Rigger', team: [['crane', 15], ['aerial', 15]], intro: 'I climb the cranes for the view. The view is the Rim. Just like yesterday. I keep checking.', defeat: 'Still the Rim. Good.', sight: 3 } },
   ],
   spots: [
-    { x: 38, y: 11, when: () => caged() && !hasKey('lore_vane') && !flag('back_lore_vane'), script: async () => { await giveKeyItem('lore_vane', 'Ouro takes a tin fish on a pole out of the cage.'); } },
-    stash('gs_tins', 44, 12, 'Under an upturned bucket by the last crane, a Rider tin.', { items: [['ridertin', 1]] }),
-    look(22, 12, 'The Lipwater, flat and gray under the cranes. Far off, the Lip.'),
+    { x: 38, y: 11, when: () => caged() && !hasKey('lore_vane') && !flag('back_lore_vane'), script: async () => { await giveKeyItem('lore_vane', 'Ouro takes a tin fish on a stick out of the cage.'); } },
+    stash('gs_tins', 44, 12, 'Beneath an overturned bucket next to the final crane, a Rider tin.', { items: [['ridertin', 1]] }),
+    look(22, 12, 'The Rimwater, flat and gray beneath the cranes. In the distance, the Rim.'),
   ],
 });
 SPAWNS.gantry = [1, 14];
@@ -142,30 +142,30 @@ defMap({
 });
 
 defScript('humtrade', async () => {
-  await say('Trader', 'Two notions for one, mm? Any two of yours for one of mine? Fair, mm?');
+  await say('Trader', 'Two notions for one, mm? Any two of yours for one of mine? Sounds fair, mm?');
   const i = await listMenu('Trade for', TRADE_STOCK.map(id => NOTIONS[id]?.name || id), { w: 120 });
   if (i < 0) return;
   const want = TRADE_STOCK[i];
   const mine = () => NOTION_IDS.filter(id => (G.notions[id] || 0) > 0);
   const total = mine().reduce((n, id) => n + G.notions[id], 0);
-  if (total < 2) { await say('Trader', 'Two, mm? You\'ve got fewer than two in your bag. Come back heavier?'); return; }
+  if (total < 2) { await say('Trader', 'Two, mm? You\'ve got fewer than two in your bag. Come back with more?'); return; }
   for (let k = 0; k < 2; k++) {
     const have = mine();
     const j = await listMenu(`Give ${k ? 'a second' : 'one'}`, have.map(id => `${NOTIONS[id].name} x${G.notions[id]}`), { w: 140 });
-    if (j < 0) { await say('Trader', 'Changed your mind, mm? Happens to the best of us, mm?'); return; }
+    if (j < 0) { await say('Trader', 'Changed your mind, eh? Happens to the best of us, eh?'); return; }
     G.notions[have[j]]--;
   }
   G.notions[want] = (G.notions[want] || 0) + 1;
   sfx('ok');
-  await say('Trader', `${NOTIONS[want].name}, then? Pleasure, mm?`);
+  await say('Trader', `${NOTIONS[want].name}, then? my pleasure, mm?`);
   save();
 });
 
 // The north gatekeeper works for Hasp, and asks after Ouro's hands.
 defScript('gateN', gatekeeper('n', 'Hasp', {
-  shut: 'Shut?? Shut. Seal?? No seal in your hands??',
-  read: 'Apex seal?? Apex seal. Steady?? Are they, your hands?? Through, then.',
-  open: 'Open?? Open. The Ring\'s past it. Mind them going round, your hands??',
+  shut: 'Shut? Shut. Seal? No seal in your hands?',
+  read: 'Apex seal? Apex seal. Steady? Are your hands steady? Through, then.',
+  open: 'Open? Open. The Ring\'s past it. Mind your hands going round?',
 }));
 
 void choose;

@@ -271,7 +271,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
   const stopSim = () => { if (sim) { sim = null; running = false; note = ''; } };
 
   function beginSim(): boolean {
-    if (!arms().length) { note = 'Place an arm first.'; sfx('pegFail'); return false; }
+    if (!arms().length) { note = 'Position an arm first.'; sfx('pegFail'); return false; }
     const bad = checkMachine(pz, mach);
     if (bad) { note = bad; sfx('pegFail'); return false; }
     sim = start(pz, mach);
@@ -317,10 +317,10 @@ export function playSetting(pz: Puzzle): Promise<void> {
     for (let d = 0; d < 4; d++) {
       const p = { ...base, dir: (d + (kind === 'arm' ? 2 : 0)) % 4 } as Part;
       mach.parts.push(p);
-      if (!checkMachine(pz, mach)) { snd.placeSound(kind); note = kind === 'arm' ? 'Write its tape below.' : ''; keep(); return; }
+      if (!checkMachine(pz, mach)) { snd.placeSound(kind); note = kind === 'arm' ? 'Apply its tape below.' : ''; keep(); return; }
       mach.parts.pop();
     }
-    note = kind === 'arm' ? 'An arm needs a cell of its own.' : 'No room for it here.';
+    note = kind === 'arm' ? 'Each arm requires its own cell.' : 'No space.';
     sfx('pegFail');
   }
 
@@ -345,7 +345,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
         busy = false;
         const k = items[i];
         if (k === 'Turn') turn(idx);
-        if (k === 'Move') { moving = { idx, was: clone(p) }; cx = p.x; cy = p.y; note = 'Move it, then Z to set it down.'; }
+        if (k === 'Move') { moving = { idx, was: clone(p) }; cx = p.x; cy = p.y; note = 'Move it, then press Z to set it down.'; }
         if (k === 'Remove') { mach.parts.splice(idx, 1); tr = Math.min(tr, Math.max(0, arms().length - 1)); keep(); }
       });
       return;
@@ -382,15 +382,15 @@ export function playSetting(pz: Puzzle): Promise<void> {
   async function help(): Promise<void> {
     busy = true;
     await hint(pz.idea);
-    await hint('Each arm follows its tape, one step every cycle. All the tapes loop together, at the length of the longest.');
-    await hint('Grab takes the stone at the claw. Turning swings the arm and what it holds. Reach out and pull in change its length.');
-    if (pz.pivot) await hint('Pivot turns the piece the arm holds a quarter turn about the claw. The arm itself stays where it is.');
-    await hint('A polisher shines a rough stone that rests on it. A setter bonds two stones that rest on it. A splitter breaks their bond.');
-    if (pz.limit.mold) await hint('A mold has a model cell, marked with a dot, and a copy cell. Paste on the copy cell becomes a stone like the one on the model cell.');
-    if (pz.limit.chute) await hint('A chute takes away any piece that rests on it, all of it, even if only one stone touches the chute.');
-    if (pz.inputs.some(i => i.count !== undefined)) await hint('An input outlined in gold gives one piece for each gold dot on it, and then no more.');
-    await hint('A stone cannot rest on an arm\'s base.');
-    await hint('C turns the part under the cursor, or clears a tape step. Hold Shift to run faster.');
+    await hint('Each arm follows its tape, advancing one step per cycle. All tapes loop together for the duration of the longest tape.');
+    await hint('Grab picks up the stone at the claw. Turning swings the arm and its load. Reaching out or pulling in adjusts its length.');
+    if (pz.pivot) await hint('Pivot rotates the piece held by the arm a quarter turn around the claw. The arm itself remains in place.');
+    await hint('A polisher shines a rough stone placed on it. A setter bonds two stones resting on it. A splitter breaks that bond.');
+    if (pz.limit.mold) await hint('A mold consists of a model cell, marked with a dot, and a copy cell. Pasting onto the copy cell creates a stone identical to the one on the model cell.');
+    if (pz.limit.chute) await hint('A chute removes any piece resting on it entirely, even if just one stone is touching it.');
+    if (pz.inputs.some(i => i.count !== undefined)) await hint('An input outlined in gold provides one piece for each gold dot on it, and then stops.');
+    await hint('A stone cannot be placed on an arm\'s base.');
+    await hint('C rotates the part under the cursor, or clears a tape step. Hold Shift to speed up.');
     busy = false;
   }
 
@@ -494,7 +494,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
       drawTapes();
       drawBar();
       const slot = zone === 'tape' && arms()[tr] ? (arms()[tr].tape[tc] || '.') as Step : null;
-      const msg = note || (slot ? `Arm ${tr + 1}, step ${tc + 1}: ${STEP_NAME[slot]}. Z to change it, C to clear it.` : sim ? '' : pz.idea);
+      const msg = note || (slot ? `Arm ${tr + 1}, step ${tc + 1}: ${STEP_NAME[slot]}. Press Z to swap, C to clear.` : sim ? '' : pz.idea);
       wrap(msg, 184).slice(0, 3).forEach((l, i) => text(l, 4, 166 + i * 9, sim?.err ? BADC : PAPER));
       if (result) drawResult();
     },
@@ -833,7 +833,7 @@ export function playSetting(pz: Puzzle): Promise<void> {
 
   function drawTapes(): void {
     const list = arms();
-    if (!list.length) { text('Place an arm to write its tape.', 4, tapeY + 2, DIM); return; }
+    if (!list.length) { text('Position an arm to record its tape.', 4, tapeY + 2, DIM); return; }
     const per = period(mach), col = sim && sim.cycle > 0 ? (sim.cycle - 1) % per : -1;
     list.forEach((a, i) => {
       const y = tapeY + i * 12;
@@ -891,12 +891,12 @@ export function playSetting(pz: Puzzle): Promise<void> {
 export async function settingMenu(): Promise<void> {
   music.play('gempuzzle');
   if (!flag('gemTold')) {
-    await hint('Setting: build a machine that carries stones to the setting on the right of the board.');
-    await hint('Every puzzle comes from a sketch. Find more sketches around the world.');
+    await hint('Setting: Build a machine that carries stones to the setting on the right of the board.');
+    await hint('Each puzzle originates from a sketch. Discover more sketches globally.');
     setFlag('gemTold');
   }
   if (!flag('gemShopTold') && SHOP_PUZZLES.some(p => G.gem.found.includes(p.id))) {
-    await hint('Bought sketches come after the found ones in this list. They are harder, and some bring parts of their own.');
+    await hint('Purchased sketches follow the found ones here. They are more difficult, and some include their own components.');
     setFlag('gemShopTold');
   }
   let at = Math.max(0, ALL_PUZZLES.filter(p => G.gem.found.includes(p.id)).findIndex(p => p.id === lastPuzzle));
@@ -942,8 +942,8 @@ const TAPE_STONE: Record<string, [Stone, string]> = { p: ['pearl', 'Pearl'], a: 
 /** Carcanet's Tape: the four Stones it sets in battle, one a turn, in a loop. */
 async function tapeMenu(m: Mon): Promise<void> {
   if (!flag('tapeTold')) {
-    await hint(`${m.name} sets one Stone a turn in battle, in this order, round and round. Its newest Stone changes its moves.`);
-    await hint('Four alike Stones keep one effect on. Four different Stones let its crest hit every foe.');
+    await hint(`${m.name} places one Stone per turn in battle, cycling through this sequence. Its most recent Stone determines its actions.`);
+    await hint('Matching four Stones maintains one effect. Four distinct Stones allow its crest to strike all enemies.');
     setFlag('tapeTold');
   }
   const keys = Object.keys(TAPE_STONE);

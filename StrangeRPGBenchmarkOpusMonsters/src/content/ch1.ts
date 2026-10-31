@@ -109,21 +109,21 @@ defMap({
   ],
   npcs: [
     { id: 'tack', x: 23, y: 13, sprite: 'tack', name: 'Tack', when: () => !flag('slipday'), talk: 'tackTalk' },
-    { id: 'tackle', x: 23, y: 13, sprite: 'tack', mon: 'tackle', name: 'Tackle', when: () => !!flag('tackleOut') && !flag('slipday'), lines: ['Tackle looks at Ouro. Ouro looks back. (neither blinks)'] },
-    { id: 'tackmum', x: 21, y: 12, sprite: 'villager', name: 'Tack\'s mum', when: () => !flag('crowdGone'), lines: ['Don\'t scratch, Tack. He\'s in the square already.'] },
-    { id: 'oldman', x: 17, y: 11, sprite: 'elder', name: 'Old man', lines: () => flag('slipday') ? ['Your gran? Walked the whole Lip in a dry year. Came home missing a boot and won\'t say why.'] : ['Big day! Stand still, that\'s the trick. I didn\'t, and mine came off in a hedge.'] },
+    { id: 'tackle', x: 23, y: 13, sprite: 'tack', mon: 'tackle', name: 'Tackle', when: () => !!flag('tackleOut') && !flag('slipday'), lines: ['Tackle meets Ouro\'s gaze. Ouro holds it. Neither looks away.'] },
+    { id: 'tackmum', x: 21, y: 12, sprite: 'villager', name: 'Tack\'s mum', when: () => !flag('crowdGone'), lines: ['Stop scratching, Tack. He\'s already in the square.'] },
+    { id: 'oldman', x: 17, y: 11, sprite: 'elder', name: 'Old man', lines: () => flag('slipday') ? ['Your gran? She walked the entire Rim during a drought. Got home missing a boot and wouldn\'t say how.'] : ['Big day! Stand still, that\'s the trick. I didn\'t, and mine shed in a hedge.'] },
     // The old man's own first shell, pale, standing at his side as it has since he turned.
     { id: 'oldcast', x: 16, y: 11, sprite: 'elder', name: 'Old man\'s cast', dir: 1, img: () => PEOPLE.oldcast, talk: 'oldCast' },
     // Gran comes out to the craze on Turning Day.
     { id: 'granout', x: 10, y: 6, sprite: 'gran', name: 'Gran', movable: true, when: () => !!flag('granOut') },
-    { id: 'woman1', x: 34, y: 23, sprite: 'villager', name: 'Woman', lines: ['House turned in spring. We moved into the old shell. The new one\'s off being a house somewhere.'] },
-    { id: 'child', x: 25, y: 17, sprite: 'child', name: 'Child', wander: true, lines: ['Not my turn yet. Could be ages. I\'m practicing standing still already.'] },
-    { id: 'wellman', x: 17, y: 13, sprite: 'villager2', name: 'Man at the well', dir: 1, lines: () => flag('wellingGone') && !flag('wellingHome') ? ['I let the bucket all the way down and she sends me up dust.', 'I\'m waiting on her. However long. She\'d wait on me.'] : ['She\'s been low since the craze. Wells go down when they\'re frightened. Everybody knows that.'] },
-    { id: 'signw', x: 1, y: 15, sprite: 'sign', name: null as any, lines: ['The Midden Road. Rib, west along the dunes. Please do not lick the post.'] },
-    { id: 'signe', x: 36, y: 14, sprite: 'sign', name: null as any, lines: ['East: Fall. A long way round. Painted by someone who never went.'] },
-    { id: 'signn', x: 12, y: 1, sprite: 'sign', name: null as any, lines: ['North: the Brook Wood. Mind the brook. It minds you back.'] },
-    { id: 'signs', x: 25, y: 32, sprite: 'sign', name: null as any, lines: ['South: Cockle Cove. Shells free. Sea not for sale.'] },
-    { id: 'signshop', x: 1, y: 22, sprite: 'sign', name: null as any, lines: ['THE STRANDMONGER. Strays, horns, the Register. Looking is free. Leaning on the sign, one cowrie.'] },
+    { id: 'woman1', x: 34, y: 23, sprite: 'villager', name: 'Woman', lines: ['The house shed in spring. We moved into the hollow shell.', 'The new one\'s off being a house somewhere else.'] },
+    { id: 'child', x: 25, y: 17, sprite: 'child', name: 'Child', wander: true, lines: ['Not my turn yet. Might be a while. I\'m practicing standing still already.'] },
+    { id: 'wellman', x: 17, y: 13, sprite: 'villager2', name: 'Man at the well', dir: 1, lines: () => flag('wellingGone') && !flag('wellingHome') ? ['I let the bucket go all the way down, and she sends me up dust.', 'I\'m waiting for her. However long it takes. She\'d wait for me.'] : ['She\'s been down since the fracture. Wells drop when they\'re scared. Everyone knows that.'] },
+    { id: 'signw', x: 1, y: 15, sprite: 'sign', name: null as any, lines: ['Signpost: The Midden Road. Rib is to the west, along the dunes.', 'Please refrain from licking the post.'] },
+    { id: 'signe', x: 36, y: 14, sprite: 'sign', name: null as any, lines: ['East: Fall. A long way round. Painted by someone who\'s never been.'] },
+    { id: 'signn', x: 12, y: 1, sprite: 'sign', name: null as any, lines: ['North: the Brook Wood. Watch the brook. It watches you back.'] },
+    { id: 'signs', x: 25, y: 32, sprite: 'sign', name: null as any, lines: ['South: Cockle Cove. Shells are free. The sea is not for sale.'] },
+    { id: 'signshop', x: 1, y: 22, sprite: 'sign', name: null as any, lines: ['THE STRANDMONGER. Strays, horns, the Register. Looking is free.', 'Leaning on the sign costs one cowrie.'] },
     { id: 'carter', x: 7, y: 11, sprite: 'villager2', name: 'Carter', dir: 0, talk: 'carter' },
     { id: 'crowd1', x: 19, y: 16, sprite: 'villager', when: () => !flag('crowdGone') },
     { id: 'crowd2', x: 27, y: 15, sprite: 'villager2', when: () => !flag('crowdGone') },
@@ -195,9 +195,9 @@ defMap({
   ],
   zone: { kinds: [['cairn', 3], ['hare', 3], ['puffball', 2], ['paring', 2], ['burr', 3], ['stoat', 1]], lv: [2, 3], n: 13, area: 'reeds' },
   npcs: [
-    { id: 'drover', x: 16, y: 6, sprite: 'villager2', name: 'Drover', dir: 0, trainer: { name: 'Drover', team: [['hare', 3], ['cairn', 3]], intro: 'These four pull carts all day. Kinda want them to pull something else for once. You\'ll do.', defeat: 'Aw. Now they\'ll want a snack.', sight: 3 } },
-    { id: 'scraper', x: 30, y: 6, sprite: 'tanner', name: 'Scraper', dir: 0, trainer: { nacre: 1, name: 'Scraper', team: [['burr', 3], ['stoat', 3]], intro: 'I scrape shells clean for the grotto. Best scraper on the road. I\'m looking at yours. Just looking.', defeat: 'Fine, fine! Back to the ones that hold still.', sight: 3 } },
-    { id: 'netgirl', x: 26, y: 6, sprite: 'child', name: 'Girl with a net', dir: 0, trainer: { name: 'Girl with a net', team: [['hare', 3], ['paring', 3]], intro: 'I caught a hare\'s cast! The actual hare\'s still out here somewhere. It\'s way faster.', defeat: 'The hare would\'ve won :-(', sight: 3 } },
+    { id: 'drover', x: 16, y: 6, sprite: 'villager2', name: 'Drover', dir: 0, trainer: { name: 'Drover', team: [['hare', 3], ['cairn', 3]], intro: 'These four haul carts all day long. I\'m starting to think they deserve a change of pace. You\'re it.', defeat: 'Oh, great. Now they\'re going to demand a snack.', sight: 3 } },
+    { id: 'scraper', x: 30, y: 6, sprite: 'tanner', name: 'Scraper', dir: 0, trainer: { nacre: 1, name: 'Scraper', team: [['burr', 3], ['stoat', 3]], intro: 'I scour shells for the grotto. I\'m the finest polisher around. I\'m just taking a look at yours.', defeat: 'Alright, alright! I\'ll go back to the ones that actually stay put.', sight: 3 } },
+    { id: 'netgirl', x: 26, y: 6, sprite: 'child', name: 'Girl with a net', dir: 0, trainer: { name: 'Girl with a net', team: [['hare', 3], ['paring', 3]], intro: 'I caught a hare\'s cast! The real hare is still out there, though. It\'s much faster than this.', defeat: 'The hare would\'ve won :-(', sight: 3 } },
     { id: 'peeler1', x: 44, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('peelers') },
     { id: 'peeler2', x: 45, y: 6, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('peelers') },
     { id: 'wellingRoad', x: 43, y: 7, sprite: 'stone', mon: 'welling', name: 'Kaivodo', when: () => !flag('peelers') },
@@ -207,9 +207,9 @@ defMap({
     { id: 'r1sleeper', x: 22, y: 4, sprite: 'stone', mon: 'cairn', name: 'Kivishi', sleeper: { kind: 'cairn', lv: 8, flag: 'sl_route1' } },
   ],
   spots: [
-    stash('r1_dune', 22, 1, 'In a hollow behind the sleeping cairn, a triton horn someone hid and forgot.', { pegs: ['bone', 1] }),
-    stash('r1_spit', 36, 15, 'On the sand spit, half buried, a wax seal still warm from the sun.', { notion: 'waxseal' }),
-    look(12, 0, 'A bank of sand and roots. Somebody slides down it from the wood above most days.'),
+    stash('r1_dune', 22, 1, 'In the hollow behind the sleeping cairn, someone hid a triton horn and then forgot about it.', { pegs: ['bone', 1] }),
+    stash('r1_spit', 36, 15, 'Half-buried on the sand spit, a wax seal still holds the sun\'s warmth.', { notion: 'waxseal' }),
+    look(12, 0, 'A bank of sand and roots. People slide down it from the woods above most days.'),
   ],
   triggers: [{ x: 47, y: 1, w: 2, h: 10, script: 'peelers', when: () => !flag('peelers') }],
 });
@@ -263,11 +263,11 @@ defMap({
   tileTalk: { B: 'ribStay', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 13, y: 9, sprite: 'tanner', name: 'Shellwright', talk: 'ribTannery' },
-    { id: 'r1', x: 19, y: 9, sprite: 'villager', name: 'Woman', lines: ['Best drying spot is right up by the Stay, between the ribs. I got there first today!'] },
-    { id: 'r2', x: 25, y: 15, sprite: 'villager2', name: 'Man', lines: ['Yeah, it\'s a giant\'s rib. Nobody ever found the rest of him. I kinda hope he\'s okay.'] },
-    { id: 'r3', x: 17, y: 17, sprite: 'boy', name: 'Boy', wander: true, lines: ['Put your ear on the Rib and you can hear the Volute! Do it! Do it now! Did you hear it?'] },
-    { id: 'r4', x: 14, y: 25, sprite: 'oldwoman', name: 'Old woman', lines: ['My cast\'s up on the porch and I\'m down here in the yard. We wave at each other all day :-]'] },
-    { id: 'ribguard', x: 2, y: 16, sprite: 'keeper', name: 'Ribman', when: () => !has('rib'), lines: ['Dry Sea\'s west. High-water Mark\'s up the slope. Knuckle won\'t want you on either without a pearl.'] },
+    { id: 'r1', x: 19, y: 9, sprite: 'villager', name: 'Woman', lines: ['The best place to dry off is right up by the Seal, tucked between the ribs.', 'I beat everyone here today!'] },
+    { id: 'r2', x: 25, y: 15, sprite: 'villager2', name: 'Man', lines: ['It\'s a giant\'s rib, actually. Nobody ever found the rest of him. I kind of hope he\'s alright.'] },
+    { id: 'r3', x: 17, y: 17, sprite: 'boy', name: 'Boy', wander: true, lines: ['Press your ear against the Rib and you can hear the Volute! Go on, do it! Did you hear it?'] },
+    { id: 'r4', x: 14, y: 25, sprite: 'oldwoman', name: 'Old woman', lines: ['My cast is up on the porch while I\'m down here in the yard. We wave at each other all day :-]'] },
+    { id: 'ribguard', x: 2, y: 16, sprite: 'keeper', name: 'Ribman', when: () => !has('rib'), lines: ['Dry Sea is to the west. High-water Mark is up the slope.', 'Knuckle won\'t let you near either without a pearl.'] },
   ],
 });
 
@@ -292,14 +292,14 @@ defMap({
   warps: [{ x: 7, y: 13, to: 'rib', tx: 21, ty: 14, dir: 0 }, { x: 8, y: 13, to: 'rib', tx: 21, ty: 14, dir: 0 }],
   npcs: [
     { id: 'knuckle', x: 7, y: 1, sprite: 'knuckle', name: 'Knuckle', talk: 'knuckle' },
-    { id: 'help1', x: 8, y: 9, sprite: 'villager', name: 'Helper', dir: 3, trainer: { name: 'Helper', team: [['cairn', 4], ['scree', 4]], intro: 'Knuckle\'s always like, switch when it\'s bad. I don\'t. I\'m loyal.', defeat: 'Okay, I should\'ve switched.', sight: 4 } },
-    { id: 'help2', x: 7, y: 5, sprite: 'villager2', name: 'Helper', dir: 0, trainer: { nacre: 1, name: 'Helper', team: [['hare', 4], ['paring', 4], ['burr', 4]], intro: 'Only one of yours fights at a time. The rest sit and watch, like my brothers at supper.', defeat: 'Ugh. Watching.', sight: 3 } },
+    { id: 'help1', x: 8, y: 9, sprite: 'villager', name: 'Helper', dir: 3, trainer: { name: 'Helper', team: [['cairn', 4], ['scree', 4]], intro: 'Knuckle\'s advice is to switch when it gets bad. I don\'t. I\'m loyal.', defeat: 'Right, I should\'ve switched.', sight: 4 } },
+    { id: 'help2', x: 7, y: 5, sprite: 'villager2', name: 'Helper', dir: 0, trainer: { nacre: 1, name: 'Helper', team: [['hare', 4], ['paring', 4], ['burr', 4]], intro: 'Only one of yours gets to fight at a time. The rest just sit and watch, like my brothers at dinner.', defeat: 'Ugh. Watching.', sight: 3 } },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
-export const SMALL_GRAN = ['Is it today?', 'Mum says don\'t scratch.', 'I can feel it starting.', 'Don\'t look. Don\'t look yet.', 'There. There it goes.'];
+export const SMALL_GRAN = ['Is it time?', 'Mum says not to scratch.', 'I can feel it beginning.', 'Don\'t look. Not yet.', 'There. It\'s happening.'];
 export async function smallGranLine(): Promise<void> {
   const k = flag('sg') % 5;
   setFlag('sg', flag('sg') + 1);
@@ -312,18 +312,18 @@ defScript('intro', async () => {
   await wait(30);
   face('gran', 1);
   await smallGranLine();
-  await say('Gran', 'Tell my little turnip it\'s Turning Day. The day of all their days.');
-  await say('Gran', 'Tell them to stand in the square and wait there until their shell lets go.');
-  const c = await choose(['Go to the square', 'Eat first']);
+  await say('Gran', 'Tell my little turnip it\'s Shedding Day. The biggest day of all.');
+  await say('Gran', 'Tell them to stand in the square and wait until their shell falls off.');
+  const c = await choose(['Head to the square', 'Eat first']);
   if (c === 1) {
-    await say('Gran', 'Tell them there is porridge. Of the yesterday variety.');
+    await say('Gran', 'Let them know there\'s porridge, specifically the leftovers from yesterday.');
     face('ouro', 2);
     await wait(40);
     sfx('heal');
     await emote('ouro', 'heart');
   }
   setFlag('morning');
-  goal('Stand in the square.');
+  goal('Go to the square.');
 });
 
 defScript('homeEnter', async () => {
@@ -331,26 +331,26 @@ defScript('homeEnter', async () => {
 });
 
 defScript('gran', async () => {
-  if (!flag('slipday')) { await say('Gran', 'Tell my little turnip the square is that way. Where I am pointing.'); return; }
-  if (!flag('starter')) { await say('Gran', 'Tell my little turnip the Strandmonger opens at eight. South, past the square.'); return; }
-  if (!has('rib')) { await say('Gran', 'Tell them the road is dry this time of year, and dusty beyond all reason.'); return; }
+  if (!flag('slipday')) { await say('Gran', 'Let my little turnip know the square is that way, where I\'m pointing.'); return; }
+  if (!flag('starter')) { await say('Gran', 'Let my little turnip know the Strandmonger opens at eight. Head south, past the square.'); return; }
+  if (!has('rib')) { await say('Gran', 'Let them know the road is dry this time of year, and dustier than you\'d believe.'); return; }
   if (flag('ch5done') && !flag('granNeck')) { await granNeck(); return; }
-  await say('Gran', 'Tell them a bowl is waiting, should they get hungry.');
+  await say('Gran', 'Let them know there\'s a bowl waiting, in case they get hungry.');
 });
 
 async function nightScene(): Promise<void> {
   await smallGranLine();
-  await say('Gran', 'Tell my little turnip their shell did not let go today. That makes them a late one.');
-  await say('Gran', 'Tell them late ones walk the Lip, the rim of the world, from one Stay to the next.');
-  await say('Gran', 'The shell lets go somewhere along the way.');
-  await say('Gran', 'Tell them the Stays are the great posts that hold the world shut.');
-  await say('Gran', 'That crack in the village means they are pulling too tight.');
-  await say('Gran', 'Tell them the Staykeepers ought to hear of it. Rib first, west along the Midden Road.');
-  await say('Gran', 'Tell them most folk keep their own shed shell as their first whorl.');
-  await say('Gran', 'Theirs is still on, so they will need another.');
-  await say('Gran', 'Tell them the Strandmonger keeps strays. Of no particular breeding.');
-  await say('Gran', 'Tell them I walked the Lip myself, and came home with a pearl and a cough.');
-  const c = await choose(['Walk the Lip', 'Stay home']);
+  await say('Gran', 'Let my little turnip know their shell didn\'t come off today, which makes them a late bloomer.');
+  await say('Gran', 'Let them know late bloomers walk the Rim, the edge of the world, from one Seal to the next.');
+  await say('Gran', 'The shell eventually comes off somewhere along the way.');
+  await say('Gran', 'Let them know the Seals are the great posts that keep the world sealed shut.');
+  await say('Gran', 'That crack in the village means they\'re pulling too tight.');
+  await say('Gran', 'Tell the Sealkeepers. Rib is first, heading west along the Midden Road.');
+  await say('Gran', 'Let them know most people keep their own shed shell as their first whorl.');
+  await say('Gran', 'Since theirs is still on, they\'ll need another one.');
+  await say('Gran', 'Let them know the Strandmonger takes in strays. No specific breeding.');
+  await say('Gran', 'Let them know I walked the Rim myself, and came home with a pearl and a cough.');
+  const c = await choose(['Walk the Rim', 'Stay home']);
   if (c === 1) {
     await say('Gran', 'Tell them: soup.');
     // Night, then morning. The craze reaches Gran's step in the night.
@@ -361,7 +361,7 @@ async function nightScene(): Promise<void> {
     sfx('boom');
     field.shakeT = 20;
     await tint('#0b0a10', 0, 40);
-    await say('Gran', 'Tell my little turnip the craze has come right up to the door.');
+    await say('Gran', 'Tell my little turnip that the fracture has arrived at the doorstep.');
   }
   await say('Gran', 'Tell them the Strandmonger opens at eight. South of the square, under the lanterns.');
   setFlag('night');
@@ -372,9 +372,9 @@ async function nightScene(): Promise<void> {
 async function granNeck(): Promise<void> {
   setFlag('granNeck');
   await smallGranLine();
-  await say('Gran', 'Tell my little turnip to sit down.');
+  await say('Gran', 'Tell my little turnip to take a seat.');
   await say('Gran', 'Tell them I can see the crack down their back from here.');
-  await say('Gran', 'Tell them mine started at the neck too.');
+  await say('Gran', 'Tell them mine started at the neck, too.');
   await say('Gran', 'Tell them there is soup, and soup comes before going north.');
 }
 
@@ -395,15 +395,15 @@ async function slipDay(): Promise<void> {
   face('ouro', 2);
   faceToward('tack', 'ouro');
   await wait(20);
-  await say('Tack', '2 of us this year. Me and you. That\'s it, that\'s the whole year.');
-  await say('Tack', 'Uh, move 1 step over? It\'s gonna come off sideways.');
+  await say('Tack', 'That\'s 2 of us this year. just you and me. That\'s the whole count.');
+  await say('Tack', 'Uh, take 1 step over? It\'s going to come off at an angle.');
   await walkTo('ouro', 22, 15);
   face('ouro', 2);
   face('tack', 0);
   faceToward('tackmum', 'tack');
   await say('Tack\'s mum', 'Don\'t scratch, Tack.');
   await act('tack', 'shiver');
-  await say('Tack', 'Mum. I haven\'t scratched in 3 days.');
+  await say('Tack', 'Mum. I haven\'t scratched for 3 days.');
   await wait(30);
   // Tackle lifts up off Tack's back in one piece, pale, and steps aside.
   sfx('fit');
@@ -414,11 +414,11 @@ async function slipDay(): Promise<void> {
   await walkTo('tackle', 24, 13);
   face('tackle', 0);
   faceToward('tackmum', 'tackle');
-  await say('Tack\'s mum', 'There it is, pet. Your first shell, off in one piece. Got your shape and everything.');
-  await say('Tack\'s mum', 'Every whorl\'s a shell something grew out of. Rivers, houses, people. Yours follows you home.');
+  await say('Tack\'s mum', 'There it is, pet. Your first shell, intact. It even has your shape.');
+  await say('Tack\'s mum', 'Every whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.');
   await act('tack', 'hop');
-  await say('Tack', '1. Yeah. That\'s 1.');
-  await say('Tack', 'This is Tackle. Had the name ready 4 years. Took you long enough, Tackle.');
+  await say('Tack', '1. Right, that\'s 1.');
+  await say('Tack', 'Name\'s Tackle. Had it ready 4 years ago. Took you long enough.');
   faceToward('tackle', 'ouro');
   face('tack', 1);
   await emote('tackle', 'question');
@@ -433,12 +433,12 @@ async function slipDay(): Promise<void> {
   await emote('ouro', 'silence');
   await act('ouro', 'look');
   await emote('tackmum', 'sweat');
-  await say('Tack\'s mum', 'Aw, pet. It\'s a tight year.');
+  await say('Tack\'s mum', 'Oh, love. It\'s been a rough year.');
   // The old man turns to his own cast beside him, and they look at each other fondly.
   faceToward('oldman', 'oldcast');
   faceToward('oldcast', 'oldman');
   await Promise.all([emote('oldman', 'heart'), emote('oldcast', 'heart')]);
-  await say('Old man', 'My shell went late as well, and look at him now. Well, don\'t look at him. He\'s shy.');
+  await say('Old man', 'My shell shed late as well, and look at him now. Well, don\'t look at him. He\'s shy.');
   await act('oldcast', 'back');
   faceToward('oldman', 'ouro');
   // The crowd goes home through their own doors, and Tack's mum goes ahead of him.
@@ -452,7 +452,7 @@ async function slipDay(): Promise<void> {
   setFlag('crowdGone');
   await wait(30);
   faceToward('tack', 'ouro');
-  await say('Tack', '0\'s still a number. I\'ll count you again tomorrow.');
+  await say('Tack', '0 still counts. I\'ll tally you up tomorrow.');
   await Promise.all([walkOff('tack', 17, 5), later(10, () => walkOff('tackle', 17, 5))]);
   // The ground booms, and the craze runs out across the meadow tile by tile.
   sfx('boom');
@@ -472,7 +472,7 @@ async function slipDay(): Promise<void> {
   CRAZE.forEach((_, i) => void unprop('craze' + i, 0));
   await panBack();
   faceToward('oldman', 'ouro');
-  await say('Old man', 'Huh. That\'s a craze. Yeah, don\'t stand in that.');
+  await say('Old man', 'Huh. That\'s a fracture. Yeah, don\'t stand in that.');
   // Ouro walks to the near end of the craze and looks into it. Something under the meadow breathes.
   await walkTo('ouro', 28, 10);
   face('ouro', 2);
@@ -488,9 +488,9 @@ async function slipDay(): Promise<void> {
   await walkIn('granout', 10, 5, 27, 10);
   faceToward('granout', 'ouro');
   faceToward('ouro', 'granout');
-  await say('Gran', 'Tell my little turnip that is a craze, and a craze is not for standing beside.');
-  await say('Gran', 'Tell them late is a different thing from never.');
-  await say('Gran', 'Tell them there is supper, and the explaining comes with it.');
+  await say('Gran', 'Tell my little turnip that a fracture is not a place to stand.');
+  await say('Gran', 'Tell them that late is different from never.');
+  await say('Gran', 'Tell them supper is ready, and the explanation comes with it.');
   await walkOff('granout', 10, 5);
   setFlag('granOut', 0);
   // Pell runs up from the brook and stands staring at the craze.
@@ -516,9 +516,9 @@ async function turnBack(who: string, line: string, speaker: string, bx: number, 
     await walkTo('ouro', bx, by);
   }
 }
-defScript('turnBackWest', () => turnBack('carter', 'The west road\'s for them with a whorl. The mule won\'t walk it with you, and neither will I.', 'Carter', 4, 16));
-defScript('turnBackNorth', () => turnBack('oldman', 'Not up the wood without a whorl. The brook minds you back, and it\'s rude about it.', 'Old man', 13, 4));
-defScript('turnBackSouth', () => turnBack('child', 'Mum says no beach without a whorl. Not even paddling. I asked.', 'Child', 24, 29));
+defScript('turnBackWest', () => turnBack('carter', 'The west road is for those with a whorl. The mule won\'t walk it with you, and neither will I.', 'Carter', 4, 16));
+defScript('turnBackNorth', () => turnBack('oldman', 'No getting past the wood without a whorl. The stream\'s rude about it.', 'Old man', 13, 4));
+defScript('turnBackSouth', () => turnBack('child', 'Mum\'s rule is simple: no beach access unless you have a whorl. Not even for paddling. I checked.', 'Child', 24, 29));
 /** Before Tack's battle, the ways west out of the wood and the cove: Tack shouts from the village, and Ouro steps back. */
 async function tackCalls(bx: number, by: number): Promise<void> {
   await emote('ouro', 'surprise');
@@ -540,18 +540,20 @@ defScript('crazeHole', async () => {
 });
 
 defScript('fellmonger', async () => {
-  if (!flag('night')) { await say('Strandmonger', 'Opening later, Turning Day!! Go stand under that sky. It\'s a two-cowrie sky and today it\'s free.'); return; }
+  if (!flag('night')) { await say('Strandmonger', 'Opening later, because it\'s Shedding Day!! Go stand under that sky.');
+  await say('Strandmonger', 'It\'s a two-cowrie sky and today it\'s free.'); return; }
   if (!flag('starter')) {
-    await say('Strandmonger', 'And a late one! Which means the Lip walk, then.');
-    await say('Strandmonger', 'The walk is free. The road costs shoes.');
-    await say('Strandmonger', 'Turned ones walk out behind their own shell. You\'ve none yet. Wild ones don\'t let a body by alone.');
-    await say('Strandmonger', 'So a stray stands in. A shell with nobody to walk behind. They want a somebody.');
-    await say('Strandmonger', 'Three strays this month. Take one. Your gran\'s slate is long enough to walk on, it\'ll hold one more.');
+    await say('Strandmonger', 'And a late one! That means the Rim walk.');
+    await say('Strandmonger', 'The path is free. The road demands shoes.');
+    await say('Strandmonger', 'Those who\'ve shed walk out behind their own shell.');
+    await say('Strandmonger', 'You haven\'t shed yet. Wild shells won\'t let a lone walker pass.');
+    await say('Strandmonger', 'A stray steps up. A shell with no one to guide it. They seek a companion.');
+    await say('Strandmonger', 'Three strays this month. Take one. Your gran\'s slate is long enough to take one more.');
     for (;;) {
-      await say('Strandmonger', 'Ibabus. Off a briar by the mill. Holds on, bleeds them slow. Worth eleven thorns, easy.');
-      await say('Strandmonger', 'Plus Squall. Off a sideways spring rain. Hits twice, which is two for the price of one.');
-      await say('Strandmonger', 'Virtaki\'s off the old pump. Stuns, if you let it build.');
-      const c = await choose(['Ibabus', 'Squall', 'Virtaki', 'Say that again?']);
+      await say('Strandmonger', 'Ibabus. Found off a briar by the mill. It clings and bleeds them slowly. Easy eleven thorns.');
+      await say('Strandmonger', 'Plus Squall. From a sideways spring rain. Hits twice, which is two for the price of one.');
+      await say('Strandmonger', 'Virtaki comes from the old pump. It stuns, if you let the charge build.');
+      const c = await choose(['Ibabus', 'Squall', 'Virtaki', 'Could you repeat that?']);
       if (c === 3) continue;
       const kind = ['bramble', 'squall', 'dynamo'][c];
       await giveMon(makeMon(kind, 3));
@@ -559,29 +561,33 @@ defScript('fellmonger', async () => {
     }
     await emote('ouro', 'heart');
     await say('Strandmonger', 'Look at that. It\'s picked you back. That part I don\'t charge for.');
-    await say('Strandmonger', 'That one cost me two cowries and a sandwich, and I miss the sandwich.');
+    await say('Strandmonger', 'That one set me back two cowries and a sandwich. I\'m still sore about the sandwich.');
     giveKey('register');
-    await say('Strandmonger', 'Here\'s the Register. You sound a kind, I write it in. Writing\'s free. Holding it\'s a cowrie.');
+    await say('Strandmonger', 'Here\'s the Register. You catch a species, I log it. Writing\'s free. Holding it\'s a cowrie.');
     givePegs('twig', 5);
-    await say('Strandmonger', 'Five periwinkle horns. These I charge for!! On your gran\'s slate. She\'ll be thrilled.');
-    await say('Strandmonger', 'Knock them down a bit and sound them. Weaker means surer. Weak enough, it never fails.');
-    await say('Strandmonger', 'Rib first. Knuckle keeps it. Hands on Knuckle, I\'d price at a house each. The pearl\'s cheap.');
-    await say('Strandmonger', 'Which the Holdfast never sends for anything. Forty years, no horn. I\'ve a crate with its name on.');
+    await say('Strandmonger', 'Five periwinkle horns. I charge for those!! Put it on your gran\'s tab. She\'ll love it.');
+    await say('Strandmonger', 'Dull them down a bit, then catch them. A weaker whorl makes for a surer catch.');
+    await say('Strandmonger', 'Weak enough, and it never fails.');
+    await say('Strandmonger', 'Start with the Rib. Knuckle keeps it. Hands on Knuckle, I\'d price at a house each.');
+    await say('Strandmonger', 'The pearl\'s cheap.');
+    await say('Strandmonger', 'The Holdfast never asks for anything. Forty years, no horn.');
+    await say('Strandmonger', 'I\'ve got a crate waiting with its name on it.');
     await SCRIPTS.lesson();
-    await hint('(Press X for the menu. Z talks and picks. Hold Shift to hurry.)');
+    await hint('(Press X for the menu. Z to talk or pick. Hold Shift to speed up.)');
     setFlag('starter');
-    goal('Walk the Midden Road west to Rib. Knuckle keeps the Stay there.');
+    goal('Head west along the Midden Road to Rib. Knuckle guards the Seal there.');
     return;
   }
-  const c = await choose(['Buy and the Midden', 'Talk']);
+  const c = await choose(['Buy and the Midden', 'Speak']);
   if (c === 0) { await tannery('fellside', ['twig', 'brass']); return; }
   const kinds = Object.values(G.register).filter(v => v === 2).length;
-  await say('Strandmonger', `${kinds} kinds in the Register. A kind is worth a cowrie to me. That's ${kinds} cowries I owe nobody.`);
-  if (!flag('wellingHome') && flag('wellingGone')) await say('Strandmonger', 'The well\'s worth more than everything on my shelves. I\'d put it back. I\'d charge for the advice.');
+  await say('Strandmonger', `\$${kinds} species listed in the Register. to me, every one is worth a cowrie.`);
+  await say('Strandmonger', `That's \$${kinds} cowries I don't owe anyone.`);
+  if (!flag('wellingHome') && flag('wellingGone')) await say('Strandmonger', 'The well is worth more than everything I have. I\'d give it back. I\'d charge for the advice, too.');
 });
 
 defScript('tackTalk', async () => {
-  if (!flag('slipday')) await say('Tack', '40 years Cinch has stood up there. 0 days off. 1 morning I can do, if there\'s lunch.');
+  if (!flag('slipday')) await say('Tack', '40 years Cinch has stood there. 0 days off. 1 morning I can do, if there\'s lunch.');
 });
 
 defScript('tack1', async () => {
@@ -590,13 +596,13 @@ defScript('tack1', async () => {
   await walkUp('tackwait');
   await wait(4);
   const tries = tackTries('1');
-  if (tries) await say('Tack', `Try ${tries + 1}. Tackle's ready. Tackle's always ready.`);
+  if (tries) await say('Tack', `Try ${tries + 1}. Tackle is ready. Tackle is always ready.`);
   else {
     await say('Tack', 'Hey. 1 battle before you go. Just you and me.');
-    await say('Tack', 'Tackle\'s got 4 moves and I\'ve seen 2. Why won\'t it show me the rest?');
+    await say('Tack', 'Tackle has 4 moves but I\'ve seen 2. Why won\'t it reveal the rest?');
     if (!flag('lesson')) {
-      await hint('(One whorl fights at a time. The others wait in reserve. Switch to bring one out.)');
-      await hint('(Look at a move before you pick it. It says Strong when the foe is weak to it.)');
+      await hint('(Only one whorl fights at a time. The others wait in reserve. Switch to bring one out.)');
+      await hint('(Preview a move before choosing it. It says "Strong" when the foe is weak to it.)');
     }
   }
   const r = await battle({ enemy: [makeMon('tackle', 1)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 0.75 });
@@ -604,12 +610,12 @@ defScript('tack1', async () => {
   countTack('1', r.result === 'win');
   if (r.result !== 'win') {
     // Tack keeps the west road until Ouro wins. He goes back to his spot, and Ouro steps back out of the trigger.
-    await say('Tack', `${tackWinsLine()} Road's shut till you win 1. I'll wait.`);
+    await say('Tack', `${tackWinsLine()} The road stays closed until you win 1. I'll wait.`);
     await Promise.all([walkTo('tackwait', 3, 16), walkTo('ouro', 9, field.y)]);
     faceToward('tackwait', 'ouro');
     return;
   }
-  await say('Tack', `${tackLosesLine()} Okay. I'm writing it down.`);
+  await say('Tack', `${tackLosesLine()} Alright. I'm writing it down.`);
   await walkOff('tackwait', 0, 16);
   setFlag('tack1');
 });
@@ -619,7 +625,7 @@ defScript('well', async () => {
   if (flag('wellingHome')) { sound('heal'); await emote('ouro', 'music'); return; }
   if (!flag('wellingGone')) { await emote('ouro', 'silence'); return; }
   if (!hasW) { sound('bump'); await emote('ouro', 'sweat'); return; }
-  const c = await choose(['Put Kaivodo back', 'Keep it']);
+  const c = await choose(['Return Kaivodo', 'Keep it']);
   if (c !== 0) return;
   G.party = G.party.filter(m => m !== hasW);
   G.rack = G.rack.filter(m => m !== hasW);
@@ -633,7 +639,7 @@ defScript('well', async () => {
   sound('heal');
   field.shakeT = 8;
   await emote('wellman', 'heart');
-  await say('Man at the well', 'There she is! Nobody shout. She frightens easy.');
+  await say('Man at the well', 'There she is! Nobody make a sound. She\'s skittish.');
 });
 
 defScript('peelers', async () => {
@@ -642,27 +648,27 @@ defScript('peelers', async () => {
   await act('wellingRoad', 'shiver');
   faceToward('peeler1', 'ouro');
   faceToward('peeler2', 'ouro');
-  await say('Hermit', 'Keep walking, kid. It\'s just a well.');
+  await say('Hermit', 'Move along, kid. It\'s just a well.');
   // The man from Turnstone's well runs up the road behind Ouro.
   setFlag('wellChase');
   offstage('wellchase');
   await walkIn('wellchase', 54, 7, 49, 7);
   face('wellchase', 3);
   await say('Man at the well', 'Hey! That\'s Kaivodo! That\'s our well, put her down!');
-  await say('Hermit', 'Sorry. Bare said bring deep ones to the Mast. This one\'s deep.');
-  await say('Man at the well', 'She\'s the only water in Turnstone!');
-  await say('Hermit', 'You\'ve got a craze in Turnstone too, right? That\'s the Stays. They hold too tight.');
-  await say('Hermit', 'Big whorls can pull a Stay loose. So we take big whorls.');
+  await say('Hermit', 'My apologies. Bare told me to bring a deep one to the Mast. This one counts as deep.');
+  await say('Man at the well', 'She\'s the only water source in Turnstone!');
+  await say('Hermit', 'Turnstone\'s got a fracture too, doesn\'t it? That\'s the Seals. They grip too tightly.');
+  await say('Hermit', 'Large whorls can wrench a Seal loose. So we take large whorls.');
   const c = await choose(['Give it back', 'Who\'s Bare?']);
   if (c === 1) {
-    await say('Hermit', 'She runs the Hermits. Never turned, same as you.');
-    await say('Hermit', 'She says the whole Volute\'s overdue to turn. The crazes are it trying.');
-  } else await say('Hermit', 'Can\'t. It\'s ours now.');
-  await say('Man at the well', 'We drink out of her! Where\'s Turnstone meant to drink?');
-  await say('Hermit', 'Ugh, this one\'s loose. Can you deal with the kid?');
+    await say('Hermit', 'She leads the Hermits. Never sheds, just like you.');
+    await say('Hermit', 'She says the entire Volute is overdue for a shedding. The fractures are it struggling to break free.');
+  } else await say('Hermit', 'No can do. It\'s ours now.');
+  await say('Man at the well', 'We drink from her! Where is Turnstone supposed to get its water?');
+  await say('Hermit', 'Ugh, this one\'s loose. Can you handle the kid?');
   const r = await fightTrainer({ name: 'Hermit', team: [['cairn', 3], ['puffball', 3]], intro: '', defeat: '' });
   if (r.result !== 'win') { await walkOff('wellchase', 55, 7); setFlag('wellChase', 0); return; }
-  await say('Hermit', 'Fine. Leave it. Mast\'s got wells.');
+  await say('Hermit', 'Fine. Leave it. The Mast has its own wells.');
   await say('Hermit', 'She\'ll want to hear about this kid.');
   // The Hermits walk off west down the road, and the well's shell backs up into the reeds by the pond, wild now.
   await Promise.all([
@@ -675,14 +681,14 @@ defScript('peelers', async () => {
   faceToward('wellingReeds', 'ouro');
   await emote('wellingReeds', 'question');
   faceToward('wellchase', 'wellingReeds');
-  await say('Man at the well', 'She\'s gone in the reeds. She won\'t come to me. She never would.');
-  await say('Man at the well', 'The well\'s dry till she\'s back. I\'ll go and wait by it.');
+  await say('Man at the well', 'She\'s vanished into the reeds. She won\'t come to me. She never does.');
+  await say('Man at the well', 'The well stays dry until she returns. I\'ll go and wait by it.');
   await walkOff('wellchase', 55, 7);
   setFlag('wellChase', 0);
 });
 
 defScript('wellingReeds', async () => {
-  const c = await choose(['Try to sound Kaivodo', 'Leave it']);
+  const c = await choose(['Try to catch Kaivodo', 'Leave it']);
   if (c !== 0) return;
   const r = await fightWild(mon('welling', 4), { area: 'reeds' });
   if (r.pegged.length) {
@@ -693,17 +699,18 @@ defScript('wellingReeds', async () => {
 
 defScript('ribTannery', async () => {
   if (has('rib') && !G.keys.includes('prisingiron')) {
-    await say('Shellwright', 'Knuckle\'s pearl, yeah? Then you\'ll be wanting one of these.');
-    await say('Shellwright', 'Prising iron. Old shells grow over everything out here. Rocks, middens, doors.');
-    await say('Shellwright', 'Face a crust, give it a lean, off it comes. Mind your fingers. I didn\'t.');
-    await giveKeyItem('prisingiron', 'Ouro gets the prising iron.');
-    await say('Shellwright', 'Opens clams too. Prise a bed of them for me at the counter, yeah? Any grotto. Pays okay.');
+    await say('Shellwright', 'You\'ve got one of Knuckle\'s pearls, right? Then you\'ll be wanting one of these.');
+    await say('Shellwright', 'It\'s a prising iron. Old shells overgrow everything out here, rocks, middens, doors.');
+    await say('Shellwright', 'When you hit a crust, lean on it, and it pops off. Watch your fingers. I didn\'t.');
+    await giveKeyItem('prisingiron', 'Ouro acquires the prising iron.');
+    await say('Shellwright', 'It opens clams, too. Prising a bed of them for me at the counter pays well. Any grotto will do.');
   }
   await tannery('rib', ['twig', 'brass']);
 });
 
 defScript('carter', async () => {
-  await say('Carter', 'Cart goes to any town you\'ve been to. Ten cowries. No haggling, the mule\'s heard it all.');
+  await say('Carter', 'The cart goes to any town you\'ve visited. Ten cowries. No haggling.');
+  await say('Carter', 'The mule has heard it all before.');
   await cart();
 });
 
@@ -721,21 +728,21 @@ defScript('ribStay', async () => {
 });
 
 defScript('knuckle', async () => {
-  if (has('rib')) { await say('Knuckle', 'Mast next, yeah? Along the Dry Sea.'); return; }
+  if (has('rib')) { await say('Knuckle', 'Next up: Mast, yeah? Out along the Dry Sea.'); return; }
   await say('Knuckle', 'Hi. I\'m Knuckle. I keep the Rib.');
-  await say('Knuckle', 'Had these pearls since I turned. Beat me and you can have one. Not this one. That one.');
-  await say('Knuckle', 'So I send one out and keep three back. When it\'s going bad, I switch. Easy.');
-  await say('Knuckle', 'You should totally do that too.');
+  await say('Knuckle', 'I\'ve had these pearls since I shed. Beat me, and you can have one. Not that one. The other one.');
+  await say('Knuckle', 'So I send one out and keep three back. When one goes bad, I swap it. Simple.');
+  await say('Knuckle', 'You should totally try that too.');
   const r = await fightTrainer({ name: 'Knuckle', team: [['cairn', 5], ['menhir', 5], ['hare', 5]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   await say('Knuckle', 'Oh. I lost.');
-  await say('Knuckle', 'Here. Rib pearl. It\'s yours.');
+  await say('Knuckle', 'Here. The Rib pearl is yours.');
   giveScale('rib');
-  await notice('Ouro gets the Rib pearl.');
-  await say('Knuckle', 'Heard there\'s Hermits on the Midden Road. Don\'t like that.');
-  await say('Knuckle', 'And you got a craze in Turnstone? The Rib\'s been creaking all month. Tell Leeward.');
-  await say('Knuckle', 'Anyway. Mast\'s next. Go along the Dry Sea.');
-  goal('Go west from Rib along the Dry Sea to Mast.');
+  await notice('Ouro receives the Rib pearl.');
+  await say('Knuckle', 'I\'ve heard Hermits are lurking on the Midden Road. Not a good sign.');
+  await say('Knuckle', 'You\'ve got a fracture in Turnstone? The Rib has been groaning all month. You need to tell Leeward.');
+  await say('Knuckle', 'Anyway, Mast\'s next. Go along the Dry Sea.');
+  goal('Travel west from Rib, following the Dry Sea to Mast.');
 });
 
 void lines; void moveNpc; void flag;

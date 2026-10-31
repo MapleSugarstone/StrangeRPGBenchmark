@@ -1,221 +1,259 @@
-# WHORL game text, chunk 10 of 15. Files: src/content/guide.ts
-# Speakers: ? (p) (148), ? (s) (63), ? (title) (2)
+# WHORL game text, chunk 10 of 26. Files: src/content/guide.ts
+# Speakers: ? (p) (178), ? (s) (71), ? (title) (2)
 # Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
 # Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
 # See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
 ==== file: src/content/guide.ts
 
 == scene: GUIDE
-[0w79lkq] ? (p) | A whorl is a creature that fights for you. Your team is the whorls you take with you. A team can have 4 whorls.
-[1vudnji] ? (p) | The first whorl in your team is your lead. Your lead walks with you. It is the first one out in a battle.
-[1qkoa09] ? (p) | One whorl fights at a time. It is your out whorl. The others wait in reserve.
-[1k0n5ad] ? (p) | Pick Switch in a battle to send out a whorl from reserve. A switch is quick. It takes half as long as an Attack.
-[1oqaeg9] ? (p) | A whorl that is rooted or taunted cannot switch out.
-[0ysdkxq] ? (p) | A whorl with 0 HP is knocked out. The game also says it is down, or calls it a KO. It cannot fight again in that battle. Then you pick the next whorl to send out.
-[0my99bz] ? (p) | Every battle starts with full HP. So a knocked out whorl is fine when the battle is over.
-[1jjalxt] ? (p) | If your whole team is down, you lose the battle. You drop 20% of your cowries. Then you walk back to the last grotto you used. A grotto is the shop in each town.
-[1sm686s] ? (p) | When your team is full, new whorls go to the Midden. You can reach the Midden at any grotto. There you can swap whorls in and out of your team.
-[1lnp2ob] ? (p) | To pick a new lead, press X for the menu. Pick Team, then pick a whorl. Then pick Make lead.
-[1gyh2da] ? (p) | Each whorl has seven stats. A stat is a number. It tells you how good the whorl is at one thing.
-[018cbom] ? (s) | HP is health. A whorl with 0 HP is knocked out. Max HP is the most HP it can have.
-[0xxi4t5] ? (s) | ATK is the power of physical hits.
-[1qt3jfs] ? (s) | MGK is the power of magic hits.
-[1vxls2q] ? (s) | DEF makes physical hits do less.
-[0mnhthv] ? (s) | RES makes magic hits do less.
-[040vnj4] ? (s) | AGI is speed. A whorl with more AGI gets more turns.
-[0yczpb7] ? (s) | CHA helps a horn catch a whorl. Some moves use it too.
-[15flb43] ? (p) | Each kind has its own strengths. One kind may have more ATK. Another may have more DEF. Kinds are also different in their moves, habits, and types.
-[10qw4ds] ? (p) | This picture shows the stats of your lead. Stats go up when a whorl gains a level. Things you find later can raise them a little more.
-[0ob984x] ? (p) | Many texts use the sign %. It means out of 100. 50% is half. 25% is one quarter. 10% is one tenth.
-[19dy71e] ? (p) | Each whorl has a plain Attack. It is physical or magic. A physical Attack uses ATK. A magic Attack uses MGK.
-[1ee5vmn] ? (p) | A move's text tells you which stat it uses. Hits for 110% ATK is a physical hit. Hits for 90% MGK is a magic hit.
-[1iwboyb] ? (p) | DEF and RES make a hit smaller. Say a hit has 100 power. It does 70 damage to a whorl with 42 DEF. It does 50 damage to a whorl with 100 DEF.
-[17cp80e] ? (p) | So DEF helps most against physical whorls. RES helps most against magic whorls.
-[1ed1xsh] ? (p) | To see a whorl's stats, press X. Pick Team, then the whorl, then Look. The Stats tab shows them.
-[01znnyc] ? (p) | In a battle, whorls do not just take turns one by one. After a whorl acts, it has to wait. The whorl whose wait ends first moves next.
-[1o06tce] ? (p) | AGI makes the wait shorter. So a fast whorl can move twice before a slow one moves once.
-[19evhc2] ? (p) | Here is an example. Your whorl has 69 AGI. The foe has 51 AGI. Your whorl moves first. Over the whole battle, it gets about 9 turns for every 8 the foe gets.
-[19yzgwa] ? (p) | Some actions have a short wait. After a Guard, a whorl waits 80% as long as after an Attack. After a Switch, it waits half as long.
-[13w70yp] ? (p) | Slow makes a whorl wait 30% longer. Haste makes it wait 30% less.
-[0wfzr22] ? (p) | Some texts say its next turn comes 40% sooner. This means the whorl waits less before it moves again. The wait gets about 40% shorter.
-[07ae13z] ? (p) | Look at the top line of the battle. It tells you when a whorl will move twice in a row.
-[1gtjpoh] ? (p) | A wind-up is a move that lands later. A ! shows over a whorl while it winds up. The top line tells you how many moves you get first.
-[14gwfcn] ? (p) | You can stop a foe's wind-up. Stun, Silence, Sleep, or Taunt cuts it off. So does forcing the foe out.
-[1oq1pi2] ? (p) | You can also switch to a whorl that takes less from the move. An Unstoppable wind-up cannot be cut off.
-[17nnm6m] ? (p) | A round is one turn for each side. The game counts rounds in very long battles.
+[044615r] ? (p) | A whorl is a creature that fights for you. Your team consists of the whorls you take with you. A team can have 4 whorls.
+[1jrscxz] ? (p) | The first whorl in your lineup is your lead. Your lead walks with you and is the first to enter battle.
+[0wfxiq4] ? (p) | Only one whorl fights at a time. This is your out whorl, while the others remain in reserve.
+[0i4lf7x] ? (p) | Select Switch during a battle to bring a whorl from reserve into action. Switching is swift. The incoming whorl waits less time than it would after an Attack. Higher CHA reduces this waiting period even further.
+[1h3i1rv] ? (p) | A whorl that is rooted or taunted cannot be switched out.
+[1h2wp0b] ? (p) | A whorl with 0 HP is knocked out. The game calls this down or a KO. It cannot fight again in that battle. Pick the next whorl to send out.
+[0uj53xd] ? (p) | Battles begin with full HP. A KO'd whorl is fine when the battle ends.
+[0c5xine] ? (p) | If your entire team is defeated, you lose the battle. You will lose 20% of your cowries and respawn at the last grotto you visited. Grottos are the shops found in every town.
+[00l1a5b] ? (p) | When your team is full, any new whorls you catch are sent to the Midden. You can access the Midden from any grotto, where you can swap whorls in and out of your active team.
+[0qe5jfo] ? (p) | Press X to open the menu, select Team, choose a whorl, then pick Make lead.
+[0e42ikp] ? (p) | Each whorl has seven stats. A stat is a number. It shows how good the whorl is at one thing.
+[1niee80] ? (s) | HP is health. A whorl with 0 HP is knocked out. Max HP is the most health it can have.
+[1uzujth] ? (s) | ATK makes physical hits stronger.
+[0f7jdzg] ? (s) | MGK boosts magic attacks.
+[1uwbntp] ? (s) | DEF makes physical hits do less damage.
+[0pgy7qb] ? (s) | RES makes magic hits hurt less.
+[0fsriwh] ? (s) | Speed is AGI. A whorl with more AGI takes more turns.
+[09uez61] ? (s) | CHA helps a horn catch whorls. It also reduces the wait time after using a Switch. Some moves use CHA too.
+[1p27oiq] ? (p) | Every species is strong in different ways. One might have more ATK. Another might have more DEF. They also have different moves, habits, and types.
+[178946e] ? (p) | All species get the same number of stat points. They use them in different ways. A fast species has less DEF. A tough species gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.
+[136hz8p] ? (p) | This picture shows your lead's stats. The stats go up when a whorl levels up. You can find things later that raise them a little more.
+[0rlbygh] ? (p) | Many texts use the % sign. It means parts of 100. 50% is half. 25% is one quarter. 10% is one tenth.
+[1lyryir] ? (p) | Every whorl has a simple Attack. It is either physical or magic. Physical Attacks use ATK. Magic Attacks use MGK.
+[034wdnd] ? (p) | The move's text tells you which stat it uses. Hitting for 110% ATK is a physical hit. Hitting for 90% MGK is a magic hit.
+[1y2mkcl] ? (p) | DEF and RES make hits hurt less. Say a hit has 100 power. It does 70 damage to a whorl with 42 DEF. It does 50 damage to a whorl with 100 DEF.
+[0uqlvzg] ? (p) | DEF works best against physical whorls. RES works best against magic whorls.
+[12ngh60] ? (p) | Press X to see stats. Tap Team, pick the whorl, then tap Look.
+[1jwzyzu] ? (p) | In combat, a whorl pauses after taking an action. Higher AGI reduces this pause. Thus, a quicker whorl gains additional turns.
+[1tuzb5s] ? (p) | Example: Your whorl has 69 AGI, while the foe has 51. Throughout the battle, your whorl gains roughly 9 turns for every 8 the foe gets.
+[01q6u95] ? (p) | Typically, turns occur in close succession, meaning both sides choose their actions simultaneously. Neither party can see the other's selection at that moment.
+[0sbiscg] ? (p) | Actions resolve in order. The whorl whose turn comes first goes first. The top line indicates who moves first.
+[130lgnl] ? (p) | Guard and Switch always go first. Quick moves follow. Late moves wait until the foe has acted.
+[0ne8ati] ? (p) | Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a whorl resistant to it.
+[0ht0blm] ? (p) | Sometimes one side moves much sooner. That side picks alone and moves. So a fast whorl can move twice before a slow one moves once. The top line shows when this happens.
+[0qf1xxk] ? (p) | Some actions have short waits. A whorl waits 80% as long after Guard as after Attack. The incoming whorl waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each whorl.
+[1obvbjt] ? (p) | Slow 1 delays the whorl's next turn. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+[0ybdxjp] ? (p) | Haste operates in the opposite manner, causing each subsequent turn to arrive 30% of a turn earlier.
+[0h6ajqx] ? (p) | A slowed foe often goes last. Slow it twice, and you may get a turn.
+[0waucbi] ? (p) | Some text says the whorl's next turn comes 40% sooner. This means the whorl waits less before it moves again. The wait is about 40% shorter.
+[0uu626p] ? (p) | Some moves change the field for a few rounds. Sea Fog and High Tide are examples. The field affects both sides, so it can help the foe too.
+[06plks6] ? (p) | A wind-up move lands later. A ! appears over the whorl while winding up. The top line shows how many moves you get first.
+[01v7l2b] ? (p) | You can stop a foe's wind-up. Stun, Silence, Sleep, or Taunt cuts it off. Forcing the foe out also stops it.
+[16zyhos] ? (p) | You can also switch to a whorl that takes less damage from the move. An Unstoppable wind-up cannot be interrupted.
+[1v0fh4o] ? (p) | A round consists of one turn per side. The field tracks the rounds, as does any prolonged battle.
 [00cy5q9] ? (title) | Attack, moves, and Guard
-[0scsx4i] ? (p) | On your turn, you pick one action. You can Attack, use a move, Guard, or Switch.
-[1npi0x2] ? (p) | Attack is your whorl's plain hit. You can use it every turn. It never runs out. An Attack has no type, so it hits every type the same.
-[09lkib6] ? (p) | Each whorl has four moves. A move hits harder, or it does something special. Before you pick a move, look at it. Its text tells you what it does.
-[0wnb13w] ? (p) | The text is short. Hits for 110% ATK means a hit with 1.1 times the whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
-[0jmf5wv] ? (p) | After you use a move, it has to rest. The rest is its cooldown. The menu shows how many turns are left.
-[11qui76] ? (p) | Here is an example. Flatten has a cooldown of 3. Squall uses Flatten. Then Flatten rests for Squall's next 3 turns. On the 4th turn, it is ready again.
-[0m2r4c3] ? (p) | A cooldown counts your side's turns. It keeps going down while the whorl waits in reserve.
-[1titfc5] ? (p) | A move of the whorl's own type hits 20% harder. Squall is a TIDE whorl. So its TIDE moves hit 20% harder.
-[0nu9crm] ? (p) | Some moves hit every foe. The out foe takes the full hit. Each foe in reserve takes a smaller part. It is often about one third.
-[01dyhnt] ? (p) | Guard cuts the damage your whorl takes in half. It lasts until your whorl's next turn.
-[1asdj8v] ? (p) | You cannot Guard two turns in a row. A Guard is quick, too.
-[1cj10qw] ? (p) | Each whorl has two habits. A habit works by itself. You do not pick it. In a battle, press left or right on the menu to read the habits.
-[147xbph] ? (p) | A crest is a whorl's biggest move. Most whorls have one crest. A crest costs tide.
-[1hnm0ky] ? (p) | Tide is a pool that your whole team shares. It holds up to {NERVE_MAX}. It starts each battle at 2.
-[1685alc] ? (s) | An Attack that lands adds 1 tide.
-[1yj3p8i] ? (s) | When a move hits a whorl that guards, its side gets 1 tide. This works once for each Guard.
-[0f8zva8] ? (s) | When you knock out a foe, you get 2 tide.
-[0ru6dmx] ? (s) | When one of your whorls is knocked out, you get 1 tide.
-[066qvt6] ? (s) | Some moves, habits, and notions add tide too.
-[1ijkri7] ? (p) | Here is an example. Cloudburst is Squall's crest. It costs 5 tide. You start with 2. Land 3 Attacks, and you have 5.
-[1pq8k3u] ? (p) | The foe has its own pool of tide. Watch it. When it is full, a crest may come.
-[0pf1og7] ? (p) | A crest has a cooldown too, like any other move.
-[0c5u9tq] ? (p) | Every whorl has one or two types. Every move has one type. Types decide who is strong against whom.
-[1dv0vtm] ? (p) | There are six types. They are STONE, TIDE, ROOT, GEAR, BEAST, and STAR.
-[0zjsmee] ? (p) | Each row is the type of a move. Each column is the type of the foe. A plus means the move is strong. A minus means it is weak.
-[0qmfzxp] ? (p) | A strong hit does 1.5 times the damage. A weak hit does about two thirds of it.
-[0cby41l] ? (p) | Here is an example. TIDE is strong against STONE. Squall's Rain Shot hits Kivishi 1.5 times as hard. STONE is weak against TIDE. Kivishi's STONE moves do two thirds on Squall.
-[1s807y8] ? (p) | A whorl with two types counts both. If both are weak to a move, it hits 2 times as hard. A strong one and a weak one cancel out. A hit never does more than 2 times, or less than half.
-[0vt0rpj] ? (p) | When a hit lands, the battle shows strong or weak. Before you pick a move, look at it. It tells you when the foe is weak to it.
-[0o47oco] ? (p) | A plain Attack has no type. Damage from statuses has no type either.
-[091bicn] ? (p) | A status is a short effect on a whorl. It shows as a small icon by the whorl's HP bar.
-[1e4dic6] ? (p) | The number after a status is how many turns it lasts. Slow 2 lasts for 2 of the whorl's own turns. For Bleed and Poison, the number is how many stacks there are.
-[0rsroe7] ? (s) | Stun. The whorl loses its next turn. A stun also cuts off a wind-up.
-[1m539a0] ? (s) | Sleep. The whorl loses its turns. A hit wakes it up.
-[1ljngr8] ? (s) | Silence. The whorl cannot use moves. It can still Attack, Guard, or Switch.
-[1j8jsw2] ? (s) | Taunt. The whorl can only Attack.
-[1yfkv0f] ? (s) | Root. The whorl cannot switch out.
-[0fk1b50] ? (s) | Slow. The whorl waits 30% longer between turns.
-[1uno12e] ? (s) | Burn. The whorl takes magic damage at the start of each turn.
-[1kcoe0z] ? (s) | Bleed. The whorl takes physical damage at the start of each turn. Then it loses one stack.
-[1fvrpvc] ? (s) | Poison. The whorl loses 3% of its max HP for each stack at the start of each turn. Then it loses one stack.
-[1wn047m] ? (s) | Rot. Healing on the whorl is cut in half.
-[0fak9tc] ? (s) | Expose. The whorl takes 25% more damage.
-[0h50yme] ? (s) | Weaken. The whorl deals 25% less damage.
-[0ylzbw6] ? (s) | Doom. The whorl takes damage each turn. It cannot heal or use moves.
-[0ejrh5e] ? (s) | Haste. The whorl waits 30% less between turns.
-[1w0o932] ? (s) | Empower. The whorl deals 25% more damage.
-[16f0pdb] ? (s) | Fortify. The whorl takes 25% less damage.
-[1ifmu9q] ? (s) | Regen. The whorl heals a little at the start of each turn.
-[0h3e0h2] ? (s) | Ward. It stops the next move a foe uses on the whorl. If nothing comes, it fades after 2 turns.
-[1tvcv88] ? (s) | Thorns. When the whorl is hit, it hits back for part of the damage.
-[0e3ctes] ? (s) | Untouchable. The whorl takes no damage.
-[0vdfbnr] ? (s) | Unstoppable. Stun, Silence, Sleep, Root, Taunt, and Slow do not work on it.
-[0ycs6jg] ? (s) | Stasis. The whorl skips its turns. Nothing can hurt it or give it a status.
-[1kie1tb] ? (s) | Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard.
-[0izd5wz] ? (s) | Monument. The whorl cannot be knocked out. It stays at 1 HP.
-[0sidt16] ? (p) | When a whorl switches out, it drops most statuses. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden stay on it.
+[0qb4bnu] ? (p) | On your turn, choose one action: Attack, use a move, Guard, or Switch.
+[03kvu3q] ? (p) | Attack is your whorl's standard strike. You can use it every turn, and it never depletes. Since it has no type, it deals equal damage to all types.
+[1drxrtt] ? (p) | Attacks can strike more than once. A habit that functions after an Attack still works once for the entire Attack. A habit that mentions hits applies to each hit.
+[0smqsiu] ? (p) | Each whorl has four moves. These moves deal more damage or provide special effects. Review the move's description before selecting it to understand its effect.
+[10mx4hu] ? (p) | Hits for 110% ATK means a hit with 1.1 times the whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
+[0bpzu3g] ? (p) | After using a move, it must recharge. This recharge period is its cooldown, and the menu displays the remaining turns.
+[0zgjawx] ? (p) | Flatten's cooldown is 3. Squall uses it. It rests for Squall's next 3 turns. It's ready on turn 4.
+[1tcii43] ? (p) | Cooldowns count your side's turns. They decrease while the whorl waits in reserve.
+[0a914uy] ? (p) | Moves matching a whorl's own type deal 20% more damage. Squall is a TIDE whorl, so its TIDE moves deal 20% more damage.
+[1cm5at0] ? (p) | Some moves splash damage. The primary target takes full damage, while each foe in reserve takes a portion. The move description specifies the percentage.
+[01k343e] ? (p) | Splash 35% means each foe in reserve takes 35% of the damage. A small splash is called a spray. Splash 100% damages the entire enemy team equally.
+[1jn5ylj] ? (p) | Guard reduces the damage your whorl takes by half. It lasts until your whorl's next turn. A Guard always acts first in a round.
+[1fdnddl] ? (p) | Guard blocks a larger share of a projectile but does not block a dash at all.
+[09x8n3a] ? (p) | You cannot Guard on consecutive turns. Additionally, Guarding is a swift action.
+[0ny50vg] ? (p) | Many moves have a kind. A small icon shows it. Each kind has one rule.
+[1njutqu] ? (s) | A dash strikes quickly. Until its next turn, the whorl takes 10% less damage. Guard does not block a dash. A rooted whorl cannot dash.
+[1b0ceby] ? (s) | A projectile flies through the air. A guarding whorl takes only a quarter of the damage.
+[1l42rcv] ? (s) | Spells bypass walls raised by summons. A silenced whorl cannot cast spells.
+[1mlrdv2] ? (s) | Channeling persists across turns. Stun, Silence, Sleep, or Switch interrupts it.
+[0vrjr6s] ? (p) | Each whorl has two habits. Habits act automatically. You do not select them. In battle, press left or right on the menu to view habits.
+[0l7r7qk] ? (p) | A crest is a whorl's ultimate move. Most whorls have one crest. Crests cost tide.
+[06ro1sy] ? (p) | Tide is a shared resource for your team. It holds up to {NERVE_MAX}. Each battle starts with 2 tide.
+[1f2ue0b] ? (s) | Landing an Attack grants 1 tide.
+[18t3lzs] ? (s) | When a move hits a guarding whorl, its side gains 1 tide. This applies once per Guard.
+[1h4ru19] ? (s) | Defeating an enemy awards 2 tide.
+[0xalkux] ? (s) | Losing a whorl awards 1 tide.
+[1c35mjo] ? (s) | Certain moves, habits, and notions also grant tide.
+[0e6dq1y] ? (p) | Cloudburst is Squall's crest. It costs 5 tide. You start with 2. Land 3 Attacks, and you have 5.
+[0s2nh6s] ? (p) | Enemies have their own tide pool. Watch it. When full, they may use a crest.
+[0a2ht0e] ? (p) | A crest also has a cooldown, like any other move.
+[05z1k3w] ? (p) | Every whorl has one or two types. Every move has one type. Types determine strengths and weaknesses.
+[15zjicw] ? (p) | There are six types: STONE, TIDE, ROOT, GEAR, BEAST, and STAR.
+[0t9wx3j] ? (p) | Rows show move types. Columns show foe types. Plus means strong. Minus means weak.
+[0yq1q3m] ? (p) | Super effective hits deal 1.5 times the normal damage, while weak hits deal roughly two-thirds.
+[04gpv1f] ? (p) | For example, TIDE is strong against STONE. This means Squall's Rain Shot hits Kivishi for 1.5 times the damage, while Kivishi's STONE moves deal only two-thirds damage to Squall.
+[0zc3aoo] ? (p) | A dual-type whorl counts both. If both are weak to a move, it hits 2 times as hard. A strong one and a weak one cancel out. A hit never does more than 2 times, or less than half.
+[179lcm5] ? (p) | When a hit lands, the battle log shows strong or weak. Before you pick a move, look at it. It tells you when the foe is weak to it.
+[0ac14w0] ? (p) | A plain Attack has no type. Damage from statuses also has no type.
+[1tnlxth] ? (p) | Statuses are short-term whorl effects, shown by an icon near its HP bar.
+[00usk04] ? (p) | Status durations are shown by the number following them. Slow 2 lasts for 2 of the whorl's turns. Bleed and Poison use numbers for stack count.
+[02rohue] ? (s) | Stun: The whorl loses its next turn. Stun also cuts off a wind-up.
+[0pjuzsf] ? (s) | Sleep: The whorl skips turns. It wakes if hit.
+[0nxjnqr] ? (s) | Silence. The whorl cannot cast spells, but its other abilities remain active.
+[1xd2m30] ? (s) | Taunt. The whorl is restricted to using only Attack.
+[1s2cand] ? (s) | Root. The whorl is unable to switch out or dash.
+[14d6knm] ? (s) | Slow. Each subsequent turn of the whorl arrives 30% of a turn later.
+[0pgigme] ? (s) | Burn. The whorl suffers magic damage at the start of each turn.
+[0bliims] ? (s) | Bleed. The whorl takes physical damage at the start of each turn and loses one stack.
+[12mrwac] ? (s) | Poison. At the start of each turn, the whorl loses 3% of its maximum HP per stack, then loses one stack.
+[0l44aip] ? (s) | Rot. The whorl receives half the normal amount of healing.
+[067mdlf] ? (s) | Expose. Increases damage taken by the whorl by 25%.
+[1czyzem] ? (s) | Weaken. Reduces the damage dealt by the whorl by 25%.
+[1frqe2g] ? (s) | Doom. The whorl takes damage every turn and cannot heal or use moves.
+[12nmga8] ? (p) | If a foe inflicts Stun, Sleep, Stasis, a forced skip, or a forced switch, the whorl loses its turn but then becomes immune to that specific effect. It cannot be affected by the same status again until it has acted.
+[14kigzf] ? (p) | Another effect can still land before it acts. Once both expire, the whorl becomes stalwart. For its next 2 turns, it cannot be forced to lose a turn.
+[01ksppu] ? (p) | A forced switch occurs when an opponent forces the whorl to change. The whorl may be forced out, dragged in, spun around, or switched at its next turn. The replacement whorl also counts as forced.
+[1k5se6h] ? (s) | Haste. Each of the whorl's subsequent turns arrives 30% of a turn earlier.
+[176q3wc] ? (s) | Dashing. After dashing, the whorl takes 10% less damage until its next turn.
+[0k6rjv6] ? (s) | Empower: The whorl deals 25% more damage.
+[0rawd6j] ? (s) | Fortify: The whorl takes 25% less damage.
+[1m9r3lz] ? (s) | Regen: The whorl heals slightly at the start of each turn.
+[0wk8n58] ? (s) | Ward blocks the foe's next attack on the whorl. It fades after 2 turns if unused.
+[1df8dov] ? (s) | Thorns. When the whorl is struck, it retaliates for a portion of the damage dealt.
+[1wq7keu] ? (s) | Untouchable. The whorl takes no damage. Applying another instance of Untouchable does not extend its duration. The whorl is Seen through its next turn after Untouchable ends. Until then, it cannot gain Hidden or become Untouchable again.
+[0gfxzcd] ? (s) | Unstoppable. It is immune to Stun, Silence, Sleep, Root, Taunt, and Slow.
+[0rcrvte] ? (s) | Stasis. The whorl skips its turns. It cannot be damaged or inflicted with status effects.
+[04m4aii] ? (s) | Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
+[1aasx9w] ? (s) | Monument. The whorl cannot be knocked out. It remains at 1 HP.
+[1l53dzl] ? (p) | When a whorl is replaced, it loses most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
 [1kvmhhk] ? (title) | Marks, summons, and shields
-[132jebo] ? (p) | A mark is a sign that some moves put on a whorl. Each kind has its own marks. Kivishi gets a Stone each time it is hit.
-[1j5n0sz] ? (s) | A mark shows as a small diamond by the HP bar. The number by it is how many stacks it has.
-[0rowrfc] ? (p) | To learn what a mark does, read the habits of the whorl that makes it. In a battle, press left or right on the menu.
-[129i7qr] ? (p) | Some marks fade after a few turns. Some go away when the whorl switches out.
-[0q2jac1] ? (p) | Some moves call a helper onto the field. This helper is a summon. It stands by its whorl. It has a small HP bar under it.
-[0okk8ob] ? (p) | Each side can have {SUMMON_CAP} summons. A new one past that pushes out the oldest.
-[1sfqzag] ? (p) | A summon acts by itself. Some summons hit foes. Some guard their whorl. A summon that guards takes single hits meant for its out whorl.
-[1k382ll] ? (p) | A summon has no DEF or RES. Each hit on it does half its power.
-[1pt1m2z] ? (p) | You can aim at some summons. When you pick Attack, you may pick the summon instead of the whorl.
-[0n3e3cd] ? (p) | A summon leaves when its HP runs out. Some leave after a set number of turns.
-[0dd8kp4] ? (p) | A shield is extra HP on top of the HP bar. A hit takes the shield first. It shows as a pale line over the HP bar. A shield fades after a few turns.
-[0ft0oe5] ? (p) | You can catch a wild whorl with a horn. The game calls this sounding. A sounded whorl joins your team.
-[03rizkz] ? (p) | In a battle with a wild whorl, pick Sound. Then pick a horn. You can only sound wild whorls.
-[1skw88u] ? (p) | Each horn puts a line on the foe's HP bar. If the foe's HP is at the line or under it, the horn always works.
-[0ebnqv5] ? (s) | Periwinkle horn. The line is at {#1}%. It costs {HORN_PRICE.twig} cowries.
-[01pi4ew] ? (s) | Whelk horn. The line is at {#1}%. It costs {HORN_PRICE.brass} cowries.
-[1muhdpr] ? (s) | Triton horn. The line is at {#1}%. It costs {HORN_PRICE.bone} cowries.
-[0uoepzj] ? (s) | Nautilus horn. It always works. You can find these, but no shop sells them.
-[1uq9ayt] ? (p) | Over the line, a horn may still work. The lower the foe's HP, the better the chance. A Periwinkle horn always has at least a {#1}% chance.
-[0ybg1uo] ? (p) | So first make the foe weak. But do not knock it out. A wild whorl that is knocked out gets away.
-[043htsp] ? (p) | Some things help. If the foe is stunned or asleep, the line goes up {#1}%. If your whorl has more CHA than the foe, the line goes up too, by up to {#2}%. Less CHA moves it down.
-[0vlnnzl] ? (p) | If the horn does not work, you still lose your turn.
-[1kf9xgz] ? (p) | If your team is full, the new whorl goes to the Midden.
-[1l9z8mo] ? (p) | In a battle with a wild whorl, you can also pick Run. Run always works.
-[13zz9py] ? (p) | A notion is a small thing that a whorl holds. Each whorl can hold one notion.
-[07qy65w] ? (p) | Some notions raise a stat. A Whetstone adds 5% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl a little each time it deals damage.
-[1ciohiy] ? (p) | To give a notion, press X for the menu. Pick Team, then a whorl, then Give notion. Take notion puts it back in the Bag.
-[0oow8cr] ? (p) | Some notions have an action. The action is a choice in the battle menu. It works once each battle. It is quick, like a Switch.
-[102f905] ? (p) | Some notions get used up. A Sea Biscuit heals 20% of the whorl's HP. After that battle, the Sea Biscuit is gone.
-[10j0k20] ? (p) | You can buy notions at a grotto. Read each one in the Bag before you give it.
-[00o139z] ? (p) | Nacre is the shiny lining of a shell. You find it in hidden spots. One piece of nacre is one layer.
-[1g7astb] ? (p) | At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds {#1}% to one stat.
-[1sfz8hc] ? (p) | A whorl can take {TAN_PER_STAT} layers in one stat. It can take {TAN_TOTAL} layers in all.
-[1k57mqe] ? (p) | Here is an example. Say a whorl has 69 ATK. With {TAN_PER_STAT} layers on ATK, it has {#2} ATK.
-[0fvxzpz] ? (p) | You can take the layers off for free. Pick Take all layers off. Then you get every layer back to use again.
-[1d7pkiv] ? (p) | To conjoin is to join two whorls into one new whorl. The Conjoiner does it at a grotto.
-[11pvvv4] ? (p) | You pick what the new whorl keeps. It keeps 2 moves from each whorl. It keeps 2 of their habits. It takes 1 or 2 of their types. You also pick its look and its name.
-[1d2bbk7] ? (p) | It can keep 2 crests at most.
-[1kvhqn3] ? (p) | You may retune one move. A retuned move takes one of the new whorl's types.
-[0o6qz95] ? (p) | The new whorl gets the higher level of the two.
-[13m82me] ? (p) | It costs 10 cowries for each level of the higher whorl. Two level 20 whorls cost 200 cowries.
-[070z2kk] ? (p) | Conjoining cannot be undone. Both old whorls are gone after it. Their notions go back to your Bag.
-[1rculhu] ? (p) | The seam is where the two whorls join. The seam costs the new whorl {#1}% of every stat.
-[0hs96pq] ? (p) | A conjoined whorl cannot be conjoined again. Some whorls cannot be conjoined at all. The menu shows them in gray.
-[1v70gwf] ? (p) | A whorl grows by winning battles. Each win gives experience, called XP. Enough XP gives the whorl a new level. A new level raises its stats.
-[18tdkzp] ? (p) | Every whorl in your team gets the XP. It does not matter if it fought. Whorls in the Midden get half.
-[1k4w8bg] ? (p) | When you win, each foe you knocked out or sounded gives XP. A level 10 wild whorl gives 24 XP. A level 10 whorl of a trainer gives 32 XP.
+[051k9c1] ? (p) | A mark is a sign that some moves place on a whorl. Each species has its own marks. Kivishi gains a Stone each time it is hit.
+[1csx1z9] ? (s) | A diamond icon by the HP bar shows the mark's stack count.
+[104isuk] ? (p) | To learn what a mark does, check the habits of the whorl that generates it. In battle, press left or right on the menu to view this information.
+[17leij9] ? (p) | Some marks fade after a few turns. Others disappear when the whorl switches out.
+[0iqlst0] ? (p) | Some moves summon a helper to the field. This summon stays by its whorl and has its own small HP bar.
+[1bgiufj] ? (p) | Each side holds {SUMMON_CAP} summons. New ones displace the oldest.
+[0aklvz1] ? (p) | Summons act independently. Some attack foes, while others protect their whorl. Protective summons absorb single-hit attacks intended for their whorl.
+[0vrrkdc] ? (p) | Summons have no DEF or RES. Any damage dealt to them is reduced by half.
+[01c36t7] ? (p) | You can target specific summons. When choosing Attack, select the summon instead of the whorl.
+[1ji9hqy] ? (p) | Summons disappear when their HP reaches zero. Some also vanish after a set number of turns.
+[0x7exn4] ? (p) | Shields add extra HP above your bar, absorbing hits first. They appear as a pale line and fade after a few turns.
+[05hm1r6] ? (p) | You can capture a wild whorl using a horn. Once caught, it joins your team.
+[06bso2b] ? (p) | Select Catch to grab a wild whorl, then choose a horn. You can only catch wild whorls.
+[0qnq4jt] ? (p) | Each horn has a threshold line. If the foe's HP is at or below it, the horn always succeeds.
+[0mbqsxh] ? (p) | Selecting Catch displays each horn's success rate. "Sure" indicates it cannot fail.
+[0bmd4v4] ? (s) | Periwinkle horn. The threshold is set at {#1}%. It costs {HORN_PRICE.twig} cowries.
+[1uql2xr] ? (s) | Whelk horn. The threshold is set at {#1}%. It costs {HORN_PRICE.brass} cowries.
+[1rdlbhq] ? (s) | Triton horn. The threshold is set at {#1}%. It costs {HORN_PRICE.bone} cowries.
+[1ok7uo7] ? (s) | Nautilus horn. It always succeeds. You can find these, but they are not sold in shops.
+[1p2rxnt] ? (p) | Above the threshold, a horn may still succeed. The lower the foe's HP, the higher the chance. A Periwinkle horn guarantees at least a {#1}% chance.
+[1xihcuo] ? (p) | First, weaken the foe, but do not defeat it. A wild whorl that is knocked out will escape.
+[19gpf9i] ? (p) | Certain factors improve your odds. If the foe is stunned or asleep, the threshold increases by {#1}%. If your whorl has higher CHA than the foe, the threshold rises by up to {#2}%. Lower CHA reduces the threshold.
+[0pouokd] ? (p) | If the horn fails, you still lose your turn.
+[14e2wm0] ? (p) | If your team is full, the newly captured whorl is sent to the Midden.
+[185pztv] ? (p) | When fighting a wild whorl, you can always choose to Run. Run always works.
+[1gi5gwy] ? (p) | A notion is a small item held by a whorl. Each whorl can hold one notion.
+[1cnwnib] ? (p) | Some notions boost a stat. For instance, a Whetstone adds 11% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl slightly each time it deals damage.
+[0dh1tz3] ? (p) | To give a notion, press X to open the menu. Select Team, then a whorl, then Give notion. Take notion returns it to the Bag.
+[1ek6pzz] ? (p) | Some notions trigger an action. This appears as a choice in the battle menu. It can be used once per battle and acts quickly, similar to a Switch.
+[146e7c2] ? (p) | Some notions are consumed upon use. A Sea Biscuit restores 35% of the whorl's HP. After that battle, the Sea Biscuit is gone.
+[1h6evgg] ? (p) | You can purchase notions at a grotto. Read the description of each item in your Bag before using it.
+[0jd9a7h] ? (p) | Nacre is the shiny inner lining of a shell. You can find it in hidden spots. Some trainers will give you a piece of nacre after you win. Each piece represents one layer.
+[0lbirpr] ? (p) | At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds the same points to any stat, helping a weak stat just as much as a strong one.
+[03hhb9u] ? (p) | A layer adds more points as a whorl levels up. It adds {#1} to a stat at level {LEVEL_MAX}. Since HP values are larger, it adds {#3} to HP. The Nacre menu shows the specific bonus for your whorl's current level.
+[097qonq] ? (p) | A whorl can hold {TAN_PER_STAT} layers in a single stat. It can hold {TAN_TOTAL} layers in total.
+[16ku5zx] ? (p) | For example, a level {LEVEL_MAX} whorl with 69 ATK would have {#2} ATK after adding {TAN_PER_STAT} layers to that stat.
+[1q1jqgv] ? (p) | You can remove layers for free by selecting "Take all layers off." This returns every layer to your inventory for reuse.
+[1clrav1] ? (p) | Conjoining merges two whorls into one. Use the Conjoiner at a grotto.
+[10wm5zg] ? (p) | You choose the traits for the new whorl. It keeps 2 moves from each parent and 2 habits in total. It also inherits 1 or 2 types. You also pick its appearance and name.
+[0nt1tzy] ? (p) | It can have at most 2 crests.
+[047a448] ? (p) | You may retune one move. A retuned move takes on one of the new whorl's types.
+[1nttpoj] ? (p) | The new whorl assumes the higher level of the pair.
+[0t36vxm] ? (p) | 10 cowries per higher whorl level. Two level 20 whorls cost 200 cowries.
+[1756gkk] ? (p) | Conjoining is irreversible. The original whorls are destroyed, but their notions return to your Bag.
+[0m53imz] ? (p) | The seam joins whorls, costing the new one {#1}% of every stat.
+[0np9843] ? (p) | A conjoined whorl cannot be joined again. Some cannot be joined at all. The menu displays these options in gray.
+[1vatoma] ? (p) | Whorls grow by winning battles. Each victory grants experience points (XP), which eventually raise the whorl's level and improve its stats.
+[0zgv1yc] ? (p) | All team whorls gain XP, even if inactive. Midden whorls get half.
+[1x84hrg] ? (p) | When you win, each foe you knocked out or caught gives XP. A level 10 wild whorl gives 24 XP. A level 10 whorl of a trainer gives 32 XP.
 [1x4d4iu] ? (p) | Each level needs more XP than the last. A level 5 whorl needs 72 XP to reach level 6.
-[1vt0u0h] ? (p) | A whorl cannot grow past the level cap. Each pearl you win raises the cap. You win a pearl when you beat a keeper.
-[1r3zn01] ? (p) | When your team reaches the cap, the battle tells you.
+[1so0rzv] ? (p) | A whorl cannot exceed the level cap. You raise this cap by winning pearls, which you obtain by defeating keepers.
+[0orjz53] ? (p) | Your team will be notified if you have reached the level cap during a battle.
 [1l9491d] ? (p) | Very long battles make whorls tired. This is called fatigue.
 [19pp9pa] ? (p) | A round is one turn for each side. Fatigue starts after round {FATIGUE_ROUND}.
 [1rkp45f] ? (p) | In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
 [0rgndt8] ? (p) | Fatigue goes past DEF, RES, and Guard. The slower whorl gets hit first.
 [1kc7lj7] ? (p) | So no battle can go on forever. Try to win before fatigue starts.
-[07xj97q] ? (p) | You can wear your lead whorl. Press C to put it on. Press C again to take it off.
-[1oh0hje] ? (p) | When you wear a whorl, its type lets you cross new ground.
-[1bknixs] ? (s) | STONE lets you walk over crazes. A craze is a crack in the ground.
-[1gm13u8] ? (s) | TIDE lets you walk on water and through shallows.
-[1csb1lc] ? (s) | ROOT lets you go through thickets.
-[161jq9r] ? (s) | GEAR lets you pass dead machines. It also turns old cranes.
-[0wvtn5k] ? (s) | BEAST lets you climb ledges.
-[0q1uo0j] ? (s) | STAR lights up dark places.
-[1y5ytnr] ? (p) | A whorl with two types lets you do both things.
-[0l2xaj8] ? (p) | The Bag holds what you carry. Press X for the menu and pick Bag.
-[11zzux2] ? (p) | The Bag has six pockets. Press left or right to change the pocket.
+[13prga8] ? (p) | You can wear your lead whorl. Press C to equip it, and press C again to unequip it.
+[1a3abkc] ? (p) | Equipping a whorl allows you to traverse terrain matching its type.
+[18gy4p9] ? (s) | STONE enables you to cross fractures, cracks in the ground.
+[1kpfnic] ? (s) | TIDE allows you to walk across water and through shallow areas.
+[1b2qj5x] ? (s) | ROOT lets you pass through thickets.
+[0qaz584] ? (s) | GEAR lets you bypass deactivated machines and rotate old cranes.
+[0817j37] ? (s) | BEAST allows you to climb ledges.
+[16e4yjq] ? (s) | STAR illuminates dark areas.
+[1ozitvl] ? (p) | A whorl with two types grants both abilities.
+[05x5u3q] ? (p) | The Bag stores your carried items. Open the menu with X and select Bag.
+[0br8kqf] ? (p) | The Bag contains six pockets. Use left or right to switch pockets.
 [11j8z5x] ? (s) | Items has horns and things to use, like a Salt Line.
-[06v4d56] ? (s) | Notions has notions for your whorls to hold.
-[0sx8ci2] ? (s) | Key items has things for the story. You cannot sell or toss them.
-[0d6g9ly] ? (s) | Finds has things to sell at a grotto.
-[1jbf9il] ? (s) | Lore has things you can read.
-[17ql8wm] ? (s) | Sketches has drawings for the Setting board.
-[1ghw4op] ? (p) | Pick a thing and press Z. Then you can use, read, give, take, or toss it. It depends on the thing.
-[1sjneaw] ? (p) | Press V to sort a pocket by name, or by kind.
-[13e37g2] ? (p) | A Salt Line keeps wild whorls away for 150 steps. A Lure Shell brings out the rarest kind on that map. A Carter's Whistle calls the cart one time.
-[0blukoh] ? (p) | Key items open new places or help the story. The Register is a key item. It lists each kind you have seen and each kind you have sounded.
-[0nkxplb] ? (p) | Cowries are shells that you spend like money.
-[1ouf7y9] ? (p) | You get cowries when you beat a trainer. Each whorl of the trainer pays 12 cowries for each of its levels. Two level 10 whorls pay 240 cowries.
-[1b6e3os] ? (p) | You can sell finds at a grotto. Pick Sell there. The Bag shows what each find sells for. The Strandmonger pays 25% more.
-[0gndhil] ? (p) | You spend cowries on horns, notions, and things to use. Conjoining costs cowries. A ride on the cart costs 10.
+[0zh5a42] ? (s) | Notions holds notions for your whorls.
+[1bk9r6c] ? (s) | Key items are story-critical. You cannot sell or discard them.
+[1lflhdw] ? (s) | Finds includes items you can sell at a grotto.
+[1yhv4j6] ? (s) | Lore contains readable texts.
+[15j23n4] ? (s) | Sketches holds drawings for the Setting board.
+[0afgzm9] ? (p) | Select an item, press Z, then use, read, give, take, or toss it.
+[1vg3qfy] ? (p) | Press V to sort a pocket by name or by kind.
+[1lr27ow] ? (p) | A Salt Line repels wild whorls for 150 steps. A Lure Shell attracts the rarest species on the current map. A Carter's Whistle summons the cart once.
+[1kqujho] ? (p) | Key items unlock new areas or advance the plot. The Register is a key item that catalogs every species you've encountered and caught.
+[1ezp06q] ? (p) | Cowries are shells you spend like money.
+[09fo0rd] ? (p) | You earn cowries by beating trainers. Each whorl pays 12 cowries for every level it has. Two level 10 whorls pay 240 cowries.
+[1vxnxf3] ? (p) | Go to a grotto to sell your finds. Tap Sell. The Bag shows the price. The Strandmonger pays 25% more.
+[1n9bgoe] ? (p) | Spend cowries on horns, notions, and things to use. Conjoining costs cowries. A ride on the cart costs 10.
 [1ynct5y] ? (p) | If your whole team is down, you drop 20% of your cowries. If you have 500, you drop 100.
-[1o3b64k] ? (p) | You can wear a pearl as a charm. A charm helps your whole team in battle. You can wear one charm at a time.
-[0o1yp3y] ? (p) | Press X for the menu and pick Charm.
-[0cdy6zz] ? (s) | Rib. Your lead takes 15% less damage until it switches out.
-[1pc6om4] ? (s) | Mast. Your tide starts at 4, not 2.
-[08woxz5] ? (s) | Spire. Your wind-ups land 25% sooner.
-[0jxg6x5] ? (s) | Bole. Your conjoined whorls deal 8% more damage.
-[1tjav7z] ? (s) | Pylon. A notion action works twice each battle. A notion that gets used up still works once.
-[0gehujg] ? (s) | Tusk. Your whorl waits 20% less after a Switch.
-[1ly3za6] ? (s) | Hilt. When your whorl knocks out a foe, its cooldowns drop by 1.
-[1n302ep] ? (s) | Fall. Your first turn comes 25% sooner.
-[0rm4a8w] ? (p) | A Starborn whorl is a rare whorl with the colors of the night sky. It glows, and it twinkles.
+[107dd82] ? (p) | You can equip a pearl as a charm to boost your entire team in battle. You may only wear one charm at a time.
+[1gkm333] ? (p) | Press X to open the menu and select Charm.
+[1qlpstm] ? (s) | Rib. Your lead takes 15% less damage before it switches out.
+[149dgxp] ? (s) | Mast. Your tide begins at 4 instead of 2.
+[0nvqmps] ? (s) | Spire. Your wind-ups activate 25% faster.
+[1cdh51u] ? (s) | Bole. Your conjoined whorls deal 8% increased damage.
+[02vvg9o] ? (s) | Pylon. One notion action occurs twice per battle. Even a consumed notion still triggers once.
+[1r14nr2] ? (s) | Tusk. Your whorl's delay after switching is reduced by 20%.
+[1c2ak6x] ? (s) | Hilt. When your whorl knocks out a foe, its cooldowns decrease by 1.
+[1tv4df2] ? (s) | Fall. Your first turn arrives 25% sooner.
+[045yz85] ? (p) | A Starborn whorl is a rare variant featuring the colors of the night sky. It glows and twinkles.
 [0y48i6o] ? (p) | About 1 in {STARBORN_ODDS} new wild whorls is Starborn. A new conjoined whorl can be Starborn too, at the same odds.
-[1kpv1bm] ? (p) | A Starborn whorl is just as strong as others of its kind. Only its look is different.
+[1c3olg8] ? (p) | A Starborn whorl is just as strong as others of its species. Only its look is different.
 [0ge635m] ? (p) | A Starborn whorl does not pass on its look when you conjoin it.
-[1smc8tv] ? (p) | Once you see a Starborn whorl, the Register marks its kind with a star.
-[18yyzep] ? (p) | Setting is a puzzle board for setting gems. Press X for the menu and pick Setting.
-[09cql93] ? (p) | Each sketch you find is a new puzzle. You build a machine that makes the piece in the sketch.
-[1lahd15] ? (p) | You put arms and stations on the board. Each arm follows its tape. A tape is a list of steps. Every arm takes one step at the same time.
-[0bhujsw] ? (p) | Grab picks up the stone at the claw. Turning swings the arm. A polisher shines a stone. A setter joins two stones. A splitter breaks them apart.
-[092jcmf] ? (p) | Pick Run to watch the machine go. Pick Step to go one step at a time. Pick Help to read the rules again.
-[11pewwr] ? (p) | A puzzle you solve keeps your best score. Try to use fewer cycles, less cost, or less room.
-[1ystc9x] ? (p) | Practice is on the title screen. It is a place to try out teams. Nothing you do there is saved.
-[1krofjx] ? (p) | You make two teams of 3. Your team is on the left. The foe's team is on the right.
-[0f7b98r] ? (p) | Pick a slot to change it. You can get a random whorl, find any kind by its name, or conjoin two kinds.
-[0w0d49x] ? (p) | Practice battles have tide. Every whorl is level 25 unless you change it.
-[0njyvt6] ? (p) | In a practice battle, press V to open the debug menu. It shows the stats of every whorl. It also shows the foe's last choice. You can change HP and tide there too.
-[124uhp1] ? (p) | When the battle ends, you go back to the teams. Press Start again to play the same battle.
-[0g79kf6] ? (p) | On the Strand, your whorls fight at their Strand level. It starts at 3. It only goes up on the Strand.
-[11ov2uq] ? (p) | Star grains raise the cap on Strand levels.
-[19dtqmp] ? (p) | The sea comes in and goes out. Ring a tide bell to turn the tide.
-[0yke9x6] ? (p) | At high tide, each side starts a battle with 3 tide. At low tide, each side starts with none. Then a star lands every 4th round. It adds 2 tide to each side.
-[1y47pj4] ? (p) | Two more types live on the Strand. They are SALT and VOID.
-[1tug7n1] ? (s) | SALT is strong against ROOT and BEAST. TIDE is strong against SALT.
-[1c6v73p] ? (s) | VOID is strong against STAR and SALT. STONE and GEAR are strong against VOID.
-[0djos5f] ? (p) | Wear a SALT whorl to walk through gray. Wear a VOID whorl to cross the blank.
-[1qf42km] ? (p) | You can leave a whorl in a shell on the Strand. A shell with a whorl in it stays.
+[1ss33nr] ? (p) | Once you encounter a Starborn whorl, the Register marks its species with a star.
+[07lnkh4] ? (p) | Setting is a gem-placement puzzle board. Press X to open the menu and select Setting.
+[023l6ay] ? (p) | Each sketch is a new puzzle. Build a machine to craft the piece shown.
+[00rzmkg] ? (p) | Place arms and stations on the board. Each arm follows its assigned tape, which is a list of steps. All arms execute their steps simultaneously.
+[0dsqkxr] ? (p) | Grab picks up the stone with the claw. Turning swings the arm. A polisher shines a stone. A setter joins two stones. A splitter breaks them apart.
+[14st8sd] ? (p) | Select Run to watch the machine operate. Choose Step to advance one step at a time. Select Help to review the rules.
+[0wqr0bz] ? (p) | Solve puzzles to improve your high score. Aim to minimize cycles, cost, or space usage.
+[00a50ca] ? (p) | Stones cannot rest on an arm's base. Ensure there is enough room for every swing.
+[1vusk01] ? (p) | Shellwrights sell more difficult sketches at the counter. A town sells its own sketches and those from prior towns.
+[19cy4b4] ? (p) | Some purchased sketches require new components. A mold transforms paste into a copy of the stone on its model cell. A chute removes the completed piece.
+[05jjwme] ? (p) | Some allow arms to pivot. A pivot rotates the piece held by an arm a quarter turn around the claw.
+[04bk02j] ? (p) | An input outlined in gold provides one piece for each gold dot, and no more.
+[0w4r47x] ? (p) | Practice is on the title screen. Test teams here. Progress isn't saved.
+[1dx1a6g] ? (p) | Form two teams of 3. Your team is on the left. The enemy team is on the right.
+[0far7tl] ? (p) | Select a slot to modify it. You can get a random whorl, find any species by its name, or conjoin two species.
+[0ccmo63] ? (p) | A team can include each species only once. A conjoined whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined whorl on that team.
+[1km2iqy] ? (p) | Practice battles use tide. Every whorl is level 25 unless you change it.
+[0adlnpl] ? (p) | During a practice battle, press V to open the debug menu. This displays the stats for every whorl and the opponent's last move. You can also modify HP and tide here.
+[1nkx5ze] ? (p) | The game returns you to the teams when the battle ends. Press Start to play the same battle again.
+[1n3vftf] ? (p) | Byssus is online. Opens at a grotto with {ROSTER_SIZE} whorls.
+[1nasm7z] ? (p) | To connect with a player, select Find. To play with a friend, select Make a code, and have them select Use a code.
+[0wnf7cm] ? (p) | Bring {ROSTER_SIZE} whorls, pick {TEAM_SIZE}. The Roster screen shows what breaks a rule.
+[0e11c0t] ? (p) | Random battle uses drawn {ROSTER_SIZE} whorls. No roster needed.
+[0q5twgi] ? (s) | Each species and each notion can be used only once.
+[1f56van] ? (s) | You may include at most {LEGENDARY_MAX} legendary whorls. A legendary is one of the {LEGENDS} rarest whorls.
+[15gjp2x] ? (s) | No charms allowed. All whorls fight at level {SYNC_LEVEL}.
+[193jgh3] ? (p) | Match is best of {GAMES_MAX}. Pick {TEAM_SIZE} before each game.
+[1nr1n3j] ? (p) | {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick your next whorl. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts in a row loses.
+[038fcav] ? (p) | If your connection drops, select "Rejoin" within {HOLD_SECONDS} seconds.
+[0y7rzln] ? (p) | After a match, select Rematch to play the same opponent again. A random battle generates new whorls for the rematch.
+[0crxpln] ? (p) | On the Strand, your whorls fight at their Strand level, which starts at 3 and only increases while on the Strand.
+[0rbh79g] ? (p) | Star grains increase the maximum Strand level.
+[06fhiaq] ? (p) | The tide ebbs and flows. Ring a tide bell to change the tide.
+[131pvrz] ? (p) | At high tide, each side begins with 3 tide. At low tide, each side starts with zero. A star lands every 4th round, giving each side 2 tide.
+[1auggmf] ? (p) | Two additional types exist on the Strand: SALT and VOID.
+[13cs6mn] ? (s) | SALT beats ROOT and BEAST. TIDE beats SALT.
+[15gys3i] ? (s) | VOID beats STAR and SALT. STONE and GEAR beat VOID.
+[0cp8zsa] ? (p) | A SALT whorl lets you walk through the gray. A VOID whorl lets you cross the blank.
+[01wtyhr] ? (p) | You can embed a whorl in a shell on the Strand. Once embedded, the shell remains.

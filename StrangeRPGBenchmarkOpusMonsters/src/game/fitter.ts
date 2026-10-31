@@ -90,7 +90,7 @@ function pickLook(a: SpriteData, b: SpriteData): Promise<{ sprite: SpriteData; s
     draw() {
       backdrop();
       panel(2, 2, 188, 188, undefined, { head: 12 });
-      text('How should it look?', 6, 5, SEL);
+      text('Customize appearance?', 6, 5, SEL);
       for (let idx = 0; idx < COLS * ROWS; idx++) {
         const col = idx % COLS, row = Math.floor(idx / COLS);
         const x = 10 + col * 44, y = 20 + row * 44;
@@ -111,7 +111,7 @@ function pickLook(a: SpriteData, b: SpriteData): Promise<{ sprite: SpriteData; s
 
 export async function fitterMenu(): Promise<void> {
   const pool = (): Mon[] => [...G.party, ...G.rack];
-  if (pool().length < 2) { await say('Conjoiner', 'Two whorls. You need two. You have the one.'); return; }
+  if (pool().length < 2) { await say('Conjoiner', 'Two whorls required. You have one.'); return; }
   const all = pool();
   const ia = await listMenu('Fit which first?', all.map(monLine), { w: 120, disabled: k => !!canFit(all[k]),
     detail: k => { const m = all[k]; panel(128, 4, 60, 44); drawSprite(m.sprite, 140, 10, 4); } });
@@ -123,7 +123,7 @@ export async function fitterMenu(): Promise<void> {
   if (ib < 0) return;
   const B = rest[ib];
   const cost = fitCost(A, B);
-  if (G.rind < cost) { await say('Conjoiner', `${cost} cowries. Ten a level. Come back with it.`); return; }
+  if (G.rind < cost) { await say('Conjoiner', `${cost} cowries. Ten per level. bring it back.`); return; }
 
   const plan = await designFit(A, B);
   if (!plan) return;
@@ -142,8 +142,8 @@ export async function fitterMenu(): Promise<void> {
   else G.rack.push(result);
   sfx('fit');
   save();
-  await say('Conjoiner', `There. ${result.name}. It won't come apart.`);
-  if (nacreBack) await say('Conjoiner', `The old nacre flaked off in the join. ${nacreBack} layers. Yours.`);
+  await say('Conjoiner', `There. ${result.name}. It won't separate.`);
+  if (nacreBack) await say('Conjoiner', `The old nacre flaked off at the join. ${nacreBack} layers. Yours.`);
   await monPage(result);
 }
 
@@ -169,25 +169,25 @@ export async function designFit(A: Mon, B: Mon): Promise<FitPlan | null> {
   const passives = pi.map(k => pIds[k]);
 
   const tops = typeOptions(A, B);
-  const ti = await listMenu('Which types?', tops.map(t => t.join(' and ')), { w: 150,
-    detail: () => { panel(4, 150, 184, 36); wrap('Two types means more moves get the same-type bonus, and more weaknesses.', 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } });
+  const ti = await listMenu('What kind?', tops.map(t => t.join(' and ')), { w: 150,
+    detail: () => { panel(4, 150, 184, 36); wrap('Two types mean more moves get the same-type bonus, but also more weaknesses.', 176).forEach((l, n) => text(l, 8, 154 + n * 9, PAPER)); } });
   if (ti < 0) return null;
   const types = tops[ti];
 
   let basic: 'P' | 'M' = A.basic;
   if (A.basic !== B.basic) {
-    const bi = await choose(['Physical attacks', 'Magic attacks'], true, 'Is its plain Attack physical or magic?');
+    const bi = await choose(['Physical attacks', 'Magic attacks'], true, 'Is its standard Attack physical or magical?');
     if (bi < 0) return null;
     basic = bi === 0 ? 'P' : 'M';
   }
 
   let retune: FitPlan['retune'] = null;
-  const rt = await choose(['No', 'Retune a move'], true, 'Retune one move to one of its types?');
+  const rt = await choose(['No', 'Retune a move'], true, 'Adjust one move to one of its types?');
   if (rt < 0) return null;
   if (rt === 1) {
-    const mk = await listMenu('Retune which move?', moves.map(id => `${MOVES[id].name} (${MOVES[id].type})`), { w: 150 });
+    const mk = await listMenu('Which move?', moves.map(id => `${MOVES[id].name} (${MOVES[id].type})`), { w: 150 });
     if (mk >= 0) {
-      const tk = await listMenu('To which type?', types, { w: 100 });
+      const tk = await listMenu('To what type?', types, { w: 100 });
       if (tk >= 0) retune = { move: moves[mk], type: types[tk] as Type };
     }
   }
@@ -195,7 +195,7 @@ export async function designFit(A: Mon, B: Mon): Promise<FitPlan | null> {
   const look = await pickLook(baseSprite(A), baseSprite(B));
   if (!look) return null;
   const names = nameOptions(A.name, B.name);
-  const ni = await listMenu('What is it called?', names, { w: 100,
+  const ni = await listMenu('What should it be named?', names, { w: 100,
     detail: () => { panel(110, 4, 40, 40); drawSprite(look.sprite, 114, 8, 4); } });
   if (ni < 0) return null;
   return { moves, passives, types: types as Type[], basic, retune, sprite: look.sprite, name: names[ni], look: { shape: look.shape, palette: look.palette } };
@@ -232,9 +232,9 @@ function confirm(A: Mon, B: Mon, p: FitPlan, cost: number): Promise<boolean> {
       for (const id of p.passives) { text(PASSIVES[id].name, 8, y, GOOD); y += 9; }
       y += 3;
       text(`Attacks: ${p.basic === 'P' ? 'physical' : 'magic'}`, 8, y, DIM);
-      text(`The seam costs it ${Math.round((1 - FIT_STAT) * 100)}% of every stat.`, 8, 141, DIM);
-      text(`Cost ${cost} cowries. You have ${G.rind}.`, 8, 150, G.rind >= cost ? PAPER : BADC);
-      text('Both parents are gone after this.', 8, 160, WARN);
+      text(`The seam drains ${Math.round((1 - FIT_STAT) * 100)}% from all its stats.`, 8, 141, DIM);
+      text(`That costs ${cost} cowries. You have ${G.rind}.`, 8, 150, G.rind >= cost ? PAPER : BADC);
+      text('Both parents will be lost in the process.', 8, 160, WARN);
       ['Fit them', 'Not yet'].forEach((o, k) => { if (k === i) { rowBar(6, 170 + k * 9, 60); cursor(8, 170 + k * 9); } text(o, 16, 170 + k * 9, k === i ? SEL : PAPER); });
       void bigCount;
     },

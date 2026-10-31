@@ -52,15 +52,15 @@ defMap({
   ],
   zone: { kinds: [['crane', 3], ['turbine', 3], ['furnace', 3], ['orrery', 2], ['perigee', 1], ['fulgur', 2], ['piston', 2]], lv: [13, 15], n: 17, area: 'scrap' },
   npcs: [
-    { id: 'tinker', x: 8, y: 14, sprite: 'tanner', name: 'Tinker', dir: 0, trainer: { name: 'Tinker', team: [['piston', 14], ['orrery', 14]], intro: 'These machines were the Riders\'. They turned ages ago. The casts are still on shift.', defeat: 'Huh. They\'re still working. I\'m not.', sight: 3 } },
-    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { nacre: 1, name: 'Coaler', team: [['furnace', 14], ['crane', 14]], intro: 'A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.', defeat: 'Great. Cold sleep tonight.', sight: 3 } },
-    { id: 'peel5', x: 30, y: 14, sprite: 'peeler', name: 'Hermit', dir: 0, trainer: { name: 'Hermit', team: [['gore', 14], ['quarry', 14]], intro: 'Pylon\'s next. She says that one\'ll be hard. She\'s usually right about hard.', defeat: 'It\'s hard.', sight: 3 } },
-    { id: 'watcher', x: 38, y: 16, sprite: 'elder', name: 'Watcher', dir: 2, trainer: { name: 'Watcher', team: [['perigee', 14], ['fulgur', 14], ['turbine', 15]], intro: 'See that? Satellite\'s cast. Fell in the winter. We call it shellfall. I said it first.', defeat: 'The rest of it\'s still up there. Going round with no shell on. Brr.', sight: 4 } },
+    { id: 'tinker', x: 8, y: 14, sprite: 'tanner', name: 'Tinker', dir: 0, trainer: { name: 'Tinker', team: [['piston', 14], ['orrery', 14]], intro: 'These machines were the Riders\'. They shed their shells ages ago. The casts are still on shift.', defeat: 'Huh. They\'re still running. I\'m not.', sight: 3 } },
+    { id: 'coaler', x: 18, y: 16, sprite: 'villager2', name: 'Coaler', dir: 2, trainer: { nacre: 1, name: 'Coaler', team: [['furnace', 14], ['crane', 14]], intro: 'A furnace cast stays warm for a century. I sleep right against it. Best sleep of my life.', defeat: 'Wonderful. Another cold night ahead.', sight: 3 } },
+    { id: 'peel5', x: 30, y: 14, sprite: 'peeler', name: 'Hermit', dir: 0, trainer: { name: 'Hermit', team: [['gore', 14], ['quarry', 14]], intro: 'Pylon\'s next. She says it\'ll be tough. She\'s usually right about tough.', defeat: 'It\'s hard.', sight: 3 } },
+    { id: 'watcher', x: 38, y: 16, sprite: 'elder', name: 'Watcher', dir: 2, trainer: { name: 'Watcher', team: [['perigee', 14], ['fulgur', 14], ['turbine', 15]], intro: 'See that? Satellite\'s cast. Fell in winter. We call it shellfall. I coined the term.', defeat: 'The rest of it is still orbiting up there, stripped of its shell. Brr.', sight: 4 } },
     { id: 'gatekeeper_n', x: 25, y: 28, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateN' },
   ],
   spots: [
-    stash('mf_nw', 3, 3, 'Behind the dead machine, a tin of Rider rations, still sealed, and a cog.', { items: [['ridertin', 1]], notion: 'ridercog' }),
-    stash('mf_se', 44, 26, 'Behind the other dead machine, two Rider tins stacked as if for later.', { items: [['ridertin', 2]] }),
+    stash('mf_nw', 3, 3, 'Behind the inert machine lies a sealed tin of Rider rations and a single cog.', { items: [['ridertin', 1]], notion: 'ridercog' }),
+    stash('mf_se', 44, 26, 'Behind the other broken machine, two Rider tins are stacked as if waiting to be used later.', { items: [['ridertin', 2]] }),
   ],
   enter: 'route5Enter',
 });
@@ -115,15 +115,15 @@ defMap({
   tileTalk: { B: 'pylonStay', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 15, y: 15, sprite: 'tanner', name: 'Shellwright', talk: 'humTannery' },
-    { id: 'h1', x: 9, y: 17, sprite: 'hummer', name: 'Woman', lines: ['Mm. Keep humming. Stop and you can\'t hear it change. Mmmm. Like that. You\'re a bit flat.'] },
-    { id: 'h2', x: 28, y: 16, sprite: 'villager2', name: 'Man', lines: ['The Riders built it, mm, and we stuck it in the ground. It didn\'t mind. We asked.'] },
-    { id: 'h3', x: 24, y: 30, sprite: 'child', name: 'Child', wander: true, lines: ['Mmmm. I hum in my sleep. Mum says. She also says I kick.'] },
-    { id: 'h4', x: 11, y: 25, sprite: 'oldwoman', name: 'Old woman', lines: ['Mm. The note\'s dropped twice this year. Once for the Mast, once for the Bole. My teeth felt both.'] },
+    { id: 'h1', x: 9, y: 17, sprite: 'hummer', name: 'Woman', lines: ['Mm. Keep humming. If you stop, you\'ll miss the shift. Mmmm. Like that. You\'re a little flat.'] },
+    { id: 'h2', x: 28, y: 16, sprite: 'villager2', name: 'Man', lines: ['The Riders constructed it, mm, and we drove it into the earth. It didn\'t object. We asked.'] },
+    { id: 'h3', x: 24, y: 30, sprite: 'child', name: 'Child', wander: true, lines: ['Mmmm. I hum while I\'m asleep, Mum says. She also says I kick.'] },
+    { id: 'h4', x: 11, y: 25, sprite: 'oldwoman', name: 'Old woman', lines: ['Mm. The pitch has dropped twice this year. Once for the Mast, once for the Bole.', 'I felt both in my teeth.'] },
     { id: 'zestp', x: 22, y: 14, sprite: 'zest', name: 'Tellin', dir: 0, when: () => has('pylon') && !flag('zestPylon') },
-    { id: 'pp1', x: 19, y: 13, sprite: 'peeler', name: 'Hermit', when: () => has('pylon') && !flag('bareBeaten'), lines: ['Hold the haul. Hold it. Okay, you can breathe.'] },
+    { id: 'pp1', x: 19, y: 13, sprite: 'peeler', name: 'Hermit', when: () => has('pylon') && !flag('bareBeaten'), lines: ['Hold the line. Hold it. Alright, you can breathe now.'] },
     { id: 'pp2', x: 25, y: 13, sprite: 'peeler', name: 'Hermit', when: () => has('pylon') && !flag('bareBeaten'), lines: ['This one\'s loose. Feel that? No, don\'t touch it.'] },
     { id: 'pg', x: 21, y: 13, sprite: 'peeler', name: 'Hermit', when: () => has('pylon') && !flag('bareBeaten') && !flag('pgGone') },
-    { id: 'eguard', blocks: true, x: 42, y: 17, dir: 0, sprite: 'hummer', name: 'Hummer', when: () => !flag('ch5done'), lines: ['Nobody goes east while the Pylon\'s wrong. Mmmmm. Hear that? Wrong.'] },
+    { id: 'eguard', blocks: true, x: 42, y: 17, dir: 0, sprite: 'hummer', name: 'Hummer', when: () => !flag('ch5done'), lines: ['Nobody travels east while the Pylon is out of tune. Mmmmm. Hear that? It\'s wrong.'] },
   ],
   triggers: [{ x: 20, y: 15, w: 5, h: 2, script: 'zestPylon', when: () => has('pylon') && !flag('zestPylon') }],
   enter: 'humEnter',
@@ -149,8 +149,8 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }, { x: 7, y: 11, to: 'hum', tx: 6, ty: 13, dir: 0 }],
   npcs: [
     { id: 'ohm', x: 6, y: 1, sprite: 'ohm', name: 'Ohm', talk: 'ohm' },
-    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah okay. Me neither, now.', team: () => [withNotion('piston', 14, 'edgecharm'), withNotion('crane', 14, 'thornvest')] } },
-    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Put a notion on the right whorl and it\'s a whole other whorl. Ohm taught me that. Didn\'t say a word.', defeat: 'Ohm\'s gonna be quiet about this. Like, extra quiet.', team: () => [withNotion('furnace', 14, 'embercoat'), withNotion('turbine', 14, 'waxseal')] } },
+    { id: 'ohm1', x: 10, y: 4, sprite: 'boy', name: 'Conjoiner\'s boy', dir: 3, trainer: { nacre: 1, name: 'Conjoiner\'s boy', sight: 5, intro: 'Ohm makes notions. I\'ve worked here two years and Ohm\'s never said a whole sentence. Not one.', defeat: '...Yeah, alright. Me neither, now.', team: () => [withNotion('piston', 14, 'edgecharm'), withNotion('crane', 14, 'thornvest')] } },
+    { id: 'ohm2', x: 3, y: 7, sprite: 'tanner', name: 'Tinker', dir: 1, trainer: { name: 'Tinker', sight: 5, intro: 'Right whorl gets a notion, and the whole whorl changes. Ohm showed me that. Didn\'t say a word.', defeat: 'Ohm\'s going to be quiet about this. Like, exceptionally quiet.', team: () => [withNotion('furnace', 14, 'embercoat'), withNotion('turbine', 14, 'waxseal')] } },
   ],
 });
 
@@ -175,15 +175,15 @@ defMap({
   warps: [{ x: 7, y: 13, to: 'hum', tx: 22, ty: 13, dir: 0 }],
   npcs: [
     { id: 'barep', x: 7, y: 6, sprite: 'bare', name: 'Bare', dir: 0, talk: 'barePylon', when: () => !flag('bareBeaten') },
-    { id: 'pyp1', x: 3, y: 8, sprite: 'peeler', name: 'Hermit', when: () => !flag('bareBeaten') && !flag('pypOut'), lines: ['Breathe out, she says. So I breathe out. Doesn\'t help me any, but I do it.'] },
-    { id: 'pyp2', x: 10, y: 8, sprite: 'peeler', name: 'Hermit', when: () => !flag('bareBeaten') && !flag('pypOut'), lines: ['It hums wrong when she touches it. Gives me the shivers.'] },
+    { id: 'pyp1', x: 3, y: 8, sprite: 'peeler', name: 'Hermit', when: () => !flag('bareBeaten') && !flag('pypOut'), lines: ['She says, "Breathe out." So I breathe out. It doesn\'t help me, but I do it anyway.'] },
+    { id: 'pyp2', x: 10, y: 8, sprite: 'peeler', name: 'Hermit', when: () => !flag('bareBeaten') && !flag('pypOut'), lines: ['It hums incorrectly when she touches it. It gives me the chills.'] },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
 defScript('route5Enter', async () => {
-  if (!flag('ch5start')) { setFlag('ch5start'); goal('Go east across the machine fields to Hum.'); }
+  if (!flag('ch5start')) { setFlag('ch5start'); goal('Head east across the machine fields to reach Hum.'); }
 });
 
 defScript('humEnter', async () => {
@@ -194,7 +194,7 @@ defScript('humEnter', async () => {
     await pan(22, 10);
     await emote('ouro', 'music');
     await panBack();
-    goal('Ohm keeps the Pylon. The workshop is west of it.');
+    goal('Ohm holds the Pylon. The workshop lies to its west.');
   }
 });
 
@@ -202,11 +202,11 @@ defScript('humTannery', async () => { setFlag('fitter_hum'); await tannery('hum'
 defScript('pylonStay', async () => { await act('ouro', 'shiver'); await emote('ouro', 'music'); });
 
 defScript('ohm', async () => {
-  if (has('pylon')) { await say('Ohm', flag('bareBeaten') ? 'Yes.' : 'Pylon. Hermits. Now. Four point nought nought one dwems.'); return; }
-  await say('Ohm', 'Yes.');
-  const c = await choose(['Are you Ohm?', 'I want the pearl']);
+  if (has('pylon')) { await say('Ohm', flag('bareBeaten') ? 'That\'s right.' : 'Pylon. Hermits. Now. Four point zero zero one dwems.'); return; }
+  await say('Ohm', 'Correct.');
+  const c = await choose(['Is that you, Ohm?', 'I want the pearl.']);
   void c;
-  await say('Ohm', 'Yes.');
+  await say('Ohm', 'It is.');
   await say('Ohm', 'Four. Notions. Each. Two point two six skellets.');
   const r = await fightTrainer({ name: 'Ohm', ai: 'keeper', intro: '', defeat: '',
     team: () => [withNotion('turbine', 13, 'longshin'), withNotion('piston', 13, 'edgecharm'), withNotion('furnace', 14, 'embercoat'), withNotion('perigee', 14, 'bodkin')] });
@@ -215,20 +215,21 @@ defScript('ohm', async () => {
   giveScale('pylon');
   giveNotion('salttear');
   await act('ohm', 'bow');
-  await notice('Ouro gets the Pylon pearl and a Salt Tear.');
+  await notice('Ouro claims the Pylon pearl and a Salt Tear.');
   await say('Ohm', 'No.');
-  await choose(['No what?']);
+  await choose(['No, what?']);
   await say('Ohm', 'Pylon. Hermits. Now. Eleven point three gallimots.');
-  goal('The Hermits are at the Pylon.');
+  goal('The Hermits are waiting at the Pylon.');
 });
 
 defScript('zestPylon', async () => {
   await Promise.all([act('pp1', 'shiver'), act('pp2', 'shiver'), act('pg', 'shiver')]);
   faceToward('zestp', 'ouro');
-  await say('Tellin', 'Oh hey hey, you again, okay, I\'m winning, you\'re just arriving, it\'s going the way of the Bole, so.');
+  await say('Tellin', 'Oh, hey. Look who it is. I\'m ahead of you. You\'re just showing up now.');
+  await say('Tellin', 'Things are going the way of the Bole, so...');
   const r = await fightTrainer({ name: 'Tellin', team: [['crane', 16], ['yoke', 16], ['thumb', 16], ['gore', 17]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Tellin', 'Okay so I\'m losing, that\'s fine, that\'s totally fine, I\'m going round the back, nobody follow me.');
+  await say('Tellin', 'Okay, fine, I\'m behind. No big deal. Totally fine. I\'m slipping around the back. Stay out of my way.');
   // Tellin walks round the Pylon and out of sight.
   await walkOff('zestp', 36, 8);
   setFlag('zestPylon');
@@ -236,8 +237,8 @@ defScript('zestPylon', async () => {
   await pan(22, 12);
   await emote('ouro', 'question');
   await say('Bare', 'Arms in first. Then the head. That\'s it.');
-  await say('Bare', 'Now breathe out. And through you go.');
-  await say('Hermit', 'Uh, she was saying that to herself. Don\'t copy her.');
+  await say('Bare', 'Now exhale. And push through.');
+  await say('Hermit', 'Uh, she was talking to herself. Don\'t mimic her.');
   await panBack();
   await walkOff('pg', 6, 18);
   setFlag('pgGone');
@@ -248,32 +249,32 @@ defScript('zestPylon', async () => {
   setFlag('wearing');
   field.wearing = true;
   await act('ouro', 'shiver');
-  await hint('(Press C to wear your lead whorl or take it off. Its type decides what ground you can cross.)');
-  await hint('(STONE crosses crazes. A craze is a crack. TIDE walks on water. ROOT goes through thickets.)');
-  await hint('(GEAR passes dead machines. BEAST climbs ledges. STAR lights up dark places.)');
-  goal('Go through the gap in the Pylon.');
+  await hint('(Press C to equip or remove your lead whorl. Its type determines which terrain you can traverse.)');
+  await hint('(STONE crosses fractures. A fracture is a crack. TIDE walks on water. ROOT moves through thickets.)');
+  await hint('(GEAR passes through dead machines. BEAST climbs ledges. STAR illuminates dark areas.)');
+  goal('Pass through the gap in the Pylon.');
 });
 
 defScript('barePylon', async () => {
-  await say('Bare', 'Okay. Stop there.');
-  await say('Bare', 'Take that off. You\'ll want your arms for this.');
+  await say('Bare', 'Alright. Stop right there.');
+  await say('Bare', 'Take that off. You\'ll need your arms free for this.');
   field.wearing = false;
-  await say('Bare', 'Go on, send out your first.');
+  await say('Bare', 'Go on, deploy your first.');
   const r = await fightTrainer({ name: 'Bare', team: [['carrion', 16], ['undertow', 16], ['hemlock', 16], ['quarry', 17]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Bare', 'Enough. Tools down. All of it.');
-  await say('Bare', 'All of you, out. Watch your heads on the way.');
+  await say('Bare', 'That\'s enough. Lower your tools. Everything.');
+  await say('Bare', 'Everyone out. Watch your heads as you go.');
   await Promise.all([walkOff('pyp1', 7, 13), (async () => { await wait(10); await walkOff('pyp2', 7, 13); })()]);
   setFlag('pypOut');
-  await say('Bare', 'Hey. Turn around for me.');
-  await say('Bare', 'Put your hand on the back of your neck.');
+  await say('Bare', 'Hey. Turn around.');
+  await say('Bare', 'Place your hand on the back of your neck.');
   face('ouro', (field.dir + 2) % 4);
   await wait(20);
   await act('ouro', 'shiver');
   await emote('ouro', 'surprise');
-  await say('Bare', 'That\'s the Mast and the Bole.');
-  await say('Bare', 'Count the Stays. Count what\'s left.');
-  await say('Bare', 'Go on, then. Save another one.');
+  await say('Bare', 'This is the Mast and the Bole.');
+  await say('Bare', 'Tally the Seals. See what remains.');
+  await say('Bare', 'Go on, then. Spare another one.');
   await walkOff('barep', 7, 13);
   setFlag('bareBeaten');
   await wait(20);
@@ -283,10 +284,10 @@ defScript('barePylon', async () => {
   await walkUp('tanner');
   sound('page');
   giveKey('letter');
-  await notice('Ouro gets a letter with a black spiral seal.');
-  await say('Letter', 'The Volute has to hold. You will not be thanked twice. Cinch.');
-  await say('Shellwright', 'Mm. Never had a letter from the Apex come through here. Mm. You keep that. Frame it, maybe.');
+  await notice('Ouro receives a letter bearing a black spiral seal.');
+  await say('Letter', 'The Volute must hold. You won\'t get thanked twice. Signed, Cinch.');
+  await say('Shellwright', 'Hm. Never seen an Apex letter come through here. Hm. You keep it. Maybe frame it.');
   await walkTo('tanner', 15, 15);
   setFlag('ch5done');
-  goal('Go east to the tundra and Tusk. Turnstone is a cart ride away.');
+  goal('Head east toward the tundra and Tusk. Turnstone is just a cart ride away.');
 });

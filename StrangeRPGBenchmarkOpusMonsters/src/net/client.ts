@@ -38,7 +38,7 @@ let generation = 0;
 export function leaveByssus(): void { generation++; }
 
 /** What a queue request answers when the player left before the lobby replied. */
-export const CANCELED = 'The wait was canceled.';
+export const CANCELED = 'The wait has been canceled.';
 
 export type QueueKind = 'public' | 'host' | 'join';
 
@@ -61,9 +61,9 @@ export function cancelQueue(room: string, code?: string): Promise<QueueReply> { 
 async function post(path: string, body: object): Promise<QueueReply> {
   try {
     const res = await fetch(`${byssusBase()}/api/queue/${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-    return readQueueReply(await res.json()) ?? { ok: false, reason: 'The lobby sent an answer this version cannot read.' };
+    return readQueueReply(await res.json()) ?? { ok: false, reason: 'The lobby provided an answer this version cannot process.' };
   } catch {
-    return { ok: false, reason: 'The rooms could not be reached.' };
+    return { ok: false, reason: 'The rooms are unreachable.' };
   }
 }
 
@@ -185,7 +185,7 @@ export class NetLink implements Link {
     // over, such as a copy of this tab, keeps it, so this page stops rather than taking it back and forth.
     ws.addEventListener('close', ev => {
       if (ev.code === CLOSE_REPLACED) { this.lost('Another page took this seat.'); return; }
-      this.dropped(!this.opened ? 'The room could not be reached.' : ev.code === 1006 ? 'The link died without closing.' : 'The room closed the link.');
+      this.dropped(!this.opened ? 'The room could not be reached.' : ev.code === 1006 ? 'The link died without closing.' : 'The room severed the connection.');
     }, on);
     // A hidden tab's timers slow to about once a minute, so the silence it comes back to says nothing about the room.
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.lastHeard = Date.now(); }, on);
@@ -210,8 +210,8 @@ export class NetLink implements Link {
     if (this.gen !== generation) { this.shut(); return; }
     const now = Date.now();
     if (this.back) {
-      if (now >= this.holdUntil) { forgetSeat(); this.lost(`The byssus went slack, and the room's hold ran out. ${this.slackWhy}`.trim()); return; }
-      if (this.ws && this.opened && now - this.triedAt >= ANSWER_MS) this.dropped('The room did not answer.');
+      if (now >= this.holdUntil) { forgetSeat(); this.lost(`The byssus went slack, and the room's grip faded. ${this.slackWhy}`.trim()); return; }
+      if (this.ws && this.opened && now - this.triedAt >= ANSWER_MS) this.dropped('The room didn\'t respond.');
       if (!this.ws && now >= this.retryAt) this.connect();
       return;
     }
@@ -221,7 +221,7 @@ export class NetLink implements Link {
     const late = now - this.lastCheck - WATCH_MS;
     this.lastCheck = now;
     if (late >= SLEEP_SLACK_MS) { this.lastHeard = now; return; }
-    if (document.visibilityState === 'visible' && now - this.lastHeard >= SILENCE_MS) this.dropped('The room stopped answering.');
+    if (document.visibilityState === 'visible' && now - this.lastHeard >= SILENCE_MS) this.dropped('The room stopped responding.');
   }
 
   close(): void { this.shut(); }
@@ -266,7 +266,7 @@ export class NetLink implements Link {
     if (this.closed) return;
     this.lastHeard = Date.now();
     const m = readRoom(raw);
-    if (!m) { this.lost('The room sent a message this version cannot read. Reload the page.'); return; }
+    if (!m) { this.lost('The room sent a message this version cannot read. Please reload the page.'); return; }
     if (m.type === 'pong') { this.keep(); return; }
     this.note(`in ${m.type}${'n' in m ? ` ${m.n}` : ''}`);
     if (m.type === 'resumeFailed') { forgetSeat(); this.lost(m.reason); return; }

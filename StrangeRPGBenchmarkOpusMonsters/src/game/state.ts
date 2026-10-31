@@ -289,9 +289,9 @@ export function addMon(m: Mon): 'party' | 'rack' {
 
 export const DIFFICULTY_NAMES = ['Normal', 'Challenge', 'Hard'];
 export const DIFFICULTY_TEXT = [
-  'Foes are the levels the story sets.',
-  'Every foe is 10% higher in level and fights smarter.',
-  'Every foe is 20% higher in level plus 1, and fights as well as a champion.',
+  'Foes correspond to the story\'s levels.',
+  'Enemies are 10% higher in level and fight smarter.',
+  'Each foe is 20% higher in level plus 1, and fights as well as a champion.',
 ];
 /** A foe's level on the current difficulty, wild whorls included. */
 export function foeLevel(level: number): number {

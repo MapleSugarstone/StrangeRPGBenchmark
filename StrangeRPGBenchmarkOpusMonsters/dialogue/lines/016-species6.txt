@@ -1,0 +1,64 @@
+# WHORL game text, chunk 16 of 26. Files: src/data/species6.ts, src/data/species7.ts
+# Speakers: Register entry: Konleva (1), Register entry: Nikusa (1), Register entry: Syvakai (1), Register entry: Tahtode (1), Register entry: Lonshu (1), Register entry: Puhalki (1), Register entry: Tynagi (1), Register entry: Soryubi (1), Register entry: Yliri (1), Register entry: Paimori (1), Register entry: Monti (1), Register entry: Mukabe (1), Register entry: Hafusen (1), Register entry: Kuorisho (1), Register entry: Hupfuta (1), Register entry: Ashiaki (1), Register entry: Tulisei (1), Register entry: Heinaba (1), Register entry: Ruojiki (1), Register entry: Shidor (1), Register entry: Ikapia (1), Register entry: Kutelo (1), Register entry: Pakui (1), Register entry: Tifuda (1), Register entry: Tyhaki (1), Register entry: Hyrkoma (1), Register entry: Kidedan (1), Register entry: Sivuko (1), Register entry: Picagi (1), Register entry: Kakulo (1), Register entry: Masilma (1), Register entry: Sirdori (1), Register entry: Manva (1), Register entry: Kohisai (1), Register entry: Kukhana (1), Register entry: Kosango (1), Register entry: Shinmi (1), Register entry: Korvami (1), Register entry: Suomono (1), Register entry: Tenbinka (1), Register entry: Hilzuka (1), Register entry: Laibiru (1), Register entry: Sisarmai (1), Register entry: Pakaeri (1), Register entry: Astrolabe (1), Register entry: Pallasite (1), Register entry: Rusumo (1), Register entry: Petami (1), Register entry: Opaski (1), Register entry: Kotigai (1), Register entry: The Gleaner (1), Register entry: Carcanet (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/species6.ts
+
+== scene: species6
+[1t2g6ew] Register entry: Konleva | Kelp from the Low Line. It stands tall when the tide recedes. It lies down out of politeness when you sit nearby. Manners cost two cowries.
+[1hs3s5e] Register entry: Nikusa | A patch of sea meadow with a face in it! Step on it, and it flattens, slowing your stride. Two cowries. Retrieve your foot before supper.
+[1lfo71o] Register entry: Syvakai | From a lightless depth, with both eyes atop its head. It stares at the sky constantly. Three cowries. It refuses to look at money.
+[0xbi4u2] Register entry: Tahtode | It claims to have fallen from the sky. It has repeated this story at every market for six years. Two cowries, regardless of what it says.
+[04mbp8l] Register entry: Lonshu | One arm from a nautilus. It let go and kept reaching, yet has found nothing to hold. Three cowries. It has been reaching for my purse.
+[0pggr17] Register entry: Puhalki | Plus the jet the nautilus breathes out. It breathes other things away from it, mostly my stall. Two cowries. Pay from over there.
+[00dypzx] Register entry: Tynagi | The pause between tides, trapped in a shell. Nothing near it moves. I sold one once. The buyer remains. Four cowries.
+[13cp1zc] Register entry: Soryubi | A frozen brine finger reached the sea floor. Points down. Always correct. Hand over three cowries, mittens on.
+[0omusxn] Register entry: Yliri | The night a star crossed the moon, preserved and replayed. Twice, if you watch. Four cowries for both showings.
+[1dk6b8a] Register entry: Paimori | Stones the Nautilus folk carried to sink a room. They sink on their own now. Three cowries. Weigh it before you pay, and after.
+[0crae37] Register entry: Monti | A gate between two Nautilus rooms. It lets one side through but never specifies which. Three cowries, or the other side of three.
+[127n64w] Register entry: Mukabe | An interior wall of the Nautilus. Seals off whatever passes, so I take the long route around it. Three cowries. Do not lead.
+[1bnplfk] Register entry: Hafusen | Air from a sealed room, kept so long it grew a shell. It smells of the year the room was shut. Good year. Two cowries.
+[08cpil4] Register entry: Kuorisho | Salt stains forming rings where a puddle evaporated. Steals a ring from anyone standing inside. Three cowries, minus a ring.
+[1vlf0m3] Register entry: Hupfuta | The hood a nautilus shuts its door with. Shuts any door. Mine hasn't opened since! Writing this through the window. Four cowries.
+[17oab5x] Register entry: Ashiaki | Gleaner's footprint, house-long. Stars land in it willingly. Three cowries per footprint. The foot isn't mine to sell.
+[1vp63vh] Register entry: Tulisei | A star that descended brightly at a spring low and refused to go out. Don't put it in your pocket! Four cowries, plus a new pocket.
+[0erxos3] Register entry: Heinaba | Dune grass. Its roots keep the Long Strand intact, but one root walked away, and this is it. Two cowries. The Strand wants it back.
+[1l9nnd5] Register entry: Ruojiki | A brittle salt plant from the base of a label post. It spits, and salt accumulates on whatever it hits. Two cowries per pinch.
+[11fe4ew] Register entry: Shidor | The blinding white glare of a salt flat at night. Stare at it, and everything else fades, including the price. Three cowries.
+[0px0cko] Register entry: Ikapia | Cuttlefish bone. Mirrors its neighbor. Matched my counter a week prior. Three cowries. It's on the counter. Somewhere.
+[011034j] Register entry: Kutelo | A jellyfish left by the spring low. It ripples when anyone speaks nearby, so I'm writing this entry very quietly. Three cowries.
+[0u83edo] Register entry: Pakui | White post in a Tray slot. Stands only where placed. Four cowries, so choose its spot wisely.
+[1t8da1l] Register entry: Tifuda | Label post. Walks to the nearest shell, stands before it. Before me since Tuesday. Three cowries. Hasn't written yet.
+[1mheaqf] Register entry: Tyhaki | An empty slot in the Tray, still waiting for its shell. It's square and expectant. It expects at least four cowries from you.
+[1wfuddf] Register entry: Hyrkoma | Top shell from a Tray world. Spins unseen, so I sell it blind. Three cowries. Count change by touch.
+[1salk5f] Register entry: Kidedan | A hollow salt crystal, stepped into like a staircase. Every step leads deeper, and none lead out. Three cowries go in. None come out.
+[1yiejxl] Register entry: Sivuko | A crab, crusted white with salt. It walks between the slots but never into one. It's sideways about the price, too. Three cowries.
+[1fncjpb] Register entry: Picagi | It took one of everything from the Tray and keeps them all under its wings. It took one of my cowries, too. Four cowries, so five, really.
+[0poo5hn] Register entry: Kakulo | Mudlark's hole. Traps finds and people. I fell in, lost an afternoon. Cost: Three cowries.
+[0093uam] Register entry: Masilma | Stalked eye from a conch. It hasn't blinked in the three years I've had it. I always blink first. Cost: Three cowries.
+[1t9k8x3] Register entry: Sirdori | A shore bird that skims the edge of every wave. It has never been wet in its life. Two cowries, dry.
+[06p1n56] Register entry: Manva | The crest of a high tide that breached the Conch and refused to leave. It drenches whatever sits lowest. Three cowries for a puddle.
+[1piowmh] Register entry: Kohisai | Conch's inner roar. You hear the shell, not the sea. Backward sound. Cost: Three cowries either way.
+[0dbeqd1] Register entry: Kukhana | Salt bloom on the Conch's lip, where the spray dries. Preserves all it touches the same way. My hands remain dry. Cost: Three cowries.
+[10f8f3p] Register entry: Kosango | Hand-shaped coral on the Conch's outside. It grips tight. Pay four cowries if it releases you in time.
+[0z2qk78] Register entry: Shinmi | A pink pearl that rolls toward voices. Speak its price, and it rolls to you. Four cowries! See? It's coming.
+[0mipu7g] Register entry: Korvami | The spiral inside the Conch that amplifies sound as it passes through. Four cowries. I sneezed near it once and lost a window.
+[13mwc3c] Register entry: Suomono | A crisp, salty plant from the Conch's damp turns. Pickles whatever it holds. Yours for three cowries, if you let go of them quick.
+[0jhb4f3] Register entry: Tenbinka | A ring within a ring. It keeps whatever rests in it level. It kept my tea steady through an entire storm. Four cowries. The storm was free.
+[0i31u52] Register entry: Hilzuka | The silence in the Conch's mouth while the great one sleeps. A specific kind of quiet. Four cowries. Shh.
+[0hf9yw7] Register entry: Laibiru | The flared rim of the Conch. It widens when it hears its name, so I call it Plim in my shop. Four cowries, Plim.
+[1569dgt] Register entry: Sisarmai | One of seven stars that fell as one. It searches for the other six, finding one occasionally. Four cowries. The full set costs more.
+[068sa3f] Register entry: Pakaeri | A star that traveled as far as it could and is now returning. It moves faster as it approaches. Five cowries, and stand aside.
+[186f7os] Register entry: Astrolabe | The Tide-reader's grandmother's brass star-measurer. It kept measuring after she died. Six cowries. It measured me. I'm short.
+[0qh2fbq] Register entry: Pallasite | A green-inside fallen star, caught in a shell before hitting sand. It closes when hurt. Seven cowries, worth eight.
+[0ww6fvx] Register entry: Rusumo | A pink bloom from the saltiest pool on the Strand. The water it rests in matches the Conch's lip. Six cowries. Pink if you possess them.
+[0u1uskh] Register entry: Petami | The oldest whorl in the Gleaner's Tray. Its origin is unknown. It demands your finest possession. Seven cowries, plus your best thing.
+[054xr6e] Register entry: Opaski | The star Gleaner passed, then took. It still points the same way. Seven cowries. Don't ask it for the way home.
+[1ui844f] Register entry: Kotigai | A coiled shell from a beach that's gone. Won't move until you hit it. Then it gives it back! I'd pay the six cowries without arguing.
+[0bgrufs] Register entry: The Gleaner | The Gleaner, seated. Priceless. I do not know who to pay.
+
+==== file: src/data/species7.ts
+
+== scene: species7
+[0rnonay] Register entry: Carcanet | A twelve-stone collar, once worn by a forgotten neck. It sets its own gems now, in a private order. Priceless. It keeps taking my cowries.

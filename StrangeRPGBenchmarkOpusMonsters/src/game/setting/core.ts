@@ -96,16 +96,16 @@ export function checkMachine(pz: Puzzle, m: Machine): string | null {
     n[p.kind]++;
     const cells: [number, number][] = p.kind === 'arm' ? [[p.x, p.y]] : cellsOf(p);
     for (const [x, y] of cells) {
-      if (x < 0 || y < 0 || x >= pz.w || y >= pz.h) return 'A part is off the board.';
+      if (x < 0 || y < 0 || x >= pz.w || y >= pz.h) return 'A piece is off-board.';
       const k = key(x, y), was = used.get(k);
-      if (p.kind === 'arm' && was) return 'An arm stands on another part.';
-      if (p.kind !== 'arm' && was && was !== 'io') return 'Two parts share a cell.';
+      if (p.kind === 'arm' && was) return 'An arm rests on part.';
+      if (p.kind !== 'arm' && was && was !== 'io') return 'Parts share a cell.';
       used.set(k, p.kind);
     }
-    if (p.kind === 'arm' && p.tape.length > TAPE_LEN) return 'A tape is too long.';
-    if (p.kind === 'arm' && !pz.pivot && PIVOTS.some(s => p.tape.includes(s))) return 'This board\'s arms cannot pivot.';
+    if (p.kind === 'arm' && p.tape.length > TAPE_LEN) return 'Tape exceeds length.';
+    if (p.kind === 'arm' && !pz.pivot && PIVOTS.some(s => p.tape.includes(s))) return 'Arms cannot pivot.';
   }
-  for (const k of PART_KINDS) if (n[k] > (pz.limit[k] || 0)) return `Too many parts of one kind.`;
+  for (const k of PART_KINDS) if (n[k] > (pz.limit[k] || 0)) return `Excess of same parts.`;
   return null;
 }
 
@@ -263,5 +263,5 @@ export function runAll(pz: Puzzle, m: Machine, max = 4000): Result {
   if (bad) return { ok: false, cycles: 0, cost: cost(m), area: 0, err: bad };
   const s = start(pz, m);
   while (!s.done && !s.err && s.cycle < max) step(pz, m, s);
-  return { ok: s.done, cycles: s.cycle, cost: cost(m), area: s.seen.size, err: s.err || (s.done ? null : 'It never finished.') };
+  return { ok: s.done, cycles: s.cycle, cost: cost(m), area: s.seen.size, err: s.err || (s.done ? null : 'It did not complete.') };
 }

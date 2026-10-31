@@ -1,0 +1,77 @@
+# WHORL game text, chunk 26 of 26. Files: src/data/kits7.ts, src/data/kits8.ts, src/data/notions.ts
+# Speakers: passive Tape (1), passive Clasp (1), move Facet (1), move Rewind (1), move Cleave (1), move Full Setting (1), move Set Stone (1), passive Moon (1), passive Tidal Lock (1), move Tide Lift (1), move Neap (1), move Moonfall (1), move Syzygy (1), passive Tension (1), passive Holdfast (1), move Crank (1), move Tie (1), move Tighten (1), move The Operculum (1), passive Layers (1), passive Old Ground (1), move Plate (1), move Undertow (1), move Settle (1), move Peel (1), passive Island (1), passive House on Its Back (1), move Shoulder (1), move Carry Them (1), move Long Wake (1), move Make Landfall (1), notion Bloodglass (1), notion Thorn Vest (1), notion Wax Seal (1), notion Chrysalis (1), notion Tooth Necklace (1), notion Cleaver (1), notion Edge Charm (1), notion Salt Tear (1), notion Spare Shell (1), notion Crown of Horn (1), notion Bodkin (1), notion Cold Iron (1), notion Ember Coat (1), notion Quickstone (1), notion Rot Knife (1), notion Warm Stone (1), notion Lodestone (1), notion Float Cork (1), notion Tide Mark (1), notion Reed Plug (1), notion Graft Wax (1), notion Rider Cog (1), notion Rider Spoon (1), notion Blade Shard (1), notion Glass Bead (1), notion Sea Biscuit (1), notion Smelling Salt (1), notion Tide Jar (1), notion Cuttlebone (1), notion Pepper Kelp (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/kits7.ts
+
+== scene: kits7
+[0kixr8s] passive Tape | Turn start: sets the next Stone (a mark) from its Tape, a loop of 4 from the Setting board. It holds 4, and a 5th pushes off the oldest. First time out: sets {N.start}. Each Stone it sets heals it {N.setHeal}% of its max HP.
+[1a2k6n9] passive Clasp | Its newest Stone changes its moves. Pearl: shield {N.shield}% max HP, 2 turns. Amber: {N.amber}x damage. Beach glass: its next turn comes {N.glass}% sooner. Star glass: Expose 2.
+[00j0fka] move Facet | Hits for {N.facet}% MGK + {N.facetPer}% MGK per Stone it holds.
+[0uwd7r3] move Rewind | Sets the next {N.rewind} Stones from its Tape. Facet and Cleave are ready again.
+[1dnmext] move Cleave | Hits for {N.cleave}% MGK once per Stone it holds. Its oldest Stone comes off.
+[0k0bxpy] move Full Setting | Hits for {N.crest}% MGK per Stone. Splash 35% with 4 kinds. Spends its Stones.
+[0y27hm2] move Set Stone | The picture of a Stone being set from the Tape.
+
+==== file: src/data/kits8.ts
+
+== scene: kits8
+[0ppnh3v] passive Moon | Moon: a mark on one foe, or home on itself, where it starts. Its single-target moves can target a foe in reserve.
+[0ageyy9] passive Tidal Lock | A foe with the Moon can't switch out. Moon home: takes {N_FULL.home}x damage, can't be moved or delayed.
+[11tgdz3] move Tide Lift | Hits for {N_FULL.lift}% MGK. The Moon moves to that foe.
+[0wkyvhi] move Neap | Hits the Moon's foe for {N_FULL.neap}% MGK, delays it {N_FULL.neapDelay}%, steals 1 tide. Else: Haste 2.
+[139glcr] move Moonfall | The Moon falls on its foe for {N_FULL.tide}% MGK and comes home. Shield {N_FULL.shield}% CHA for 3 turns.
+[03v6sb9] move Syzygy | Hits the Moon's foe, else the foe, for {N_FULL.syzygy}% MGK. Drags it in. Stun 1.
+[14f4o0b] passive Tension | Turn start with a foe Bound: +1 Tension, up to 3. Bound: a mark. The foe can't switch out, and it ends when either leaves.
+[0o1a7fk] passive Holdfast | Cannot be forced out, dragged in, or delayed. Takes {N_KNOT.holdfast}x damage from a Bound foe.
+[0skykww] move Crank | Hits for {N_KNOT.crank}% ATK + {N_KNOT.per}% ATK per Tension. Twice in a row: +1 Tension.
+[04bdj89] move Tie | Hits for {N_KNOT.tie}% ATK. Binds the foe. Slow 1.
+[1e2fe3s] move Tighten | Spends Tension: shield of {N_KNOT.shield}% max HP each for 3 turns. 2+: Stun 1.
+[0r9718t] move The Operculum | Hits for {N_KNOT.operculum}% ATK. Splash 35%. Binds the foe. Its Tension goes to 3.
+[1lzwvgx] passive Layers | Layer: a mark, up to 6, starting at {N_MUND.start}. Takes {N_MUND.per}x damage per Layer. Every 3rd turn start: +1 Layer.
+[089ruo7] passive Old Ground | Can't be forced out or dragged in. A crest that hits it takes off a Layer. Bare: deals {N_MUND.bareOut}x, takes {N_MUND.bareIn}x.
+[0go8rrz] move Plate | Hits for {N_MUND.plate}% ATK + {N_MUND.platePer}% of its max HP per Layer.
+[0rxuyvh] move Undertow | Hits for {N_MUND.fold}% ATK. Forces the foe out. Its replacement: Expose 2. +1 Layer.
+[0bkepya] move Settle | +2 Layers. Heals {N_MUND.heal}% of its max HP.
+[085yvwl] move Peel | Sheds every Layer: hits for {N_MUND.peel}% ATK + {N_MUND.peelPer}% ATK per Layer. Splash 35%. Bare 2.
+[0bwjjmf] passive Island | Each time it comes back out: takes {N_HOLM.island}% less damage, up to {N_HOLM.islandMax}%. From its third time out, cannot be moved.
+[1uds3ni] passive House on Its Back | Rider: a reserve ally it carries. It heals {N_HOLM.heal}% max HP a turn and takes {N_HOLM.spread}x. The first reserve boards when it comes out with none. Heals past full on its side fill a house ({N_HOLM.house}% of its max HP) for the next whorl out.
+[0um9aaz] move Shoulder | Hits for {N_HOLM.shoulder}% ATK + 4% of its max HP.
+[1lh32jf] move Carry Them | An ally in reserve boards as its Rider. Shield of {N_HOLM.carry}% CHA for 3 turns.
+[01jylox] move Long Wake | Hits for {N_HOLM.wake}% ATK. Slow 2. Its Rider heals {N_HOLM.wakeHeal}% of its max HP.
+[1fwktew] move Make Landfall | Swaps in a reserve ally: Haste 1, shield of {N_HOLM.land}% CHA, {N_HOLM.landRider}% if its Rider.
+
+==== file: src/data/notions.ts
+
+== scene: notions
+[1idea32] notion Bloodglass | Heals 14% of the damage it deals.
+[1bt1w0i] notion Thorn Vest | +14% DEF. Returns 30% of attack damage taken.
+[1h1pnwm] notion Wax Seal | The first time it comes out: a shield of 15% of its max HP, 3 turns.
+[08ttpmf] notion Chrysalis | Action, once: Stasis 1. When the Stasis ends: heals 30% of its max HP.
+[177rqc9] notion Tooth Necklace | Its attacks add 12% of the foe's current HP to their damage.
+[00ite1y] notion Cleaver | Each hit takes 5 DEF and 5 RES from the target, up to 25 each.
+[196rgjy] notion Edge Charm | When it uses a move: its next attack adds 85% ATK.
+[0e1jy0c] notion Salt Tear | +2 tide the first time it uses a move in a battle.
+[09s0rvo] notion Spare Shell | Once, when KO'd, comes back at 20% HP.
+[0c77e94] notion Crown of Horn | Crests deal 1.4x damage.
+[0l15a53] notion Bodkin | Ignores 35% of the target's DEF and RES.
+[1snbluh] notion Cold Iron | Every 2nd damaging hit it lands adds Slow 1.
+[1a52s9d] notion Ember Coat | Turn start: hits the foe for 6% MGK.
+[0no4b2q] notion Quickstone | Action, once: removes bad statuses. Its next turn comes 100% sooner.
+[028urvj] notion Rot Knife | Its damaging hits add Rot 3.
+[0zjk6l3] notion Warm Stone | Turn start: heals 3% of its max HP.
+[1ywnt1a] notion Lodestone | Deals 1.25x damage to a foe that came out since its last turn.
+[066rg48] notion Float Cork | +10% RES. Each time it comes out, its first turn comes 20% sooner.
+[0nccdv2] notion Tide Mark | +2 tide each time it guards, up to 3 times a battle.
+[1sos1x3] notion Reed Plug | +12% RES. The first wind-up aimed at it each battle lands 50% later.
+[17sw4yn] notion Graft Wax | On a conjoined whorl, +9% ATK and +9% MGK. On any other, nothing.
+[0f1qluf] notion Rider Cog | +4% HP, ATK, MGK, DEF, and RES.
+[1bcli12] notion Rider Spoon | +15% DEF. When it is forced out or dragged in, it gets Ward 1.
+[0gy2itv] notion Blade Shard | Its hits deal 1.3x damage to a foe below 40% HP.
+[0l8v5ub] notion Glass Bead | +9% MGK. The first status it puts on a foe each battle lasts 1 turn longer.
+[1u21cly] notion Sea Biscuit | Action, once: heals 35% of max HP. Used up.
+[0wndpuc] notion Smelling Salt | Action, once: removes bad statuses and heals 10% of max HP. Used up.
+[0rom9g1] notion Tide Jar | Action, once: its side gains 3 tide. Used up.
+[10mpckp] notion Cuttlebone | Action, once: Ward 2. Used up.
+[0skmr8t] notion Pepper Kelp | Action, once: its next turn comes 80% sooner. Used up.

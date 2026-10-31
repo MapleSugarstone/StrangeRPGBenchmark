@@ -1,0 +1,163 @@
+# WHORL game text, chunk 21 of 26. Files: src/data/kits2.ts
+# Speakers: passive Epicycle (1), passive Conjunction (1), move Set Orbit (1), move Spin Faster (1), move Close Pass (1), move Comes Round (1), passive Counterweight (1), passive Cable Snap (1), move Grab Hook (1), move Full Swing (1), move Lift and Drop (1), move Drop the Load (1), passive Sea Breeze (1), passive Light Vanes (1), move Vane Cut (1), move Whirlwind (1), move Lee Side (1), move Onshore Wind (1), passive Far Watch (1), passive Locked On (1), move Bounce Signal (1), move Sweep (1), move Pinpoint (1), move Last Pass (1), summon Slag Crab (1), passive Stoked Full (1), passive Slag Shelter (1), move Coal Shot (1), move Open Flue (1), move Hot Plate (1), move Let It Out (1), passive Packing (1), passive Blow-off (1), move In Stroke (1), move Rod Slam (1), move Hold Pressure (1), move Long Stroke (1), passive Builds Charge (1), passive Static (1), move Brush Spark (1), move Jump the Gap (1), move Spin Up (1), move Field Coil (1), passive Fog Warning (1), passive Long Blast (1), move Clank (1), move Hush Blast (1), move Rising Swell (1), move Fog Signal (1), passive Old Scent (1), passive Lean Years (1), move Jaw (1), move Nose Down (1), move Moon Howl (1), move Never Let Go (1), passive Field Rest (1), passive Hard Neck (1), move Plough Up (1), move Horn Shove (1), move Stamp Furrows (1), move Pull Hard (1), passive War Dance (1), passive Ermine (1), move Icicle Throw (1), move Snow Snare (1), move Warm Den (1), move Mad Dance (1), move Nape Bite (1), move Pounce Off (1), move Snow Rake (1), passive Swollen (1), passive Clotting (1), move Draw Blood (1), move Latch On (1), move Gorge (1), move Burst Full (1), passive Picks Over (1), passive Waits for It (1), move Flock Peck (1), move Mobbing (1), move Circle Low (1), move Black Flock (1), passive Third Butt (1), passive Bull Neck (1), move Hook Horn (1), move Long Charge (1), move Paw the Sand (1), move From Behind (1), passive Thick Nail (1), passive Clench (1), move Press Down (1), move Thumb Flick (1), move Let Go (1), move Squash Flat (1), passive Spring Legs (1), passive Moon Boxer (1), move Hind Kick (1), move Zigzag (1), move Thump Ring (1), move Box the Moon (1), passive Gibbous (1), passive New Moon (1), move Crescent Edge (1), move Wane (1), move Thin Edge (1), move Waxes Full (1), passive Ice Crust (1), passive Sunward (1), move Dust Tail (1), move Frozen Core (1), move Tail Sweep (1), move Strike Home (1), passive Third Band (1), passive Green Cover (1), move Fold Back (1), move Flicker (1), move Green Bands (1), move Draw Close (1), passive Wet Sand (1), passive Glass Charge (1), move Sand Arc (1), move Same Place (1), move Flash Over (1), move Whole Sky (1), passive Brightening (1), passive Rim Light (1), move Ring Strike (1), move Hover Over (1), move Lit Rim (1), move Crowned (1), passive Half Shadow (1), passive Gold Rim (1), move Dusk Edge (1), move Blot Out (1), move Noon Dark (1), move Full Eclipse (1), passive Keeps a Piece (1), passive Bad Sky (1), move Red Streak (1), move Red Sky (1), move On Its Way (1), move Ill Omen (1), summon Cinder Shell (1), passive Sunburn (1), passive Flare Up (1), move Sunspot (1), move Leap Out (1), move Solar Loop (1), move Burn Down (1), passive Tally (1), passive Kid (1), move Shove (1), move Grab (1), move Stand Firm (1), move Rush (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/kits2.ts
+
+== scene: kits2
+[1o1t1k5] passive Epicycle | In reserve, every 3rd turn your side takes: your out whorl's non-crest cooldowns drop 1.
+[1u2vh50] passive Conjunction | Two Planets on one foe come down at once, with Stun 1.
+[0b1f17a] move Set Orbit | Hits for 98% MGK. A Planet orbits the foe's line: 20% MGK a stop, 115% after 3.
+[15s75f5] move Spin Faster | Hits for 59% MGK. Every Planet moves on 1. Its other non-crest cooldowns drop 2.
+[0gnuryf] move Close Pass | Ally: Haste 2. Foe: Slow 1, delayed 20%. Each Planet on it hits for 40% MGK.
+[1ahwtvv] move Comes Round | Every Planet lands now. An ally KO'd in its next 3 turns returns at 30% HP.
+[14ut0tc] passive Counterweight | Once per battle, below 30% HP: a shield of 30% of its max HP.
+[0k75st9] passive Cable Snap | Every 3rd attack also hits for 40% MGK and forces the foe out.
+[0oqd3op] move Grab Hook | Wind-up. Swings a chosen foe reserve in: 90% ATK to the one swung out. Stun 1.
+[1g67hjz] move Full Swing | Hits for 60% ATK. Splash 50%. Haste 2, then Slow 1 when it ends.
+[0wo01uw] move Lift and Drop | Goes up 2 turns: dashes can't reach it. Its next attack drops: 1.6x, Stun 1.
+[13d11ko] move Drop the Load | Hits for 108% MGK. Splash 35%. Delays the foe 30%. Up high: 1.4x.
+[0s8ukki] passive Sea Breeze | In reserve: a Slow on your out whorl turns into Haste 1.
+[10cqwu4] passive Light Vanes | Immune to Slow and to delays.
+[1yyri5r] move Vane Cut | Hits for 92% MGK. Slow 1.
+[04y91lp] move Whirlwind | Wind-up. Hits for 84% MGK. Stun 1. Blows away foe summons and every Drop.
+[1xstkbw] move Lee Side | Ally: Empower 2. Shield 50% CHA + 6% max HP, 3 turns. Projectiles deal it 0.5x.
+[0l4kqxb] move Onshore Wind | Your team heals 20% max HP, now and next turn. Forces the foe out.
+[1yxpr1p] passive Far Watch | Its moves ignore Ward and Fortify.
+[0m47u8k] passive Locked On | Deals 1.3x damage to foes with Slow, Root, Stun, Sleep, or Expose.
+[1r0xg5q] move Bounce Signal | Hits for 87% ATK. Splash 35%. Spots the foe: no Hidden or Untouchable, 2 turns.
+[1nhnea2] move Sweep | Expose 2. Expose 1 on each reserve. Next round it sees the foe's choice first.
+[0yj8ooc] move Pinpoint | Hits for 108% ATK. For 2 turns the foe's guard doesn't cut its damage.
+[0imlinl] move Last Pass | Hits for 102% ATK through guard. Splash 35%. Next 2 turns: 85% ATK, Splash 35%.
+[1l5vfmy] summon Slag Crab | Each turn: hits the foe for 35% of Camado's MGK. Burn 1. Stays if Camado is KO'd.
+[19z5d0z] passive Stoked Full | Every 4th move it uses: Stun 1 on the foe.
+[0joseun] passive Slag Shelter | While its Slag Crab is out: takes 0.85x damage, and its attacks add Burn 2.
+[1253mp0] move Coal Shot | Hits for 156% MGK. If it KOs the foe: cooldown resets, 1 tide.
+[0e3gics] move Open Flue | Hits for 94% MGK. Splash 35%. Burn 1. Every foe's Burn ticks once now.
+[190e9q5] move Hot Plate | Shields an ally 15% of its max HP, 2 turns. Its attackers get Burn 2.
+[0c6k8y5] move Let It Out | Hits for 156% MGK. Summons a Slag Crab (25% of its max HP, 3 turns).
+[073j5hq] passive Packing | When a move deals damage: a shield of 6% of its max HP, up to 24%. At Near, 9%.
+[1fjgpxd] passive Blow-off | Its attacks hit each foe reserve for 25% ATK.
+[1yvkpxu] move In Stroke | Moves to Near. Hits for 54% ATK. Its next turn comes 10% sooner per use, max 30%.
+[0lghh15] move Rod Slam | Hits for 45% ATK. Splash 35%. Slow 1. Knocks the foe back to Far.
+[0vc3m3i] move Hold Pressure | Moves to Far. Until its next turn: takes 0.4x. If hit: next In Stroke deals 1.5x.
+[1uzj0vt] move Long Stroke | Untouchable 1. At its next turn it comes down: 101% ATK, Splash 35%, Slow 2.
+[0t8m4hh] passive Builds Charge | Its damaging moves add a Charge to the foe. A foe at 3 Charges: Stun 1, and they go.
+[173ob1m] passive Static | Charges jump across a dash or an Attack between two whorls. It starts with 2 Charges.
+[0crdjae] move Brush Spark | Hits for 136% MGK.
+[03rs4oc] move Jump the Gap | Hits for 105% MGK. On a foe with a Charge: 1.5x damage, 1 more Charge.
+[1xvygem] move Spin Up | Haste 2. Fortify 1. A Charge on the foe, and 2 on itself.
+[1t986ke] move Field Coil | Hits for 68% MGK. Splash 35%. Each ally: 1 Charge. Next 2 turns: 60% MGK, a Charge.
+[0zr8a2x] passive Fog Warning | Once per battle: when one of yours drops below 30% HP, 2 tide.
+[1fhdte0] passive Long Blast | Its Silences last 1 turn longer.
+[035at0f] move Clank | Hits for 82% MGK. Clank 2: 38% MGK a turn. Each move the foe uses adds 1 turn.
+[05ewpv3] move Hush Blast | Hits for 76% MGK. If the foe uses a move at its next turn: 100% MGK, Silence 1.
+[09qsred] move Rising Swell | For 3 turns its attacks add 40% MGK, and the foe's passives do nothing.
+[0ilcteq] move Fog Signal | Hits for 80% MGK. Splash 35%. Silence 1 on every foe.
+[1dg0g5l] passive Old Scent | Deals 1.2x damage to foes below 50% HP. Haste 1 when a foe first drops below 30%.
+[0p821g5] passive Lean Years | Its attacks heal 15% of the damage dealt, 30% while it is below 50% HP.
+[0ct9sm5] move Jaw | Hits for 62% ATK + 3% of the foe's max HP. Heals 20% of the damage.
+[03mazjg] move Nose Down | Hits for 69% ATK, 1.5x on a foe that just came out. Tracks the foe for 3 turns.
+[0mrhyir] move Moon Howl | Hits for 60% ATK. The foe must switch at its next turn. Fortify 2.
+[0pt62z9] move Never Let Go | Hits 3 times for 35% ATK. Stun 1. Heals 40% of it. The foe can't switch 2 turns.
+[1951g2n] passive Field Rest | When it Stuns or forces out a foe: heals 6% of its max HP, reserves 3%.
+[12po7c2] passive Hard Neck | Takes 0.75x damage while it has a bad status.
+[0ljxrie] move Plough Up | Hits for 60% ATK. Splash 35%. Interrupts and delays it 30%. A Hoof on each foe.
+[0vihzim] move Horn Shove | Hits for 130% ATK. Forces the foe out. Its Hooves pass to the one that comes in.
+[1xp8vau] move Stamp Furrows | At its next 2 turns: hits for 40% ATK and adds a Hoof. At 3 Hooves: Stun 1.
+[1g14lsm] move Pull Hard | Cleanses itself. Unstoppable 2. Fortify 2 (60% less). 3 turns: the foe leaves with it.
+[1wklnhp] passive War Dance | While it dances: deals 1.25x damage to Hunted foes.
+[0kon4zx] passive Ermine | While it dances: takes 0.85x damage.
+[1wpoqkr] move Icicle Throw | Hits for 219% ATK. Slow 1. Hunted 2.
+[1frp3t4] move Snow Snare | Hits for 110% ATK. Expose 1. Next foe out: 55% ATK, Slow 1, Hunted 2.
+[0esnx3l] move Warm Den | Heals an ally 12% of its max HP + 21% CHA. Haste 1. Hidden 1 in the den.
+[1hbwykl] move Mad Dance | Dances 3 turns: 1.15x ATK, 1.1x AGI, new moves. Haste 1. The foe's moves go Late.
+[1mhjmqz] move Nape Bite | Hits for 113% ATK + 19% of the foe's missing HP. 1.5x if Hunted.
+[1n942gp] move Pounce Off | Hits for 106% ATK. Its next turn comes 30% sooner. On a Hunted foe: no cooldown.
+[0q4dfgg] move Snow Rake | Hits for 100% ATK. Splash 35%.
+[1pgvtjg] passive Swollen | MGK +3% of its max HP. Latched on: lets go when full or when its host guards.
+[0z2ljhu] passive Clotting | Immune to Rot. Takes 0.8x damage from Bleed and Poison.
+[04dl8fe] move Draw Blood | Hits for 130% MGK. Heals 40% of the damage. Every 3rd use: 1.5x.
+[024cote] move Latch On | Slow 1. Pays 10% HP to latch onto the foe: drinks 8% max HP a turn, 4 times.
+[06q0qm6] move Gorge | Hits for 83% MGK + 9% of its max HP. Splash 35%. Pays 8% current HP.
+[14j1nnr] move Burst Full | Expose 1. Its next turn: 120% MGK, Splash 35%, heals 25%. Cast at full HP: 1.5x.
+[0yvi70m] passive Picks Over | When a foe is KO'd: +6% ATK for the battle. Heals 8% of its max HP.
+[1sffiaw] passive Waits for It | Deals true damage to foes below 30% HP. Flock: a single-target hit fells one bird.
+[0a6p0oj] move Flock Peck | Hits for 31% ATK. Splash 35%.
+[1u8ilzj] move Mobbing | Wind-up. Hits for 96% ATK, +25% per bird past the first. Root 2. Expose 1.
+[16yj5i9] move Circle Low | Hits for 92% ATK. Root 1. Already Rooted: delays it 30%.
+[045w408] move Black Flock | Becomes a Flock of 4 for 3 turns. Each turn: 36% ATK, Splash 35%, heals half.
+[0hebxd8] passive Third Butt | Every 3rd hit it lands: also hits for 40% ATK. Delays the foe's next turn by 30%.
+[1225gjp] passive Bull Neck | Takes 0.8x damage while it has Haste or Unstoppable.
+[09e4nla] move Hook Horn | Hits for 139% ATK.
+[0ezecy4] move Long Charge | Unstoppable wind-up. Hits for 150% ATK, 1.5x from Far. Stun 1. Ends Near.
+[1nc7whd] move Paw the Sand | Haste 2. Unstoppable 2. Backs off to Far for a run-up.
+[1qo81pk] move From Behind | Hits for 220% ATK through guard. Interrupts. Delays the foe 30%.
+[037jnel] passive Thick Nail | Takes 0.85x damage from moves. Pinned: a mark. A Pinned foe can't switch out.
+[1hjw4vo] passive Clench | When hit: 1 Clench, up to 5. Each Clench: +4% damage.
+[0z79eaz] move Press Down | Hits for 90% ATK. Splash 25%.
+[1g3l5k3] move Thumb Flick | Wind-up. Hits for 106% ATK. Forces the foe out. Stun 1 on the one that comes in.
+[104t1gw] move Let Go | Hits for 51% ATK + 13% per Clench, all spent. Splash 35%. Fortify 1.
+[1yv7qlv] move Squash Flat | Hits 3 times for 47% ATK. Stun 1. Pinned 2. Its own next turn comes 50% later.
+[0egmaxa] passive Spring Legs | When it uses a move: its next 2 attacks deal 1.3x and come 15% sooner.
+[0takmro] passive Moon Boxer | Its moves heal it 10% of their damage.
+[1qvwqt4] move Hind Kick | Hits for 107% ATK. Boxed 2. On a Boxed foe: 102% ATK + 12% missing HP instead.
+[0izmugt] move Zigzag | Switches to an ally. Shields itself 10% and the ally 12% of max HP.
+[1iwufgf] move Thump Ring | Hits for 77% ATK. Splash 35%. Slow 2. A 3-round bout: no switching, best of 2.
+[1upruvf] move Box the Moon | Hits for 158% ATK. Forces the foe out. The next foe takes 93% ATK.
+[1t35cr2] passive Gibbous | Every 3rd attack: 1.5x damage, and hits each reserve for 50% MGK.
+[0zffgyy] passive New Moon | Deals 1.2x damage to Moonlit foes.
+[0wmmas9] move Crescent Edge | Hits for 110% MGK. Moonlit 3.
+[1ygt0e4] move Wane | Shield of 15% of its max HP. At its next 2 turns: hits the foe for 45% MGK.
+[09vsl4e] move Thin Edge | Hits for 144% MGK. On a Moonlit foe: removes it, cooldown resets.
+[0251ap2] move Waxes Full | Hits for 86% MGK, +20% per foe standing. Splash 35%. Slow 2 on every foe.
+[1os702z] passive Ice Crust | Starts with a shield of 10% max HP. It refills after 2 turns unhit.
+[02zasfk] passive Sunward | When it comes out: its first move is Unstoppable and deals 1.3x, +0.1x per turn in reserve.
+[1tgbayo] move Dust Tail | Hits for 73% MGK. Slow 1. Its next turn comes 15% sooner.
+[0z1xaef] move Frozen Core | For 3 turns: attacks add 30% DEF, reserves take 30% MGK. Fortify 1.
+[0i2zjpw] move Tail Sweep | Hits for 42% MGK + 40% DEF. Splash 35%. Weaken 2.
+[0freguz] move Strike Home | Unstoppable wind-up. Hits for 117% MGK. Splash 35%. Stun 1.
+[1oymwy2] passive Third Band | Every 3rd hit on the same foe: also hits for 30% MGK, heals 5% max HP.
+[0h9syoc] passive Green Cover | In reserve: your out whorl takes 0.9x magic damage.
+[1cqkdrs] move Fold Back | Hits for 68% MGK. At its next turn: hits for 40% MGK.
+[1vipfec] move Flicker | Ward 1. Haste 2. Fold Back's cooldown resets.
+[09sxykn] move Green Bands | Hits for 52% MGK. Splash 35%. Slow 2. Delays it 20%. Fogs your bench 2 rounds.
+[0ah9iqq] move Draw Close | Hits for 96% MGK. For 3 turns the foe can't switch and takes 1.2x from it.
+[1qifo2c] passive Wet Sand | Adds 15% to the Splash of its moves.
+[0frqj9a] passive Glass Charge | Its moves add 4% of the foe's current HP. Its attackers take 30% MGK.
+[0m33z46] move Sand Arc | Hits for 60% MGK. Splash 35%.
+[12srllg] move Same Place | Hits for 79% MGK. Expose 1. Interrupts. 1.35x on a foe it hit in its last 3 turns.
+[0xbhuf8] move Flash Over | Hits for 52% MGK. Slow 1. Its next turn comes 30% sooner. Readies Same Place.
+[1dufmi3] move Whole Sky | Hits for 105% MGK, 1.2x on any foe below 50% HP. Splash 35%.
+[19lf2wo] passive Brightening | When it uses a move: +5% damage, up to 3 times. Its shields last +1 turn.
+[0j744bz] passive Rim Light | Attacks add 6% foe missing HP. KO'd: glows 3 turns, your out whorl heals 8% a turn.
+[00jwz0p] move Ring Strike | Hits for 149% MGK. Slow 1. Your lowest-HP whorl heals 30% of it.
+[18axld6] move Hover Over | Heals an ally 12% max HP + 11% CHA. Haste 1. Haloed 2: if it falls, it glows on.
+[117vxxe] move Lit Rim | Hits for 79% MGK. Next attack: +15% foe missing HP, and 40% MGK to reserves.
+[0lpdo6k] move Crowned | Cleanses an ally. It is Untouchable for 2 turns.
+[1f6in7q] passive Half Shadow | Every 3rd attack: reserves take 35% ATK, and it heals 40% ATK.
+[1t9cmjo] passive Gold Rim | Its attacks also hit for 25% MGK.
+[0xw7riw] move Dusk Edge | Hits for 120% ATK. Empower 1.
+[09bfky4] move Blot Out | Ward 1. If it blocks a move before its next turn: Haste 2, Empower 1.
+[0sfn1vb] move Noon Dark | Hits for 100% ATK. Its next turn comes 30% sooner. The foe must switch next turn.
+[02v925o] move Full Eclipse | Hits for 160% ATK. Silence 1. Root 2.
+[0r355jf] passive Keeps a Piece | When it KOs a foe: takes that foe's first move into its first slot. 1 tide.
+[1mrbke6] passive Bad Sky | Doomed foes take 1.15x damage from everything.
+[0r63n97] move Red Streak | Hits for 171% MGK + 4% of the foe's max HP. Burn 1 (30% MGK each turn).
+[02qbovk] move Red Sky | For 3 turns: the foe takes 36% MGK and it heals 5% max HP each turn.
+[06xqdf9] move On Its Way | After 2 of the foe's turns: it takes 315% MGK.
+[0ie6tkq] move Ill Omen | Doom 3. The foe takes 60% MGK each turn.
+[0cz0tka] summon Cinder Shell | Takes single-target hits meant for Honoki. Each turn: hits every foe for 30% MGK. If it lasts 2 turns: Honoki comes back at 60% HP and every foe takes 80% MGK. Stun 1. If it is destroyed: Honoki loses 20% max HP.
+[0lydpex] passive Sunburn | Its damaging moves add Burn 2 (25% MGK each turn).
+[0dx2yho] passive Flare Up | Fires a cooling move early for 8% max HP per turn left. Hits on Burning foes burn reserves.
+[04g8aaz] move Sunspot | Hits for 115% MGK. Slow 1 if the foe was already Burning.
+[1h4a6dz] move Leap Out | Pays 5% max HP. Hits for 125% MGK, up to 2x at low HP. Its next turn comes 25% sooner.
+[0eteqvd] move Solar Loop | Pays 6% max HP. Hits for 95% MGK + 6% foe max HP, then its first reserve for half.
+[0o3s46h] move Burn Down | Summons a Cinder Shell (25% of its max HP, 2 turns) and hides in it.
+[0gddaxc] passive Tally | Deals +10% damage for each foe its side has KO'd.
+[05sssyq] passive Kid | When it comes out: its first turn comes 20% sooner.
+[192ibex] move Shove | Hits for 120% ATK, 1.5x after a Grab.
+[0yl53u5] move Grab | Hits for 80% ATK. Root 1. Its next Shove deals 1.5x.
+[138869t] move Stand Firm | Fortify 2. If it is hit before its next turn: Rush is ready.
+[1sxm1b2] move Rush | Hits for 180% ATK. Stun 1. A KO with it counts twice for Tally.

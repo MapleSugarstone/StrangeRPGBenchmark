@@ -60,7 +60,7 @@ function borrow(c: Ctx, m: MoveDef, power: number): void {
   c2.ally = c.ally || (m.reach === 'reserveAlly' ? reserves(c.me)[0] || c.u : c.u);
   const was = c.u.k.moveMul || 0;
   c.u.k.moveMul = power;
-  try { m.run(c2); } catch { c.msg('It slips away.'); }
+  try { m.run(c2); } catch { c.msg('It vanishes.'); }
   c.u.k.moveMul = was;
   if (own >= 0) c.u.cd[own] = Math.max(c.u.cd[own], keep);
 }
@@ -79,11 +79,11 @@ function kilnCrack(b: Battle, t: Fighter, by: Fighter | null): void {
   if (!marked(t, 'kiln_brittle') || t.ko) return;
   const mk = unmark(t, 'kiln_brittle');
   const src = by || (mk ? markedBy(b, mk) : null);
-  msg(b, `The glaze on ${label(b, t)} cracks.`);
+  msg(b, `${label(b, t)}'s glassy surface fractures.`);
   dealDamage(b, src && !src.ko ? src : null, t, t.maxHp * 0.1, dot('T'), null);
 }
 defMark({ id: 'kiln_return', name: 'brick coming back', clock: 'own', volatile: true, value: 0.1,
-  turnStart(b, f) { unmark(f, 'kiln_return'); const t = foe(b, f); if (!t) return; msg(b, 'The brick comes back.'); strike(b, f, t, stat(b, f, 'atk') * 0.5, 'P', 'GEAR'); if (!t.ko) applyStatus(b, f, t, 'stun', 1); } });
+  turnStart(b, f) { unmark(f, 'kiln_return'); const t = foe(b, f); if (!t) return; msg(b, 'The brick returns.'); strike(b, f, t, stat(b, f, 'atk') * 0.5, 'P', 'GEAR'); if (!t.ko) applyStatus(b, f, t, 'stun', 1); } });
 defPassive({ id: 'kiln_glaze', name: 'Glazing', owner: 'kiln', text: 'Glaze cracks for 10% of the foe\'s max HP on a guard, a Stun, a Root, or its dash.',
   afterDeal(b, f, t, dealt, d) { if (d.move?.tags?.includes('dash') && !d.reserve && t.side !== f.side) kilnCrack(b, t, f); } });
 defPassive({ id: 'kiln_hearth', name: 'Hearth', owner: 'kiln', text: 'Boosted moves deal 1.15x: its own, and your out whorl\'s while it is in reserve.',
@@ -161,7 +161,7 @@ defPassive({ id: 'aerial_repeater', name: 'Relay', owner: 'aerial', text: 'Deals
   anyMove(b, f, user, m) {
     if (!m?.tags?.includes('spell') || user.side !== f.side || isOut(b, f) || !isOut(b, user)) return;
     const t = foe(b, user);
-    if (t) { msg(b, `${label(b, f)} relays it.`); strike(b, f, t, stat(b, f, 'mgk') * 0.15, 'M', 'STAR'); }
+    if (t) { msg(b, `${label(b, f)} passes it along.`); strike(b, f, t, stat(b, f, 'mgk') * 0.15, 'M', 'STAR'); }
   } });
 defMove({ id: 'aerial_reception', name: 'Static Flash', type: 'STAR', owner: 'aerial', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | bolt zigzag | flash',
   text: 'Hits for 111% MGK. Weaken 1. Delays the foe\'s next turn by 20%.',
@@ -188,14 +188,14 @@ defMove({ id: 'aerial_longwave', name: 'Dead Air', type: 'STAR', owner: 'aerial'
     c.hit(c.tgt, { mgk: 0.6 }); c.st(c.tgt, 'stun', 1);
     const k = Math.max(0, c.opt);
     for (const e of standing(c.them)) { unmark(e, 'aerial_jam'); c.mark(e, 'aerial_jam', 1, 3, k); }
-    c.msg(`${['Spells', 'Dashes', 'Projectiles'][k]} go off the air.`);
+    c.msg(`${['Spells', 'Dashes', 'Projectiles'][k]} loses signal.`);
   } });
 
 // vane: a fallen weather vane that points at whichever foe is nearest to falling, throws its arrow there, and lands beside a friend.
 /** The foe whorl lowest on HP share, out or in reserve. */
 const nearestFall = (b: Battle, f: Fighter): Fighter | null => standing(b.s[1 - f.side]).slice().sort((a, z) => a.hp / a.maxHp - z.hp / z.maxHp)[0] || null;
 defMark({ id: 'vane_hammer', name: 'arrow out', clock: 'own', volatile: true, value: 0.06,
-  turnStart(b, f) { unmark(f, 'vane_hammer'); const t = foe(b, f); if (t) { msg(b, 'The arrow comes back.'); strike(b, f, t, stat(b, f, 'atk') * 0.19, 'P', 'STAR'); } } });
+  turnStart(b, f) { unmark(f, 'vane_hammer'); const t = foe(b, f); if (t) { msg(b, 'The arrow reappears.'); strike(b, f, t, stat(b, f, 'atk') * 0.19, 'P', 'STAR'); } } });
 defPassive({ id: 'vane_landfall', name: 'North Point', owner: 'vane', text: 'Deals 1.2x to the foe lowest on HP. Every 3rd attack heals your team 5% of max HP.',
   outMul(b, f, t) { return nearestFall(b, f) === t ? 1.2 : 1; },
   afterAttack(b, f) { f.k.lum = (f.k.lum || 0) + 1; if (f.k.lum % 3 === 0) for (const a of standing(b.s[f.side])) heal(b, f, a, a.maxHp * 0.05); } });
@@ -205,7 +205,7 @@ defPassive({ id: 'vane_fullsail', name: 'Beside You', owner: 'vane', text: 'Once
     const o = outOf(b, f);
     if (o.ko || !under(o, 0.25)) return;
     f.k.landed = 1;
-    msg(b, `${label(b, f)} comes down beside ${label(b, o)}.`);
+    msg(b, `${label(b, f)} lands next to ${label(b, o)}.`);
     heal(b, f, o, o.maxHp * 0.2);
     const t = foe(b, o);
     if (t) stunNow(b, f, t);
@@ -217,7 +217,7 @@ defMove({ id: 'vane_jibe', name: 'Throw Arrow', type: 'STAR', owner: 'vane', rea
   text: 'Hits the foe lowest on HP, even in reserve: 34% ATK. Returns: 19% ATK. Haste 1.',
   run(c) {
     const t = nearestFall(c.b, c.u) || c.tgt;
-    if (t === c.tgt) c.hit(t, { atk: 0.34 }); else { c.msg(`The arrow flies at ${label(c.b, t)}.`); c.hit(t, { atk: 0.34 }, { reserve: true }); }
+    if (t === c.tgt) c.hit(t, { atk: 0.34 }); else { c.msg(`The arrow strikes toward ${label(c.b, t)}.`); c.hit(t, { atk: 0.34 }, { reserve: true }); }
     c.mark(c.u, 'vane_hammer', 1, 2);
     c.st(c.u, 'haste', 1);
   } });
@@ -240,14 +240,14 @@ defMark({ id: 'capsule_curse', name: 'turned on', clock: 'own', negative: true, 
   turnStart(b, f) {
     unmark(f, 'capsule_curse');
     stunNow(b, null, f);
-    for (const r of reserves(b.s[f.side])) { msg(b, `${label(b, r)} turns on ${label(b, f)}.`); strike(b, r, f, stat(b, r, 'atk') * 0.4, 'P', null); }
+    for (const r of reserves(b.s[f.side])) { msg(b, `${label(b, r)} attacks ${label(b, f)}.`); strike(b, r, f, stat(b, r, 'atk') * 0.4, 'P', null); }
   } });
 defPassive({ id: 'capsule_coldsoak', name: 'Eject', owner: 'capsule', text: 'Once, in reserve: it swaps in for an out ally about to be KO\'d, which keeps 1 HP.',
   start(b, f) { mark(b, f, f, 'capsule_eject', 1, -1); },
   rescue(b, f, o) {
     if (!marked(f, 'capsule_eject') || f.ko || f.gone) return false;
     unmark(f, 'capsule_eject');
-    msg(b, `${label(b, f)} snaps shut round ${label(b, o)}.`);
+    msg(b, `${label(b, f)} clamps down on ${label(b, o)}.`);
     mark(b, f, o, 'capsule_safe', 1, 1);
     return true;
   } });
@@ -275,7 +275,7 @@ defSummon({ id: 'booster_chomper', name: 'Clamp', owner: 'booster', text: 'Stays
   lasting: true,
   trap(b, s, who) {
     const by = ownerOf(b, s) || b.s[s.side].f[s.by];
-    msg(b, `${label(b, who)} lands on a burning stage.`);
+    msg(b, `${label(b, who)} crashes onto the fiery stage.`);
     dealDamage(b, null, who, stat(b, by, 'atk') * 0.6, { kind: 'P', move: null, attack: false, dot: false, spread: false, reserve: false }, 'GEAR');
     if (!who.ko) applyStatus(b, null, who, 'burn', 2, stat(b, by, 'atk') * 0.2);
     return true;
@@ -325,7 +325,7 @@ defMove({ id: 'dish_intercept', name: 'Say It Back', type: 'STAR', owner: 'dish'
   run(c) {
     const m = heardMoves(c.u)[0];
     if (!m || m.id === c.move.id || m.id === 'dish_uplift') { c.hit(c.tgt, { mgk: 0.8 }); return; }
-    c.msg(`${label(c.b, c.u)} says ${m.name} back.`);
+    c.msg(`${label(c.b, c.u)} retorts, ${m.name}.`);
     c.u.k.saying = 1;
     borrow(c, m, 1);
     c.u.k.saying = 0;
@@ -336,7 +336,7 @@ defMove({ id: 'dish_uplift', name: 'Loud Hail', type: 'STAR', owner: 'dish', rea
     const ms = heardMoves(c.u).filter(m => m.id !== c.move.id);
     if (!ms.length) { c.hit(c.tgt, { mgk: 1.2 }); c.st(c.tgt, 'stun', 1); return; }
     c.u.k.saying = 1;
-    for (const m of ms) { if (c.tgt.ko) break; c.msg(`${label(c.b, c.u)} says ${m.name} back.`); borrow(c, m, 0.6); }
+    for (const m of ms) { if (c.tgt.ko) break; c.msg(`${label(c.b, c.u)} fires back, ${m.name}.`); borrow(c, m, 0.6); }
     c.u.k.saying = 0;
     if (!c.tgt.ko) c.st(c.tgt, 'stun', 1);
   } });
@@ -412,11 +412,11 @@ defMove({ id: 'musk_corral', name: 'Ring the Herd', type: 'BEAST', owner: 'musk'
 
 // serac: a glacier block that freezes whatever stands still, makes a dash slip on its glare ice, and shatters what is nearly gone.
 defMark({ id: 'serac_vortex', name: 'on glare ice', clock: 'own', negative: true, volatile: true, value: -0.1,
-  afterDeal(b, f, t, dealt, d) { if (d.move?.tags?.includes('dash') && !d.reserve && dealt > 0 && !f.ko) { msg(b, `${label(b, f)} slips on the ice.`); dealDamage(b, null, f, dealt * 0.3, dot('T'), null); } } });
+  afterDeal(b, f, t, dealt, d) { if (d.move?.tags?.includes('dash') && !d.reserve && dealt > 0 && !f.ko) { msg(b, `${label(b, f)} loses footing on the ice.`); dealDamage(b, null, f, dealt * 0.3, dot('T'), null); } } });
 defMark({ id: 'serac_feet', name: 'frozen boots', clock: 'own', negative: true, volatile: true, value: -0.15,
-  expire(b, f, mk) { msg(b, `${label(b, f)} freezes to the spot.`); applyStatus(b, markedBy(b, mk), f, 'stun', 1); } });
+  expire(b, f, mk) { msg(b, `${label(b, f)} is frozen in place.`); applyStatus(b, markedBy(b, mk), f, 'stun', 1); } });
 defPassive({ id: 'serac_shatter', name: 'Shatters', owner: 'serac', text: 'A foe it hits that drops below 12% HP is KO\'d.',
-  afterDeal(b, f, t, dealt, d) { if (d.reserve || d.dot || t.ko || t.side === f.side || !under(t, 0.12)) return; msg(b, `${label(b, t)} shatters.`); dealDamage(b, f, t, t.hp + t.shield + 1, dot('T'), null); } });
+  afterDeal(b, f, t, dealt, d) { if (d.reserve || d.dot || t.ko || t.side === f.side || !under(t, 0.12)) return; msg(b, `${label(b, t)} breaks apart.`); dealDamage(b, f, t, t.hp + t.shield + 1, dot('T'), null); } });
 defPassive({ id: 'serac_deepcold', name: 'Still Air', owner: 'serac', text: 'Deals 1.25x to a foe that has taken 3+ turns since it came out. Its hits add Rot 2.',
   outMul(b, f, t) { return (t.turns - (t.k.outTurns ?? 0)) >= 3 ? 1.25 : 1; },
   anyOut(b, f, who) { who.k.outTurns = who.turns; },
@@ -432,7 +432,7 @@ defMove({ id: 'serac_spindrift', name: 'Frozen Boots', type: 'TIDE', owner: 'ser
   run(c) { c.hit(c.tgt, { mgk: 0.83 }); if (!c.tgt.ko) c.mark(c.tgt, 'serac_feet', 1, 2); } });
 defMove({ id: 'serac_icefall', name: 'Calving Face', type: 'TIDE', owner: 'serac', reach: 'spread', tags: ['projectile', 'spell'], cd: 6, nerve: 5, wu: 60, fx: 'shake | shard*5 rain | shatter frost big jolt',
   text: 'Wind-up. Hits for 140% MGK. Splash 35%. Rot 3. Below 15% HP after: KO\'d.',
-  run(c) { c.spread({ mgk: 1.4 }); c.st(c.tgt, 'rot', 3); if (!c.tgt.ko && under(c.tgt, 0.15)) { c.msg(`${label(c.b, c.tgt)} shatters.`); c.hit(c.tgt, { tgtCur: 1, flat: 1 }, { kind: 'T', noGuard: true }); } } });
+  run(c) { c.spread({ mgk: 1.4 }); c.st(c.tgt, 'rot', 3); if (!c.tgt.ko && under(c.tgt, 0.15)) { c.msg(`${label(c.b, c.tgt)} breaks apart.`); c.hit(c.tgt, { tgtCur: 1, flat: 1 }, { kind: 'T', noGuard: true }); } } });
 
 // selkie: a sealskin that sleeps where it likes: hits on a foe it lulls sink into the dream and land at once when it wakes.
 defMark({ id: 'selkie_dream', name: 'dreaming', clock: 'any', negative: true, volatile: true, value: -0.15,
@@ -444,7 +444,7 @@ function selkieWake(b: Battle, f: Fighter): void {
   const mk = unmark(f, 'selkie_dream');
   const by = mk ? markedBy(b, mk) : null;
   if (!f.bank) return;
-  msg(b, `${label(b, f)} wakes from the dream.`);
+  msg(b, `${label(b, f)} awakens from the dream.`);
   landBank(b, f, 1.25, by);
   if (by && !by.ko && has(by, 'selkie_sealegs')) for (const a of standing(b.s[by.side])) heal(b, by, a, a.maxHp * 0.1);
 }
@@ -489,7 +489,7 @@ defMove({ id: 'walrus_shardwall', name: 'Tusk Gouge', type: 'BEAST', owner: 'wal
     const g = !!c.tgt.s.guard || foeChoice(c.b, c.u)?.k === 'guard';
     c.spread({ atk: 0.68 }, { mult: g ? 2 : 1, noGuard: g });
     c.st(c.tgt, 'root', 2);
-    if (g && c.tgt.s.guard) { delete c.tgt.s.guard; c.msg(`${label(c.b, c.tgt)}'s guard breaks.`); }
+    if (g && c.tgt.s.guard) { delete c.tgt.s.guard; c.msg(`${label(c.b, c.tgt)}'s defense crumbles.`); }
   } });
 defMove({ id: 'walrus_haymaker', name: 'Tusk Down', type: 'TIDE', owner: 'walrus', reach: 'single', cd: 6, nerve: 4, fx: 'hop | fang*2 rain | bite crack big jolt',
   text: 'Hits for 140% ATK. It always counts as its 3rd blow. Stun 1. Slow 2.',
@@ -564,7 +564,7 @@ defMove({ id: 'rime_field', name: 'Kind Winter', type: 'TIDE', owner: 'rime', re
 defMark({ id: 'auk_momentum', name: 'momentum', max: 4, volatile: true, value: 0.06,
   outMul(b, f, t, d) { return d.move ? 1 + 0.08 * marked(f, 'auk_momentum') : 1; } });
 defMark({ id: 'auk_roll', name: 'sliding', clock: 'own', volatile: true, value: 0.12,
-  turnStart(b, f) { const t = foe(b, f); if (!t) return; msg(b, `${label(b, f)} slides on.`); splash(b, f, stat(b, f, 'atk') * 0.6, 'P', 'BEAST'); } });
+  turnStart(b, f) { const t = foe(b, f); if (!t) return; msg(b, `${label(b, f)} goes on.`); splash(b, f, stat(b, f, 'atk') * 0.6, 'P', 'BEAST'); } });
 defPassive({ id: 'auk_ricochet', name: 'Momentum', owner: 'auk', text: 'Each turn in a row it dashes: 1 Momentum, up to 4. Its moves deal +8% per Momentum.',
   turnEnd(b, f, action) {
     const m = action === 'move' && f.k.lastMove ? MOVES[f.moves[f.k.lastMove - 1]] : null;
@@ -611,7 +611,7 @@ defMove({ id: 'cuirass_hammerout', name: 'Saw Edge', type: 'GEAR', owner: 'cuira
 
 // pennon: a battle banner whose snap changes how far its moves carry: wide over the whole enemy line, or tight onto one foe.
 defMark({ id: 'pennon_tether', name: 'roped', clock: 'own', volatile: true, negative: true, value: -0.1,
-  expire(b, f, mk) { const by = markedBy(b, mk); if (!by) return; msg(b, `The rope on ${label(b, f)} snaps tight.`); strike(b, by, f, stat(b, by, 'mgk') * 0.5, 'M', 'ROOT'); } });
+  expire(b, f, mk) { const by = markedBy(b, mk); if (!by) return; msg(b, `The rope on ${label(b, f)} tautens sharply.`); strike(b, by, f, stat(b, by, 'mgk') * 0.5, 'M', 'ROOT'); } });
 defPassive({ id: 'pennon_windcatch', name: 'Catches Wind', owner: 'pennon', text: 'When it hits a foe: Snap Out\'s cooldown drops 1.',
   afterDeal(b, f, t, dealt, d) { if (d.reserve || d.dot || t.side === f.side) return; const i = f.moves.indexOf('pennon_unfurl'); if (i >= 0) f.cd[i] = Math.max(0, f.cd[i] - 1); } });
 defPassive({ id: 'pennon_rallying', name: 'Colors', owner: 'pennon', text: 'Allies it shields get Empower 1. A foe KO\'d while it is out: its next move reaches wide.',
@@ -676,7 +676,7 @@ defMark({ id: 'buckler_aegis', name: 'rim raised', clock: 'own', volatile: true,
     if (has(f, 'buckler_riposte') && !src.ko) strike(b, f, src, stat(b, f, 'atk') * 0.4, 'P', 'GEAR');
     return 0;
   },
-  turnStart(b, f) { unmark(f, 'buckler_aegis'); msg(b, `${label(b, f)} drives the shield out.`); splash(b, f, stat(b, f, 'atk') * 0.83, 'P', 'GEAR'); } });
+  turnStart(b, f) { unmark(f, 'buckler_aegis'); msg(b, `${label(b, f)} pushes the shield away.`); splash(b, f, stat(b, f, 'atk') * 0.83, 'P', 'GEAR'); } });
 defPassive({ id: 'buckler_umbo', name: 'Ledger', owner: 'buckler', text: 'Each hit it takes adds 1 Blow Taken, up to 8. Pay It Back spends them.',
   afterTake(b, f, src, dealt, d) { if (!d.dot && src && src.side !== f.side) mark(b, f, f, 'buckler_count', 1, -1); } });
 defPassive({ id: 'buckler_riposte', name: 'Riposte', owner: 'buckler', text: 'Each hit Raise the Rim stops is answered for 40% ATK.' });
@@ -698,7 +698,7 @@ defSummon({ id: 'destrier_skaarl', name: 'Barding', owner: 'destrier', sprite: {
   gone(b, s, owner) {
     if (!owner || owner.ko || owner.k.stabling) return;
     owner.k.onFoot = 1; owner.k.courage = 0;
-    msg(b, `${label(b, owner)} loses its barding.`);
+    msg(b, `${label(b, owner)} loses its armor.`);
   } });
 function mountUp(b: Battle, f: Fighter, pct: number): void {
   if (summonsOf(b, f.side, 'destrier_skaarl').length) return;
@@ -707,7 +707,7 @@ function mountUp(b: Battle, f: Fighter, pct: number): void {
 }
 const mounted = (b: Battle, f: Fighter) => summonsOf(b, f.side, 'destrier_skaarl').length > 0;
 defMark({ id: 'destrier_line', name: 'on the rope', clock: 'own', volatile: true, negative: true, value: -0.08,
-  turnStart(b, f) { const mk = unmark(f, 'destrier_line'); const by = mk ? markedBy(b, mk) : null; if (!by) return; msg(b, `The rope yanks ${label(b, f)}.`); strike(b, by, f, stat(b, by, 'atk') * 0.38, 'P', 'TIDE'); } });
+  turnStart(b, f) { const mk = unmark(f, 'destrier_line'); const by = mk ? markedBy(b, mk) : null; if (!by) return; msg(b, `The rope pulls ${label(b, f)} forward.`); strike(b, by, f, stat(b, by, 'atk') * 0.38, 'P', 'TIDE'); } });
 defMark({ id: 'destrier_frenzy', name: 'spurred', max: 3, clock: 'own', volatile: true, value: 0.06,
   afterAttack(b, f, t) { hastenFighter(b, f, 25); if (!t.ko && !t.gone) strike(b, f, t, t.maxHp * 0.03, 'P', 'BEAST'); shed(f, 'destrier_frenzy', 1); } });
 defPassive({ id: 'destrier_mounted', name: 'Barded', owner: 'destrier', text: 'Comes out in Barding (20% max HP) that takes its hits. Without it: deals 0.9x.',
@@ -718,7 +718,7 @@ defPassive({ id: 'destrier_courage', name: 'Pluck', owner: 'destrier', text: 'Wi
   afterDeal(b, f, t, dealt, d) {
     if (d.reserve || d.dot || t.side === f.side || !f.k.onFoot) return;
     f.k.courage = (f.k.courage || 0) + 1;
-    if (f.k.courage >= 3) { f.k.courage = 0; f.k.mountLeft = 0; mountUp(b, f, 0.15); msg(b, `${label(b, f)} gets its barding back.`); }
+    if (f.k.courage >= 3) { f.k.courage = 0; f.k.mountLeft = 0; mountUp(b, f, 0.15); msg(b, `${label(b, f)} regains its armor.`); }
   } });
 defMove({ id: 'destrier_rearup', name: 'Lead Rope', type: 'TIDE', owner: 'destrier', reach: 'single', cd: 1, fx: 'recoil | kelp line | slash',
   text: 'Hits for 61% ATK. Delays the foe\'s next turn by 30%. At that turn: 38% ATK.',
@@ -765,7 +765,7 @@ defMark({ id: 'sallet_drakeform', name: 'drake out', clock: 'own', value: 0.2,
   statusImmune(f, id) { return id === 'stun'; },
   inMul() { return 0.8; },
   afterAttack(b, f) { for (const r of reserves(b.s[1 - f.side])) dealDamage(b, f, r, stat(b, f, 'atk') * 0.4, { kind: 'P', move: null, attack: false, dot: false, spread: true, reserve: true }, null); },
-  expire(b, f) { clearForm(b, f); msg(b, `The drake goes back into ${label(b, f)}.`); },
+  expire(b, f) { clearForm(b, f); msg(b, `The drake retreats into ${label(b, f)}.`); },
   leave(b, f) { unmark(f, 'sallet_drakeform'); clearForm(b, f); } });
 defPassive({ id: 'sallet_oldblood', name: 'Warm Steel', owner: 'sallet', text: 'Turn start: heals 2% of its max HP. Takes 0.9x damage from moves.',
   turnStart(b, f) { heal(b, f, f, f.maxHp * 0.02); },
@@ -789,7 +789,7 @@ defMove({ id: 'sallet_drake', name: 'Drake Day', type: 'STONE', owner: 'sallet',
 
 // fletch: an arrow that never came down, shot from a quiver of three with no wait between shots, its last arrow hanging in the air.
 defMark({ id: 'fletch_hang', name: 'arrow hanging', clock: 'own', volatile: true, value: 0.08,
-  turnStart(b, f) { unmark(f, 'fletch_hang'); const t = foe(b, f); if (!t) return; msg(b, 'The arrow comes down.'); strike(b, f, t, stat(b, f, 'atk') * 0.6, 'P', 'ROOT'); } });
+  turnStart(b, f) { unmark(f, 'fletch_hang'); const t = foe(b, f); if (!t) return; msg(b, 'The arrow strikes.'); strike(b, f, t, stat(b, f, 'atk') * 0.6, 'P', 'ROOT'); } });
 defPassive({ id: 'fletch_rimed', name: 'High Frost', owner: 'fletch', text: 'Its attacks add Slow 1. Its projectiles deal 2x to a guarding foe.',
   outMul(b, f, t, d) { return t.s.guard && d.move?.tags?.includes('projectile') ? 2 : 1; },
   afterAttack(b, f, t) { if (!t.ko && !t.gone) applyStatus(b, f, t, 'slow', 1); } });
@@ -803,7 +803,7 @@ defMove({ id: 'fletch_sheaf', name: 'Sheaf Loose', type: 'ROOT', owner: 'fletch'
   text: 'Spends every shot left in Loose: 25% ATK per shot. Splash 35%. Slow 2.',
   run(c) {
     const i = c.u.moves.indexOf('fletch_nock'), n = i >= 0 && c.u.cd[i] <= 0 ? ammoOf(c.u, i) : 0;
-    if (!n) { c.msg('The quiver is empty.'); return; }
+    if (!n) { c.msg('The quiver runs dry.'); return; }
     c.spread({ atk: 0.25 * n }); c.st(c.tgt, 'slow', 2);
     (c.u.ammo ||= c.u.moves.map(() => -1))[i] = -1;
     c.u.cd[i] = (MOVES.fletch_nock?.cd || 3) + 1;
@@ -819,7 +819,7 @@ defMove({ id: 'fletch_overdraw', name: 'Overdraw', type: 'ROOT', owner: 'fletch'
 
 // image: a reflection that does what you were about to do: its side sees the foe's choice first, and it copies that choice before the foe.
 defMark({ id: 'image_copy', name: 'a reflection', clock: 'own', value: 0.2,
-  expire(b, f) { clearForm(b, f); msg(b, `${label(b, f)} is itself again.`); },
+  expire(b, f) { clearForm(b, f); msg(b, `${label(b, f)} returns to normal.`); },
   leave(b, f) { unmark(f, 'image_copy'); clearForm(b, f); } });
 defPassive({ id: 'image_afterimage', name: 'Foreknowing', owner: 'image', text: 'While out: your side sees the foe\'s choice first. Its first turn out comes 25% sooner.',
   foresee() { return true; },
@@ -835,7 +835,7 @@ defMove({ id: 'image_invert', name: 'Ripple Back', type: 'STAR', owner: 'image',
     const a = foeChoice(c.b, c.u);
     const m = a?.k === 'move' ? moveDef(c.tgt, a.i) : null;
     if (!m || m.nerve || m.reach === 'reserveAlly' || m.reach === 'dragin' || m.id === c.move.id) { c.hit(c.tgt, { mgk: 0.8 }); return; }
-    c.msg(`${label(c.b, c.u)} does it first: ${m.name}.`);
+    c.msg(`${label(c.b, c.u)} goes first: ${m.name}.`);
     borrow(c, m, 1);
   } });
 defMove({ id: 'image_lure', name: 'Glassy Beam', type: 'TIDE', owner: 'image', reach: 'single', tags: ['projectile', 'spell'], cd: 3, fx: 'flare | beam | flash',
@@ -843,7 +843,7 @@ defMove({ id: 'image_lure', name: 'Glassy Beam', type: 'TIDE', owner: 'image', r
   run(c) { c.hit(c.tgt, { mgk: 0.8 }, { mult: under(c.tgt, 0.5) ? 2 : 1 }); } });
 defMove({ id: 'image_mirrortake', name: 'Reflect It', type: 'STAR', owner: 'image', reach: 'single', cd: 6, nerve: 4, wt: 60, fx: 'blink | rune*4 converge | vortex big glare',
   text: 'Becomes the foe for 4 turns, every move ready.',
-  run(c) { if (c.blocked(c.tgt)) return; takeOver(c.b, c.u, c.tgt, 'copy'); c.u.cd = c.u.cd.map(() => 0); c.mark(c.u, 'image_copy', 1, 4); c.msg(`${label(c.b, c.u)} is now ${label(c.b, c.tgt)}.`); } });
+  run(c) { if (c.blocked(c.tgt)) return; takeOver(c.b, c.u, c.tgt, 'copy'); c.u.cd = c.u.cd.map(() => 0); c.mark(c.u, 'image_copy', 1, 4); c.msg(`${label(c.b, c.u)} becomes ${label(c.b, c.tgt)}.`); } });
 
 // skipper: a mudskipper that hops away from whatever looks at it, while the big thing that follows it comes up under whatever it marks.
 defMark({ id: 'skipper_hop', name: 'hopped up', clock: 'own', volatile: true, value: 0.1,
@@ -851,7 +851,7 @@ defMark({ id: 'skipper_hop', name: 'hopped up', clock: 'own', volatile: true, va
 defMark({ id: 'skipper_fish', name: 'followed', clock: 'own', negative: true, value: -0.2,
   expire(b, f, mk) {
     const by = markedBy(b, mk);
-    msg(b, 'Something big comes up out of the mud.');
+    msg(b, 'A massive figure rises from the mud.');
     if (!by) return;
     splash(b, by, stat(b, by, 'atk') * 1.4, 'P', 'TIDE');
     const t = foe(b, by);
@@ -948,7 +948,7 @@ defMove({ id: 'spawn_frogspawn', name: 'Frogspawn', type: 'BEAST', owner: 'spawn
 
 // lune: a piece of the moon's shell whose thrown edges come back, whose light waxes in reserve, and whose crest rains shards.
 defMark({ id: 'lune_edge', name: 'edge coming back', clock: 'own', volatile: true, value: 0.12,
-  turnStart(b, f) { unmark(f, 'lune_edge'); const t = foe(b, f); if (!t) return; msg(b, 'The edge comes back.'); strike(b, f, t, stat(b, f, 'mgk') * 0.75, 'M', 'TIDE'); } });
+  turnStart(b, f) { unmark(f, 'lune_edge'); const t = foe(b, f); if (!t) return; msg(b, 'The edge returns.'); strike(b, f, t, stat(b, f, 'mgk') * 0.75, 'M', 'TIDE'); } });
 defPassive({ id: 'lune_rebound', name: 'Boomerang Edge', owner: 'lune', text: 'Its one-foe moves bounce on to 1 foe reserve for 35% of the damage.',
   afterDeal(b, f, t, dealt, d) {
     if (!d.move || d.reserve || d.spread || d.dot || t.side === f.side || f.k.bounceAt === b.turnNo) return;
@@ -1006,7 +1006,7 @@ defPassive({ id: 'slag_unstable', name: 'Going Off', owner: 'slag', text: 'While
     mark(b, f, f, 'slag_brew', 1, -1);
     if (f.k.brew < 5) return;
     f.k.brewing = 0; f.k.brew = 0; unmark(f, 'slag_brew');
-    msg(b, `The brew goes off on ${label(b, f)}.`);
+    msg(b, `The brew erupts on ${label(b, f)}.`);
     dealDamage(b, null, f, f.maxHp * 0.1, dot('T'), null);
     stunNow(b, null, f);
   } });
@@ -1020,7 +1020,7 @@ defMark({ id: 'slag_brew', name: 'brewing', max: 5, value: 0.04, spend: 'slag_po
 defMove({ id: 'slag_pour', name: 'Brew Up', type: 'GEAR', owner: 'slag', reach: 'single', tags: ['projectile'], cd: 1, fx: 'shake | ember arc | smoke cinders',
   text: 'Hits for 50% ATK and starts a Brew, or throws it: 40% ATK per Brew, Stun 1 (2 at 3+).',
   run(c) {
-    if (!c.u.k.brewing) { c.hit(c.tgt, { atk: 0.5 }); c.u.k.brewing = 1; c.u.k.brew = 1; mark(c.b, c.u, c.u, 'slag_brew', 1, -1); c.msg(`${label(c.b, c.u)} starts a brew.`); return; }
+    if (!c.u.k.brewing) { c.hit(c.tgt, { atk: 0.5 }); c.u.k.brewing = 1; c.u.k.brew = 1; mark(c.b, c.u, c.u, 'slag_brew', 1, -1); c.msg(`${label(c.b, c.u)} begins brewing.`); return; }
     const n = c.u.k.brew || 0;
     c.u.k.brewing = 0; c.u.k.brew = 0; unmark(c.u, 'slag_brew');
     c.hit(c.tgt, { atk: 0.4 * n });
@@ -1088,14 +1088,14 @@ defMark({ id: 'cholla_tremor', name: 'joints in', max: 3, clock: 'own', negative
   leave(b, f) {
     const mk = f.m.cholla_tremor, by = mk ? markedBy(b, mk) : null;
     unmark(f, 'cholla_tremor');
-    if (by && !by.ko && !by.gone) { msg(b, `The joints in ${label(b, f)} fall and take root.`); chollaSprout(b, by); }
+    if (by && !by.ko && !by.gone) { msg(b, `${label(b, f)}'s joints break free and take root.`); chollaSprout(b, by); }
   } });
 function chollaTremor(b: Battle, f: Fighter, t: Fighter): void {
   if (t.ko || t.gone || t.side === f.side) return;
   mark(b, f, t, 'cholla_tremor', 1, 3);
   if (marked(t, 'cholla_tremor') < 3) return;
   unmark(t, 'cholla_tremor');
-  msg(b, `The joints in ${label(b, t)} go deep.`);
+  msg(b, `${label(b, t)}'s joints sink deep.`);
   strike(b, f, t, t.maxHp * 0.08, 'T', null);
 }
 defPassive({ id: 'cholla_deepspines', name: 'Deep Spines', owner: 'cholla', text: 'Its hits add a Joint, up to 3. At 3: true damage of 8% of the foe\'s max HP.',
@@ -1121,7 +1121,7 @@ defMove({ id: 'cholla_grab', name: 'Cholla Grab', type: 'ROOT', owner: 'cholla',
     const n = c.tgt.ko ? 0 : marked(c.tgt, 'cholla_tremor');
     if (!n) return;
     unmark(c.tgt, 'cholla_tremor');
-    c.msg(`The joints in ${label(c.b, c.tgt)} go deep.`);
+    c.msg(`${label(c.b, c.tgt)}'s joints sink deep.`);
     strike(c.b, c.u, c.tgt, c.tgt.maxHp * 0.08 * n, 'T', null);
   } });
 
@@ -1211,7 +1211,7 @@ defPassive({ id: 'bonedry_unburied', name: 'Unburied', owner: 'bonedry', text: '
     unmark(f, 'bonedry_spare');
     f.hp = Math.round(f.maxHp * 0.05);
     cleanse(b, f);
-    msg(b, `${label(b, f)} gets back up.`);
+    msg(b, `${label(b, f)} rises again.`);
     const t = foe(b, f);
     if (t) { shiftCd(b, t, 'all', 1); applyStatus(b, f, t, 'stun', 1); }
     return true;
@@ -1249,7 +1249,7 @@ defPassive({ id: 'shears_notched', name: 'Pivot Eye', owner: 'shears', text: 'Th
   afterDeal(b, f, t, dealt, d) {
     if (t.side === f.side || t.ko || t.gone || b.s[t.side].f.some(x => marked(x, 'shears_branch'))) return;
     mark(b, f, t, 'shears_branch', 1, -1);
-    msg(b, `${label(b, f)} picks ${label(b, t)} as its Branch.`);
+    msg(b, `${label(b, f)} claims ${label(b, t)} as its Branch.`);
   },
   outMul(b, f, t) { return t.side === f.side ? 1 : marked(t, 'shears_branch') ? 1.3 : 0.85; } });
 defPassive({ id: 'shears_snapback', name: 'Spring Back', owner: 'shears', text: 'Every 3rd hit it takes: strikes back for 50% ATK, heals 30% of it.',
@@ -1262,7 +1262,7 @@ defMove({ id: 'shears_lop', name: 'Prune Back', type: 'ROOT', owner: 'shears', r
   run(c) {
     let n = 0;
     if (!c.blocked(c.tgt)) for (const id of GOOD) if (c.tgt.s[id]) { delete c.tgt.s[id]; n++; }
-    if (n) c.msg(`${label(c.b, c.tgt)} is pruned back.`);
+    if (n) c.msg(`${label(c.b, c.tgt)} is cut back.`);
     c.hit(c.tgt, { atk: 0.7 }, { mult: 1 + 0.25 * n });
     c.st(c.u, 'haste', 1);
   } });
@@ -1316,14 +1316,14 @@ defMark({ id: 'scion_inside', name: 'growing inside', clock: 'own', volatile: tr
     unmark(f, 'scion_inside');
     const t = foe(b, f);
     if (!t) return;
-    msg(b, `${label(b, f)} bursts out.`);
+    msg(b, `${label(b, f)} bursts forth.`);
     strike(b, f, t, stat(b, f, 'atk') * 0.9 + t.maxHp * 0.1, 'P', 'ROOT');
   } });
 defPassive({ id: 'scion_rootstock', name: 'Rootstock', owner: 'scion', text: 'Its first KO makes it Old Wood after a physical foe, else Pale Graft.',
   anyKO(b, f, v, killer) {
     if (killer !== f || v.side === f.side || f.form) return;
-    if (basicOf(v) === 'P') { setForm(b, f, { tag: 'darkin', sprite: SCION_DARK, statMul: { def: 1.2, res: 1.2 } }); msg(b, `${label(b, f)} takes after the old wood.`); }
-    else { setForm(b, f, { tag: 'shade', sprite: SCION_SHADE, statMul: { atk: 1.15, agi: 1.15 } }); msg(b, `${label(b, f)} takes after the shade.`); }
+    if (basicOf(v) === 'P') { setForm(b, f, { tag: 'darkin', sprite: SCION_DARK, statMul: { def: 1.2, res: 1.2 } }); msg(b, `${label(b, f)} follows the old wood's example.`); }
+    else { setForm(b, f, { tag: 'shade', sprite: SCION_SHADE, statMul: { atk: 1.15, agi: 1.15 } }); msg(b, `${label(b, f)} mirrors the shadow.`); }
   } });
 defPassive({ id: 'scion_union', name: 'Graft Union', owner: 'scion', text: 'Unformed: takes 0.8x. Old Wood: 1.2x DEF and RES, moves heal 25%. Pale Graft: 1.15x ATK and AGI.',
   inMul(b, f) { return f.form ? 1 : 0.8; },
@@ -1370,7 +1370,7 @@ defPassive({ id: 'rung_footing', name: 'Sure Footing', owner: 'rung', text: 'Its
   quickWeight(f, act) { return act === 'switch' ? 30 : null; } });
 defMove({ id: 'rung_rap', name: 'Rung Rap', type: 'ROOT', owner: 'rung', reach: 'single', tags: ['spell'], cd: 1, fx: 'flare | bell line | ring',
   text: 'Hits for 110% MGK, +5% per Step. Slow 1. At 6 Steps it rings: Silence 1.',
-  run(c) { const n = c.u.k.chimes || 0; c.hit(c.tgt, { mgk: 1.1 }, { mult: 1 + 0.05 * n }); c.st(c.tgt, 'slow', 1); if (n >= 6 && !c.tgt.ko) { c.msg(`${label(c.b, c.u)} rings.`); c.st(c.tgt, 'silence', 1); } } });
+  run(c) { const n = c.u.k.chimes || 0; c.hit(c.tgt, { mgk: 1.1 }, { mult: 1 + 0.05 * n }); c.st(c.tgt, 'slow', 1); if (n >= 6 && !c.tgt.ko) { c.msg(`${label(c.b, c.u)} resonates.`); c.st(c.tgt, 'silence', 1); } } });
 defMove({ id: 'rung_crossbar', name: 'Crossbar', type: 'GEAR', owner: 'rung', reach: 'single', tags: ['spell'], cd: 3, fx: 'shake | cog*2 line | crack',
   text: 'Hits the foe and its first reserve for 72% MGK each. Stun 1, or Slow 2 if no reserve.',
   run(c) { c.hit(c.tgt, { mgk: 0.72 }); const r = reserves(c.them)[0]; if (r) c.hit(r, { mgk: 0.72 }, { reserve: true }); if (!c.tgt.ko) c.st(c.tgt, r ? 'stun' : 'slow', r ? 1 : 2); } });
@@ -1396,7 +1396,7 @@ defMove({ id: 'nought_edge', name: 'Blank Edge', type: 'STAR', owner: 'nought', 
   run(c) { c.hit(c.tgt, { mgk: 0.95 }); c.st(c.tgt, 'slow', 1); c.hasten(c.u, 15); } });
 defMove({ id: 'nought_erase', name: 'Rub Out', type: 'STAR', owner: 'nought', reach: 'single', tags: ['spell'], cd: 3, fx: 'sway | hoop converge | puff daze',
   text: 'Hits for 75% MGK. The foe\'s passives are rubbed out for 2 turns.',
-  run(c) { c.hit(c.tgt, { mgk: 0.75 }); if (!c.tgt.ko && !c.blocked(c.tgt)) { c.mark(c.tgt, 'nought_blank', 1, 2); c.msg(`${label(c.b, c.tgt)}'s passives are rubbed out.`); } } });
+  run(c) { c.hit(c.tgt, { mgk: 0.75 }); if (!c.tgt.ko && !c.blocked(c.tgt)) { c.mark(c.tgt, 'nought_blank', 1, 2); c.msg(`${label(c.b, c.tgt)}'s passives are erased.`); } } });
 defMove({ id: 'nought_path', name: 'Blank Stamp', type: 'GEAR', owner: 'nought', reach: 'single', cd: 3, fx: 'stomp | cog line | crack',
   text: 'Hits for 80% MGK, 1.5x if the foe\'s passives are rubbed out. Haste 1. Fortify 1.',
   run(c) { c.hit(c.tgt, { mgk: 0.8 }, { mult: muted(c.tgt) ? 1.5 : 1 }); c.st(c.u, 'haste', 1); c.st(c.u, 'fortify', 1); } });
@@ -1407,7 +1407,7 @@ defMove({ id: 'nought_haunting', name: 'Nothing There', type: 'STAR', owner: 'no
 defMark({ id: 'terminus_purge', name: 'posts firing', clock: 'own', volatile: true, value: 0.1,
   afterAttack(b, f, t) { for (let i = 0; i < 2 && !t.ko && !t.gone; i++) strike(b, f, t, stat(b, f, 'atk') * 0.48, 'P', 'STONE'); } });
 defMark({ id: 'terminus_dread', name: '', value: 0,
-  anyOut(b, f, who) { if (who.side === f.side) return; unmark(f, 'terminus_dread'); msg(b, `${label(b, who)} saw what happened.`); forceAction(b, who, 'skip'); } });
+  anyOut(b, f, who) { if (who.side === f.side) return; unmark(f, 'terminus_dread'); msg(b, `${label(b, who)} witnessed the events.`); forceAction(b, who, 'skip'); } });
 defPassive({ id: 'terminus_endline', name: 'Last Post', owner: 'terminus', text: 'Every 3rd attack: adds 15% of the foe\'s max HP.',
   afterAttack(b, f, t) { f.k.legs = (f.k.legs || 0) + 1; if (f.k.legs % 3 === 0 && !t.ko && !t.gone) strike(b, f, t, t.maxHp * 0.15, 'P', 'STONE'); } });
 defPassive({ id: 'terminus_terminal', name: 'Stays Here', owner: 'terminus', text: 'A foe whose dash hits it gets Root 2. When Road\'s End KOs a foe: heals 20% of max HP.',
@@ -1419,13 +1419,13 @@ defMove({ id: 'terminus_deadend', name: 'Warning Posts', type: 'STONE', owner: '
   run(c) { c.mark(c.u, 'terminus_purge', 1, 2); } });
 defMove({ id: 'terminus_toll', name: 'Toll Bar', type: 'GEAR', owner: 'terminus', reach: 'single', cd: 3, fx: 'swell | cog line | crack',
   text: 'Hits for 100% ATK. Stun 1. Shield 10% max HP. The foe pays 1 tide to your side.',
-  run(c) { c.hit(c.tgt, { atk: 1.0 }); c.st(c.tgt, 'stun', 1); c.shield(c.u, c.u.maxHp * 0.1, 3); if (!c.tgt.ko && c.them.nerve > 0) { addNerve(c.b, c.tgt.side, -1); addNerve(c.b, c.u.side, 1); c.msg(`${label(c.b, c.tgt)} pays a toll.`); } } });
+  run(c) { c.hit(c.tgt, { atk: 1.0 }); c.st(c.tgt, 'stun', 1); c.shield(c.u, c.u.maxHp * 0.1, 3); if (!c.tgt.ko && c.them.nerve > 0) { addNerve(c.b, c.tgt.side, -1); addNerve(c.b, c.u.side, 1); c.msg(`${label(c.b, c.tgt)} pays the price.`); } } });
 defMove({ id: 'terminus_roadsend', name: 'Road\'s End', type: 'STONE', owner: 'terminus', reach: 'single', cd: 6, nerve: 5, fx: 'lunge | crack pillar big dark jolt',
   text: 'Hits for 120% ATK. Below 25% HP after: KO\'d, and the next foe out skips a turn.',
   run(c) {
     c.hit(c.tgt, { atk: 1.2 });
     if (c.tgt.ko || c.blocked(c.tgt) || !under(c.tgt, 0.25)) return;
-    c.msg(`${label(c.b, c.tgt)} reaches the end of the road.`);
+    c.msg(`${label(c.b, c.tgt)} reaches the end of the path.`);
     c.hit(c.tgt, { tgtCur: 1, flat: 1 }, { kind: 'T', noGuard: true });
     if (!c.tgt.ko) return;
     mark(c.b, c.u, c.u, 'terminus_dread', 1);
@@ -1434,7 +1434,7 @@ defMove({ id: 'terminus_roadsend', name: 'Road\'s End', type: 'STONE', owner: 't
 
 // horizon: a horizon with its stars still going round it, which raises more, sinks a well under a foe, and asks every star to fall at once.
 defSummon({ id: 'horizon_star', name: 'Circling Star', owner: 'horizon', text: 'Each turn: hits the foe for 12% of Finihei\'s MGK.', every: 100,
-  fall(b, s, owner) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (t && !t.ko && owner && !owner.ko && has(owner, 'horizon_accretion')) { msg(b, 'The star falls on the foe.'); strike(b, owner, t, stat(b, owner, 'mgk') * 0.4, 'M', 'STAR'); } },
+  fall(b, s, owner) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (t && !t.ko && owner && !owner.ko && has(owner, 'horizon_accretion')) { msg(b, 'The star descends upon the enemy.'); strike(b, owner, t, stat(b, owner, 'mgk') * 0.4, 'M', 'STAR'); } },
   sprite: { px: ['........', '.2....2.', '..2..2..', '...33...', '...33...', '..2..2..', '.2....2.', '........'], c: ['#e8c858', '#f8f8ff', '#424f9e'] },
   act(b, s, owner) { const t = b.s[1 - s.side].f[b.s[1 - s.side].out]; if (t && !t.ko && owner) strike(b, owner, t, stat(b, owner, 'mgk') * 0.12, 'M', 'STAR'); } });
 defMark({ id: 'horizon_well', name: 'sinking', clock: 'own', negative: true, value: -0.1,
@@ -1443,7 +1443,7 @@ defMark({ id: 'horizon_well', name: 'sinking', clock: 'own', negative: true, val
     if (!by) return;
     strike(b, by, f, stat(b, by, 'mgk') * 0.16, 'M', 'TIDE');
     if (!f.ko) applyStatus(b, by, f, 'slow', 1);
-    if (!f.ko && under(f, 0.08)) { msg(b, `${label(b, f)} falls into the well.`); dealDamage(b, by, f, f.hp + f.shield + 1, dot('T'), null); }
+    if (!f.ko && under(f, 0.08)) { msg(b, `${label(b, f)} plunges into the well.`); dealDamage(b, by, f, f.hp + f.shield + 1, dot('T'), null); }
   } });
 defPassive({ id: 'horizon_ring', name: 'Turning Stars', owner: 'horizon', text: 'Starts with a Circling Star (10% max HP). Each KO it lands: another, max 3.',
   start(b, f) { summon(b, f, 'horizon_star', { hp: 0.1 }); },
@@ -1508,7 +1508,7 @@ defMark({ id: 'lip_edge', name: 'on the edge', negative: true, volatile: true, v
     if (!by || by.ko || !isOut(b, by)) return;
     const a = Math.min(f.hp - 1, Math.round(f.maxHp * 0.08));
     if (a <= 0) return;
-    msg(b, `${label(b, f)} slips at the edge.`);
+    msg(b, `${label(b, f)} stumbles at the edge.`);
     dealDamage(b, by, f, a, dot('T'), null);
   } });
 defMark({ id: 'lip_rot', name: 'crumbling', clock: 'own', volatile: true, value: 0.06,
@@ -1606,7 +1606,7 @@ defSummon({ id: 'furrow_maze', name: 'Thorn Tangle', owner: 'furrow', sprite: { 
 defMark({ id: 'furrow_crown', name: 'ringed', clock: 'own', negative: true, value: -0.2,
   expire(b, f, mk) {
     const by = markedBy(b, mk);
-    msg(b, 'The ring of thorns closes.');
+    msg(b, 'The thorned ring tightens.');
     if (!by) return;
     splash(b, by, stat(b, by, 'mgk') * 0.8, 'M', 'ROOT');
     const t = b.s[f.side].f[b.s[f.side].out];

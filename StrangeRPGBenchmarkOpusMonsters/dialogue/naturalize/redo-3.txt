@@ -1,0 +1,108 @@
+[0zsqdj0] Tack | Try {#1}. Still 11 Hermits. I'm still in the road.
+[0dxdikx] Shellwright | Oh really? The new notions just arrived. // They're small accessories, but they alter how a whorl approaches combat. Only one per whorl, though.
+[02nfrq1] goal | The Hermits moved north toward the machine fields and Hum.
+[0jskj5g] Very old man | My grandmother's grandmother wore these boots down from the old shell. They're still solid.
+[0hg0v43] Old man | My cast's ninety, and it's twelve. Don't ask how. But we both have bad knees, at least.
+[0a5owz6] Tack | I'm taking my place on the Climb. If you come up loose, that's 1 more Hermit, and I'm not having it.
+[1jgaqcr] Man at the well | Dust remains. We carry from Rib now, it's not far. I still come and wait on her.
+[149rmq0] Bare | Look back down.
+[16pyo80] notice | Ouro carefully holds the bowl of upward rain, keeping it upside down.
+[0qh1vlq] hint | The soldier copies each step Ouro takes in the opposite pen, doing it the wrong way round.
+[1b3m2oz] Strandmonger | Which I'll waive, just this once. // It's worth more to you than a cowrie is to me, and less to me than that, so we both win. I win more.
+[1yr6fn0] Tack | I came right through your 1 hole. Thanks for that.
+[0niuu4i] choice prompt | {#1} measured out. {sack} in the sack.
+[0msiz5t] The Sifter | Just one house. By my measure, none now.
+[1fayi9d] Tooth-sitter | I sit between the teeth. I'm the only gap in town, and I got here first.
+[157xv4z] Cinch | Sit down. I came down when the stamping started. I heard it from the bar.
+[0lqujlg] Eldest | I'll hear that voice on the bar this morning. This morning was seventy years ago.
+[1vaccv6] Mudlark | I wouldn't put my door anywhere the Gleaner's feet don't come. Nobody looks where they step.
+[0cvno7i] ? | (Choose Catch and blow a horn. A caught whorl joins you. If you knock it out, it gets away.)
+[1u6bqw0] Strandmonger | Dial back the force, then catch it. Less power means more control. // Once it's caught, it's yours, and I'm done feeding the boot.
+[0yiypgd] notice | notice the presence of an "x".
+[0k1q7ry] choice prompt | The pump fills every pan to its starting point and drops every board.
+[0xf380x] hint | A veteran crane from the Riders. Equip a GEAR whorl to activate its mechanisms.
+[0rci6l6] Register entry: Spuawa | Sea foam released by the gray wall. You hit what it holds. The foam keeps the bill. The bill comes. Four cowries, I respect it.
+[0wgss5m] Register entry: Tebukas | A gardener's glove, face in the palm. It hurls itself at a companion, who then lands swinging. Five cowries. No pairs.
+[17r24en] Register entry: Murk | At the tide's edge, the fog cuts deepest at those who haven't touched it yet. Seven cowries. Touch it first.
+[0eu04ud] menu | Dash: takes 0.9x damage until its next turn. Guard cannot block it.
+[02pc7vt] battle | {s.name} pushes {#2}'s tide into debt.
+[1htockt] menu | {m.name} holds no notion.
+[0u8izn2] menu | Acts first in a round. Until your next turn, it takes 0.5x damage from projectiles, and 0.25x damage from dashes. It cannot be forced out.
+[14z5ho8] menu | Wait for the foe to act, then choose. A waiting foe sees you wait.
+[1kibrnb] menu | Setting: Build a machine that carries stones to the setting on the right of the board.
+[1mjqwfc] menu | Returns to the match the page left. The room holds the seat for 90 seconds.
+[1d3iow5] menu | {#1} is on {#2} team twice. A team holds each species once, and fits count too.
+[1nn8vlj] battle | menu: {#1} turns the wind round.
+[0p365pm] menu | A mold transforms paste into a duplicate of the stone in its neighboring cell. Only one star is present.
+[0tquwu3] battle | {#1} removes the shield.
+[0ob984x] ? (p) | Many texts use the % sign. It means parts of 100. 50% is half. 25% is one quarter. 10% is one tenth.
+[11pvvv4] ? (p) | You choose the traits for the new whorl. It keeps 2 moves from each parent and 2 habits in total. It also inherits 1 or 2 types. You also pick its appearance and name.
+[1kc7lj7] ? (p) | No battle can go on forever. Try to win before fatigue starts.
+[19pp9pa] ? (p) | A round represents one turn for each side. Fatigue begins after round {FATIGUE_ROUND}.
+[0rgndt8] ? (p) | Fatigue bypasses DEF, RES, and Guard. The slower whorl is targeted first.
+[11j8z5x] ? (s) | The Inventory holds horns and other useful items, such as a Salt Line.
+[1pjqcdm] Tack | Try {#1}. Tackle is ready. Tackle is always ready.
+[0oopn2x] Mirror-mender | The things the water showed are still lying around. I fix them. I put them back together.
+[09sv99h] Sign | The Sand Dollar is to the west. At low water, get in something. Underneath, scratched: and WIGGLE
+[12zwdqd] hint | (The socket sits flush, eager for the stones it displays, each resting on its designated mark.)
+[1u3zzxb] Helper | Knuckle's advice is to switch when it gets bad. I don't. I'm loyal.
+[03vz4km] Gran | Tell the Sealkeepers. Rib is first, heading west along the Midden Road.
+[1u067hd] Strandmonger | Look at that. It's drawn you back in. That part I don't charge for.
+[0a8t3il] Hermit | We're undercutting the Tusk. It's the oldest one there is. Should go easy. Probably.
+[1wqbrc4] Tack | I'm Leeward's 1 keeper, against 11 of you. So I'm gonna help. After I beat you.
+[0d8qwy7] choice | Choose it
+[0a8vkm5] The Listener | You set the glass room on fire! I heard it from right here.
+[1r5m79w] Gran | Tell my little turnip I love them.
+[0s1cjbz] Tide table | The next low water reaches {#1}{#2}.{walk}
+[0nk18m0] look | Rows of notched marks, with one to four notches on each mark, spiral upward around the wall.
+[1li2jd9] Marks | Newest by the point, oldest first: two notches. Scraped. One. Two. Scraped.
+[0vzccou] Tide-reader | At the low after the shut one made the last shed, it was soft. It reached in.
+[1cke072] Marks | Count one, two, three to mark a fresh section, then reserve a space for the next one.
+[1iuvg79] Marks | Four, and a star. The star is scraped off. Three. Two. One.
+[0mc48r8] Marks | Then three places were scraped smooth.
+[1k0r9mm] ? (vellumslip) | It flips over in the hand. ... Just once.
+[0r1fauu] notice | {r.tan} nacre. layer it by placing it in any grotto.
+[17y2lku] ? | Take this ring. I set it when you were my age, and it has never fit a single finger since.
+[1u7pyc0] ? (s) | Slow. Each subsequent turn of the whorl arrives 30% of a turn later.
+[0blab62] ? (s) | Haste. Each of the whorl's subsequent turns arrives 30% of a turn earlier.
+[1n742am] Tinker | I've gathered up Rider's discarded parts. Every single one still ticks.
+[08k1qbu] sign or spot in The Shallows | Beyond the Rim. Nothing is held here. Mind your hat.
+[0rcjrhx] choice | Seize it
+[0n95oat] look | On the sandbar in the inlet, a nautilus horn rolled up in weed lay, alongside beach glass.
+[1wxyv43] ? (lore_chair) | Large ones will sleep on any surface. I'd wager they're resting in my chair. Wake one.
+[01b3lo9] Old man | My boat shed last year. Now I've got two boats and no sea.
+[10gi8bt] Islander | The door faced the water. A step sat in front of the door. // The gate was at the end of the path, toward the water.
+[0pwcymo] ? (giveKeyItem) | Ouro puts the kettle on.
+[1revsgr] Rain-seller | Jars of rain moving upward. Snagged by the tree trunk. One hundred and twenty for each jar. // Moving up.
+[0x4e5ih] Rain-seller | The rain falls down now. Just like everywhere else. These jars hold the last of the upward rain. // We're going nowhere.
+[11cly7l] ? (sign) | The crater fields lie south of Fall. Everything here rolls that way.
+[0731a03] Register entry: Louriba | The shell a hole left behind. It takes stone from what it hits and keeps it. Three cowries. Count your walls afterward.
+[1sahg88] Register entry: Pallasite | A green-inside fallen star, caught in a shell before hitting sand. It closes when hurt. Seven cowries, worth eight.
+[18oma86] battle | {what} wait{n} {#2} more turn{#4}.
+[0pu3l4p] Register entry: Lupusmi | Tack's cast, nose down, still on a scent from years past. It sniffs the four cowries before you can hand them over.
+[13agoku] battle | {#1} can reach the bench again.
+[0wkuubs] menu | whorl: a fit with a plain attack neither parent has.
+[1rogd4c] menu | Each roster contains {ROSTER_SIZE} whorls.
+[0c3xudq] menu | it fits a retune it cannot produce.
+[06iqdw4] menu | Each pick contains {TEAM_SIZE} whorls.
+[1i84rbt] menu | {#1} side is locked for {#2} rounds: its switches go after the other side acts in joint rounds.
+[0lkga1l] menu | {#1} stands before {#2} bench: it intercepts hits meant for the reserves.
+[13rpep0] battle | The glass flips behind {#1}.
+[1gcc94m] menu | A mirage on {#1} makes the foe {o.mirage.hp} appear to have {o.mirage.turns} extra HP.
+[0e15lft] battle | {#1} and {#2} exchange blows.
+[1titfc5] ? (p) | Moves matching a whorl's own type deal 20% more damage. Squall is a TIDE whorl, so its TIDE moves deal 20% more damage.
+[0sidt16] ? (p) | When a whorl is replaced, it loses most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
+[04m4aii] ? (s) | Hidden: A foe's single hits cannot find it. Its own next hit goes through Guard. Revealed: The whorl becomes Revealed on its next turn after Hidden ends. While Revealed, it cannot become Hidden or Untouchable.
+[124uhp1] ? (p) | The game returns you to the teams when the battle ends. Press Start to play the same battle again.
+[0nomez7] look | This shed once stood in the meadow. The new meadow grew over its cast.
+[1rybewm] hint | (One to four notches show how far the sea receded. Find the pattern and cut out the six blanks.)
+[1sp9bt4] Cinch | Take a seat. They let me out at high water and brought up soup.
+[19ltuu9] choice | Keep {sitting.name}
+[071vgku] DRUSE | {runs} runs! there is a setter inside you. Bezel will be cross.
+[0my99bz] ? (p) | Battles begin with full HP. A KO'd whorl is fine when the battle ends.
+[1ciohiy] ? (p) | To give a notion, press X to open the menu. Select Team, then a whorl, then Give notion. Take notion returns it to the Bag.
+[0vse1qq] choice | Discard it
+[0w2dnfp] choice | Keep it
+[02oxqx1] choice | Pick it up
+[05muyfe] battle | The tide rewinds.
+[1h68bwg] hint | (A card captures an adjacent rival if its number is higher than the rival's, // with type advantage granting a +1 bonus.)

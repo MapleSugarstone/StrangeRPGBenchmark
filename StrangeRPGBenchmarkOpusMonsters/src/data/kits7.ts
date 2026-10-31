@@ -122,7 +122,7 @@ defMove({ id: 'carc_crest', name: 'Full Setting', type: 'STAR', owner: 'carcanet
   text: `Hits for ${N.crest}% MGK per Stone. Splash 35% with 4 kinds. Spends its Stones.`,
   run(c) {
     const st = collar(c.u);
-    if (!st.length) { c.msg('Its collar is empty.'); return; }
+    if (!st.length) { c.msg('Its collar is bare.'); return; }
     const r = { mgk: N.crest / 100 * st.length };
     if (st.length === 4 && new Set(st).size === 4) c.spread(r); else c.hit(c.tgt, r);
     if (!c.preview) write(c.b, c.u, []);

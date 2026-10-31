@@ -96,7 +96,7 @@ function canLeavePans(): boolean {
 }
 
 defScript('saltPump', async () => {
-  if (await choose(['Pump them full', 'Leave them'], true, 'The pump fills every pan to its start and drops every board.') !== 0) return;
+  if (await choose(['Fill them up', 'Let them be'], true, 'The pump fills every pan to its starting point and drops every board.') !== 0) return;
   for (let i = 0; i < 8; i++) setFlag('pan' + i, 0);
   for (const b of BOARDS) setFlag('board' + b.id, 0);
   sfx('heal');
@@ -219,22 +219,22 @@ defMap({
   npcs: [
     { id: 'saltworker1', x: 22, y: 9, sprite: 'tanner', name: 'Salt worker', dir: 3, lines: () => saltLines(0) },
     { id: 'saltworker2', x: 25, y: 20, sprite: 'villager', name: 'Salt worker', dir: 3, lines: () => saltLines(1) },
-    { id: 'saltsign', x: 20, y: 7, sprite: 'sign', name: null as any, lines: ['THE PANS. Lift a board, the two sides level. Odd measure goes seaward. Seaward is west, then south.'] },
-    { id: 'saltrainer', x: 33, y: 5, sprite: 'villager2', name: 'Raker', dir: 3, trainer: { name: 'Raker', team: [['brine', 9], ['heron', 9]], intro: 'Rake, rake, rake. I rake salt, sleep, rake salt. You\'re the first thing I\'ve raked that walks.', defeat: 'Back to the rake.', sight: 3 } },
+    { id: 'saltsign', x: 20, y: 7, sprite: 'sign', name: null as any, lines: ['THE PANS. Lift a board, and the two sides balance. Any odd measure heads seaward.', 'Seaward means west, then south.'] },
+    { id: 'saltrainer', x: 33, y: 5, sprite: 'villager2', name: 'Raker', dir: 3, trainer: { name: 'Raker', team: [['brine', 9], ['heron', 9]], intro: 'Rake, salt, sleep, repeat. You\'re the first walker I\'ve raked.', defeat: 'Back to work.', sight: 3 } },
   ],
   spots: [
     { x: 21, y: 13, script: 'saltPump' },
-    { x: 8, y: 11, when: () => !hasKey('lore_window') && !flag('back_lore_window'), script: async () => { await giveKeyItem('lore_window', 'Ouro finds a small window in the salt works. One pane is cracked.'); } },
+    { x: 8, y: 11, when: () => !hasKey('lore_window') && !flag('back_lore_window'), script: async () => { await giveKeyItem('lore_window', 'Ouro spots a small window in the salt works. One of the panes is cracked.'); } },
     { x: 7, y: 14, when: () => !field.objAt(7, 15) && !flag('found_salt_store'), script: async () => { setFlag('found_salt_store'); await reward({ items: [['saltcake', 3]], notions: [['seabiscuit', 1]] }); } },
-    look(1, 17, 'The jetty ends over the Lipwater. The Lip is a pale line across it, a long way off.'),
+    look(1, 17, 'The jetty ends above the Rimwater.', 'The Rim appears as a pale line across the water, far in the distance.'),
   ],
 });
 SPAWNS.saltings = [30, 1];
 
 // The salt workers finish each thought with "and that's salt", whatever it was about.
 function saltLines(i: number): string[] {
-  if (i === 0) return ['Lad called Tack came through with a whorl off our pans. Brine and boy, both salty. And that\'s salt.'];
-  return flag('tack3') ? ['Heard it\'s called Brack now, the one off our pans. Good name. Tastes right. And that\'s salt.'] : ['Pan four\'s cast walked off last spring. Went north with a kid. And that\'s salt.'];
+  if (i === 0) return ['A lad named Tack came through, bringing a whorl from our pans. Brine and boy, both salty.', 'And that\'s salt.'];
+  return flag('tack3') ? ['I hear they\'re calling it Brack now, the one from our pans. It\'s a good name. It tastes right.', 'And that\'s salt.'] : ['Pan four\'s cast left last spring. Went north with a kid. That\'s salt.'];
 }
 
 // ---------------------------------------------------------------- the Shouting Wood
@@ -281,45 +281,45 @@ defMap({
   warps: [{ x: 0, y: 20, to: 'spire', tx: 38, ty: 22, dir: 3 }],
   zone: { kinds: kinds([['mycel', 3], ['leech', 2], ['peat', 2], ['strix', 2], ['siren', 1]]), lv: [8, 10], n: 10, area: 'bracken' },
   npcs: [
-    { id: 'shouter1', x: 9, y: 18, sprite: 'villager2', name: 'Shouter', dir: 0, lines: ['I COME OUT HERE TO SAY THINGS AT FULL SIZE. my wife says I\'m a bit much at home'] },
+    { id: 'shouter1', x: 9, y: 18, sprite: 'villager2', name: 'Shouter', dir: 0, lines: ['I COME OUT HERE TO SAY THINGS AT FULL SIZE. My wife says I\'m a bit much at home.'] },
     { id: 'shouter2', x: 22, y: 13, sprite: 'oldwoman', name: 'Shouter', dir: 3, lines: ['FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I\'M SHOUTING THE SHOPPING LIST. eggs'] },
-    { id: 'shoutrainer', x: 23, y: 26, sprite: 'villager', name: 'Bellower', dir: 2, trainer: { name: 'Bellower', team: [['siren', 9], ['strix', 9], ['peat', 10]], intro: 'THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I\'M ALLOWED BOTH. sorry', defeat: 'I LOST. that was nice actually', sight: 4 } },
+    { id: 'shoutrainer', x: 23, y: 26, sprite: 'villager', name: 'Bellower', dir: 2, trainer: { name: 'Bellower', team: [['siren', 9], ['strix', 9], ['peat', 10]], intro: 'THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I\'M ALLOWED BOTH. sorry', defeat: 'I LOST. THAT WAS ACTUALLY NICE.', sight: 4 } },
     { id: 'swsleeper', x: 35, y: 20, sprite: 'stone', mon: 'peat', name: 'Deispes', sleeper: { kind: 'peat', lv: 13, flag: 'sl_shout' } },
     { id: 'gatekeeper_w', x: 37, y: 19, sprite: 'keeper', name: 'Gatekeeper', dir: 0, talk: 'gateW' },
   ],
   spots: [
-    stash('sw_ford', 14, 31, 'Over the footbridge, under a stone in the stream, beach glass rolled smooth.', { items: [['beachglass', 2]], tan: 1 }),
+    stash('sw_ford', 14, 31, 'Beneath the footbridge, under a stream stone, beach glass lay smoothed by the water.', { items: [['beachglass', 2]], tan: 1 }),
   ],
 });
 SPAWNS.shoutwood = [1, 20];
 
 // The west gatekeeper works for Lug, and drifts from one thought to the next the way Lug does.
 defScript('gateW', gatekeeper('w', 'Lug', {
-  shut: 'Shut. Shut like a cupboard, a cupboard of good plates, plates nobody uses. No seal, no way.',
-  read: 'Apex seal. Black, like a well, a well at night, night over the Ring. Through you go.',
-  open: 'Open from this side. Ring\'s past it, round the Apex, round and round like a plate on a table.',
+  shut: 'Shut. Like a cupboard of unused good plates. No seal, no way.',
+  read: 'Apex seal. Black as a well, a well at night, night over the Ring. Through you go.',
+  open: 'Open from here. Ring\'s past it, around the Apex, circling like a plate.',
 }));
 
 // ---------------------------------------------------------------- the ledger room
 
 const LEDGER: Record<string, string> = {
-  mast: '"the mast. a loudness under the whole volute. one bell, long. no one to blame"',
-  bole: '"the bole. it rained down for the first time, and that was loud. two bells"',
-  pylon: '"the pylon. a hum stopped. the silence was loud. three bells"',
-  tusk: '"the tusk. somebody very old said yes. four bells, slowly"',
-  hilt: '"the hilt. a sword came out of the ground. five bells, sharp"',
-  fall: '"the fall. a star let go. all the bells, at once, and then none"',
+  mast: 'the mast. a loudness beneath the whole volute. one bell, long. no one to blame.',
+  bole: 'the bole. it rained down for the first time, and that was loud. two bells.',
+  pylon: 'the pylon. a hum stopped. the silence was loud. three bells.',
+  tusk: 'the tusk. somebody very old said yes. four bells, slowly.',
+  hilt: 'the hilt. a sword came out of the ground. five bells, sharp.',
+  fall: 'the fall. a star let go. all the bells, at once, and then none.',
 };
 
 defMap({
   id: 'ledgerroom', name: 'The ledger room', region: 11, indoor: true, music: 'spire',
   rows: room(['p_p_p_p_', '________', '__cc____', '________', '________', '________']),
   warps: roomDoor('spire', 30, 27),
-  npcs: [{ id: 'ledgerclerk', x: 6, y: 3, sprite: 'villager2', name: 'Clerk', dir: 3, lines: ['The Verger\'s ledger of loudnesses. Every loud thing in Spire for three hundred years, and the hour.'] }],
+  npcs: [{ id: 'ledgerclerk', x: 6, y: 3, sprite: 'villager2', name: 'Clerk', dir: 3, lines: ['The Verger\'s ledger of decibels. Three centuries of every noise in Spire, logged by the hour.'] }],
   spots: [{ x: 3, y: 2, script: async () => {
     const got = G.pulled.filter(p => LEDGER[p]);
-    if (!got.length) { await say('Ledger', 'a cart, dropped. one bell. a child, laughing. half a bell'); return; }
+    if (!got.length) { await say('Ledger', 'a cart, dropped. one bell. a child, laughing. half a bell.'); return; }
     for (const p of got) await say('Ledger', LEDGER[p].replace(/^"(.*)"$/, '$1'));
-  } }, stash('lr_chip', 7, 1, 'Wedged under the last pew, a chip off a bell. It still hums.', { items: [['bellchip', 1]] })],
+  } }, stash('lr_chip', 7, 1, 'Wedged beneath the final pew lies a shard of bell. It still vibrates with a low hum.', { items: [['bellchip', 1]] })],
 });
-MAPS.underspire.spots = [...(MAPS.underspire.spots || []), stash('us_chip', 12, 15, 'At the foot of the pillar, two chips off the old bell, humming.', { items: [['bellchip', 2]] })];
+MAPS.underspire.spots = [...(MAPS.underspire.spots || []), stash('us_chip', 12, 15, 'At the pillar\'s base, two fragments of the old bell lie, humming softly.', { items: [['bellchip', 2]] })];

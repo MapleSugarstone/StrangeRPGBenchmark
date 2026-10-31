@@ -44,14 +44,14 @@ defMap({
     { id: 'soldierbed', x: BED.x, y: BED.y, sprite: 'keeper', name: 'A soldier\'s cast', dir: 0, img: pale('keeper', ['#d8d4c8', '#a8a49a']), when: () => !!flag('soldierDone'), lines: ['(It lies on the bedroll with its arms at its sides. It is not marching.)'] },
     { id: 'lunch', x: 14, y: 5, sprite: 'villager2', name: 'Lunch-bringer', dir: 1, talk: 'lunch' },
     { id: 'fencer', x: 4, y: 3, sprite: 'keeper', name: 'Fencer', dir: 0, trainer: { nacre: 1, name: 'Fencer', team: [['tang', 21], ['buckler', 21]], intro: 'The battle ended before my gran was born. Nobody told the swords. I\'m not gonna be the one.', defeat: 'Sheathed.', sight: 3 } },
-    { id: 'archer', x: 28, y: 3, sprite: 'villager', name: 'Arrow-finder', dir: 3, trainer: { name: 'Arrow-finder', team: [['fletch', 21], ['sallet', 21]], intro: 'One arrow never came down. I wait under it. With a hat on. I\'m not daft.', defeat: 'Still up there. Probably.', sight: 4 } },
-    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 21], ['mangonel', 21]], intro: 'I brush the war horses. They\'ve been whorls a hundred years and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
+    { id: 'archer', x: 28, y: 3, sprite: 'villager', name: 'Arrow-finder', dir: 3, trainer: { name: 'Arrow-finder', team: [['fletch', 21], ['sallet', 21]], intro: 'One arrow never hit the ground. I stay underneath it. Wearing a hat. I\'m not stupid.', defeat: 'Still hovering above. Most likely.', sight: 4 } },
+    { id: 'groom', x: 8, y: 18, sprite: 'tanner', name: 'Groom', dir: 1, trainer: { name: 'Groom', team: [['destrier', 21], ['mangonel', 21]], intro: 'I brush the war horses. They\'ve been whorls for a hundred years, and they still love a good brush.', defeat: 'Easy. Easy.', sight: 3 } },
   ],
   spots: [
-    look(2, 11, 'A sword stands in the ground with a helmet hung on its hilt.', 'A snail has moved into the helmet. It wears it.'),
-    look(15, 3, 'A banner on a blade. Its color is gone. It still faces the side it was for.'),
-    stash('bf_pouch', 33, 13, 'Under a leaning blade, a buckled pouch, and in it a notion and some cowries.', { notion: 'edgecharm', rind: 500 }),
-    stash('bf_trench', 9, 16, 'In the trench, under a plank, a tin of nacre nobody came back for.', { tan: 4 }),
+    look(2, 11, 'A sword is stuck in the earth, with a helmet dangling from its hilt.', 'A snail has taken up residence in the helmet. It wears it.'),
+    look(15, 3, 'A banner clings to the blade.', 'The color has faded, but it still points toward the side it once defended.'),
+    stash('bf_pouch', 33, 13, 'Beneath a slanted blade, a buckled pouch holds a notion and some cowrie shells.', { notion: 'edgecharm', rind: 500 }),
+    stash('bf_trench', 9, 16, 'In the trench, beneath a wooden plank, sits a tin of nacre that no one returned to claim.', { tan: 4 }),
   ],
 });
 
@@ -101,14 +101,14 @@ field.stepHooks.push(f => {
 
 defScript('soldier', async () => {
   await act('soldier', 'nod');
-  await hint('The soldier copies each step Ouro takes in the other pen, the wrong way round.');
+  await hint('The soldier copies each step Ouro takes in the opposite pen, doing it the wrong way round.');
 });
 
 // The Lunch-bringer names a mealtime in every line.
 defScript('lunch', async () => {
-  if (flag('soldierDone')) { await say('Lunch-bringer', 'It\'s lying down now. I\'ll leave the noon bread by its head. It won\'t mind. It never eats it.'); return; }
-  await say('Lunch-bringer', 'I bring it bread at noon. It marches round the bread. Every day. Round and round.');
-  await say('Lunch-bringer', 'Its bedroll\'s right there in its pen. Not lain on it since breakfast, a hundred years back.');
+  if (flag('soldierDone')) { await say('Lunch-bringer', 'It\'s lying down now. I\'ll set the noon bread by its head. It won\'t mind. It never eats it.'); return; }
+  await say('Lunch-bringer', 'I bring it bread at noon. It marches around the bread. Every day. Round and round.');
+  await say('Lunch-bringer', 'Its bedroll is right there in its pen. It hasn\'t lain on it since breakfast, a hundred years ago.');
   await say('Lunch-bringer', 'It copies whoever walks the other pen. Left for right. At supper it spooned air with me.');
   setFlag('lunchAsked');
 });
@@ -185,17 +185,17 @@ defMap({
   zone: { kinds: kinds([['image', 2], ['skipper', 3], ['silt', 2], ['spawn', 2], ['lune', 1]]), lv: [21, 23], n: 12, area: 'silt' },
   npcs: [
     { id: 'reflection', x: 15, y: 3, sprite: 'elder', name: 'A reflection', dir: 0, img: pale('elder', ['#c8d0e8', '#9aa4c8']), when: () => !flag('reflectionHome'), talk: 'reflection' },
-    { id: 'flakeboy', x: 4, y: 17, sprite: 'child', name: 'Flake boy', dir: 1, trainer: { nacre: 1, name: 'Flake boy', team: [['lune', 22], ['skipper', 22]], intro: 'The moon dropped flakes when it climbed out. I\'m selling them back to it! Good price.', defeat: 'It never buys. Doesn\'t even haggle.', sight: 3 } },
-    { id: 'siltwife', x: 25, y: 17, sprite: 'villager2', name: 'Silt-wife', dir: 3, trainer: { name: 'Silt-wife', team: [['silt', 22], ['spawn', 23]], intro: 'Under the water was cold. Under the silt\'s warm. So I live under the silt now. Obviously.', defeat: 'Back under.', sight: 3 } },
-    { id: 'mirrorman', x: 25, y: 3, sprite: 'villager', name: 'Mirror-mender', dir: 3, trainer: { name: 'Mirror-mender', team: [['image', 23], ['lune', 23]], intro: 'Things the water showed are still lying about. I fix \'em. Put \'em back together.', defeat: 'Oops. That was the wrong face.', sight: 3 } },
+    { id: 'flakeboy', x: 4, y: 17, sprite: 'child', name: 'Flake boy', dir: 1, trainer: { nacre: 1, name: 'Flake boy', team: [['lune', 22], ['skipper', 22]], intro: 'The moon shed flakes as it rose. I\'m reselling them to it. Great deal.', defeat: 'It never buys. Doesn\'t even try to bargain.', sight: 3 } },
+    { id: 'siltwife', x: 25, y: 17, sprite: 'villager2', name: 'Silt-wife', dir: 3, trainer: { name: 'Silt-wife', team: [['silt', 22], ['spawn', 23]], intro: 'The water was freezing. The silt is warm. So I dwell in the silt now. Naturally.', defeat: 'Back under.', sight: 3 } },
+    { id: 'mirrorman', x: 25, y: 3, sprite: 'villager', name: 'Mirror-mender', dir: 3, trainer: { name: 'Mirror-mender', team: [['image', 23], ['lune', 23]], intro: 'The things the water showed are still lying around. I fix them. I put them back together.', defeat: 'Oops. Wrong face.', sight: 3 } },
   ],
   spots: [
-    look(5, 3, 'The silt where the moon lay is pressed into a round hollow, smooth and pearly.'),
-    look(26, 18, 'A flake off the moon\'s shell, flat and pearly. It is still a little cold.'),
+    look(5, 3, 'The silt beneath where the moon rested is packed into a smooth, round hollow,', 'gleaming with a pearly sheen.'),
+    look(26, 18, 'A fragment of the moon\'s shell, flat and pearlescent. It remains slightly chilled.'),
   ],
 });
 
-MAPS.moonbed.npcs.push(prize('mb_bowl', 16, 2, 'Behind the reflection, in the deepest silt, a nautilus horn and a cockle full of nacre.', { pegs: ['iron', 1], tan: 6 }));
+MAPS.moonbed.npcs.push(prize('mb_bowl', 16, 2, 'Behind the reflection, in the deep silt, rest a nautilus horn and a cockle filled with nacre.', { pegs: ['iron', 1], tan: 6 }));
 field.stepHooks.push(f => {
   if (f.map.id !== 'moonbed') return;
   const st = MOON_STONES.find(([x, y]) => x === f.x && y === f.y);
@@ -215,10 +215,10 @@ WALK_PUZZLES.push({
 
 // The Shore-woman speaks of her reflection as herself.
 defScript('shorewoman', async () => {
-  if (flag('reflectionHome')) { await say('Shore-woman', 'There I am! A bit muddy. I don\'t mind. Muddy suits me.'); return; }
-  await say('Shore-woman', 'Every morning for sixty years I looked in the water. Hair, teeth, all that.');
-  await say('Shore-woman', 'When the water went, I stayed in it. My reflection, I mean. I\'m down there on the bed.');
-  await say('Shore-woman', 'The pools change when you step on the pale stones. Don\'t step on me, though.');
+  if (flag('reflectionHome')) { await say('Shore-woman', 'There I am! A bit muddy, but I don\'t mind. Muddy suits me.'); return; }
+  await say('Shore-woman', 'For sixty years, I\'ve gazed into the water every morning, checking my hair, my teeth, everything.');
+  await say('Shore-woman', 'When the water receded, I stayed put. I mean my reflection, I\'m still down there on the bottom.');
+  await say('Shore-woman', 'The pools shift when you step on the pale stones. But don\'t step on me.');
   setFlag('reflectionAsked');
 });
 
@@ -311,16 +311,16 @@ defMap({
   zone: { kinds: kinds([['cullet', 2], ['telson', 2], ['cholla', 3], ['erg', 2], ['haze', 1], ['bonedry', 2]]), lv: [23, 25], n: 14, area: 'glass' },
   npcs: [
     { id: 'listener', x: 11, y: 11, sprite: 'elder', name: 'The Listener', dir: 1, talk: 'listener' },
-    { id: 'glassblower', x: 5, y: 4, sprite: 'tanner', name: 'Glass-walker', dir: 0, trainer: { nacre: 1, name: 'Glass-walker', team: [['cullet', 24], ['erg', 24]], intro: 'I walk the glass barefoot. It rings. I don\'t. I\'m very brave.', defeat: 'Ring, ring.', sight: 3 } },
-    { id: 'scorpion', x: 30, y: 4, sprite: 'villager2', name: 'Shade-seeker', dir: 3, trainer: { name: 'Shade-seeker', team: [['telson', 24], ['cholla', 24]], intro: 'There\'s no shade out here. I keep looking. That\'s the job.', defeat: 'Oh, found some. It was you. Can you stand still?', sight: 3 } },
-    { id: 'skullkid', x: 6, y: 17, sprite: 'child', name: 'Skull kid', dir: 1, trainer: { name: 'Skull kid', team: [['bonedry', 24], ['haze', 24]], intro: 'I found a skull! And it found me back!', defeat: 'Now it\'s sulking. Thanks.', sight: 4 } },
+    { id: 'glassblower', x: 5, y: 4, sprite: 'tanner', name: 'Glass-walker', dir: 0, trainer: { nacre: 1, name: 'Glass-walker', team: [['cullet', 24], ['erg', 24]], intro: 'I walk across the glass barefoot. It sings, but I stay silent. I\'m quite brave.', defeat: 'Ring, ring.', sight: 3 } },
+    { id: 'scorpion', x: 30, y: 4, sprite: 'villager2', name: 'Shade-seeker', dir: 3, trainer: { name: 'Shade-seeker', team: [['telson', 24], ['cholla', 24]], intro: 'There\'s no shade out here. I keep searching. That\'s my job.', defeat: 'Oh, I found some. It was you. Can you hold still?', sight: 3 } },
+    { id: 'skullkid', x: 6, y: 17, sprite: 'child', name: 'Skull kid', dir: 1, trainer: { name: 'Skull kid', team: [['bonedry', 24], ['haze', 24]], intro: 'I found a skull! And it found me!', defeat: 'Now it\'s sulking. Great.', sight: 4 } },
   ],
   spots: [
-    look(4, 13, 'Under the glass, footprints from before the sand melted. They are walking away from the star.'),
+    look(4, 13, 'Beneath the glass, footprints from before the sand melted walk away from the star.'),
   ],
   tileTalk: { R: 'glassPrism', Q: 'glassPrism' },
 });
-MAPS.glassdesert.npcs.push(prize('gd_bell', GLASS_X + 3, GLASS_Y + 1, 'In the lit room, a glass bell with no clapper, and beside it a notion.', { notion: 'crownofhorn', tan: 6 }));
+MAPS.glassdesert.npcs.push(prize('gd_bell', GLASS_X + 3, GLASS_Y + 1, 'In the bright room, there is a glass bell without a clapper, and next to it, a notion.', { notion: 'crownofhorn', tan: 6 }));
 defScript('glassPrism', async () => {
   const [fx, fy] = field.facing();
   const i = PRISMS.findIndex(([x, y]) => x === fx && y === fy);
@@ -356,16 +356,17 @@ WALK_PUZZLES.push({
 
 // The Listener names a sound in every line.
 defScript('listener', async () => {
-  if (flag('listenerDone')) { await say('The Listener', 'It\'s still ringing. I can hear it from here. Can you? You can\'t, can you.'); return; }
+  if (flag('listenerDone')) { await say('The Listener', 'It\'s still ringing. I can hear it from here. Can you? No, you can\'t.'); return; }
   if (flag('beamOpened')) {
     await say('The Listener', 'You lit the glass room! I heard it from right here.');
-    await say('The Listener', 'Forty years I\'ve listened for that. It was a G. Lovely G.');
+    await say('The Listener', 'I\'ve been listening for that sound for forty years. It was a G. A lovely G.');
     setFlag('listenerDone');
     await reward({ tan: 3, rind: 600 });
     return;
   }
-  await say('The Listener', 'There\'s a room under the glass. It used to ring when the star\'s light reached it.');
-  await say('The Listener', 'Somebody moved the prisms and it\'s been quiet since. My eyes aren\'t good enough to fix them.');
+  await say('The Listener', 'There\'s a chamber beneath the glass. It used to chime whenever the star\'s light touched it.');
+  await say('The Listener', 'Someone must have shifted the prisms. It\'s been silent ever since.');
+  await say('The Listener', 'My eyes aren\'t sharp enough to set them right.');
 });
 
 // ---------------------------------------------------------------- the Hands' Orchard: the trained trees
@@ -398,24 +399,24 @@ defMap({
   zone: { kinds: kinds([['shears', 2], ['glove', 2], ['scion', 2], ['espalier', 2], ['rung', 2]]), lv: [26, 28], n: 12, area: 'orchard' },
   npcs: [
     { id: 'pruner', x: 13, y: 18, sprite: 'keeper', name: 'The Pruner', dir: 2, talk: 'pruner' },
-    { id: 'grafter', x: 4, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { nacre: 1, name: 'Grafter', team: [['scion', 27], ['shears', 27]], intro: 'Grafton learned here. Then Grafton left. The trees are still kinda sore about it.', defeat: 'Well. Cut clean, at least.', sight: 3 } },
-    { id: 'ladder', x: 25, y: 9, sprite: 'child', name: 'Ladder girl', dir: 3, trainer: { name: 'Ladder girl', team: [['rung', 27], ['espalier', 28]], intro: 'I carry the ladder for the Hands. Nobody\'s climbed it yet. I carry it anyway.', defeat: 'Fine. Up you go, then.', sight: 3 } },
-    { id: 'glovesmith', x: 25, y: 21, sprite: 'villager2', name: 'Glovesmith', dir: 3, trainer: { name: 'Glovesmith', team: [['glove', 28], ['shears', 28]], intro: 'Every Hand wears a glove I made. Never shaken one. Not one hand. It\'s a bit sad.', defeat: 'Ooh. Firm grip.', sight: 3 } },
+    { id: 'grafter', x: 4, y: 9, sprite: 'grafter', name: 'Grafter', dir: 1, trainer: { nacre: 1, name: 'Grafter', team: [['scion', 27], ['shears', 27]], intro: 'Grafton learned right here. Then Grafton left. The trees are still a bit bruised by the memory.', defeat: 'Well. At least it\'s a clean cut.', sight: 3 } },
+    { id: 'ladder', x: 25, y: 9, sprite: 'child', name: 'Ladder girl', dir: 3, trainer: { name: 'Ladder girl', team: [['rung', 27], ['espalier', 28]], intro: 'I carry the ladder for the Hands. No one has climbed it yet. But I carry it anyway.', defeat: 'Fine. Then up you go.', sight: 3 } },
+    { id: 'glovesmith', x: 25, y: 21, sprite: 'villager2', name: 'Glovesmith', dir: 3, trainer: { name: 'Glovesmith', team: [['glove', 28], ['shears', 28]], intro: 'Every Hand wears a glove I made. I\'ve never shaken one. Not a single hand. It\'s a bit sad.', defeat: 'Ooh. A firm grip.', sight: 3 } },
   ],
   spots: [
     ...TREES.map(([x, y], i) => ({ x, y, script: async () => {
       if (trained()) { await emote('ouro', 'silence'); return; }
-      const c = await choose(['Prune it', 'Leave it'], true, wild(i) ? 'A tree gone wild, branches every way.' : 'A tree trained flat, branches in rows.');
+      const c = await choose(['Trim it', 'Let it be'], true, wild(i) ? 'A wild tree with branches in every direction.' : 'A tree trained flat, with branches in rows.');
       if (c !== 0) return;
       sfx('cut');
       for (const k of pruneTurns(i)) setFlag('ho' + k, flag('ho' + k) ? 0 : 1);
       if (trained()) { await shake(10); sound('fit'); await payoff([15, 4]); }
     } })),
-    look(15, 3, 'An inner garden. One tree in it, untrained, as big as a house, with five fingers for leaves.'),
+    look(15, 3, 'An enclosed garden. A single, unpruned tree dominates the space, sprawling to the size of a house,', 'its foliage shaped like five-fingered hands.'),
   ],
 });
 
-MAPS.handsorchard.npcs.push(prize('ho_inner', 20, 2, 'Under the big tree, where the Hands sit to eat, a notion, a nautilus horn, and nacre.', { notion: 'bodkin', pegs: ['iron', 1], tan: 5 }));
+MAPS.handsorchard.npcs.push(prize('ho_inner', 20, 2, 'Under the big tree, where the Hands sit to eat, lie a notion, a nautilus horn, and nacre.', { notion: 'bodkin', pegs: ['iron', 1], tan: 5 }));
 {
   const start = START_WILD.reduce((m, v, k) => m | (v << k), 0);
   const moves = (s: number): Move<number>[] => TREES.map((_, i) => ({ to: pruneTurns(i).reduce((m, k) => m ^ (1 << k), s), cost: 1 }));
@@ -429,16 +430,17 @@ MAPS.handsorchard.npcs.push(prize('ho_inner', 20, 2, 'Under the big tree, where 
 
 // The Pruner says what is tidy and how things are up here.
 defScript('pruner', async () => {
-  if (flag('prunerDone')) { await say('The Pruner', 'Tidy. That\'s how the Hands like it up here. Tidy tidy.'); return; }
+  if (flag('prunerDone')) { await say('The Pruner', 'Neat. That\'s the way the Hands prefer it above. Clean and orderly.'); return; }
   if (trained()) {
-    await say('The Pruner', 'Tidy.');
-    await say('The Pruner', 'I was a Hand before Purchase. I kept the trees. The Operculum kept me. Then it stopped.');
+    await say('The Pruner', 'Neat.');
+    await say('The Pruner', 'I was a Hand before Purchase. I tended the groves. The Operculum sustained me.');
+    await say('The Pruner', 'Until it stopped.');
     setFlag('prunerDone');
     await reward({ tan: 5, rind: 800 });
     return;
   }
-  await say('The Pruner', 'Four gone wild. Cut one back and its neighbors turn. That\'s how trees are up here.');
-  await say('The Pruner', 'Get them all lying flat and the gate opens. That\'s how gates are up here.');
+  await say('The Pruner', 'Four have gone feral. Cut one back and its neighbors shed. That\'s how the flora is up here.');
+  await say('The Pruner', 'Lay them all flat, and the gate yields. Such is the nature of the barriers here.');
 });
 
 // ---------------------------------------------------------------- the Margin: the unmapped edge
@@ -458,28 +460,29 @@ defMap({
   zone: { kinds: kinds([['nought', 2], ['terminus', 2], ['horizon', 1], ['murk', 3], ['undine', 1], ['lip', 2]]), lv: [30, 34], n: 16, area: 'blank' },
   npcs: [
     { id: 'cartographer', x: 3, y: 14, sprite: 'elder', name: 'Cartographer', dir: 1, talk: 'cartographer' },
-    { id: 'blankman', x: 20, y: 15, sprite: 'villager', name: 'Blank', dir: 2, trainer: { nacre: 1, name: 'Blank', team: [['nought', 32], ['murk', 32], ['terminus', 33]], intro: 'Nobody drew me in. So I stand where I like. Today it\'s here.', defeat: 'Draw that.', sight: 3 } },
-    { id: 'edgewalker', x: 33, y: 7, sprite: 'tanner', name: 'Edge-walker', dir: 3, trainer: { name: 'Edge-walker', team: [['lip', 33], ['undine', 33], ['horizon', 33]], intro: 'I walk the edge every day. Edge moves an inch, I move an inch. Keeping up.', defeat: 'An inch further, then.', sight: 3 } },
+    { id: 'blankman', x: 20, y: 15, sprite: 'villager', name: 'Blank', dir: 2, trainer: { nacre: 1, name: 'Blank', team: [['nought', 32], ['murk', 32], ['terminus', 33]], intro: 'No one drew me in. So I stand where I like. Today it\'s here.', defeat: 'Draw that.', sight: 3 } },
+    { id: 'edgewalker', x: 33, y: 7, sprite: 'tanner', name: 'Edge-walker', dir: 3, trainer: { name: 'Edge-walker', team: [['lip', 33], ['undine', 33], ['horizon', 33]], intro: 'I traverse the boundary daily. If the edge shifts an inch, I shift an inch. Staying current.', defeat: 'Then, one inch further.', sight: 3 } },
   ],
   spots: CORNERS.map(([x, y], i) => ({ x, y, script: async () => {
     if (flag('corner' + i)) { await emote('ouro', 'silence'); return; }
     setFlag('corner' + i);
     sfx('spot');
     await emote('ouro', 'surprise');
-    await notice(`Corners found: ${CORNERS.filter((_, k) => flag('corner' + k)).length} of 4.`);
+    await notice(`Corners located: ${CORNERS.filter((_, k) => flag('corner' + k)).length} of 4.`);
   } })),
 });
 
 // The Cartographer talks about the world only as a map to be drawn.
 defScript('cartographer', async () => {
   const n = CORNERS.filter((_, k) => flag('corner' + k)).length;
-  if (flag('mapDone')) { await say('Cartographer', 'Four corners!! The edge of the map is the edge of the world. How very cooperative of it.'); return; }
+  if (flag('mapDone')) { await say('Cartographer', 'Four corners! The map\'s boundary aligns with the world\'s edge. How remarkably accommodating.'); return; }
   if (n < 4) {
-    await say('Cartographer', 'Nobody has ever drawn the Margin. Most uncharted. You see only what you have walked.');
-    await say('Cartographer', `Find the four corner posts and I shall draw the edge, perimetrically. You have ${n}.`);
+    await say('Cartographer', 'The Margin has never been charted. Largely unexplored territory.');
+    await say('Cartographer', 'You perceive only the path you have walked.');
+    await say('Cartographer', `Locate the four corner posts, and I will trace the perimeter. You have ${n}.`);
     return;
   }
-  await say('Cartographer', 'Four. Then it is a square, and the Volute is round. How cartographically peculiar.');
+  await say('Cartographer', 'Four. Thus, the shape is square, and the Volute circular. A cartographic oddity.');
   sound('page');
   await act('cartographer', 'nod');
   await emote('cartographer', 'question');

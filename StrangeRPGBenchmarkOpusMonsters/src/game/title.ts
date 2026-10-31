@@ -315,5 +315,5 @@ export function drawMenu(opts: string[], sel: number, t: number, show: number, f
       rect(96 - w / 2, y + 10, w, 1, '#6a5020');
     }
   });
-  if (show >= 1) text('Z picks. Arrows move.', 96 - textWidth('Z picks. Arrows move.') / 2, 184, '#4a4660');
+  if (show >= 1) text('Z selects. Arrows navigate.', 96 - textWidth('Z selects. Arrows navigate.') / 2, 184, '#4a4660');
 }

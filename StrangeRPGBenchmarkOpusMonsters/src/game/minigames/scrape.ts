@@ -259,7 +259,7 @@ export function scrape(): Promise<void> {
           sfx('hitBig');
           phase = 'lost';
           shook = t;
-          banner = 'A cracked one. The whole bed is spoiled.';
+          banner = 'This one is cracked. The entire bed is corrupted.';
           reveal(cx, cy);
           level = Math.max(1, Math.min(level, flips - 1));
           G.flags.scrapeLevel = level;

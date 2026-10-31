@@ -118,8 +118,8 @@ export function rosterNow(): { roster: WireMon[]; problems: string[] } {
 /** Lines that say which of the player's own names the word filter refuses, and what the other player sees in their place. */
 function nameNotes(ms: (Mon | null)[]): string[] {
   const out: string[] = [];
-  if (nameBlocked(heroName())) out.push(`Your name shows online as ${STRANGER}.`);
-  for (const m of ms) if (m && nameBlocked(m.name)) out.push(`${m.name} shows online as ${shownWhorlName({ ...wireFromMon(m), name: '' })}.`);
+  if (nameBlocked(heroName())) out.push(`Your online name is ${STRANGER}.`);
+  for (const m of ms) if (m && nameBlocked(m.name)) out.push(`${m.name} is online as ${shownWhorlName({ ...wireFromMon(m), name: '' })}.`);
   return out;
 }
 
@@ -203,9 +203,9 @@ export class RosterScreen implements Mode {
     frame(2, 143, 188, 37, PANEL, EDGE);
     // Problems come first, since the roster cannot queue with them. A name that shows as a stand-in online is only a note.
     const lines: [string, string][] = problems.length ? problems.flatMap(p => wrap(p, 180).map((l): [string, string] => [l, BADC]))
-      : [...nameNotes(ms), 'Six to show, four to fight, all at level 25.'].flatMap((p, k, all) => wrap(p, 180).map((l): [string, string] => [l, k < all.length - 1 ? WARN : PAPER]));
+      : [...nameNotes(ms), 'Six displayed, four to battle, all at level 25.'].flatMap((p, k, all) => wrap(p, 180).map((l): [string, string] => [l, k < all.length - 1 ? WARN : PAPER]));
     lines.slice(0, 3).forEach(([l, c], k) => text(l, 6, 146 + k * 9, c));
-    hintLine('Z changes a slot. V looks. X is done.');
+    hintLine('Z swaps, V sees, X ends.');
     // A list or a page open over the roster dims it, so nothing behind shows between the list and its detail.
     if (this.busy) dither(0, 0, 192, 192, INK, 0.55);
   }
@@ -324,11 +324,11 @@ export class Linking implements Mode {
       panel(36, 54, 120, 74, undefined, { head: 11 });
       textCenter('Your code', 96, 57, SEL);
       bigText(this.code, Math.round(96 - bigWidth(this.code, 2) / 2), 74, 2, PAPER);
-      textCenter('It lasts 15 minutes.', 96, 98, DIM);
+      textCenter('It lasts for 15 minutes.', 96, 98, DIM);
       textCenter(`Spinning. ${clockText(this.waited)}`, 96, 112, PAPER);
     } else {
       const s = 'resume' in this.start ? `Spinning the byssus again. ${mmss(this.link?.slack?.() ?? 0)}`
-        : this.asking ? 'Asking the lobby.' : this.link ? `Spinning. ${clockText(this.waited)}` : 'Spinning.';
+        : this.asking ? 'Inquiring with the lobby.' : this.link ? `Spinning. ${clockText(this.waited)}` : 'Spinning.';
       const w = Math.max(100, textWidth(s) + 16) & ~1;
       panel(96 - w / 2, 80, w, 24);
       textCenter(s, 96, 88, PAPER);
@@ -489,8 +489,8 @@ export class PickScreen implements Mode {
       textCenter('Look only', 144, 169, THEIRS);
     }
     const mine = reveal && this.picked!.timeout[this.me];
-    const hint = this.ended ? 'Z goes back.' : this.refused ? 'Ending the match.' : reveal ? (mine ? 'Time ran out, so slots 1 to 4 fight.' : 'The battle starts.')
-      : this.col === 1 ? 'V looks at it.' : this.locked ? `Waiting for ${fit(name, 48)}. X changes it.` : this.row === READY ? 'Z sends your four.' : 'Z marks it. V looks at it.';
+    const hint = this.ended ? 'Z returns.' : this.refused ? 'Concluding the match.' : reveal ? (mine ? 'Time expired. Slots 1 through 4 will battle.' : 'The fight begins.')
+      : this.col === 1 ? 'V examines it.' : this.locked ? `Awaiting ${fit(name, 48)}. X modifies it.` : this.row === READY ? 'Z sends your four whorls.' : 'Z flags it. V inspects it.';
     // A link that is down stands in front of every other hint until it comes back or the hold runs out.
     const down = this.ended ? '' : linkLine(this.link, this.awayUntil, fit(name, 48));
     if (down) hintLine(down, WARN);
@@ -546,9 +546,9 @@ const linkProblem = (link: Link | null): string => (link instanceof NetLink ? li
 function endReason(e: EndMsg, me: 0 | 1, name: string, problem = ''): string {
   const won = e.winner === me;
   if (e.why === 'resign') return won ? `${name} gave up.` : 'You gave up.';
-  if (e.why === 'timeouts') return won ? `${name} ran out of time three times in a row.` : 'Your time ran out three times in a row.';
-  if (e.why === 'gone') return won ? `${name} left the match.` : e.winner === null ? problem || 'The link was cut.' : 'You left the match.';
-  if (e.why === 'void') return 'The match does not count.';
+  if (e.why === 'timeouts') return won ? `${name} ran out of time three times in a row.` : 'Your time expired three times in a row.';
+  if (e.why === 'gone') return won ? `${name} left the match.` : e.winner === null ? problem || 'The connection was lost.' : 'You left the match.';
+  if (e.why === 'void') return 'The match is invalidated.';
   return '';
 }
 
@@ -718,7 +718,7 @@ export class BetweenScreen implements Mode {
 
   /** Leaving between games gives the match to the other player, so it asks first. */
   async leave(): Promise<void> {
-    const k = await choose(['Leave', 'Stay'], true, `Leave the match? It goes to ${this.name}.`);
+    const k = await choose(['Leave', 'Stay'], true, `Leave match? It goes to ${this.name}.`);
     if (k !== 0 || this.done) return;
     const foe = (1 - this.m.side) as 0 | 1;
     this.link.send({ type: 'resign' });
@@ -729,9 +729,9 @@ export class BetweenScreen implements Mode {
   draw(): void {
     backdrop();
     const e = this.end, me = this.m.side, foe = (1 - me) as 0 | 1, name = this.name, g = this.m.game;
-    const head = e.winner === me ? `Game ${g}: you win.` : e.winner === foe ? `Game ${g}: ${name} wins.` : `Game ${g}: no winner.`;
-    const why = e.why === 'resign' ? wrap(e.winner === me ? `${name} gave up the game.` : 'You gave up the game.', 140) : [];
-    const wait = wrap(this.sent ? `Waiting for ${name}.` : `Game ${g + 1} starts once you are both ready.`, 140);
+    const head = e.winner === me ? `Game ${g}: You won.` : e.winner === foe ? `Game ${g}: ${name} wins.` : `Game ${g}: No winner.`;
+    const why = e.why === 'resign' ? wrap(e.winner === me ? `${name} forfeited the game.` : 'You forfeited the game.', 140) : [];
+    const wait = wrap(this.sent ? `Waiting for ${name}.` : `Game ${g + 1} will begin once both players are ready.`, 140);
     const lines = why.length + wait.length;
     panel(20, 56, 152, 48 + this.choices.length * 10 + lines * 9, undefined, { head: 11 });
     textCenter(head, 96, 59, SEL);
@@ -752,7 +752,7 @@ export class BetweenScreen implements Mode {
     });
     const down = linkLine(this.link, this.awayUntil, fit(name, 48));
     if (down) hintLine(down, WARN);
-    else hintLine(`It starts in ${NEXT_SECONDS} seconds either way.`);
+    else hintLine(`The game will start in ${NEXT_SECONDS} seconds regardless.`);
   }
 }
 
@@ -802,8 +802,8 @@ export class ResultScreen implements Mode {
     link.tick();
     for (let msg = link.poll(); msg; msg = link.poll()) {
       if (msg.type === 'match') { sfx('link'); this.done = true; close(this, msg); return; }
-      if (msg.type === 'again' && msg.side !== this.me) this.note = `${this.name} wants a rematch.`;
-      if (msg.type === 'left') { this.note = msg.side === this.me ? 'The link closed.' : `${this.name} left.`; this.choices = ['Back']; this.sel = 0; }
+      if (msg.type === 'again' && msg.side !== this.me) this.note = `${this.name} requests a rematch.`;
+      if (msg.type === 'left') { this.note = msg.side === this.me ? 'Link closed.' : `${this.name} left.`; this.choices = ['Back']; this.sel = 0; }
     }
   }
 
@@ -821,7 +821,7 @@ export class ResultScreen implements Mode {
       this.r.link!.send({ type: 'again' });
       this.choices = ['Leave'];
       this.sel = 0;
-      this.note = `Waiting for ${this.name}.`;
+      this.note = `Awaiting ${this.name}.`;
       return;
     }
     if (n > 1) lastResult = this.sel;
@@ -854,7 +854,7 @@ export class ResultScreen implements Mode {
       if (k === this.sel) { rowBar(70, ry, 52); text('\u0001', 72, ry, SEL); }
       text(l, 82, ry, k === this.sel ? SEL : PAPER);
     });
-    hintLine(this.choices[0] === 'Rematch' ? (this.r.random ? 'Rematch draws new whorls.' : 'Rematch keeps both rosters.') : this.asked ? 'X leaves.' : 'Z goes back.');
+    hintLine(this.choices[0] === 'Rematch' ? (this.r.random ? 'The rematch generates new whorls.' : 'The rematch retains both teams.') : this.asked ? 'X leaves.' : 'Press Z to go back.');
   }
 }
 
@@ -924,7 +924,7 @@ export class CodeEntry implements Mode {
       bevel(x, y, 44, 13, on ? '#2a2632' : '#1b1822', on ? SEL : '#4a4458');
       textCenter(l, x + 22, y + 3, on ? SEL : k === 1 && this.code.length === 6 ? GOOD : PAPER);
     });
-    hintLine('Z types. X deletes. V is done.');
+    hintLine('Z types, X deletes, V done.');
   }
 }
 
@@ -935,12 +935,12 @@ const SERVICE = ['Find someone', 'Make a code', 'Use a code', 'Random battle', '
 /** What each choice on the Byssus menu does, for its detail panel. */
 function serviceText(k: number): string {
   const p = rosterNow().problems;
-  if (k === 0) return 'Spins a thread to anyone else who is looking for a match. A match is the best of three games.';
-  if (k === 1) return 'Makes a code for one friend to use. It lasts 15 minutes.';
-  if (k === 2) return 'Uses a code a friend made.';
-  if (k === 3) return 'Both sides get six random whorls, some of them hybrids, and pick four for each game. Find someone, make a code, or use one.';
-  if (k === 4) return p.length ? `${p.length} to fix: ${p[0]}` : 'Six to show, four to fight, all at level 25.';
-  return 'Back to the counter.';
+  if (k === 0) return 'Generates a link for anyone else seeking a match. A match is the best of three games.';
+  if (k === 1) return 'Creates a one-time code for a friend, valid for 15 minutes.';
+  if (k === 2) return 'Uses a friend\'s code.';
+  if (k === 3) return 'Each side receives six random whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.';
+  if (k === 4) return p.length ? `${p.length} to fix: ${p[0]}` : 'Six to display, four to battle, all at level 25.';
+  return 'Go back to the counter.';
 }
 
 /** The matches won and lost in a panel of their own, in the list's style. */
@@ -972,7 +972,7 @@ async function byssusMenu(): Promise<void> {
     const k = await listMenu('Byssus', [...(seat ? ['Rejoin'] : []), ...SERVICE], {
       start: seat ? 0 : o.menu, w: 92,
       detail: i => {
-        const lines = wrap(i < first ? 'Goes back to the match this page left. The room holds the seat for 90 seconds.' : serviceText(i - first), 76).slice(0, 9);
+        const lines = wrap(i < first ? 'Returns to the match the page left. The room holds the seat for 90 seconds.' : serviceText(i - first), 76).slice(0, 9);
         panel(104, 4, 84, 11 + lines.length * 9);
         lines.forEach((l, n) => text(l, 108, 8 + n * 9, PAPER));
         // The list takes 9 pixels a choice and 16 for its frame from y 4, and the tally sits 8 pixels under it.
@@ -986,7 +986,7 @@ async function byssusMenu(): Promise<void> {
     o.menu = s;
     if (SERVICE[s] === 'Roster') { await rosterScreen(); save(); continue; }
     if (SERVICE[s] === 'Random battle') {
-      const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'A random battle: six whorls each, drawn at random.');
+      const r = await choose(['Find someone', 'Make a code', 'Use a code'], true, 'Random encounter: six whorls each.');
       if (r >= 0) await matches(r === 0 ? 'public' : r === 1 ? 'host' : 'join', true);
       field.playMapMusic();
       continue;

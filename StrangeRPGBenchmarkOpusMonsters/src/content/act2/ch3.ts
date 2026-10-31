@@ -65,12 +65,12 @@ defMap({
   },
   npcs: [
     person('a2OutsideClimber', 19, 9, 'climber1', 'Climber on the outside', 1, { when: () => !slid() }),
-    person('a2DuneSitter', 26, 13, 'beach4', 'Dune-sitter', 3, { trainer: { name: 'Dune-sitter', team: [['lichen', 14], ['groundswell', 15]], intro: 'The dune moves a foot every tide. So I move my chair a foot. We\'re even.', defeat: 'I\'ll move my chair back a foot. Even again.', sight: 3 } }),
+    person('a2DuneSitter', 26, 13, 'beach4', 'Dune-sitter', 3, { trainer: { name: 'Dune-sitter', team: [['lichen', 14], ['groundswell', 15]], intro: 'The dune shifts a foot with every tide, so I move my chair a foot. We\'re square.', defeat: 'I\'ll slide my chair back a foot. Square again.', sight: 3 } }),
   ],
   spots: [
     { x: 14, y: 14, script: 'a2RollTally' },
     { x: 30, y: 5, script: 'a2PointBelow' },
-    stash('ad_point', 31, 6, 'In the sand under the point, where things fall off it, a nautilus horn.', { pegs: ['iron', 1] }),
+    stash('ad_point', 31, 6, 'Tucked in the sand beneath the overhang, near the drop-off, lies a nautilus horn.', { pegs: ['iron', 1] }),
     ...[[12, 14], [20, 10], [26, 7]].map(([x, y]) => ({ x, y, when: slid, script: 'a2DuneHollow' })),
   ],
 });
@@ -85,8 +85,8 @@ defScript('a2DuneEnter', async () => {
   await panBack();
 });
 defScript('a2OutsideClimber', async () => {
-  await say('Climber on the outside', 'Don\'t come up this way! Go in at the bottom and climb the inside. Like a normal person.');
-  await say('Climber on the outside', 'We count rolls out here. That\'s all the outside\'s good for, counting.');
+  await say('Climber on the outside', 'Don\'t try this route! Enter at the base and climb the inner face. Do it like a sensible person.');
+  await say('Climber on the outside', 'We tally our rolls out here. That\'s the only use for the outside: keeping count.');
 });
 defScript('a2RollTally', async () => {
   if (slid()) { await runDuneHollow(); return; }
@@ -136,10 +136,10 @@ defMap({
     person('a2TurnwiseMouth', 12, 2, 'turnwise', 'Turnwise', 0, { when: slid }),
   ],
   spots: [
-    look(15, 3, 'A rack of small bells cut from shell. Each has a different chip out of its rim.'),
+    look(15, 3, 'A rack of small, shell-carved bells hangs nearby. Each one bears a unique chip along its rim.'),
     { x: BOWLS_LOW[0], y: BOWLS_LOW[1], script: 'a2Bowls' }, { x: BOWLS_HIGH[0], y: BOWLS_HIGH[1], script: 'a2Bowls' },
-    look(2, 6, 'Bunks on the wall, one above the other. Some have straps.'),
-    look(17, 6, 'Bunks on this wall too. The blankets are folded on both sides.'),
+    look(2, 6, 'Wall-mounted bunks stacked one above the other. Some are equipped with straps.'),
+    look(17, 6, 'Bunks line this wall as well, with blankets neatly folded on both sides.'),
   ],
 });
 
@@ -153,42 +153,43 @@ defScript('a2MouthEnter', async () => {
   face('a2CinchStep', 2);
   await act('a2CinchStep', 'look');
   await act('a2CinchStep', 'bow');
-  await cinch('Oof. Sit down here a minute. That\'s a lot of stair.');
-  await cinch('Bottom step\'s best for hearing. You can hear them all climbing up there.');
-  goal('Climb the Auger from the inside.');
+  await cinch('Phew. Take a seat here for a moment. That was quite a climb.');
+  await cinch('The bottom step offers the best acoustics. You can hear every one of them scrambling up there.');
+  goal('Ascend the Auger from the interior.');
 });
 
 defScript('a2Bowls', async () => { await emote('ouro', 'silence'); });
 
 defScript('a2CinchStep', async () => {
-  if (slid()) { await cinch('Come up on the step. Water\'s at my knees, but it\'s going.'); await cinch('Felt every bump from this step. Seven. Good step.'); return; }
-  await cinch('Stair\'ll still be there after a sit. Always is.');
-  await cinch('Hear that? Sit on the bottom step and you hear every one of them climbing.');
+  if (slid()) { await cinch('Step up. The water\'s at my knees, but it\'s moving.'); await cinch('I felt every jolt from this step. Number seven. Solid step.'); return; }
+  await cinch('The stairs will still be here if you take a seat. They always are.');
+  await cinch('Hear that? Sit on the lowest step and you can hear them all climbing.');
 });
 
 // Climbers, deadpan. When the tide rolls the Auger, the floor's the wall and their lines change.
 function climber(id: string, name: string, l: { low: string[]; high?: string[]; slid?: string[] }): void {
   defScript(id, async () => { await sayAll(name, (slid() && l.slid) || (highTide() && l.high) || l.low); });
 }
-climber('a2ClWoman', 'Woman', { low: ['We climb all day. Then at night we sleep on the stair, facing up. Facing up\'s important.'], high: ['Rolled again. Up\'s still up, at least. Everything else moved.'], slid: ['We\'ll climb every low now. Even Gran. Gran\'s furious.'] });
-climber('a2ClMan', 'Man', { low: ['When the tide rolls us the floor turns into the wall. You learn to sleep on both.'], high: ['Rolled. My bunk\'s the ceiling now. Scoot over, I\'m sleeping in yours.'] });
-climber('a2ClOldMan', 'Old man', { low: ['Nobody\'s been to the point. Too narrow for anyone grown. Too narrow for me, that\'s for sure.', 'Low water, so climb. Climbing keeps it down. That\'s what my dad said.'], slid: ['It\'s never been down here before. There\'s the sea. Right there.'] });
-climber('a2ClGirl', 'Girl', { low: ['My bowl\'s on the low side. Everyone\'s bowl\'s on the low side. Bowls roll.', 'Everybody up the stair. And down. And up. My legs!!'] });
-climber('a2ClBoy', 'Boy', { low: ['We all climb at once and the whole Auger shakes. Best part of the low.'], high: ['High water. Hear that hum in the stair? That\'s the air. Hmmmmm.'] });
+climber('a2ClWoman', 'Woman', { low: ['We climb all day. Then we sleep on the stairs at night, facing upward. Facing up matters.'], high: ['We rolled over again. Up is still up, at least. Everything else shifted.'], slid: ['We\'ll climb every low now. Even Gran. She\'s furious.'] });
+climber('a2ClMan', 'Man', { low: ['When the tide rolls the Auger over, the floor becomes the wall. You learn to sleep on both.'], high: ['We rolled. My bunk is now the ceiling. Move over. I\'m sleeping in yours.'] });
+climber('a2ClOldMan', 'Old man', { low: ['No one has ever reached the point. It\'s too narrow for any grown person.', 'Definitely too narrow for me.', 'Low water, so climb. Climbing keeps the water down. That\'s what my dad said.'], slid: ['It\'s never been down here before. There\'s the sea. Right there.'] });
+climber('a2ClGirl', 'Girl', { low: ['My bowl is on the low side. Everyone\'s bowl is on the low side. Bowls roll.', 'Everybody up the stairs. And down. And up. My legs!!'] });
+climber('a2ClBoy', 'Boy', { low: ['We all climb at once and the whole Auger shakes. It\'s the best part of the low.'], high: ['High water. Hear that hum in the stairs? That\'s the air. Hmmmmm.'] });
 
 defScript('a2BellKeeper', async () => {
-  if (G.keys.includes('handbell')) { await say('Bell-keeper', 'We ring the tide from in here when we want to roll. Saves a walk to the posts. Lazy, but.'); return; }
-  await say('Bell-keeper', 'We ring the tide from in here when we wanna roll. Beats walking out to the posts.');
-  await say('Bell-keeper', 'Here, have a spare. It rings the tide wherever you\'re standing on the beach. Don\'t lose it.');
+  if (G.keys.includes('handbell')) { await say('Bell-keeper', 'We ring the bell from in here to start the tide. Saves a trek to the posts.');
+  await say('Bell-keeper', 'It\'s lazy, but effective.'); return; }
+  await say('Bell-keeper', 'We call the tide from in here when it\'s time to go. Beats walking out to the posts.');
+  await say('Bell-keeper', 'Here, take a spare. It rings the tide no matter where you stand on the beach. Don\'t lose it.');
   giveKey('handbell');
   sfx('level');
-  await notice('(Ouro gets the hand bell. Ring it anywhere on the Strand to turn the tide.)');
+  await notice('(Ouro takes the hand bell. Ring it anywhere on the Strand to turn the tide.)');
 });
 
 defScript('a2RungSkipper', async () => {
   await strandBoard({
     id: 'a2peg3', name: 'Rung-skipper', deck: ['crimp', 'chamois', 'riser', 'tumbleweed', 'zenith'], tier: 7, prize: 'climbingchalk',
-    lines: ['Every other step, that\'s how I go. Saves time. Costs knees.', 'Wet row\'s always the bottom one, whichever way we\'ve rolled.'],
+    lines: ['I take every other step. It\'s faster. It ruins my knees.', 'The wet row is always the lowest one, no matter which way we\'ve rolled.'],
   });
 });
 
@@ -196,7 +197,7 @@ defScript('a2RungSkipper', async () => {
 defScript('a2TackStep', async () => {
   if (flag('tackCount')) { await say('Tack', '4,000 steps. And 1 of them\'s mine. I\'m keeping it.'); return; }
   if (flag('pointView')) {
-    await say('Tack', '3,909 for me. The last 91 you went up without me. Too narrow. Rude.');
+    await say('Tack', '3,909 for me. you climbed the last 91 without me. Too narrow. Rude.');
     if (await choose(['It was 91.', 'I didn\'t count.']) === 0) {
       setFlag('tackCount');
       await say('Tack', '91? Then it\'s 4,000. Exactly 4,000! Here, 1 stone. Number\'s on it.');
@@ -208,10 +209,10 @@ defScript('a2TackStep', async () => {
   await act('a2TackStep', 'nod');
   faceToward('a2TackStep', 'ouro');
   await say('Tack', '1,412 steps so far. 0 of them the same height. Who built this?');
-  await say('Tack', 'Climbers say 4,000 to the point. Nobody\'s actually counted. So, me.');
+  await say('Tack', 'Climbers say it\'s 4,000 to the point. Nobody\'s actually counted. So, I did.');
 });
 
-defScript('a2TurnwiseMouth', async () => { await say('Turnwise', 'Climb. We climb. Everyone climbs now. It puts climbers back down.'); });
+defScript('a2TurnwiseMouth', async () => { await say('Turnwise', 'Climb. We\'re climbing. Everyone climbs now. It puts climbers back down.'); });
 
 // The Return: Ouro climbs out at the mouth onto the low-water line.
 defScript('a2Ch3Return', async () => {
@@ -372,10 +373,10 @@ defMap({
   enter: 'a2StairEnter',
   zone: { kinds: kinds([['crimp', 3], ['chamois', 3], ['swift', 2], ['torr', 2], ['tumbleweed', 1], ['riser', 1], ['columella', 1]]), lv: [13, 16], n: 7, area: 'auger' },
   npcs: [
-    person('a2StairSleeper', 12, 18, 'climber2', 'Stair-sleeper', 2, { trainer: { name: 'Stair-sleeper', team: [['columella', 15], ['chalk', 16]], intro: 'Wha. I sleep on the stair facing up. Great for the neck. Go away.', defeat: 'Back to sleep. Facing up. Night.', sight: 2 } }),
-    person('a2SwiftKeeper', 9, 15, 'climber1', 'Swift-keeper', 1, { trainer: { name: 'Swift-keeper', team: [['swift', 15], ['gyre', 15]], intro: 'My swift never lands. Me neither, really. I\'m up here a lot.', defeat: 'We landed. Both of us. Huh.', sight: 3 } }),
-    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { nacre: 1, name: 'Salt-scraper', team: [['saltline', 15], ['groundswell', 15]], intro: 'The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!', defeat: 'Higher every roll. Ugh.', sight: 2 } }),
-    person('a2PointWatcher', 11, 2, 'climber1', 'Point-watcher', 0, { talk: 'a2PointWatcher', trainer: { name: 'Point-watcher', team: [['zenith', 16], ['bourdon', 16]], intro: 'I sit beneath the point and listen to it not open. It does so with great consistency.', defeat: 'It might open. Some low, at three quavelings past the turn.', sight: 2 } }),
+    person('a2StairSleeper', 12, 18, 'climber2', 'Stair-sleeper', 2, { trainer: { name: 'Stair-sleeper', team: [['columella', 15], ['chalk', 16]], intro: 'Huh? I nap on the stairs, face-up. It\'s perfect for my neck. Buzz off.', defeat: 'Back to snoozing. Face up. Goodnight.', sight: 2 } }),
+    person('a2SwiftKeeper', 9, 15, 'climber1', 'Swift-keeper', 1, { trainer: { name: 'Swift-keeper', team: [['swift', 15], ['gyre', 15]], intro: 'My swift never comes down. Same here. I spend most of my time up here.', defeat: 'We both made it down. Weird.', sight: 3 } }),
+    person('a2SaltScraper', 12, 7, 'climber2', 'Salt-scraper', 3, { trainer: { nacre: 1, name: 'Salt-scraper', team: [['saltline', 15], ['groundswell', 15]], intro: 'The tide marks the wall. I scrape it off, but it returns higher. Again!', defeat: 'Higher with every wave. So annoying.', sight: 2 } }),
+    person('a2PointWatcher', 11, 2, 'climber1', 'Point-watcher', 0, { talk: 'a2PointWatcher', trainer: { name: 'Point-watcher', team: [['zenith', 16], ['bourdon', 16]], intro: 'I remain below the point, listening to its steadfast refusal to open.', defeat: 'It might open yet. Perhaps when the tide is low, three quavelings past the turn.', sight: 2 } }),
   ],
   spots: [...VENTS.map((v, k) => ({ x: v.x, y: v.y, script: () => ventScript(k) })), bell(VENT_BELL.x, VENT_BELL.y)],
 });
@@ -419,11 +420,11 @@ async function ventScript(k: number): Promise<void> {
     return;
   }
   if (ventPlugged(k)) {
-    if (await choose([`Pull the plug from vent ${k + 1}`, 'Leave it'], true) !== 0) return;
+    if (await choose([`Remove the plug from vent ${k + 1}`, 'Leave it alone'], true) !== 0) return;
     setFlag('vent' + k, 0);
   } else {
     if (!plugsLeft()) { sound('wind'); await emote('ouro', flag('plugsGot') ? 'sweat' : 'question'); return; }
-    if (await choose([`Plug vent ${k + 1} (${plugsLeft()} left)`, 'Leave it'], true) !== 0) return;
+    if (await choose([`Plug vent ${k + 1} (${plugsLeft()} remaining)`, 'Leave it alone'], true) !== 0) return;
     setFlag('vent' + k);
   }
   sfx('switch');
@@ -446,8 +447,8 @@ async function playVent(): Promise<void> {
     await wait(60);
     sound('hitBig');
     await emote('a2PointWatcher', 'surprise');
-    await say('Point-watcher', 'That is the one!! Go on, go up. You fit. I, regrettably, do not.');
-    goal('Go up the narrow way to the point.');
+    await say('Point-watcher', 'That\'s the one! Climb up. You\'ll fit. I, unfortunately, do not.');
+    goal('Ascend the narrow passage to the point.');
     return;
   }
   field.shakeT = 8;
@@ -455,9 +456,9 @@ async function playVent(): Promise<void> {
   ringBell(first * 2);
   await emote('ouro', 'music');
   const word = VENT_WORD[first];
-  if (p > was || p === 1) await say('Point-watcher', `Vent ${word}!! Notch ${p} of five. Onward, melodiously.`);
-  else if (was) await say('Point-watcher', `Vent ${word}. The groove has no such notch there. From the start.`);
-  else await say('Point-watcher', `Vent ${word}. Not the groove's first notch, by some two grumbles.`);
+  if (p > was || p === 1) await say('Point-watcher', `Vent ${word}!! Notch ${p} of five. Onward, with melody.`);
+  else if (was) await say('Point-watcher', `Vent ${word}. That groove holds no notch there. Not from the beginning.`);
+  else await say('Point-watcher', `Vent ${word}. Not the groove's first notch, off by about two grumbles.`);
 }
 tideWatch.push(async () => { if (field.map.id === 'augerstair' && highTide() && field.y < 11) await playVent(); });
 
@@ -489,10 +490,10 @@ GRAPH_PUZZLES.push({
 });
 
 defScript('a2PointWatcher', async () => {
-  if (flag('tipOpen')) { await say('Point-watcher', 'Up you go!! You fit. I exceed the narrow way by six and one quarter shoulders.'); return; }
-  await say('Point-watcher', 'Three plugs. Six vents, counted up from the bottom. The tip above bears a notched groove.');
-  await say('Point-watcher', 'The notches read four, two, four, one, four. Sound that in a row and the tip opens.');
-  await say('Point-watcher', 'When the tide comes in, air leaves by the first open vent, and that vent sounds. Ventistics.');
+  if (flag('tipOpen')) { await say('Point-watcher', 'Up you go! You fit. I exceed the narrow way by six and one-quarter shoulders.'); return; }
+  await say('Point-watcher', 'Three plugs. Six vents, counted from the bottom. The tip above features a notched groove.');
+  await say('Point-watcher', 'The notches read four, two, four, one, four. Sound them in that order, and the tip opens.');
+  await say('Point-watcher', 'When the tide rises, air escapes through the first open vent, creating a sound. Ventistics.');
   if (!flag('plugsGot')) { setFlag('plugsGot'); await notice('(The point-watcher hands Ouro three plugs of packed weed.)'); }
 });
 
@@ -528,7 +529,7 @@ defMap({
   ],
   enter: 'a2StrideEnter',
   npcs: [person('a2Turnwise', 11, 1, 'turnwise', 'Turnwise', 3, { when: () => !slid() })],
-  spots: [look(11, 0, 'The stair goes on up past the landing, turning.')],
+  spots: [look(11, 0, 'The staircase continues upward past the landing, winding around a corner.')],
 });
 
 function strideReset(): void { run = 1; runLeft = 0; runDir = -1; runsDone = 0; }
@@ -539,16 +540,17 @@ defScript('a2StrideEnter', async () => {
   await act('a2Turnwise', 'look');
   faceToward('a2Turnwise', 'ouro');
   // Every line of Turnwise's climbs: each sentence one word longer than the one before.
-  await say('Turnwise', 'Oh. You climb? Climb with me. I\'m just catching my.');
-  await say('Turnwise', 'Turnwise. That\'s me. I keep this. I climb it every day. Never got to the top. Close, once.');
-  await say('Turnwise', 'Stride. Then longer. Each run grows. One more tile than the one before.');
+  await say('Turnwise', 'Oh. You\'re climbing? Climb with me. I\'m just catching my...');
+  await say('Turnwise', 'Turnwise. That\'s my name. I maintain this. I climb it every day. Never quite made it to the top.');
+  await say('Turnwise', 'Got close, once.');
+  await say('Turnwise', 'Stride. Then go longer. Each ascent gets bigger. One more tile than the last.');
   await hint('(Each straight run carries you one tile further than the last. You turn only when a run ends.)');
 });
 
 async function strideFail(): Promise<void> {
   sfx('bump');
   field.shakeT = 6;
-  await say('Turnwise', 'Nope. Start again. The stair resets. Back to one step.');
+  await say('Turnwise', 'No. Start over. The stairs reset. Back to a single step.');
   await walkTo('ouro', EDGE.x, EDGE.y);
   face('ouro', 2);
   strideReset();
@@ -574,26 +576,28 @@ field.stepHooks.push(f => {
 export const TURNWISE_TEAM: [string, number][] = [['crimp', 14], ['chamois', 14], ['zenith', 14], ['gyre', 15]];
 defScript('a2Turnwise', async () => {
   if (flag('turnwiseGrain')) {
-    await say('Turnwise', 'Higher. Go on, higher. The point\'s up there. Only small ones fit. You\'re small.');
-    await say('Turnwise', 'Tell. Tell me. What\'s up there? Sixty years I\'ve climbed. I\'d like to. Know.');
+    await say('Turnwise', 'Higher. Go on, higher. The Auger\'s tip is up there. Only small ones fit. You\'re small.');
+    await say('Turnwise', 'Tell me. Tell me. What\'s up there? I\'ve climbed for sixty years. I\'d like to... know.');
     return;
   }
-  if (!flag('strideDone')) { await say('Turnwise', 'Stride. Longer. Each run, one more. Than the last one. Phew.'); return; }
-  await say('Turnwise', 'Fight. Fight me first. Then go higher. My four climb too. They\'re very. Fit.');
-  await say('Turnwise', 'Tide. Sea tide. It gets in fights. High water fills the pool. Low water drops stars in instead.');
+  if (!flag('strideDone')) { await say('Turnwise', 'Stride. Longer. Each run, one more. Than the previous. Phew.'); return; }
+  await say('Turnwise', 'Fight. Fight me first. Then go higher. My four climb too. They\'re very... fit.');
+  await say('Turnwise', 'Tide. Sea tide. It joins the fray. High water fills the pool. Low water drops stars in instead.');
   if (!flag('seaBattles')) {
     G.flags.seaBattles = 1;
     await hint('(On the Strand at high tide, both sides start a battle with 3 tide.)');
     await hint('(At low tide both sides start with 0. Every 4th round a star lands and gives each side 2.)');
   }
-  if (!(await keeperFight('Turnwise', TURNWISE_TEAM, 'Down. Back down you go. Climb again later. Everyone falls at first. I did. Lots.'))) return;
+  if (!(await keeperFight('Turnwise', TURNWISE_TEAM, 'Down. Go back down. Climb later. Everyone falls. I did, often.'))) return;
   setFlag('turnwiseGrain');
-  await say('Turnwise', 'Yes. You climbed. Take this grain. It fell down here. Years back. Hff.');
+  await say('Turnwise', 'Yes. You climbed. Take this grain. It fell down here. Years ago. Hff.');
   await giveGrain('Turnwise');
   await hint('(With three grains your whorls can reach Strand level 23.)');
-  await say('Turnwise', 'Up. Go up. The point\'s above us. Only small ones fit up. There.');
-  await say('Turnwise', 'Go on. Then tell me. What\'s it like up there? I\'ve been climbing it for sixty years.');
-  goal('The vents are on the upper stair, past the landing.');
+  await say('Turnwise', 'Upward. Keep going up. The summit is above us. Only the smaller figures can make the ascent.');
+  await say('Turnwise', 'There it is.');
+  await say('Turnwise', 'Proceed. Then, describe it to me. What is the view like from the top?');
+  await say('Turnwise', 'I have been scaling this structure for six decades.');
+  goal('The ventilation shafts are located on the upper staircase, beyond the landing.');
 });
 
 // ---------------------------------------------------------------- the point
@@ -619,7 +623,8 @@ defMap({
   npcs: [person('a2TurnwisePoint', 6, 4, 'turnwise', 'Turnwise', 2, { when: () => !!flag('slideScene'), talk: undefined, movable: true })],
   spots: [
     { x: TIP.x, y: TIP.y, when: () => !flag('tipOpen'), script: async () => {
-      await say('Groove', 'A groove round the sealed tip, notched: four, two, four, one, four.');
+      await say('Groove', 'A circular groove encircles the sealed tip, featuring notches in a sequence of four, two, four,');
+      await say('Groove', 'one, and four.');
     } },
     { x: 7, y: 1, script: 'a2PointBoard' },
     { x: 5, y: 1, script: 'a2Albatross' },
@@ -630,7 +635,7 @@ defScript('a2PointEnter', async () => {
   field.wearing = false;
   if (!flag('pointTold')) {
     setFlag('pointTold');
-    await hint('(Too narrow to wear a whorl. Your team stays in its horns.)');
+    await hint('(The space is too narrow for a whorl. Your team remains within its horns.)');
   }
 });
 field.stepHooks.push(f => { if (f.map.id === 'augerpoint') f.wearing = false; });
@@ -642,12 +647,13 @@ defScript('a2PointView', async () => {
   face('ouro', 2);
   await act('ouro', 'hop');
   await tint('#0b0a10', 0.7, 40);
-  await narr('Up the beach to the west lies the Volute, a pale spiral in the sand.');
-  await narr('Down the beach the line of hollows runs to the sea, then turns east along the low-water line.');
-  await narr('Partway along, the line stops, goes round twice in a small circle, and goes on.');
-  await narr('Far off east, on the upper beach, there are rows of squares in the sand.');
-  await narr('Past the rows, at the end of the beach, a great pink shell lies with its mouth to the sea.');
-  await narr('The sky is very big up here. A faint seam runs round it in a spiral.');
+  await narr('To the west along the beach lies the Volute, a pale spiral etched into the sand.');
+  await narr('Further down the beach, the line of hollows runs to the sea,');
+  await narr('then turns east along the low-water line.');
+  await narr('Midway along this line, the pattern halts, circles twice in a small loop, and then resumes.');
+  await narr('Far off to the east, on the upper beach, rows of squares are visible in the sand.');
+  await narr('Beyond these rows, at the beach\'s end, a massive pink shell rests with its opening facing the sea.');
+  await narr('The sky seems immense from this height. A faint seam spirals around it.');
   await tint('#0b0a10', 0, 40);
   if (smallGranHere()) {
     // Small Gran's next line comes out of her horn anyway, and the wind carries it out over the beach.
@@ -671,10 +677,10 @@ async function slideTake(): Promise<void> {
   offstage('a2TurnwisePoint');
   await walkIn('a2TurnwisePoint', 6, 14, 6, 3, 5);
   await act('a2TurnwisePoint', 'shiver');
-  await say('Turnwise', 'Water. It\'s in. The sea\'s in. The point let it. In.');
+  await say('Turnwise', 'Water. It has entered. The sea is inside. The point allowed it in.');
   field.shakeT = 40;
   sfx('boom');
-  await say('Turnwise', 'Hold. Hold on! We\'re going down. The whole Auger\'s sliding off the dune.');
+  await say('Turnwise', 'Steady! Hold fast! We are descending. The entire Auger is sliding off the dune.');
   // Everything slides toward the mouth. The Auger slides off the dune into the sea, turns over once, and floats.
   await Promise.all([act('ouro', 'shiver'), act('a2TurnwisePoint', 'shiver')]);
   field.shakeT = 60;
@@ -694,25 +700,26 @@ async function slideTake(): Promise<void> {
   // In the mouth room the water is knee deep and going out. Cinch never got up off the bottom step.
   await tint('#3060a0', 0, 60);
   faceToward('a2CinchStep', 'ouro');
-  await cinch('Sit up on the step with me. Water\'s at my knees, and going.');
-  await cinch('Felt every bump from here. Seven.');
+  await cinch('Sit up on the step beside me. The water is at my knees, and it is moving.');
+  await cinch('I felt every single impact from this spot. Seven of them.');
   // Turnwise comes down last, out of breath.
   await walkIn('a2TurnwiseMouth', 10, 0, 12, 2);
   await act('a2TurnwiseMouth', 'shiver');
   faceToward('a2TurnwiseMouth', 'ouro');
-  await say('Turnwise', 'Here. We\'re here. At the edge now. Right where the Gleaner walks. We\'ll climb every single low.');
-  goal('Climb out at the mouth.');
+  await say('Turnwise', 'Here. We\'re here. At the edge now. Right where the Gleaner walks.');
+  await say('Turnwise', 'We\'ll climb every single low water.');
+  goal('Emerge at the mouth.');
 }
 
 // Starfall at the point: stars fall faster and pay double. The climbers keep a board of best scores.
 defScript('a2PointBoard', async () => {
-  if (!flag('pointView')) { await say('Slate', 'Best scores. Top: 48.'); return; }
+  if (!flag('pointView')) { await say('Slate', 'Top marks. Leader: 48.'); return; }
   const tack = release() && flag('tackCount') ? 66 : 0;
-  await say('Slate', `Best scores. Climbers: 48.${tack ? ' TACK: 66.' : ''} Ouro: ${G.flags.starfallPoint || 0}.`);
+  await say('Slate', `Top marks. Climbers: 48.${tack ? ' TACK: 66.' : ''} Ouro: ${G.flags.starfallPoint || 0}.`);
   if (await choose(['Catch stars', 'Not now'], true) !== 0) return;
   const score = await starfall({ speed: 1.5, pay: 2, bestKey: 'starfallPoint' });
   field.playMapMusic();
-  if (tack && score > tack && !flag('tackPointBeat')) { setFlag('tackPointBeat'); await say('Tack', `${score}. That's over my 66. Fine. Scratching it in.`); }
+  if (tack && score > tack && !flag('tackPointBeat')) { setFlag('tackPointBeat'); await say('Tack', `${score}. That's over my 66. Fine. I'm scratching it in.`); }
 });
 
 defScript('a2Albatross', async () => {
@@ -736,19 +743,21 @@ eldestHooks.later = async () => {
   if (await eldestBefore()) return true;
   if (!slid()) return false;
   if (flag('eldestBoot')) {
-    await say('Eldest', '(yesterday it goes east, with everything else that goes)');
+    await say('Eldest', '(yesterday everything drifts east, as all things do)');
     return true;
   }
   setFlag('eldestBoot');
-  await say('Eldest', 'Yesterday a voice comes over the beach from somewhere high up. A girl\'s.');
-  await say('Eldest', 'This morning I will hear that voice on the bar. Seventy years ago, this morning.');
-  await say('Eldest', '(yesterday a girl comes down the beach with a pale one the same size beside her)');
-  await say('Eldest', 'Yesterday the girl talks to the pale one. The pale one answers her wrong, very politely.');
-  await say('Eldest', 'This morning she will take one boot off on the bar to tip the sand out. It will be low water.');
-  await say('Eldest', '(yesterday the Gleaner comes by, and the boot goes. she goes home hopping)');
+  await say('Eldest', 'Yesterday, a voice drifted down from somewhere high up across the beach. It was a girl\'s voice.');
+  await say('Eldest', 'I\'ll hear that voice on the bar this morning. This morning was seventy years ago.');
+  await say('Eldest', '(yesterday, a girl walked down the beach, accompanied by a pale figure of equal size)');
+  await say('Eldest', 'Yesterday, the girl spoke to the pale one.');
+  await say('Eldest', 'The pale one replied incorrectly, with excessive politeness.');
+  await say('Eldest', 'This morning, she\'ll pull off one boot on the bar to shake out the sand. It\'s low water.');
+  await say('Eldest', '(yesterday, the Gleaner passed by, and the boot was lost. she hopped home)');
   await choose(['Which boot?']);
-  await say('Eldest', 'The left, yesterday. This morning I\'ll say the right. Don\'t trust this morning.');
-  await say('Eldest', 'Yesterday it goes east, with everything else that goes east.');
+  await say('Eldest', 'Yesterday, the left. This morning, I\'ll claim it was the right.');
+  await say('Eldest', 'Do not trust what I say this morning.');
+  await say('Eldest', 'Yesterday, it moved east, with all the rest that drift eastward.');
   await reward({ tan: 2 });
   return true;
 };

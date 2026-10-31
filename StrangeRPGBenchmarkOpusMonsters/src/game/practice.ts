@@ -27,7 +27,7 @@ import { plannedKit, randomFit } from './wildfit';
 const PANEL = '#1e1b26', EDGE = '#3a3442', HILITE = '#2a2632';
 const AI_LEVELS: AiLevel[] = ['wild', 'trainer', 'keeper', 'champion'];
 const SCENES = ['battlefield', 'crater', 'shingle', 'longway', 'gatering', 'stack'];
-const ACTS = ['Random kit', 'Pick a kind', 'Random fit', 'Fit by hand', 'Held notion', 'Level', 'Look'];
+const ACTS = ['Random kit', 'Pick a species', 'Random fit', 'Fit by hand', 'Held notion', 'Level', 'Look'];
 const SYNC = 25;
 
 /** A team slot: the whorl, and the kinds it was made from. */
@@ -162,7 +162,7 @@ class FindKind implements Mode {
     else text('Name, old name, id, or type', 8, 17, '#5a5468');
     if (!this.onList && (this.t >> 4) % 2) rect(8 + (this.q ? textWidth(this.q) + 1 : 0), 16, 1, 9, SEL);
     bevel(4, LIST_Y - 3, 184, ROWS * ROW_H + 4, PANEL, this.onList ? SEL : EDGE);
-    if (!this.hits.length) textCenter('No kind matches.', 96, LIST_Y + 25, DIM);
+    if (!this.hits.length) textCenter('No species match.', 96, LIST_Y + 25, DIM);
     this.hits.slice(this.scroll, this.scroll + ROWS).forEach((h, k) => {
       const y = LIST_Y + k * ROW_H, on = this.scroll + k === this.sel, sp = SPECIES[h.id];
       if (on) rect(6, y - 2, 180, ROW_H, this.onList ? HILITE : '#24212d');
@@ -174,7 +174,7 @@ class FindKind implements Mode {
     if (this.scroll > 0) textRight('^', 186, LIST_Y - 2, DIM);
     if (this.scroll + ROWS < this.hits.length) textRight('v', 186, LIST_Y + ROWS * ROW_H - 9, DIM);
     this.grid.draw();
-    textCenter(this.onList ? 'Z picks it. X goes back to typing.' : 'V or List goes to the list.', 96, 183, DIM, INK);
+    textCenter(this.onList ? 'Z selects it. X returns to typing.' : 'V or List navigates to the list.', 96, 183, DIM, INK);
     if (this.t < 10) dither(0, 0, 192, 192, INK, 1 - this.t / 10);
   }
 }
@@ -264,7 +264,7 @@ class Builder implements Mode {
   async start(): Promise<void> {
     for (const side of [0, 1] as const) {
       const twice = repeatedKind(teams[side]);
-      if (twice) { sfx('bump'); this.say(`${SPECIES[twice].name} is on ${side === 0 ? 'your' : 'the foe\'s'} team twice. A team holds each kind once, fits too.`); return; }
+      if (twice) { sfx('bump'); this.say(`${SPECIES[twice].name} is on ${side === 0 ? 'your' : 'the foe\'s'} team twice. A team holds each species once, and fits count too.`); return; }
     }
     lastChoice.top = [];
     const copy = (side: 0 | 1) => teams[side].map(s => structuredClone(s.m));
@@ -273,7 +273,7 @@ class Builder implements Mode {
       practice: { mine: copy(0), charm: null, debug: debugMenu },
     });
     music.play('title');
-    this.say(r.result === 'win' ? 'You win.' : r.result === 'lose' ? 'The opponent wins.' : 'No winner.');
+    this.say(r.result === 'win' ? 'You win.' : r.result === 'lose' ? 'Opponent wins.' : 'No winner.');
   }
 
   act(a: string): void {
@@ -286,11 +286,11 @@ class Builder implements Mode {
     if (a === 'Level') { this.sub = { kind: 'level', v: level }; return; }
     if (a === 'Look') { this.wait(monPage(s.m)); return; }
     this.wait((async () => {
-      if (a === 'Pick a kind') {
-        const id = await findKind('Pick a kind', () => true, taken);
+      if (a === 'Pick a species') {
+        const id = await findKind('Pick a species', () => true, taken);
         if (id) put({ m: plannedKit(rnd, makeMon(id, 25)), kinds: [id] });
       } else if (a === 'Random fit' || a === 'Fit by hand') {
-        const k1 = await findKind('Fit which kind first?', fittable, taken);
+        const k1 = await findKind('Which species goes first?', fittable, taken);
         if (!k1) return;
         const k2 = await findKind(`Fit ${SPECIES[k1].name} with?`, id => fittable(id) && id !== k1, taken);
         if (!k2) return;
@@ -307,7 +307,7 @@ class Builder implements Mode {
           detail: i => {
             const id = ids[i];
             panel(112, 4, 76, 104);
-            wrap(id ? NOTIONS[id]?.text || '' : 'Holds nothing.', 68).slice(0, 11).forEach((l, n) => text(l, 116, 8 + n * 9, PAPER));
+            wrap(id ? NOTIONS[id]?.text || '' : 'Contains nothing.', 68).slice(0, 11).forEach((l, n) => text(l, 116, 8 + n * 9, PAPER));
           },
         });
         if (k >= 0) teams[side][row].m.notion = ids[k];
@@ -332,7 +332,7 @@ class Builder implements Mode {
     btn('Swap sides', 1, 0);
     btn(`Foe AI: ${foeAi[0].toUpperCase() + foeAi.slice(1)}`, 0, 1);
     btn('Start', 1, 1, true);
-    const hint = this.cy < 3 ? 'Z changes this whorl. V looks at it.' : this.cy === 4 && this.cx === 1 ? 'Z starts with these teams.' : 'Z picks. X goes back to the title.';
+    const hint = this.cy < 3 ? 'Z modifies this whorl. V examines it.' : this.cy === 4 && this.cx === 1 ? 'Z begins with these teams.' : 'Z selects. X returns to the title screen.';
     textCenter(hint, 96, 183, DIM, INK);
     this.drawSub();
     if (this.busy) dither(0, 0, 192, 192, INK, 0.55);

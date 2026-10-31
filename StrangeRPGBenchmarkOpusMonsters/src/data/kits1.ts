@@ -49,7 +49,7 @@ defPassive({ id: 'waymark', name: 'Points the Way', owner: 'cairn', text: 'Reser
     const r = reserves(b.s[1 - f.side]).filter(x => !x.ko && !x.gone).sort((a, z) => a.hp / a.maxHp - z.hp / z.maxHp)[0];
     if (!r) return;
     mark(b, f, r, 'cairn_way', 1, -1);
-    msg(b, `${label(b, f)} points the way to ${label(b, r)}.`);
+    msg(b, `${label(b, f)} points the way toward ${label(b, r)}.`);
   } });
 defMark({ id: 'cairn_grasp', name: 'catching', clock: 'own', volatile: true, value: 0.15,
   beforeTake(b, f, src, amt, d) {
@@ -80,7 +80,7 @@ defMove({ id: 'landslide', name: 'Tumbledown', type: 'STONE', owner: 'cairn', re
 // scree: a bank of loose shingle that comes down a bit at a time, never all the way, and buries cobbles for whoever comes next.
 function screeBurst(b: Battle, f: Fighter | null, who: Fighter): void {
   if (!f || who.ko || who.gone) return;
-  msg(b, `A cobble goes off under ${label(b, who)}.`);
+  msg(b, `A cobble goes off beneath ${label(b, who)}.`);
   dealDamage(b, f, who, stat(b, f, 'atk') * 0.6, plain('P'), 'STONE');
   if (!who.ko) applyStatus(b, f, who, 'slow', 1);
 }
@@ -161,7 +161,7 @@ defMove({ id: 'cavein', name: 'Stalactite', type: 'STONE', owner: 'grotto', reac
     unmark(c.tgt, 'grotto_taste');
     c.st(c.tgt, 'stun', 1);
     takeIn(c.b, c.tgt, 200);
-    c.msg(`The cave breathes in around ${label(c.b, c.tgt)}.`);
+    c.msg(`The cave inhales around ${label(c.b, c.tgt)}.`);
   } });
 defMove({ id: 'takein', name: 'Inrush', type: 'SALT', owner: 'grotto', reach: 'spread', cd: 3, splash: 0.6, wu: 60, fx: 'sink | drop*5 converge | splash all',
   text: 'Wind-up. Hits for 122% ATK. Splash 60%. 2 Damp, and 1 on each reserve.',
@@ -171,7 +171,7 @@ defMove({ id: 'hush', name: 'Seep Shell', type: 'STONE', owner: 'grotto', reach:
   run(c) { const g = c.u.k.gray || 0; c.u.k.gray = 0; c.shield(c.u, g + c.u.maxHp * 0.05, 2); } });
 defMove({ id: 'swallow', name: 'Take In', type: 'STONE', owner: 'grotto', reach: 'single', cd: 6, nerve: 4,
   fx: 'sink | drop*4 converge | vortex crack jolt big', text: 'Hits for 125% ATK + 9% foe max HP. 3 Damp: it leaves the field for 2 turns.',
-  run(c) { const full = c.marked(c.tgt, 'grotto_taste') >= 3; c.hit(c.tgt, { atk: 1.25, tgtHp: 0.09 }); if (full && !c.tgt.ko && !c.blocked(c.tgt)) { unmark(c.tgt, 'grotto_taste'); c.msg(`The tide takes ${label(c.b, c.tgt)} into ${label(c.b, c.u)}.`); banish(c.b, c.tgt, 2, c.u); } } });
+  run(c) { const full = c.marked(c.tgt, 'grotto_taste') >= 3; c.hit(c.tgt, { atk: 1.25, tgtHp: 0.09 }); if (full && !c.tgt.ko && !c.blocked(c.tgt)) { unmark(c.tgt, 'grotto_taste'); c.msg(`The tide pulls ${label(c.b, c.tgt)} into ${label(c.b, c.u)}.`); banish(c.b, c.tgt, 2, c.u); } } });
 
 // menhir: a standing stone cut with old star-marks that holds its ground, draws every eye, and falls over on purpose.
 defPassive({ id: 'standing', name: 'Old Stance', owner: 'menhir', text: 'Every 3rd turn: its attack adds 50% DEF and hits reserves. Taunts last +1 turn.',
@@ -220,7 +220,7 @@ defMove({ id: 'undermine', name: 'Undermine', type: 'BEAST', owner: 'quarry', re
   text: 'Hits for 109% ATK and takes the foe\'s shield as its own. Root 2.',
   run(c) {
     const sh = c.tgt.shield;
-    if (sh > 0 && !c.blocked(c.tgt) && !c.preview) { c.tgt.shield = 0; c.tgt.shieldTurns = 0; giveShield(c.b, c.u, c.u, sh, 2); c.msg(`${label(c.b, c.u)} takes the shield as its own.`); }
+    if (sh > 0 && !c.blocked(c.tgt) && !c.preview) { c.tgt.shield = 0; c.tgt.shieldTurns = 0; giveShield(c.b, c.u, c.u, sh, 2); c.msg(`${label(c.b, c.u)} claims the shield as its own.`); }
     c.hit(c.tgt, { atk: 1.09 });
     c.st(c.tgt, 'root', 2);
   } });
@@ -236,7 +236,7 @@ defPassive({ id: 'spout', name: 'Coral Horns', owner: 'grotesque', text: 'When i
   anyKO(b, f, v, killer) {
     if (killer !== f || v.side === f.side) return;
     addNerve(b, f.side, 1);
-    if ((f.k.evo || 0) < 3) { f.k.evo = (f.k.evo || 0) + 1; msg(b, `${label(b, f)} grows a horn of coral.`); }
+    if ((f.k.evo || 0) < 3) { f.k.evo = (f.k.evo || 0) + 1; msg(b, `${label(b, f)} sprouts a coral horn.`); }
   },
   outMul(b, f, t, d) { return d.move ? 1 + 0.08 * (f.k.evo || 0) : 1; } });
 defMove({ id: 'drop', name: 'Gutter Drop', type: 'STONE', owner: 'grotesque', reach: 'single', cd: 1,
@@ -265,7 +265,7 @@ defPassive({ id: 'bedrock', name: 'Deep Footing', owner: 'tor', text: 'Stunning 
   anyWindup(b, f, user, m, p) {
     if (user.side === f.side || f.ko || !isOut(b, f)) return;
     delayPending(b, p, 30);
-    msg(b, `${label(b, f)} stamps, and the ground shakes ${label(b, user)}.`);
+    msg(b, `${label(b, f)} stamps, shaking the ground ${label(b, user)}.`);
   } });
 defMove({ id: 'fissure', name: 'Craze Line', type: 'ROOT', owner: 'tor', reach: 'spread', cd: 1, splash: 0.35, fx: 'stomp | thorn*4 sweep | crack all',
   text: 'Hits for 63% ATK. Splash 35%. Root 1. A foe up off the ground comes down.',
@@ -309,7 +309,7 @@ defPassive({ id: 'riptide', name: 'Cold Water', owner: 'undertow', text: 'Deals 
   outMul(b, f, t) { return cameOutSince(b, t, f) ? 1.3 : 1; } });
 defMark({ id: 'undertow_sand', name: 'sand in its eyes', clock: 'own', volatile: true, negative: true, value: -0.1,
   outMul(b, f, t, d) { return d.attack ? 0 : 1; },
-  afterAttack(b, f) { unmark(f, 'undertow_sand'); msg(b, `${label(b, f)} blinks the sand out.`); } });
+  afterAttack(b, f) { unmark(f, 'undertow_sand'); msg(b, `${label(b, f)} blinks away the sand.`); } });
 defMove({ id: 'pullunder', name: 'Ankle Drag', type: 'TIDE', owner: 'undertow', reach: 'single', tags: ['spell'], cd: 1, fx: 'sink | drop*2 line | drip', text: 'Hits for 85% MGK. Delays the foe\'s next turn by 20%.',
   run(c) { c.hit(c.tgt, { mgk: 0.85 }); if (!c.tgt.ko) c.delay(c.tgt, 20); } });
 defMove({ id: 'churn', name: 'Sand Churn', type: 'STONE', owner: 'undertow', reach: 'spread', tags: ['spell'], cd: 2, splash: 0.35, fx: 'spin | sand*5 sweep | puff all',
@@ -320,7 +320,7 @@ defMove({ id: 'sink', name: 'Pull Under', type: 'TIDE', owner: 'undertow', reach
   run(c) {
     c.hit(c.tgt, { mgk: 0.6 });
     if (c.tgt.ko || c.blocked(c.tgt) || c.preview) return;
-    c.msg(`${label(c.b, c.u)} drags ${label(c.b, c.tgt)} under.`);
+    c.msg(`${label(c.b, c.u)} pulls ${label(c.b, c.tgt)} down.`);
     banish(c.b, c.tgt, 2, c.u);
     banish(c.b, c.u, 2, c.u);
   } });
@@ -334,7 +334,7 @@ defMark({ id: 'fogbank_shadow', name: 'rolling in', clock: 'own', volatile: true
     unmark(f, 'fogbank_shadow');
     const t = foeOf(b, f);
     if (t.ko || t.gone || f.s.silence) return;
-    msg(b, `${label(b, f)} comes out of itself.`);
+    msg(b, `${label(b, f)} steps out of its own form.`);
     dealDamage(b, f, t, stat(b, f, 'mgk') * 1.6, { kind: 'M', move: MOVES.whiteout, attack: false, dot: false, spread: false, reserve: false }, 'TIDE');
     if (!t.ko) applyStatus(b, f, t, 'silence', 1);
   } });
@@ -366,7 +366,7 @@ defPassive({ id: 'refreeze', name: 'Freezes Back', owner: 'floe', text: 'Once pe
     if (f.k.refroze) return false;
     f.k.refroze = 1; f.hp = 1; f.s = { stasis: { n: 1, src: -1 } }; f.k.thaw = 1;
     f.k.thawPct = 15;
-    msg(b, `${label(b, f)} freezes solid. The water round it goes thick.`);
+    msg(b, `${label(b, f)} freezes solid, thickening the water around it.`);
     const t = foeOf(b, f);
     if (!t.ko && !t.gone) applyStatus(b, f, t, 'slow', 2);
     return true;
@@ -409,7 +409,7 @@ defPassive({ id: 'upstream', name: 'Washes Over', owner: 'bore', text: 'The firs
     if (!f.k.wash || who.side === f.side || f.ko) return;
     const n = Math.min(f.k.wash, who.maxHp * 0.25);
     f.k.wash = 0;
-    msg(b, `The rest of the wave washes over ${label(b, who)}.`);
+    msg(b, `The remainder of the wave crashes over ${label(b, who)}.`);
     dealDamage(b, f, who, n, plain('T'), null);
   } });
 defMove({ id: 'surge', name: 'Wave Front', type: 'TIDE', owner: 'bore', reach: 'single', cd: 1, fx: 'lunge | drop*2 wave | splash', text: 'Hits for 49% ATK. +10% damage per use since it came out, up to +30%.',
@@ -437,7 +437,7 @@ defPassive({ id: 'cure', name: 'Salt Burst', owner: 'brine', text: 'When it is K
     if (v !== f) return;
     const t = foeOf(b, f);
     if (t.ko || t.gone) return;
-    msg(b, `${label(b, f)} bursts into salt.`);
+    msg(b, `${label(b, f)} explodes into salt.`);
     dealDamage(b, f, t, t.maxHp * 0.15, dot('T'), null);
     if (!t.ko) applyStatus(b, f, t, 'rot', 3);
   } });
@@ -476,7 +476,7 @@ defMove({ id: 'maelstrom', name: 'Whirlpool', type: 'TIDE', owner: 'eddy', reach
 
 // thicket: a hedge of sea buckthorn that balls itself up, bristles, and grows across whatever path it likes.
 defMark({ id: 'thicket_slam', name: 'settling', clock: 'own', volatile: true, value: 0.08,
-  turnStart(b, f) { unmark(f, 'thicket_slam'); msg(b, 'The hedge settles again.'); splash(b, f, stat(b, f, 'atk') * 0.55, 'P', 'ROOT'); } });
+  turnStart(b, f) { unmark(f, 'thicket_slam'); msg(b, 'Hedge settles again.'); splash(b, f, stat(b, f, 'atk') * 0.55, 'P', 'ROOT'); } });
 defPassive({ id: 'thorned', name: 'Buckthorn', owner: 'thicket', text: 'When hit: returns 15% of the damage. Its moves add 25% DEF to their damage.',
   afterTake(b, f, src, dealt) { if (src && src !== f && !src.ko) dealDamage(b, f, src, dealt * 0.15, { ...dot('M'), reflect: true } as DmgInfo, null); },
   addRaw(b, f, t, d) { return d.move ? stat(b, f, 'def') * 0.25 : 0; } });
@@ -615,7 +615,7 @@ defPassive({ id: 'regrow', name: 'Sucker Shoots', owner: 'stump', text: 'The fir
     f.k.shrugAt = f.outAt + 1;
     delete f.s[id as StatusId];
     heal(b, f, f, f.maxHp * 0.05);
-    msg(b, `${label(b, f)} puts out a shoot.`);
+    msg(b, `${label(b, f)} sends out a new shoot.`);
   } });
 defMove({ id: 'splinter', name: 'Splinter Off', type: 'ROOT', owner: 'stump', reach: 'single', cd: 1, fx: 'lunge | thorn*2 line | slash',
   text: 'Hits for 100% ATK + 10% per Ring, + 8% of the foe\'s current HP. Slow 1.',
@@ -651,13 +651,13 @@ defMove({ id: 'setcap', name: 'Plant a Cap', type: 'TIDE', owner: 'puffball', re
     const side = c.them === c.b.s[0] ? 0 : 1;
     c.them.caps = Math.min(3, c.them.caps + 1);
     sk(c.b, side).capMgk = stat(c.b, c.u, 'mgk') * (has(c.u, 'spores') ? 1.5 : 1);
-    c.msg(`Caps on their side: ${c.them.caps}.`);
+    c.msg(`Their side has ${c.them.caps} caps.`);
   } });
 defMove({ id: 'dust', name: 'Roll Away', type: 'ROOT', owner: 'puffball', reach: 'self', cd: 4, wt: 50, fx: 'spin | sand*2 return | puff self', text: 'Haste 3. It ends when a move hits it.',
   run(c) { c.st(c.u, 'haste', 3); c.mark(c.u, 'puffball_quick', 1, 3); } });
 defMove({ id: 'fairyring', name: 'Ring of Caps', type: 'ROOT', owner: 'puffball', reach: 'side', tags: ['spell'], cd: 5, nerve: 4,
   fx: 'stomp big | sand*5 orbit | puff bloom jolt all', text: 'Sets 3 Caps on their side. Poison 2.',
-  run(c) { const side = c.them === c.b.s[0] ? 0 : 1; c.them.caps = 3; sk(c.b, side).capMgk = stat(c.b, c.u, 'mgk') * (has(c.u, 'spores') ? 1.5 : 1); c.st(c.tgt, 'poison', 2); c.msg('A ring of caps comes up.'); } });
+  run(c) { const side = c.them === c.b.s[0] ? 0 : 1; c.them.caps = 3; sk(c.b, side).capMgk = stat(c.b, c.u, 'mgk') * (has(c.u, 'spores') ? 1.5 : 1); c.st(c.tgt, 'poison', 2); c.msg('A ring of caps rises up.'); } });
 
 // bramble: a briar off the mill hedge that hooks, holds, bleeds things slow, and tears free all at once.
 defPassive({ id: 'briar', name: 'Hooked Thorns', owner: 'bramble', text: 'Its hits add Bleed 1, 12% ATK a turn per stack. A foe at Bleed 5: it gets Empower 2.',
@@ -686,7 +686,7 @@ defMove({ id: 'thornwall', name: 'Tear Free', type: 'ROOT', owner: 'bramble', re
   run(c) {
     const n = c.tgt.s.bleed?.n || 0;
     c.hit(c.tgt, { atk: 0.82 + 0.2 * n }, { kind: 'T' });
-    if (c.tgt.ko) { const i = c.u.moves.indexOf('thornwall'); if (i >= 0) c.u.cd[i] = 0; c.msg(`${label(c.b, c.u)} tears free.`); }
+    if (c.tgt.ko) { const i = c.u.moves.indexOf('thornwall'); if (i >= 0) c.u.cd[i] = 0; c.msg(`${label(c.b, c.u)} breaks free.`); }
   } });
 
 // hemlock: a hemlock in a cracked cup off the tide line that doses foes, sends them to sleep, and pours the last of itself into a friend.

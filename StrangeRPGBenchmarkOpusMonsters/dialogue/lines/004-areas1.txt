@@ -1,0 +1,324 @@
+# WHORL game text, chunk 4 of 26. Files: src/content/areas1.ts, src/content/areas2.ts, src/content/areas3.ts
+# Speakers: look (57), The Master (11), ? (prize) (8), Counter (8), notice (7), Sexton (7), Ice-fisher (7), The Upright Man (6), The Catcher (6), The Listener (6), The Pruner (6), Lunch-bringer (5), Cartographer (5), Pell (4), choice (4), Shore-woman (4), choice prompt (3), Mole-catcher (2), Cellar girl (2), Bootless (2), Bonesetter (2), Ring polisher (2), Nail biter (2), ? (2), Plank-walker (2), Gunner (2), Swimmer (2), Beachcomber (2), Wall-toucher (2), Bell-striker (2), Glazier (2), Pew-sitter (2), Root-cutter (2), Beetle girl (2), Upfaller (2), Scrapper (2), Hull-sleeper (2), Ice-cutter (2), Seal-wife (2), Auk-keeper (2), Arrow-finder (2), Flake boy (2), Mirror-mender (2), Shade-seeker (2), Skull kid (2), Grafter (2), Ladder girl (2), Glovesmith (2), Edge-walker (2), Pell's cast (1), Bilge boy (1), Foam boy (1), Dish-turner (1), The cast under the ice (1), A soldier's cast (1), Fencer (1), Groom (1), hint (1), Silt-wife (1), Glass-walker (1), Blank (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/areas1.ts
+
+== scene: areas1
+[00aqhk3] Pell's cast | (It stands next to Pell, just a bit too close. Both of its shoes are on.)
+[18ydwo7] notice | Ouro retrieves a child's left shoe, its interior pearly white.
+
+== scene: map undermeadow
+[0fca35g] Mole-catcher | Moles dig, and I follow. Twenty years. I haven't met one yet. I think they know.
+[1w1kypf] Mole-catcher | Down the hole I crawl. Moles first.
+[0k5w59i] Cellar girl | Mum keeps the jam down here. Kept. The jam is gone now. I'm guarding the spot where it was.
+[1shmfzy] Cellar girl | Please don't tell Mum about the jam. It wasn't really me. Mostly.
+[03hur69] Bootless | I lost a boot down here on my Shedding Day. It shed too, I reckon. It walks about now.
+[1nnu8ng] Bootless | If you see it, you've found the right one. Tell it I'm not mad.
+[1s7i5pd] look | The ceiling's aged shell is pale and ribbed, with grass roots spreading flat across its surface.
+[0nomez7] look | The meadow shed here once. The new meadow grew over its cast.
+[0trykqp] look | A root as thick as an arm descends through the rock, bearing a nailed label.
+[1a29k8w] look | The label reads TURNIP, underlined twice.
+[10ndf52] look | Scratches mark the wall, counting up to forty-one.
+[1fdp8hl] look | The forty-second mark runs off the edge of the rock.
+[0v3qt70] look | Beneath the meadow lies a table set for two,
+[1egifx0] look | with salt in a dish and the good bowl placed at the empty seat.
+[1krvh69] look | Tucked behind the roots, between two bones, are two triton horns packed in dry sand.
+[13dl9h3] look | A jar rests on an earthen shelf, holding a notion, fine and dry.
+
+== scene: pell
+[1jpdx5e] Pell | We're standing so close now. Is this how it works afterward? Is it always this intimate?
+[1tovs4z] Pell | Did you see where we went? Our other half?
+[0490ha1] Pell | We shed this morning! Then half of us went down the fracture with one shoe off. The left one.
+[0h1vfb2] Pell | Is the rest of us down there? Are we alright? Are we cold?
+
+== scene: map knucklebones
+[0t1ckgn] Bonesetter | I mend bones. These are too big. I'm trying. Slow year.
+[12ttyqg] Bonesetter | Ow. This one's dislocated too.
+[139kr9z] Ring polisher | I'm polishing the ring! It used to be gold, and it's getting there. See that patch? :-]
+[1j1z0dn] Ring polisher | Watch your step on the way out. The shine is still wet.
+[1ojtdzz] Nail biter | I chewed my nails until one shed. Its shell clings to me.
+[1u7pif4] Nail biter | Ugh. It's chewing again.
+[1bgcudd] notice | Knuckles counted: {#1}.
+[01b97us] look | A ring rests across the fingertip, wide enough to walk through.
+[1y8qcnf] look | Text circles the interior. Each letter towers over Ouro.
+[0sdrwir] look | It bears someone's name, though it's too large to read from here.
+[13xv1vt] look | In the dust where the ring meets the bone, lies something dropped long ago.
+[0owxdh3] look | Tucked into a line of the palm, sheltered from the wind, are three whelk horns.
+[1cug279] look | The giant's rib stands in the town to the north.
+[1cigzau] look | The giant's hand lies here, palm up, with fingers submerged in the sea.
+[1pu5yk6] look | No one has found the rest.
+[0xe0cl1] look | On the finger reef, wedged in a crack, lie a cuttlebone and a nautilus horn.
+
+== scene: areas1
+[1t2hecj] ? | Scratched onto a knuckle: "The surge deposits debris on the far shelf.
+[01qjxbg] ? | Eight steps out, eight steps back in.
+[1ius198] ? (prize) | On the shelf beyond the palm, where the surge drops its cargo, sits a small pile of leftovers.
+
+== scene: counter
+[0pgohlu] Counter | Five. I've been tallying the ring for all these years. Five from this point forward. Likely five.
+[1opk45m] Counter | Six. That's how many knuckles I counted yesterday, or maybe the day before. Six, at least.
+[1s9qp4p] Counter | Seven. Today's count. There's one more every day. That doesn't seem right, does it?
+[1jw56ng] Counter | One. That's how many of you there are. So go count them yourself.
+[18ylqnn] Counter | Touch each one, or it doesn't count.
+[09a5gml] Counter | {n}. That's your total. Keep going. The thumb counts. I think. Yes, the thumb counts.
+[0wfkcaq] Counter | Five? Only five?
+[12f5nmc] Counter | Five. So I've been counting the ring as a knuckle. Then counting it again. Every single day. Huh.
+
+== scene: map wrecks
+[1gttajq] Plank-walker | I pace the plank daily, rehearsing for the tide's return. I've mastered the final steps.
+[1t1my3z] Plank-walker | I fly off the end. Wheee.
+[0we2aga] Bilge boy | I pump the bilge! There's no water in it. Not a drop. You're welcome.
+[0tn5wzq] Gunner | Every cannon out here still has a ball inside. Nobody's brave enough to check. Me included.
+[106ni9k] Gunner | Don't touch the touch-holes. I know what they're called. Just don't.
+[1x88463] look | A carved figurehead of a woman on the prow, gazing out to sea. The sea vanished forty years ago.
+[18o4p8v] look | She is still looking.
+[1x8ztie] look | A ship's log, left open on a hatch. The final entry reads:
+[03456e1] look | The hull is pearlescent and translucent, thin enough to let light pass through.
+[0zs2vyt] look | It is the ship's cast.
+[0u8h5g2] look | The interior walls bear the impression of every object that ever occupied the hold.
+[0yh0vvz] look | Deep in the hold, wedged where the ballast once sat, lies a nautilus horn.
+[0fh1t4b] look | In a drawer that still glides smoothly, a notion and a few cowries.
+
+== scene: master
+[08mbeid] The Master | (final entry. the ship was found. i am not returning. neither will it. evening.)
+[11fsd5z] The Master | Log. Day of the drought. A visitor arrived, of the smallest possible tonnage.
+[00y06fb] The Master | Log. The ship shed its skin overnight. The cast remained within itself.
+[1pxlf4a] The Master | The vessel walked off, unauthorized.
+[12iiot0] The Master | Log. The ship was last seen heading west, carrying no sail at all. Visitor, investigate.
+[01dtwmt] The Master | (log. visitor has returned. the ship has not. teatime.)
+[0r74szu] The Master | Log. Visitor returns with intelligence!! Visitor, report.
+
+== scene: c
+[1x2mdp9] choice | It is at the wall.
+[1u6nipo] choice | It is gone.
+[19s68pt] choice prompt | Where is the ship?
+
+== scene: master
+[1esf8h0] The Master | (log entry. the vessel rests against the gray wall. it faces the barrier. it waits for the water.
+[1r6zlb5] The Master | it is dusk.)
+[06ujds5] The Master | Log. That is the duty of a ship. To remain entirely seaworthy.
+[0s4h7xj] The Master | Log. The visitor lies with such kindness. Most kindly. So, the ship rests at the gray. They all do.
+
+== scene: map shoreline
+[1tcs2h5] Swimmer | Tomorrow, I will swim. The sea will return by tomorrow. Definitely.
+[19dod89] Swimmer | I have said that for nine years. I am truly, truly skilled at "tomorrow.
+[0q5vkb1] Beachcomber | I gather everything the sea discarded. It discarded a great deal. Then it departed. Typical.
+[12a8qu7] Beachcomber | Eh. I will pick you up another time.
+[15wzyc8] Wall-toucher | Press your ear against the gray. You can hear the sea inside. Honestly.
+[0kt4b38] Wall-toucher | Go on. Listen. It is still moving within there.
+[1ja92x2] Foam boy | Foam remains where the waves once were. I sweep it into mounds! This is my largest mound.
+[05x5uvh] notice | Ouro remembers the ship's position, for the Master.
+[1yptlj0] look | The sea's cast. Gray and still, rising to the height of the weather.
+[04sk1ei] look | A fish is trapped within it, its tail bent to one side.
+[1fhdcg3] look | Footprints lead from the dry sand into the gray, and do not return.
+[182zxr2] look | A bottle in the sand. The note inside reads: KEEP THE BEACH.
+[0iaqm8o] look | At the foot of the gray, an oyster the size of a plate, thick with nacre.
+[14mhnku] look | In the only tide pool holding water, a notion remains, perfectly dry.
+
+==== file: src/content/areas2.ts
+
+== scene: map underspire
+[15ogo83] Bell-striker | I strike the bells with a stick. The ropes are on the far side of the ground, so... stick.
+[1shep3i] Bell-striker | Ooh. That tone was off.
+[035sm2h] Glazier | I fix windows. Now they're on the floor, so I crawl. My knees hate it.
+[0tefl28] Glazier | Watch the glass. Watch it!
+[1hmkhb8] Pew-sitter | I sat before it flipped. Haven't risen. Didn't want to be rude.
+[0c8ncho] Pew-sitter | The pew is directly above me now. Same pew. Same indentation.
+[067ckm6] look | The font hangs from the ceiling, inverted. It still holds water, which is salt.
+[05uy4sj] look | Stained glass embedded in the floor. Beyond it, more sky. A star streaks past.
+[1cforq1] look | Wedged beneath a pew, a notion that has been sat upon for a long time.
+
+== scene: areas2
+[0unt9tg] ? (prize) | On a stand in the hidden room, a nautilus horn and a scallop shell lined with nacre.
+
+== scene: sexton
+[1iuyk5p] Sexton | They rang true in my ninth year, and again in my eightieth. The first time, I went in.
+[1mngupt] Sexton | This time, you.
+[151ilsu] Sexton | When I was nine, the three bells tolled together and the distant floor split open. I was small.
+[0r83uvv] Sexton | It was vast.
+[1grvj8b] Sexton | At twenty, people struck them individually, arguing over the count. Each one was late.
+[0ahwtzo] Sexton | No one has found it since. I stopped searching in the spring of my sixtieth year.
+[054pqz6] Sexton | What a lovely spring it was.
+
+== scene: map rootfall
+[1od4tdq] Root-cutter | I trim the roots, they sprout again, and I return. We've had this routine for quite some time.
+[1mzds20] Root-cutter | Until tomorrow, then. And the roots as well.
+[1ffeh34] Beetle girl | Beetles dwell in the roots, and I live close to them. We're practically neighbors.
+[0my3xb0] Beetle girl | They're hiding now, so I'm hiding too.
+[10vew67] Upfaller | Rain travels upward through the Bole. On a good day, I rise with it, just a little. Maybe a toe.
+[1g78ft6] Upfaller | Then it's not a good day.
+[0qahl9b] look | A face emerges from the roots, its eyes formed by two snail shells.
+[0lkwfn0] look | It has watched the slick floor for a very long time.
+[1d877ys] look | A bowl hangs upside down from a root. Rain falls upward into it and remains there.
+[1ntiu31] look | Beneath the loose bark, a notion.
+
+== scene: areas2
+[1tdgp95] ? (prize) | Above the slick roots, resting on a bed of moss: a nautilus horn and a mussel lined with nacre.
+
+== scene: upright
+[0un6tsg] The Upright Man | One full inch since you arrived!! And one inch is, six foot one, a tremendous amount.
+[0vx9f59] The Upright Man | Six foot one. That was my height in the spring. A splendid spring, vertically speaking.
+[1xt55sz] The Upright Man | Not an inch more, now. The rain goes up here, you see. My feet get none of it. Parched.
+[01659am] The Upright Man | Holding steady at six foot one, and thirsty at the ankle.
+[0ti9kqi] The Upright Man | Six foot one. Ah.
+[0wo21u6] The Upright Man | Six foot one and a bit!! A BIT!! Someone measure me!!
+
+== scene: areas2
+[16pyo80] notice | Ouro takes down the bowl of upward rain, carefully upside down.
+
+== scene: map skinfall
+[0nljraf] Scrapper | It all crashed down in my gran's day. Still sorting it. Done one pile.
+[1e6rf1l] Scrapper | Alright. Join the pile.
+[1e9pc2g] Hull-sleeper | I sleep in a hull section that fell from the sky. One side stays warm, so I roll over constantly.
+[1jzpgab] Hull-sleeper | Off to bed. Warm side up.
+[142o12i] Dish-turner | I spin the dishes to listen. Mostly it's just the wind. Once, I heard a cough.
+[134sjxj] look | A crater holds the shell of a machine that once soared high. It came down empty.
+[1j6ssew] look | A tower from the old Riders' era. It bears a number and a word no one reads anymore.
+[0e5wzho] look | The word features a circle.
+[08hsxzt] notice | A warm plate.
+[0cn15od] notice | Imprinted upon it is a pale, round landmass with a spiral and eight black dots along its edge.
+
+== scene: areas2
+[00poxkb] ? (prize) | Behind the receiver, a signal hatch opened: a notion, a nautilus horn, nacre.
+
+== scene: catcher
+[16iewhh] The Catcher | Nothing today. Honestly, nothing up there for ages. There used to be something.
+[0fkmr1x] The Catcher | Something fell last night. It missed the tub by a wide margin.
+[0x1edc8] The Catcher | I can't look away, just in case. But it landed in a crater near the south rocks.
+[1hr8t1m] The Catcher | Could you fetch it for me?
+[1qamtb6] The Catcher | Still nothing up here. It's at the south rocks. In a crater. Down there.
+[0vz56j4] The Catcher | Oh. So that's what we look like from up there.
+
+== scene: map iceshelf
+[1qmmp4s] Ice-cutter | I carve blocks from the lake. The lake doesn't mind. Or perhaps it's just being gracious.
+[1i6n7qw] Ice-cutter | Take a block home with you. Store it somewhere cold. Just not in your pocket.
+[0sf7i1e] Seal-wife | My spare coat's in a home chest. Keep it from my husband. He thinks they're blankets.
+[0fn3ta0] Seal-wife | You won't say a word. I can see that in you.
+[10jy2la] Auk-keeper | The last of them came to the ice to stand. So I came, too, and stood beside them.
+[1251ny9] Auk-keeper | Stay with us for a while. It's pleasant. Cold, but pleasant.
+[1p81dnt] look | A fishing hole. Far below in the clear water, a star falls, very slowly.
+[1x0scdn] look | Frozen into the edge of a fishing hole lie a notion and a string of cowries.
+
+== scene: areas2
+[1007xjv] ? (prize) | Embedded in the bank of the nook is a clam shell lined with nacre.
+
+== scene: icefisher
+[1vu3ciu] Ice-fisher | No. ... That's exactly what I wanted. Thank you for voicing it for me.
+[1c48g5c] Ice-fisher | It's four fingers thick today. Good ice.
+[1i5cqbg] Ice-fisher | On the day I shed, it was six fingers thick. It wasn't quite thick enough. ... It gave way.
+[06d5zdq] Ice-fisher | It's still down there, in the center. My first shell. Would you ask it if it's cold?
+[12x0pj5] Ice-fisher | Four fingers thick. There's no grip in the middle, so you slide. ... Watch where you stop.
+[1043fv2] Ice-fisher | ... Well?
+[0m05z86] Ice-fisher | No.
+
+== scene: frozenSlip
+[0ma5kx5] The cast under the ice | No.
+
+==== file: src/content/areas3.ts
+
+== scene: map battlefield
+[18fi1m6] A soldier's cast | (It lies on the bedroll with its arms at its sides. It is not marching.)
+[1wv0a70] Fencer | The battle ended before my gran was born. Nobody told the swords. I'm not gonna be the one.
+[0tnnw67] Arrow-finder | One arrow never hit the ground. I stay underneath it. Wearing a hat. I'm not stupid.
+[0maqt06] Arrow-finder | Still hovering above. Most likely.
+[128w8y8] Groom | I brush the war horses. They've been whorls for a hundred years, and they still love a good brush.
+[0u1nwkp] look | A sword is stuck in the earth, with a helmet dangling from its hilt.
+[0ojaclz] look | A snail has taken up residence in the helmet. It wears it.
+[0doiavl] look | A banner clings to the blade.
+[0mnizel] look | The color has faded, but it still points toward the side it once defended.
+[02dkkn8] look | Beneath a slanted blade, a buckled pouch holds a notion and some cowrie shells.
+[1l6fqkh] look | In the trench, beneath a wooden plank, sits a tin of nacre that no one returned to claim.
+
+== scene: soldier
+[14jwtjf] hint | The soldier copies each step Ouro takes in the opposite pen, doing it the wrong way round.
+
+== scene: lunch
+[1dx91mx] Lunch-bringer | It's lying down now. I'll set the noon bread by its head. It won't mind. It never eats it.
+[1bgsx35] Lunch-bringer | I bring it bread at noon. It marches around the bread. Every day. Round and round.
+[107wg2n] Lunch-bringer | Its bedroll is right there in its pen. It hasn't lain on it since breakfast, a hundred years ago.
+[0mcy017] Lunch-bringer | It copies whoever walks the other pen. Left for right. At supper it spooned air with me.
+
+== scene: soldierRest
+[0byffv2] Lunch-bringer | Oh. There it goes. It can have its supper lying down, then :-]
+
+== scene: map moonbed
+[1lgqsnz] Flake boy | The moon shed flakes as it rose. I'm reselling them to it. Great deal.
+[17ijw78] Flake boy | It never buys. Doesn't even try to bargain.
+[12dq5zk] Silt-wife | The water was freezing. The silt is warm. So I dwell in the silt now. Naturally.
+[0x8ygdf] Mirror-mender | The things the water showed are still lying around. I fix them. I put them back together.
+[14ems1v] Mirror-mender | Oops. Wrong face.
+[12h52se] look | The silt beneath where the moon rested is packed into a smooth, round hollow,
+[175s0g3] look | gleaming with a pearly sheen.
+[0rjrbpf] look | A fragment of the moon's shell, flat and pearlescent. It remains slightly chilled.
+
+== scene: areas3
+[1lqkv5x] ? (prize) | Behind the reflection, in the deep silt, rest a nautilus horn and a cockle filled with nacre.
+
+== scene: shorewoman
+[1msq6py] Shore-woman | There I am! A bit muddy, but I don't mind. Muddy suits me.
+[0wpfkyq] Shore-woman | For sixty years, I've gazed into the water every morning, checking my hair, my teeth, everything.
+[0gls0q9] Shore-woman | When the water receded, I stayed put. I mean my reflection, I'm still down there on the bottom.
+[1ablaoj] Shore-woman | The pools shift when you step on the pale stones. But don't step on me.
+
+== scene: map glassdesert
+[17gk3jc] Glass-walker | I walk across the glass barefoot. It sings, but I stay silent. I'm quite brave.
+[1mrx2oq] Shade-seeker | There's no shade out here. I keep searching. That's my job.
+[0jxapks] Shade-seeker | Oh, I found some. It was you. Can you hold still?
+[0ijmwpn] Skull kid | I found a skull! And it found me!
+[0qq364h] Skull kid | Now it's sulking. Great.
+[1g611kv] look | Beneath the glass, footprints from before the sand melted walk away from the star.
+
+== scene: areas3
+[1fockzz] ? (prize) | In the bright room, there is a glass bell without a clapper, and next to it, a notion.
+
+== scene: listener
+[01lwd6s] The Listener | It's still ringing. I can hear it from here. Can you? No, you can't.
+[0a8vkm5] The Listener | You lit the glass room! I heard it from right here.
+[002k11n] The Listener | I've been listening for that sound for forty years. It was a G. A lovely G.
+[0dm6mek] The Listener | There's a chamber beneath the glass. It used to chime whenever the star's light touched it.
+[0ommmct] The Listener | Someone must have shifted the prisms. It's been silent ever since.
+[17wsr8u] The Listener | My eyes aren't sharp enough to set them right.
+
+== scene: map handsorchard
+[0oxk9yi] Grafter | Grafton learned right here. Then Grafton left. The trees are still a bit bruised by the memory.
+[0lsi4vl] Grafter | Well. At least it's a clean cut.
+[0zl8hxk] Ladder girl | I carry the ladder for the Hands. No one has climbed it yet. But I carry it anyway.
+[0062kjp] Ladder girl | Fine. Then up you go.
+[1x7l7kd] Glovesmith | Every Hand wears a glove I made. I've never shaken one. Not a single hand. It's a bit sad.
+[1fmdu9r] Glovesmith | Ooh. A firm grip.
+
+== scene: c
+[0elizql] choice | Trim it
+[1i786c3] choice | Let it be
+[0t7sqbg] choice prompt | A wild tree with branches in every direction.
+[1afmdov] choice prompt | A tree trained flat, with branches in rows.
+
+== scene: map handsorchard
+[14kk89w] look | An enclosed garden. A single, unpruned tree dominates the space, sprawling to the size of a house,
+[1kl2t10] look | its foliage shaped like five-fingered hands.
+
+== scene: areas3
+[0kknmzb] ? (prize) | Under the big tree, where the Hands sit to eat, lie a notion, a nautilus horn, and nacre.
+
+== scene: pruner
+[074kjw9] The Pruner | Neat. That's the way the Hands prefer it above. Clean and orderly.
+[1gw3uj8] The Pruner | Neat.
+[0iaco8t] The Pruner | I was a Hand before Purchase. I tended the groves. The Operculum sustained me.
+[0ctjkak] The Pruner | Until it stopped.
+[02t6etd] The Pruner | Four have gone feral. Cut one back and its neighbors shed. That's how the flora is up here.
+[0j0ow0m] The Pruner | Lay them all flat, and the gate yields. Such is the nature of the barriers here.
+
+== scene: map margin
+[0dser90] Blank | No one drew me in. So I stand where I like. Today it's here.
+[0dyxi4q] Edge-walker | I traverse the boundary daily. If the edge shifts an inch, I shift an inch. Staying current.
+[0q261s1] Edge-walker | Then, one inch further.
+[1cdezuy] notice | Corners located: {#1} of 4.
+
+== scene: cartographer
+[0mu9fhy] Cartographer | Four corners! The map's boundary aligns with the world's edge. How remarkably accommodating.
+[1be4vig] Cartographer | The Margin has never been charted. Largely unexplored territory.
+[05vxlfb] Cartographer | You perceive only the path you have walked.
+[0j46a43] Cartographer | Locate the four corner posts, and I will trace the perimeter. You have {n}.
+[1t2biuq] Cartographer | Four. Thus, the shape is square, and the Volute circular. A cartographic oddity.

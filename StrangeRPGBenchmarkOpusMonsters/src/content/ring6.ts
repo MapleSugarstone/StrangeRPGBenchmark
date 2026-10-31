@@ -50,13 +50,13 @@ defMap({
   zone: { kinds: kinds([['floe', 3], ['selkie', 2], ['walrus', 2], ['auk', 3], ['rime', 1]]), lv: [17, 19], n: 10, area: 'drift' },
   props: [{ x: 21, y: 3, pic: 'frozentub', when: () => !hasKey('lore_tub') && !flag('back_lore_tub') }, { x: 34, y: 4, pic: 'holmfar', when: holmSeen(6) }],
   npcs: [
-    { id: 'icefisher2', x: 12, y: 14, sprite: 'veryold', name: 'Floe-watcher', dir: 1, lines: ['Step on a floe and it goes where you stepped till it hits something. Then it stays. Then it\'s a floor.', 'Swim it? That slush? Nothing swims that slush. Not even the ones that swim.'] },
-    { id: 'floetrainer', x: 31, y: 19, sprite: 'villager2', name: 'Sealer', dir: 2, trainer: { name: 'Sealer', team: [['selkie', 18], ['walrus', 18]], intro: 'I count seals. These ones are casts. They count too, I reckon. Mostly they count me.', defeat: 'Seventeen, then. And you.', sight: 3 } },
+    { id: 'icefisher2', x: 12, y: 14, sprite: 'veryold', name: 'Floe-watcher', dir: 1, lines: ['Step on a floe and it moves in the direction you stepped until it hits something. Then it stops. Then it becomes solid ground.', 'Swim it? Through that slush? Nothing swims through that slush. Not even the ones that swim.'] },
+    { id: 'floetrainer', x: 31, y: 19, sprite: 'villager2', name: 'Sealer', dir: 2, trainer: { name: 'Sealer', team: [['selkie', 18], ['walrus', 18]], intro: 'I count seals. These are casts. They count, I suppose. Mostly, they count me.', defeat: 'Seventeen, then. Plus you.', sight: 3 } },
   ],
   spots: [
-    { x: 21, y: 3, when: () => !hasKey('lore_tub') && !flag('back_lore_tub'), script: async () => { sfx('cut'); field.shakeT = 6; await wait(20); await giveKeyItem('lore_tub', 'Ouro chips a washtub out of the ice. The washing in it is fine.'); } },
-    stash('fl_grey', 40, 25, 'Under a snowed-over boat, a gray lump that smells of a very big afternoon.', { items: [['ambergris', 1]] }),
-    look(10, 11, 'The ice creaks underfoot. Past it, the Lipwater, and past that, the Lip.'),
+    { x: 21, y: 3, when: () => !hasKey('lore_tub') && !flag('back_lore_tub'), script: async () => { sfx('cut'); field.shakeT = 6; await wait(20); await giveKeyItem('lore_tub', 'Ouro chips a washtub from the ice. The wash inside is fine.'); } },
+    stash('fl_grey', 40, 25, 'Beneath a snow-covered boat lies a gray lump that smells of a very big afternoon.', { items: [['ambergris', 1]] }),
+    look(10, 11, 'The ice creaks beneath your feet. Beyond it lies the Rimwater, and beyond that, the Rim.'),
   ],
 });
 SPAWNS.floes = [1, 18];
@@ -164,15 +164,16 @@ defMap({
 });
 
 defScript('rememberer', async () => {
-  if (flag('found_tusk_spoons')) { await say('Rememberer', 'You found the spoons. And then I remembered I never liked the spoons. And then I laughed.'); return; }
+  if (flag('found_tusk_spoons')) { await say('Rememberer', 'You found the spoons. Then I remembered I never liked them. Then I laughed.'); return; }
   if (!flag('wayTold')) {
     setFlag('wayTold');
-    await say('Rememberer', 'My grandmother\'s grandmother hid the good spoons from the Riders. And then she told it down to me.');
+    await say('Rememberer', 'My grandmother\'s grandmother hid the good spoons from the Riders. She passed that story down to me.');
   }
-  await say('Rememberer', 'North from the last house. And then on, till the Tusk\'s shadow lies to your left.');
-  await say('Rememberer', 'Along the drift with the stick in it. And then past the stone with two caps of snow.');
-  await say('Rememberer', 'And then on to the second dead pine. Not the first. She was very clear. The second.');
-  await say('Rememberer', 'The drifts all look alike out there. Go wrong and you\'re back at the houses. And then ask me again.');
+  await say('Rememberer', 'Go north from the last house. Keep going until the Tusk\'s shadow falls to your left.');
+  await say('Rememberer', 'Follow the drift with the stick in it. Then pass the stone capped with two caps of snow.');
+  await say('Rememberer', 'Continue to the second dead pine. Not the first. She was very clear. The second.');
+  await say('Rememberer', 'The drifts all look the same out there. Make a wrong turn and you\'ll end up back at the houses.');
+  await say('Rememberer', 'Then ask me again.');
 });
 
 void stash;

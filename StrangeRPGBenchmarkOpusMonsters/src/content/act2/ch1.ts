@@ -109,8 +109,9 @@ export async function keeperFight(name: string, team: [string, number][], loseLi
 export async function strandBoard(r: { id: string; name: string; deck: string[]; tier: number; prize: string; lines: string[] }): Promise<void> {
   if (!flag('strandRuleTold')) {
     setFlag('strandRuleTold');
-    await hint('(Strand rule: the row nearest the sea is wet. A card on a wet row loses 1 on every edge.)');
-    await hint('(At high tide the middle row is wet as well.)');
+    await hint('(Strand rule: the row closest to the sea is wet.');
+    await hint('A card placed on a wet row suffers a -1 penalty to all its edges.)');
+    await hint('(At high tide, the middle row is wet as well.)');
   }
   await playShellboard({ ...r, look: true, strand: true });
 }
@@ -147,13 +148,13 @@ defScript('gran', async () => {
     face('gran', 1);
     await emote('gran', 'silence');
     await say('Gran', 'Tell my little turnip soup.');
-    await say('Gran', 'Tell them she is to be brought home of a Sunday. Every Sunday.');
+    await say('Gran', 'Tell them she\'s to be brought home on a Sunday. Every Sunday.');
     await act('gran', 'look');
     await act('gran', 'nod');
     await act('gran', 'nod');
     return;
   }
-  await say('Gran', flag('granEmpty') % 2 ? 'Tell my little turnip there is soup, and that two bowls are laid regardless.' : 'Tell my little turnip Sundays, without exception.');
+  await say('Gran', flag('granEmpty') % 2 ? 'Tell my little turnip there\'s soup waiting, and that two bowls are set out no matter what.' : 'Tell my little turnip to come home on Sundays, without exception.');
   setFlag('granEmpty', flag('granEmpty') + 1);
 });
 
@@ -186,27 +187,27 @@ defScript('a2MarginEnter', async () => {
   // Cinch walks over from the fire while Ouro crosses the Margin, out of sight.
   const c = field.npc('a2CinchMargin');
   if (c) c.hidden = false;
-  goal('Go to the east edge of the Margin.');
+  goal('Head to the east edge of the Margin.');
 });
 
 // Every line of Cinch's invites someone to sit, or says what a person sitting down would notice.
 defScript('a2CinchMargin', async () => {
   if (!flag('marginTalked')) {
     setFlag('marginTalked');
-    await cinch('Sit down, sit down. Saw that one coming from all the way over at the fire.');
-    await cinch('Most of a day\'s walk, for me. Sat down four or five times on the way.');
-    await cinch('Sit low and the air comes right up in your face. That\'s the beach, that air.');
+    await cinch('Take a seat, take a seat. I saw that coming from across the fire.');
+    await cinch('It\'s nearly a day\'s walk for me. I stopped to rest four or five times along the way.');
+    await cinch('Sit low, and the breeze hits you right in the face. That\'s the beach air.');
     if (release()) {
-      await cinch('Have a sit first. Your ground\'s gone soft. Can feel it right through the coat.');
-      await cinch('New shell gives a bit when you sit on it. Forgot that. Been a while.');
+      await cinch('Rest a moment first. The ground beneath you has turned soft. I can feel it through your coat.');
+      await cinch('The new shell gives way a bit when you sit on it. I\'d forgotten that. It\'s been a while.');
     } else {
-      await cinch('Sit a minute before you go. Who\'s turning your post while you\'re out?');
+      await cinch('Sit for a minute before you go. Who\'s turning your post while you\'re out?');
       await choose(['Tack is.']);
-      await cinch('Tack. Good. Counting\'s a sitting-down job, mostly. Sit easy, then.');
+      await cinch('Tack. Good. Counting is mostly a seated task. Make yourself comfortable.');
     }
-    await cinch('Sit on the edge with your legs over. That\'s how I went. Then you sort of lean.');
+    await cinch('Perch on the edge with your legs dangling. That\'s how I did it. You kind of lean into it.');
   }
-  if (await choose(['Go through', 'Not yet']) !== 0) { await cinch('No rush. Be right here. Forty years of practice, sitting.'); return; }
+  if (await choose(['Proceed', 'Not now']) !== 0) { await cinch('Take your time. I\'m right here. I\'ve spent forty years perfecting the art of sitting still.'); return; }
   // Ouro sits on the edge of the hole with both legs hanging into the cold, and drops.
   face('ouro', 1);
   await act('ouro', 'bow');
@@ -267,11 +268,11 @@ defMap({
   ],
   spots: [
     bell(2, 21),
-    look(4, 0, 'The shell curls away under Ouro\'s feet, ridge after ridge, down to the sand.'),
+    look(4, 0, 'Beneath Ouro\'s feet, the shell curves away, layer upon layer, descending to the sand.'),
     { x: 9, y: 0, script: 'a2Exuvia' },
-    look(12, 12, 'The ridge is worn smooth here in a long dip, the width of a road.', 'Something big has leaned on it, many times.'),
-    look(22, 14, 'An old lip of the shell, outgrown one spring long ago. The barnacles moved in after.'),
-    stash('ow_lee', 2, 12, 'In the lee of the third ridge, wedged in a growth line, two whelk horns.', { pegs: ['brass', 2] }),
+    look(12, 12, 'Here, the ridge is worn into a long, smooth dip, wide enough for a road.', 'Something massive has leaned against it, repeatedly, over time.'),
+    look(22, 14, 'An old lip of the shell, left behind when it outgrew it one spring long past.', 'Barnacles have since colonized it.'),
+    stash('ow_lee', 2, 12, 'Tucked into a growth line in the lee of the third ridge lie two whelk horns.', { pegs: ['brass', 2] }),
     ...STAY_POINTS.map(([x, y], i) => ({ x, y, script: async () => {
       await emote('ouro', i >= holes() ? 'silence' : 'question');
     } })),
@@ -295,26 +296,26 @@ defScript('a2OuterWhorl', async () => {
   await walkIn('a2CinchRidge', 16, 0, 17, 2);
   face('a2CinchRidge', 3);
   await act('a2CinchRidge', 'bow');
-  await cinch('Here, sit. Best seat there is for seeing what you came out of.');
+  await cinch('Here, sit. It\'s the best spot to see what you emerged from.');
   // Ouro turns round. The slope curls up and over in one spiral. Eight Stays stick through it in a ring, or leave holes.
   face('ouro', 2);
   await emote('ouro', 'surprise');
   await pan(14, 6);
   await wait(50);
-  await narr('It is a shell. It lies on the sand. It is the size of a hill.');
+  await narr('It is a shell. It rests on the sand. It is as large as a hill.');
   await panBack();
   await exuviaLines();
-  await cinch('Sit and look a while. It\'s bigger from the inside.');
-  goal('Walk down the ridges to the sand.');
+  await cinch('Sit and gaze for a moment. It feels even larger from the inside.');
+  goal('Descend the ridges to the sand.');
 });
 
 async function exuviaLines(): Promise<void> {
-  await narr(flag('mundaneCaught') ? 'North along the beach there is a hollow in the sand, shell-shaped. Nothing is in it.' : 'North along the beach lies another shell, paler and older, half sunk in the sand.');
+  await narr(flag('mundaneCaught') ? 'Further north along the shoreline, the sand dips into a hollow shaped like a shell. It sits empty.' : 'Continuing north, you find another shell, paler and more weathered, half-buried in the sand.');
 }
 defScript('a2Exuvia', exuviaLines);
 
-defScript('a2CinchRidge', async () => { await cinch('Still looking? Good. Sit and look. It\'s bigger from the inside.'); });
-defScript('a2CinchFoot', async () => { await cinch('Pick a shell, any shell, and sit in it with me. It\'s coming low.'); });
+defScript('a2CinchRidge', async () => { await cinch('Still watching? Excellent. Take a seat and observe. It feels much larger from the inside.'); });
+defScript('a2CinchFoot', async () => { await cinch('Choose any shell, and join me inside it. The tide is dropping fast.'); });
 
 // The foot of the Volute, the first low water. The Gleaner passes for the first time.
 defScript('a2FirstLow', async () => {
@@ -325,13 +326,13 @@ defScript('a2FirstLow', async () => {
   await walkIn('a2CinchFoot', 27, 20, 11, 21);
   await act('a2CinchFoot', 'bow');
   await act('a2CinchFoot', 'hop');
-  await cinch('Sit in one of these with me. Quick, now. It\'s coming low.');
+  await cinch('Come sit in one of these with me. Hurry, the tide is going out.');
   // Cinch climbs into the mouth of a big brown whelk and sits down inside it.
   await walkTo('a2CinchFoot', 12, 21);
   face('a2CinchFoot', 0);
   await fadeWho('a2CinchFoot', false, 16);
   setFlag('cinchInWhelk');
-  if (await choose(['Get in', 'Stay out']) === 1) await cinch('Suit yourself. Sit by the door, then, where I can see you.');
+  if (await choose(['Step inside', 'Remain outside']) === 1) await cinch('Do as you please. Then, take a seat by the entrance so I can keep an eye on you.');
   await walkTo('ouro', 12, 21);
   face('ouro', 0);
   await act('ouro', 'bow');
@@ -343,7 +344,7 @@ defScript('a2FirstLow', async () => {
   await gleanerWalk();
   // Cinch taps one foot on the floor of the shell.
   sound('step'); await wait(16); sound('step');
-  await cinch('Always tap my foot in here. Can\'t help it.');
+  await cinch('I always tap my foot in here. I can\'t help it.');
   // A shadow goes over the whelk, the shell tips a little and settles, and the shaking goes off along the beach.
   strandFx.shadow = 120;
   field.shakeT = 20;
@@ -359,14 +360,14 @@ defScript('a2FirstLow', async () => {
   await act('ouro', 'look');
   setFlag('cinchInWhelk', 0);
   await fadeWho('a2CinchFoot', true, 16);
-  await cinch('Stay sat a bit. Here it comes back in.');
-  await cinch('See the bell from down here? There, on the post by the weed.');
-  await hint('(Ring a tide bell to turn the tide. At high tide the low sand is under water.)');
-  await hint('(At low tide the sand is open, and stars fall in a line.)');
-  await hint('(At low water a shell with nothing moving in it is gone when the shadow passes.)');
+  await cinch('Stay seated for a moment. Watch how the tide returns.');
+  await cinch('Can you spot the bell from down here? It\'s over there, on the post near the seaweed.');
+  await hint('(Ring the tide bell to turn the tide. At high tide, the low sand is submerged.)');
+  await hint('(At low tide the sand is exposed, and stars fall in a line.)');
+  await hint('(At low water, a shell with nothing moving in it is gone when the shadow passes.)');
   setFlag('lowTold');
   setFlag('highTold');
-  await cinch('Me, I\'m off to sit at whatever fire they\'ve got. West, along the weed.');
+  await cinch('As for me, I\'m heading to sit by whatever fire they have. Head west, following the seaweed.');
   // Cinch walks off west along the wrack line, slowly, sitting down twice on the way.
   await walkTo('a2CinchFoot', 7, 21);
   await act('a2CinchFoot', 'bow');
@@ -378,7 +379,7 @@ defScript('a2FirstLow', async () => {
   setFlag('tide', 0);
   scriptedHigh();
   setFlag('owLowDone');
-  goal('Go west along the Wrack to the Sand Dollar.');
+  goal('Travel west along the Wrack to reach the Sand Dollar.');
 });
 
 // The Return: Ouro walks back to the foot of the Volute at night and puts a hand on it.
@@ -397,7 +398,7 @@ defScript('a2Ch1Return', async () => {
   // A star falls out at sea and goes out on the water, then another beside it, and more in a line.
   for (const x of [8, 13, 18, 23]) { strandFx.landings.push({ x, y: 25, t: 0 }); await wait(30); }
   await wait(40);
-  await hint('(The Margin hole stays open. Go back inside any time through the Outer Whorl.)');
+  await hint('(The Margin hole remains open. You can return at any time via the Outer Whorl.)');
   goal('Cinch is at the fire in the Sand Dollar.');
 });
 
@@ -472,9 +473,9 @@ defMap({
     person('a2WrackSign', 45, 3, 'sign', undefined as unknown as string),
     person('a2BottleGirl', 33, 3, 'bottlegirl', 'Bottle girl', 0),
     person('a2Raker', 41, 6, 'beach2', 'Weed-raker', 0, { wander: true }),
-    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { nacre: 1, name: 'Shell-sitter', team: [['skitter', 3], ['fucus', 4]], intro: 'Different shell every low, that\'s my rule. Yesterday was a whelk. Drafty.', defeat: 'Fine. This shell\'s taken. Plenty more on the beach.', sight: 3 } }),
-    person('a2GrainPicker', 23, 7, 'beach1', 'Grain-picker', 3, { trainer: { name: 'Grain-picker', team: [['mote', 4], ['kipper', 4]], intro: 'Grains go to the Sifter. You\'re going in the sand.', defeat: 'Ugh. The Sifter\'s gonna hear about this. And weigh it.', sight: 3 } }),
-    person('a2Driftwood', 9, 8, 'beach3', 'Driftwood boy', 0, { trainer: { name: 'Driftwood boy', team: [['flotsam', 4], ['seaglass', 4]], intro: 'Everything floats in. Some of it floats back out. I wanna see where it goes.', defeat: 'I\'m floating back. Don\'t follow, you\'d sink.', sight: 3 } }),
+    person('a2ShellSitter', 43, 3, 'beach3', 'Shell-sitter', 2, { trainer: { nacre: 1, name: 'Shell-sitter', team: [['skitter', 3], ['fucus', 4]], intro: 'I switch shells every low tide, that\'s my rule. Yesterday I was in a whelk. Terribly drafty.', defeat: 'Fine. This one\'s taken. There are plenty more on the beach.', sight: 3 } }),
+    person('a2GrainPicker', 23, 7, 'beach1', 'Grain-picker', 3, { trainer: { name: 'Grain-picker', team: [['mote', 4], ['kipper', 4]], intro: 'Grains go to the Sifter. You\'re going into the sand.', defeat: 'Ugh. The Sifter will hear about this. And judge it.', sight: 3 } }),
+    person('a2Driftwood', 9, 8, 'beach3', 'Driftwood boy', 0, { trainer: { name: 'Driftwood boy', team: [['flotsam', 4], ['seaglass', 4]], intro: 'Everything floats in. Some of it floats back out. I want to see where it goes.', defeat: 'I\'m drifting back. Don\'t come after me, or you\'ll drown.', sight: 3 } }),
   ],
   spots: [
     // Climbing over the pool shell comes before the shell's own use, from either bank.
@@ -486,9 +487,9 @@ defMap({
     { x: 38, y: 5, script: 'a2Hollows' },
     { x: 44, y: 8, when: () => !flag('sifterTake'), script: async () => {} },
     { x: 44, y: 8, when: () => !!flag('sifterHome'), script: 'a2SifterHouse' },
-    stash('wr_knot', 30, 1, 'In a knot of black weed, dry inside, a notion.', { notion: 'longshin' }),
-    stash('wr_oyster', 15, 3, 'An oyster in the pool, as big as a plate. Ouro pries it open. Nacre.', { tan: 2 }),
-    stash('wr_log', 4, 4, 'A hollow log. Down inside it, a triton horn.', { pegs: ['bone', 1] }),
+    stash('wr_knot', 30, 1, 'Tucked in a tangle of black weed, dry within, a notion.', { notion: 'longshin' }),
+    stash('wr_oyster', 15, 3, 'A plate-sized oyster sits in the pool. Ouro cracks it open, revealing the nacre.', { tan: 2 }),
+    stash('wr_log', 4, 4, 'A hollow log holds a triton horn within.', { pegs: ['bone', 1] }),
     { x: 31, y: 9, when: () => !!flag('drill1'), script: 'a2DrillWrack' },
   ],
 });
@@ -503,7 +504,7 @@ defScript('a2WrackEnter', async () => {
   }
 });
 
-defScript('a2WrackSign', async () => { await say('Sign', 'The Sand Dollar, west. At low water, get in something. Under it, scratched: and WIGGLE'); });
+defScript('a2WrackSign', async () => { await say('Sign', 'The Sand Dollar is to the west. At low water, get in something. Underneath, scratched: and WIGGLE'); });
 
 defScript('a2LabelPost', async () => {
   await say('Label', 'KEEP THE SEA.');
@@ -513,8 +514,8 @@ defScript('a2WhelkFamily', async () => {
   if (highTide()) { await emote('ouro', 'silence'); return; }
   // Three people sit inside the whelk, rocking it from side to side.
   sound('step'); field.shakeT = 4;
-  await say('Woman in a whelk', 'Low water, so we\'re in. Hi. Can\'t stop.');
-  await say('Man in a whelk', 'Keep rocking, Mim. Good. Big rocks. That\'s it.');
+  await say('Woman in a whelk', 'The tide is low, so we\'re inside. Hi! No stopping now.');
+  await say('Man in a whelk', 'Keep going, Mim. That\'s the spirit. Big rocks. Perfect.');
   await say('Child in a whelk', 'I\'m ROCKING, Dad.');
 });
 
@@ -542,7 +543,7 @@ defScript('a2PoolShell', async () => {
     return;
   }
   if (c === 'Leave a whorl in it') {
-    const i = await listMenu('Leave which whorl?', G.party.map(monLine), { w: 140 });
+    const i = await listMenu('Which whorl do you want to leave?', G.party.map(monLine), { w: 140 });
     if (i < 0) return;
     const [m] = G.party.splice(i, 1);
     G.shellMons[k] = m;
@@ -555,43 +556,44 @@ defScript('a2PoolShell', async () => {
     delete G.shellMons[k];
     if (G.party.length < 4) G.party.push(sitting); else G.rack.push(sitting);
     sfx('switch');
-    await notice(G.party.includes(sitting) ? `${sitting.name} comes back to your team.` : `${sitting.name} goes to the Midden.`);
+    await notice(G.party.includes(sitting) ? `${sitting.name} returns to your team.` : `${sitting.name} heads to the Midden.`);
     save();
   }
 });
 
 // The bottle girl addresses every line to someone who is not there.
 defScript('a2BottleGirl', async () => {
-  if (flag('bottlesDone')) { await say('Bottle girl', 'Dear inside. Low water, I\'m in the log. Logs used to be trees. Dear trees, what\'s it like up?'); return; }
+  if (flag('bottlesDone')) { await say('Bottle girl', 'Dear inside. Low water, I\'m in the log. Logs used to be trees. Dear trees, what\'s it like up there?'); return; }
   await act('a2BottleGirl', 'nod');
   await say('Label', 'KEEP THE STARS.');
-  await say('Bottle girl', 'Dear inside. Another one washed up today, under a crab. The crab says hello.');
-  await say('Bottle girl', 'Dear whoever reads these. I find them all along the wrack. Sorry about the sand in them.');
-  await say('Bottle girl', 'Dear sea. Take this one in under the big shell. Shell, bell, well. Dear well, are you down there?');
+  await say('Bottle girl', 'Dear inside. Another one washed ashore today, hidden beneath a crab. The crab says hello.');
+  await say('Bottle girl', 'Dear whoever finds these. I discover them all along the wrack line. Apologies for the sand inside.');
+  await say('Bottle girl', 'Dear sea. Please take this one under the large shell. Shell, bell, well.');
+  await say('Bottle girl', 'Dear well, are you down there?');
   // She corks the bottle and throws it into the shallows, where it turns and goes out.
   sound('ok');
   await act('a2BottleGirl', 'hop');
   await prop('thrown', 'bottle', 33, 6, 10);
   await wait(30);
   await unprop('thrown', 40);
-  const opts = flag('shoreBottle') ? ['One got through.', 'Who writes them?'] : ['Who writes them?'];
+  const opts = flag('shoreBottle') ? ['One got through.', 'Who is writing them?'] : ['Who is writing them?'];
   const c = opts[await choose(opts)];
   setFlag('bottlesDone');
   if (c === 'One got through.') {
-    await say('Bottle girl', 'Dear inside. Somebody read one!! Somebody actually read one of them!!');
-    await say('Bottle girl', 'Dear Mum. The good stone isn\'t under my bed anymore. I gave it to someone. Don\'t look.');
+    await say('Bottle girl', 'Dear whoever is inside. Somebody read one!! Somebody actually read one of them!!');
+    await say('Bottle girl', 'Dear Mum. The good stone isn\'t under my bed anymore. I gave it away. Don\'t look for it.');
     await act('a2BottleGirl', 'bow');
     await reward({ notion: 'seapebble' });
     return;
   }
-  await say('Bottle girl', 'Dear whoever writes them. It\'s nobody here. We checked. Your letters are very big.');
-  await say('Bottle girl', 'Dear sea. Have them back. You keep bringing them. Bringing\'s for parties. Dear party, I can\'t come.');
+  await say('Bottle girl', 'Dear whoever writes these. It\'s nobody here. We checked. Your letters are so huge.');
+  await say('Bottle girl', 'Dear sea. Take them back. You keep sending them. Sending is for parties. Dear party, I can\'t come.');
 });
 
 defScript('a2Raker', async () => {
-  if (low()) { await say('Weed-raker', 'Low water. I\'m in my barrow, rocking it. Don\'t watch me.'); return; }
-  await say('Weed-raker', 'I rake the weed into nice lines. The sea puts it in lines anyway. Worse lines.');
-  await say('Weed-raker', 'See the glints in the weed? Grains. You can see them at night. Leave them be.');
+  if (low()) { await say('Weed-raker', 'The water\'s low. I\'m in my barrow, rocking it. Don\'t watch me.'); return; }
+  await say('Weed-raker', 'I rake the weed into neat lines. The sea does it anyway, just worse lines.');
+  await say('Weed-raker', 'See the glints in the weed? Grains. You can spot them at night. Leave them alone.');
 });
 
 // The Shoreline bottle in Act 1 says nothing about who read it. Reading it now leaves a mark for the bottle girl.
@@ -611,8 +613,8 @@ tideWatch.push(wentLow => {
 });
 
 defScript('a2SifterHouse', async () => {
-  if (low()) { field.shakeT = 4; sound('step'); await say('The Sifter', 'One house. Two lows a day. And a grand, unbroken total of zero grains lost!!'); return; }
-  await say('The Sifter', 'One whelk, one fire, one sieve. A sack of sand, a pinch of tea, a thrimble of quiet.');
+  if (low()) { field.shakeT = 4; sound('step'); await say('The Sifter', 'One house. Two lows a day. And a grand, unbroken total of zero grains lost!'); return; }
+  await say('The Sifter', 'One whelk, one fire, one sieve. A sack of sand, a pinch of tea, a thimble of quiet.');
 });
 
 // ---------------------------------------------------------------- the Sand Dollar
@@ -684,10 +686,10 @@ defMap({
   spots: [
     { x: 18, y: 17, script: 'a2Doves' }, { x: 20, y: 17, script: 'a2Doves' }, { x: 18, y: 19, script: 'a2Doves' }, { x: 20, y: 19, script: 'a2Doves' },
     { x: 21, y: 15, script: 'a2PostShell' }, { x: 22, y: 15, script: 'a2PostShell' }, { x: 21, y: 14, script: 'a2PostShell' }, { x: 22, y: 14, script: 'a2PostShell' },
-    look(9, 20, 'Children have scratched their heights into the wall of the test, with names.', 'The lowest mark is older than the rest, and very small.'),
-    look(27, 18, 'A sack of cowries, tied at the neck. A shell tag on the string says STRANDMONGER.'),
-    ...SD_FIRE.map(([x, y]) => look(x, y, 'A fire of driftwood on a ring of stones. It smells of salt.')),
-    stash('sd_steps', 18, 10, 'Under the steps cut in the test, in a dry hollow, a whelk horn and some cowries.', { pegs: ['brass', 1], rind: 150 }),
+    look(9, 20, 'Children have scratched their heights into the test wall, along with their names.', 'The lowest mark is older than the rest and very small.'),
+    look(27, 18, 'A sack of cowries, tied at the neck. A shell tag on the string reads STRANDMONGER.'),
+    ...SD_FIRE.map(([x, y]) => look(x, y, 'A driftwood fire in a ring of stones. It smells of salt.')),
+    stash('sd_steps', 18, 10, 'Under the steps cut into the test, in a dry hollow, a whelk horn and some cowries.', { pegs: ['brass', 1], rind: 150 }),
     { x: 6, y: 30, script: 'a2SifterWhelkBar' },
   ],
 });
@@ -703,7 +705,7 @@ defScript('a2SandDollarEnter', async () => {
   await pan(19, 18);
   await wait(50);
   await panBack();
-  goal('The Strandmonger keeps a counter in the east petal.');
+  goal('The Strandmonger maintains a shop counter in the east petal.');
 });
 
 defScript('a2Doves', async () => {
@@ -711,53 +713,58 @@ defScript('a2Doves', async () => {
 });
 
 // Townsfolk say strange things flat. At low water they shuffle in place indoors.
-tideTalk('a2SdBasin', 'Woman with a basin', ['Five doves in the middle of town. Don\'t go breaking the dollar to get at them. People have tried.'], ['Low water! Shaking my sieve. Sand\'s going in your shoes, sorry.']);
-tideTalk('a2SdOldMan', 'Old man', ['We came off the old shell five grandmothers back. Walked the whole way. Feet still hurt.'], ['Low water. Chair, then kick. Kick, kick. Seventy years I\'ve done this.']);
-tideTalk('a2SdBoy', 'Boy', ['My house is a whelk! I sweep it every low so it knows I\'m in. It knows.'], ['Low water. Sweep sweep sweep. Can\'t talk.']);
-tideTalk('a2SdWoman', 'Woman', ['Your trader buys our cowries by the sack. We just sweep \'em off the wrack. Easiest money there is.'], ['Low water. The Gleaner\'s out on the flats. Hear that? That\'s it.']);
-tideTalk('a2SdFireMan', 'Man by the fire', ['Stars come down every low. You get used to the noise. Kinda.'], ['Low water. I\'m turning the fish. Don\'t tell me if it\'s burning.']);
-tideTalk('a2SdGirl', 'Girl', ['Don\'t sit still in an empty one at low water. Duh. Babies know that.'], ['Low water. I\'m hopping. Hopping\'s the best one.']);
+tideTalk('a2SdBasin', 'Woman with a basin', ['There are five doves in the middle of town. Don\'t go breaking the sand dollar to get at them.', 'People have tried.'], ['Tide\'s out! I\'m shaking out my sieve. Apologies if sand gets in your shoes.']);
+tideTalk('a2SdOldMan', 'Old man', ['We came off the old shell five grandmothers back. We walked the entire distance.', 'My feet still ache from it.'], ['Tide\'s out. Sit, then kick. Kick, kick. I\'ve been doing this for seventy years.']);
+tideTalk('a2SdBoy', 'Boy', ['My home is a whelk shell! I sweep it clean at every low tide so it knows I live there. It knows.'], ['Tide\'s out. Sweeping, sweeping, sweeping. Can\'t chat right now.']);
+tideTalk('a2SdWoman', 'Woman', ['Your trader buys our cowrie shells by the sack. We simply sweep them off the seaweed.', 'It\'s the easiest money you\'ll ever make.'], ['Tide\'s out. The Gleaner is out on the flats. Hear that sound? That\'s what it is.']);
+tideTalk('a2SdFireMan', 'Man by the fire', ['The stars descend with every low tide. You eventually get used to the noise. Well, somewhat.'], ['Tide\'s out. I\'m flipping the fish. Don\'t tell me if it\'s burning.']);
+tideTalk('a2SdGirl', 'Girl', ['Don\'t sit still in a hollow shell during low water. Obviously. Even the babies know that.'], ['Tide\'s out. I\'m hopping. Hopping is the best one.']);
 
 // The Strandmonger prices everything.
 async function joinSmallGran(): Promise<void> {
   setFlag('smallGranOut');
   if (!(await giveStrandMon('smallgranw', 5))) { setFlag('smallGranOwed'); return; }
-  await hint('(She says her lines in order. In battle each line is a move, and she can only use the next one.)');
+  await hint('(She recites her lines sequentially.');
+  await hint('Each line functions as a combat move, and she must progress through them in order.)');
 }
 
 defScript('a2Strandmonger', async () => {
   if (!flag('smMet')) {
     setFlag('smMet');
-    await say('Strandmonger', 'Well, there you are. Look at that face. Surprised. I\'d give two cowries for it, tops.');
-    await say('Strandmonger', 'Twice a year I walk out here for cowries. Cheap off the wrack. Sand cheap.');
-    await say('Strandmonger', 'Plus forty cowries a sack out here. Fifty a sack inside. Keep it from your gran, she\'ll want a cut.');
-    await say('Strandmonger', 'Speaking of your gran. She sent a parcel. Paid six cowries postage up front. Never happens.');
+    await say('Strandmonger', 'There you are. What a look on your face. Pure surprise. I\'d pay two cowries just to see it again.');
+    await say('Strandmonger', 'I make this trek twice a year for cowries. They\'re cheap off the wrack. Sand cheap.');
+    await say('Strandmonger', 'Forty cowries a sack out here. Fifty if you take it inside.');
+    await say('Strandmonger', 'Don\'t tell your gran, or she\'ll demand her cut.');
+    await say('Strandmonger', 'Speaking of your gran. She sent a parcel. Paid six cowries for postage in advance.');
+    await say('Strandmonger', 'That\'s never happened before.');
     // The bundle on his back turns round, and Small Gran is sitting in it, facing the other way.
     face('a2Strandmonger', 1);
     await wait(30);
     await emote('ouro', 'surprise');
     await smallGranLine();
-    await say('Strandmonger', 'Your gran said, "Tell my little turnip to take her." She said it to that one, mind. Not to me.');
-    await say('Strandmonger', 'Which I carried the message for free. The carrying of her, I charged for. By the pound.');
+    await say('Strandmonger', 'Your gran said, "Tell my little turnip to take her." She said it to *them*, mind. Not to me.');
+    await say('Strandmonger', 'I delivered the message for free. The carrying of *her*, however, I charged for. By the pound.');
     // Small Gran climbs down and joins Ouro's four.
     face('a2Strandmonger', 3);
     sound('switch');
     await joinSmallGran();
-    await say('Strandmonger', 'I\'m here a while. Register pages are a cowrie each out here. Robbery. I\'m the robber.');
+    await say('Strandmonger', 'I\'m staying a while. Register pages cost a cowrie each out here. It\'s a rip-off.');
+    await say('Strandmonger', 'And I\'m the one doing the ripping.');
     if (!release()) {
-      await say('Strandmonger', 'And a letter, from your friend at the post. One cowrie postage due. I paid. Now you\'re due.');
-      await say('Letter', 'Day 1. Turned 1 time. Heavy. You owe 1 chair. Tack.');
+      await say('Strandmonger', 'And there\'s a letter, from your friend at the post. One cowrie in postage due. I covered it.');
+      await say('Strandmonger', 'Now it\'s your turn.');
+      await say('Letter', 'Day 1. Rotated 1 time. Heavy. You owe 1 chair. Tack.');
       setFlag('letter1');
     }
-    await say('Strandmonger', 'Grains, now. The Sifter keeps those. A grain\'s worth more than a pearl on this beach.');
-    await say('Strandmonger', 'Not to me. I\'d give you two cowries for one. Two and a button.');
-    goal('The Sifter is in the middle of the town, among the doves.');
+    await say('Strandmonger', 'Grains, now. The Sifter keeps those. On this beach, a single grain is worth more than a pearl.');
+    await say('Strandmonger', 'Not to me. I\'d give you two cowries for one. Plus a button.');
+    goal('The Sifter stands in the town center, surrounded by doves.');
     return;
   }
   if (flag('grayRoad') && !flag('grayRoadPaid')) { await grayRoadReward(); return; }
   if (await strandmongerDrill()) return;
-  await say('Strandmonger', 'Strand kinds, a cowrie a page. Your gran\'s slate. It reaches this far, I checked.');
-  await say('Strandmonger', 'Remember? The walk out here is free. The road costs shoes. Told you that for nothing.');
+  await say('Strandmonger', 'Strand species: one cowrie per page. Your grandmother\'s slate. I verified it extends this far.');
+  await say('Strandmonger', 'Remember? The walk out here is free. The road costs shoes. I told you that for nothing.');
 });
 
 /** Chapter 2's side missions talk through the Strandmonger. Chapter 2 fills these in. */
@@ -766,9 +773,10 @@ const strandmongerDrill = () => strandmongerHooks.drill();
 
 async function grayRoadReward(): Promise<void> {
   setFlag('grayRoadPaid');
-  await say('Strandmonger', 'You found my road! Toll\'s a cowrie each way. I set it just now.');
+  await say('Strandmonger', 'You found my path. The toll is one cowrie per trip. I just put it up.');
   await say('Strandmonger', 'Which I\'ll waive, once. Worth more to you than a cowrie and less to me. We both win. Me more.');
-  await say('Strandmonger', 'Don\'t tell your gran. She\'d use it and never pay. She did that with a bridge once.');
+  await say('Strandmonger', 'Keep it quiet from your grandmother. She\'d exploit it and never pay.');
+  await say('Strandmonger', 'She pulled that same trick on a bridge once.');
   await reward({ tan: 2, notion: 'saltboots' });
 }
 
@@ -777,14 +785,15 @@ defScript('a2PostShell', async () => {
   if (!release() && grains() >= 1 && !flag('letter2')) {
     setFlag('letter2');
     G.rind = Math.max(0, G.rind - 1);
-    await say('Strandmonger', 'And another. Letter, one cowrie postage. Your friend writes tiny. Cheapskate. Respect.');
+    await say('Strandmonger', 'And one more. A letter, one cowrie for postage. Your friend has tiny handwriting. A miser.');
+    await say('Strandmonger', 'I respect that.');
     await say('Letter', 'Day 9. 9 turns. Lug says close in here. Fid says post 19 spans round. Knew already. Tack.');
     return;
   }
   if (!release() && grains() >= 2 && !flag('letter3')) {
     setFlag('letter3');
     G.rind = Math.max(0, G.rind - 1);
-    await say('Strandmonger', 'Letter. A cowrie. He\'s numbering the pages now. Costs me nothing and I hate that.');
+    await say('Strandmonger', 'Letter. A cowrie. He\'s started numbering the pages now. It costs me nothing, and that annoys me.');
     await say('Letter', 'Day 17. 17 turns. Hasp asked about hands 3 times. Purchase charged for 1 chair. Tack.');
     return;
   }
@@ -794,32 +803,36 @@ defScript('a2PostShell', async () => {
 defScript('a2Shellwright', async () => {
   if (!flag('sdWright')) {
     setFlag('sdWright');
-    await say('Shellwright', 'Yeah? Shop\'s here in the petal. Midden\'s under the floor. Stays dry, mostly.');
-    await say('Shellwright', 'Conjoiner\'s out back. Your Volute ones join with ours fine. It takes. Anything else?');
+    await say('Shellwright', 'Yeah? The shop is right here in the petal. Midden is down under the floor. It stays dry, mostly.');
+    await say('Shellwright', 'The Conjoiner is in the back. Your Volute shells join with ours just fine. It holds. Anything else?');
   }
   setFlag('fitter_sanddollar');
   await tannery('sanddollar', STOCK_6);
 });
 
 defScript('a2CinchFire', async () => {
-  if (grains() >= 2) { await cinch('Hollows go somewhere. Sit up high enough and you\'d see. Nothing\'s higher than that long one.'); return; }
-  if (grains() >= 1) { await cinch('Sat on the bar a while today. Hollows go down past that spotted one. Close past it.'); return; }
-  await cinch('Pull up a stone. They let anyone sit here. Told them I\'m staying. They said fine.');
-  await cinch('Good seat, this. You can see all five doors from it. Everybody goes in at low.');
+  if (grains() >= 2) { await cinch('The hollows lead somewhere. If you sat high enough, you\'d see.');
+  await cinch('Nothing stands higher than that long one.'); return; }
+  if (grains() >= 1) { await cinch('I sat on the bar for a while today. The hollows pass down by that spotted one.');
+  await cinch('They go pretty close to it.'); return; }
+  await cinch('Pull up a stone. They let anyone sit here. I told them I\'m staying put. They said okay.');
+  await cinch('This is a good spot. You can see all five doors from here.');
+  await cinch('Everyone heads inside when the tide goes out.');
 });
 
 // The Eldest says "yesterday" or "this morning" in every line. Chapter 3 gives her more to say.
 export const eldestHooks: { later: () => Promise<boolean> } = { later: async () => false };
 defScript('a2Eldest', async () => {
   if (await eldestHooks.later()) return;
-  await say('Eldest', '(yesterday the tide comes in over my feet, same as this morning it will)');
-  await say('Eldest', 'This morning I\'ll be a girl. Yesterday I\'m a girl with a sieve. Which one are you asking?');
+  await say('Eldest', '(yesterday the tide washed over my toes. This morning, it will do the same.)');
+  await say('Eldest', 'This morning, I\'m a girl. Yesterday, I was a girl holding a sieve.');
+  await say('Eldest', 'Which version are you asking about?');
 });
 
 defScript('a2WetDealer', async () => {
   await strandBoard({
     id: 'a2peg1', name: 'Wet-dealer', deck: ['skitter', 'fucus', 'kipper', 'actinia', 'mote'], tier: 4, prize: 'salttear',
-    lines: ['I deal on the bar. Cards get wet. I deal \'em wet. You\'ll play \'em wet.'],
+    lines: ['I deal from the bar. The cards get damp. I deal them damp. You play them damp.'],
   });
 });
 
@@ -837,15 +850,17 @@ const tackBest = () => TACK_BEST[Math.min(TACK_BEST.length - 1, grains())];
 defScript('a2SifterTop', async () => {
   if (!flag('topTold')) {
     setFlag('topTold');
-    await say('The Sifter', 'Three cowries per star caught. One shell apiece. A cracked shell is a shell subtracted.');
-    await say('The Sifter', 'Thirty stars in a night earns a notion. Sixty earns a thing of wholly unseen kind!!');
-    await hint('(Starfall: hold a shell under the falling stars. Gold stars are worth 3. Dark ones crack the shell.)');
+    await say('The Sifter', 'Three cowries for every star caught. One shell each. A cracked shell means you lose that shell.');
+    await say('The Sifter', 'Catch thirty stars in a night, and you earn a notion.');
+    await say('The Sifter', 'Catch sixty, and you earn something truly unprecedented!!');
+    await hint('(Starfall: Hold a shell up to the falling stars. Gold stars are worth 3.');
+    await hint('Dark stars crack the shell.)');
   }
-  if (await choose(['Catch stars', 'Not now'], true) !== 0) return;
+  if (await choose(['Catch the stars.', 'Not now.'], true) !== 0) return;
   const score = await starfall({ bestKey: 'starfallTop' });
   field.playMapMusic();
-  await say('The Sifter', `${score} stars, duly tallied. ${score * 3} cowries, duly paid.`);
-  if (score >= 30 && !flag('topNotion')) { setFlag('topNotion'); await say('The Sifter', 'Thirty and upward!! One notion, presented in full.'); await reward({ notion: 'warmstone' }); }
+  await say('The Sifter', `${score} stars, properly counted. ${score * 3} cowries, properly paid.`);
+  if (score >= 30 && !flag('topNotion')) { setFlag('topNotion'); await say('The Sifter', 'Thirty or more!! A full notion, presented to you.'); await reward({ notion: 'warmstone' }); }
   if (score >= 60 && !flag('topPallasite')) {
     setFlag('topPallasite');
     sound('heal');
@@ -854,7 +869,7 @@ defScript('a2SifterTop', async () => {
   }
   if (release() && score > tackBest() && flag('tackBeat') < grains() + 1) {
     setFlag('tackBeat', grains() + 1);
-    await say('Tack', `${score}. Beats my ${tackBest()}. Okay. You're counted.`);
+    await say('Tack', `${score}. Beats my ${tackBest()}. Alright. You're in.`);
   }
 });
 
@@ -866,12 +881,12 @@ defScript('a2TackTop', async () => {
     await act('a2TackTop', 'nod');
     faceToward('a2TackTop', 'ouro');
     await say('Tack', '39. 40. 41. Hey. 41 stars tonight, and 0 of them hit me.');
-    await say('Tack', 'Came through your hole. 1 hole. Thanks for that.');
-    await say('Tack', 'Back there it\'s all soft. 0 things to hold. So, stars.');
-    await say('Tack', 'My best is 41 in a shell. Beat it and you get counted.');
+    await say('Tack', 'I came right through your 1 hole. Thanks for that.');
+    await say('Tack', 'It\'s all soft back there. 0 things to hold. So, stars.');
+    await say('Tack', 'My best is 41 in a shell. Beat that, and you\'re counted.');
     return;
   }
-  await say('Tack', `${tackBest()} in a shell, my best. You've got ${G.flags.starfallTop || 0}. Just saying.`);
+  await say('Tack', `${tackBest()} in a shell is my best. You've got ${G.flags.starfallTop || 0}. Just saying.`);
 });
 
 // ---------------------------------------------------------------- the Doves: the sandpile
@@ -919,8 +934,8 @@ defMap({
   npcs: [person('a2Sifter', 4, 1, 'sifter', 'The Sifter', 0, { when: () => grains() < 1 })],
   spots: [
     ...Array.from({ length: 25 }, (_, i) => ({ x: GX + (i % 5), y: GY + Math.floor(i / 5), script: () => pourScript(Math.floor(i / 5), i % 5) })),
-    look(1, 4, 'A white dove made of shell, as tall as Ouro. Sand has drifted against its feet.'),
-    look(7, 4, 'A white dove made of shell. It faces in, like the others.'),
+    look(1, 4, 'A dove carved from shell, standing as tall as Ouro. Sand has drifted up to its feet.'),
+    look(7, 4, 'A dove of shell. It faces inward, like the rest.'),
   ],
 });
 
@@ -949,12 +964,13 @@ defScript('a2DovesEnter', async () => {
   if (flag('dovesSeen') || grains() >= 1) return;
   setFlag('dovesSeen');
   await act('a2Sifter', 'shiver');
-  await say('The Sifter', 'Two sacks of sand a day go through this. In each, a pinch of star, a fleck of shell, a glimmock.');
-  await say('The Sifter', 'Three grains of star in that last handful, and one of you. Highly irregular.');
-  await say('The Sifter', 'One fight, one grain. That is my tariff. Out here one grain is an immensity.');
-  await say('The Sifter', 'The floor is twelve measures short of a path. Here is a sack holding precisely twelve.');
-  await hint('(Pour sand to make a path. A cell with four measures spills one measure into each cell beside it.)');
-  await hint('(You can stand only on cells with two or three measures.)');
+  await say('The Sifter', 'Two sacks of sand pass through here each day.');
+  await say('The Sifter', 'In each, a pinch of star, a fleck of shell, a glimmock.');
+  await say('The Sifter', 'Three grains of star in that final handful, and one of you. Highly irregular.');
+  await say('The Sifter', 'One fight, one grain. That is my fee. Out here, one grain is an immensity.');
+  await say('The Sifter', 'The floor lacks twelve measures to complete a path. Here is a sack holding precisely twelve.');
+  await hint('(Pour sand to create a path. A cell with four measures spills one measure into each adjacent cell.)');
+  await hint('(You may stand only on cells with two or three measures.)');
 });
 
 async function sink(): Promise<void> {
@@ -970,11 +986,11 @@ async function pourScript(r: number, c: number): Promise<void> {
   if (grains() >= 1) { await emote('ouro', 'silence'); return; }
   if (sack <= 0) {
     if (!refilled) {
-      if (await choose(['Refill it', 'Not yet'], true, 'The Sifter: Twelve more measures. This sackful costs nothing.') !== 0) return;
+      if (await choose(['Refill it.', 'Not yet.'], true, 'The Sifter: Twelve more measures needed. This sack is free.') !== 0) return;
       refilled = true; sack = 12;
     } else {
-      if (await choose(['Pay 12 cowries', 'Not yet'], true, 'The Sifter: A cowrie a measure. Twelve for the sack.') !== 0) return;
-      if (G.rind < 12) { await say('The Sifter', 'Twelve cowries, and you are short of them. I extend not one grain of credit.'); return; }
+      if (await choose(['Pay 12 cowries', 'Not yet'], true, 'The Sifter: A cowrie per measure. Twelve for the sack.') !== 0) return;
+      if (G.rind < 12) { await say('The Sifter', 'Twelve cowries, and you are short. I extend not a grain of credit.'); return; }
       G.rind -= 12; sack = 12;
     }
     sfx('ok');
@@ -999,17 +1015,18 @@ field.stepHooks.push(f => {
 export const SIFTER_TEAM: [string, number][] = [['kipper', 6], ['mote', 6], ['halite', 6], ['columba', 7]];
 defScript('a2Sifter', async () => {
   const here = cellAt(field.x, field.y);
-  if (!here || here[0] !== 0) { await say('The Sifter', 'Twelve measures. One path. And of help from me: not a pinch, not a dram, not a smidgelet.'); return; }
+  if (!here || here[0] !== 0) { await say('The Sifter', 'Twelve measures. One way. And from me? Not a pinch, not a drop, not a speck.'); return; }
   const used = 12 - sack + (refilled ? 12 : 0);
-  await say('The Sifter', `${used === 10 ? 'Ten' : String(used)} measures used. ${sack} left in the sack. Not a single grain spilled!!`);
-  await say('The Sifter', 'Four of mine, one at a time. One grain at the end of it. A fair and measurable contest.');
-  await say('The Sifter', 'Two of my four are salt, and salt beats two kinds. Root, and beast. Measure that.');
-  await say('The Sifter', 'Salt is beaten by two kinds, tide and void. That is all of salt, to the last pinch.');
-  if (!(await keeperFight('The Sifter', SIFTER_TEAM, 'A handful of losses weighs nothing at all. Return with a fuller sack.'))) return;
-  await say('The Sifter', 'Four down. One grain up. A most correct and agreeable exchange.');
+  await say('The Sifter', `${used === 10 ? 'Ten' : String(used)} measures spent. ${sack} left in the sack. Not a single grain lost!`);
+  await say('The Sifter', 'Four of mine, one by one. Ending with one grain. A fair contest, clearly measured.');
+  await say('The Sifter', 'Two of my four whorls are salt, which overcomes both roots and beasts. Keep that in mind.');
+  await say('The Sifter', 'Salt is defeated by two forces: the tide and the void.');
+  await say('The Sifter', 'That accounts for every possible pinch of salt.');
+  if (!(await keeperFight('The Sifter', SIFTER_TEAM, 'A handful of losses weighs nothing. Come back with a fuller sack.'))) return;
+  await say('The Sifter', 'Four down. One up. A most proper and pleasing trade.');
   await giveGrain('The Sifter');
-  await hint('(Star grains raise the cap on Strand levels. With one grain your whorls can reach Strand level 13.)');
-  await say('The Sifter', 'One more sackful, and then home for supper. An ample, well-earned supper.');
+  await hint('(Star grains raise the cap on Strand levels. With one grain, your whorls can reach Strand level 13.)');
+  await say('The Sifter', 'One more sackful, and then home for supper. A hearty, well-deserved meal.');
   await sifterTake();
 });
 
@@ -1029,15 +1046,16 @@ async function sifterTake(): Promise<void> {
   face('a2SifterBar', 3);
   await wait(30);
   await emote('a2SifterBar', 'surprise');
-  await say('The Sifter', 'One house. By my measure, none now.');
-  await say('The Sifter', 'Thirty years in it. Two hours out of it, for one grain. A dreadful exchange.');
-  await say('The Sifter', 'A sack of sieves in it. A pound of tea. A modest smatterling of spoons.');
+  await say('The Sifter', 'Just one house. By my measure, none now.');
+  await say('The Sifter', 'I\'ve lived there for thirty years,');
+  await say('The Sifter', 'yet losing it after two hours for just one grain is a dreadful bargain.');
+  await say('The Sifter', 'There\'s a sack full of sieves, a pound of tea, and a modest handful of spoons.');
   await walkTo('a2SifterBar', 7, 30);
   await act('a2SifterBar', 'shiver');
   // Cinch comes out of the north petal and sits on the bar beside the hollow.
   await walkIn('a2CinchBar', 19, 30, 6, 29);
   await act('a2CinchBar', 'bow');
-  await cinch('Come and sit by me. There\'s room at the fire till you find another one.');
+  await cinch('Come sit with me. There\'s room by the fire until you find another house.');
   await act('a2SifterBar', 'bow');
   await wait(40);
   // They go in to the fire together, and the sea comes back in over the bar.
@@ -1046,23 +1064,23 @@ async function sifterTake(): Promise<void> {
   await morphTo('tide', 6, 34, 0, 1);
   setFlag('tide', 0);
   scriptedHigh();
-  goal('Walk back east along the Wrack to the foot of the Volute.');
+  goal('Head back east along the Wrack to the base of the Volute.');
 }
 
 defScript('a2SifterFire', async () => {
   if (flag('whelkLows') >= 2) {
     setFlag('sifterHome');
     const k = WHELK, m = G.shellMons[k];
-    if (m) { delete G.shellMons[k]; if (G.party.length < 4) G.party.push(m); else G.rack.push(m); await notice(`${m.name} comes back from the whelk.`); }
-    await say('The Sifter', 'Two lows!! One house, restored to a full and proper count of one!!');
-    await say('The Sifter', 'Three grains of nacre, a sack of cowries, a glommet of thanks. Fair measure.');
+    if (m) { delete G.shellMons[k]; if (G.party.length < 4) G.party.push(m); else G.rack.push(m); await notice(`${m.name} is returning from the whelk.`); }
+    await say('The Sifter', 'Two lows! Just one house, finally restored to its proper, full count of one!');
+    await say('The Sifter', 'Three grains of nacre, a sack of cowries, and a heap of thanks. That\'s a fair deal.');
     await reward({ tan: 3, rind: 600, notion: 'sieve' });
     return;
   }
   if (!flag('sifterAsked')) setFlag('sifterAsked');
-  await say('The Sifter', 'One whelk, wide at the door, one span longer than myself. That is the requisite size.');
-  await say('The Sifter', 'It must stay put two lows in a row. Two!! Anything less, I shan\'t trust it.');
-  if (!flag('sifterTold')) { setFlag('sifterTold'); await hint('(A whelk washes up on the farthest weed ring of the Wrack at high tide.)'); }
+  await say('The Sifter', 'One whelk, wide at the door and a span longer than I am. That\'s the size I need.');
+  await say('The Sifter', 'It has to hold steady for two consecutive lows. Two! I won\'t trust it if it\'s less.');
+  if (!flag('sifterTold')) { setFlag('sifterTold'); await hint('(A whelk washes up on the outermost weed ring of the Wrack at high tide.)'); }
 });
 
 // ---------------------------------------------------------------- the Flats: the star rings
@@ -1121,9 +1139,9 @@ defMap({
   npcs: [],
   spots: [
     { x: 17, y: 6, script: 'a2DrillStone' },
-    stash('fl_runnel', 28, 14, 'In the runnel, under an inch of cold water, a nautilus horn.', { pegs: ['iron', 1] }),
-    stash('fl_razor', 35, 6, 'A razor hole, straight down. At the bottom, a notion.', { notion: 'coldiron' }),
-    stash('fl_curl', 9, 7, 'A worm curl of sand, still curling. Inside it, some nacre.', { tan: 2 }),
+    stash('fl_runnel', 28, 14, 'In the shallow runnel, under less than an inch of cold water, lies a nautilus horn.', { pegs: ['iron', 1] }),
+    stash('fl_razor', 35, 6, 'A razor hole, dug straight down. At the bottom, a notion.', { notion: 'coldiron' }),
+    stash('fl_curl', 9, 7, 'A curl of sand, still twisting. Inside, some nacre.', { tan: 2 }),
   ],
 });
 
@@ -1147,7 +1165,7 @@ defScript('a2FlatsEnter', async () => {
   flatsReset();
   if (!flag('flatsSeen') && low()) {
     setFlag('flatsSeen');
-    await hint('(At low water you see only inside the rings of landed stars. Soft sand shows only in a ring.)');
+    await hint('(At low water, you see only inside the rings of landed stars. Soft sand appears only in a ring.)');
   }
 });
 tideWatch.push(() => { if (field.map.id === 'flats') flatsReset(); });

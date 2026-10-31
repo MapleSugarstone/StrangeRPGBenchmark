@@ -310,8 +310,8 @@ export function kindsOf(m: Mon): string[] {
 }
 
 export function canFit(m: Mon): string | null {
-  if (m.person) return 'A person\'s cast conjoins with nothing.';
-  if (m.fitted) return 'That one\'s conjoined already. Once is all a cast takes.';
+  if (m.person) return 'A person\'s cast has nothing to conjoin with.';
+  if (m.fitted) return 'That one is already conjoined. A cast can only handle one.';
   return null;
 }
 
@@ -321,7 +321,7 @@ export function bigCount(moves: string[]): number {
 
 export function makeFit(a: Mon, b: Mon, plan: FitPlan, order: number): Mon {
   const pegs = pegsOf(a) + pegsOf(b);
-  const entry = `Half ${a.name} and half ${b.name}. It ${phraseOf(a)} and ${phraseOf(b)}. ${pegs === 1 ? 'One cowrie' : pegs + ' cowries'}.`;
+  const entry = `It is half ${a.name} and half ${b.name}. It ${phraseOf(a)} and ${phraseOf(b)}. ${pegs === 1 ? 'One cowrie' : pegs + ' cowries'}.`;
   const m: Mon = {
     uid: nextUid(), kind: 'fit', name: plan.name, types: plan.types, basic: plan.basic, moves: plan.moves, passives: plan.passives,
     retune: plan.retune, level: Math.max(a.level, b.level), xp: a.level >= b.level ? a.xp : b.xp, notion: null, sprite: plan.sprite,

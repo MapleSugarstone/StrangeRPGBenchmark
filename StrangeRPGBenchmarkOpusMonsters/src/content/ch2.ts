@@ -60,17 +60,17 @@ defMap({
   ],
   zone: { kinds: [['scree', 3], ['brine', 3], ['bore', 2], ['carrion', 2], ['coma', 1], ['eddy', 2], ['paring', 1]], lv: [4, 6], n: 14, area: 'sand' },
   npcs: [
-    { id: 'salter', x: 16, y: 11, sprite: 'tanner', name: 'Salter', dir: 0, trainer: { name: 'Salter', team: [['brine', 5], ['scree', 5]], intro: 'Sea\'s been gone forty years and I still salt the fish. They\'re already dry. I just like doing it.', defeat: 'Fine. I\'ll go salt a rock.', sight: 3 } },
-    { id: 'wrecker', x: 27, y: 14, sprite: 'villager2', name: 'Wrecker', dir: 2, trainer: { name: 'Wrecker', team: [['bore', 6], ['carrion', 5]], intro: 'I live in a boat on the sand. Love it. Never sunk once.', defeat: 'Gonna go sit in my boat now.', sight: 3 } },
-    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { nacre: 1, name: 'Shell girl', team: [['paring', 5], ['eddy', 6]], intro: 'Every shell out here used to have someone in it. The pink one\'s mine. I called it, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
-    { id: 'fisher', x: 20, y: 28, sprite: 'elder', name: 'Old fisher', lines: ['That gray\'s the sea\'s old shell. Every dusk it comes back and stands there, staring at my house.', 'Never comes in. If I were younger I\'d walk out there and have a word with it.'] },
+    { id: 'salter', x: 16, y: 11, sprite: 'tanner', name: 'Salter', dir: 0, trainer: { name: 'Salter', team: [['brine', 5], ['scree', 5]], intro: 'The sea\'s been gone forty years, yet I still salt the fish. They\'re dry. I just like doing it.', defeat: 'Great. I\'ll go salt a rock, then.', sight: 3 } },
+    { id: 'wrecker', x: 27, y: 14, sprite: 'villager2', name: 'Wrecker', dir: 2, trainer: { name: 'Wrecker', team: [['bore', 6], ['carrion', 5]], intro: 'I live in a boat on the sand. I love it. It\'s never sunk, not once.', defeat: 'I\'m going to go sit in my boat now.', sight: 3 } },
+    { id: 'shellgirl', x: 40, y: 13, sprite: 'child', name: 'Shell girl', dir: 3, trainer: { nacre: 1, name: 'Shell girl', team: [['paring', 5], ['eddy', 6]], intro: 'Every shell out here used to house a person. The pink one is mine. I claimed it first, okay?', defeat: 'Don\'t step on it.', sight: 4 } },
+    { id: 'fisher', x: 20, y: 28, sprite: 'elder', name: 'Old fisher', lines: ['That gray one is the sea\'s old shell. Every dusk, it returns and stands there, staring at my house.', 'It never comes in. If I were younger, I\'d walk out there and speak to it.'] },
     { id: 'tackds', x: 2, y: 12, sprite: 'tack', name: 'Tack', dir: 1, when: () => !flag('tack2') },
     { id: 'dssleeper', x: 48, y: 24, sprite: 'stone', mon: 'scree', name: 'Jarira', sleeper: { kind: 'scree', lv: 11, flag: 'sl_drysea' } },
     standingWild('grayrare', 42, 30, 'fata', 15),
   ],
   spots: [
-    stash('ds_reef', 48, 22, 'Inside the reef ring, where the sleeper lay across the gap, a pepper kelp, still green.', { notions: [['pepperkelp', 1]] }),
-    stash('ds_gray', 41, 31, 'In the bay\'s last pool, inside the gray, a gray lump that smells of the sea.', { items: [['ambergris', 1]] }),
+    stash('ds_reef', 48, 22, 'Inside the reef ring, where the sleeper spanned the gap, grew a pepper kelp, still green.', { notions: [['pepperkelp', 1]] }),
+    stash('ds_gray', 41, 31, 'In the bay\'s final pool, within the gray haze, lay a gray lump that smelled of the sea.', { items: [['ambergris', 1]] }),
     { x: CHART_HOLLOW[0], y: CHART_HOLLOW[1], when: () => G.keys.includes('chart') && !flag('doorDug'), script: 'digDoor' },
   ],
   triggers: [{ x: 6, y: 11, w: 2, h: 3, script: 'tack2', when: () => !flag('tack2') }],
@@ -134,18 +134,18 @@ defMap({
   tileTalk: { B: 'mastStay', O: 'mastHole', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 13, y: 10, sprite: 'tanner', name: 'Shellwright', talk: 'mastTannery' },
-    { id: 'm1', x: 6, y: 10, sprite: 'stilts', name: 'Man on stilts', lines: ['We built the whole town up for the tide. The tide\'s out forty years. Any day now.'] },
-    { id: 'm2', x: 30, y: 10, sprite: 'villager', name: 'Woman', lines: () => fell() ? ['Leeward said wind from the west. Nothing about the Mast falling over. Not one word.'] : ['Leeward says wind from the west, so. Wind from the west.'] },
-    { id: 'm3', x: 24, y: 21, sprite: 'child', name: 'Child', wander: true, lines: () => flag('mastDusk') ? ['It came a bit nearer :-( I\'m still gonna wave though.'] : ['The sea comes every night and I wave and it doesn\'t wave back yet!'] },
+    { id: 'm1', x: 6, y: 10, sprite: 'stilts', name: 'Man on stilts', lines: ['We raised the entire town to keep the tide at bay. The water hasn\'t been in for forty years.', 'It\'s only a matter of time.'] },
+    { id: 'm2', x: 30, y: 10, sprite: 'villager', name: 'Woman', lines: () => fell() ? ['Leeward meant west wind. Not the Mast toppling. Not a word.'] : ['Leeward called for a west wind. So, there it is. A west wind.'] },
+    { id: 'm3', x: 24, y: 21, sprite: 'child', name: 'Child', wander: true, lines: () => flag('mastDusk') ? ['It\'s drawn a little closer :-( I\'m waving anyway.'] : ['The ocean rolls in every night. I wave, but it hasn\'t waved back yet!'] },
     { id: 'bare', x: 22, y: 12, sprite: 'bare', name: 'Bare', dir: 3, when: () => !!flag('mastSeen') && !flag('mastDug') },
     { id: 'pl1', x: 19, y: 14, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('mastDug') },
     { id: 'pl2', x: 23, y: 15, sprite: 'peeler', name: 'Hermit', dir: 3, when: () => !flag('mastDug') },
     { id: 'pl3', x: 19, y: 16, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !flag('mastDug') },
-    { id: 'leewardOut', x: 17, y: 17, sprite: 'leeward', name: 'Leeward', when: fell, lines: ['Outlook: Fair. I shall be sleeping outdoors, by meteorological preference.'] },
+    { id: 'leewardOut', x: 17, y: 17, sprite: 'leeward', name: 'Leeward', when: fell, lines: ['The forecast is fair. I\'ve chosen to sleep outside, strictly for meteorological reasons.'] },
   ],
   spots: [
-    look(21, 30, 'The end of the pier. Below it there is only sand, and past the sand, the gray at dusk.'),
-    stash('mast_gray', 22, 30, 'Under the pier\'s end, inside the gray, a tarred box of whelk horns someone meant to come back for.', { pegs: ['brass', 6] }),
+    look(21, 30, 'The pier\'s end. Beneath it lies only sand, and beyond that, the gray dusk.'),
+    stash('mast_gray', 22, 30, 'Beneath the pier, in the gray, lay a tarred box of whelk horns, waiting to be retrieved.', { pegs: ['brass', 6] }),
   ],
   enter: 'mastEnter',
 });
@@ -172,15 +172,15 @@ defMap({
   warps: [{ x: 7, y: 13, to: 'mast', tx: 21, ty: 5, dir: 0 }, { x: 8, y: 13, to: 'mast', tx: 21, ty: 5, dir: 0 }],
   npcs: [
     { id: 'leeward', x: 7, y: 1, sprite: 'leeward', name: 'Leeward', talk: 'leeward', when: () => !flag('mastFell') },
-    { id: 'deck1', x: 8, y: 9, sprite: 'stilts', name: 'Deckhand', dir: 3, trainer: { name: 'Deckhand', team: [['coma', 6], ['scree', 6]], intro: 'Crests cost tide, right? You get tide from the small moves. That\'s the whole thing.', defeat: 'I did the small ones! I did so many!', sight: 4 } },
-    { id: 'deck2', x: 7, y: 5, sprite: 'villager2', name: 'Bosun', dir: 0, trainer: { name: 'Bosun', team: [['bore', 6], ['brine', 6], ['eddy', 7]], intro: 'I\'m saving all my tide for the end. Watch this. Watch.', defeat: '...Saved it too long.', sight: 3 } },
+    { id: 'deck1', x: 8, y: 9, sprite: 'stilts', name: 'Deckhand', dir: 3, trainer: { name: 'Deckhand', team: [['coma', 6], ['scree', 6]], intro: 'Crests require tide, right? You gain tide from the small moves. That\'s the entire mechanism.', defeat: 'I mastered the small ones! I handled countless small ones!', sight: 4 } },
+    { id: 'deck2', x: 7, y: 5, sprite: 'villager2', name: 'Bosun', dir: 0, trainer: { name: 'Bosun', team: [['bore', 6], ['brine', 6], ['eddy', 7]], intro: 'I\'m hoarding all my tide for the finale. Watch closely. Watch.', defeat: '...I held onto it too long.', sight: 3 } },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
 defScript('route2Enter', async () => {
-  if (!flag('ch2start')) { setFlag('ch2start'); goal('Cross the Dry Sea west to Mast.'); }
+  if (!flag('ch2start')) { setFlag('ch2start'); goal('Make the passage from the Dry Sea to the west, reaching the Mast.'); }
 });
 
 defScript('tack2', async () => {
@@ -188,10 +188,10 @@ defScript('tack2', async () => {
   await emote('tackds', 'surprise');
   await walkUp('tackds');
   const tries = tackTries('2');
-  if (tries) await say('Tack', `Try ${tries + 1}. Still 11 Hermits. Still in the road.`);
+  if (tries) await say('Tack', `Try ${tries + 1}. Still 11 Hermits. I'm still in the road.`);
   else {
-    await say('Tack', 'Hey, 2nd time. There\'s 11 Hermits at the Mast, I counted.');
-    await say('Tack', 'They\'ve dug 3 holes already. Like, big holes.');
+    await say('Tack', 'Hey, this is round 2. I counted, and there are 11 Hermits at the Mast.');
+    await say('Tack', 'They\'ve already dug 3 holes. Like, huge ones.');
     await say('Tack', 'Leeward\'s 1 keeper and there\'s 11 of them. So I\'m gonna help. After I beat you.');
   }
   const r = await battle({ enemy: [makeMon('tackle', 9), makeMon('hare', 8), makeMon('paring', 8)], name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival', bossHp: 1.15 });
@@ -199,12 +199,12 @@ defScript('tack2', async () => {
   countTack('2', r.result === 'win');
   if (r.result !== 'win') {
     // Tack keeps the road to the Mast until Ouro wins. He goes back to his spot, and Ouro steps back out of the trigger.
-    await say('Tack', `${tackWinsLine()} I'm still in the road. You get by when it's 1 more for you.`);
+    await say('Tack', `${tackWinsLine()} I'm still stuck in the road. You get through when it's 1 more for you.`);
     await Promise.all([walkTo('tackds', 2, 12), walkTo('ouro', 9, 12)]);
     faceToward('tackds', 'ouro');
     return;
   }
-  await say('Tack', `${tackLosesLine()} 11 Hermits still.`);
+  await say('Tack', `${tackLosesLine()} The Hermits are still at 11.`);
   await walkOff('tackds', 0, 12);
   setFlag('tack2');
 });
@@ -216,16 +216,16 @@ defScript('mastEnter', async () => {
     // The Mast stands in the middle of town with Hermits digging round its foot and Bare's palm flat on the wood.
     await pan(21, 12);
     await act('pl1', 'nod');
-    await say('Bare', 'Easy. Easy now.');
-    await say('Bare', 'Breathe out. Let it lean.');
-    await say('Bare', 'North side, okay? Leave the south alone.');
+    await say('Bare', 'Take it easy. Slow down.');
+    await say('Bare', 'Breathe out. Let the Mast lean.');
+    await say('Bare', 'Aim for the north side. Leave the south alone.');
     await walkTo('pl3', 19, 17);
-    await say('Bare', 'Hey. Back up from the kid.');
+    await say('Bare', 'Hey. Step back from the child.');
     await act('pl3', 'back');
     await emote('pl3', 'sweat');
-    await say('Bare', 'Keep going. You\'re doing great.');
+    await say('Bare', 'Keep moving. You\'re doing wonderfully.');
     await panBack();
-    goal('Leeward keeps the Mast. Leeward\'s deck is north.');
+    goal('Leeward keeps the Mast. Leeward\'s deck is to the north.');
   }
   if (flag('mastFell') && !flag('mastDusk')) await mastDusk();
 });
@@ -237,29 +237,32 @@ defScript('mastStay', async () => {
 defScript('mastHole', async () => { await emote('ouro', 'question'); });
 
 defScript('leeward', async () => {
-  if (has('mast')) { await say('Leeward', 'A northerly!! Cold, and most Spireward in its disposition.'); return; }
-  await say('Leeward', 'Wind: Westerly. Light, and dry by noon, I prognosticate.');
-  await say('Leeward', 'GREETINGS, late one!! Clear skies above you. Conditions are fair for a test.');
-  await say('Leeward', 'Tide rises with each landed hit and each good guard. After a knockout, a spring tide, most copious.');
-  await say('Leeward', 'Pressure: Plummeting!! A crest cometh. Watch the line on top.');
+  if (has('mast')) { await say('Leeward', 'A northerly blast! It\'s freezing, and possesses a distinctly Spireward temper.'); return; }
+  await say('Leeward', 'Wind: Westerly. Light, and dry by noon, I predict.');
+  await say('Leeward', 'GREETINGS, late one!! Clear skies overhead. Conditions are favorable for a trial.');
+  await say('Leeward', 'Tide rises with every landed strike and successful guard.');
+  await say('Leeward', 'After a knockout, a spring tide of great abundance.');
+  await say('Leeward', 'Pressure: Plummeting!! A crest approaches. Watch the line at the top.');
   setFlag('nerve');
-  await hint('(A crest is a whorl\'s biggest move. A crest costs tide. Your whole team shares one pool of tide.)');
-  await hint('(You get tide when an Attack lands, when a move hits your Guard, and when a whorl is knocked out.)');
+  await hint('(A crest is a whorl\'s most powerful move. A crest consumes tide.');
+  await hint('Your entire team shares a single tide pool.)');
+  await hint('(You gain tide when an Attack connects, when a move strikes your Guard,');
+  await hint('and when a whorl is knocked out.)');
   const r = await fightTrainer({ name: 'Leeward', team: [['squall', 9], ['coma', 9], ['brine', 9], ['bore', 9]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Leeward', 'A great calm follows. The Mast pearl is bestowed upon you, under clearing skies.');
+  await say('Leeward', 'A profound calm ensues. The Mast pearl is bestowed upon you, beneath clearing skies.');
   giveScale('mast');
-  await notice('Ouro gets the Mast pearl.');
-  await say('Leeward', 'Gusts of Hermits at the foot. Thirteen, by the sound.');
-  await choose(['Help drive them', 'Not my Stay']);
-  await say('Leeward', 'Wind: Turning!! Shovels down. Here they come, from the hermitward quarter!!');
+  await notice('Ouro receives the Mast pearl.');
+  await say('Leeward', 'Gusts of Hermits at the base. Thirteen, by the count.');
+  await choose(['Help drive them off', 'Not my Seal']);
+  await say('Leeward', 'Wind: Shifting!! The shovels are down. They come from the hermitward quarter!!');
   const r2 = await fightTrainer({ name: 'Hermit', team: [['scree', 7], ['eddy', 7]], intro: '', defeat: '' });
   if (r2.result !== 'win') return;
   field.warp('mast', 21, 18, 2);
   await wait(20);
   await say('Bare', 'Spades down, everyone.');
-  await say('Bare', 'Okay. Walk away from the Mast.');
-  await say('Bare', 'We\'ll come back when it\'s dark.');
+  await say('Bare', 'Alright. Step away from the Mast.');
+  await say('Bare', 'We\'ll return when it\'s dark.');
   // The Hermits walk off east along the boardwalk toward the Dry Sea, and Bare goes last without looking at Ouro.
   const later = (n: number, go: () => Promise<void>) => (async () => { await wait(n); await go(); })();
   await Promise.all([
@@ -281,11 +284,11 @@ defScript('leeward', async () => {
   // Leeward comes out of the deck with a blanket and lies down on the sand by the fallen Mast.
   await walkIn('leewardOut', 21, 5, 21, 7);
   await act('leewardOut', 'look');
-  await say('Leeward', 'A storm!! Inside the house!! Most irregular!!');
+  await say('Leeward', 'A storm! Right inside the house! How utterly irregular!');
   await walkTo('leewardOut', 17, 17);
   await panBack();
   faceToward('leewardOut', 'ouro');
-  await say('Leeward', 'Fair tonight, outdoors!! A most unroofed and agreeable evening!!');
+  await say('Leeward', 'Clear skies tonight, outside! Such an open-air, delightful evening!');
   await mastDusk();
 });
 
@@ -298,5 +301,5 @@ async function mastDusk(): Promise<void> {
   await wait(30);
   await panBack();
   evening(false);
-  goal('Go north from Mast, across the salt marsh, to Spire.');
+  goal('Head north from the Mast, cross the salt marsh, and reach the Spire.');
 }

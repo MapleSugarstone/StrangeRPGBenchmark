@@ -67,9 +67,9 @@ defMap({
   zone: { kinds: kinds([['tenor', 2], ['glaze', 2], ['pipe', 2], ['pew', 3], ['relic', 2], ['censer', 2]]), lv: [9, 11], n: 8, area: 'nave' },
   npcs: [
     { id: 'sexton', x: 5, y: 12, sprite: 'elder', name: 'Sexton', dir: 1, talk: 'sexton' },
-    { id: 'bellstriker', x: 20, y: 6, sprite: 'ringer', name: 'Bell-striker', dir: 3, trainer: { nacre: 1, name: 'Bell-striker', team: [['tenor', 9], ['pipe', 9]], intro: 'I hit the bells with a stick. The ropes are up the other side of the ground, so. Stick.', defeat: 'Ooh. That rang wrong.', sight: 3 } },
-    { id: 'glazier', x: 4, y: 7, sprite: 'elder', name: 'Glazier', dir: 0, trainer: { name: 'Glazier', team: [['glaze', 10], ['censer', 10]], intro: 'I mend the windows. They\'re in the floor now, so I mend them on my knees. My knees hate it.', defeat: 'Mind the glass. Mind it!', sight: 3 } },
-    { id: 'pewsitter', x: 23, y: 11, sprite: 'villager2', name: 'Pew-sitter', dir: 2, trainer: { name: 'Pew-sitter', team: [['pew', 10], ['relic', 10]], intro: 'I sat down here before the whole thing turned over. Haven\'t got up since. Didn\'t feel polite.', defeat: 'The pew\'s just above me now. Same pew. Same dent in it.', sight: 2 } },
+    { id: 'bellstriker', x: 20, y: 6, sprite: 'ringer', name: 'Bell-striker', dir: 3, trainer: { nacre: 1, name: 'Bell-striker', team: [['tenor', 9], ['pipe', 9]], intro: 'I strike the bells with a stick. The ropes are on the far side of the ground, so... stick.', defeat: 'Ooh. That tone was off.', sight: 3 } },
+    { id: 'glazier', x: 4, y: 7, sprite: 'elder', name: 'Glazier', dir: 0, trainer: { name: 'Glazier', team: [['glaze', 10], ['censer', 10]], intro: 'I fix windows. Now they\'re on the floor, so I crawl. My knees hate it.', defeat: 'Watch the glass. Watch it!', sight: 3 } },
+    { id: 'pewsitter', x: 23, y: 11, sprite: 'villager2', name: 'Pew-sitter', dir: 2, trainer: { name: 'Pew-sitter', team: [['pew', 10], ['relic', 10]], intro: 'I sat before it flipped. Haven\'t risen. Didn\'t want to be rude.', defeat: 'The pew is directly above me now. Same pew. Same indentation.', sight: 2 } },
   ],
   spots: [
     ...LOFT_BELLS.map((b, i) => ({ x: b.x, y: 9, script: async () => {
@@ -79,12 +79,12 @@ defMap({
       bell(b.tone);
       await act('ouro', 'nod');
     } })),
-    look(12, 3, 'The font is on the ceiling, upside down. The water is still in it, and it is salt.'),
-    look(9, 6, 'Colored glass set in the floor. Under it, more sky. A star falls past.'),
-    stash('us_pew', 22, 11, 'Wedged under a pew, a notion somebody sat on for a long time.', { notion: 'bitterroot' }),
+    look(12, 3, 'The font hangs from the ceiling, inverted. It still holds water, which is salt.'),
+    look(9, 6, 'Stained glass embedded in the floor. Beyond it, more sky. A star streaks past.'),
+    stash('us_pew', 22, 11, 'Wedged beneath a pew, a notion that has been sat upon for a long time.', { notion: 'bitterroot' }),
   ],
 });
-MAPS.underspire.npcs.push(prize('us_room', 12, 15, 'On a stand in the hidden room, a nautilus horn and a scallop lined with nacre.', { pegs: ['iron', 1], tan: 6 }));
+MAPS.underspire.npcs.push(prize('us_room', 12, 15, 'On a stand in the hidden room, a nautilus horn and a scallop shell lined with nacre.', { pegs: ['iron', 1], tan: 6 }));
 
 field.stepHooks.push(f => {
   if (f.map.id !== 'underspire') return;
@@ -141,10 +141,13 @@ defScript('underspireEnter', async () => { loftBells.fill(0); field.overlay = lo
 
 // The Sexton dates every line by a year of his own life.
 defScript('sexton', async () => {
-  if (flag('bellsDone')) { await say('Sexton', 'They rang right in my ninth year, and again in my eightieth. First time, I went in. This time, you.'); return; }
-  await say('Sexton', 'In my ninth year the three bells rang together and the far floor opened. I was small. It was big.');
-  await say('Sexton', 'In my twentieth year folk struck them one by one and argued over the counting. Each one is late.');
-  await say('Sexton', 'Nobody\'s got it since. I gave up trying in the spring of my sixtieth year. Lovely spring, that.');
+  if (flag('bellsDone')) { await say('Sexton', 'They rang true in my ninth year, and again in my eightieth. The first time, I went in.');
+  await say('Sexton', 'This time, you.'); return; }
+  await say('Sexton', 'When I was nine, the three bells tolled together and the distant floor split open. I was small.');
+  await say('Sexton', 'It was vast.');
+  await say('Sexton', 'At twenty, people struck them individually, arguing over the count. Each one was late.');
+  await say('Sexton', 'No one has found it since. I stopped searching in the spring of my sixtieth year.');
+  await say('Sexton', 'What a lovely spring it was.');
 });
 
 // ---------------------------------------------------------------- the Rootfall: the saplings
@@ -195,18 +198,18 @@ defMap({
   zone: { kinds: kinds([['taproot', 3], ['borer', 2], ['clod', 2], ['whip', 2], ['gnarl', 1], ['upfall', 2]]), lv: [11, 13], n: 13, area: 'roots' },
   npcs: [
     { id: 'upright', x: 5, y: 13, sprite: 'villager', name: 'The Upright Man', dir: 1, talk: 'upright' },
-    { id: 'rootcutter', x: 4, y: 10, sprite: 'tanner', name: 'Root-cutter', dir: 0, trainer: { nacre: 1, name: 'Root-cutter', team: [['taproot', 12], ['whip', 12]], intro: 'I cut the roots back, they grow back, I come back. We\'ve been doing this a while.', defeat: 'See you tomorrow, then. Them too.', sight: 3 } },
-    { id: 'beetlegirl', x: 27, y: 12, sprite: 'child', name: 'Beetle girl', dir: 3, trainer: { name: 'Beetle girl', team: [['borer', 12], ['clod', 13]], intro: 'Beetles live in the roots and I live near the beetles! We\'re neighbors.', defeat: 'Now they\'re hiding. So I\'m hiding too.', sight: 3 } },
-    { id: 'upfaller', x: 16, y: 20, sprite: 'villager2', name: 'Upfaller', dir: 2, trainer: { name: 'Upfaller', team: [['upfall', 13], ['gnarl', 13]], intro: 'Rain goes up by the Bole. On a good day I go up with it, a little bit. Like, a toe.', defeat: 'Not a good day, then.', sight: 3 } },
+    { id: 'rootcutter', x: 4, y: 10, sprite: 'tanner', name: 'Root-cutter', dir: 0, trainer: { nacre: 1, name: 'Root-cutter', team: [['taproot', 12], ['whip', 12]], intro: 'I trim the roots, they sprout again, and I return. We\'ve had this routine for quite some time.', defeat: 'Until tomorrow, then. And the roots as well.', sight: 3 } },
+    { id: 'beetlegirl', x: 27, y: 12, sprite: 'child', name: 'Beetle girl', dir: 3, trainer: { name: 'Beetle girl', team: [['borer', 12], ['clod', 13]], intro: 'Beetles dwell in the roots, and I live close to them. We\'re practically neighbors.', defeat: 'They\'re hiding now, so I\'m hiding too.', sight: 3 } },
+    { id: 'upfaller', x: 16, y: 20, sprite: 'villager2', name: 'Upfaller', dir: 2, trainer: { name: 'Upfaller', team: [['upfall', 13], ['gnarl', 13]], intro: 'Rain travels upward through the Bole. On a good day, I rise with it, just a little. Maybe a toe.', defeat: 'Then it\'s not a good day.', sight: 3 } },
   ],
   spots: [
-    look(21, 1, 'A face in the roots. Its eyes are two snail shells. It has watched the slick floor a long time.'),
-    look(29, 3, 'A bowl hangs upside down on a root. Rain falls up into it and stays.'),
-    stash('rf_bark', 2, 13, 'Under loose bark, a notion.', { notion: 'thornvest' }),
+    look(21, 1, 'A face emerges from the roots, its eyes formed by two snail shells.', 'It has watched the slick floor for a very long time.'),
+    look(29, 3, 'A bowl hangs upside down from a root. Rain falls upward into it and remains there.'),
+    stash('rf_bark', 2, 13, 'Beneath the loose bark, a notion.', { notion: 'thornvest' }),
   ],
 });
 
-MAPS.rootfall.npcs.push(prize('rf_heart', 12, 1, 'Above the slick roots, on a bed of moss: a nautilus horn and a mussel lined with nacre.', { pegs: ['iron', 1], tan: 6 }));
+MAPS.rootfall.npcs.push(prize('rf_heart', 12, 1, 'Above the slick roots, resting on a bed of moss: a nautilus horn and a mussel lined with nacre.', { pegs: ['iron', 1], tan: 6 }));
 defScript('rootfallSapling', async () => {
   const [fx, fy] = field.facing();
   const sp = ROOTFALL_SAPLINGS.find(sp => sp.at[0] === fx && sp.at[1] === fy);
@@ -229,20 +232,20 @@ WALK_PUZZLES.push({
 
 // The Upright Man gives a height in every line.
 defScript('upright', async () => {
-  if (flag('uprightDone')) { await say('The Upright Man', 'One whole inch since you came!! And one inch is, six foot one, an enormous amount.'); return; }
+  if (flag('uprightDone')) { await say('The Upright Man', 'One full inch since you arrived!! And one inch is, six foot one, a tremendous amount.'); return; }
   if (!flag('uprightAsked')) {
-    await say('The Upright Man', 'Six foot one. That was me in the spring. A splendid spring, vertically speaking.');
-    await say('The Upright Man', 'Not one inch more, now. The rain goes up here, you see. My feet get none of it. Parched.');
+    await say('The Upright Man', 'Six foot one. That was my height in the spring. A splendid spring, vertically speaking.');
+    await say('The Upright Man', 'Not an inch more, now. The rain goes up here, you see. My feet get none of it. Parched.');
     setFlag('uprightAsked');
     return;
   }
-  if (!flag('uprightBowl')) { await say('The Upright Man', 'Holding at, six foot one, and thirsty at the ankle.'); return; }
+  if (!flag('uprightBowl')) { await say('The Upright Man', 'Holding steady at six foot one, and thirsty at the ankle.'); return; }
   // Ouro tips the bowl of upward rain over his feet, and for once it falls down.
   await act('ouro', 'bow');
   sound('heal');
   await act('upright', 'hop');
   await say('The Upright Man', 'Six foot one. Ah.');
-  await say('The Upright Man', 'Six foot one and a bit!! A BIT!! Somebody measure me!!');
+  await say('The Upright Man', 'Six foot one and a bit!! A BIT!! Someone measure me!!');
   setFlag('uprightDone');
   await reward({ tan: 3, notion: 'warmstone' });
 });
@@ -300,18 +303,19 @@ defMap({
   zone: { kinds: kinds([['aerial', 2], ['vane', 2], ['capsule', 2], ['booster', 2], ['dish', 2], ['debris', 3]]), lv: [14, 16], n: 14, area: 'wreckage' },
   npcs: [
     { id: 'catcher', x: 27, y: 6, sprite: 'villager2', name: 'The Catcher', dir: 2, talk: 'catcher' },
-    { id: 'scrapper', x: 6, y: 15, sprite: 'tanner', name: 'Scrapper', dir: 1, trainer: { nacre: 1, name: 'Scrapper', team: [['aerial', 15], ['debris', 15]], intro: 'It all came down at once, back in my gran\'s time. Still sorting it. I\'ve done one pile.', defeat: 'Right. Into the pile with you.', sight: 3 } },
-    { id: 'hullsleeper', x: 26, y: 15, sprite: 'villager', name: 'Hull-sleeper', dir: 3, trainer: { name: 'Hull-sleeper', team: [['capsule', 15], ['vane', 15]], intro: 'I sleep in a hull that fell out of the sky. It\'s warm on one side. I roll over a lot.', defeat: 'Going back to bed. Warm side up.', sight: 3 } },
-    { id: 'dishturner', x: 14, y: 18, sprite: 'child', name: 'Dish-turner', dir: 0, trainer: { name: 'Dish-turner', team: [['dish', 15], ['booster', 15]], intro: 'I turn the dishes round to hear stuff. Mostly it\'s wind. Once it was a cough.', defeat: 'Shh. Listen.', sight: 3 } },
+    { id: 'scrapper', x: 6, y: 15, sprite: 'tanner', name: 'Scrapper', dir: 1, trainer: { nacre: 1, name: 'Scrapper', team: [['aerial', 15], ['debris', 15]], intro: 'It all crashed down in my gran\'s day. Still sorting it. Done one pile.', defeat: 'Alright. Join the pile.', sight: 3 } },
+    { id: 'hullsleeper', x: 26, y: 15, sprite: 'villager', name: 'Hull-sleeper', dir: 3, trainer: { name: 'Hull-sleeper', team: [['capsule', 15], ['vane', 15]], intro: 'I sleep in a hull section that fell from the sky. One side stays warm, so I roll over constantly.', defeat: 'Off to bed. Warm side up.', sight: 3 } },
+    { id: 'dishturner', x: 14, y: 18, sprite: 'child', name: 'Dish-turner', dir: 0, trainer: { name: 'Dish-turner', team: [['dish', 15], ['booster', 15]], intro: 'I spin the dishes to listen. Mostly it\'s just the wind. Once, I heard a cough.', defeat: 'Shh. Listen.', sight: 3 } },
   ],
   spots: [
-    look(3, 3, 'A crater, and in it the casing of a machine that went up high once. It came down empty.'),
-    look(24, 12, 'A tower of the old Riders\' kind. Writing on it: a number, and a word nobody reads.', 'The word has a circle in it.'),
+    look(3, 3, 'A crater holds the shell of a machine that once soared high. It came down empty.'),
+    look(24, 12, 'A tower from the old Riders\' era. It bears a number and a word no one reads anymore.', 'The word features a circle.'),
     { x: 29, y: 17, script: async () => {
       if (!flag('catcherAsked') || flag('catcherPlate')) { await emote('ouro', 'sweat'); return; }
       setFlag('catcherPlate');
       sound('ok');
-      await notice('A warm plate. Baked into it: a pale round land with a spiral, and eight black dots on its edge.');
+      await notice('A warm plate.');
+      await notice('Imprinted upon it is a pale, round landmass with a spiral and eight black dots along its edge.');
     } },
   ],
 });
@@ -364,7 +368,7 @@ field.stepHooks.push(f => {
   if (f.x === DROP_MOUTH[0] && f.y === DROP_MOUTH[1]) DROP_POSTS.forEach((_, i) => { G.flags['dropPost' + i] = 0; });
   if (f.y <= 5 && f.x >= 10 && f.x <= 23 && !flag('dishesDone')) setFlag('dishesDone');
 });
-MAPS.skinfall.npcs.push(prize('df_hatch', 12, 4, 'Behind the receiver, in a hatch the signal opened, a notion, a nautilus horn, and nacre.', { notion: 'chrysalis', pegs: ['iron', 1], tan: 4 }));
+MAPS.skinfall.npcs.push(prize('df_hatch', 12, 4, 'Behind the receiver, a signal hatch opened: a notion, a nautilus horn, nacre.', { notion: 'chrysalis', pegs: ['iron', 1], tan: 4 }));
 WALK_PUZZLES.push({
   name: 'The Dropfield', map: 'skinfall', start: DROP_MOUTH, goal: (x, y) => y >= 4 && y <= 5 && x >= 10 && x <= 23, floor: 8,
   switches: DROP_POSTS.map((p, i) => ({ flag: 'dropPost' + i, at: [p] })), solid: 'L', resets: [DROP_MOUTH], exits: [DROP_MOUTH],
@@ -373,18 +377,19 @@ WALK_PUZZLES.push({
 
 // The Catcher starts every line with "Up there" or "Down there".
 defScript('catcher', async () => {
-  if (flag('catcherDone')) { await say('The Catcher', 'Nothing today. Nothing up there for ages, really. There was once.'); return; }
+  if (flag('catcherDone')) { await say('The Catcher', 'Nothing today. Honestly, nothing up there for ages. There used to be something.'); return; }
   if (!flag('catcherAsked')) {
-    await say('The Catcher', 'Something came down last night. Missed the tub. By a lot, honestly.');
-    await say('The Catcher', 'I can\'t look away, in case. But it\'s down in a crater by the south rocks. Fetch it for me?');
+    await say('The Catcher', 'Something fell last night. It missed the tub by a wide margin.');
+    await say('The Catcher', 'I can\'t look away, just in case. But it landed in a crater near the south rocks.');
+    await say('The Catcher', 'Could you fetch it for me?');
     setFlag('catcherAsked');
     return;
   }
-  if (!flag('catcherPlate')) { await say('The Catcher', 'Still nothing up here. It\'s the south rocks. A crater. Down there.'); return; }
+  if (!flag('catcherPlate')) { await say('The Catcher', 'Still nothing up here. It\'s at the south rocks. In a crater. Down there.'); return; }
   await act('ouro', 'bow');
   faceToward('catcher', 'ouro');
   await emote('catcher', 'surprise');
-  await say('The Catcher', 'Oh. That\'s what we look like. From up there.');
+  await say('The Catcher', 'Oh. So that\'s what we look like from up there.');
   await emote('catcher', 'silence');
   face('catcher', 2);
   setFlag('catcherDone');
@@ -428,17 +433,17 @@ defMap({
   npcs: [
     { id: 'icefisher', x: 7, y: 12, sprite: 'elder', name: 'Ice-fisher', dir: 1, talk: 'icefisher' },
     { id: 'frozenslip', onSolid: true, x: CAST[0][0], y: CAST[0][1], sprite: 'child', name: 'A cast under the ice', dir: 0, img: pale('child'), ghost: true, talk: 'frozenSlip' },
-    { id: 'icecutter', x: 5, y: 15, sprite: 'tanner', name: 'Ice-cutter', dir: 1, trainer: { nacre: 1, name: 'Ice-cutter', team: [['walrus', 18], ['berg', 18]], intro: 'I cut blocks out of the lake. Lake doesn\'t notice. Or it\'s being nice about it.', defeat: 'Here, take a block home. Keep it somewhere cold. Not your pocket.', sight: 3 } },
-    { id: 'sealwife', x: 28, y: 12, sprite: 'villager2', name: 'Seal-wife', dir: 3, trainer: { name: 'Seal-wife', team: [['selkie', 18], ['narwhal', 18]], intro: 'My other coat\'s in a chest at home. Don\'t tell my husband. He thinks it\'s blankets.', defeat: 'You won\'t tell. I can tell you won\'t.', sight: 3 } },
-    { id: 'aukkeeper', x: 29, y: 2, sprite: 'elder', name: 'Auk-keeper', dir: 2, trainer: { name: 'Auk-keeper', team: [['auk', 18], ['rime', 18]], intro: 'The last of them came here to stand on the ice. So I came and stood with them.', defeat: 'Stand with us a bit. It\'s nice. Cold, but nice.', sight: 3 } },
+    { id: 'icecutter', x: 5, y: 15, sprite: 'tanner', name: 'Ice-cutter', dir: 1, trainer: { nacre: 1, name: 'Ice-cutter', team: [['walrus', 18], ['berg', 18]], intro: 'I carve blocks from the lake. The lake doesn\'t mind. Or perhaps it\'s just being gracious.', defeat: 'Take a block home with you. Store it somewhere cold. Just not in your pocket.', sight: 3 } },
+    { id: 'sealwife', x: 28, y: 12, sprite: 'villager2', name: 'Seal-wife', dir: 3, trainer: { name: 'Seal-wife', team: [['selkie', 18], ['narwhal', 18]], intro: 'My spare coat\'s in a home chest. Keep it from my husband. He thinks they\'re blankets.', defeat: 'You won\'t say a word. I can see that in you.', sight: 3 } },
+    { id: 'aukkeeper', x: 29, y: 2, sprite: 'elder', name: 'Auk-keeper', dir: 2, trainer: { name: 'Auk-keeper', team: [['auk', 18], ['rime', 18]], intro: 'The last of them came to the ice to stand. So I came, too, and stood beside them.', defeat: 'Stay with us for a while. It\'s pleasant. Cold, but pleasant.', sight: 3 } },
   ],
   spots: [
     ...CAST.map(([x, y]) => ({ x, y, script: 'frozenSlip' })),
-    look(4, 6, 'A fishing hole. Far down in the clear water, a star is falling, very slowly.'),
-    stash('is_hole', 29, 6, 'Frozen into the edge of a fishing hole, a notion and a string of cowries.', { notion: 'hideplate', rind: 300 }),
+    look(4, 6, 'A fishing hole. Far below in the clear water, a star falls, very slowly.'),
+    stash('is_hole', 29, 6, 'Frozen into the edge of a fishing hole lie a notion and a string of cowries.', { notion: 'hideplate', rind: 300 }),
   ],
 });
-MAPS.iceshelf.npcs.push(prize('is_drift', 32, 16, 'Frozen into the bank of the nook, a clam shell lined with nacre.', { tan: 5 }));
+MAPS.iceshelf.npcs.push(prize('is_drift', 32, 16, 'Embedded in the bank of the nook is a clam shell lined with nacre.', { tan: 5 }));
 WALK_PUZZLES.push({
   name: 'Iceshelf', map: 'iceshelf', start: [1, 9], floor: 10, wear: ['TIDE'], exits: [[1, 9]], needs: ['gusts', 'gustsIce'],
   goal: (x, y) => MAPS.iceshelf.rows[y][x] !== '~' && CAST.some(([a, b]) => Math.abs(a - x) + Math.abs(b - y) === 1),
@@ -447,15 +452,15 @@ WALK_PUZZLES.push({
 
 // The Ice-fisher measures in fingers and says no more than she has to.
 defScript('icefisher', async () => {
-  if (flag('iceDone')) { await say('Ice-fisher', 'No. ... That\'s what I wanted. Thanks for asking it for me.'); return; }
+  if (flag('iceDone')) { await say('Ice-fisher', 'No. ... That\'s exactly what I wanted. Thank you for voicing it for me.'); return; }
   if (!flag('iceAsked')) {
-    await say('Ice-fisher', 'Four fingers thick today. Good ice.');
-    await say('Ice-fisher', 'Six fingers, the day I turned. Wasn\'t thick enough. ... It went through.');
-    await say('Ice-fisher', 'Still down there, in the middle. My first shell. Would you ask it if it\'s cold?');
+    await say('Ice-fisher', 'It\'s four fingers thick today. Good ice.');
+    await say('Ice-fisher', 'On the day I shed, it was six fingers thick. It wasn\'t quite thick enough. ... It gave way.');
+    await say('Ice-fisher', 'It\'s still down there, in the center. My first shell. Would you ask it if it\'s cold?');
     setFlag('iceAsked');
     return;
   }
-  if (!flag('iceAnswer')) { await say('Ice-fisher', 'Four fingers. No grip in the middle, so you slide. ... Watch your stopping.'); return; }
+  if (!flag('iceAnswer')) { await say('Ice-fisher', 'Four fingers thick. There\'s no grip in the middle, so you slide. ... Watch where you stop.'); return; }
   await say('Ice-fisher', '... Well?');
   await act('ouro', 'look');
   await say('Ice-fisher', 'No.');

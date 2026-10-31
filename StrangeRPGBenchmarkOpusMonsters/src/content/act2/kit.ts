@@ -73,13 +73,13 @@ async function useShell(mapId: string, id: string): Promise<void> {
     sfx('switch');
     delete G.shellMons[k];
     if (G.party.length < 4) G.party.push(sitting); else G.rack.push(sitting);
-    await notice(G.party.includes(sitting) ? `${sitting.name} comes back to your team.` : `${sitting.name} goes to the Midden.`);
+    await notice(G.party.includes(sitting) ? `${sitting.name} returns to your team.` : `${sitting.name} has been tossed into the Midden.`);
     save();
     return;
   }
-  if (G.party.length < 2) { await hint('Ouro needs at least one whorl to keep before leaving one in a shell.'); return; }
+  if (G.party.length < 2) { await hint('Ouro must keep at least one whorl before leaving one in a shell.'); return; }
   if (await choose(['Leave a whorl in it', 'Leave it'], true) !== 0) return;
-  const i = await listMenu('Leave which whorl?', G.party.map(monLine), { w: 140 });
+  const i = await listMenu('Which whorl are you leaving behind?', G.party.map(monLine), { w: 140 });
   if (i < 0) return;
   const [mon] = G.party.splice(i, 1);
   G.shellMons[k] = mon;
@@ -119,9 +119,9 @@ export async function turnTide(): Promise<void> {
   if (goingOut) {
     if (!flag('lowTold')) {
       setFlag('lowTold');
-      await hint('(At low tide the sand is open, and stars fall in a line.)');
-      await hint('(At low water a shell with nothing moving in it is gone when the shadow passes.)');
-      await hint('(You can leave a whorl sitting in a shell. A whorl moves about, so the shell stays.)');
+      await hint('(When the tide recedes, the sand is exposed, and stars align in a row.)');
+      await hint('(At low water, an empty shell is gone when the shadow passes over it.)');
+      await hint('(You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)');
     }
     if (!flag('sweepOver')) {
       await gleanerWalk();
@@ -134,7 +134,7 @@ export async function turnTide(): Promise<void> {
       if (going.length) { sound('wind'); await wait(44); }
     }
   } else {
-    if (!flag('highTold')) { setFlag('highTold'); await hint('(Ring a tide bell to turn the tide. At high tide the low sand is under water.)'); }
+    if (!flag('highTold')) { setFlag('highTold'); await hint('(Ring the tide bell to reverse the flow. When the tide is high, the shallow sand is submerged.)'); }
     washAll();
   }
   field.spawnWanderers();
@@ -156,7 +156,7 @@ menuExtras.push({ label: 'Hand bell', when: () => scaleNow.strand && G.keys.incl
 export async function giveGrain(from: string): Promise<void> {
   G.flags.a2pearls = (G.flags.a2pearls || 0) + 1;
   sfx('level');
-  await notice(`${from} gives Ouro a star grain.`);
+  await notice(`${from} provides Ouro with a star grain.`);
   save();
 }
 
@@ -167,7 +167,7 @@ export async function chooseGift(prompt: string): Promise<Mon | null> {
   const i = await listMenu(prompt, all.map(monLine), { w: 160 });
   if (i < 0) return null;
   const m = all[i];
-  if (await choose([`Give ${m.name}`, 'Not yet'], true, 'It will not come back.') !== 0) return null;
+  if (await choose([`Offer ${m.name}`, 'Not yet'], true, 'It will not return.') !== 0) return null;
   G.party = G.party.filter(x => x !== m);
   G.rack = G.rack.filter(x => x !== m);
   G.flags.gaveUid = m.uid;

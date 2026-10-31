@@ -1,0 +1,1450 @@
+1m5ttx1 | Woman | src/content/ch1.ts map fellside
+  before:  House shed in spring. We moved into the old shell. The new one's off being a house somewhere.
+  earlier: The house was stripped in spring. We moved into the hollow shell. // The new one is off being a house somewhere else.
+  problem: The original says the house shed. The rewrite says it was stripped and drops the game term shed. Keep the game word shed. It is a term in this game.
+  after:   The house shed in spring. We moved into the hollow shell. // The new one's off being a house somewhere else.
+1b98b9c | Girl with a net | src/content/ch1.ts map route1
+  before:  I caught a hare's cast! The actual hare's still out here somewhere. It's way faster.
+  earlier: I found a hare's cast! The real hare is still out there, though. It's much faster than this.
+  problem: The original says she caught the hare's cast. The rewrite says she found it and drops the game term catch. Keep the game word catch. It is a term in this game.
+  after:   I caught a hare's cast! The real hare is still out there, though. It's much faster than this.
+1u3zzxb | Helper | src/content/ch1.ts map ribgym
+  before:  Knuckle's always like, switch when it's bad. I don't. I'm loyal.
+  earlier: Knuckle always switches when things go south. I don't. I stay loyal.
+  problem: Keep every direction exactly as the original says it.
+  after:   Knuckle always bails when things get tough. I don't. I stick around.
+03vz4km | Gran | src/content/ch1.ts nightScene
+  before:  Tell them the Sealkeepers ought to hear of it. Rib first, west along the Midden Road.
+  earlier: Tell the Sealkeepers. Start with Rib, then head west on the Midden Road.
+  problem: The original says Rib lies west along the Midden Road. The rewrite says to start at Rib and then head west, which changes the direction.
+  after:   Tell the Sealkeepers. Rib is west along the Midden Road.
+1ls22r6 | Gran | src/content/ch1.ts nightScene
+  before:  Tell my little turnip the fracture has come right up to the door.
+  earlier: Tell my little turnip that trouble has finally arrived at the doorstep.
+  problem: The original says the fracture has come right up to the door. The rewrite says trouble has arrived and drops the game term fracture. Keep the game word fracture. It is a term in this game.
+  after:   Tell my little turnip that the fracture has arrived at the doorstep.
+02kwxmz | Tack | src/content/ch1.ts slipDay
+  before:  Uh, move 1 step over? It's gonna come off sideways.
+  earlier: Uh, take 1 step back? It's going to come off at an angle.
+  problem: The original asks Ouro to move one step over to the side. The rewrite says one step back.
+  after:   Uh, take 1 step over? It's going to come off at an angle.
+1u067hd | Strandmonger | src/content/ch1.ts fellmonger
+  before:  Look at that. It's picked you back. That part I don't charge for.
+  earlier: Look at that. It's chosen you again. That bit's on the house.
+  problem: The original says the whorl picked Ouro back in return. The rewrite says it chose Ouro again.
+  after:   Look at that. It's pulled you back in. That part's free.
+109bykq | Strandmonger | src/content/ch1.ts fellmonger
+  before:  Here's the Register. You catch a species, I write it in. Writing's free. Holding it's a cowrie.
+  earlier: Here's the Register. You catch a species, I log it. Writing is free. Storage costs a cowrie.
+  problem: The original jokes that holding the Register costs a cowrie. The rewrite says storage costs a cowrie, which reads as a rule about the Midden.
+  after:   Here's the Register. You catch a species, I log it. Writing's free. Holding it's a cowrie.
+05onosz | Strandmonger | src/content/ch1.ts fellmonger
+  before:  Knock them down a bit and catch them. Weaker means surer. Weak enough, it never fails.
+  earlier: Dull them down a bit, then catch them. Less strength means better control. // Weak enough, and it's foolproof.
+  problem: The original says a weaker whorl makes a surer catch. The rewrite says less strength means better control, which changes the catch rule.
+  after:   Dull them down a bit, then catch them. A weaker whorl makes for a surer catch. // Weak enough, and it never fails.
+1plpasw | Strandmonger | src/content/ch1.ts fellmonger
+  before:  Rib first. Knuckle keeps it. Hands on Knuckle, I'd price at a house each. The pearl's cheap.
+  earlier: Start with the Rib. Knuckle holds it steady. Hands-on Knuckle? I'd ask a house per pearl. // The pearl itself is cheap.
+  problem: The original prices Knuckle's hands at a house each and calls the pearl cheap. The rewrite prices each pearl at a house and then calls the pearl cheap, which contradicts itself.
+  after:   Start with the Rib. Knuckle keeps it. Hands on Knuckle, I'd price at a house each. // The pearl's cheap.
+0oi5nmj | Hermit | src/content/ch1.ts peelers
+  before:  Big whorls can pull a Seal loose. So we take big whorls.
+  earlier: Large whorls can wrench a Seal loose. That's why we bring large whorls.
+  problem: The original says the Hermits take (seize) big whorls. The rewrite says they bring them.
+  after:   Large whorls can wrench a Seal loose. So we take large whorls.
+1lu7iip | Man at the well | src/content/ch1.ts peelers
+  before:  The well's dry till she's back. I'll go and wait by it.
+  earlier: The well stays dry until she returns. I'll stay here and wait.
+  problem: The original says he will go and wait by the well. The rewrite says he will stay where he is.
+  after:   The well stays dry until she returns. I'll go and wait by it.
+0air7s8 | Shellwright | src/content/ch1.ts ribTannery
+  before:  Knuckle's pearl, yeah? Then you'll be wanting one of these.
+  earlier: You've got a knuckle-pearl, right? Then you need one of these.
+  problem: The original means the pearl Knuckle gives out. The rewrite turns the name into a "knuckle-pearl".
+  after:   You've got one of Knuckle's pearls, right? Then you'll be wanting one of these.
+15m5yda | Text | src/content/ch1.ts ribTannery
+  before:  Ouro gets the prising iron.
+  earlier: You acquire the prising iron.
+  problem: The original notice names Ouro. The rewrite switches to "You acquire", unlike every other notice. Keep the name Ouro.
+  after:   Ouro acquires the prising iron.
+14sz1v2 | Knuckle | src/content/ch1.ts knuckle
+  before:  Anyway. Mast's next. Go along the Dry Sea.
+  earlier: Anyway, next stop is Mast. Head west along the Dry Sea.
+  problem: Keep every direction exactly as the original says it.
+  after:   Anyway, Mast's next. Go along the Dry Sea.
+0qyhgf7 | Knuckle | src/content/ch1.ts knuckle
+  before:  Here. Rib pearl. It's yours.
+  earlier: Here you go, Rib. The pearl is yours.
+  problem: The original hands over the Rib pearl. The rewrite addresses Ouro as "Rib".
+  after:   Here. The Rib pearl is yours.
+1x3ukse | Deckhand | src/content/ch2.ts map mastgym
+  before:  Crests cost tide, right? You get tide from the small moves. That's the whole thing.
+  earlier: Crests require tide, right? You gain tide from the subtle shifts. That's the entire mechanism.
+  problem: The original says you get tide from the small moves. The rewrite says from "subtle shifts", which no longer names the moves.
+  after:   Crests require tide, right? You gain tide from the small moves. That's the entire mechanism.
+1wqbrc4 | Tack | src/content/ch2.ts tack2
+  before:  Leeward's 1 keeper and there's 11 of them. So I'm gonna help. After I beat you.
+  earlier: Leeward has 1 keeper and there are 11 of them. So I'm gonna help. After I beat you.
+  problem: The original says Leeward is one keeper against eleven Hermits. The rewrite says Leeward has one keeper.
+  after:   Leeward's got 1 keeper and there's 11 of them. So I'm gonna help. After I beat you.
+1iu0cp2 | Leeward | src/content/ch2.ts leeward
+  before:  GREETINGS, late one!! Clear skies above you. Conditions are fair for a test.
+  earlier: GREETINGS, latecomer!! Clear skies overhead. Conditions are favorable for a trial.
+  problem: The original greets Ouro as a late one. The rewrite says latecomer, which means someone who arrived late.
+  after:   GREETINGS, late one!! Clear skies overhead. Conditions are favorable for a trial.
+00o1qvh | Description | src/content/ch3.ts map route3
+  before:  On the far islet, a heap of drift with nacre caught in it.
+  earlier: On the distant islet, a pile of driftwood tangled with mother-of-pearl.
+  problem: The original has nacre caught in the drift. The rewrite says mother-of-pearl and drops the game term nacre. Keep the game word catch, nacre. It is a term in this game.
+  after:   On the distant islet, a pile of driftwood with nacre caught in it.
+1wzoiid | Description | src/content/ch3.ts map route3
+  before:  On the west islet, a reed plug cut for a bell, and never used.
+  earlier: On the western islet, a reed plug trimmed for a bell, left unused.
+  problem: Keep every direction exactly as the original says it.
+  after:   On the west islet, a reed plug trimmed for a bell, left unused.
+17ntmz4 | Man | src/content/ch3.ts map spire
+  before:  Grandad shed in the nave and his cast's been in there singing the same song for sixty years.
+  earlier: My grandfather was buried in the nave, // and his cast has been singing the same song there for sixty years.
+  problem: The original says Grandad shed in the nave. The rewrite says he was buried there. Keep the game word shed. It is a term in this game.
+  after:   Grandad shed in the nave, and his cast has been in there singing the same song for sixty years.
+1en9mdj | Ringer | src/content/ch3.ts map spiregym
+  before:  hear that? yeah that's a wind-up. stop it or eat it.
+  earlier: hear that? yeah, that's a wind-up. cut it out, or you're gonna pay for it.
+  problem: The original means stop the wind-up or take the hit. The rewrite turns it into a threat and loses the battle advice.
+  after:   hear that? yeah, that's a wind-up. stop it or take it.
+0umnxju | Description | src/content/ch4.ts map route4
+  before:  In the dell past the sleeping howl, two nacre wrapped in moss.
+  earlier: Beyond the sleeping howl in the dell, two shells wrapped in moss.
+  problem: The original says two nacre. The rewrite says two shells and drops the game term nacre. Keep the game word nacre. It is a term in this game.
+  after:   Beyond the sleeping howl in the dell, two nacre wrapped in moss.
+0dgz6kc | Forester | src/content/ch4.ts map route4
+  before:  Hold your hat down, near the Bole. Rain falls up there and it takes hats with it.
+  earlier: Keep your hat low near the Bole. The rain there is strong enough to strip it off.
+  problem: The original says rain falls upward near the Bole and carries hats up. The rewrite says the rain is strong and loses the upward rain the next line depends on.
+  after:   Keep your hat low near the Bole. The rain there falls up and carries hats away.
+1fj8uq4 | Coaler | src/content/ch5.ts map route5
+  before:  A furnace cast stays warm for a hundred years. I sleep right up against one. Best sleep of my life.
+  earlier: A furnace stays warm for a century. I sleep right against it. Best sleep of my life.
+  problem: The original is about a furnace cast. The rewrite drops cast and says a furnace. Keep the game word cast. It is a term in this game.
+  after:   A furnace cast stays warm for a century. I sleep right against it. Best sleep of my life.
+0a8t3il | Hermit | src/content/ch6.ts map route6
+  before:  We're undercutting the Tusk. Oldest one there is. Should go easy. Probably.
+  earlier: We're undermining the Tusk. The oldest one there is. Should take it easy. Probably.
+  problem: The original says the Tusk should come out easily. The rewrite says the Hermits should take it easy.
+  after:   We're slicing through the Tusk. It's the oldest one around. Better take it slow. Probably.
+1pfkn9b | Hint | src/content/ch6.ts tuskTannery
+  before:  (Press X and pick Charm to wear one pearl. A charm helps your whole team in battle.)
+  earlier: (Press X, select Charm, and equip a pearl. Charms provide benefits to your entire team in battle.)
+  problem: Keep the game word charm. It is a term in this game.
+  after:   (Press X, select Charm, and equip a pearl. A charm helps your whole team in battle.)
+1585n45 | Hermit | src/content/ch6.ts tallow
+  before:  She says the late ones should get a go. Here. Your go.
+  earlier: She says those who came in late deserve a turn. Here. Your turn.
+  problem: The original says the late ones (people whose shell has not come off) should get a go. The rewrite says those who came in late.
+  after:   She says the ones who haven't shed their shells yet should have a try. Here. Your turn.
+1g0n8zd | Old Amber | src/content/ch6.ts tallow
+  before:  My grandmother's grandmother's cast. A Rider's. She shed the very day she climbed down.
+  earlier: It's a Rider's cast, passed down from my grandmother's grandmother. // She took it off the very day she climbed down.
+  problem: The original says she shed the day she climbed down. The rewrite says she took it off and drops the game term shed. Keep the game word shed. It is a term in this game.
+  after:   It's a Rider's cast, passed down from my grandmother's grandmother. // She shed it the very day she climbed down.
+160qxno | Old Amber | src/content/ch6.ts tallow
+  before:  It never fought. It had walked a long way. It had wanted north, always north.
+  earlier: It never resisted. It had walked a long way. It always wanted to go north.
+  problem: The original says the cast never fought. The rewrite says it never resisted.
+  after:   It never fought. It had walked a long way. It always wanted to go north.
+0ibks10 | Guard | src/content/ch7.ts map hilt
+  before:  Glass road's south-east. Same rule. Sword first, then glass. Quillon's very firm.
+  earlier: The glass road lies to the southeast. The rule is the same. Secure the sword before the glass. // Quillon is quite adamant about this.
+  problem: Keep every direction exactly as the original says it.
+  after:   The glass road is to the south-east. Same rule. Sword first, then glass. Quillon's very firm.
+0d8qwy7 | Choice | src/content/ch7.ts moonwaterEnter
+  before:  Catch it
+  earlier: Grab it
+  problem: The choice to catch the moon with a horn becomes "Grab it" and drops the game term catch.
+  after:   Seize it
+0a8vkm5 | The Listener | src/content/areas3.ts listener
+  before:  You lit the glass room! I heard it from right here.
+  earlier: You shattered the glass room! I heard it all the way from here.
+  problem: The original says Ouro lit the glass room. The rewrite says Ouro shattered it.
+  after:   You set the glass room ablaze! I heard it from right here.
+06onsr9 | Glovesmith | src/content/areas3.ts map handsorchard
+  before:  Every Hand wears a glove I made. Never shaken one. Not one hand. It's a bit sad.
+  earlier: I glove every hand. None are shaken. It's sad.
+  problem: The original says every Hand wears her glove and she has never shaken one. The rewrite says she gloves every hand and none are shaken, which is garbled.
+  after:   Every Hand wears a glove I made. I've never shaken one. Not a single hand. It's a bit sad.
+0zv0vc4 | Blank | src/content/areas3.ts map margin
+  before:  Nobody drew me in. So I stand where I like. Today it's here.
+  earlier: No one summoned me. Thus, I remain where I please. Today, that is here.
+  problem: The original says nobody drew the Blank into the map. The rewrite says nobody summoned it.
+  after:   No one drew me in. So I stand where I like. Today it's here.
+0ze5k3d | Hint | src/content/gyms.ts youngTallow
+  before:  Old Amber's first shell copies each step Ouro takes, the wrong way round.
+  earlier: Old Amber's first shell mirrors each of Ouro's steps, but in reverse.
+  problem: The original says the shell copies Ouro's steps the wrong way round. The rewrite says mirrors them but in reverse, which can read as the same way round and muddles the puzzle hint.
+  after:   Old Amber's first shell mimics each of Ouro's steps, but in reverse.
+1dhzsfp | Fall hall | src/content/gyms.ts gyms
+  before:  , hole filled
+  earlier: [comma] hole filled
+  problem: The leading comma becomes the literal text "[comma]".
+  after:   hole filled
+1r5m79w | Gran | src/content/act2/ch1.ts gran
+  before:  Tell my little turnip soup.
+  earlier: Give my love to my little turnip soup.
+  problem: The original tells the turnip about soup. The rewrite sends love to "my little turnip soup".
+  after:   Give my love to my little turnip.
+0d47y08 | Gran | src/content/act2/ch1.ts gran
+  before:  Tell them she is to be brought home of a Sunday. Every Sunday.
+  earlier: Tell them she's to be brought home on Sundays. Every single one.
+  problem: Keep the name Sunday.
+  after:   Tell them she's to be brought home on a Sunday. Every Sunday.
+0tncj3h | Gran | src/content/act2/ch1.ts gran
+  before:  Tell my little turnip Sundays, without exception.
+  earlier: Tell my little turnip it's Sunday, without fail.
+  problem: The original means come home on Sundays without exception. The rewrite says it's Sunday. Keep the name Sundays.
+  after:   Tell my little turnip to come home on Sundays, without exception.
+18kxcpg | Goal | src/content/act2/ch1.ts a2MarginEnter
+  before:  Go to the east edge of the Margin.
+  earlier: Reach the eastern edge of the Margin.
+  problem: Keep every direction exactly as the original says it.
+  after:   Head to the east edge of the Margin.
+0gjyste | Cinch | src/content/act2/ch1.ts a2CinchMargin
+  before:  Sit a minute before you go. Who's turning your post while you're out?
+  earlier: Stay seated for a minute before you leave. Who's keeping watch at your post while you're away?
+  problem: The original asks who is turning Ouro's post. The rewrite asks who is keeping watch at it.
+  after:   Sit for a minute before you go. Who's turning your post while you're out?
+0ue52lq | Hint | src/content/act2/ch1.ts a2FirstLow
+  before:  (At low water a shell with nothing moving in it is gone when the shadow passes.)
+  earlier: (At low water, a shell that appears empty vanishes as its shadow passes.)
+  problem: The original says a still shell is gone when the shadow passes. The rewrite says when its own shadow passes, which changes the rule.
+  after:   (At low water, a shell with nothing moving in it is gone when the shadow passes.)
+19p1scv | Bottle girl | src/content/act2/ch1.ts a2BottleGirl
+  before:  Dear inside. Another one washed up today, under a crab. The crab says hello.
+  earlier: Dear reader. Another one washed ashore today, hidden beneath a crab. The crab says hello.
+  problem: The original letter is addressed to the inside of the Volute. The rewrite says "Dear reader" and loses who she writes to.
+  after:   Dear inside. Another one washed ashore today, hidden beneath a crab. The crab says hello.
+1riy5x6 | Woman in a whelk | src/content/act2/ch1.ts a2WhelkFamily
+  before:  Low water, so we're in. Hi. Can't stop.
+  earlier: The tide is low, so we're good to go. Hi! No stopping now.
+  problem: The original says the family is inside the whelk because it is low water. The rewrite says they are good to go and loses that they are inside.
+  after:   The tide is low, so we're inside. Hi! No stopping now.
+1xo9607 | Bottle girl | src/content/act2/ch1.ts a2BottleGirl
+  before:  Dear whoever writes them. It's nobody here. We checked. Your letters are very big.
+  earlier: Dear whoever writes these. No one here knows them. We checked. Your letters are so huge.
+  problem: The original says the writer is nobody here. The rewrite says nobody here knows them.
+  after:   Dear whoever writes these. It's nobody here. We checked. Your letters are so huge.
+1wni54t | Goal | src/content/act2/ch1.ts a2SandDollarEnter
+  before:  The Strandmonger keeps a counter in the east petal.
+  earlier: The Strandmonger tracks a counter located in the eastern petal.
+  problem: The original says the Strandmonger keeps a shop counter in the east petal. The rewrite says he tracks a counter. Keep every direction exactly as the original says it.
+  after:   The Strandmonger maintains a shop counter in the east petal.
+0y7r3oe | Woman with a basin | src/content/act2/ch1.ts ch1
+  before:  Five doves in the middle of town. Don't go breaking the dollar to get at them. People have tried.
+  earlier: There are five doves down in the town square. Don't break the bank trying to catch them. // Folks have already tried.
+  problem: The original warns against breaking the Sand Dollar to get at the doves. The rewrite says break the bank.
+  after:   There are five doves in the middle of town. Don't go breaking the sand dollar to get at them. // People have tried.
+1sw9pyk | Old man | src/content/act2/ch1.ts ch1
+  before:  We came off the old shell five grandmothers back. Walked the whole way. Feet still hurt.
+  earlier: Our ancestors arrived on an old shell five generations ago. We walked the entire distance. // My feet still ache from it.
+  problem: The original says they came off the old shell. The rewrite says they arrived on it.
+  after:   We came off the old shell five grandmothers back. We walked the entire distance. // My feet still ache from it.
+1d6vjvn | Woman | src/content/act2/ch1.ts ch1
+  before:  Your trader buys our cowries by the sack. We just sweep 'em off the wrack. Easiest money there is.
+  earlier: Our trader buys our cowrie shells by the sack. We simply sweep them off the seaweed. // It's the easiest money you'll ever make.
+  problem: The original says your trader, meaning Ouro's Strandmonger. The rewrite says our trader.
+  after:   Your trader buys our cowrie shells by the sack. We simply sweep them off the seaweed. // It's the easiest money you'll ever make.
+19bu424 | Girl | src/content/act2/ch1.ts ch1
+  before:  Don't sit still in an empty one at low water. Duh. Babies know that.
+  earlier: Don't sit still in a hollow shell when the tide is out. Obviously. Even the babies know that.
+  problem: Keep the game word low or high water. It is a term in this game.
+  after:   Don't sit still in a hollow shell during low water. Obviously. Even the babies know that.
+1wl9js8 | Goal | src/content/act2/ch2.ts fingerTake
+  before:  Swim back across the Flats to the Sand Dollar at high water.
+  earlier: Swim back across the Flats to the Sand Dollar at high tide.
+  problem: Keep the game word low or high water. It is a term in this game.
+  after:   Swim back across the Flats to the Sand Dollar at low water.
+05ni7la | Choice | src/content/act2/ch3.ts ventScript
+  before:  Pull the plug from vent {#1}
+  earlier: Disconnect vent {#1}
+  problem: The original says pull the plug from the vent. The rewrite says disconnect the vent, which can read as closing it.
+  after:   Remove the plug from vent {#1}
+034c87z | Choice | src/content/act2/ch3.ts ventScript
+  before:  Plug vent {#1} ({#2} left)
+  earlier: Connect vent {#1} ({#2} remaining)
+  problem: The original says plug the vent. The rewrite says connect the vent, which can read as opening it.
+  after:   Plug vent {#1} ({#2} remaining)
+1pzc8g3 | Point-watcher | src/content/act2/ch3.ts a2PointWatcher
+  before:  The notches read four, two, four, one, four. Sound that in a row and the tip opens.
+  earlier: The notches read four, two, four, one, four. Chant that sequence, and the tip will open.
+  problem: The original says to sound the vents in that order. The rewrite says to chant the sequence.
+  after:   The notches read four, two, four, one, four. Sound them in that order, and the tip opens.
+1uj86md | Narration | src/content/act2/ch3.ts a2PointView
+  before:  Down the beach the line of hollows runs to the sea, then turns east along the low-water line.
+  earlier: Further down the shore, a line of hollows extends to the sea, // then curves eastward along the low-water mark.
+  problem: Keep every direction exactly as the original says it.
+  after:   Further down the beach, the line of hollows runs to the sea, // then turns east along the low-water line.
+1roo3ew | Turnwise | src/content/act2/ch3.ts slideTake
+  before:  Here. We're here. At the edge now. Right where the Gleaner walks. We'll climb every single low.
+  earlier: Here. We have arrived. We are at the edge now, exactly where the Gleaner walks. // We will climb every single rise.
+  problem: The original says they will climb every low water. The rewrite says every rise.
+  after:   Here. We're here. At the edge now. Right where the Gleaner walks. // We'll climb every single low water.
+0s1cjbz | Tide table | src/content/act2/ch4.ts ch4
+  before:  The next low goes out {#1}{#2}.{walk}
+  earlier: The next low tide occurs at {#1}{#2}.{walk}
+  problem: The original says how far out the next low goes, and the rewrite says when the low tide occurs.
+  after:   The next low water arrives at {#1}{#2}.{walk}
+0ky0gjb | Nautilus doorkeeper | src/content/act2/ch4.ts map livingchamber
+  before:  Hood's shut for the big low. Only Siphon opens it. Sorry.
+  earlier: The hood's locked tight during the low tide. Only the Siphon can open it. Sorry.
+  problem: The original says only Siphon (the character) opens the hood, and the rewrite says the Siphon as if it were an object.
+  after:   The hood stays shut during the big low. Only Siphon opens it. Sorry.
+1tv8ovl | Sign | src/content/act2/ch4.ts map livingchamber
+  before:  Every few years we build a new wall behind us and move up a room. Moving day's the best.
+  earlier: We shift rooms every few years. Moving day is the best part.
+  problem: The original says they build a new wall behind them and move up a room, and the rewrite drops the wall building that explains the sealed old rooms.
+  after:   Every few years we build a wall behind us and move up a room. Moving day is the best.
+0v8sspw | Sign | src/content/act2/ch4.ts map livingchamber
+  before:  Sealed in five, at spring? He's out at spring high. Bring him soup then. Hot soup.
+  earlier: Seal five for spring? He's out at high tide. Bring hot soup.
+  problem: The original says someone sealed in room five comes out at spring high, and the rewrite garbles it into Seal five for spring and drops spring from the high tide.
+  after:   Sealed in five, at spring? He comes out at spring high. Bring him soup then. Hot soup.
+0nk18m0 | Description | src/content/act2/ch4.ts map tidechamber
+  before:  Marks cut in the wall, one to four notches each, in rows that go round and up.
+  earlier: Rows of notched marks, one to four per row, spiral upward around the wall.
+  problem: The original says each mark has one to four notches, and the rewrite says one to four per row.
+  after:   Rows of notched marks, with one to four notches per row, spiral upward around the wall.
+15zu9rq | Tide-reader | src/content/act2/ch4.ts tidereader
+  before:  At high water, it was my gran's, most cherishedly. At low, it is yours, most deservedly.
+  earlier: At high tide, this was my grandmother's, most cherishedly. // At low tide, it is yours, most deservedly.
+  problem: Keep the game word low or high water. It is a term in this game.
+  after:   At high water, it was my gran's, most cherishedly. At low water, it is yours, most deservedly.
+0gdrdnm | Tide-reader | src/content/act2/ch4.ts tidereader
+  before:  At some high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.
+  earlier: At some high tide, a pot struck the wall with such force that six marks were scraped clean off!! // A calamitous pot.
+  problem: Keep the game word low or high water. It is a term in this game.
+  after:   At a high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.
+1cke072 | Marks | src/content/act2/ch4.ts marks
+  before:  Then one, two, three, cut fresh. Then a place for the next.
+  earlier: Then mark one, two, three, and cut new. Leave space for the next cycle.
+  problem: The original reads marks that were cut fresh and a blank place for the next, and the rewrite turns the reading into instructions to mark and cut.
+  after:   Mark one, two, three, cutting fresh, then leave a spot for the next.
+1li2jd9 | Marks | src/content/act2/ch4.ts marks
+  before:  Newest, near the point, oldest first: two notches. Scraped. One. Two. Scraped.
+  earlier: Newest by the point, oldest first: two notches. Scrape clean. One. Two. Scrape clean.
+  problem: The original reads that some marks were scraped off, and the rewrite tells the player to scrape them clean.
+  after:   Newest by the point, oldest first: two notches. Scrape them off. One. Two. Scrape them off.
+1iuvg79 | Marks | src/content/act2/ch4.ts marks
+  before:  Four, and a star. Scraped. Three. Two. One.
+  earlier: Four, and a star. Scrape clean. Three. Two. One.
+  problem: The original reads that a mark was scraped off, and the rewrite tells the player to scrape it clean.
+  after:   Four, and a star. Scrape it off. Three. Two. One.
+0mc48r8 | Marks | src/content/act2/ch4.ts marks
+  before:  Then three places scraped smooth.
+  earlier: Then smooth out three old marks.
+  problem: The original says three places are scraped smooth, and the rewrite tells the player to smooth out three old marks.
+  after:   Then scrape three places smooth.
+0vzccou | Tide-reader | src/content/act2/ch4.ts reading
+  before:  At the low after the shut one last shed, it was soft. It reached in.
+  earlier: After the shut one made the last shed, the low tide was soft. It crept in.
+  problem: The original says the shut one was soft after it last shed and something reached in, and the rewrite says the low tide was soft and crept in.
+  after:   After the shut one made the last shed, it was soft. It reached in.
+0hh5eop | Tide-reader | src/content/act2/ch4.ts reading
+  before:  At the low after that, it walked with one hand. It's walked with one since.
+  earlier: After that low, it moved with one hand. It has kept that hand ever since.
+  problem: The original says it has walked with one hand ever since, and the rewrite says it has kept that hand.
+  after:   After that low, it moved with one hand. It has walked with one hand ever since.
+05s020g | Narration | src/content/act2/ch5.ts springEnter
+  before:  Far up the beach, a hand lifts the Volute out of the sand.
+  earlier: High along the shore, a hand pulls a Volute from the sand.
+  problem: The original says the hand lifts the Volute (the world), and the rewrite says a Volute as if it were an ordinary object.
+  after:   High along the shore, a hand lifts the Volute from the sand.
+0q27k97 | Star-chaser | src/content/act2/ch5.ts map longstrand
+  before:  Big low! Once a year you get to run right behind the stars! Come on, come on!
+  earlier: Look at that low horizon! Once a year, you get to chase right behind the stars! Move it, move it!
+  problem: The original cheers the big low (the spring low), and the rewrite says a low horizon.
+  after:   Look at that big low! Once a year, you get to run right behind the stars! Come on, come on!
+1bnusyo | Description | src/content/act2/ch5.ts map longstrand
+  before:  A label stuck in a dune, driftwood, pressed with big letters that lean and grow toward the end.
+  earlier: A marker planted in the dune, with driftwood pressed against it. // The large letters slant and stretch toward the bottom.
+  problem: The original says the label is driftwood with letters that grow toward the end, and the rewrite says driftwood is pressed against a marker and the letters stretch toward the bottom.
+  after:   A label stuck in a dune, made of driftwood, with large letters that lean and grow toward the end.
+0ozb8mz | Description | src/content/act2/ch5.ts map longstrand
+  before:  Dug into the lee of a dune, out of the wind, a nautilus horn and a notion.
+  earlier: Tucked into the lee of a dune, sheltered from the wind, lies a nautilus horn and an idea.
+  problem: The original finds a nautilus horn and a notion (held item), and the rewrite finds a horn and an idea. Keep the game word notion. It is a term in this game.
+  after:   Tucked into the lee of a dune, sheltered from the wind, lies a nautilus horn and a notion.
+0s0pa76 | Mudlark | src/content/act2/ch5.ts foundMud
+  before:  Huh. Don't usually lose that one. Don't mind, though. Much.
+  earlier: Huh. I don't usually lose track of that one. But I don't mind. Not really.
+  problem: The original means the Mudlark does not usually lose this game, and the rewrite says it does not usually lose track of that one.
+  after:   Huh. I don't usually lose that one. But I don't mind. Not really.
+0q459qh | Hint | src/content/act2/ch5.ts crazedShell
+  before:  (The old Apex. Cinch would want to see it, when the sea has been in.)
+  earlier: (This is the old Apex. Cinch would want to see it once the sea has receded.)
+  problem: The original says Cinch wants to see it after the sea has been in, and the rewrite says once the sea has receded, which is the opposite tide.
+  after:   (This is the old Apex. Cinch would want to see it, when the sea has been in.)
+062bu9x | Goal | src/content/act2/ch5.ts trayEnter
+  before:  Something moves in one of the small shells at the north edge of the Tray.
+  earlier: Something shifts inside one of the small shells at the northern edge of the Tray.
+  problem: Keep every direction exactly as the original says it.
+  after:   Something shifts in one of the small shells at the north edge of the Tray.
+0g0xeml | Mudlark | src/content/act2/ch5.ts trayMudlark
+  before:  Here. I don't keep keys I can't use. Opens the last room in the top one.
+  earlier: Here. I don't hang onto keys I can't use. This one opens the last room on the top shelf.
+  problem: The original says the key opens the last room in the Hollow Top, and the rewrite says the top shelf.
+  after:   Here. I don't keep keys I can't use. This one opens the last room in the top one.
+1tj7k4z | Conch-diver | src/content/act2/ch6.ts map conchlip
+  before:  I dive in the mouth at low, while it's out walking. Pearls in there! Big pink ones.
+  earlier: I dive into their mouths when they walk. Big pink pearls inside!
+  problem: The original dives into the conch's mouth at low while the Gleaner is out walking, and the rewrite dives into their mouths when they walk and drops the low tide.
+  after:   I dive in the mouth at low, while it's out walking. Pearls in there! Big pink ones!
+0weqpix | Hint | src/content/act2/ch6.ts brush
+  before:  (Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)
+  earlier: (Tap a wall to make it chime. At high tide, three chimes will summon the sea to wash you away.)
+  problem: The original says brushing against a wall makes it ring and the sea washes you back, and the rewrite says to tap a wall and the sea washes you away.
+  after:   (Brush a wall to make it ring. At high tide, three rings and the sea washes you back.)
+1k0r9mm | Text | src/content/act2/ch6.ts lines
+  before:  It turns over in the hand. ... Once.
+  earlier: It flips over in your palm. ... One time.
+  problem: The original says it turns over in the great hand, and the rewrite says it flips over in your palm.
+  after:   It turns over in your palm. ... Just once.
+0gnnjba | Goal | src/content/act2/ch6.ts kitchen
+  before:  The Strand stays open, through the Margin or the gray at the Shoreline.
+  earlier: Keep the Strand open, whether through the Margin or the gray expanse of the Shoreline.
+  problem: The original goal says the Strand stays open, and the rewrite tells the player to keep it open.
+  after:   The Strand stays open, whether through the Margin or the gray expanse of the Shoreline.
+01w1obn | Cinch | src/content/act2/ch6.ts ch6
+  before:  Sit. Your world's got a hand in it, lying palm up. I sat on its thumb once, a whole afternoon.
+  earlier: Sit down. Your world has a hand in this, lying palm-up. // I once sat on its thumb for a whole afternoon.
+  problem: The original says the world has a hand in it lying palm up, and the rewrite reads it as the idiom has a hand in this.
+  after:   Sit down. Your world has a hand in it, lying palm-up. I once sat on its thumb for a whole afternoon.
+1o0lgyu | Cinch | src/content/act2/ch6.ts ch6
+  before:  Sit down. Wade. That's a small somebody's name.
+  earlier: Sit down. Wade. That's a common word, not a person's name.
+  problem: The original says Wade is a small person's name, and the rewrite says it is a common word and not a person's name.
+  after:   Sit down. Wade. That's a small person's name.
+08va9ed | Hint | src/content/act2/kit.ts turnTide
+  before:  (You can leave a whorl sitting in a shell. A whorl moves about, so the shell stays.)
+  earlier: (You can leave a whorl behind in a shell. Since the whorl is mobile, the shell remains stationary.)
+  problem: The original says the shell stays (is not taken) because a whorl moves in it, and the rewrite says the shell remains stationary.
+  after:   (You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)
+00hbebq | Notice | src/content/areakit.ts reward
+  before:  {#1} {#2}{#3}, for catching a weak wild whorl.
+  earlier: {#1} {#2}{#3}, useful for capturing a faint, wild whorl.
+  problem: The original says the horn is for catching a weak wild whorl, and the rewrite says capturing a faint one, which reads as knocked out. Keep the game word catch. It is a term in this game.
+  after:   {#1} {#2}{#3}, for catching a weak, wild whorl.
+0r1fauu | Notice | src/content/areakit.ts reward
+  before:  {r.tan} nacre. Any grotto will layer it on.
+  earlier: {r.tan} nacre. apply this to any grotto.
+  problem: The original says any grotto will layer the nacre on, and the rewrite tells the player to apply the nacre to a grotto.
+  after:   {r.tan} nacre. place it in any grotto to layer it on.
+0qhit6p | Shellwright | src/content/byssus.ts introduceByssus
+  before:  One legendary, tops. No charms. Roster's in the menu, and it says which whorl breaks what.
+  earlier: Include one legendary, at most. No charms. // Check the roster in the menu to see which whorl counters what.
+  problem: The original says the roster shows which whorl breaks which rule, and the rewrite says which whorl counters what.
+  after:   Include one legendary, at most. No charms. // Check the roster in the menu to see which whorl breaks what.
+0abxan2 | Text | src/content/gems.ts BEZEL_TIERS
+  before:  One set! A machine that works once is luck, but yours worked four times. That is a trade.
+  earlier: Just one set! A machine that functions once is luck. Yours ran four times. That's a deal.
+  problem: The original says four working runs make it a trade (a craft), and the rewrite says that's a deal.
+  after:   Just one set! A machine that functions once is luck. Yours ran four times. That is a trade.
+02gzd9x | Text | src/content/gems.ts BEZEL_TIERS
+  before:  EVERY sketch set. I have nothing left to teach you, which is a most unaccustomable feeling!!
+  earlier: Every single sketch set. I have nothing left to teach you, which feels incredibly strange!!
+  problem: Keep the words written in capitals exactly as they are.
+  after:   EVERY sketch set. I have nothing left to teach you, which feels incredibly strange!!
+17y2lku | Text | src/content/gems.ts BEZEL_TIERS
+  before:  Take this ring. I set it at your age and it has never fit a single finger since.
+  earlier: Take this ring. I set it when you were my age, and it hasn't fit a single finger since.
+  problem: The original says Bezel set the ring at the player's age, and the rewrite says when you were my age.
+  after:   Take this ring. I sized it when you were my age, and it has never fit a single finger since.
+0z1ggjn | BEZEL | src/content/gems.ts bezel
+  before:  A FINE afternoon for setting stones. Splendid, I mean. Fine is two grades under splendid.
+  earlier: What a lovely afternoon for setting stones. I mean, splendid. "Fine" is two steps below "splendid.
+  problem: The rewrite drops fine from the first sentence, so the correction about Fine has nothing to refer to. Keep the words written in capitals exactly as they are.
+  after:   A FINE afternoon for setting stones. I mean, splendid. "Fine" is two steps below "splendid".
+1ys12wj | BEZEL | src/content/gems.ts bezel
+  before:  Sketches blow about the Volute like leaves. Bring back any you find set, and I will be thrilled.
+  earlier: Sketches drift through the Volute like leaves. // If you find any that are set, bring them back to me, I'd be delighted.
+  problem: The original asks the player to set the sketches they find and bring them back, and the rewrite asks for sketches that are already set.
+  after:   Sketches drift through the Volute like leaves. Bring back any you find set, and I will be delighted.
+1u7pyc0 | Guide | src/content/guide.ts GUIDE
+  before:  Slow. Each of the whorl's next turns comes 30% of a turn later.
+  earlier: Slow. The whorl's next three turns are delayed by 30% of a turn.
+  problem: The rewrite says Slow affects the next three turns, and the original gives no count.
+  after:   Slow. The whorl's next turn is delayed by 30% of a turn.
+0blab62 | Guide | src/content/guide.ts GUIDE
+  before:  Haste. Each of the whorl's next turns comes 30% of a turn sooner.
+  earlier: Haste. The whorl's next three turns occur 30% of a turn earlier.
+  problem: The rewrite says Haste affects the next three turns, and the original gives no count.
+  after:   Haste. The whorl's next turn occurs 30% of a turn earlier.
+0y48i6o | Guide | src/content/guide.ts GUIDE
+  before:  About 1 in {STARBORN_ODDS} new wild whorls is Starborn. A new conjoined whorl can be Starborn too, at the same odds.
+  earlier: Approximately 1 in {STARBORN_ODDS} wild whorls is Starborn. Conjoined whorls can also be Starborn at the same rate.
+  problem: Keep the game word conjoin. It is a term in this game.
+  after:   About 1 in {STARBORN_ODDS} new wild whorls is Starborn. A new conjoined whorl can also be Starborn, at the same odds.
+186fhop | Guide | src/content/guide.ts GUIDE
+  before:  Shellwrights sell harder sketches at the counter. A town sells its own sketches and the ones from towns before it.
+  earlier: Shellwrights purchase higher-tier sketches at the counter. Towns sell their own sketches as well as those from previous towns.
+  problem: The original says Shellwrights sell the harder sketches, and the rewrite says they purchase them.
+  after:   Shellwrights sell more difficult sketches at the counter. A town sells its own sketches and those from prior towns.
+1651vx0 | Guide | src/content/guide.ts GUIDE
+  before:  A team can hold each species only once. A conjoined whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined whorl on that team.
+  earlier: A team can only include each species once. A combined whorl consumes both of its species. Therefore, if you combine a species, you cannot use it individually or in another combined whorl on that same team.
+  problem: Keep the game word conjoin. It is a term in this game.
+  after:   A team can include each species only once. A conjoined whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined whorl on that team.
+0njyvt6 | Guide | src/content/guide.ts GUIDE
+  before:  In a practice battle, press V to open the debug menu. It shows the stats of every whorl. It also shows the foe's last choice. You can change HP and tide there too.
+  earlier: During a practice battle, press V to open the debug menu. This displays the stats for every whorl and the opponent's last move. You can also modify HP and tides here.
+  problem: Keep the game word tide. It is a term in this game.
+  after:   During a practice battle, press V to open the debug menu. This displays the stats for every whorl and the opponent's last move. You can also modify HP and tide here.
+1t72mun | Old woman | src/content/homes.ts homes
+  before:  Sit by the fire if you like. It's for my cast, mostly.
+  earlier: Come sit by the fire if you want. It's mostly for my leg, though.
+  problem: The original says the fire is for the old woman's cast, and the rewrite says it is for her leg. Keep the game word cast. It is a term in this game.
+  after:   Come sit by the fire if you like. It's for my cast, mostly.
+1fquhqw | Spoon-carver | src/content/homes.ts homes
+  before:  I carve spoons out of the bark the Bole drops.
+  earlier: I whittle spoons from the bark the Bole sheds.
+  problem: The original says the bark the Bole drops, and the rewrite says the Bole sheds it, which uses the game term shed.
+  after:   I whittle spoons from the bark the Bole drops.
+1n742am | Tinker | src/content/homes.ts homes
+  before:  Rider parts. Every one still ticks.
+  earlier: I collect the discarded parts of Riders. Every single one still ticks.
+  problem: Keep the name Rider.
+  after:   I collect the discarded parts of Rider. Every single one still ticks.
+0npjp0i | Old man | src/content/homes.ts homes
+  before:  Casts don't mind cold. They mind fires.
+  earlier: The castings don't fear the cold. They fear the fire.
+  problem: The original talks about casts, and the rewrite turns them into castings.
+  after:   The casts don't fear the cold. They fear the fire.
+1ymk65f | Card-sharp | src/content/minigames.ts RIVALS
+  before:  Hilt rules. No crying, no counting out loud, no peeking at the bottom.
+  earlier: Hilt is the rule. No crying, no counting out loud, and absolutely no peeking at the bottom.
+  problem: The original says these are Hilt rules (the town), and the rewrite says Hilt is the rule.
+  after:   Hilt rules. No crying, no counting out loud, and absolutely no peeking at the bottom.
+0lrs2sj | Star-reader | src/content/minigames.ts RIVALS
+  before:  These cards fell with the star, y'know. I just shuffle 'em.
+  earlier: These cards fell from the stars, you know. I merely shuffle them.
+  problem: The original says the cards fell with the star, and the rewrite says they fell from the stars.
+  after:   These cards fell with the star, you know. I merely shuffle them.
+08k1qbu | Sign | src/content/postgame.ts map slack
+  before:  Past the Rim. Nothing is held here. Mind your hat.
+  earlier: Past the Rim. Everything is free here. Mind your hat.
+  problem: The original says nothing is held here past the Rim, and the rewrite says everything is free here.
+  after:   Beyond the Rim. All is unheld. Watch your head.
+0qacbdm | Sign | src/content/postgame.ts map oldrind
+  before:  Old Amber's grandmother's grandmother's cast, sitting beside the others.
+  earlier: Old Amber's great-grandmother's cast, sitting alongside the others.
+  problem: The original says grandmother's grandmother, and the rewrite says great-grandmother, which is one generation short.
+  after:   Old Amber's grandmother's grandmother's cast, sitting alongside the others.
+021qfrl | Stackkeeper | src/content/postgame.ts stack
+  before:  Every floor is a fight!! Your whorls stand at fifty, all of them. Conjoined foes only, up here.
+  earlier: Every level is a battle! You've amassed fifty whorls, all of them. // Only conjoined foes are permitted on this floor.
+  problem: The original says your whorls are all at level fifty, and the rewrite says you have fifty whorls.
+  after:   Every level is a battle! Your whorls stand at fifty, all of them. // Only conjoined foes are permitted on this floor.
+0shkvct | Stackkeeper | src/content/postgame.ts stack
+  before:  Victory, upward, one floor!! Defeat, downward, the very bottom.
+  earlier: Victory means rising one floor higher. Defection means plunging back to the very bottom.
+  problem: The original says Defeat sends you to the bottom, and the rewrite says Defection.
+  after:   Victory means rising one floor higher. Defeat means plunging back to the very bottom.
+0knltgq | Text | src/content/ring.ts ring
+  before:  It goes back to the Islander in Cockle Cove.
+  earlier: This traces back to the Islander at Cockle Cove.
+  problem: The original says the item goes back to the Islander, and the rewrite says it traces back to her.
+  after:   This goes back to the Islander at Cockle Cove.
+0rcjrhx | Choice | src/content/ring.ts c
+  before:  Catch it
+  earlier: Grab it
+  problem: The original choice is Catch it, and the rewrite says Grab it and drops the game term catch.
+  after:   Snag it
+12aylpp | Hint | src/content/ring.ts ring
+  before:  (Nothing wild lives here to keep off.)
+  earlier: (No wild beasts lurk here to keep you away.)
+  problem: The original says nothing wild lives here for the Salt Line to keep off, and the rewrite says nothing is here to keep you away.
+  after:   (No wild beasts live here to keep off.)
+1hohv1n | Hint | src/content/ring.ts ring
+  before:  (Nothing wild lives here to lure.)
+  earlier: (No wild beasts are here to draw you in.)
+  problem: The original says nothing wild lives here to lure, and the rewrite says nothing is here to draw you in.
+  after:   (No wild beasts live here to lure.)
+1lcr2c8 | Choice | src/content/ring.ts standingWild
+  before:  Fight it
+  earlier: Resist
+  problem: The original choice is Fight it, and the rewrite says Resist.
+  after:   Resist it
+0n95oat | Description | src/content/ring1.ts map cocklecove
+  before:  On the sand bar in the inlet, a nautilus horn rolled up in weed, and beach glass.
+  earlier: A nautilus shell, tangled in seaweed and beach glass, rolled on the sandbar in the inlet.
+  problem: The original finds a nautilus horn and beach glass, and the rewrite finds a nautilus shell tangled in beach glass. Keep the game word horn. It is a term in this game.
+  after:   On the sandbar in the inlet, a nautilus horn, rolled up in weed and beach glass, lay.
+1wxyv43 | Text | src/content/ring1.ts HINTS
+  before:  Big ones sleep on anything. Sleeping on my chair, I'd bet. Wake one.
+  earlier: Big ones sleep anywhere. I'd bet they're sleeping on my chair. Don't wake one.
+  problem: The original hint says to wake one, and the rewrite says don't wake one.
+  after:   Large ones will sleep on any surface. I'd wager they're resting in my chair. Do not wake one.
+1avfmh4 | Text | src/content/ring1.ts HINTS
+  before:  Step's a stone. Heavy. It's under the long stones south of Tusk.
+  earlier: It's a stone. Heavy. It's located beneath the long stones south of Tusk.
+  problem: The original says the Step is a stone, and the rewrite says only It's a stone and loses which item it means.
+  after:   The Step is a stone. Heavy. It's under the long stones south of Tusk.
+10gi8bt | Islander | src/content/ring1.ts islander
+  before:  Door faced the water. Step in front of the door. Gate at the end of the path, toward the water.
+  earlier: The door faced the water. Stand in front of the door. // The gate is at the end of the path, toward the water.
+  problem: The original places the Step (the stone) in front of the door, and the rewrite tells the player to stand there.
+  after:   The door faced the water. A step lay in front of the door. // The gate was at the end of the path, toward the water.
+0pwcymo | Text | src/content/ring1.ts kettlecrab
+  before:  Ouro gets the kettle.
+  earlier: Ouro puts the kettle on.
+  problem: The original says Ouro gets the kettle, and the rewrite says Ouro puts the kettle on.
+  after:   Ouro boils the kettle.
+1ypgm3e | Text | src/content/ring1.ts tackMum
+  before:  He counts the fractures now. Says they're ahead. I said what of. He said everything.
+  earlier: He's counting the fractures now. Says they're ahead of schedule. I asked what of. // He said everything.
+  problem: The rewrite adds ahead of schedule, so the question what of and the answer everything no longer fit.
+  after:   He counts the fractures now. Says they're ahead. I asked what of. He said everything.
+01b3lo9 | Old man | src/content/ring2.ts map boathouse
+  before:  My boat shed last year. Now I've two boats and no sea.
+  earlier: I lost my boat shed last year. Now I own two boats and no sea.
+  problem: The original says the boat shed (molted), and the rewrite says the old man lost his boat shed.
+  after:   I shed last year. Now I've got two boats and no sea.
+1fpcahb | Old man | src/content/ring2.ts map boathouse
+  before:  That one's the boat. That one's its cast. I row them both on Sundays. On the floor.
+  earlier: That one is the boat. That one is its reflection. I row both of them on Sundays. Across the floor.
+  problem: The original says the second boat is the first boat's cast, and the rewrite says its reflection. Keep the game word cast. It is a term in this game.
+  after:   That one's the boat. That one's its cast. I row both on Sundays. On the floor.
+1urpn13 | Shouter | src/content/ring3.ts map shoutwood
+  before:  FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I'M SHOUTING THE SHOPPING LIST. eggs
+  earlier: FORTY YEARS OF HOLDING MY BREATH IN SPIRE. SO TODAY I'M SHOUTING THE GROCERY LIST. EGGS.
+  problem: Keep the words written in capitals exactly as they are.
+  after:   FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I'M SHOUTING THE SHOPPING LIST. EGGS.
+0t8fkzz | Narration | src/content/ring4.ts kelpRing
+  before:  Big old whorls asleep in the kelp lanes. Nothing short of a jingle would wake them.
+  earlier: Massive, coiled shells slumbered among the kelp forests, // remaining undisturbed unless a jingle broke the silence.
+  problem: The original says big old whorls sleep in the kelp, and the rewrite calls them coiled shells. Keep the game word whorl. It is a term in this game.
+  after:   Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
+0x4e5ih | Rain-seller | src/content/ring4.ts rainseller
+  before:  Rain falls down now. Like everywhere. These jars are the last of the up. Going nowhere.
+  earlier: The rain's falling everywhere now. These are the last of the upward-falling jars. // I'm not going anywhere.
+  problem: The original says the jars of rain are going nowhere, and the rewrite says the seller is not going anywhere.
+  after:   Jars of upward rain. Caught by the trunk. A hundred and twenty a jar. Going up.
+1revsgr | Rain-seller | src/content/ring4.ts rainseller
+  before:  Jars of upward rain. Caught by the trunk. A hundred and twenty a jar. Going up.
+  earlier: Jars of rain that goes up. Caught by the crane's trunk. One hundred and twenty per jar. // They're heading up.
+  problem: The original says the rain was caught by the trunk, and the rewrite says a crane's trunk.
+  after:   Jars of upward rain. Caught by the crane's trunk. One hundred and twenty per jar. Going up.
+0xzmwdf | Hilt smith | src/content/ring7.ts hiltsmith
+  before:  Notions for finishing. A blade shard keeps a low one low. Clang.
+  earlier: Finishing touches. A blade shard keeps a low one low. Clang.
+  problem: The original says the smith sells notions for finishing, and the rewrite says finishing touches.
+  after:   Finishing notions. A blade shard keeps a low one low. Clang.
+1p7i29j | Basin-keeper | src/content/ring8.ts leanman
+  before:  One: you crossed. Two: the stones stay put now. Three: nobody does that.
+  earlier: First: you managed to cross. Second: the stones remain stationary now. // Third: no one attempts that again.
+  problem: The original says nobody crosses, and the rewrite says no one attempts that again.
+  after:   First: you crossed. Second: the stones stay put now. Third: nobody does that.
+0h72e9s | Basin-keeper | src/content/ring8.ts leanman
+  before:  One: the gate's past the holes. Two: haul stones stop a roll. Three: walk out and it all rolls back.
+  earlier: First: the gate lies past the holes. Second: hauling stones will halt a roll. // Third: if you walk away, everything rolls back into place.
+  problem: The original says haul stones (objects) stop a roll, and the rewrite says hauling stones will halt it.
+  after:   First: the gate's past the holes. Second: haul stones stop a roll. // Third: walk out and it all rolls back.
+1dacecu | Description | src/content/ring8.ts ring8
+  before:  By the south way, a bead of star glass fused to a loose lump of it.
+  earlier: Near the southern path, a bead of star glass is fused to a larger, loose piece.
+  problem: Keep every direction exactly as the original says it.
+  after:   By the south way, a bead of star glass is fused to a loose lump of it.
+0omaxla | Ford-sitter | src/content/ring8.ts fordsitter
+  before:  Get it wrong and walk off, the brook rolls them back. Somebody ought to stop it.
+  earlier: Mess it up and you'll walk off the edge, the brook will carry you away. // Someone ought to prevent that.
+  problem: The original says the brook rolls the stones back if you walk off, and the rewrite says you walk off the edge and the brook carries you away.
+  after:   Mess it up and step off, the brook will roll them back. Someone ought to stop that.
+1a9lcb4 | Man | src/content/townlife.ts townlife
+  before:  Wheel came off on a rib bone. Rib bones everywhere here.
+  earlier: A wheel came off on Rib. There are rib bones all over this place.
+  problem: The original says the wheel came off on a rib bone, and the rewrite says on Rib (the town).
+  after:   A wheel came off on a rib bone. Rib bones everywhere here.
+0rlh8ys | Text | src/content/townlife.ts townlife
+  before:  Rain went up again this morning.
+  earlier: The rain picked up again this morning.
+  problem: The original says the rain went up and took the hat with it. The rewrite says the rain picked up, which loses the upward rain.
+  after:   The rain went up again this morning.
+0hbvjnk | Auk | src/content/townlife.ts townlife
+  before:  The auk slides better than me.
+  earlier: I slide better than you do.
+  problem: The original says the auk slides better than the speaker. The rewrite has the speaker claim to slide better than the listener.
+  after:   The auk slides better than I do.
+1s9k96t | Smith's boy | src/content/townlife.ts townlife
+  before:  I've got loads of character now.
+  earlier: Smith's boy: I've got plenty of character now.
+  problem: The rewrite pastes the speaker label Smith's boy into the spoken text.
+  after:   I've got plenty of character now.
+11cly7l | Text | src/content/townlife.ts townlife
+  before:  The crater fields. Fall, south. Everything here rolls that way.
+  earlier: The crater fields slope south. Everything here rolls that way.
+  problem: The original sign says Fall is to the south. The rewrite drops the town and says the fields slope south. Keep the name Fall.
+  after:   The crater fields of Fall slope south. Everything here rolls that way.
+0731a03 | Register | src/data/species.ts species
+  before:  The shell a hole left behind. Takes stone out of what it hits and keeps it. Three cowries. Count your walls after.
+  earlier: A hole left by a shell. It takes stone from what it hits and keeps it. Three cowries. Count your walls afterward.
+  problem: The original is the shell a hole left behind. The rewrite reverses it into a hole left by a shell.
+  after:   The shell's cast. It takes stone from what it hits and keeps it. Three cowries. Count your walls afterward.
+1olj9v5 | Register | src/data/species.ts species
+  before:  Which is the white under a wood. Spreads. Feeds. It has had some of my counter. Three cowries, less the counter.
+  earlier: The white underside of a forest. It spreads. It feeds. It has taken some of my change. Three cowries, minus the change.
+  problem: The original says the whorl ate part of the shop counter. The rewrite says it took the speaker's change.
+  after:   The white underside of a forest. It spreads. It feeds. It has taken some of my counter. Three cowries, minus the counter.
+0lupuzz | Register | src/data/species.ts species
+  before:  An orchard's old shell, dropping fruit. Real fruit. I've eaten some. I don't ask. Four cowries, plus asking.
+  earlier: The husk of an old orchard, shedding fruit. Actual fruit. I have eaten some. I make no demands. Four cowries, plus the cost of asking.
+  problem: The original says the speaker does not ask questions and charges extra for asking. The rewrite says the speaker makes no demands, which loses the point.
+  after:   The husk of an old orchard, shedding fruit. Actual fruit. I have eaten some. I don't ask. Four cowries, plus asking.
+18fsjth | Register | src/data/species.ts species
+  before:  The Riders' model of the sky. Goes round. Makes your lot go round quicker. Six cowries, which is cheap for a sky.
+  earlier: The Riders' conception of the heavens. It circles. It makes your world spin faster. Six cowries, which is cheap for a sky.
+  problem: The original says it makes your team go round quicker, a speed hint. The rewrite says it makes your world spin faster.
+  after:   The Riders' model of the sky. It circles. It makes your lot go round quicker. Six cowries, which is cheap for a sky.
+0pu3l4p | Register | src/data/species.ts species
+  before:  A wolf's cast, nose down, still on a smell from years back. It sniffs the four cowries before you can hand them over.
+  earlier: Like a wolf casting, nose to the ground, chasing a scent from years ago. It sniffs the four cowries before you can offer them.
+  problem: The original says this is a wolf's cast. The rewrite reads cast as a verb and says it is like a wolf casting. Keep the game word cast. It is a term in this game.
+  after:   Tack's cast, nose down, still on a smell from years back. It sniffs the four cowries before you can hand them over.
+0lr7tb7 | Register | src/data/species.ts species
+  before:  Off a buoy at the marsh mouth. Goes off when something's wrong. Something's always wrong. Three cowries. It's going off now.
+  earlier: The marsh-mouth buoy register is active. It signals trouble, which is constant. Three cowries. It's ringing now.
+  problem: The rewrite invents a buoy register that is active, which reads as nonsense and drops that the whorl came off a buoy.
+  after:   It came from a buoy at the marsh mouth. It signals when something's wrong. Something's always wrong. Three cowries. It's going off now.
+1jtj02v | Register | src/data/species.ts species
+  before:  Tack's cast. Not for sale. Tack would want to know who asked, and how many times.
+  earlier: The tack's cast. Not for sale. Tack would want to know who's asking, and how many times.
+  problem: The original names Tack, a person. The rewrite reads the name as an ordinary word with The tack's cast.
+  after:   Tack's cast. Not for sale. Tack would want to know who's asking, and how many times.
+0li4vfv | Register | src/data/species3.ts species3
+  before:  A fractured window from under Spire, an eye in each pane. Each pane takes one hit. Five cowries, by the pane.
+  earlier: A shattered window from beneath the Spire, with an eye in each pane. Each pane absorbs one impact. Five cowries, charged per pane.
+  problem: Keep the game word fracture. It is a term in this game.
+  after:   A fractured window from beneath the Spire, with an eye in each pane. Each pane absorbs one impact. Five cowries, charged per pane.
+088hqon | Register | src/data/species3.ts species3
+  before:  A pew from under Spire, face in the backrest. While it sits, nobody near it goes all the way down. Four cowries, seated.
+  earlier: A pew from beneath the Spire, with a face in the backrest. While it is occupied, no one nearby falls completely. Four cowries, seated.
+  problem: The original says nobody near the pew goes all the way down while it sits in play. The rewrite says while it is occupied, as if someone sits on it.
+  after:   A pew from beneath the Spire, with a face in the backrest. While it sits, no one nearby falls completely. Four cowries, seated.
+10wd582 | Register | src/data/species3.ts species3
+  before:  Which nothing's moved in forty years, a keel off the dry sea. It moves others a long way. Five cowries, no delivery.
+  earlier: Still after forty years, keel off dry land. Moves others far. Five cowries, no delivery.
+  problem: The original keel comes off the dry sea. The rewrite says it comes off dry land.
+  after:   Still after forty years, keel off the dry sea. Moves others far. Five cowries, no delivery.
+1c54e3l | Register | src/data/species3.ts species3
+  before:  A ship's cannon that talks through the top of its head. The shot lands where you are by then. Four cowries, plus ducking.
+  earlier: Ship's cannon talks through its head. Shot lands where you are. Four cowries, plus ducking.
+  problem: The original says the shot lands where you will be by then, a delayed hit. The rewrite says it lands where you are.
+  after:   Ship's cannon talks through its head. Shot lands where you will be by then. Four cowries, plus ducking.
+183jbnt | Register | src/data/species3.ts species3
+  before:  A reliquary, one eye behind the glass. Whatever it puts down, it keeps a piece of. Six cowries. It kept my change.
+  earlier: A reliquary with one eye watching through the glass. It takes a piece of whatever you set down. Six cowries. It took my change.
+  problem: The original says the reliquary keeps a piece of whatever it puts down. The rewrite says it takes a piece of what you set down.
+  after:   A reliquary with one eye watching through the glass. Whatever it puts down, it keeps a piece of. Six cowries. It kept my change.
+1niu2a8 | Register | src/data/species3.ts species3
+  before:  A bark beetle, bored right through. Waits in its own holes and hits you on the way out. Two cowries. Holes free.
+  earlier: A bark beetle bored all the way through. It waits in its own holes and strikes when you leave. Two cowries. The holes are free.
+  problem: The original says the beetle hits you on its way out of its holes. The rewrite says it strikes when you leave.
+  after:   A bark beetle bored all the way through. It waits in its own holes and hits you on the way out. Two cowries. Holes free.
+14jy60d | Register | src/data/species4.ts species4
+  before:  A brick kiln from the old works. One side still warm. Hand it a notion and it hands it back harder. Four cowries, warm side up.
+  earlier: A brick kiln from the old works. One side remains warm. Give it a thought, and it returns it harsher. Four cowries, warm side up.
+  problem: The original says hand it a notion, the held item. The rewrite says give it a thought. Keep the game word notion. It is a term in this game.
+  after:   A brick kiln from the old works. One side remains warm. Hand it a notion and it hands it back harder. Four cowries, warm side up.
+0zfd9ba | Register | src/data/species4.ts species4
+  before:  Off the eaves of a house, an icicle that fell in love with whoever lived there and came to life over it. Three cowries. It still melts a little when they pass.
+  earlier: An icicle fell from the eaves, in love with the resident, and gained life for them. Three cowries. It still melts slightly.
+  problem: The original says the icicle still melts a little when the person it loves passes. The rewrite drops who makes it melt, so the line loses its point.
+  after:   An icicle fell from the eaves, in love with the resident, and gained life for them. Three cowries. It still melts slightly when they pass.
+0g6f5dc | Register | src/data/species4.ts species4
+  before:  Plus the tail end of a scorpion. Walks on the sting and keeps the rest up top. Five cowries. Don't shake on it.
+  earlier: The tail end of a scorpion. It walks on its sting, keeping the rest of its body aloft. Five cowries. Do not shake it.
+  problem: The original says do not shake hands on the deal. The rewrite says do not shake the whorl.
+  after:   The tail end of a scorpion. It walks on its sting, keeping the rest of its body aloft. Five cowries. Do not shake hands on the deal.
+0d3j3nr | Register | src/data/species4.ts species4
+  before:  Off the Hands' orchard, pruning shears, eye in the pivot. Picks one branch and cuts only that one. Six cowries. Tidy.
+  earlier: At the orchard, shears snip one branch for six cowries. Precise work.
+  problem: The original describes shears from the Hands' orchard that pick one branch and cut only that one. The rewrite says shears snip one branch for six cowries and drops the Hands and the mechanic. Keep the name Hands'.
+  after:   From the Hands' orchard, shears pick one branch and cut only that one. Six cowries. Tidy.
+0cloreo | Register | src/data/species4.ts species4
+  before:  Out past the edge, something drowned. This is the part that fits in the Register. Seven cowries for this part. Rest on request.
+  earlier: Beyond the edge lies a drowning thing. Seven cowries for this entry. Rest available.
+  problem: The original says only part of the drowned thing fits in the Register. The rewrite drops the Register and calls it a drowning thing. Keep the name Register. Keep the game word Register. It is a term in this game.
+  after:   Beyond the edge lies something drowned. This is the part that fits in the Register. Seven cowries for this part. Rest on request.
+1go2k1j | Register | src/data/species5.ts species5
+  before:  And the curl of sand a worm pushes up at low water. Worm left. Curl keeps curling. One cowrie. The worm's extra, if found.
+  earlier: And the curl of sand a worm pushes up at low tide. The worm is gone. The curl keeps curling. One cowrie. The worm is extra, if found.
+  problem: The original uses the game term low water. The rewrite changes it to low tide. Keep the game word low or high water. It is a term in this game.
+  after:   And the curl of sand a worm pushes up at low water. The worm is gone. The curl keeps curling. One cowrie. The worm is extra, if found.
+0pmaup8 | Register | src/data/species5.ts species5
+  before:  Off the tide line, wrack weed that pops. Children buy it to hear it pop. One cowrie, and it won't pop for anyone who's shed.
+  earlier: Wrack weed off the tide line. Kids buy it for the pop. One cowrie. Won't pop for the shed.
+  problem: The original says it will not pop for anyone who has shed. The rewrite says it won't pop for the shed, which reads as a building.
+  after:   Wrack weed off the tide line. Kids buy it for the pop. One cowrie. Won't pop for anyone who's shed.
+0ko2cnr | Register | src/data/species5.ts species5
+  before:  Purse of tiny cowries that grew shut. Clinks when pleased. Pricing money in money gives me a headache. Five cowries, or one of itself.
+  earlier: Cowrie purse that shut up. Clinks when happy. Counting money hurts. Five cowries, or one.
+  problem: The original price is five cowries or one of itself, meaning one such purse. The rewrite says five cowries or one, which reads as one cowrie.
+  after:   Cowrie purse that shut up. Clinks when happy. Counting money hurts. Five cowries, or one of itself.
+1wsbt4u | Register | src/data/species5.ts species5
+  before:  The push of air in the Auger's narrow whorls. Got a shell and kept pushing. Two cowries. It'll push for one.
+  earlier: The draft moving through the Auger's narrow spirals. I got a shell and kept pushing. Two cowries. It will push for one.
+  problem: The original says the air got a shell and kept pushing. The rewrite says the speaker got a shell. Keep the game word whorl. It is a term in this game.
+  after:   The draft moving through the Auger's narrow whorls. It got a shell and kept pushing. Two cowries. It will push for one.
+0asfs7j | Register | src/data/species5.ts species5
+  before:  Swell that lifted the Auger at high water and set it down again. Lifts things, prices too. Three cowries this morning. Four now.
+  earlier: The swell that raised the Auger at high tide and set them down again lifts cargo, and prices too. Three cowries this morning. Four now.
+  problem: The original says high water. The rewrite says high tide and sets them down for the single Auger. Keep the game word low or high water. It is a term in this game.
+  after:   The swell that raised the Auger at high water and set it down again lifts cargo, and prices too. Three cowries this morning. Four now.
+0vc6k54 | Register | src/data/species6.ts species6
+  before:  The still minute between tides, in a shell. Nothing near it moves. Sold one once, and the buyer's still standing there. Four cowries.
+  earlier: The pause between tides, trapped in a shell. Silence reigns. I sold one once. The buyer remains. Four cowries.
+  problem: The original says nothing near it moves. The rewrite says silence reigns, which changes stillness into silence.
+  after:   The pause between tides, trapped in a shell. Nothing near it moves. I sold one once. The buyer remains. Four cowries.
+1jcf3d2 | Register | src/data/species6.ts species6
+  before:  Star that came down bright at a spring low and kept burning. Not in your pocket! Four cowries, and a new pocket.
+  earlier: A star that descended brightly to a low spring and refused to go out. Don't put it in your pocket! Four cowries, plus a new pocket.
+  problem: The original says the star came down at a spring low, a low tide. The rewrite says it came down to a low spring. Keep the game word low or high water. It is a term in this game.
+  after:   A star that descended brightly at a spring low and refused to go out. Don't put it in your pocket! Four cowries, plus a new pocket.
+1y6llgx | Register | src/data/species6.ts species6
+  before:  A jelly the spring low left. Ripples when anyone talks near it, so I am writing this one very quietly. Three cowries.
+  earlier: A jellyfish left behind by the receding spring. It ripples when anyone speaks nearby, so I'm writing this entry very quietly. Three cowries.
+  problem: The original says the spring low left the jelly. The rewrite says a receding spring left it. Keep the game word low or high water. It is a term in this game.
+  after:   A jellyfish left by the spring low. It ripples when anyone speaks nearby, so I'm writing this entry very quietly. Three cowries.
+0febdcq | Register | src/data/species6.ts species6
+  before:  Eye on a stalk, off a conch lip. Hasn't blinked in the three years I've had it. Three cowries. I blink first, every time.
+  earlier: Stalked eye from a conch. Silent for three years. I always blink first. Cost: Three cowries.
+  problem: The original says the eye has not blinked in three years. The rewrite says it has been silent, which breaks the blinking joke.
+  after:   Stalked eye from a conch. It hasn't blinked in the three years I've had it. I always blink first. Cost: Three cowries.
+1n13ia5 | Register | src/data/species6.ts species6
+  before:  Salt flower off the Conch's lip, where the spray dries. Dries whatever it touches the same way. Three cowries. My hands are still dry.
+  earlier: Salt bloom on the lip. Preserves all it touches. My hands remain dry. Cost: Three cowries.
+  problem: Keep the name Conch.
+  after:   Salt bloom on the Conch's lip, where the spray dries. Preserves all it touches the same way. My hands remain dry. Cost: Three cowries.
+0zxryez | Register | src/data/species6.ts species6
+  before:  Coral, grown in the shape of a hand on the Conch's outside. Holds your hand back! Four cowries, if it lets go long enough to pay.
+  earlier: Hand-shaped coral. It grips tight. Pay three cowries if it releases you in time.
+  problem: The original price is four cowries. The rewrite says three cowries. Keep the name Conch.
+  after:   Hand-shaped coral on the Conch's outside. It grips tight. Pay four cowries if it releases you in time.
+1sahg88 | Register | src/data/species6.ts species6
+  before:  Fallen star, green inside, caught in a shell before it touched sand. Shuts the shell again when it's hurt. Seven cowries, and worth eight.
+  earlier: Ouro: A green-inside fallen star, trapped in a shell before hitting sand. It closes when hurt. Seven cowries, worth eight.
+  problem: The rewrite pastes the label Ouro into a Register entry that Ouro does not speak. Keep the game word catch. It is a term in this game.
+  after:   Ouro: A green-inside fallen star, caught in a shell before hitting sand. It closes when hurt. Seven cowries, worth eight.
+1b7pxrw | Battle | src/battle/engine.ts fogBench
+  before:  Fog rolls over {s.name}'s bench.
+  earlier: Mist drifts across {s.name}'s seat.
+  problem: The original says fog rolls over the bench, the reserve. The rewrite says the seat.
+  after:   Mist drifts across {s.name}'s bench.
+1ecqccr | Battle | src/battle/engine.ts returnToMoment
+  before:  {#1} goes back to how it stood.
+  earlier: {#1} returns to its original position.
+  problem: The original says the whorl goes back to how it stood, its earlier state. The rewrite says it returns to its original position.
+  after:   {#1} returns to how it stood.
+011d38c | Menu | src/battle/engine.ts KIND_RULE
+  before:  Sound: guard can't stop it, and it finds a Hidden foe. Silence stops it. A Deaf whorl takes 0.5x.
+  earlier: Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. Deafness reduces damage by 0.5x.
+  problem: Keep the name Deaf. Keep the game word whorl. It is a term in this game.
+  after:   Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.
+0cqwxmq | Menu | src/battle/engine.ts moveText
+  before:  Hits for {x}. Splash {pct}%.
+  earlier: {x} hits. Splash {pct}%.
+  problem: The original gives the damage of a hit. The rewrite says {x} hits, which reads as a hit count.
+  after:   Deals {x}. Splash {pct}%.
+18oma86 | Battle | src/battle/engine.ts shiftCd
+  before:  {what} wait{#2} {n} more turn{#4}.
+  earlier: {what} must wait {#2} {n} more turn{#4}.
+  problem: The rewrite puts must wait in front of the {#2} suffix, so the line comes out garbled.
+  after:   {what} {#2} more turn{#4} wait{n}.
+0s2ko4b | Battle | src/battle/engine.ts setLowWater
+  before:  The sea goes out. Low Water.
+  earlier: Low tide recedes.
+  problem: The original announces the sea going out and Low Water. The rewrite drops Low Water and says low tide recedes.
+  after:   The sea recedes. Low Water.
+1vsyv5n | Battle | src/battle/engine.ts holdTide
+  before:  {#1}'s tide is nailed in the hold.
+  earlier: {#1}'s current is trapped in the hold.
+  problem: The original says the tide is nailed in the hold. The rewrite changes tide to current. Keep the game word tide. It is a term in this game.
+  after:   {#1}'s tide is locked in the hold.
+0pfudxy | Battle | src/battle/engine.ts setGround
+  before:  The {old.name} under {s.name}'s side settles.
+  earlier: The {old.name} under {s.name}'s command settles down.
+  problem: The original says the ground under the side settles. The rewrite says under the player's command.
+  after:   The {old.name} beneath {s.name}'s side settles.
+09qxpo6 | Battle | src/battle/engine.ts goUp
+  before:  {#1} goes up.
+  earlier: {#1} advances.
+  problem: The original says the whorl goes up into the air. The rewrite says it advances.
+  after:   {#1} rises.
+16w3em0 | Battle | src/battle/engine.ts boutRound
+  before:  The bout stands {#1} to {#2}.
+  earlier: The matchup is tied at {#1} to {#2}.
+  problem: The original reports the bout score. The rewrite says the score is tied whatever the numbers are.
+  after:   The score is tied at {#1} to {#2}.
+0mkqy4p | Battle | src/battle/engine.ts endTurn
+  before:  {#1}'s tide comes out of the hold.
+  earlier: {#1}'s tide rises from the depths.
+  problem: The original says the tide comes out of the hold. The rewrite says it rises from the depths.
+  after:   {#1}'s tide rises from the hold.
+0e68i8z | Battle | src/battle/engine.ts endTurn
+  before:  The fog lifts off {#1}'s bench.
+  earlier: The fog lifts from {#1}'s perch.
+  problem: The original says the fog lifts off the bench. The rewrite says the perch.
+  after:   The fog lifts from {#1}'s bench.
+13agoku | Battle | src/battle/engine.ts endTurn
+  before:  {#1}'s bench can reach again.
+  earlier: {#1} is back on the bench.
+  problem: The original says the bench can reach again. The rewrite says the whorl is back on the bench.
+  after:   {#1} can bench press again.
+1h5im93 | Menu | src/net/wire.ts whorlProblems
+  before:  holds a notion this game does not know.
+  earlier: clutches an idea the game does not recognize.
+  problem: The original says the whorl holds a notion. The rewrite says it clutches an idea. Keep the game word notion. It is a term in this game.
+  after:   holds a notion the game does not know.
+0wkuubs | Menu | src/net/wire.ts fitProblems
+  before:  is a fit with a plain attack neither parent has.
+  earlier: it pairs with a plain attack that neither parent possesses.
+  problem: The original says it is a fit with a plain attack neither parent has. The rewrite drops fit and says it pairs with an attack, which does not follow the whorl name.
+  after:   it is a fit with a plain attack neither parent has.
+1rogd4c | Menu | src/net/wire.ts teamProblems
+  before:  A roster holds {ROSTER_SIZE} whorls.
+  earlier: This roster contains {ROSTER_SIZE} whorls.
+  problem: The original states the rule that a roster holds {ROSTER_SIZE} whorls. The rewrite says this roster contains that many, which contradicts the error.
+  after:   This roster holds {ROSTER_SIZE} whorls.
+0c3xudq | Menu | src/net/wire.ts fitProblems
+  before:  is a fit with a retune it cannot make.
+  earlier: it matches a retune it can't create.
+  problem: The original says it is a fit with a retune it cannot make. The rewrite drops fit and says it matches a retune.
+  after:   it is a fit with a retune it can't create.
+12a0np3 | Menu | src/net/wire.ts teamProblems
+  before:  A roster holds one legendary at most, and a fit with a legendary parent counts. This roster has {legends}.
+  earlier: Max one legendary per roster. {legends} is here.
+  problem: The rewrite drops the rule that a fit with a legendary parent counts as a legendary.
+  after:   Max one legendary per roster. A fit with a legendary parent counts. {legends} is here.
+06iqdw4 | Menu | src/net/wire.ts pickProblems
+  before:  A pick holds {TEAM_SIZE} whorls.
+  earlier: This pick has {TEAM_SIZE} whorls.
+  problem: The original states the rule that a pick holds {TEAM_SIZE} whorls. The rewrite says this pick has that many, which contradicts the error.
+  after:   This pick holds {TEAM_SIZE} whorls.
+05xcpj4 | Menu | src/game/battleView.ts buildVisitOptions
+  before:  Nothing to cast it on.
+  earlier: No target.
+  problem: Keep the game word cast. It is a term in this game.
+  after:   No target to cast on.
+1i84rbt | Menu | src/game/battleView.ts showInfo
+  before:  {#1} side is shut in for {#2} rounds: its switches go after the other side's action in a joint round.
+  earlier: {#1}'s side is locked for {#2} rounds: its switches resolve after the other side acts in joint rounds.
+  problem: The rewrite adds 's after {#1}, which already holds a possessive, and the line comes out garbled.
+  after:   {#1}'s side is locked for {#2} rounds: its switches go after the other side acts in joint rounds.
+0cqzdws | Menu | src/game/battleView.ts showInfo
+  before:  {#1} is in cold storage for {r.stored.turns} more turn{#3}: nothing from the other side reaches it, it cannot come out unless nobody else can, its cooldowns and marks wait, and it heals {#4}% each turn.
+  earlier: {#1} is in cold storage for {r.stored.turns} more turn{#3}: it is immune to all effects from the opposing side, cannot act unless no other allies can, has its cooldowns and marks paused, and heals {#4}% of its max hp each turn.
+  problem: The original says the stored whorl cannot come out unless nobody else can. The rewrite says it cannot act.
+  after:   {#1} is in cold storage for {r.stored.turns} more turn{#3}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals {#4}% of its max hp each turn.
+01cyqon | Menu | src/game/battleView.ts showInfo
+  before:  The swell is at {this.b.swell.n} of 9, rising each turn. At 9 the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+  earlier: Swell peaks at {this.b.swell.n}/9. At 9, waves hit out whorls: TIDE gains Haste 1. Others lose 12% HP and gain Slow 1.
+  problem: The original says the swell is at N of 9 and rises each turn. The rewrite says it peaks at N and drops that it rises.
+  after:   The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+0lkga1l | Menu | src/game/battleView.ts showInfo
+  before:  {#1} stands in front of {#2} bench: it takes the other side's hits meant for the reserves.
+  earlier: {#1} guards {#2}: it intercepts hits meant for reserves.
+  problem: The original says the whorl stands in front of the bench and takes hits meant for reserves. The rewrite drops the bench and leaves the possessive {#2} with nothing after it.
+  after:   {#1} stands before {#2}'s bench: it intercepts hits meant for the reserves.
+1gcc94m | Menu | src/game/battleView.ts showInfo
+  before:  A mirage over {#1} shows the foe {o.mirage.hp} more HP than it has, for {o.mirage.turns} more of its turns.
+  earlier: Mirage on {#1} hides {o.mirage.hp}'s true HP for {o.mirage.turns} turns.
+  problem: The original says the mirage shows {o.mirage.hp} more HP than the whorl has. The rewrite treats the HP number as a name.
+  after:   Mirage on {#1} shows {o.mirage.hp} having {o.mirage.turns} more HP than it actually does.
+0jyb566 | Menu | src/game/battleView.ts timeoutLine
+  before:  Time ran out, so {#1} casts {m.name}.
+  earlier: Time expired, so {#1} plays {m.name}.
+  problem: The original says the whorl casts a move. The rewrite says it plays it, which suggests cards. Keep the game word cast. It is a term in this game.
+  after:   Time expired, so {#1} casts {m.name}.
+0kstelr | Menu | src/game/battleView.ts timeoutLine
+  before:  Time ran out, so {#1} casts nothing.
+  earlier: Time expired, so {#1} plays no card.
+  problem: The original says the whorl casts nothing. The rewrite says it plays no card, and the game has no cards. Keep the game word cast. It is a term in this game.
+  after:   Time expired, so {#1} casts nothing.
+1wbg3fx | Menu | src/game/battleView.ts dropText
+  before:  Spends your turn. {dd.text} Either side may take it. Gone in {left} round{#3}.
+  earlier: Consumes your turn. {dd.text} Either side may act. It ends in {left} round{#3}.
+  problem: The original says either side may take the dropped item. The rewrite says either side may act.
+  after:   Consumes your turn. {dd.text} Either side may take it. It ends in {left} round{#3}.
+1jw0d1q | Menu | src/game/files.ts fileMenu
+  before:  Replace file {n}? Its save will be lost.
+  earlier: Overwrite {n}? Unsaved changes lost.
+  problem: The original says the save already in that file will be lost. The rewrite says unsaved changes will be lost.
+  after:   Overwrite {n}? The existing save will be lost.
+0qadict | Menu | src/game/files.ts draw
+  before:  Its save will be lost.
+  earlier: Saving this will be lost.
+  problem: The original says the save will be lost. The rewrite says saving this will be lost, which is garbled.
+  after:   The save will be lost.
+1o8rjz3 | Menu | src/game/middenScreen.ts head
+  before:  Swap with which team whorl?
+  earlier: Swap with which team?
+  problem: The original asks which team whorl to swap with. The rewrite asks which team. Keep the game word whorl. It is a term in this game.
+  after:   Swap with which team's whorl?
+1y8zl61 | Menu | src/game/setting/puzzles.ts PUZZLES
+  before:  Reach out and pull in to carry a stone two cells.
+  earlier: Reach, pull, move two.
+  problem: The original hint says reach out and pull in to carry a stone two cells. The rewrite says reach, pull, move two, which drops the stone and the cells.
+  after:   Reach out and pull in to move a stone two cells.
+13rpep0 | Battle | src/data/kits5.ts afterTake
+  before:  The glass turns over behind {#1}.
+  earlier: Glass shatters behind {#1}.
+  problem: The original says the glass turns over, as an hourglass does. The rewrite says glass shatters.
+  after:   The glass breaks behind {#1}.
+0e15lft | Battle | src/data/kits5.ts run
+  before:  {#1} and {#2} trade wounds.
+  earlier: {#1} and {#2} exchange blows.
+  problem: The original says the two whorls trade wounds. The rewrite says they exchange blows.
+  after:   {#1} and {#2} trade blows.
+0xxi4t5 | Guide | src/content/guide.ts GUIDE
+  before:  ATK is the power of physical hits.
+  earlier: ATK determines the power of physical attacks.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   ATK makes physical hits stronger.
+1qt3jfs | Guide | src/content/guide.ts GUIDE
+  before:  MGK is the power of magic hits.
+  earlier: MGK determines the power of magic attacks.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   MGK boosts magic attacks.
+040vnj4 | Guide | src/content/guide.ts GUIDE
+  before:  AGI is speed. A whorl with more AGI gets more turns.
+  earlier: AGI represents speed. Whorls with higher AGI get more turns.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words. Keep the game word whorl. It is a term in this game.
+  after:   Speed is AGI. A whorl with more AGI takes more turns.
+02luagw | Guide | src/content/guide.ts GUIDE
+  before:  CHA helps a horn catch a whorl. A whorl with more CHA waits less after a Switch. Some moves use CHA too.
+  earlier: CHA helps a horn catch whorls. It also reduces the wait time after using a Switch. Some moves also utilize CHA.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   CHA helps a horn catch whorls. It also reduces the wait time after using a Switch. Some moves use CHA too.
+0pwh054 | Guide | src/content/guide.ts GUIDE
+  before:  Each species has its own strengths. One species may have more ATK. Another may have more DEF. Species are also different in their moves, habits, and types.
+  earlier: Each species has unique strengths. One species might have higher ATK, while another has higher DEF. Species also differ in their moves, habits, and types.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   Every species is strong in different ways. One might have more ATK. Another might have more DEF. They also have different moves, habits, and types.
+1pcak1s | Guide | src/content/guide.ts GUIDE
+  before:  Every species gets the same number of stat points. Each species puts them in different places. So a fast species has less DEF, and a tough species gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.
+  earlier: Every species receives the same total number of stat points, but they are distributed differently. For example, a fast species will have lower DEF, while a tough species may get fewer turns. A conjoined whorl receives half its points from each of the two original whorls.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   All species get the same number of stat points. They use them in different ways. A fast species has less DEF. A tough species gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.
+10qw4ds | Guide | src/content/guide.ts GUIDE
+  before:  This picture shows the stats of your lead. Stats go up when a whorl gains a level. Things you find later can raise them a little more.
+  earlier: This image displays the stats of your lead. Stats increase when a whorl levels up, and certain items you find later can boost them slightly.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   This picture shows your lead's stats. The stats go up when a whorl levels up. You can find things later that raise them a little more.
+018cbom | Guide | src/content/guide.ts GUIDE
+  before:  HP is health. A whorl with 0 HP is knocked out. Max HP is the most HP it can have.
+  earlier: HP represents health. A whorl with 0 HP is knocked out. Max HP is the highest HP it can have.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   HP is health. A whorl with 0 HP is knocked out. Max HP is the most health it can have.
+1lnp2ob | Guide | src/content/guide.ts GUIDE
+  before:  To pick a new lead, press X for the menu. Pick Team, then pick a whorl. Then pick Make lead.
+  earlier: Press X to open the menu, select Team, choose a whorl, then pick Make leader.
+  problem: The rewrite names the menu option Make leader, and the menu option is Make lead. Keep the game word lead. It is a term in this game.
+  after:   Press X to open the menu, select Team, choose a whorl, then pick Make lead.
+17cp80e | Guide | src/content/guide.ts GUIDE
+  before:  So DEF helps most against physical whorls. RES helps most against magic whorls.
+  earlier: DEF helps most against physical creatures. RES helps most against magical ones.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words. Keep the game word whorl. It is a term in this game.
+  after:   DEF works best against physical whorls. RES works best against magic whorls.
+0rwpw6c | Guide | src/content/guide.ts GUIDE
+  before:  In a battle, a whorl waits after it acts. AGI makes the wait shorter. So a fast whorl gets more turns.
+  earlier: In battle, a creature waits after acting. AGI shortens this wait. So a faster creature gets more turns.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   In combat, a whorl pauses after taking an action. Higher AGI reduces this pause. Thus, a quicker whorl gains additional turns.
+0ul3im3 | Guide | src/content/guide.ts GUIDE
+  before:  Here is an example. Your whorl has 69 AGI. The foe has 51 AGI. Over the whole battle, your whorl gets about 9 turns for every 8 the foe gets.
+  earlier: Example: Your creature has 69 AGI. The foe has 51. Over the battle, yours gets about 9 turns for every 8 the foe gets.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Example: Your whorl has 69 AGI, while the foe has 51. Throughout the battle, your whorl gains roughly 9 turns for every 8 the foe gets.
+1yajj3n | Guide | src/content/guide.ts GUIDE
+  before:  Then the two actions happen in order. The whorl whose turn comes first goes first. The top line tells you who goes first.
+  earlier: Actions resolve in order. The creature whose turn comes first goes first. The top line indicates who moves first.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Actions resolve in order. The whorl whose turn comes first goes first. The top line indicates who moves first.
+0p9ry30 | Guide | src/content/guide.ts GUIDE
+  before:  So try to guess what the foe will do. If a big hit is coming, Guard. If the foe will Guard, use a dash. If the foe will use a TIDE move, switch to a whorl that takes less from it.
+  earlier: Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a creature resistant to it.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Guess the foe's move. If a big hit is coming, Guard. If the foe Guards, use a dash. If they use TIDE, switch to a whorl resistant to it.
+1higm7a | Guide | src/content/guide.ts GUIDE
+  before:  Sometimes one turn comes much sooner than the other. Then that side picks alone and moves. So a fast whorl can move twice before a slow one moves once. The top line tells you when this will happen.
+  earlier: Sometimes one side moves much sooner. That side picks alone and moves. So a fast creature can move twice before a slow one moves once. The top line shows when this happens.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Sometimes one side moves much sooner. That side picks alone and moves. So a fast whorl can move twice before a slow one moves once. The top line shows when this happens.
+0v4s7qn | Guide | src/content/guide.ts GUIDE
+  before:  Some actions have a short wait. A whorl waits 80% as long after a Guard as after an Attack. The whorl you switch in waits about 70% as long. More CHA makes that wait shorter. The Switch list shows the wait for each whorl.
+  earlier: Some actions have short waits. A creature waits 80% as long after Guard as after Attack. The incoming creature waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each creature.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Some actions have short waits. A whorl waits 80% as long after Guard as after Attack. The incoming whorl waits about 70%. More CHA shortens this wait. The Switch list shows the wait for each whorl.
+1nf4u4c | Guide | src/content/guide.ts GUIDE
+  before:  Slow 1 pushes the whorl's next turn back. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+  earlier: Slow 1 pushes the creature's next turn back. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   Slow 1 delays the whorl's next turn. It waits 30% of a turn more. Slow 2 does this for its next 2 turns.
+1gtjpoh | Guide | src/content/guide.ts GUIDE
+  before:  A wind-up is a move that lands later. A ! shows over a whorl while it winds up. The top line tells you how many moves you get first.
+  earlier: A wind-up move lands later. A ! appears over the creature while winding up. The top line shows how many moves you get first.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   A wind-up move lands later. A ! appears over the whorl while winding up. The top line shows how many moves you get first.
+1ed1xsh | Guide | src/content/guide.ts GUIDE
+  before:  To see a whorl's stats, press X. Pick Team, then the whorl, then Look. The Stats tab shows them.
+  earlier: Press X for stats. Go to Team, select the whorl, and choose Look.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   Press X to see stats. Tap Team, pick the whorl, then tap Look.
+1oq1pi2 | Guide | src/content/guide.ts GUIDE
+  before:  You can also switch to a whorl that takes less from the move. An Unstoppable wind-up cannot be cut off.
+  earlier: You can also switch to a whorl that drains less stamina. An Unstoppable wind-up cannot be interrupted.
+  problem: The original says to switch to a whorl that takes less damage from the move, and the rewrite says one that drains less stamina.
+  after:   You can also switch to a whorl that takes less damage from the move. An Unstoppable wind-up cannot be interrupted.
+1kj0a52 | Guide | src/content/guide.ts GUIDE
+  before:  A Guard stops more of a projectile. It does not stop a dash at all.
+  earlier: Guard blocks more projectile attacks but does not block dash attacks at all.
+  problem: The original says Guard stops a larger share of a projectile, and the rewrite says it blocks more projectile attacks.
+  after:   Guard blocks a larger share of a projectile but does not block a dash at all.
+0pn7mh4 | Guide | src/content/guide.ts GUIDE
+  before:  Some Attacks hit more than once. A habit that works after an Attack still works once for the whole Attack. A habit that says hits works on each hit.
+  earlier: Attacks can hit multiple times. Persistent habits apply once per attack. Habits specifying "hits" apply per hit.
+  problem: The original says a habit that works after an Attack still works once per Attack, and the rewrite calls these persistent habits. Keep the name Attack.
+  after:   Attacks can strike more than once. A habit that functions after an Attack still works once for the entire Attack. A habit that mentions hits applies to each hit.
+1titfc5 | Guide | src/content/guide.ts GUIDE
+  before:  A move of the whorl's own type hits 20% harder. Squall is a TIDE whorl. So its TIDE moves hit 20% harder.
+  earlier: Whorl-type moves hit 20% harder. Squall is TIDE. Its TIDE moves hit 20% harder.
+  problem: The original says a move of the whorl's own type hits harder, and the rewrite says Whorl-type moves as if whorl were a type. Keep the game word whorl. It is a term in this game.
+  after:   Whorl-type moves deal 20% more damage. Squall is a TIDE whorl, so its TIDE moves deal 20% more damage.
+0pf1og7 | Guide | src/content/guide.ts GUIDE
+  before:  A crest has a cooldown too, like any other move.
+  earlier: Crests have cooldowns, just like other moves.
+  problem: Keep the game word crest. It is a term in this game.
+  after:   A crest also has a cooldown, like any other move.
+0o47oco | Guide | src/content/guide.ts GUIDE
+  before:  A plain Attack has no type. Damage from statuses has no type either.
+  earlier: Plain Attacks have no type. Status effects also lack a type.
+  problem: Keep the name Attack.
+  after:   A plain Attack has no type. Damage from statuses also has no type.
+0rsroe7 | Guide | src/content/guide.ts GUIDE
+  before:  Stun. The whorl loses its next turn. A stun also cuts off a wind-up.
+  earlier: Stun: The whorl skips its next turn. Stun also interrupts wind-ups.
+  problem: Keep the game word wind-up. It is a term in this game.
+  after:   Stun: The whorl loses its next turn. Stun also cuts off a wind-up.
+0kfi86d | Guide | src/content/guide.ts GUIDE
+  before:  Untouchable. The whorl takes no damage. Another Untouchable does not make it last longer. The whorl is Seen through its next turn after Untouchable ends. Until then it cannot become Untouchable or Hidden.
+  earlier: Untouchable. The whorl takes no damage. Applying another instance of Untouchable does not extend its duration. Once Untouchable expires, the whorl is revealed at the start of its next turn. Until then, it cannot gain Hidden or become Untouchable again.
+  problem: The original says the whorl is Seen through its next turn after Untouchable ends, and the rewrite says it is revealed at the start of that turn.
+  after:   Untouchable. The whorl takes no damage. Applying another instance of Untouchable does not extend its duration. The whorl is Seen through its next turn after Untouchable ends. Until then, it cannot gain Hidden or become Untouchable again.
+0sidt16 | Guide | src/content/guide.ts GUIDE
+  before:  When a whorl switches out, it drops most statuses. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden stay on it.
+  earlier: Upon switching out, a whorl sheds most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden persist.
+  problem: The rewrite says a switching whorl sheds its statuses, which uses the game term shed for dropping a status.
+  after:   When a whorl switches out, it sheds most status effects. Burn, Bleed, Poison, Rot, Doom, Ward, Regen, and Hidden remain.
+1mzr28m | Guide | src/content/guide.ts GUIDE
+  before:  A mark is a sign that some moves put on a whorl. Each species has its own marks. Kivishi gets a Stone each time it is hit.
+  earlier: Marks are indicators applied by certain moves. Each species has unique marks. For example, Kivishi gains a Stone stack each time it is hit.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   A mark is a sign that some moves place on a whorl. Each species has its own marks. Kivishi gains a Stone each time it is hit.
+04m4aii | Guide | src/content/guide.ts GUIDE
+  before:  Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
+  earlier: Revealed: The whorl shows next turn after Hidden ends. While Revealed, it cannot become Hidden or Untouchable.
+  problem: The rewrite replaces the Hidden entry with a Revealed entry and drops what Hidden does. Keep the name Guard. Keep the game word Guard. It is a term in this game.
+  after:   Revealed: The whorl shows next turn after Hidden ends. While Revealed, it cannot become Hidden or Untouchable. Hidden: A foe's single hits cannot find it. Its own next hit goes through Guard.
+1l9z8mo | Guide | src/content/guide.ts GUIDE
+  before:  In a battle with a wild whorl, you can also pick Run. Run always works.
+  earlier: When fighting a wild creature, you can always choose to Run.
+  problem: The original says Run always works, and the rewrite says only that you can always choose Run. Keep the game word whorl. It is a term in this game.
+  after:   When fighting a wild whorl, you can always choose to Run. Run always works.
+1ws16ib | Guide | src/content/guide.ts GUIDE
+  before:  At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds the same points to any stat. So it helps a weak stat as much as a strong one.
+  earlier: At a shop, select Nacre to apply it to a creature. Each layer adds the same number of points to any stat, strengthening weak stats just as effectively as strong ones.
+  problem: Keep the game word grotto, nacre, whorl. It is a term in this game.
+  after:   At a grotto, pick Nacre. Then layer nacre on a whorl. Each layer adds the same points to any stat, helping a weak stat just as much as a strong one.
+1x4d4iu | Guide | src/content/guide.ts GUIDE
+  before:  Each level needs more XP than the last. A level 5 whorl needs 72 XP to reach level 6.
+  earlier: XP needs rise per level. Level 5 requires 72 XP to reach 6.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   XP needs rise per level. A level 5 whorl requires 72 XP to reach level 6.
+1rkp45f | Guide | src/content/guide.ts GUIDE
+  before:  In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
+  earlier: In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. The percentage increases by 5% per round.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. The percentage goes up by 5% each round.
+1sjneaw | Guide | src/content/guide.ts GUIDE
+  before:  Press V to sort a pocket by name, or by kind.
+  earlier: Press V to sort your inventory by name or category.
+  problem: The original sorts one pocket, and the rewrite sorts the whole inventory.
+  after:   Press V to sort a pocket by name or by kind.
+1fu4yc6 | Guide | src/content/guide.ts GUIDE
+  before:  A Salt Line keeps wild whorls away for 150 steps. A Lure Shell brings out the rarest species on that map. A Carter's Whistle calls the cart one time.
+  earlier: A Salt Line repels wild whorls for 150 steps. A Lure Shell attracts rare species on the current map. A Carter's Whistle summons the cart once.
+  problem: The original says a Lure Shell brings out the rarest species on the map, and the rewrite says rare species.
+  after:   A Salt Line repels wild whorls for 150 steps. A Lure Shell attracts the rarest species on the current map. A Carter's Whistle summons the cart once.
+0nkxplb | Guide | src/content/guide.ts GUIDE
+  before:  Cowries are shells that you spend like money.
+  earlier: Cowries function as currency for shells.
+  problem: The original says cowries are shells you spend as money, and the rewrite says they are currency for shells. This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   Cowries are shells you spend like money.
+1ouf7y9 | Guide | src/content/guide.ts GUIDE
+  before:  You get cowries when you beat a trainer. Each whorl of the trainer pays 12 cowries for each of its levels. Two level 10 whorls pay 240 cowries.
+  earlier: You earn cowries by defeating trainers. Each whorl on the opposing team pays 12 cowries per level. For example, two level 10 whorls yield 240 cowries.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   You earn cowries by beating trainers. Each whorl pays 12 cowries for every level it has. Two level 10 whorls pay 240 cowries.
+0gndhil | Guide | src/content/guide.ts GUIDE
+  before:  You spend cowries on horns, notions, and things to use. Conjoining costs cowries. A ride on the cart costs 10.
+  earlier: Spend cowries on horns, accessories, and usable items. Conjoining costs cowries, and a cart ride costs 10.
+  problem: The rewrite calls notions accessories, a word the game does not use for them. This is a page of the guide for young readers. Use short sentences and simple, everyday words. Keep the game word notion. It is a term in this game.
+  after:   Spend cowries on horns, notions, and things to use. Conjoining costs cowries. A ride on the cart costs 10.
+1c3olg8 | Guide | src/content/guide.ts GUIDE
+  before:  A Starborn whorl is just as strong as others of its species. Only its look is different.
+  earlier: Starborn whorls have the same stats as their standard counterparts. Only their appearance differs.
+  problem: Keep the game word species. It is a term in this game.
+  after:   A Starborn whorl is just as strong as others of its species. Only its appearance is different.
+0bhujsw | Guide | src/content/guide.ts GUIDE
+  before:  Grab picks up the stone at the claw. Turning swings the arm. A polisher shines a stone. A setter joins two stones. A splitter breaks them apart.
+  earlier: Grab retrieves the stone held by the claw. Turning rotates the arm. A polisher buffs the stone. A setter joins two stones. A splitter separates them.
+  problem: The original says Grab picks up the stone at the claw, and the rewrite says the stone already held by the claw.
+  after:   Grab picks up the stone with the claw. Turning swings the arm. A polisher shines a stone. A setter joins two stones. A splitter breaks them apart.
+1b6e3os | Guide | src/content/guide.ts GUIDE
+  before:  You can sell finds at a grotto. Pick Sell there. The Bag shows what each find sells for. The Strandmonger pays 25% more.
+  earlier: Sell finds at a grotto. The Bag shows prices. The Strandmonger pays 25% more.
+  problem: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+  after:   Go to a grotto to sell your finds. Tap Sell. The Bag shows the price. The Strandmonger pays 25% more.
+0u2ao0l | Guide | src/content/guide.ts GUIDE
+  before:  No charms. Every whorl fights at level {SYNC_LEVEL}.
+  earlier: Charms are not allowed. All whorls fight at level {SYNC_LEVEL}.
+  problem: Keep the game word charm. It is a term in this game.
+  after:   No charms allowed. All whorls fight at level {SYNC_LEVEL}.
+124uhp1 | Guide | src/content/guide.ts GUIDE
+  before:  When the battle ends, you go back to the teams. Press Start again to play the same battle.
+  earlier: End battle to return. Press Start to replay.
+  problem: The original says you return to the teams when the battle ends, and the rewrite tells the player to end the battle to return.
+  after:   Return to the teams when the battle ends. Press Start to play the same battle again.
+1r9zzo6 | Guide | src/content/guide.ts GUIDE
+  before:  Bring {ROSTER_SIZE} whorls. Pick {TEAM_SIZE} to fight. The Roster screen tells you what breaks a rule.
+  earlier: Bring {ROSTER_SIZE} whorls, pick {TEAM_SIZE}. Roster lists rules.
+  problem: The original says the Roster screen shows what breaks a rule, and the rewrite says the roster lists rules.
+  after:   Bring {ROSTER_SIZE} whorls, pick {TEAM_SIZE}. The Roster screen shows what breaks a rule.
+0q4qcje | Guide | src/content/guide.ts GUIDE
+  before:  You get {CHOICE_SECONDS} seconds a turn. You get {REPLACE_SECONDS} seconds to pick your next whorl. If time runs out, the game picks for you. {TIMEOUTS_TO_LOSE} timeouts in a row lose the match.
+  earlier: {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts loses.
+  problem: The rewrite drops in a row, so it says any number of timeouts loses the match. Keep the game word whorl. It is a term in this game.
+  after:   {CHOICE_SECONDS}s per turn. {REPLACE_SECONDS}s to pick your next whorl. Auto-pick on timeout. {TIMEOUTS_TO_LOSE} timeouts in a row loses.
+1jaqp40 | Text | src/content/ring.ts ring
+  before:  A flat bar of iron with a bent end. Face a crust of old shells and press to prise it off.
+  earlier: An iron bar with a hooked end. Use it to pry away the encrusted shell layer.
+  problem: The rewrite drops how to use the bar, which is to face a crust of shells and press.
+  after:   An iron bar with a hooked end. Face a crust of old shells and press to pry it off.
+1h39fd8 | Text | src/content/ring.ts ring
+  before:  It fell in the bay the year before the sea shed. The knocker is a scallop. (it still knocks)
+  earlier: It washed into the bay the year before the sea receded. The knocker is a scallop. (It still knocks.)
+  problem: The original says the sea shed, and the rewrite says the sea receded. Keep the game word shed. It is a term in this game.
+  after:   It washed into the bay the year before the sea shed. The knocker is a scallop. (It still knocks.)
+15f6h4q | Text | src/content/ring.ts ring
+  before:  Four panes. Three show the Rim. The fourth is cracked and shows it twice.
+  earlier: Four panes. Three display the Rim. The fourth is fractured, revealing it twice.
+  problem: The rewrite calls the cracked pane fractured, which is the game term for a crack in the ground.
+  after:   Four panes. Three display the Rim. The fourth is cracked, revealing it twice.
+1vwmzz6 | Text | src/content/ring.ts ring
+  before:  A sleeper slept on it for some years. One leg is shorter now.
+  earlier: Someone slept on it for years. One leg has grown shorter since.
+  problem: The original says a sleeper slept on the chair, and the rewrite says someone did, which loses the link to the big sleepers.
+  after:   A sleeper slept on it for years. One leg is shorter now.
+00armdu | Strandmonger | src/content/ch1.ts fellmonger
+  before:  And a late one! Which means the Rim walk, then.
+  earlier: And a late entry! That means we're taking the Rim walk.
+  problem: The original calls Ouro a late one (someone whose shell has not come off) who must walk the Rim. The rewrite says "a late entry" and puts the Strandmonger on the walk with "we're taking".
+  after:   And a late one! That means the Rim walk.
+016vdmc | Bare | src/content/ch5.ts barePylon
+  before:  Hey. Turn around for me.
+  earlier: Hey. Face me.
+  problem: The original asks Ouro to turn around so Bare can see their back. The rewrite says "Face me", which is the opposite.
+  after:   Hey. Turn around.
+14whoqa | Choice | src/content/ch7.ts moonwaterEnter
+  before:  Fight it
+  earlier: Resist.
+  problem: The choice to fight it becomes "Resist".
+  after:   Fight it.
+1xgor4l | Goal | src/content/ch7.ts moonwaterEnter
+  before:  Go to Hilt, at the east end of the road.
+  earlier: Head to Hilt, located at the road's eastern end.
+  problem: Keep every direction exactly as the original says it.
+  after:   Head to Hilt, at the east end of the road.
+0w75jgy | Bootless | src/content/areas1.ts map undermeadow
+  before:  If you see it, it's the right one. Tell it I'm not mad.
+  earlier: If you spot it, you've found the correct one. Tell it I'm not angry.
+  problem: The original says the lost boot is the right one (right foot). The rewrite says the correct one and loses the clue.
+  after:   If you see it, you've found the right one. Tell it I'm not mad.
+0nomez7 | Description | src/content/areas1.ts map undermeadow
+  before:  The meadow shed here once. The new meadow grew over its cast.
+  earlier: A meadow shed once stood here. The new meadow grew over its remains.
+  problem: The original says the meadow shed and grew over its cast. The rewrite makes a meadow shed a building and drops cast. Keep the game word cast. It is a term in this game.
+  after:   This meadow shed once stood here. The new meadow grew over its cast.
+05ao6xx | Choice | src/content/act2/ch1.ts a2CinchMargin
+  before:  Tack is.
+  earlier: Secure it.
+  problem: The choice answers that Tack is turning the post. The rewrite says "Secure it" and drops the name Tack. Keep the name Tack.
+  after:   Tack secures it
+0nqfsah | Salt-scraper | src/content/act2/ch3.ts map augerstair
+  before:  The tide leaves a line on the wall. I scrape it off and it comes back higher. Every time!
+  earlier: Tide marks the wall. I scrape it. It returns higher. Again!
+  problem: Keep the game word tide. It is a term in this game.
+  after:   The tide marks the wall. I scrape it off, but it returns higher. Again!
+1dx66x3 | Hint | src/content/act2/ch4.ts siphonBack
+  before:  (Siphon will fight you here, when you come back out through the back.)
+  earlier: (The siphon will resist you here when you exit through the rear.)
+  problem: The original says Siphon (the character) will fight you, and the rewrite says the siphon will resist you.
+  after:   (Siphon will fight you here when you come back out through the rear.)
+1rybewm | Hint | src/content/act2/ch4.ts tidereader
+  before:  (One to four notches for how far the sea went out. Find the pattern and cut the six blanks.)
+  earlier: (Four notches indicate how far the sea receded. Spot the pattern and seal the six openings.)
+  problem: The original says one to four notches show how far the sea went out and asks you to cut the six blanks, and the rewrite says four notches and asks you to seal six openings.
+  after:   (Here are the revised lines, // edited to fix the specific problems noted while maintaining the intended meaning and flow:)
+1linx0p | Siphon | src/content/act2/ch4.ts siphFail
+  before:  This room is sealed now. This room reopens at the next high water, without fail.
+  earlier: This chamber is now sealed. It will reopen at the next high tide, without exception.
+  problem: Keep the game word low or high water. It is a term in this game.
+  after:   This chamber is now sealed. It will reopen at the next high water, without exception.
+132m5p1 | Woman climbing | src/content/act2/ch5.ts map springlow
+  before:  Up. And down. Up. And down. My knees have opinions about the big low.
+  earlier: Up. Then down. Up. Then down. My knees are complaining about the steep drop.
+  problem: The original complains about the big low (the spring low), and the rewrite says a steep drop.
+  after:   Up. Then down. Up. Then down. My knees are complaining about the big low.
+1yr3wbl | Description | src/content/act2/ch5.ts map springlow
+  before:  A whole wreck, lying on its side on sand nobody here has seen dry.
+  earlier: A total wreck, overturned on sand that has never known dryness.
+  problem: The original says nobody here has seen this sand dry before, and the rewrite says the sand has never been dry, which contradicts the spring low exposing it.
+  after:   A total wreck, overturned on sand that nobody here has seen dry.
+1sp9bt4 | Cinch | src/content/act2/ch5.ts springHigh
+  before:  Sit. They let me out at the high. Sent soup.
+  earlier: Take a seat. They released me at the peak and brought up soup.
+  problem: The original says they let Cinch out at the high tide, and the rewrite says at the peak and loses the tide.
+  after:   Take a seat. They released me at the high tide and brought up soup.
+1j2stee | Gran | src/content/act2/ch6.ts kitchen
+  before:  Tell my little turnip
+  earlier: Give my regards to my little turnip.
+  problem: The original is the unfinished lead-in Tell my little turnip, and the rewrite makes it a complete line sending regards.
+  after:   Tell my little turnip.
+00s4whz | Letter | src/content/act2/ch6.ts ch6
+  before:  Day 30. 30 turns. At low something lifted us. Whole Volute tipped. Lug fell over.
+  earlier: Day 30. 30 turns. Low tide lifted us. Volute tipped. Lug fell.
+  problem: The original says something lifted them at low, and the rewrite says the low tide lifted them.
+  after:   Day 30. 30 turns. Something lifted us at the low. Volute tipped. Lug fell over.
+19ltuu9 | Choice | src/content/act2/kit.ts useShell
+  before:  Call {sitting.name}
+  earlier: Keep {sitting.name}
+  problem: The original choice calls the whorl back from the shell, and the rewrite says Keep, which reads as leaving it there.
+  after:   Retain {sitting.name}
+0vse1qq | Choice | src/content/act2/kit.ts useShell
+  before:  Leave it
+  earlier: Discard
+  problem: The original choice leaves the whorl sitting in the shell, and the rewrite says Discard.
+  after:   Throw away
+0w2dnfp | Choice | src/content/act2/kit.ts useShell
+  before:  Leave it
+  earlier: Discard
+  problem: The original choice leaves the whorl sitting in the shell, and the rewrite says Discard.
+  after:   Throw it away
+1qreq0y | DRUSE | src/content/gems.ts druse
+  before:  Its door is a seam in the east crater, a lock of twelve settings. Set all 12 sketches and it opens.
+  earlier: The entrance is a fissure in the eastern crater, secured by a twelve-stone lock. // Place all 12 sketches to unlock it.
+  problem: The original says to set all 12 sketches (solve them), and the rewrite says to place them in a twelve-stone lock. Keep every direction exactly as the original says it.
+  after:   The entrance is a seam in the east crater, a lock of twelve settings. // Set all 12 sketches and it opens.
+071vgku | DRUSE | src/content/gems.ts druse
+  before:  {runs} runs! Inside you there's a setter. Bezel will be cross.
+  earlier: {runs} bolts! if you enter, a setter awaits. Bezel will be furious.
+  problem: The rewrite turns runs into bolts and Inside you there's a setter into if you enter a setter awaits, which is garbled.
+  after:   {runs} runs! a setter is waiting for you inside. Bezel will be cross.
+02oxqx1 | Choice | src/content/geode.ts c
+  before:  Catch it
+  earlier: Seize it
+  problem: The original choice is Catch it, and the rewrite says Seize it and drops the game term catch.
+  after:   Grab it
+1vudnji | Guide | src/content/guide.ts GUIDE
+  before:  The first whorl in your team is your lead. Your lead walks with you. It is the first one out in a battle.
+  earlier: The first whorl in your lineup is your leader. Your leader accompanies you and is the first to enter battle.
+  problem: The original calls the first whorl your lead, and the rewrite calls it your leader. Keep the game word lead. It is a term in this game.
+  after:   The first whorl in your lineup is your lead. Your lead walks with you and is the first to enter battle.
+1qkoa09 | Guide | src/content/guide.ts GUIDE
+  before:  One whorl fights at a time. It is your out whorl. The others wait in reserve.
+  earlier: Only one whorl fights at a time. This is your active whorl, while the others remain in reserve.
+  problem: The original defines the out whorl, a term later guide pages use, and the rewrite renames it the active whorl.
+  after:   Only one whorl fights at a time. This is your out whorl, while the others remain in reserve.
+0ysdkxq | Guide | src/content/guide.ts GUIDE
+  before:  A whorl with 0 HP is knocked out. The game also says it is down, or calls it a KO. It cannot fight again in that battle. Then you pick the next whorl to send out.
+  earlier: 0 HP means KO'd. Pick a new whorl.
+  problem: The rewrite drops that a knocked out whorl cannot fight again in that battle and that the game also calls it down.
+  after:   A whorl with 0 HP is knocked out. The game calls this down or a KO. It cannot fight again in that battle. Pick the next whorl to send out.
+0my99bz | Guide | src/content/guide.ts GUIDE
+  before:  Every battle starts with full HP. So a knocked out whorl is fine when the battle is over.
+  earlier: Battles start full. KO'd whorls survive.
+  problem: The rewrite drops that every battle starts with full HP and says only that battles start full.
+  after:   Battles begin with full HP. A KO'd whorl is acceptable once the battle ends.
+0w79lkq | Guide | src/content/guide.ts GUIDE
+  before:  A whorl is a creature that fights for you. Your team is the whorls you take with you. A team can have 4 whorls.
+  earlier: Whorls are creatures that fight for you. You bring them as your team, and each team can include up to 4.
+  problem: Keep the game word whorl. It is a term in this game.
+  after:   A whorl is a creature that fights for you. Your team consists of the whorls you take with you. A team can have 4 whorls.
+0wvtn5k | Guide | src/content/guide.ts GUIDE
+  before:  BEAST lets you climb ledges.
+  earlier: BEAST allows you to scale vertical surfaces.
+  problem: The original says BEAST lets you climb ledges, and the rewrite says it lets you scale vertical surfaces.
+  after:   BEAST allows you to climb ledges.
+0jxg6x5 | Guide | src/content/guide.ts GUIDE
+  before:  Bole. Your conjoined whorls deal 8% more damage.
+  earlier: Bole. Conjoined whorls deal 8% increased damage.
+  problem: Keep the game word conjoin. It is a term in this game.
+  after:   Bole. Your conjoined whorls deal 8% increased damage.
+1ciohiy | Guide | src/content/guide.ts GUIDE
+  before:  To give a notion, press X for the menu. Pick Team, then a whorl, then Give notion. Take notion puts it back in the Bag.
+  earlier: To show an example, press X to open the menu. Select Team, then a whorl, then Give notion. Take notion returns it to the Bag.
+  problem: The original says to give a notion, and the rewrite says to show an example.
+  after:   To provide an example, press X to open the menu. Select Team, then a whorl, then Give notion. Take notion returns it to the Bag.
+13ybz40 | Choice | src/content/lesson.ts c
+  before:  Show me
+  earlier: Option: Display
+  problem: The rewrite turns the choice Show me into Option: Display, which adds a label prefix and changes the meaning.
+  after:   Display
+0q289lq | Choice | src/content/minigames.ts playShellboard
+  before:  Not now
+  earlier: Option: Not yet
+  problem: The rewrite adds an Option: prefix to the choice.
+  after:   Not yet
+1h68bwg | Hint | src/content/minigames.ts playShellboard
+  before:  (A card takes a touching rival card when its touching number is higher. Type advantage adds 1.)
+  earlier: (Type bonus adds 1.)
+  problem: The rewrite drops the rule for taking a rival card and keeps only the type bonus.
+  after:   (A card captures an adjacent rival if its number is higher, // with type advantage granting a +1 bonus.)
+197fz17 | Choice | src/content/postgame.ts realCinch
+  before:  You're Cinch.
+  earlier: Chosen: You're Cinch.
+  problem: The rewrite adds a Chosen: prefix to the choice.
+  after:   You are Cinch.
+0k400j0 | Battle | src/battle/engine.ts dealDamage
+  before:  {#1} goes off.
+  earlier: {#1} departs.
+  problem: The original says the whorl goes off, as in explodes. The rewrite says it departs.
+  after:   {#1} explodes.
+05muyfe | Battle | src/battle/engine.ts beginRewind
+  before:  The tide turns back.
+  earlier: The tide recedes.
+  problem: The original says the tide turns back, a rewind. The rewrite says the tide recedes.
+  after:   The tide pulls back.
+1db1dt3 | Menu | src/net/wire.ts fitProblems
+  before:  is a fit that cannot be read.
+  earlier: is a pattern that can't be read.
+  problem: The original says a fit. The rewrite changes the game term to pattern.
+  after:   is a fit that can't be read.
+1fg47mw | Menu | src/game/fitter.ts ti
+  before:  Two types means more moves get the same-type bonus, and more weaknesses.
+  earlier: Two types mean more STAB moves but also more weaknesses.
+  problem: The original says the same-type bonus. The rewrite uses the term STAB, which the game does not use.
+  after:   Two types mean more moves get the same-type bonus, but also more weaknesses.
+1u19f0u | Battle | src/data/kits1.ts screeBurst
+  before:  A cobble goes off under {#1}.
+  earlier: A shell explodes beneath {#1}.
+  problem: The original says a cobble goes off. The rewrite says a shell explodes.
+  after:   A cobble goes off beneath {#1}.

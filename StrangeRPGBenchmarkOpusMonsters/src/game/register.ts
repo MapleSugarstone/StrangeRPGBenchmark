@@ -352,7 +352,7 @@ class RegisterBook implements Mode {
     const sp = this.spreadOf(this.i);
     // Headers: the count of kinds sounded and seen, each with its stamp.
     stampDot(LX + 6, PY + 6, RED);
-    text(`Sounded ${got}`, LX + 11, PY + 3, INK);
+    text(`Caught ${got}`, LX + 11, PY + 3, INK);
     stampDot(RX + 10, PY + 6, BLUE);
     text(`Seen ${seenN}`, RX + 15, PY + 3, INK);
     textRight(`/${this.all.length}`, RX + PW - 4, PY + 3, PENCIL);
@@ -442,7 +442,7 @@ class RegisterBook implements Mode {
     const homes = homesOf(k);
     text('Lives', LX + 6, y, PENCIL);
     y += 9;
-    if (!homes.length) { text('Nowhere wild.', LX + 8, y, INK); y += 8; }
+    if (!homes.length) { text('Nowhere in the wild.', LX + 8, y, INK); y += 8; }
     for (const h of homes.slice(0, 3)) for (const l of wrap(h, PW - 14)) { if (y < PY + PH - 22) text(l, LX + 8, y, INK); y += 8; }
     // The cry button, pressed in while the cry plays.
     const bx = LX + 6, by = PY + PH - 16, on = this.cryT > 34;
@@ -471,7 +471,7 @@ class RegisterBook implements Mode {
       stampBox('SOUNDED', RX + PW - 56, PY + PH - 29, RED, true);
       text('C moves', RX + 6, PY + PH - 10, PENCIL);
     } else {
-      text('Not sounded', RX + 6, top + 2, PENCIL);
+      text('Not caught', RX + 6, top + 2, PENCIL);
       text('yet.', RX + 6, top + 11, PENCIL);
       for (let r = 0; r < 4; r++) for (let x = RX + 6; x < RX + PW - 8; x += 3) rect(x, top + 30 + r * 12, 1, 1, FAINT);
       stampBox('SEEN', RX + PW - 40, PY + PH - 29, BLUE, true);
@@ -486,7 +486,7 @@ class RegisterBook implements Mode {
     if (this.view === 'contents') {
       drawContents(this.gSel, LX + G_IN, RX + G_IN, G_TOP, book);
       text('Z opens', LX + G_IN, fy, PENCIL);
-      textRight('X kinds', RX + PW - 5, fy, PENCIL);
+      textRight('X species', RX + PW - 5, fy, PENCIL);
       return;
     }
     const sh = this.gSheet;

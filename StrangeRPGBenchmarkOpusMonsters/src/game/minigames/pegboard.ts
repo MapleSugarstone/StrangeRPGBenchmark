@@ -105,7 +105,7 @@ export function pegboard(rival: Rival, hand0: Card[]): Promise<1 | 0 | -1 | null
   WET = rival.strand ? (G.flags.tide ? [1, 2] : [2]) : [];
   let turn: 0 | 1 = (G.flags.pegMatches || 0) % 2 === 0 ? 0 : 1;
   let pick = 0, cell = 4, phase: 'hand' | 'cell' | 'wait' | 'end' = turn === 0 ? 'hand' : 'wait';
-  let wait = 40, note = turn === 0 ? 'You go first.' : `${rival.name} goes first.`;
+  let wait = 40, note = turn === 0 ? 'You start first.' : `${rival.name} goes first.`;
   let result: 1 | 0 | -1 = 0;
   music.play('minigame');
 
@@ -115,7 +115,7 @@ export function pegboard(rival: Rival, hand0: Card[]): Promise<1 | 0 | -1 | null
     if (!over()) return false;
     const a = score(0), b = score(1);
     result = a > b ? 1 : a < b ? -1 : 0;
-    note = result === 1 ? `You win, ${a} to ${b}.` : result === -1 ? `${rival.name} wins, ${b} to ${a}.` : `A draw, ${a} each.`;
+    note = result === 1 ? `You win, ${a} to ${b}.` : result === -1 ? `${rival.name} wins, ${b} to ${a}.` : `It's a draw, ${a} each.`;
     sfx(result === 1 ? 'level' : result === -1 ? 'ko' : 'switch');
     phase = 'end';
     G.flags.pegMatches = (G.flags.pegMatches || 0) + 1;

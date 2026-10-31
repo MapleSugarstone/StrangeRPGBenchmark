@@ -9,7 +9,7 @@ export const STOCK_6 = [...STOCK_5, 'chrysalis', 'toothnecklace', 'cleaver', 'sp
 
 export async function stayChoice(id: string, askSet: () => Promise<void>, onSet: () => Promise<void>, onPull: () => Promise<void>): Promise<boolean> {
   await askSet();
-  const c = await choose(['Set it', 'Pull it']);
+  const c = await choose(['Lock it in.', 'Draw it back.']);
   setFlag('chose_' + id);
   if (c === 0) { setFlag('set_' + id); await onSet(); return false; }
   await stayComesLoose(id, true);
@@ -70,10 +70,10 @@ defMap({
   ],
   zone: { kinds: [['floe', 3], ['yoke', 3], ['menhir', 2], ['halo', 2], ['curtain', 2], ['squall', 1], ['coma', 1]], lv: [16, 18], n: 16, area: 'snow' },
   npcs: [
-    { id: 'trapper', x: 8, y: 27, sprite: 'villager2', name: 'Trapper', dir: 0, trainer: { name: 'Trapper', team: [['floe', 17], ['squall', 17]], intro: 'Hyolau whorls drift down from the north on their own. We wait at the edge. It\'s a lot of waiting.', defeat: 'Right. More waiting.', sight: 4 } },
-    { id: 'herder', x: 24, y: 20, sprite: 'villager2', name: 'Herder', dir: 3, trainer: { nacre: 1, name: 'Herder', team: [['yoke', 17], ['menhir', 17]], intro: 'An ox cast\'ll pull a sledge forever. I keep meaning to tell it to stop.', defeat: 'Oh. Mine stopped.', sight: 4 } },
-    { id: 'peel6', x: 20, y: 13, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['quarry', 17], ['carrion', 17]], intro: 'We\'re undercutting the Tusk. Oldest one there is. Should go easy. Probably.', defeat: 'Eh. Doesn\'t matter. Old shells walk off the beach. Nobody sees them again.', sight: 3 } },
-    { id: 'pilgrim', x: 24, y: 6, sprite: 'elder', name: 'Pilgrim', dir: 3, trainer: { name: 'Pilgrim', team: [['halo', 17], ['curtain', 17], ['floe', 18]], intro: 'Every year I walk out to the saint\'s halo. The saint\'s still out there somewhere, bareheaded.', defeat: 'Aw. Now the halo\'s somewhere else too.', sight: 4 } },
+    { id: 'trapper', x: 8, y: 27, sprite: 'villager2', name: 'Trapper', dir: 0, trainer: { name: 'Trapper', team: [['floe', 17], ['squall', 17]], intro: 'Hyolau whorls drift down from the north on their own. We wait at the edge. It\'s mostly just waiting.', defeat: 'Fair enough. More time to kill.', sight: 4 } },
+    { id: 'herder', x: 24, y: 20, sprite: 'villager2', name: 'Herder', dir: 3, trainer: { nacre: 1, name: 'Herder', team: [['yoke', 17], ['menhir', 17]], intro: 'An ox cast can pull a sledge forever. I keep meaning to tell it to quit.', defeat: 'Oh. Mine quit.', sight: 4 } },
+    { id: 'peel6', x: 20, y: 13, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['quarry', 17], ['carrion', 17]], intro: 'We\'re undercutting the Tusk. It\'s the oldest one there is. Should go easy. Probably.', defeat: 'Eh. Who cares. Old shells wander off the sand. Nobody sees them after that.', sight: 3 } },
+    { id: 'pilgrim', x: 24, y: 6, sprite: 'elder', name: 'Pilgrim', dir: 3, trainer: { name: 'Pilgrim', team: [['halo', 17], ['curtain', 17], ['floe', 18]], intro: 'Every year I walk out to the saint\'s halo. The saint is still out there somewhere, bareheaded.', defeat: 'Ugh, now my halo\'s gone missing again.', sight: 4 } },
   ],
   enter: 'route6Enter',
 });
@@ -138,10 +138,10 @@ defMap({
   tileTalk: { B: 'tuskStay', O: 'tuskHole', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 17, y: 34, sprite: 'tanner', name: 'Shellwright', talk: 'tuskTannery' },
-    { id: 't1', x: 23, y: 28, sprite: 'veryold', name: 'Very old man', lines: ['My grandmother\'s grandmother walked down off the old shell in these boots. Still good boots.'] },
-    { id: 't2', x: 9, y: 36, sprite: 'veryold', name: 'Very old woman', lines: ['We remember things for the young. There aren\'t any young here. We remember anyway, in case.'] },
-    { id: 't3', x: 33, y: 28, sprite: 'elder', name: 'Old man', lines: ['My cast\'s ninety, and it\'s twelve. Don\'t ask me how. We\'ve both got bad knees, though.'] },
-    { id: 't4', x: 16, y: 19, sprite: 'oldwoman', name: 'Old woman', lines: () => tuskDown() ? ['Went over all in one go. The whole ground jumped. So did I! At my age!'] : ['Amber\'s the keeper. Hundred and three. Don\'t shout at her, she hears fine. She hates that.'] },
+    { id: 't1', x: 23, y: 28, sprite: 'veryold', name: 'Very old man', lines: ['My grandmother\'s grandmother wore these boots down from the old shell. They\'re still solid.'] },
+    { id: 't2', x: 9, y: 36, sprite: 'veryold', name: 'Very old woman', lines: ['We keep memories alive for the youth, even though there\'s no youth left here.', 'We hold onto them anyway, just in case.'] },
+    { id: 't3', x: 33, y: 28, sprite: 'elder', name: 'Old man', lines: ['My cast\'s ninety, and it\'s twelve. Don\'t ask how. But we both have bad knees, at least.'] },
+    { id: 't4', x: 16, y: 19, sprite: 'oldwoman', name: 'Old woman', lines: () => tuskDown() ? ['It happened all at once. The entire ground heaved, and so did I! Can you believe it, at my age?'] : ['Amber\'s the keeper. Hundred and three. Don\'t shout at her. She hears fine. She hates that.'] },
     // Old Amber, two Hermits, and the Rider's cast at the Tusk's foot after Old Amber's fight.
     { id: 'amberOut', x: 6, y: 21, sprite: 'tallow', name: 'Old Amber', dir: 3, when: () => !!flag('tuskScene') },
     { id: 'tp1', x: 3, y: 20, sprite: 'peeler', name: 'Hermit', dir: 1, when: () => !!flag('tuskScene') },
@@ -170,14 +170,14 @@ defMap({
   warps: [{ x: 6, y: 9, to: 'tusk', tx: 13, ty: 25, dir: 0 }, { x: 7, y: 9, to: 'tusk', tx: 13, ty: 25, dir: 0 }],
   npcs: [
     { id: 'tallow', x: 6, y: 1, sprite: 'tallow', name: 'Old Amber', talk: 'tallow' },
-    { id: 'tg1', x: 10, y: 6, sprite: 'veryold', name: 'Hall keeper', dir: 3, trainer: { nacre: 1, name: 'Hall keeper', team: [['menhir', 17], ['curtain', 17], ['yoke', 18]], intro: 'Our keeper was a most formidable terror at fights!! She has told us so, at length.', defeat: 'She was, it transpires, entirely and lamentably correct.', sight: 5 } },
+    { id: 'tg1', x: 10, y: 6, sprite: 'veryold', name: 'Hall keeper', dir: 3, trainer: { nacre: 1, name: 'Hall keeper', team: [['menhir', 17], ['curtain', 17], ['yoke', 18]], intro: 'Our keeper was a terrifying force in combat! She has recounted this to us, at great length.', defeat: 'She was, as it turns out, entirely and lamentably right.', sight: 5 } },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
 defScript('route6Enter', async () => {
-  if (!flag('ch6start')) { setFlag('ch6start'); goal('Go north across the tundra to Tusk.'); }
+  if (!flag('ch6start')) { setFlag('ch6start'); goal('Head north across the tundra to reach Tusk.'); }
 });
 
 defScript('tuskEnter', async () => {
@@ -194,9 +194,9 @@ defScript('tuskEnter', async () => {
 defScript('tuskTannery', async () => {
   setFlag('fitter_tusk');
   if (!flag('charms')) {
-    await say('Shellwright', 'Charms, yeah? Wear a pearl and your team fights to it. One pearl at a time. Anything else?');
+    await say('Shellwright', 'Charms, you say? Wear a pearl and your team fights to it. One pearl at a time. Anything else?');
     setFlag('charms');
-    await hint('(Press X and pick Charm to wear one pearl. A charm helps your whole team in battle.)');
+    await hint('(Press X, select Charm, and equip a pearl. A charm helps your whole team in battle.)');
   }
   await tannery('tusk', STOCK_6);
 });
@@ -205,28 +205,29 @@ defScript('tuskStay', async () => { await emote('ouro', 'silence'); });
 defScript('tuskHole', async () => { await act('ouro', 'shiver'); await emote('ouro', 'question'); });
 
 defScript('tallow', async () => {
-  if (has('tusk')) { await say('Old Amber', 'You should have gone on to the Hilt, dear heart. They had talked of the Moonwater there.'); return; }
-  await say('Old Amber', 'You came the long way round. I came that way too, once, in better boots.');
-  await say('Old Amber', 'My grandmother\'s grandmother had told my grandmother. My grandmother had told me, at this fire.');
-  await say('Old Amber', 'The Volute turned. Its old shell lifted off whole, in one magnificent piece.');
-  await say('Old Amber', 'The Riders were upon it. Their houses, their machines, their fours, their good spoons.');
-  await say('Old Amber', 'The shell had got up and walked north. Most of them had stayed aboard.');
-  await say('Old Amber', 'A few climbed down. They walked back over the new shell. It was still soft.');
-  await say('Old Amber', 'The ones who climbed down drove the Stays. They had seen it go, you understand.');
-  await choose(['Did the rest choose?']);
-  await say('Old Amber', 'My grandmother never said. I asked her eleven times. For the eleventh she pretended to sleep.');
-  await say('Old Amber', 'Cinch had come down to the Lip, once. Cinch had gone back up quieter.');
-  await say('Old Amber', 'And then Cinch sent me this.');
+  if (has('tusk')) { await say('Old Amber', 'You ought to have pushed on to the Hilt, dear heart. They were speaking of the Moonwater there.'); return; }
+  await say('Old Amber', 'You took the long way around. I did the same, once, when my boots were better.');
+  await say('Old Amber', 'My grandmother\'s grandmother had told my grandmother.');
+  await say('Old Amber', 'And my grandmother had told me, right here by this fire.');
+  await say('Old Amber', 'The Volute shed. Its old shell peeled away in one magnificent, whole piece.');
+  await say('Old Amber', 'The Riders were on it. Their homes, their machines, their fours, their good spoons.');
+  await say('Old Amber', 'The shell rose and walked north. Most of them stayed aboard.');
+  await say('Old Amber', 'A few climbed down. They walked back over the new shell, which was still soft.');
+  await say('Old Amber', 'Those who climbed down drove the Seals. They had seen it go, you understand.');
+  await choose(['Did others pick?']);
+  await say('Old Amber', 'My grandmother never said. I asked her eleven times. For the eleventh, she pretended to sleep.');
+  await say('Old Amber', 'Cinch had come down to the Rim, once. Cinch had gone back up quieter.');
+  await say('Old Amber', 'Then Cinch sent me this message.');
   await act('tallow', 'bow');
   sound('page');
-  await say('Letter', 'The Volute has to hold. You will not be thanked twice. Cinch.');
-  await say('Old Amber', 'It had come forty years ago. I had kept it beside the clock.');
-  await say('Old Amber', 'You came for a fight. Well. I was a terror at fights, in my day.');
+  await say('Letter', 'The Volute must hold. Don\'t expect a second thank you. Cinch.');
+  await say('Old Amber', 'It had arrived forty years ago. I had kept it beside the clock.');
+  await say('Old Amber', 'You came looking for a brawl. Well, I used to be quite the fighter back in my day.');
   const r = await fightTrainer({ name: 'Old Amber', team: [['yoke', 17], ['menhir', 17], ['halo', 17], ['floe', 18]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Old Amber', 'I had lost. I had always been going to, one day.');
+  await say('Old Amber', 'I had lost. I had always been bound to, one day.');
   giveScale('tusk');
-  await notice('Ouro gets the Tusk pearl.');
+  await notice('Ouro acquires the Tusk pearl.');
   setFlag('tuskScene');
   await warp('tusk', 5, 20, 2);
   offstage('amberOut', 'amberslip');
@@ -235,33 +236,34 @@ defScript('tallow', async () => {
   await walkIn('amberOut', 13, 24);
   faceToward('amberOut', 'ouro');
   await stayChoice('tusk', async () => {
-    await say('Old Amber', 'They cut it in the night. I heard every spadeful. I was always a light sleeper.');
-    await say('Old Amber', 'Other years I had set it myself. This year I had hoped you would help me.');
-    await say('Hermit', 'Or. You take the haul. It\'s nearly out. One pull\'d do it.');
-    await say('Hermit', 'She says the late ones should get a go. Here. Your go.');
+    await say('Old Amber', 'They worked through the night. I heard every shovel strike. I\'ve never been a heavy sleeper.');
+    await say('Old Amber', 'In years past, I did the setting myself. This time, I\'d hoped for your assistance.');
+    await say('Hermit', 'Or you can take the haul. It\'s nearly free. One good yank should do it.');
+    await say('Hermit', 'She says the ones who haven\'t shed their shells yet should have a try. Here. Your turn.');
   }, async () => {
     await packGround('amberOut');
     await Promise.all([walkOff('tp1', 20, 6), walkOff('tp2', 21, 6)]);
     faceToward('amberOut', 'ouro');
-    await say('Old Amber', 'It held. It always did, bless it.');
+    await say('Old Amber', 'It held firm. It always did, thank goodness.');
   }, async () => {
     await act('ouro', 'shiver');
-    await say('Hermit', 'That\'s three. Thanks, kid.');
+    await say('Hermit', 'That makes three. Thanks, kid.');
     await Promise.all([walkOff('tp1', 20, 6), walkOff('tp2', 21, 6)]);
     faceToward('amberOut', 'ouro');
-    await say('Old Amber', 'So it went. They went too, once. Off north, with their spoons.');
+    await say('Old Amber', 'That\'s how it went. They left too, back in the day. Headed north, carrying their spoons.');
   });
-  await say('Old Amber', 'I had something for you. I had kept it a very long time.');
+  await say('Old Amber', 'I had something for you. I\'ve held onto it for a very long time.');
   // A small pale whorl comes out from behind her, very old, very thin, nearly see-through.
   await liftOff('amberslip', 'amberOut', 6, 22);
   faceToward('amberslip', 'ouro');
-  await say('Old Amber', 'My grandmother\'s grandmother\'s cast. A Rider\'s. She turned the very day she climbed down.');
-  await say('Old Amber', 'It never fought. It had walked a long way. It had wanted north, always north.');
+  await say('Old Amber', 'It\'s a Rider\'s cast, passed down from my grandmother\'s grandmother.');
+  await say('Old Amber', 'She shed it the very day she climbed down.');
+  await say('Old Amber', 'It never fought. It had walked a long way. It always wanted to go north.');
   await joinOuro('amberslip');
   giveKey('riderslip');
-  await notice('Ouro gets a Rider\'s cast.');
-  await say('Old Amber', 'They were talking of the Moonwater, at the Hilt. I heard them through two walls.');
+  await notice('Ouro acquires a Rider\'s cast.');
+  await say('Old Amber', 'They were discussing the Moonwater at the Hilt. I overheard them through two walls.');
   await walkOff('amberOut', 13, 24);
   setFlag('tuskScene', 0);
-  goal('Go east from Tusk along the Hilt road.');
+  goal('Travel east from Tusk along the Hilt road.');
 });

@@ -1,98 +1,107 @@
-218	look
-148	? (p)
-117	choice
-106	hint
-88	Cinch
-82	?
-74	Tack
-63	? (s)
+405	battle
+345	menu
+227	look
+178	? (p)
+121	hint
+108	choice
+105	?
+91	Cinch
+80	Tack
+71	? (s)
+67	Strandmonger
 62	goal
-49	Strandmonger
-45	notice
-40	Gran
+46	notice
+45	Gran
 40	Bare
 38	Hermit
-28	The Sifter
-26	narration
-26	Mudlark
-24	Woman
-23	Tide-reader
-22	Old Amber
-20	Old man
-18	choice prompt
+32	The Sifter
+29	Mudlark
+28	Woman
+27	narration
+25	Tide-reader
+24	Shellwright
+24	Old Amber
+23	Old man
+20	Turnwise
+18	DRUSE
+18	Islander
+17	Eldest
+17	Gloss
 16	Man at the well
-16	Turnwise
-16	DRUSE
-16	Islander
-15	Gloss
+16	Old woman
+16	choice prompt
+16	BEZEL
+15	Counter
 14	Child
-14	Old woman
-14	Shellwright
-14	Eldest
-13	Man
+14	Man
+13	Guard
+13	The Master
+12	Leeward
 12	Siphon
-12	BEZEL
-11	Leeward
-11	Counter
+11	? (low)
 11	sign or spot in The living chamber (folk)
+11	item
 10	Knuckle
+10	Tellin
 10	Grafton
 10	Letter
-10	Guard
-10	The Master
-10	? (low)
+10	Point-watcher
+10	Stilt-maker
 9	Quillon
+9	Purchase
+9	Bottle girl
 8	? (giveKeyItem)
 8	Verger
 8	Grafter
-8	Tellin
 8	Tinker
 8	Ohm
 8	Perihel
-8	Bottle girl
+8	? (prize)
+8	Label-reader
 8	Sweeper
 8	? (sign)
+7	sign or spot in Turnstone
 7	Murex
 7	? (listMenu)
+7	Sexton
 7	Ice-fisher
 7	? (base)
-7	Point-watcher
-7	Label-reader
-7	? (add)
-6	Purchase
+7	Marks
+7	Stackkeeper
+7	Rememberer
+6	Boy
 6	The Upright Man
+6	The Catcher
+6	The Listener
+6	The Pruner
 6	? (open)
+6	Tooth-sitter
 6	? ()
 6	Carver
-6	Stilt-maker
-6	Rememberer
-5	Boy
+5	Tack's mum
 5	Ringer
 5	Conjoiner
 5	Lug
 5	Ring polisher
-5	The Catcher
 5	Lunch-bringer
-5	The Listener
-5	The Pruner
+5	Cartographer
 5	? (high)
-5	Tooth-sitter
+5	? (add)
 5	sign or spot in The Exuvia
-5	Stackkeeper
-4	sign or spot in Turnstone
+5	Basin-keeper
 4	? (turnBack)
 4	Pilgrim
+4	Fid
 4	Hasp
 4	Pell
 4	Beachcomber
-4	Sexton
 4	Shore-woman
-4	Cartographer
 4	Polisher
 4	? (take)
+4	Bell-keeper
 4	Tide table
+4	Kelp-cutter
 4	Nautilus doorkeeper
-4	Marks
 4	Net-mender
 4	r.name
 4	? (shut)
@@ -100,19 +109,17 @@
 4	Trader
 4	Ford-sitter
 4	Fisher
-3	Tack's mum
 3	Helper
 3	Sword drill
 3	Star walker
-3	Fid
 3	? (hand)
 3	Weed-raker
+3	Woman with a basin
 3	Girl
 3	? (keeperFight)
-3	Bell-keeper
-3	Kelp-cutter
 3	A goat
 3	sign or spot in The living chamber
+3	? (text)
 3	? (lore_kettle)
 3	? (lore_door)
 3	? (lore_window)
@@ -121,25 +128,31 @@
 3	? (lore_tub)
 3	? (lore_step)
 3	? (lore_gate)
-3	Basin-keeper
+3	Rain-seller
 2	Drover
 2	Scraper
+2	Ribman
+2	Carter
 2	Salter
 2	Wrecker
 2	Shell girl
 2	Old fisher
+2	Man on stilts
 2	Deckhand
 2	Bosun
 2	Eel boy
 2	Cutter
 2	Forester
+2	Bole woman
 2	Coaler
 2	Watcher
 2	Conjoiner's boy
 2	Trapper
 2	Herder
+2	Very old woman
 2	Hall keeper
 2	Smith
+2	sign or spot in The Hermitage
 2	Rock walker
 2	Sky watcher
 2	Mole-catcher
@@ -174,7 +187,6 @@
 2	Shell-sitter
 2	Grain-picker
 2	Driftwood boy
-2	Woman with a basin
 2	Man by the fire
 2	Spot-counter
 2	Seiche-stander
@@ -188,6 +200,7 @@
 2	Stair-sleeper
 2	Swift-keeper
 2	Salt-scraper
+2	Groove
 2	Slate
 2	Woman (climbing)
 2	Nautilus fisher
@@ -198,6 +211,7 @@
 2	Star-chaser
 2	Jelly-turner
 2	Conch-diver
+2	The Strand Boardmaster
 2	? (title)
 2	Weaver
 2	Baker
@@ -209,16 +223,26 @@
 2	Spoon-carver
 2	Star-counter
 2	Woodcutter
+2	Verger's clerk
+2	Moss-player
+2	Tally-keeper
 2	The Boardmaster
+2	? (prisingiron)
+2	? (stilts)
+2	? (jingle)
+2	? (haul)
+2	? (whelk)
 2	monger ? 'Strandmonger' : 'Shellwright'
 2	Woman with a basket
-2	? (text)
+2	Porch man
+2	Tide-liner
+2	sign or spot in The Saltings
 2	Raker
 2	Shouter
-2	Bellower
 2	Driftwood man
-2	Rain-seller
+2	Crane-minder
 2	Rigger
+2	Floe-watcher
 2	Sealer
 2	Blade-picker
 2	Dune walker
@@ -237,19 +261,13 @@
 2	Tor
 1	Tackle
 1	Girl with a net
-1	Ribman
-1	Carter
-1	Man on stilts
 1	Reeve
 1	sign or spot in The nave
 1	Gatherer
 1	Iesbiki
-1	Bole woman
 1	Hummer
 1	Very old man
-1	Very old woman
 1	Old guard
-1	sign or spot in The Hermitage
 1	Synced keeper
 1	Fall guard
 1	Register entry: Ouro's cast
@@ -265,6 +283,7 @@
 1	Silt-wife
 1	Glass-walker
 1	Blank
+1	Fall hall
 1	Sign
 1	Woman in a whelk
 1	Man in a whelk
@@ -274,7 +293,6 @@
 1	Door
 1	Kokieri
 1	Tumbler
-1	Groove
 1	Old man (climbing)
 1	Star-picker
 1	Brine-diver
@@ -291,23 +309,15 @@
 1	? (dynamo)
 1	? (mundane)
 1	? (once)
-1	The Strand Boardmaster
-1	? (push)
+1	? (toast)
 1	Bone-dealer
 1	Salt-card
-1	Verger's clerk
-1	Moss-player
 1	Ohm's apprentice
-1	Tally-keeper
 1	Card-sharp
 1	Star-reader
 1	sign or spot in The Shallows
-1	? (prisingiron)
-1	? (stilts)
-1	? (jingle)
-1	? (haul)
 1	? (letter)
-1	? (whelk)
+1	? (chart)
 1	? (beachglass)
 1	? (saltcake)
 1	? (ridertin)
@@ -316,13 +326,11 @@
 1	? (moonsilt)
 1	? (starglass)
 1	? (ambergris)
-1	sign or spot in Cockle Cove (giveKeyItem)
+1	The crab
 1	sign or spot in The Brook Wood
-1	Porch man
 1	Porch kid
-1	Tide-liner
-1	sign or spot in The Saltings
 1	sign or spot in The Saltings (giveKeyItem)
+1	Bellower
 1	? (mast)
 1	? (bole)
 1	? (pylon)
@@ -332,13 +340,12 @@
 1	Clerk
 1	Ledger
 1	sign or spot in The Kelp Beds (giveKeyItem)
-1	Crane-minder
 1	sign or spot in The Gantry Shore (giveKeyItem)
-1	Floe-watcher
 1	sign or spot in The Floes (giveKeyItem)
 1	Stone-sorter
 1	sign or spot in The Shingle (giveKeyItem)
 1	Hilt smith
+1	The lean
 1	Register entry: Kivishi
 1	Register entry: Jarira
 1	Register entry: Daista
@@ -597,3 +604,1690 @@
 1	Register entry: Kotigai
 1	Register entry: The Gleaner
 1	Register entry: Carcanet
+1	passive Piled High
+1	passive Points the Way
+1	move Top Stone
+1	summon Little Cairn
+1	move Little Cairn
+1	move Catch a Stone
+1	move Tumbledown
+1	summon Buried Cobble
+1	passive Shingle Slide
+1	passive Sets Them Off
+1	move Shingle Spray
+1	move Slip Shove
+1	move Bury Cobbles
+1	move Shingle Bank
+1	passive Swivel Base
+1	passive Bears the Weight
+1	move Barnacle Cut
+1	move Top Pool
+1	move Step Up
+1	move Keep the Top
+1	passive Wet Walls
+1	passive Seep
+1	move Stalactite
+1	move Inrush
+1	move Seep Shell
+1	move Take In
+1	passive Old Stance
+1	passive Heavy Base
+1	move Wind Shadow
+1	move Stand Fast
+1	move Star Marks
+1	move Keel Over
+1	passive Bored Through
+1	passive Rainwater
+1	move Chisel
+1	move Blasting
+1	move Undermine
+1	move Flooded Pit
+1	passive First Drop
+1	passive Coral Horns
+1	move Gutter Drop
+1	move Rain Spout
+1	move Off the Roof
+1	move Stone Still
+1	passive Hill Shrug
+1	passive Deep Footing
+1	move Craze Line
+1	move Heel Down
+1	move Roll Downhill
+1	move Ground Rings
+1	passive Deep Draw
+1	passive Full Bucket
+1	move Bucket Drop
+1	move Haul Water
+1	move Well Cover
+1	move Spring Rising
+1	passive First Pull
+1	passive Cold Water
+1	move Ankle Drag
+1	move Sand Churn
+1	move Pull Under
+1	move Rip Current
+1	passive Thick Fog
+1	passive Burns Off
+1	move Sea Fret
+1	move Fog Bank
+1	move Roll Back
+1	move Haar
+1	passive Rime
+1	passive Freezes Back
+1	move Ice Splinter
+1	move Pressure Ridge
+1	move Calving
+1	move Sleet Drift
+1	passive Two Drops
+1	passive Blows Over
+1	move Rain Shot
+1	move Flatten
+1	move Run Ahead
+1	move Cloudburst
+1	passive Gathering
+1	passive Washes Over
+1	move Wave Front
+1	move Draw Back
+1	move Overtop
+1	move Spring Bore
+1	passive Salt Wound
+1	passive Salt Burst
+1	move Brine Spit
+1	move Salt Rime
+1	move Brine Flood
+1	move Dry Up
+1	passive Spun Round
+1	passive Makes You Turn
+1	move Dizzy Wave
+1	move Spin Bolt
+1	move Hand Round
+1	move Whirlpool
+1	passive Buckthorn
+1	passive Hedged In
+1	move Roll Across
+1	move Bristle Up
+1	move Catch a Sleeve
+1	move Hedge Fall
+1	summon Stinkhorn
+1	passive Underground
+1	passive Fruit Body
+1	move Spore Gust
+1	move Push Up
+1	move Rot Down
+1	move Through Roots
+1	passive Hooked On
+1	passive Catches On
+1	move Hook On
+1	move Seed Burst
+1	move Hitch a Ride
+1	move Drag Along
+1	passive Last Windfall
+1	passive Too Ripe
+1	move Ripe Fruit
+1	move Hard Pips
+1	move Under Boughs
+1	move Full Bloom
+1	passive Year Rings
+1	passive Sucker Shoots
+1	move Splinter Off
+1	move Sap Rising
+1	move Stump Butt
+1	move New Growth
+1	passive Spore Cloud
+1	passive Lies Low
+1	move Eye Dust
+1	move Plant a Cap
+1	move Roll Away
+1	move Ring of Caps
+1	passive Hooked Thorns
+1	passive Holds Fast
+1	move Briar Sweep
+1	move Snag Cane
+1	move Reel In
+1	move Tear Free
+1	passive Bitter End
+1	passive Deep Sleep
+1	move Bitter Dose
+1	move Sleeping Cup
+1	move Spilled Cup
+1	move Pour Out
+1	passive Epicycle
+1	passive Conjunction
+1	move Set Orbit
+1	move Spin Faster
+1	move Close Pass
+1	move Comes Round
+1	passive Counterweight
+1	passive Cable Snap
+1	move Grab Hook
+1	move Full Swing
+1	move Lift and Drop
+1	move Drop the Load
+1	passive Sea Breeze
+1	passive Light Vanes
+1	move Vane Cut
+1	move Whirlwind
+1	move Lee Side
+1	move Onshore Wind
+1	passive Far Watch
+1	passive Locked On
+1	move Bounce Signal
+1	move Sweep
+1	move Pinpoint
+1	move Last Pass
+1	summon Slag Crab
+1	passive Stoked Full
+1	passive Slag Shelter
+1	move Coal Shot
+1	move Open Flue
+1	move Hot Plate
+1	move Let It Out
+1	passive Packing
+1	passive Blow-off
+1	move In Stroke
+1	move Rod Slam
+1	move Hold Pressure
+1	move Long Stroke
+1	passive Builds Charge
+1	passive Static
+1	move Brush Spark
+1	move Jump the Gap
+1	move Spin Up
+1	move Field Coil
+1	passive Fog Warning
+1	passive Long Blast
+1	move Clank
+1	move Hush Blast
+1	move Rising Swell
+1	move Fog Signal
+1	passive Old Scent
+1	passive Lean Years
+1	move Jaw
+1	move Nose Down
+1	move Moon Howl
+1	move Never Let Go
+1	passive Field Rest
+1	passive Hard Neck
+1	move Plough Up
+1	move Horn Shove
+1	move Stamp Furrows
+1	move Pull Hard
+1	passive War Dance
+1	passive Ermine
+1	move Icicle Throw
+1	move Snow Snare
+1	move Warm Den
+1	move Mad Dance
+1	move Nape Bite
+1	move Pounce Off
+1	move Snow Rake
+1	passive Swollen
+1	passive Clotting
+1	move Draw Blood
+1	move Latch On
+1	move Gorge
+1	move Burst Full
+1	passive Picks Over
+1	passive Waits for It
+1	move Flock Peck
+1	move Mobbing
+1	move Circle Low
+1	move Black Flock
+1	passive Third Butt
+1	passive Bull Neck
+1	move Hook Horn
+1	move Long Charge
+1	move Paw the Sand
+1	move From Behind
+1	passive Thick Nail
+1	passive Clench
+1	move Press Down
+1	move Thumb Flick
+1	move Let Go
+1	move Squash Flat
+1	passive Spring Legs
+1	passive Moon Boxer
+1	move Hind Kick
+1	move Zigzag
+1	move Thump Ring
+1	move Box the Moon
+1	passive Gibbous
+1	passive New Moon
+1	move Crescent Edge
+1	move Wane
+1	move Thin Edge
+1	move Waxes Full
+1	passive Ice Crust
+1	passive Sunward
+1	move Dust Tail
+1	move Frozen Core
+1	move Tail Sweep
+1	move Strike Home
+1	passive Third Band
+1	passive Green Cover
+1	move Fold Back
+1	move Flicker
+1	move Green Bands
+1	move Draw Close
+1	passive Wet Sand
+1	passive Glass Charge
+1	move Sand Arc
+1	move Same Place
+1	move Flash Over
+1	move Whole Sky
+1	passive Brightening
+1	passive Rim Light
+1	move Ring Strike
+1	move Hover Over
+1	move Lit Rim
+1	move Crowned
+1	passive Half Shadow
+1	passive Gold Rim
+1	move Dusk Edge
+1	move Blot Out
+1	move Noon Dark
+1	move Full Eclipse
+1	passive Keeps a Piece
+1	passive Bad Sky
+1	move Red Streak
+1	move Red Sky
+1	move On Its Way
+1	move Ill Omen
+1	summon Cinder Shell
+1	passive Sunburn
+1	passive Flare Up
+1	move Sunspot
+1	move Leap Out
+1	move Solar Loop
+1	move Burn Down
+1	passive Tally
+1	passive Kid
+1	move Shove
+1	move Grab
+1	move Stand Firm
+1	move Rush
+1	passive Seed Clock
+1	passive Last Puff
+1	move Puff Blow
+1	move Seed Drift
+1	move Tell the Hour
+1	move Blow Apart
+1	passive Looks Like One
+1	passive Scare
+1	move Kelp Swipe
+1	move Flap Up
+1	move Pick Clean
+1	move Crows Come In
+1	passive Leaves a Blade
+1	passive Spare Blades
+1	move Nick
+1	move Draw Blades
+1	move Score
+1	move Lancing
+1	passive Still Curing
+1	passive Thick Staves
+1	move Slop Over
+1	move Barrel In
+1	move Top Up
+1	move Burst Hoops
+1	passive Keeps Rolling
+1	passive Heavier Load
+1	move Run Over
+1	move Into the Rut
+1	move Chock Wheels
+1	move Runaway Cart
+1	passive Grub Store
+1	passive Star Nose
+1	move Nibble
+1	move Dig Claw
+1	move Go to Earth
+1	move Surface Lunge
+1	move Bubble Sniff
+1	move Mound Up
+1	move Tunnel Past
+1	passive Cold Store
+1	passive Fills Back Up
+1	move Cold Draft
+1	move Top Shelf
+1	move Frost Bite
+1	move Bad Months
+1	summon Worm End
+1	passive Two Ends
+1	passive Sand Casts
+1	move Long Slap
+1	move Squirm
+1	move Sling Self
+1	move Loop Bounce
+1	passive Broken In
+1	passive Spare Nails
+1	move Hobnail
+1	move Scuff Mark
+1	move Tread Hard
+1	move Forced March
+1	summon Ripe Pod
+1	passive Sun Ripe
+1	passive Full Pod
+1	move Pea Shot
+1	move Grow Pods
+1	move Shell Out
+1	move Pea Rain
+1	passive Shut Air
+1	passive Takes Weight
+1	move Swing Shut
+1	move Below Stairs
+1	move Slam
+1	move Down Below
+1	summon Leg Snare
+1	passive Fourth Chirp
+1	passive Loud End
+1	move Trill
+1	move Cave Drip
+1	move Hop Off
+1	move Four Chirps
+1	passive Lands Twice
+1	passive Old Bone
+1	move Toss Up
+1	move Chip Off
+1	move Roll for It
+1	move All Five
+1	passive Well Fed
+1	passive Root Weight
+1	move Cusp Bite
+1	move Root Heave
+1	move Molar Grind
+1	move Chew Down
+1	passive Bone Spurs
+1	passive Spur Bed
+1	move Spur Spray
+1	move Marrow Spit
+1	move Bow the Neck
+1	move Hold Up
+1	passive Same Spot
+1	passive Hangnail
+1	move Nail Flick
+1	move Pin Under
+1	move Pare Down
+1	move Down to Quick
+1	passive Leans Light
+1	passive Off Level
+1	move Pop Joint
+1	move Swing Leg
+1	move Shift Weight
+1	move Cast Round
+1	passive Lucky Break
+1	passive Fourth Wish
+1	move Splinter Spray
+1	move Pull the Bone
+1	move Make a Wish
+1	move Wish Them Here
+1	passive Test Shell
+1	passive Sharp Spines
+1	move Spine Sweep
+1	move Water Jet
+1	move Spine Pin
+1	move All Spines Out
+1	passive Courting Wave
+1	passive Great Claw
+1	move Sidelong Jab
+1	move Wave the Claw
+1	move Claw Raised
+1	move Regrow Claw
+1	summon Reflection
+1	passive Reflected
+1	passive Many Places
+1	move Heat Glint
+1	move Waver Off
+1	move Haze Run
+1	move Whole Mirage
+1	passive Iron Swing
+1	passive Hauled Up
+1	move Fluke Swipe
+1	move Drop Anchor
+1	move Sand Spout
+1	move Wreck Comes In
+1	passive Prow First
+1	passive Bow Wake
+1	move Spray Over
+1	move Into the Swell
+1	move Stand In Front
+1	move Ice Wake
+1	passive Pumps Out
+1	passive Spill Over
+1	move Bail Out
+1	move Suction
+1	move Still Water
+1	move Dead Calm
+1	passive Same Tack
+1	passive Close Haul
+1	move Thrown Blocks
+1	move Come About
+1	move Boom Beat
+1	move Fill Out
+1	move Storm Canvas
+1	passive Weighted
+1	passive Deep Set
+1	move Two Knocks
+1	move Ram Ashore
+1	move Sit Upright
+1	move Launch
+1	passive Second Charge
+1	passive Swabbed Out
+1	move Scatter Shot
+1	move Load Grape
+1	move Fire a Friend
+1	move Late Shot
+1	summon Spray Column
+1	passive Builds Up
+1	passive Whitewater
+1	move Crash Down
+1	move Curl Over
+1	move Throw Spray
+1	move Ninth Wave
+1	passive High Wheel
+1	passive Robber
+1	move Harry
+1	move Stoop
+1	move Follow
+1	move Out of the Sun
+1	passive See-Through
+1	passive Stung Twice
+1	move Trailing Sting
+1	move Upwelling
+1	move Drift Over
+1	move Open Bloom
+1	passive Floats
+1	passive Bleached
+1	move Waterlog
+1	move Weed Seed
+1	move Bark Coat
+1	move Washed Up
+1	passive Buoyant
+1	passive On the Bill
+1	move Foam Wash
+1	move Foam Cover
+1	move Rinse Clean
+1	move Kept Afloat
+1	passive Turning Tide
+1	passive Drawn Back
+1	move Wave Shot
+1	move Run Out
+1	move Pull In
+1	move High Water
+1	move Wave Crash
+1	move Churned Water
+1	move Ebb Out
+1	move Undertow Pull
+1	passive Stock Still
+1	passive Gray Coat
+1	move Bill Stab
+1	move Reed Snare
+1	move Spot Prey
+1	move Strike Down
+1	move Spring Up
+1	passive Third Bite
+1	passive Slick
+1	move Dart Off
+1	move Eel Coil
+1	move Writhe
+1	move Elver Run
+1	summon Bog Body
+1	passive Bog Breath
+1	passive Preserved
+1	move Bog Pulse
+1	move Marsh Gas
+1	move Sink Hole
+1	move Peat Spade
+1	summon Bell Spirit
+1	passive Undertone
+1	passive Bell Mouth
+1	move Clapper
+1	move Peal
+1	move Ring Out
+1	move Great Toll
+1	summon Glass Shard
+1	passive Leaded Panes
+1	passive Crazed
+1	move Stained Light
+1	move New Pane
+1	move Lead Line
+1	move Rose Window
+1	summon Held Note
+1	passive Open Stop
+1	passive Full Chest
+1	move Low Drone
+1	move Stopped Note
+1	move Draw Air
+1	move Full Organ
+1	summon Hymnbook
+1	passive Pew Rent
+1	passive Reserved
+1	move Slide Along
+1	move Open Hymnbook
+1	move Box Pew
+1	move All Kneel
+1	passive Reliquary
+1	passive Under Glass
+1	move Gilt Edge
+1	move Lid Shut
+1	move Glass Dust
+1	move Into the Case
+1	passive Swung Wide
+1	passive Incense
+1	move Soot Bind
+1	move Smoke Screen
+1	move Ash Pool
+1	move Smoke Closes
+1	passive Night Wings
+1	passive Hush Hunt
+1	move Swoop
+1	move Owl Stare
+1	move Wing Mantle
+1	move Moonless
+1	passive Stored Up
+1	passive Rut Season
+1	move Antler Jab
+1	move Lock Antlers
+1	move All At Once
+1	move Stag Leap
+1	passive Swarming
+1	passive Honeycomb
+1	move Buzz
+1	move Smoke Out
+1	move Swarm Up
+1	move Whole Hive
+1	summon Sapling
+1	passive Deep Drink
+1	passive Deep Seated
+1	move Root Shove
+1	move Root Under
+1	move Seedling Toss
+1	move Root Wave
+1	passive Out the Hole
+1	passive Frass
+1	move Bore Hole
+1	move Galleries
+1	move Hard Back
+1	move Into the Wood
+1	summon Lump
+1	passive Earth Store
+1	passive Clay Skin
+1	move Roll Clod
+1	move Pull Clod
+1	move Pack Earth
+1	move Earthen Hold
+1	summon Root Friend
+1	passive Green Hand
+1	passive Whiplash
+1	move Root Pull
+1	move Seed Shield
+1	move Leafing
+1	move Sprout Guard
+1	passive Bad Dream
+1	passive Gnarled
+1	move Sap Dream
+1	move Bad Sleep
+1	move Heavy Eye
+1	move Dream Grip
+1	passive Upward Drop
+1	passive Topsy
+1	move Rising Drops
+1	move Shrink
+1	move Help Up
+1	move Grow Tall
+1	passive Glazing
+1	passive Hearth
+1	move Clinker
+1	move Into the Kiln
+1	move Pillar Charge
+1	move Fire Brick
+1	passive Same Load
+1	passive Idler Wheel
+1	move Roller Spin
+1	move Couple Up
+1	move Belt Speed
+1	move Carry Over
+1	passive Clear Signal
+1	passive Relay
+1	move Static Flash
+1	move Crosstalk
+1	move Dead Air
+1	passive North Point
+1	passive Beside You
+1	move Spin on Pin
+1	move Throw Arrow
+1	move After It
+1	move Land Beside
+1	passive Eject
+1	passive Drogue Chute
+1	move Hot Drop
+1	move Seal In
+1	move Clam Shut
+1	move Turn Them
+1	summon Clamp
+1	passive Spent Stage
+1	passive Burn Rate
+1	move Thrust
+1	move Spark Spray
+1	move Drop Stage
+1	move Long Burn
+1	passive Turned Up
+1	passive Ear Out
+1	move Ping Back
+1	move Feedback
+1	move Say It Back
+1	move Loud Hail
+1	passive Burning Up
+1	passive Heat Sink
+1	move Hot Sparks
+1	move Hull Hook
+1	move Vent
+1	move Low Pass
+1	passive Winter Wool
+1	passive Herd Ring
+1	move Head Down
+1	move Snow Snort
+1	move Frozen Stiff
+1	move Ring the Herd
+1	passive Shatters
+1	passive Still Air
+1	move Ice Spall
+1	move Glare Ice
+1	move Frozen Boots
+1	move Calving Face
+1	passive Sleepy Sea
+1	passive Sea Born
+1	move Undertow Mend
+1	move Lullaby
+1	move Seal Bite
+1	move Seven Waves
+1	passive Third Tusk
+1	passive Haul Out
+1	move Flipper Slap
+1	move Herd Roll
+1	move Tusk Gouge
+1	move Tusk Down
+1	passive Below the Line
+1	passive Mostly Under
+1	move Scrape Hull
+1	move Ice Groan
+1	move Undercut
+1	move Capsize
+1	passive Under Watch
+1	passive Ivory Point
+1	move Shard Fall
+1	move Breach
+1	move Pod Dive
+1	move Tusk Line
+1	passive Cold Air
+1	passive Loved
+1	move Frost Flower
+1	move Frost Bitten
+1	move Chilly Kiss
+1	move Kind Winter
+1	passive Momentum
+1	passive Last of Them
+1	move Wing Slaps
+1	move Crash Landing
+1	move Belly Slide
+1	move Ice Slide
+1	passive Dented Hard
+1	passive Rivet Heads
+1	move Strap Whirl
+1	move Hammer Out
+1	move Take Dents
+1	move Saw Edge
+1	passive Catches Wind
+1	passive Colors
+1	move Wind Crack
+1	move Guy Rope
+1	move Plant Pole
+1	move Snap Out
+1	summon Whetstone
+1	passive Keen Edge
+1	passive Spin Through
+1	move Pommel Chip
+1	move Grip Spin
+1	move Hand Over
+1	move Thousand Cuts
+1	passive Ledger
+1	passive Riposte
+1	move Rim Throw
+1	move Pay It Back
+1	move Raise the Rim
+1	move Falling Shield
+1	summon Barding
+1	passive Barded
+1	passive Pluck
+1	move Lead Rope
+1	move Spur On
+1	move Ride Through
+1	move Full Gallop
+1	passive Full Cradle
+1	passive Creaking Arm
+1	move Loose Stones
+1	move Fling Back
+1	move Arm Swing
+1	move Wind Arm
+1	passive Warm Steel
+1	passive Drake Scale
+1	move Visor Breath
+1	move Drake Fire
+1	move Plume Bash
+1	move Lend the Helm
+1	move Drake Day
+1	passive High Frost
+1	passive Never Landed
+1	move Loose
+1	move Sheaf Loose
+1	move Frost Tip
+1	move Overdraw
+1	passive Foreknowing
+1	passive Calm Surface
+1	move Mirror Flash
+1	move Ripple Back
+1	move Glassy Beam
+1	move Reflect It
+1	passive Slippery
+1	passive Blood in Mud
+1	move Skip In
+1	move Mud Hop
+1	move Barb Fin
+1	move Something Big
+1	summon Mire Pit
+1	passive Settling
+1	passive Soft Bottom
+1	move Stir Up
+1	move Cloud Up
+1	move Sink Pit
+1	move Bottom Opens
+1	summon Tadpole
+1	passive Toad Skin
+1	passive Amphibian
+1	move Frog Hop
+1	move Croak
+1	move Belly Croak
+1	move Make a Frog
+1	move Sticky Tongue
+1	move Frogspawn
+1	passive Boomerang Edge
+1	passive Moonward
+1	move Pale Beam
+1	move Edges Out
+1	move Full Light
+1	move Shard Rain
+1	passive Lodestone
+1	passive Too Heavy
+1	move Iron Wave
+1	move Pull Iron
+1	move Iron Grip
+1	move Turn Poles
+1	passive Going Off
+1	passive Skim Off
+1	move Dross Hit
+1	move Acid Run
+1	move Brew Up
+1	move Melt Down
+1	summon Glass Mite
+1	passive Fresh Edge
+1	passive Broken Sharp
+1	move Glass Mites
+1	move Ringing Glass
+1	move Glass Visions
+1	move Shard Grip
+1	passive Walks on Sting
+1	passive Venom Skin
+1	move Sting Tip
+1	move Venom Pool
+1	move Venom Jet
+1	move Deep Sting
+1	summon Joint Sprout
+1	mark joints in
+1	passive Deep Spines
+1	passive Catch a Ride
+1	move Jump On
+1	move Joint Drop
+1	move Burst Pad
+1	move Cholla Grab
+1	summon Sand Polyp
+1	summon Reef Wall
+1	mark buried
+1	passive Budding
+1	passive Colony
+1	move Polyp Rush
+1	move Bud Polyp
+1	move Sand Over
+1	move Reef Rises
+1	passive Three Weathers
+1	passive Wavering
+1	move Hard Glare
+1	move Heat Wobble
+1	move Night Dew
+1	move Weather Mix
+1	summon Small Bones
+1	passive Unburied
+1	passive Old Grudge
+1	move Dry Bite
+1	move Bleached Stare
+1	move Crack Open
+1	move Ossuary
+1	passive Pivot Eye
+1	passive Spring Back
+1	move Snip Snip
+1	move Prune Back
+1	move Oil Pivot
+1	move One Branch
+1	passive Cuff Off
+1	passive Push Off
+1	move Weed Pull
+1	move Lend a Hand
+1	move Green Thumb
+1	move Let Loose
+1	passive Rootstock
+1	passive Graft Union
+1	move Graft Slash
+1	move Long Shoot
+1	move Splice In
+1	move Grow Inside
+1	drop Pear
+1	passive Wall Fed
+1	passive Pears Free
+1	move Pear Drop
+1	move Prop Up
+1	move Wall Sap
+1	move Full Trellis
+1	summon Landing
+1	passive Step Higher
+1	passive Sure Footing
+1	move Rung Rap
+1	move Crossbar
+1	move Landing Rest
+1	move Top Rung
+1	mark rubbed out
+1	passive Spread Thin
+1	passive Emptied
+1	move Blank Edge
+1	move Rub Out
+1	move Blank Stamp
+1	move Nothing There
+1	passive Last Post
+1	passive Stays Here
+1	move Barrier Charge
+1	move Warning Posts
+1	move Toll Bar
+1	move Road's End
+1	summon Circling Star
+1	passive Turning Stars
+1	passive Falling Stars
+1	move Star Breath
+1	move Rise Up
+1	move Sink Well
+1	move Stars Fall
+1	passive Unseen
+1	passive Rolls In
+1	move Cold Edge
+1	move Fog Pall
+1	move Thicken
+1	move Fogbound
+1	summon Drowned Image
+1	passive Under Pull
+1	passive Bigger Below
+1	move Deep Rip
+1	move Kelp Wrap
+1	move Show a Part
+1	move Deep Song
+1	passive Heavier
+1	passive Overhang
+1	move Edge Bite
+1	move Over the Edge
+1	move Crumble
+1	move Pull Apart
+1	ground Rucked Ground
+1	summon Raised Corner
+1	passive Fold Over
+1	passive Give Way
+1	move Ruck Up
+1	move Buckle Under
+1	move Pucker Up
+1	move Fold Up
+1	ground Salt Pool
+1	summon Mud Puppy
+1	passive Laid Down
+1	passive Seeps In
+1	move Run Off
+1	move Cold Hollow
+1	move Settle In
+1	move Mud Up
+1	summon Thorn Tangle
+1	passive Crack Walker
+1	passive Ill Footing
+1	move Crack Thorn
+1	move Crazed Ground
+1	move Into the Crack
+1	move Thorn Ring
+1	passive Cemented
+1	passive Spat Spin
+1	move Cirri Fire
+1	move Cement Spear
+1	move Shut Tight
+1	move Barnacle Bed
+1	passive Growth
+1	passive Old Lip
+1	move Lip Toss
+1	move Lip Hop
+1	move Grind
+1	move Lip Break
+1	move Boulder Lob
+1	move Wallop
+1	move Lip Crush
+1	passive Draft
+1	passive Six O'Clock
+1	move Gull Dive
+1	move Wheel
+1	move Wave Skim
+1	move Forty Years
+1	mark cured
+1	summon Salt Grain
+1	passive Cubic
+1	passive Counted
+1	move Grain Drop
+1	move Dry Out
+1	move Square Off
+1	move Salt Pan
+1	passive Shadow Leap
+1	passive Hop Count
+1	move Pounce
+1	move Sand Kick
+1	move Sand Throw
+1	move Night Hunt
+1	summon Pop Pod
+1	passive Bladders
+1	passive Tideline
+1	move Pop Lob
+1	move Inflate
+1	move Pop Field
+1	move Wrack Bomb
+1	passive Stayed Shut
+1	passive Cargo
+1	move Batten
+1	move Stove In
+1	move Bob Up
+1	move Nailed Shut
+1	summon Warm Pylon
+1	passive Warm Side
+1	passive Mote Grain
+1	move Warm Glint
+1	move Turn Over
+1	move Handful
+1	move Captive Star
+1	passive Glass Note
+1	passive Frosted
+1	move Shard Knives
+1	move Rub Through
+1	move Break Glass
+1	move Beach Glass
+1	mark stiff
+1	mark spat out
+1	passive Hung Up
+1	passive Stiff
+1	move Kipper Slap
+1	move Bubble Up
+1	move Flip Under
+1	move Cured
+1	mark hosted
+1	passive Stinging Cells
+1	passive Shy
+1	move Arm Lunge
+1	move Close Up
+1	move Arms Around
+1	move Pool Challenge
+1	summon Hollow Copy
+1	passive Hollow
+1	passive Look Round
+1	move Scoop
+1	move Sweep Off
+1	move Sink Barbs
+1	move Dead Low
+1	passive Night Flier
+1	passive Doves
+1	move Dove Wing
+1	move Dollar Edge
+1	move Fly Home
+1	move Ring Home
+1	summon Little Curl
+1	summon Great Curl
+1	passive Castings
+1	passive Ebb Mud
+1	move Curl
+1	move Go Under
+1	move Collapse
+1	move Great Curl
+1	passive Hinge
+1	passive Star Shy
+1	move Razor Cut
+1	move Upright
+1	move Dig In
+1	move Wind Up
+1	passive Kept Light
+1	passive Ring Light
+1	move Draw Light
+1	move Glow
+1	move Dither
+1	move Long Spark
+1	summon Spot Box
+1	summon Spot Copy
+1	passive First Spot
+1	passive Unwatched
+1	move Dark Spot
+1	move Move Off
+1	move Look Away
+1	move Many Spots
+1	mark polished
+1	passive Polishes
+1	passive Lies On
+1	move Slide Over
+1	move Mantle Over
+1	move Lie Over
+1	move Shine
+1	summon Still Wall
+1	passive Standing Wave
+1	passive Gray Pin
+1	move Slosh
+1	move Still
+1	move Gray Hold
+1	move Break Over
+1	summon Spray Shade
+1	passive Kept Going
+1	passive Ahead
+1	move Spray Star
+1	move Skip Ahead
+1	move Run Through
+1	move Spume Mark
+1	passive Gloss
+1	passive Shatter Glaze
+1	move Daybreak
+1	move Dim Coat
+1	move Glaze Blade
+1	move Whole Dome
+1	passive Tilts
+1	passive Glaze Shell
+1	move Snort
+1	move Start Rolling
+1	move Bump
+1	move Downhill
+1	passive Clinks
+1	passive Shut Purse
+1	move Clip
+1	move Pay Out
+1	move Buy Time
+1	move Spend It All
+1	passive Scours
+1	passive Hard Grit
+1	move Coarse Sting
+1	move Rub Under
+1	move Abrade
+1	move Polish Off
+1	passive Rings True
+1	passive Petals
+1	move Clear Note
+1	move Chime
+1	move Window Box
+1	move Peal Out
+1	passive Nothing Left
+1	passive Still Meshing
+1	move Gnash Bite
+1	move All Teeth
+1	move Overbite
+1	move Lockjaw
+1	passive Wandered
+1	passive Gap
+1	move Gap Sphere
+1	move Slip Blade
+1	move Get Between
+1	move Wider
+1	passive Fast Roll
+1	passive Rolled In
+1	move Claw Roll
+1	move Roll Tight
+1	move Whip Out
+1	move Unroll
+1	summon Late Image
+1	passive Behind Glass
+1	passive Late
+1	move Catch Up
+1	move Fall Behind
+1	move Late Ripple
+1	move Mirror Back
+1	summon Silver Image
+1	passive Silver Back
+1	passive Bare Glass
+1	move Backing
+1	move Silvering
+1	move Tarnish
+1	move Empty Swap
+1	passive Went Off
+1	passive Full Dark
+1	move Dome Shine
+1	move Drowse
+1	move Lamp Out
+1	move Glare Off
+1	passive Shape Held
+1	passive Inner Round
+1	move Round
+1	move Whirl In
+1	move Dust Devil
+1	move Auger Warp
+1	passive Dry Side
+1	passive Slow Growth
+1	move Encrust
+1	move Lichen Feed
+1	move Cling Fang
+1	move Stone Crust
+1	summon Water Dome
+1	passive Full Swell
+1	passive Settle Down
+1	move Swell Up
+1	move Lift Dome
+1	move Lift Off
+1	move Spring High
+1	passive Chalked Hand
+1	passive Chalk Grip
+1	move Chalk Toss
+1	move Dust Cloud
+1	move Climb Over
+1	move Clean Hands
+1	ground Rising Line
+1	summon Salt Post
+1	passive Every Roll
+1	passive High Mark
+1	move Rime Strike
+1	move Mark the Wall
+1	move Wash Line
+1	move Spring Line
+1	passive Never Roots
+1	passive Burs
+1	move Roll Through
+1	move Roll Off With
+1	move Hitch Ride
+1	move Round Up
+1	passive Goes Up
+1	passive Banister
+1	move Stair Tread
+1	move Go Up
+1	move Kick Plate
+1	move Top Flight
+1	passive Center
+1	passive Climbed
+1	move Axis Cut
+1	move Post Dash
+1	move Middle Post
+1	move Stand Under
+1	passive Sixty Years
+1	passive Worn Smooth
+1	move Fingertip
+1	move Loose Hold
+1	move Rest Hold
+1	move Go Through
+1	passive Sure Foot
+1	passive Horns
+1	move Head Butt
+1	move Wall Run
+1	move Leap Off
+1	move Headlong
+1	passive Double Back
+1	passive Aloft
+1	move Scythe Shot
+1	move Screech
+1	move Dive Past
+1	move Endless
+1	passive Kept Push
+1	passive Narrow
+1	move Gust Fire
+1	move Blast Jump
+1	move Breathe In
+1	move Blowout
+1	passive No Floor
+1	passive Kept Falling
+1	move Drop In
+1	move Freefall
+1	move Trip
+1	move Bottom Out
+1	summon Snap Trap
+1	passive Points
+1	passive Still Points
+1	move Parting Shot
+1	move Point At
+1	move Snap Shot
+1	move Net Bearing
+1	move Highest
+1	passive Starts Low
+1	passive Amp Up
+1	move Low Pulse
+1	move Drone Shift
+1	move Push Air
+1	move Tune Up
+1	summon Hole Turret
+1	summon Hole Wall
+1	passive Opens Anywhere
+1	passive Star Burn
+1	move Hole Through
+1	move Open Under
+1	move Other End
+1	move Margin Hole
+1	passive Drill Through
+1	passive Goes In
+1	move Drill
+1	move Radula
+1	move Moon Foot
+1	move Go In
+1	passive Still Up There
+1	move Bird Dive
+1	passive Long Shell
+1	move Wingspan
+1	move Soar Over
+1	move Shadow Shift
+1	move Whole Beach
+1	passive First Room
+1	passive Sealed
+1	move Jet Rain
+1	move Room Seeker
+1	move Coil In
+1	passive Next Line
+1	passive Faces Away
+1	move Is It Today
+1	move Don't Scratch
+1	move Don't Look Yet
+1	move There It Goes
+1	notion Sea Pebble
+1	notion Sieve
+1	notion Glaze Coat
+1	notion Salt Boots
+1	notion Climbing Chalk
+1	summon Kelp Arm
+1	passive Stands Up
+1	passive Out of Manners
+1	move Frond Slap
+1	move Blade Sway
+1	move Shed Water
+1	move Ebb Blade
+1	passive Lies Flat
+1	passive Meadow Bed
+1	move Comb Through
+1	move Sway Over
+1	move Meadow Seed
+1	move Lull Over
+1	passive Deep Scent
+1	passive Up From Deep
+1	move Long Bite
+1	move Deep Rake
+1	move Lure Up
+1	move Pressure Drop
+1	passive Many Arms
+1	passive Regrows Arms
+1	move Arm Barrage
+1	move Point Five
+1	move Fallen Star
+1	move Falling Arms
+1	passive Suckers
+1	passive Keeps Reaching
+1	move Sucker Slap
+1	move Cling On
+1	move Long Reach
+1	move Wrap Around
+1	summon Jet Shell
+1	passive Ebb Pull
+1	passive Jet Breath
+1	move Squirt
+1	move Push Off
+1	move Exhale
+1	move Full Jet
+1	passive Turn of Tide
+1	passive Unhurried
+1	move Still Lap
+1	move Slacken
+1	move Hold Still
+1	move Still Minute
+1	move Running Tide
+1	summon Frozen Thrall
+1	passive Frost Finger
+1	passive Points Down
+1	move Cold Drip
+1	move Brine Ring
+1	move Freeze Line
+1	move Sea Floor
+1	summon Late Spark
+1	summon Second Showing
+1	passive Lonely Star
+1	passive First Showing
+1	move Cross Over
+1	move Late Light
+1	move Moon Pass
+1	move Played Back
+1	passive Sinking
+1	passive Ballasted
+1	move Drop Stone
+1	move Storm Stone
+1	move Sink Room
+1	move Full Hold
+1	passive One Way
+1	passive Floodgate
+1	move Gate Slap
+1	move Back Flow
+1	move Gate Bolt
+1	move Swap Rooms
+1	passive Seals Behind
+1	passive Bulkhead
+1	move Wall Slam
+1	move Chamber Knock
+1	move Seal Room
+1	move Seal Shot
+1	passive Thin Air
+1	passive Airless
+1	move Old Air
+1	move Thin Out
+1	move Kept Air
+1	move Old Year
+1	summon Salt Tomb
+1	passive Ringed
+1	passive Dries Out
+1	move Salt Flake
+1	move Dry Ring
+1	move Draw Water
+1	move Dry Room
+1	passive Hard Hood
+1	passive Door Behind
+1	move Hood Knock
+1	move Purify
+1	move Door Slam
+1	move Shut Door
+1	summon Live Print
+1	passive Footprints
+1	passive Stars Land In
+1	move Footfall
+1	move Toe Prints
+1	move Print Guard
+1	move Walk Back
+1	passive Burning Down
+1	passive Bright Fall
+1	move Cinder Flick
+1	move Bright Streak
+1	move Strike Ring
+1	move White Line
+1	summon Tussock
+1	passive Holds Together
+1	passive Root Walked
+1	move Sprout Ring
+1	move Runner
+1	move Walk Off
+1	move Root Run
+1	passive Crisp
+1	passive Salt Crust
+1	move Salt Spit
+1	move Brine Mist
+1	move Cure Through
+1	move Pressed Flat
+1	passive Night Glare
+1	passive Kept Shine
+1	move Night Glint
+1	move White Field
+1	move Glare Link
+1	move Salt Flare
+1	summon Bone Decoy
+1	passive Matches
+1	passive Lies By
+1	move Color Jab
+1	move Flat Clap
+1	move Cloud Brew
+1	move Three Colors
+1	passive Ripples
+1	passive Talked Near
+1	move Bell Sting
+1	move Quiet Pulse
+1	move Pulse Bell
+1	move Big Ripple
+1	passive Stands Put
+1	passive Corner Post
+1	move Post Shot
+1	move Shove Back
+1	move Post Drive
+1	move Post Volley
+1	move Four Posts
+1	summon Trip Label
+1	passive Nearest Shell
+1	passive Last Letters
+1	move Post Tap
+1	move Plant Label
+1	move Hold Label
+1	move All Ticketed
+1	passive Empties
+1	passive Counter Empty
+1	move Hollow Tap
+1	move Slip In
+1	move Empty Out
+1	move Square Waits
+1	passive Unwatched Spin
+1	passive Keeps Spinning
+1	move Top Spin
+1	move Spin Under
+1	move Grit Finish
+1	move Spin Out
+1	passive Stepped In
+1	passive All Goes In
+1	move Cube Face
+1	move Inward Stair
+1	move Crust Over
+1	move Hollow Core
+1	passive Sideways
+1	passive Crusted Claw
+1	move Claw Nip
+1	move Salt Flick
+1	move Side Step
+1	move Between Slots
+1	passive One of Each
+1	passive Under Wing
+1	move Snatch
+1	move Three Pecks
+1	move Hoard
+1	move Gives It Back
+1	passive Deep Keep
+1	passive Mudlark's Eye
+1	move Poke In
+1	move Fall In
+1	move Shallow Hole
+1	move Keeps It
+1	summon Toxin Trap
+1	passive Never Blinks
+1	passive Unblinking
+1	move Stalk Jab
+1	move Long Look
+1	move Stare
+1	move Cull
+1	passive Never Wet
+1	passive Runs the Edge
+1	move Pin
+1	move Still Foot
+1	move Edge Run
+1	move Wave Edge
+1	passive Comes Up
+1	passive Stays High
+1	move Rise
+1	move Top Spill
+1	move Stay a While
+1	move Spring Flood
+1	passive Loud Inside
+1	passive After Rush
+1	move Hiss
+1	move Crash
+1	move Roar Back
+1	move Sea Sound
+1	passive Spray Dries
+1	passive Blooms
+1	move Spray
+1	move Salt Bloom
+1	move Crack
+1	move Salt Flower
+1	passive Kind Hand
+1	passive Shaped Hand
+1	move Hand Hold
+1	move Knuckle Rap
+1	move Open Palm
+1	move Every Hand
+1	summon Seed Pearl
+1	passive Toward Voices
+1	passive Nacre Gift
+1	move Pearl Roll
+1	move Roll Over
+1	move Hear a Voice
+1	move Rolls Home
+1	passive Inner Spiral
+1	passive Hears Both
+1	move Spiral Hum
+1	move Inner Ear
+1	move Ring Through
+1	move Louder Out
+1	summon Salt Stake
+1	passive Damp Turns
+1	passive Crisp Edge
+1	move Brine Mend
+1	move Pod Toss
+1	move Pickle
+1	move Stake Down
+1	passive Level Ride
+1	passive Even Keel
+1	move Tip
+1	move Steep
+1	move Outer Ring
+1	move Level
+1	passive Missing Notes
+1	passive Quiet Mouth
+1	move Shh
+1	move Low Note
+1	move Hush Seal
+1	move Long Quiet
+1	passive Hears Its Name
+1	passive Snaps Shut
+1	move Lip Notch
+1	move Flare Out
+1	move Name Call
+1	move Wide Open
+1	summon Sister
+1	passive Looks for Six
+1	passive Sisters
+1	move Twinkle
+1	move Cluster
+1	move Call Out
+1	move Seven Fall
+1	passive On Its Way
+1	passive Far Side
+1	move Return Flare
+1	move Far Out
+1	move Swing Back
+1	move Comes Back
+1	passive Measuring
+1	passive Long Sight
+1	move Sight Line
+1	move Brass Ring
+1	move Star Shower
+1	move Last Reading
+1	summon Shell Wall
+1	passive Caught Shell
+1	passive Shell Shuts
+1	move Green Glint
+1	move Iron Sparks
+1	move Half Shell
+1	move Shell Nova
+1	passive Pink Water
+1	passive Lip Color
+1	move Pink Bloom
+1	move Salt Draw
+1	move Stain Water
+1	move Pink Pool
+1	passive Unknown Grower
+1	passive Kept Longest
+1	move Old Dust
+1	move Faded Label
+1	move Nobody Knows
+1	move Take to Keep
+1	summon Fixed Star
+1	passive Walked By
+1	passive Star Chart
+1	move Bearing
+1	move Star Fix
+1	move Steer By
+1	move Kept Course
+1	passive Oldest Coil
+1	passive Struck Into
+1	move Coil Knock
+1	move Spiral Ridge
+1	move Septa
+1	move All Struck
+1	passive Wading
+1	passive Listening
+1	move Listen
+1	move Label
+1	move Set Down
+1	move Hold to Ear
+1	notion Tally Stone
+1	notion Siphon Cup
+1	notion Siphon's Hood
+1	notion Polished Ring
+1	passive Tape
+1	passive Clasp
+1	move Facet
+1	move Rewind
+1	move Cleave
+1	move Full Setting
+1	move Set Stone
+1	passive Moon
+1	passive Tidal Lock
+1	move Tide Lift
+1	move Neap
+1	move Moonfall
+1	move Syzygy
+1	passive Tension
+1	passive Holdfast
+1	move Crank
+1	move Tie
+1	move Tighten
+1	move The Operculum
+1	passive Layers
+1	passive Old Ground
+1	move Plate
+1	move Undertow
+1	move Settle
+1	move Peel
+1	passive Island
+1	passive House on Its Back
+1	move Shoulder
+1	move Carry Them
+1	move Long Wake
+1	move Make Landfall
+1	notion Bloodglass
+1	notion Thorn Vest
+1	notion Wax Seal
+1	notion Chrysalis
+1	notion Tooth Necklace
+1	notion Cleaver
+1	notion Edge Charm
+1	notion Salt Tear
+1	notion Spare Shell
+1	notion Crown of Horn
+1	notion Bodkin
+1	notion Cold Iron
+1	notion Ember Coat
+1	notion Quickstone
+1	notion Rot Knife
+1	notion Warm Stone
+1	notion Lodestone
+1	notion Float Cork
+1	notion Tide Mark
+1	notion Reed Plug
+1	notion Graft Wax
+1	notion Rider Cog
+1	notion Rider Spoon
+1	notion Blade Shard
+1	notion Glass Bead
+1	notion Sea Biscuit
+1	notion Smelling Salt
+1	notion Tide Jar
+1	notion Cuttlebone
+1	notion Pepper Kelp

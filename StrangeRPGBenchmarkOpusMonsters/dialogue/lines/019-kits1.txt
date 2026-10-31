@@ -1,0 +1,649 @@
+# WHORL game text, chunk 19 of 26. Files: src/data/kits1.ts, src/data/kits2.ts, src/data/kits3.ts, src/data/kits4.ts, src/data/kits5.ts, src/data/kits6.ts, src/data/kits7.ts, src/data/kits8.ts, src/data/notions.ts
+# Speakers: battle (231)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/kits1.ts
+
+== scene: comeOut
+[0hyc6oy] battle | {#1} points the way toward {#2}.
+
+== scene: beforeTake
+[0b1ampy] battle | {#1} catches it and throws some back.
+
+== scene: screeBurst
+[02m8o4t] battle | A cobble goes off beneath {#1}.
+
+== scene: run
+[1n3299b] battle | The cave inhales around {#1}.
+[0x9o70r] battle | The tide pulls {#1} into {#2}.
+[0lpe7sn] battle | {#1} claims the shield as its own.
+
+== scene: anyKO
+[1pl3zug] battle | {#1} sprouts a coral horn.
+
+== scene: anyWindup
+[0p35tq2] battle | {#1} stamps, shaking the ground {#2}.
+
+== scene: afterAttack
+[00gpwvr] battle | {#1} blinks away the sand.
+
+== scene: run
+[0jjaqxa] battle | {#1} pulls {#2} down.
+
+== scene: turnStart
+[1cel7fb] battle | {#1} steps out of its own form.
+
+== scene: wouldKO
+[0qqcdp8] battle | {#1} freezes solid, thickening the water around it.
+
+== scene: anyOut
+[15tqqgv] battle | The remainder of the wave crashes over {#1}.
+
+== scene: anyKO
+[0n2wii9] battle | {#1} explodes into salt.
+
+== scene: turnStart
+[1krh5xp] battle | Hedge settles again.
+
+== scene: afterTake
+[0tbh9rw] battle | {#1} is caught in the hedge.
+
+== scene: afterGet
+[1ndzcla] battle | {#1} sends out a new shoot.
+
+== scene: run
+[0efrnvo] battle | Their side has {c.them.caps} caps.
+[0kwkfrc] battle | A ring of caps rises up.
+[05l7fuu] battle | {#1} breaks free.
+
+==== file: src/data/kits2.ts
+
+== scene: orreryBurst
+[0eao05o] battle | The planet round {#1} comes down.
+
+== scene: arrive
+[04bfj3r] battle | Two planets align above {#1}.
+
+== scene: wouldKO
+[1jkcv5q] battle | {#1} completes its orbit.
+
+== scene: afterAttack
+[0s3e7bq] battle | {#1} lands on {#2}.
+
+== scene: run
+[0u81r5h] battle | {#1} is brought down with it.
+
+== scene: anyStatus
+[1nn8vlj] battle | {#1} turns the wind round.
+
+== scene: run
+[0eil1rv] battle | The wind sweeps the field clear.
+
+== scene: turnStart
+[075ef32] battle | A beam slices through the line.
+
+== scene: run
+[1iv1eua] battle | {#1} has been spotted.
+
+== scene: act
+[0ln4k7y] battle | The crab clamps down.
+
+== scene: afterMove
+[06kqv4w] battle | {#1} bellows.
+
+== scene: turnStart
+[0v4ugnm] battle | {#1} charges down the lane.
+
+== scene: arrive
+[0vdqm35] battle | {#1} is fully charged up.
+
+== scene: anyMove
+[0yz6cwx] battle | {#1} is silenced.
+
+== scene: leave
+[0h7afii] battle | {#1} pulls {#2} out with it.
+
+== scene: anyOut
+[1j9s0at] battle | {#1} steps into a trap.
+
+== scene: expire
+[09p6bu9] battle | {#1} ceases its dance.
+[06avic8] battle | {#1} releases the flock.
+
+== scene: goreBash
+[1538xm7] battle | {#1} shoves hard.
+
+== scene: run
+[0qdi47e] battle | Something is approaching {c.tgt.mon.name}.
+
+== scene: gone
+[1328lbk] battle | {#1}'s ember dies.
+[1hd4zlk] battle | {#1} is rekindled.
+
+== scene: afterTake
+[05eqkmz] battle | {#1} prepares to charge.
+
+==== file: src/data/kits3.ts
+
+== scene: dandleBloom
+[1pbjxgk] battle | {n} seed{#2} blossoms across {#3}.
+
+== scene: turnStart
+[1r6q31k] battle | The crows strip {#1} bare.
+[1bhxxht] battle | The crows return once more.
+
+== scene: anyMove
+[1ll28et] battle | It was {#1}.
+
+== scene: turnStart
+[1c3pm0d] battle | {#1} groans.
+
+== scene: expire
+[1le680e] battle | {#1}'s shield shatters.
+
+== scene: wouldKO
+[0hut5if] battle | {#1} continues its advance.
+
+== scene: anyOut
+[01sv9zf] battle | {#1} hears steps.
+
+== scene: afterTake
+[12610zr] battle | Shelf collapses on foe.
+[1rrignn] battle | {#1} recharges.
+
+== scene: gone
+[0yf1k0e] battle | Both halves of {#1} have vanished.
+[0d2ghhq] battle | {#1} reassembles itself.
+
+== scene: wouldKO
+[1o3e4e1] battle | {#1} falls apart.
+
+== scene: run
+[03i2m0g] battle | {n} pod{#2} detonate.
+
+== scene: banishEnd
+[0insjhy] battle | {#1} emerges, shaken but intact.
+
+== scene: trap
+[1kxsff2] battle | {#1} triggers a leg snare.
+
+== scene: afterMove
+[09vl7q1] battle | {#1} gives it another spin.
+[0psrv7o] battle | {#1} repeats the action.
+
+== scene: run
+[0u5opv0] battle | {#1} swells.
+[1li2qv7] battle | {#1} encircles {#2} like a cast.
+[0ljozf7] battle | The lengthy side.
+[1avyi1y] battle | The short end.
+
+== scene: urchinSpine
+[1chv47j] battle | The spine in {#1} sinks in.
+
+== scene: afterTake
+[16wkawc] battle | {#1} shakes loose, dousing {#2}.
+
+== scene: beforeTake
+[1o92uvd] battle | {#1} catches it on its claw.
+
+== scene: turnStart
+[0cazxc0] battle | {#1} swings its claw back.
+[0kg4ikw] battle | {#1} drags {#2} back to the spot.
+
+== scene: anyMove
+[0alb32a] battle | {#1} stands firm.
+
+== scene: run
+[1n6jesx] battle | {#1} keeps its distance.
+[0rck11z] battle | {#1} moves in closer.
+
+== scene: turnStart
+[0y3sihy] battle | A hit lands.
+
+== scene: anyKO
+[1fz7011] battle | The skua claims its portion.
+
+== scene: run
+[0ai279c] battle | {#1} is pursued.
+
+== scene: turnStart
+[1ikq29y] battle | {#1} shuts down.
+
+== scene: expire
+[0gau61d] battle | The bill comes due for {#1}.
+
+== scene: beforeTake
+[13gbj5f] battle | {#1} didn't show up.
+
+== scene: elverBash
+[18klq6s] battle | {#1} locks jaws.
+
+== scene: beforeTake
+[0q5gndq] battle | Glass shatters.
+
+== scene: pewHunt
+[0jzonz2] battle | {#1} holds a spot for {#2}.
+
+== scene: run
+[15gqr38] battle | {#1} reserves the seat for {#2}.
+
+== scene: expire
+[1x399zw] battle | Smoke engulfs {#1}.
+
+== scene: trap
+[1t65hkn] battle | Sapling splits open
+
+== scene: beforeTake
+[0bzkwbr] battle | {#1} strikes the shell.
+
+== scene: leave
+[057b68r] battle | {#1} takes a bite before leaving.
+
+== scene: watchOver
+[0i06gxm] battle | {#1}'s roots grab {#2} from the bench.
+
+== scene: afterTake
+[0k43ibo] battle | {#1} is afflicted by the nightmare.
+
+==== file: src/data/kits4.ts
+
+== scene: borrow
+[1jnu1mz] battle | It vanishes.
+
+== scene: kilnCrack
+[0fodaxp] battle | {#1}'s glassy surface fractures.
+
+== scene: turnStart
+[020qiaa] battle | The brick returns.
+
+== scene: anyMove
+[14k332l] battle | {#1} passes it along.
+
+== scene: run
+[0aeiubd] battle | {#1} loses signal.
+
+== scene: turnStart
+[1rvsr2s] battle | The arrow reappears.
+
+== scene: reserveTurn
+[0pbj9v4] battle | {#1} lands next to {#2}.
+
+== scene: run
+[1sbhiv7] battle | The arrow strikes toward {#1}.
+
+== scene: rescue
+[0v2nuor] battle | {#1} clamps down on {#2}.
+
+== scene: trap
+[0ny2b9d] battle | {#1} crashes onto the fiery stage.
+
+== scene: run
+[16n2zj1] battle | {#1} fires back, {m.name}.
+
+== scene: addHeat
+[1n5xbz1] battle | {#1} erupts.
+
+== scene: afterDeal
+[0ilyznt] battle | {#1} loses footing on the ice.
+
+== scene: expire
+[0kv3w0s] battle | {#1} is frozen in place.
+
+== scene: afterDeal
+[002mpfm] battle | {#1} breaks apart.
+
+== scene: run
+[0rblnld] battle | {#1} breaks apart.
+
+== scene: selkieWake
+[1ufks8y] battle | {#1} awakens from the dream.
+
+== scene: run
+[12zj470] battle | {#1}'s defense crumbles.
+
+== scene: turnStart
+[127m9c5] battle | {#1} goes on.
+
+== scene: expire
+[0c2qtgl] battle | The rope on {#1} tautens sharply.
+
+== scene: turnStart
+[1t7zmjk] battle | {#1} pushes the shield away.
+
+== scene: gone
+[1ucu2j0] battle | {#1} loses its armor.
+
+== scene: turnStart
+[0c3kh9y] battle | The rope pulls {#1} forward.
+
+== scene: afterDeal
+[1863bds] battle | {#1} regains its armor.
+
+== scene: run
+[0y9ia8h] battle | {#1} throws {m.name} back.
+
+== scene: expire
+[1ya5ezu] battle | The drake retreats into {#1}.
+
+== scene: turnStart
+[1mxr60y] battle | The arrow strikes.
+
+== scene: run
+[0g37pjx] battle | The quiver runs dry.
+
+== scene: expire
+[1jcnabd] battle | {#1} returns to normal.
+
+== scene: run
+[009223v] battle | {#1} goes first: {m.name}.
+
+== scene: turnStart
+[1k7uu9d] battle | {#1} comes down.
+
+== scene: expire
+[18lf61x] battle | A massive figure rises from the mud.
+
+== scene: run
+[1qfz3iw] battle | {#1} croaks.
+[106z936] battle | {#1} is a frog.
+
+== scene: turnStart
+[04wbrgk] battle | The edge returns.
+[1mvf1mv] battle | The brew erupts on {#1}.
+
+== scene: run
+[06zb8vd] battle | {#1} begins brewing.
+
+== scene: leave
+[0ls28rs] battle | {#1}'s joints break free and take root.
+
+== scene: chollaTremor
+[1xam0gk] battle | {#1}'s joints sink deep.
+
+== scene: run
+[02wubkf] battle | {#1}'s joints sink deep.
+[16p99wi] battle | {#1} is buried.
+
+== scene: wouldKO
+[0neuk1k] battle | {#1} rises again.
+
+== scene: afterDeal
+[17o4tbk] battle | {#1} claims {#2} as its Branch.
+
+== scene: run
+[03v8f4m] battle | {#1} is cut back.
+[11555go] battle | {#1} has nothing ready.
+
+== scene: turnStart
+[0vbl3p6] battle | {#1} bursts forth.
+
+== scene: anyKO
+[0tefknb] battle | {#1} follows the old wood's example.
+[0bxupsb] battle | {#1} mirrors the shadow.
+
+== scene: run
+[1f2otof] battle | {#1} resonates.
+[0dk0ud9] battle | {#1}'s passives are erased.
+
+== scene: anyOut
+[0kmplha] battle | {#1} witnessed the events.
+
+== scene: run
+[0m3ffnu] battle | {#1} pays the price.
+[1tn1ibp] battle | {#1} reaches the end of the path.
+
+== scene: fall
+[16f2634] battle | The star descends upon the enemy.
+
+== scene: turnStart
+[1ffgum5] battle | {#1} plunges into the well.
+
+== scene: leave
+[02nmxoe] battle | {#1} stumbles at the edge.
+
+== scene: expire
+[0w6fq5m] battle | The thorned ring tightens.
+
+==== file: src/data/kits5.ts
+
+== scene: turnTide
+[0lvgz3j] battle | The tide comes in.
+[0pldc79] battle | The tide goes out.
+
+== scene: landStar
+[13phl0l] battle | A star crashes onto the field.
+
+== scene: borrow
+[1to26g7] battle | It escapes.
+
+== scene: expire
+[1ycmqeh] battle | {#1} retreats.
+
+== scene: varixAnger
+[0q1nmnb] battle | {#1} expands massively.
+
+== scene: expire
+[0q77nsp] battle | {#1} lands heavily on {#2}.
+
+== scene: mewUp
+[0wltu1v] battle | Six o'clock. {#1} rises.
+
+== scene: run
+[0480ymx] battle | {#1} is preserved in salt.
+
+== scene: afterMove
+[0ek0lin] battle | {#1} crouches down low.
+
+== scene: trap
+[0z7v7hl] battle | {#1} pops a water bladder.
+
+== scene: afterTake
+[1ueejxl] battle | The sun ignites {#1}.
+
+== scene: run
+[1af2qhr] battle | {#1} slices through it.
+
+== scene: banishEnd
+[1b4l2yq] battle | {#1} spits out {#2}.
+
+== scene: run
+[0pluttb] battle | {#1} swallows {#2} in one gulp.
+
+== scene: intercept
+[1vktv66] battle | {#1} deflects the attack.
+
+== scene: afterTake
+[0v7vm0t] battle | {#1} darts out from the anemone.
+
+== scene: run
+[0hv0uft] battle | {#1} takes shelter within {#2}.
+
+== scene: afterTake
+[1kd78c0] battle | {#1} reveals itself.
+
+== scene: expire
+[0sh9co0] battle | {#1} hurls the blade.
+
+== scene: anyMove
+[1x7xb5h] battle | {#1} plunges straight down.
+
+== scene: trap
+[0di4qiw] battle | A box materializes before {#1}.
+
+== scene: gone
+[077qsfy] battle | The copy shatters.
+
+== scene: turnStart
+[030umqm] battle | Light swallows them.
+
+== scene: expire
+[0rbp12l] battle | {#1}'s mark reaches its due.
+[1tca1e1] battle | {#1} is seized.
+
+== scene: run
+[1ohgkid] battle | {#1} buys another turn.
+
+== scene: anyKO
+[0wtjio0] battle | {#1} bursts into grit.
+
+== scene: afterMove
+[1pn8pgq] battle | Ting.
+
+== scene: expire
+[03nqk7j] battle | The ripple closes in on {#1}.
+
+== scene: anyMove
+[15kmnhn] battle | {#1}'s reflection fades behind them.
+
+== scene: sigilBurst
+[10762wp] battle | The sigil on {#1} explodes.
+
+== scene: run
+[1xm14qg] battle | {#1} performs {m.name} once more.
+
+== scene: afterTake
+[0s8g0rc] battle | The glass flips behind {#1}.
+
+== scene: run
+[0e15lft] battle | {#1} and {#2} trade wounds.
+[0uwtysf] battle | {#1} removes the shield.
+[04r6yw4] battle | {#1} is finally ready.
+[035t6md] battle | {#1} touches down.
+
+== scene: expire
+[1w4trfk] battle | The pressure inside {#1} gives way.
+
+== scene: anyLeave
+[1wpr4yd] battle | {#1} collapses as they exit.
+
+== scene: run
+[1jtj7wp] battle | {#1} hums the tune of {#2}.
+
+== scene: decon
+[0o8m1gd] battle | {#1} falls apart.
+
+== scene: plasma
+[0ilbm3c] battle | The swelling in {#1} ruptures.
+
+== scene: afterMove
+[0ckhb6e] battle | {#1} builds a room.
+
+== scene: beforeTake
+[05q47m2] battle | The sieve catches some of the blow.
+
+== scene: afterGet
+[1qerudu] battle | It slips off glaze.
+
+==== file: src/data/kits6.ts
+
+== scene: playBack
+[055le08] battle | {#1} plays {m.name} in return.
+
+== scene: afterTake
+[1u8cmiq] battle | An arm breaks off {#1}.
+
+== scene: gone
+[19coci8] battle | {#1} is ejected from its shell.
+
+== scene: run
+[1jn4wdy] battle | {#1} sprouts a new shell.
+
+== scene: beforeTake
+[0amldpr] battle | {#1} vanishes.
+
+== scene: run
+[1ga6a2g] battle | Still Minute does nothing for {#1}.
+
+== scene: trap
+[11wuvvn] battle | A frozen thrall explodes.
+[09ndb30] battle | A trap detonates beneath {#1}.
+
+== scene: expire
+[0bucnnp] battle | {#1} lies back down as itself.
+
+== scene: turnStart
+[0zkwi3k] battle | Stones rain down from the corners.
+
+== scene: run
+[19s5fjy] battle | {#1} rises to their feet.
+[0hx9yam] battle | {#1} settles back down.
+
+== scene: trap
+[1ffblgi] battle | {#1} triggers a label.
+
+== scene: comeOut
+[0un2osb] battle | {#1} erupts.
+
+== scene: trap
+[0431agi] battle | {#1} steps into the toxin.
+
+== scene: blaze
+[0rgsl5u] battle | The salt on {#1} explodes.
+
+== scene: anyMove
+[0ijrqyy] battle | {#1} strikes back.
+
+== scene: roundStart
+[1pmzvy2] battle | {#1} maintains balance.
+
+== scene: run
+[0jpn8j4] battle | {#1} levels the tilt.
+[0q4bjxj] battle | They even out.
+
+== scene: wouldKO
+[0z6gtbv] battle | {#1} falls silent.
+
+== scene: widen
+[0z90mup] battle | {#1} snaps shut.
+
+== scene: run
+[1hus61a] battle | It swallows the enemy whole.
+
+== scene: beforeTake
+[12jhu76] battle | A Sister takes the hit.
+
+== scene: run
+[1c0q5oz] battle | The eldest Sister charges the enemy.
+
+== scene: wouldKO
+[0k4l9pl] battle | {#1} closes its shell.
+
+== scene: afterTake
+[0julo0m] battle | {#1} closes its shell.
+
+== scene: run
+[0ds29q5] battle | {#1} catches it.
+[0u8wp7v] battle | {#1} takes {#2} and keeps it.
+
+== scene: labelFoe
+[0xp2g04] battle | Label: KEEP THE {#1}.
+
+== scene: lift
+[0jctphe] battle | {#1} holds {t.mon.name} up to its ear to listen.
+[0o1kvb6] battle | {#1} emerges.
+
+== scene: setDown
+[0lpi2k9] battle | {#1} gently places {t.mon.name} down.
+
+== scene: run
+[1kojuqb] battle | There is nothing left to seal.
+[09gwfs8] battle | {#1} is unable to use {#2} for 3 turns.
+
+==== file: src/data/kits7.ts
+
+== scene: run
+[0ib1duj] battle | Its collar is bare.
+
+==== file: src/data/kits8.ts
+
+== scene: run
+[02u647a] battle | No tightening needed.
+
+== scene: turnStart
+[1d6gj24] battle | a new layer forms on {#1}.
+
+==== file: src/data/notions.ts
+
+== scene: wouldKO
+[0l572xn] battle | {#1} emerges from a spare shell.

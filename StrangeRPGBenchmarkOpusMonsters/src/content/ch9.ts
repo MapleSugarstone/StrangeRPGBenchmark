@@ -50,7 +50,7 @@ defMap({
   npcs: [
     { id: 'climbBare', x: 7, y: 18, sprite: 'bare', name: 'Bare', dir: 0, when: () => hold() && !flag('climbDone') },
     { id: 'climbTack', x: 8, y: 18, sprite: 'tack', name: 'Tack', dir: 0, when: () => !hold() && !flag('climbDone') },
-    { id: 'climbBareSit', x: 5, y: 17, sprite: 'bare', name: 'Bare', when: () => hold() && !!flag('climbDone') && !flag('ending'), lines: ['Bare sits on the Climb and looks down at the Volute.'] },
+    { id: 'climbBareSit', x: 5, y: 17, sprite: 'bare', name: 'Bare', when: () => hold() && !!flag('climbDone') && !flag('ending'), lines: ['Bare sits on the Climb, looking down at the Volute.'] },
   ],
   triggers: [{ x: 1, y: 19, w: 14, h: 2, script: 'climbBlock', when: () => !flag('climbDone') }],
   enter: 'climbEnter',
@@ -92,7 +92,7 @@ defMap({
     { id: 'barecrown', x: 12, y: 16, sprite: 'bare', name: 'Bare', movable: true, when: () => hold() && !!flag('ending') && !flag('endHold') },
     { id: 'tackcrown2', x: 12, y: 16, sprite: 'tack', name: 'Tack', movable: true, when: () => !hold() && !!flag('ending') && !flag('endRelease') },
     { id: 'ouroslip', x: 13, y: 11, sprite: 'vellum', name: 'Ouro\'s cast', movable: true, when: () => !!flag('slipOut') && !flag('endRelease') },
-    { id: 'tackcrown', x: 16, y: 16, sprite: 'tack', name: 'Tack', when: () => hold() && !flag('endHold'), lines: ['1 day up. 0 days off. I\'m standing with the Hands now. Feet are fine. Totally fine.'] },
+    { id: 'tackcrown', x: 16, y: 16, sprite: 'tack', name: 'Tack', when: () => hold() && !flag('endHold'), lines: ['1 day up. 0 days off. I\'m standing with the Hands now. my feet are fine. completely fine.'] },
   ],
   enter: 'crownEnter',
 });
@@ -103,45 +103,45 @@ defScript('climbEnter', async () => {
   if (!flag('ch9start')) {
     setFlag('ch9start');
     sound('wind');
-    await narr('Wind comes down from the top. It smells of salt.');
-    goal('Climb to the Apex.');
+    await narr('The wind descends from above, carrying the scent of salt.');
+    goal('Reach the Apex.');
   }
 });
 
 defScript('climbBlock', async () => {
   if (hold()) {
-    await say('Bare', 'Stop.');
-    await say('Bare', 'Look back down. Go on.');
-    await say('Bare', 'Count the Stays still standing.');
-    await say('Bare', 'Okay. Now let me past.');
+    await say('Bare', 'Halt.');
+    await say('Bare', 'Look back down.');
+    await say('Bare', 'Tally the Seals that remain upright.');
+    await say('Bare', 'Right. Let me pass now.');
     const r = await fightTrainer({ name: 'Bare', team: bareFinal, intro: '', defeat: '', ai: 'champion' });
     if (r.result !== 'win') return;
-    await say('Bare', 'Go up, then.');
-    await say('Bare', 'Go up and turn it.');
+    await say('Bare', 'Then ascend.');
+    await say('Bare', 'Climb up and rotate it.');
     await walkTo('climbBare', 5, 17);
     face('climbBare', 0);
     await act('climbBare', 'bow');
   } else {
     const tries = tackTries('climb');
-    if (tries) await say('Tack', `Try ${tries + 1}. Still loose. Still 1 rule.`);
+    if (tries) await say('Tack', `Try ${tries + 1}. It's still loose. Just 1 rule.`);
     else {
-      await say('Tack', '5th time. You\'re loose. I can see it from 10 steps up.');
-      await say('Tack', `Your back's crazed ${loosened()} fingers long. I counted. Then I counted again.`);
-      await say('Tack', 'No loose ones up to the Operculum. That\'s my 1 rule. I\'ve only got the 1.');
+      await say('Tack', 'that\'s the 5th time. You\'re loose. I can see it from 10 steps away.');
+      await say('Tack', `Your back is fractured ${loosened()} fingers long. I counted once, then I counted again.`);
+      await say('Tack', 'Nothing loose up to the Operculum. That\'s my 1 rule. I only have 1.');
     }
     const r = await battle({ enemy: tackFinal(), name: 'Tack', ai: 'keeper', wild: false, bg: field.bg(), music: 'rival' });
     music.play('climb');
     countTack('climb', r.result === 'win');
     if (r.result !== 'win') {
       // Tack holds the stair until Ouro wins. Ouro steps back down out of the trigger.
-      await say('Tack', `${tackWinsLine()} Go count, then come back up.`);
+      await say('Tack', `${tackWinsLine()} Go count, then return.`);
       await walkTo('ouro', field.x, 21);
       face('climbTack', 2);
       return;
     }
     const t = tackTally();
-    await say('Tack', `${t.ouro} losses. ${t.tack} wins. Fine. That's fine.`);
-    await say('Tack', 'Go on up. 1 at a time. Me first.');
+    await say('Tack', `${t.ouro} losses. ${t.tack} wins. alright. that works.`);
+    await say('Tack', 'Go ahead. Take it 1 at a time. I\'m going first.');
     await walkOff('climbTack', 8, 6);
   }
   setFlag('climbDone');
@@ -154,7 +154,7 @@ defScript('crownEnter', async () => {
     await pan(12, 10);
     await wait(40);
     await panBack();
-    goal('The four Hands first: Fid, Lug, Hasp, Purchase.');
+    goal('Prioritize the four Hands: Fid, Lug, Hasp, and Purchase.');
   }
 });
 
@@ -162,7 +162,7 @@ defScript('theKey', async () => { await emote('ouro', 'silence'); });
 
 async function hand(id: string, before: string | null, intro: string[], team: () => Mon[], outro: string, who: string): Promise<void> {
   if (flag('beat_' + id)) { await say(who, outro); return; }
-  if (before && !flag('beat_' + before)) { await emote(id, 'silence'); await hint('The Hands go in order: Fid, Lug, Hasp, Purchase.'); return; }
+  if (before && !flag('beat_' + before)) { await emote(id, 'silence'); await hint('The Hands arrive in a specific sequence: Fid, Lug, Hasp, Purchase.'); return; }
   for (const l of intro) await say(who, l);
   const r = await fightTrainer({ name: who, team, intro: '', defeat: '', ai: 'champion' });
   if (r.result !== 'win') return;
@@ -170,25 +170,25 @@ async function hand(id: string, before: string | null, intro: string[], team: ()
   await say(who, outro);
 }
 
-defScript('fid', () => hand('fid', null, ['You span four tall, young person, and one span short of a Hand.', 'The Operculum is nineteen spans round, by official measure. Walk it. Count aloud.'],
-  () => [makeMon('menhir', 24), makeMon('tor', 24), makeMon('gore', 24), makeMon('thumb', 24)], 'That fell one hand\'s width short, by my rule. Go round.', 'Fid'));
-defScript('lug', () => hand('lug', 'fid', ['Close in here. Storm by supper, inside. Rain in the soup.', 'Soup on the stairs. Stairs going up into cloud.', 'Damp up the walls already. Fight it out of the damp. Wipe your feet first.'],
+defScript('fid', () => hand('fid', null, ['You stand four spans tall, little one, just a span shy of a Hand.', 'The Operculum measures nineteen spans in circumference, officially.', 'Walk the perimeter and count out loud.'],
+  () => [makeMon('menhir', 24), makeMon('tor', 24), makeMon('gore', 24), makeMon('thumb', 24)], 'That was one hand\'s width short, according to my standards. Make another lap.', 'Fid'));
+defScript('lug', () => hand('lug', 'fid', ['The air\'s thick in here. Storm\'s coming by supper time. It\'ll rain inside. Rain right in the soup.', 'Soup on the stairs. Stairs leading up into the clouds.', 'The damp has already crept up the walls. You have to fight it off. Wipe your feet before you enter.'],
   () => [makeMon('welling', 28), makeMon('curtain', 28), makeMon('floe', 28), makeMon('halo', 29)], 'Clearing, indoors.', 'Lug'));
-defScript('hasp', () => hand('hasp', 'lug', ['Do they hold still?? When nobody watches?? Your hands??', 'Did you wash them before you came up? Under the nails?', 'Can you hold on with those? For a day? For a year?'],
-  () => [makeMon('siren', 29), makeMon('grotto', 29), makeMon('fulgur', 29), makeMon('fogbank', 29)], 'Shaking?? Now?? Your hands??', 'Hasp'));
-defScript('purchase', () => hand('purchase', 'hasp', ['My brother sold you your first stray. Cheaply!! I would have charged thrice that, and the sandwich.', 'A Hand is worth eight pearls and a Climb. You have owed that much. Now owe it all again.'],
-  purchaseTeam, 'Precisely the price, to the last cowrie. Go on to the post. Do mind the hat.', 'Purchase'));
+defScript('hasp', () => hand('hasp', 'lug', ['Do they stay steady? When no one is looking? Your hands?', 'Did you scrub them before coming up? Specifically under the nails?', 'Can you maintain your grip with those? For a single day? For a whole year?'],
+  () => [makeMon('siren', 29), makeMon('grotto', 29), makeMon('fulgur', 29), makeMon('fogbank', 29)], 'Trembling? Right now? Your hands?', 'Hasp'));
+defScript('purchase', () => hand('purchase', 'hasp', ['My brother was the one who sold you your first stray. He did it for a song!', 'I would have charged triple, plus the cost of the sandwich.', 'A Hand is worth eight pearls and a Climb. You\'ve carried that debt. Now, owe it all over again.'],
+  purchaseTeam, 'Exactly the right amount, down to the last cowrie. Head to the post. Watch your hat.', 'Purchase'));
 
 defScript('cinch', async () => {
   if (!flag('beat_purchase')) { await say('Cinch', 'YOU HAVE TO GO ROUND THE HANDS FIRST AND ALL FOUR HAVE TO LET YOU AND THEN YOU HAVE TO-'); return; }
   // Cinch stands at the post with both hands on it and does not move. Up close there is a clear gap at the side of its neck.
   await wait(30);
   await emote('ouro', 'question');
-  await say('Cinch', 'You have to stop there. Both feet.');
-  await say('Cinch', 'Someone has to stand here.');
+  await say('Cinch', 'You need to stop right there. Both feet planted.');
+  await say('Cinch', 'Someone has to hold this spot.');
   await say('Cinch', 'THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE HANDS HAVE TO STAY ON AND');
   await say('Cinch', 'THE POST HAS TO TURN ONCE A DAY AND IT HAS TO BE TODAY AND IT HAS TO BE EVERY DAY AND-');
-  await say('Cinch', 'You will have to make me take my hands off it.');
+  await say('Cinch', 'You\'ll have to physically pry my hands off it.');
   const r = await fightTrainer({ name: 'Cinch', team: cinchTeam, intro: '', defeat: '', ai: 'champion' });
   if (r.result !== 'win') return;
   setFlag('cinchBeaten');
@@ -196,14 +196,16 @@ defScript('cinch', async () => {
   sound('back');
   await act('cinch', 'shiver');
   await emote('cinch', 'silence');
-  await say('Purchase', 'There. There it is!! Forty years, and not one cowrie\'s change in what it is worth.');
-  await say('Purchase', 'Cinch turned HERE, at this very post, forty years back. A second turning!! Most unrefundable.');
-  await say('Purchase', 'The cast stayed at the post and kept at it. Cinch strolled off over the Lip and never collected.');
-  await say('Purchase', 'We have taken our orders from a habit. Cheap orders. And we owed full price for every one.');
-  await say('Fid', 'The post spans four from your hand. I have measured it twice.');
-  await say('Hasp', 'Are you going to put them on it? Both? Now?');
-  await say('Lug', 'Very still in here. Still as a held breath.');
-  await say('Lug', 'A breath held forty years. Years with no weather in them.');
+  await say('Purchase', 'There. There it is! Forty years later, and its value hasn\'t shifted by a single cowrie.');
+  await say('Purchase', 'Cinch shed HERE, right at this post, forty years ago. A re-shedding!');
+  await say('Purchase', 'Non-negotiable and non-refundable.');
+  await say('Purchase', 'The cast stayed at the post and kept working.');
+  await say('Purchase', 'Cinch just strolled over the Rim and never came back to collect.');
+  await say('Purchase', 'We took our orders from a habit. Cheap orders. And we owed full price for every single one.');
+  await say('Fid', 'The post is four spans from your hand. I\'ve double-checked the measurement.');
+  await say('Hasp', 'Are you going to put them on? Both of them? Right now?');
+  await say('Lug', 'It\'s so quiet in here. Still as a held breath.');
+  await say('Lug', 'A breath held for forty years. Decades with no weather to mark the time.');
   setFlag('ending');
   offstage('barecrown', 'tackcrown2');
   if (hold()) await holdEnding(); else await releaseEnding();
@@ -214,7 +216,7 @@ async function holdEnding(): Promise<void> {
   sound('wind');
   field.shakeT = 40;
   await emote('ouro', 'surprise');
-  await say('Cinch', 'Someone has to.');
+  await say('Cinch', 'Someone\'s got to.');
   // Ouro puts both hands on the post, and the Operculum stops.
   await walkTo('ouro', 11, 11);
   face('ouro', 2);
@@ -232,14 +234,14 @@ async function holdEnding(): Promise<void> {
   faceToward('barecrown', 'ouro');
   await wait(40);
   await act('barecrown', 'bow');
-  await say('Bare', 'I wanted you to have it.');
+  await say('Bare', 'I wanted you to keep it.');
   // Cinch lowers its hands, comes round, and stands by Ouro the way a whorl stands by its keeper.
   faceToward('cinch', 'ouro');
   await act('cinch', 'bow');
   await joinOuro('cinch');
   await giveMon(mon('knot', 31));
   await walkUp('tackcrown');
-  await say('Tack', '1 Holdfast. 0 days off. You\'re gonna want a chair.');
+  await say('Tack', '1 Holdfast. 0 days off. You\'ll need a chair.');
   setFlag('endHold');
   await epilogue();
 }
@@ -272,7 +274,7 @@ async function releaseEnding(): Promise<void> {
   await tint('#f4c8d8', 0.5, 90);
   await Promise.all(['ouro', 'whorl', ...hands, 'cinch'].map(w => act(w, 'hop')));
   await tint('#f4c8d8', 0, 60);
-  await narr('The old shell of the Volute gets up and walks north, with its towns drawn on it in crazes.');
+  await narr('The Volute\'s old shell rises and heads north, its towns laid out in fractures.');
   // Ouro's back opens along the craze, and something pale lifts off Ouro in one piece: Ouro's cast.
   await act('ouro', 'shiver');
   sfx('fit');
@@ -288,19 +290,19 @@ async function releaseEnding(): Promise<void> {
   await giveMon(slip);
   await walkIn('tackcrown2', 12, 19);
   await walkUp('tackcrown2');
-  await say('Tack', '1. Yeah. That\'s 1, for you.');
+  await say('Tack', '1. Yes. That\'s 1, for you.');
   setFlag('endRelease');
   await epilogue();
 }
 
 /** The player builds Ouro's cast from any kind in the Register. */
 async function makeVellumSlip(): Promise<Mon> {
-  await hint('(Ouro\'s cast can keep any four moves and any two habits from kinds in the Register.)');
+  await hint('(Ouro\'s cast lets you keep any four moves and any two habits from species in the Register.)');
   const kinds = WILD_KINDS.concat(['full', 'mundane', 'knot']).filter(k => G.register[k] === 2);
   const moves: string[] = [];
   let bigs = 0;
   while (moves.length < 4) {
-    const ki = await listMenu(`Move ${moves.length + 1} of 4: from which kind?`, kinds.map(k => SPECIES[k].name), { w: 150 });
+    const ki = await listMenu(`Move ${moves.length + 1} of 4: Choose a species.`, kinds.map(k => SPECIES[k].name), { w: 150 });
     if (ki < 0) continue;
     const opts = SPECIES[kinds[ki]].moves.filter(m => !moves.includes(m) && !(MOVES[m].nerve && bigs >= 2));
     const mi = await listMenu('Which move?', opts.map(m => MOVES[m].name + (MOVES[m].nerve ? ' (big)' : '')), { w: 150 });
@@ -310,7 +312,7 @@ async function makeVellumSlip(): Promise<Mon> {
   }
   const passives: string[] = [];
   while (passives.length < 2) {
-    const ki = await listMenu(`Habit ${passives.length + 1} of 2: from which kind?`, kinds.map(k => SPECIES[k].name), { w: 150 });
+    const ki = await listMenu(`Habit ${passives.length + 1} of 2: Choose a species.`, kinds.map(k => SPECIES[k].name), { w: 150 });
     if (ki < 0) continue;
     const opts = SPECIES[kinds[ki]].passives.filter(p => !passives.includes(p));
     const pi = await listMenu('Which habit?', opts.map(p => PASSIVES[p].name), { w: 150 });
@@ -324,7 +326,7 @@ async function makeVellumSlip(): Promise<Mon> {
   return {
     uid: nextUid(), kind: 'vellumslip', name: 'Ouro\'s cast', types, basic: 'P', moves, passives, level, xp: 0, notion: null,
     sprite: castOfOuro(),
-    person: true, entry: 'Off Ouro, in one piece, a bit lighter. No price. Which you know what it cost. Not writing that in.',
+    person: true, entry: 'Off Ouro, intact and a bit lighter. No price. You know what it cost. I\'m not writing that down.',
   };
 }
 
@@ -333,33 +335,33 @@ async function epilogue(): Promise<void> {
   await wait(30);
   await warp('home', 4, 4, 2);
   evening(false);
-  await narr('A week later.');
+  await narr('A week passes.');
   if (flag('endHold')) {
     await smallGranLine();
-    await say('Gran', 'Tell my little turnip still my little turnip.');
-    await say('Gran', 'Tell them that this is quite all right.');
-    await say('Gran', 'Tell them to come home of a Sunday, for soup.');
+    await say('Gran', 'Tell my little turnip, still my little turnip.');
+    await say('Gran', 'Tell them everything\'s fine.');
+    await say('Gran', 'Tell them to come home on a Sunday, for soup.');
   } else {
-    await say('Small Gran', 'There. Now you.');
+    await say('Small Gran', 'There. Your turn.');
     faceToward('gran', 'smallgran');
     await emote('gran', 'surprise');
     await say('Gran', 'Tell my little turnip she said a new one.');
   }
   const wellFull = !!flag('wellingHome') || !flag('wellingGone');
-  if (flag('endHold')) await say('Man at the well', wellFull ? 'She\'s up. Right to the top. Hasn\'t been frightened in a good while.' : 'Still dust. We carry from Rib now, it\'s not far. I still come and wait on her.');
-  else await say('Man at the well', wellFull ? 'She came with us. Onto the new ground and everything. Stubborn old girl.' : 'New ground. Maybe new water under it. I\'ll dig and see if she\'s down there.');
+  if (flag('endHold')) await say('Man at the well', wellFull ? 'She\'s up. Right to the top. She hasn\'t been scared in quite a while.' : 'Dust remains. We carry from Rib now, it\'s not far. I still come and wait on her.');
+  else await say('Man at the well', wellFull ? 'She came with us. All the way to the new ground and more. Stubborn old thing.' : 'New ground. Maybe there\'s new water beneath it. I\'ll dig to see if she\'s down there.');
   if (flag('endHold')) {
-    await narr('The Operculum turns once a day, by Ouro\'s hands. Ouro does it sitting down.');
+    await narr('The Operculum turns once a day, by Ouro\'s hand. Ouro does it while seated.');
     await narr('THE VOLUTE HOLDS.');
   } else {
-    await narr('Two old shells lie side by side far off to the north, on the edge of the world.');
+    await narr('Two old shells lie side by side far to the north, at the edge of the world.');
     await narr('THE VOLUTE TURNS.');
   }
   await credits();
   setFlag('postgame');
   save();
-  goal('The Shallows lie north of Hum, past the Lip. The Stack stands east of Fall.');
-  await hint('(The Shallows are open north of Hum. The Stack is in Fall. Keepers take rematches.)');
+  goal('The Shallows are north of Hum, beyond the Rim. The Stack is east of Fall.');
+  await hint('(The Shallows open north of Hum, while the Stack lies in Fall. Keepers schedule rematches.)');
 }
 
 void choose; void TYPES;

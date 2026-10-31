@@ -1,0 +1,260 @@
+[1xn0ha0] Old man | Big day! Stand still, that's the trick. I didn't, and mine shed in a hedge.
+[07c1kd3] Old man | My shell shed late as well, and look at him now. Well, don't look at him. He's shy.
+[0zsqdj0] Tack | Try {#1}. Still 11 Hermits. Tack is still in the road.
+[19e87gz] Bare | Breathe out. Let the Mast lean.
+[01k6z6i] goal | Leeward keeps the Mast. Leeward's deck is to the north.
+[0cflve3] Leeward | Gusts of Hermits at the base. Thirteen, by the count.
+[1uwtld5] Gatherer | Tarhaju whorls drop the same fruit as real orchards. I've sampled plenty myself.
+[0tiszrz] Woman | Grafton conjoins better than the Conjoiner. // Don't tell either of them, or it'll turn into a whole drama.
+[1k0bcxf] Old man | My cast went up into the roots fifty years ago and never came down. Stubborn creature. // Takes after me, that one.
+[0h0qn0n] Grafter | I made four out of eight. I'm missing two. Which two changes every day.
+[0dxdikx] Shellwright | Oh really? The new notions just arrived. // They're small accessories, but they alter how a whorl approaches combat. I've got one of each.
+[1xdlbwi] Tellin | No no no, I'm not stopping. Not for a late one, not for anyone. // We're on a tight schedule, understand?
+[0yv26ig] Grafton | Each of my four was two whorls, and now each is singular and magnificent. (Do not ask which halves.)
+[0vm9m5c] Grafton | Fight them, and you will witness the doubled magnificence of what two can achieve.
+[02nfrq1] goal | Hermit: The Hermits moved north toward the machine fields and Hum.
+[0d0zv3i] Letter | The Volute must hold. You won't get thanked twice. Signed, Cinch.
+[0jskj5g] Very old man | My great-grandmother wore these boots down from the old shell. They're still solid.
+[0hg0v43] Old man | My cast's ninety, and I'm twelve. Don't ask how. But we both have bad knees, at least.
+[0i9l354] Tellin | Oh, hey. Look who it is. I'm ahead of you. You're just showing up now. // Things are going the way of the Bole, so...
+[0jxxejr] Hall keeper | She was, as it turns out, entirely and lamentably right.
+[1o6tcwv] Shellwright | Charms, you say? Wear a pearl and your team fights to it. One pearl at a time. Anything else?
+[0b1bo55] Old woman | Amber's the keeper. Hundred and three. Don't shout at her. She hears fine. She hates that.
+[003aap5] Pilgrim | There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!
+[1t52tq6] Old man | Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before. // Must be the moon.
+[1hdwdha] Murex | Are you the... late one? From the Pylon?
+[01k67i9] Quillon | If you would duel me, you must do so with it out. That is my condition.
+[0jys98i] Quillon | If it lasts through the night, then it stays. Then, breakfast.
+[0438ur1] Quillon | Head south to Fall, and unfortunately, you'll hit the incline next.
+[1kcj6us] Synced keeper | I fight at twenty-five. That's when everyone levels out. That's when you see who's truly talented.
+[1fd6eeu] hint | (You can challenge a keeper again once you have their pearl. Both teams will fight at level 25.)
+[0bn78if] Perihel | You will rise. Will you look at its hands? You will have looked.
+[149rmq0] Bare | Look back down. Keep going.
+[1dl0hn6] Tack | Your back is fractured {#1} fingers long. I counted once, then I counted again.
+[06zux4k] Tack | 0 regrets. That's the count, right? bring it on.
+[0a5owz6] Tack | I'm taking my place on the Climb. // If you show up unprepared, that's 1 more Hermit added to the roster, and I'm not okay with that.
+[0my76nc] Tack | {#1} I'll take it. I'm backing this star until you win 1.
+[04lkggu] Fid | You stand four spans tall, little one, just a span shy of a Hand.
+[1x7thxi] Lug | The air's thick in here. Storm's coming by supper time. It'll rain inside. Rain right in the soup.
+[08jyed3] Purchase | A Hand is worth eight pearls and a Climb. You've carried that debt. Now, owe it all over again.
+[0q8v6pk] Purchase | We took our orders from a habit. Cheap orders. And we owed full price for every single one.
+[1cw1p1d] narration | The Volute's old shell rises and heads north, its towns laid out in fractures.
+[0htmed4] Gran | Tell them to come home on a Sunday, for soup.
+[0q7uafs] Man at the well | She's up. Right to the top. She hasn't been scared in quite a while.
+[0dix6jv] Nail biter | I chewed my nails until one shed. Its shell clings to me.
+[0f7md7r] The Master | Log. That is the duty of a ship. To remain entirely seaworthy.
+[1fm9vy1] look | The sea's cast. Gray and still, rising to the height of the weather.
+[1uh79df] Root-cutter | Until tomorrow, then. And the roots as well.
+[1linc23] look | Beneath the loose bark, a notion.
+[16pyo80] notice | Ouro holds the bowl of upward rain carefully, keeping it upside down.
+[1s2ixbp] look | Beneath a slanted blade, a buckled pouch holds a notion and some cowrie shells.
+[1jgaqcr] Man at the well | Dust remains. We haul it from Rib. The distance is short. I still come to serve her.
+[0qh1vlq] hint | The soldier mirrors each of Ouro's steps in the opposite pen, but backwards.
+[19uxt31] Groom | I brush the war horses. They've been whorls for a hundred years, and they still love a good brush.
+[1wajx1r] Shore-woman | There I am! A bit muddy, but I don't mind. Muddy suits me.
+[1rpnlqx] The Pruner | I was a Hand before Purchase. I tended the groves. The Operculum sustained me. // Until it stopped.
+[0ib0qod] The Pruner | Four have gone feral. Cut one back and its neighbors shed. That's how the flora is up here.
+[1wv0a70] Fencer | The war ended before I was born. No one told the swords. I won't be the one to break the news.
+[0v7ryjf] Cinch | Here, sit. It's the best spot to see what you emerged from.
+[0ylf08y] Cinch | I always tap my foot in here. I can't help it.
+[022excz] hint | (Ring the tide bell to turn the tide. At high tide, the low sand is submerged.)
+[1ye40os] hint | (At low tide the sand is exposed, and stars fall in a line.)
+[0qkwtz6] Bottle girl | Dear inside. Low water, I'm in the log. Logs used to be trees. Dear trees, what's it like up there?
+[1k7msom] Bottle girl | Dear whoever is inside. Somebody read one!! Somebody actually read one of them!!
+[0upur9d] Strandmonger | I make this trek twice a year for cowries. They're cheap off the wrack. Sand cheap.
+[0i7ap5a] Strandmonger | Your gran said, "Tell my little turnip to take her." She said it to *them*, mind. Not to me.
+[1b3m2oz] Strandmonger | Which I'll waive, just this once. // It's worth more to you than a cowrie is to me, so we both come out ahead. I come out aheader.
+[1y9pztv] The Sifter | Catch thirty stars in a night, and you earn a notion. // Catch sixty, and you earn something truly unprecedented!!
+[1yr6fn0] Tack | It came right through your 1 hole. Thanks for that.
+[0niuu4i] choice prompt | {#1} measured out. {sack} remain in the sack.
+[0fu5kfx] The Sifter | Two of my four whorls are salt, which overcomes both roots and beasts. Keep that in mind.
+[0msiz5t] The Sifter | Just one house. According to my count, it's currently empty.
+[1j406e8] The Sifter | I've lived there for thirty years, // yet losing it after two hours for just one grain is a dreadful bargain.
+[1g5tuyd] Cinch | Come sit with me. There's room by the fire until you find another house.
+[1lncmb7] The Sifter | It has to hold steady for two consecutive lows. Two! I won't trust it if it's less.
+[1ybrd1q] look | A razor hole, dug straight down. At the bottom, a notion.
+[0lqap1t] Seiche-stander | I stand in the gray at high water. It's incredibly warm in there. Nobody believes me.
+[0zjpmh3] hint | (At low water, you see only inside the rings of landed stars. Soft sand appears only in a ring.)
+[1q0it3i] hint | (A SALT whorl worn in the lead walks you through the gray.)
+[1edzp2g] goal | Gloss is the keeper of the mouth. The way down is past the blank, at the bottom of town.
+[0slhpmk] ? (base) | Your reflection is three steps behind you. Mine's four. I'm older, so.
+[082v1ee] Child | Put one on, and you'll be able to walk in it. They're on the Cowrie's back. Go catch one!
+[1fayi9d] Tooth-sitter | I dwell between the teeth. I'm the only gap in town, and I got here first.
+[1940tex] Gloss | At every low water, we stamp in unison. In unison, we stamp at every low water.
+[1bphsaz] Gloss | The light entered at the low water, shining brilliantly! // Brilliantly, at the low water, the light entered!
+[09sxaad] Gloss | The light came in at low water. At low water, the light came in.
+[157xv4z] Cinch | Sit down. Cinch came down when the stamping started. I heard it from the bar.
+[0nq54bg] ? (low) | When the tide rolls the Auger over, the floor becomes the wall. You learn to sleep on both.
+[0s77tp2] Turnwise | Higher. Go on, higher. The Auger's tip is up there. Only small ones fit. You're small.
+[0lqujlg] Eldest | I'll hear that voice on the bar this morning. It's been exactly seventy years since that morning.
+[1ueio3n] Eldest | This morning, she'll pull off one boot on the bar to shake out the sand. It's low water.
+[1k1q5b7] Tack | {score}. That's over my 66. Fine. I'm scratching it in.
+[0e79m5v] Tide table | Now. The spring low. Four notches and a star.
+[0iwtb0b] ? | A spring low.
+[1ga0ymh] ? | Nobody's kicking anymore. My legs have forgotten how to move.
+[000sijd] Brine-diver | I dive in at high water. It's cold down there. It gets colder each year.
+[0n5nbh3] look | Under the anchor stone, pressed into the damp sand, a notion.
+[1orf3wq] look | Lying flat in the eelgrass at low water, a nautilus horn.
+[13f7xw5] sign or spot in The living chamber (folk) | Sea comes in to the hood at high water. We like our feet wet. You get used to it.
+[1st3ves] Siphon | Plenty of room here for a brawl! I've got four whorls ready.
+[0g2pgcm] Old man | I've never been down here before. I'm on the low line now. Still getting used to it.
+[0hc49ae] choice | Pump water inward
+[0h054kr] choice | Pump water outward
+[1qggpvc] Room-sitter | Stay a while. It opens again at spring tide. I've got snacks.
+[1krbq08] notice | Ouro picks up a child's bowl, very small, with a crack mended in gum.
+[0c3eyem] hint | (At high tide the Nautilus leans toward whichever end holds more water.)
+[1bb0x43] Tide-reader | Six blanks. Three by the point, three along the wall. The knife's yours till then.
+[0i98goo] Mudlark | You don't have to lie flat at low tide anymore. Don't miss it. Well. My elbows don't.
+[1r6uy3y] Mudlark | Mine never stand still at low tide. Never. You know why.
+[09nyqys] Mudlark | Told you. No tags. Nothing stands up at dead low.
+[1vaccv6] Mudlark | Wouldn't put my door anywhere the Gleaner's feet come. Nobody looks where they step.
+[0x5onvy] Cinch | Still sitting with that one. Plenty of room here if you want to sit with it too.
+[1le2bxx] Cinch | From down here, we look alike. Got my nose, see.
+[13w4s5u] look | The ground in the square is fractured everywhere.
+[0flui5e] look | In the child's room, five grains of nacre sit in a box under the bed.
+[03yvhel] hint | Ouro must keep at least one whorl before leaving one in a shell.
+[0vvp5ew] hint | (At low water, an empty shell is gone when the shadow passes over it.)
+[0y8z3re] notice | x
+[0p56st6] notice | A notion:
+[0yiypgd] notice | x
+[1giqn6c] Shellwright | Bring six whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
+[19dy71e] ? (p) | Every whorl has a simple Attack. It is either physical or magic. Physical Attacks use ATK. Magic Attacks use MGK.
+[0wfzr22] ? (p) | Some text says the whorl's next turn comes 40% sooner. This means the whorl waits less before it moves again. The wait is about 40% shorter.
+[1ee5vmn] ? (p) | The move's text tells you which stat it uses. Hitting for 110% ATK is a physical hit. Hitting for 90% MGK is a magic hit.
+[0c07mse] ? (p) | Select a slot to modify it. You can get a random whorl, find any species by its name, or conjoin two species.
+[0w0d49x] ? (p) | Practice battles use tide. Every whorl is level 25 unless you change it.
+[0nzqm22] Carver | I turn the Tusk's chips into combs.
+[1h824ih] Man | Everything in this place drifts east, chairs and all.
+[1u6bqw0] Strandmonger | Ease up on the force, then catch it. A lighter touch is steadier. // Once you land it, it's yours, and I'm done with that boot.
+[18myd83] ? | (When your turns are near, you and your opponent choose moves at the same time. // The actions then resolve in order.)
+[13pud40] ? | (Attack is unlimited. Special moves hit harder but need a cooldown of several turns.)
+[0p2jnyw] ? | (Switch also takes priority. It calls forth a whorl from your reserve. // You currently have only one available.)
+[0wae257] ? | (A horn can catch a whorl at any HP level. The lower the whorl's HP, the higher the success rate.)
+[0cvno7i] ? | (Choose Catch and blow a horn. A successfully caught whorl joins your side. // If you fail to knock it out, it gets away.)
+[1ezfd2z] Strandmonger | Flat, and off it walks. Soften it up, then hit the horn. The boot knew that.
+[0k1q7ry] choice prompt | Pump: The pump fills every pan to its start and drops every board.
+[0uknl24] Shouter | I COME OUT HERE TO SAY THINGS AT FULL SIZE. My wife says I'm a bit much at home.
+[0evo98h] Ledger | a cart, dropped. one bell. a child, laughing. half a bell.
+[1e79jm0] Crane-minder | Four cranes, all staffed since the Riders shed. Turn one, and the others spin back. // Union regulations.
+[0z9yu9e] Trader | Two notions for one, mm? Any two of yours for one of mine? Sounds fair, mm?
+[0hbou4b] Floe-watcher | Step on a floe and it moves in the direction you stepped until it hits something. Then it stops. Then it becomes solid ground.
+[00rlyb5] Rememberer | My grandmother's grandmother hid the good spoons from the Riders. She passed that story down to me.
+[1qh0zvq] Rememberer | Follow the drift with the stick in it. Then pass the stone capped with two caps of snow.
+[1bt4bd5] Stone-sorter | Three stones in the cut and a cave behind. You can't shove a stone. You leave, and it trails you.
+[0xf380x] hint | Rider: A veteran crane from the Riders. Equip a GEAR whorl to activate its mechanisms.
+[0nvjehx] ? (giveKeyItem) | Ouro catches the gate, leaning on the post where it has stopped rolling.
+[0jejxln] Smith's boy | Mending the smith's cart. Smith said it'd build character.
+[10d6z4w] Register entry: Iliru | Plus a leech. Clings until full. Then keeps clinging. Two cowries to start.
+[09g16go] Register entry: Sazuma | Beach glass where lightning struck. Strikes the same place twice. Four cowries. Twice.
+[0rci6l6] Register entry: Spuawa | Sea foam released by the gray wall. It hits what it holds. The foam keeps the bill. The bill comes. Four cowries, I respect it.
+[0wgss5m] Register entry: Tebukas | A gardener's glove, palm forward. It hurls itself at a companion, who then lands swinging. Five cowries. No pairs.
+[17r24en] Register entry: Murk | At the tide's edge, the fog bites those who haven't touched it yet. Seven cowries. Touch first.
+[0qqpemg] Register entry: Puhalki | Plus the jet the nautilus breathes out. It breathes other things away from it, mostly my stall. Two cowries. Pay from over there.
+[0euc2n4] Register entry: Suomono | A crisp, salty plant from the Conch's damp turns. Pickles whatever it holds. Yours for three cowries, if you let go of them quick.
+[0ou5u7w] Register entry: Kotigai | A coiled shell from a beach that's gone. Won't move until you hit it. Then it gives it back! I'd pay the six cowries without arguing.
+[06thgwb] menu | Channel: Ends on a stun, silence, or switch.
+[05j8ku7] battle | {#1}'s {#2} goes in and is not removed yet.
+[02pc7vt] battle | {s.name} runs {#2}'s tide into debt.
+[0lbcj02] battle | All on {#1} comes due.
+[1smxwdj] battle | {#1} cannot become untouchable yet.
+[0eu04ud] menu | Dash: lasts 0.9 turns until its next turn. Guard cannot block it.
+[0jq4nga] battle | Near range.
+[19hysz2] battle | {#1} down.
+[0je6w0n] battle | {#1} asleep.
+[1mupnfu] battle | {#1} rolls off while using {m.name}.
+[09m6fid] menu | bears a name the name screen cannot render in {WHORL_NAME_MAX} characters.
+[1n2l30i] menu | The cart travels between towns you have visited, and you have visited only one.
+[076eszd] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[15aoet5] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[1dvqxzc] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[1htockt] menu | {m.name} contains nothing.
+[04zw0c7] menu | {o.name} deploys {#2}.
+[1v40rvu] menu | {HERO} deploys {#2}.
+[00at98s] menu | {tr.nacre} nacre gained. Any grotto can layer it on.
+[14z5ho8] menu | Wait for the foe to act, then choose. Reading a waiting foe reveals you are waiting.
+[043r9pr] menu | The file is now in file {n}.
+[1bbyx3m] menu | A person's cast has nothing to conjoin with.
+[0u8izn2] menu | Acts first in a round. Until your next turn, it takes 0 5 0 25 damage from projectiles, and full damage from dashes. It cannot be forced out.
+[0p5swwi] item | The cart appears once on any road or beach, taking Ouro to a town they have visited.
+[1fd3r59] menu | {HERO} lacks any notions.
+[0rgxoit] menu | A chute removes any piece resting on it entirely, even if just one stone is touching it.
+[1kibrnb] menu | Setting: Build a machine that carries stones to the right side of the board.
+[0kwzk07] menu | Z sends your four whorls.
+[0c2r528] menu | Press Z to go back.
+[047ujmg] menu | Generates a link for anyone else seeking a match. A match is the best of three games.
+[0qw2uq8] menu | Go back to the counter.
+[1mjqwfc] menu | Returns to the previous match screen. The room retains the seat for 90 seconds.
+[0p365pm] menu | A mold turns paste into a copy of the stone in the adjacent cell. Note that only one star exists.
+[03ndq78] menu | Use one amber and three paste. A copy can be a model too.
+[0kfygvj] menu | Nowhere in the wild.
+[1d3iow5] menu | {#1} is on {#2} team twice. each team holds one species.
+[0ny7u70] menu | Use one nacre and one star chip. All subsequent brooches are paste.
+[1nn8vlj] battle | {#1} winds turn.
+[0ggt4in] battle | The bill comes due for {#1}.
+[0gns2j3] battle | {#1} bursts into grit.
+[1qm247x] battle | The sieve catches some of the blow.
+[0tquwu3] battle | {#1} drops the shield.
+[1xbj4pu] battle | Its collar is bare.
+[0eb4rm0] battle | a new layer forms on {#1}.
+[0qbqox2] ? (prize) | In the bright room, there is a glass bell without a clapper, and next to it, a notion.
+[1px14l9] ? (prize) | Under the big tree, where the Hands sit to eat, lie a notion, a nautilus horn, and nacre.
+[1w1rd1x] ? (prize) | Behind the reflection, in the deep silt, rest a nautilus horn and a cockle filled with nacre.
+[1gyh2da] ? (p) | Each whorl has seven stats. A stat is a number. It shows how good the whorl is at one thing.
+[1vxls2q] ? (s) | DEF makes physical hits do less damage.
+[0mnhthv] ? (s) | RES makes magic hits hurt less.
+[0ob984x] ? (p) | Many books use the % sign. It means parts of 100. 50% is half. 25% is one quarter. 10% is one tenth.
+[1iwboyb] ? (p) | DEF and RES make hits hurt less. Say a hit has 100 power. It does 70 damage to a whorl with 42 DEF. It does 50 damage to a whorl with 100 DEF.
+[0ailgte] ? (s) | A dash strikes quickly. Until its next turn, the whorl takes 10% less damage. Guard does not block a dash. A rooted whorl cannot dash.
+[0p093wg] ? (s) | A projectile flies through the air. A guarding whorl takes only a quarter of the damage.
+[1o7u82v] ? (s) | Spells bypass walls raised by summons. A silenced whorl cannot cast spells.
+[1cj10qw] ? (p) | Each whorl has two habits. Habits act automatically. You do not select them. In battle, press left or right on the menu to view habits.
+[147xbph] ? (p) | A crest is a whorl's ultimate move. Most whorls have one crest. Crests cost tide.
+[1yj3p8i] ? (s) | When a move hits a guarding whorl, its side gains 1 tide. This applies once per Guard.
+[0ru6dmx] ? (s) | Losing a whorl awards 1 tide.
+[0c5u9tq] ? (p) | Every whorl has one or two types. Every move has one type. Types determine strengths and weaknesses.
+[0vt0rpj] ? (p) | When a hit lands, the battle log shows strong or weak. Before you pick a move, look at it. It tells you when the foe is weak to it.
+[1pt1m2z] ? (p) | You can target specific summons. When choosing Attack, select the summon instead of the whorl.
+[147l0bj] ? (p) | Select Catch to grab a wild whorl, then choose a horn. You can only catch wild whorls.
+[1kvhqn3] ? (p) | You may retune one move. A retuned move takes on one of the new whorl's types.
+[13zz9py] ? (p) | A notion is a small item held by a whorl. Each whorl can hold one notion.
+[1kblbyp] ? (p) | Some notions boost a stat. For instance, a Whetstone adds 11% ATK. Other notions change how a whorl fights. Bloodglass heals the whorl slightly each time it deals damage.
+[02rscoj] ? (p) | Some notions are consumed upon use. A Sea Biscuit restores 35% of the whorl's HP. After that battle, the Sea Biscuit is gone.
+[10j0k20] ? (p) | You can purchase notions at a grotto. Read the description of each item in your Bag before using it.
+[1cttsah] ? (p) | Nacre is the shiny inner lining of a shell. You can find it in hidden spots. Some trainers will give you a piece of nacre after you win. Each piece represents one layer.
+[08kte13] ? (p) | A layer adds more points as a whorl levels up. It adds {#1} to a stat at level {LEVEL_MAX}. Since HP values are larger, it adds {#3} to HP. The Nacre menu shows the specific bonus for your whorl's current level.
+[1sfz8hc] ? (p) | A whorl can hold {TAN_PER_STAT} layers in a single stat. It can hold {TAN_TOTAL} layers in total.
+[1ilmzvt] ? (p) | For example, a level {LEVEL_MAX} whorl with 69 ATK would have {#2} ATK after adding {TAN_PER_STAT} layers to that stat.
+[11pvvv4] ? (p) | You choose the traits for the new whorl. It keeps 2 moves and 2 habits in total from its parents. It also inherits 1 or 2 types. You also pick its appearance and name.
+[1x84hrg] ? (p) | You earn XP for every opponent you defeat or catch. A level 10 wild whorl gives 24 XP. A level 10 whorl owned by a trainer gives 32 XP.
+[1l9491d] ? (p) | Long battles make whorls tired. This state is called fatigue.
+[19pp9pa] ? (p) | A round is one turn for each side. Tiredness hits after round {FATIGUE_ROUND}.
+[0rgndt8] ? (p) | Tiredness goes past DEF, RES, and Guard. The slow whorl gets hit first.
+[1kc7lj7] ? (p) | No battle can go on forever. Try to win before tiredness starts.
+[06v4d56] ? (s) | Notions holds notions for your whorls.
+[11j8z5x] ? (s) | The Inventory contains horns and other useful tools, such as a Salt Line.
+[15ppa0n] ? (lore_gate) | It rolled up to the star, joining the rest. The latch still holds.
+[0cwkvnq] ? (chart) | Check the Bag to see the bay as it was before the dry.
+[0tc07b2] ? (shut) | No seal, no gate. The Apex sealed the nine-oak gate. No way through, no matter how far you've come.
+[0l59z9l] Strandmonger | Opening later, because it's Shedding Day!! Go stand under that sky. // It's a two-cowrie sky and today it's free.
+[0lx43l7] Strandmonger | Those who've shed walk out behind their own shell.
+[1pvg1rd] Strandmonger | Three strays this month. Take one. Your gran's slate is long enough to take one more.
+[0483qf2] Strandmonger | Plus Squall. From a sideways spring rain. Hits twice, which is two for the price of one.
+[1pjqcdm] Tack | Tackle: Attempt {#1}. Tackle is ready. Tackle is always ready.
+[0dxzqnp] choice | No, what?
+[11d9jxq] look | A jar rests on an earthen shelf, holding a notion, fine and dry.
+[13jnupt] Pell | Is the rest of us down there? Are we alright? Are we cold?
+[0oopn2x] Mirror-mender | What the water showed is still lying. I mend it. I put it back together.
+[0scapdg] look | Tucked in a tangle of black weed, dry within, a notion.
+[09sv99h] Sign | The Sand Dollar points west. At low water, get inside. Beneath it, scratched: and WIGGLE
+[1xshulk] hint | (A VOID whorl worn in the lead guides you across the blank.)
+[1atmmmx] look | Past the fifth tooth, buried in the packed sand, lie a nautilus horn and a notion.
+[1kpys9n] goal | Mouth agape, starlight crosses the Glaze Halls at low water. The door is in the Polish.
+[12zwdqd] hint | (The socket lies flush, waiting for its stones, each in its proper place.)
+[1l4jy96] hint | (Carcanet stays still. {n} of its {ALL_PUZZLES.length} settings chime. Place every sketch, including those you've bought.)
+[0wnb13w] ? (p) | Hits for 110% ATK means a hit with 1.1 times the whorl's ATK. Slow 1 means the foe is slowed for 1 turn.
+[0nd7s26] look | Hidden behind a post at the dunes' end, a periwinkle horn.
+[19kw8v6] Register entry: Mimato | A lugworm shell on the sand has a face at each end. Split it. Both halves return. Each half is one cowrie. How many are in play?
+[1sejgbe] battle | The tide will not rewind.
+[16xufvd] menu | The old nacre flaked off at the join. {nacreBack} layers. Yours.
+[02nx71d] battle | Their side has {c.them.caps} caps.
+[1avyi1y] battle | Fight: The weak spot.

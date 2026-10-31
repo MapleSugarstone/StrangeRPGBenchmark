@@ -115,10 +115,10 @@ export interface Entry { id: string; name: string; count: number | null; text: s
 interface Pocket { name: string; color: string; icon: Icon; list: () => Entry[] }
 
 export const HORN_TEXT: Record<string, string> = {
-  twig: `Its line is at ${Math.round(HORN_LINE.twig * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,
-  brass: `Its line is at ${Math.round(HORN_LINE.brass * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,
-  bone: `Its line is at ${Math.round(HORN_LINE.bone * 100)}% of the foe's HP. It always works when the foe is at or under the line.`,
-  iron: 'It always works on a wild whorl.',
+  twig: `Its threshold is at ${Math.round(HORN_LINE.twig * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
+  brass: `Its threshold is at ${Math.round(HORN_LINE.brass * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
+  bone: `Its threshold is at ${Math.round(HORN_LINE.bone * 100)}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.`,
+  iron: 'This always works on a wild whorl.',
 };
 
 const isLore = (k: string) => k.startsWith('lore_');
@@ -258,7 +258,7 @@ class BagMode implements Mode {
     this.sub = { kind: 'list' };
     if (a === 'Toss') { const max = countOf(e); if (max > 0) this.sub = { kind: 'count', n: 1, max }; return; }
     if (a === 'Give' || a === 'Take') {
-      if (!G.party.length) { this.note('No whorls to hold it.'); return; }
+      if (!G.party.length) { this.note('No whorls to contain it.'); return; }
       this.sub = { kind: 'team', i: 0, take: a === 'Take' };
       return;
     }
@@ -278,16 +278,16 @@ class BagMode implements Mode {
   pick(m: Mon, take: boolean, e: Entry | undefined): void {
     this.sub = { kind: 'list' };
     if (take) {
-      if (!m.notion) { sfx('bump'); this.note(`${m.name} holds nothing.`); return; }
+      if (!m.notion) { sfx('bump'); this.note(`${m.name} holds no notion.`); return; }
       G.notions[m.notion] = (G.notions[m.notion] || 0) + 1;
-      this.note(`Took the ${NOTIONS[m.notion]?.name || m.notion} back.`);
+      this.note(`${NOTIONS[m.notion]?.name || m.notion} has been retrieved.`);
       m.notion = null;
     } else if (e) {
-      if (m.notion === e.id) { sfx('bump'); this.note(`${m.name} already holds one.`); return; }
+      if (m.notion === e.id) { sfx('bump'); this.note(`${m.name} is already occupied.`); return; }
       if (m.notion) G.notions[m.notion] = (G.notions[m.notion] || 0) + 1;
       G.notions[e.id]--;
       m.notion = e.id;
-      this.note(`${m.name} holds the ${e.name}.`);
+      this.note(`${m.name} is now holding ${e.name}.`);
     }
     sfx('ok');
     save();
@@ -313,7 +313,7 @@ class BagMode implements Mode {
     if (sel < this.scroll) this.scroll = sel;
     if (sel >= this.scroll + ROWS) this.scroll = sel - ROWS + 1;
     const ox = this.slide;
-    if (!list.length) textCenter('Nothing here yet.', 96 + ox, LIST_Y + 30, DIM);
+    if (!list.length) textCenter('Empty.', 96 + ox, LIST_Y + 30, DIM);
     else {
       const hy = LIST_Y + (this.curY - this.scroll) * ROW;
       if (hy >= LIST_Y - 2 && hy < LIST_Y + ROWS * ROW) rect(4, Math.round(hy) - 1, 184, ROW, mix(P.color, BG, 0.75));
@@ -362,12 +362,12 @@ class BagMode implements Mode {
       text('\u0001', x + 4, y + 4 + sub.i * 10, SEL);
     } else if (sub.kind === 'count' && e) {
       bevel(40, 92, 112, 34, '#211e2a', SEL);
-      textCenter(`Toss how many ${e.name}?`.length > 22 ? 'Toss how many?' : `Toss how many ${e.name}?`, 96, 97, PAPER);
+      textCenter(`How many ${e.name}?`.length > 22 ? 'How many?' : `How many ${e.name}?`, 96, 97, PAPER);
       textCenter(`< ${sub.n} >`, 96, 110, SEL);
     } else if (sub.kind === 'team') {
       const team = G.party, h = team.length * 14 + 18;
       bevel(20, 40, 152, h, '#211e2a', SEL);
-      text(sub.take ? 'Take from which whorl?' : 'Give to which whorl?', 26, 44, SEL);
+      text(sub.take ? 'Which whorl?' : 'To which whorl?', 26, 44, SEL);
       team.forEach((m, k) => {
         const y = 56 + k * 14, on = k === sub.i;
         if (on) rect(22, y - 2, 148, 12, '#2e2a3a');

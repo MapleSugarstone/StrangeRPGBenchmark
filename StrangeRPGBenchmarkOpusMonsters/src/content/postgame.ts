@@ -31,7 +31,7 @@ defMap({
   zone: { kinds: WILD_KINDS.map(k => [k, 1] as [string, number]), lv: [28, 34], n: 18, area: 'wrinkle', fitted: 0.4 },
   npcs: [
     { id: 'realcinch', x: 20, y: 14, sprite: 'realcinch', name: 'Cinch', talk: 'realCinch' },
-    { id: 'slacksign', x: 20, y: 27, sprite: 'sign', name: null as any, lines: ['Past the Lip. Nothing is held here. Mind your hat.'] },
+    { id: 'slacksign', x: 20, y: 27, sprite: 'sign', name: null as any, lines: ['Beyond the Rim. Nothing is held here. Mind your hat.'] },
   ],
   enter: 'slackEnter',
 });
@@ -66,11 +66,11 @@ defMap({
   ],
   warps: [{ x: 12, y: 23, to: 'slack', tx: 18, ty: 1, dir: 0 }, { x: 13, y: 23, to: 'slack', tx: 19, ty: 1, dir: 0 }],
   npcs: [
-    { id: 'r1', x: 5, y: 5, blocks: true, sprite: 'rider', name: null as any, lines: ['A Rider\'s cast, sitting where it sat.'] },
-    { id: 'r2', x: 17, y: 5, sprite: 'rider', name: null as any, lines: ['A Rider\'s cast. It faces south.'] },
-    { id: 'r3', x: 6, y: 16, sprite: 'rider', name: null as any, lines: ['Two Rider casts, one sitting in the other\'s lap. Neither is a child.'] },
-    { id: 'r4', x: 18, y: 16, sprite: 'riderhand', name: null as any, lines: ['A Rider\'s cast with its hand out, palm up.'] },
-    { id: 'tallowslip', x: 7, y: 16, sprite: 'rider', name: null as any, when: () => !!flag('riderHome'), lines: ['Old Amber\'s grandmother\'s grandmother\'s cast, sitting beside the others.'] },
+    { id: 'r1', x: 5, y: 5, blocks: true, sprite: 'rider', name: null as any, lines: ['A Rider\'s cast, seated in its usual spot.'] },
+    { id: 'r2', x: 17, y: 5, sprite: 'rider', name: null as any, lines: ['A Rider\'s cast. It points south.'] },
+    { id: 'r3', x: 6, y: 16, sprite: 'rider', name: null as any, lines: ['Two Rider casts, one resting in the other\'s lap. Neither is a child.'] },
+    { id: 'r4', x: 18, y: 16, sprite: 'riderhand', name: null as any, lines: ['A Rider\'s cast with its hand extended, palm up.'] },
+    { id: 'tallowslip', x: 7, y: 16, sprite: 'rider', name: null as any, when: () => !!flag('riderHome'), lines: ['Old Amber\'s grandmother\'s grandmother\'s cast, sitting alongside the others.'] },
     { id: 'mundane', blocks: true, x: 12, y: 9, sprite: 'stone', mon: 'mundane', name: 'Mundane', talk: 'mundane', when: () => !flag('mundaneCaught') },
   ],
   enter: 'oldRindEnter',
@@ -105,21 +105,21 @@ MAPS.fall.warps.push({ x: 6, y: 30, to: 'stack', tx: 5, ty: 8, dir: 2, when: pos
 defScript('slackEnter', async () => {
   if (!flag('slackSeen')) {
     setFlag('slackSeen');
-    await hint('The crazes out here move when you are not looking at them.');
+    await hint('The fractures out here shift when you aren\'t looking.');
   }
 });
 
 defScript('realCinch', async () => {
   if (!flag('metCinch')) {
     setFlag('metCinch');
-    await say('Cinch', 'Sit down.', PEOPLE.realcinch);
-    await choose(['You\'re Cinch.']);
-    await say('Cinch', 'Sat down forty years ago. Best thing I ever did.', PEOPLE.realcinch);
-    await say('Cinch', 'Somebody\'s at the Operculum, then. Good. Forgot I left one up there.', PEOPLE.realcinch);
-    await say('Cinch', 'Sit. Ground goes up and down out here with the tide. You get used to it.', PEOPLE.realcinch);
+    await say('Cinch', 'Take a seat.', PEOPLE.realcinch);
+    await choose(['You are Cinch.']);
+    await say('Cinch', 'Took a seat forty years ago. Best decision I ever made.', PEOPLE.realcinch);
+    await say('Cinch', 'So someone\'s at the Operculum. Good. I\'d forgotten I left one up there.', PEOPLE.realcinch);
+    await say('Cinch', 'Sit. The ground rises and falls here with the tide. You get used to it.', PEOPLE.realcinch);
     return;
   }
-  await say('Cinch', 'Sit, if you\'re stopping. The fire\'s for anyone.', PEOPLE.realcinch);
+  await say('Cinch', 'Take a seat if you\'re staying. The fire is open to all.', PEOPLE.realcinch);
 });
 
 defScript('oldRindEnter', async () => {
@@ -171,22 +171,24 @@ function stackTeam(floor: number) {
 }
 
 defScript('stack', async () => {
-  await say('Stackkeeper', 'Every floor is a fight!! Your whorls stand at fifty, all of them. Conjoined foes only, up here.');
-  await say('Stackkeeper', 'Victory, upward, one floor!! Defeat, downward, the very bottom.');
-  await say('Stackkeeper', `The loftiest so far is floor ${G.stackBest}. Where it ends, nobody has ever informed me.`);
-  if ((await choose(['Go up', 'Not now'])) !== 0) return;
+  await say('Stackkeeper', 'Every level is a battle! Your whorls stand at fifty, all of them.');
+  await say('Stackkeeper', 'Only conjoined foes are permitted on this floor.');
+  await say('Stackkeeper', 'Victory means rising one floor higher. Defeat means plunging back to the very bottom.');
+  await say('Stackkeeper', `Your highest achievement so far is floor ${G.stackBest}.`);
+  await say('Stackkeeper', 'As for where that path leads, no one has ever told me.');
+  if ((await choose(['Climb higher', 'Not right now'])) !== 0) return;
   let floor = 1;
   for (;;) {
     const r = await battle({ enemy: stackTeam(floor), name: `Floor ${floor}`, ai: floor > 5 ? 'champion' : 'keeper', wild: false, bg: ['#2a2830', '#4a4458'], sync: true, music: 'keeper', noXp: true });
     music.play('stack');
-    if (r.result !== 'win') { await say('Stackkeeper', `Floor ${floor}. Down, bottom, again.`); break; }
+    if (r.result !== 'win') { await say('Stackkeeper', `Floor ${floor}. Back down to the bottom, once more.`); break; }
     if (floor > G.stackBest) G.stackBest = floor;
     save();
     G.rind += 100 * floor;
-    if ((await choose([`Floor ${floor + 1}`, 'Come down'], false, `Floor ${floor} done. ${100 * floor} cowries.`)) !== 0) break;
+    if ((await choose([`Floor ${floor + 1}`, 'Descend'], false, `Floor ${floor} cleared. ${100 * floor} cowries earned.`)) !== 0) break;
     floor++;
   }
-  await say('Stackkeeper', `The loftiest is now ${G.stackBest}!! I shall require a fourth hat.`);
+  await say('Stackkeeper', `You've reached floor ${G.stackBest}! I'm going to need a fourth hat.`);
 });
 
 void field; void goal;

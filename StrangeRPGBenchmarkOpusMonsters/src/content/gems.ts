@@ -18,7 +18,7 @@ export async function openSetting(): Promise<void> {
 }
 
 KEY_NAMES.gemboard = 'Setting board';
-KEY_TEXT.gemboard = 'A gem setter\'s bench that folds flat. Arms, stations, and a tray of stones.';
+KEY_TEXT.gemboard = 'A foldable gem setter\'s bench, complete with arms, stations, and a tray of stones.';
 KEY_USE.gemboard = async () => { await openSetting(); return true; };
 menuExtras.push({ label: 'Setting', when: () => G.keys.includes('gemboard'), run: openSetting });
 
@@ -58,10 +58,10 @@ async function findSketch(id: string): Promise<void> {
   save();
   await notice(`A Setting sketch: ${pz.name}.`);
   if (!G.keys.includes('gemboard')) {
-    if (!flag('sketchTold')) { setFlag('sketchTold'); await hint('(A drawing of arms and stones. A gem setter in Rib would know what it is for.)'); }
+    if (!flag('sketchTold')) { setFlag('sketchTold'); await hint('(A diagram of arms and stones. A gem setter in Rib would recognize its purpose.)'); }
   } else if (!flag('sketchBoardTold')) {
     setFlag('sketchBoardTold');
-    await hint('(The sketch goes on the Setting board. Open Setting from the menu to try it.)');
+    await hint('(Place the sketch on the Setting board. Open the Setting menu to test it.)');
   }
 }
 
@@ -96,7 +96,7 @@ const roadAt = (town: string): number => { const i = ROAD.indexOf(town); return 
 for (const sale of SKETCH_SALE) {
   const pz = PUZZLE_BY_ID[sale.id];
   EXTRA_WARES['sketch:' + sale.id] = {
-    name: pz.name, price: sale.price, kind: 'sketch', max: 1, toast: 'Bought the sketch.',
+    name: pz.name, price: sale.price, kind: 'sketch', max: 1, toast: 'The sketch is yours.',
     text: `A Setting sketch. ${pz.idea}`,
     held: () => (G.gem.found.includes(sale.id) ? 1 : 0),
     give: () => { if (!G.gem.found.includes(sale.id)) G.gem.found.push(sale.id); },
@@ -131,40 +131,41 @@ function refOf(id: string): number {
 
 /** Lines and a gift for the first talk after each count of puzzles set. */
 const BEZEL_TIERS: { n: number; lines: string[]; gift: Parameters<typeof reward>[0] }[] = [
-  { n: 1, gift: { rind: 150 }, lines: ['One set! A machine that works once is luck, but yours worked four times. That is a trade.'] },
-  { n: 3, gift: { rind: 300 }, lines: ['Three sketches set. Rib\'s setters needed a season for three. Two seasons, I mean.'] },
-  { n: 6, gift: { rind: 500, tan: 2 }, lines: ['Six! Half the sketches, set most immaculately.', 'There is a geode-cracker in Hum named Druse who collects people like you. Go and be collected.'] },
-  { n: 9, gift: { rind: 800, tan: 3 }, lines: ['Nine set. My bench grows jealous of yours. It pinched my thumb this morning out of spite.'] },
-  { n: 12, gift: { rind: 1500, notion: 'polishedring' }, lines: ['EVERY sketch set. I have nothing left to teach you, which is a most unaccustomable feeling!!', 'Take this ring. I set it at your age and it has never fit a single finger since.'] },
+  { n: 1, gift: { rind: 150 }, lines: ['Just one set! A machine that functions once is luck. Yours ran four times. That is a trade.'] },
+  { n: 3, gift: { rind: 300 }, lines: ['Three sketches set. Rib\'s setters usually took a season for three. Or maybe two.'] },
+  { n: 6, gift: { rind: 500, tan: 2 }, lines: ['Six! Half the sketches, set with near perfection.', 'There\'s a geode-cracker in Hum named Druse who collects people like you.', 'Go on, let yourself be collected.'] },
+  { n: 9, gift: { rind: 800, tan: 3 }, lines: ['Nine set. My bench is jealous of yours. It pinched my thumb this morning out of spite.'] },
+  { n: 12, gift: { rind: 1500, notion: 'polishedring' }, lines: ['EVERY sketch set. I have nothing left to teach you, which feels incredibly strange!!', 'Take this ring. I set it at your age and it has never fit a single finger since.'] },
 ];
 
 /** Lines and a gift for the first talk after each count of bought sketches set. */
 const BEZEL_SHOP_TIERS: typeof BEZEL_TIERS = [
-  { n: 1, gift: { rind: 100 }, lines: ['A counter sketch, set! Shellwrights sell the hard ones to people they dislike.', 'To people they admire, I mean.'] },
-  { n: 4, gift: { rind: 400, tan: 2 }, lines: ['Four counter sketches set. Those are not drawn for children.', 'For apprentices, I mean, which is worse.'] },
-  { n: 8, gift: { rind: 800, tan: 3 }, lines: ['Eight! I tried the strand of four one winter. My bench and I did not speak until spring.'] },
-  { n: 12, gift: { rind: 1500, notion: 'tallystone' }, lines: ['All twelve counter sketches. The tiara as well?! Mine has never once stood up.', 'This stone kept the tally of my tiara runs. Take it, it has given up on me most thoroughly.'] },
+  { n: 1, gift: { rind: 100 }, lines: ['A counter sketch, set! Shellwrights sell the difficult ones to people they dislike.', 'I mean, those they look up to.'] },
+  { n: 4, gift: { rind: 400, tan: 2 }, lines: ['Four counter sketches set. Those aren\'t drawings for children.', 'For apprentices, I mean, which is even worse.'] },
+  { n: 8, gift: { rind: 800, tan: 3 }, lines: ['Eight! I tried the strand of four one winter. My bench and I didn\'t speak until spring.'] },
+  { n: 12, gift: { rind: 1500, notion: 'tallystone' }, lines: ['All twelve counter sketches. And the tiara?! Mine has never once stood up on its own.', 'This stone kept track of my tiara runs. Take it. It has completely given up on me.'] },
 ];
 
 defScript('bezel', async () => {
   faceToward('bezel', 'ouro');
   if (!G.keys.includes('gemboard')) {
     await emote('bezel', 'surprise');
-    await say(BEZEL, 'A FINE afternoon for setting stones. Splendid, I mean. Fine is two grades under splendid.');
-    await say(BEZEL, 'I am Bezel, setter of stones to Rib and to anybody else who pays most punctually.');
+    await say(BEZEL, 'A FINE afternoon for setting stones. I mean, splendid. "Fine" is two steps below "splendid".');
+    await say(BEZEL, 'I\'m Bezel. I set stones for Rib and anyone else who pays promptly.');
     if (G.gem.found.length) {
       await emote('bezel', 'question');
-      await say(BEZEL, 'Is that a sketch in your hand? Somebody drew a machine and lost it. How carelessly delicious.');
+      await say(BEZEL, 'Is that a sketch you\'re holding? Someone drew a machine and misplaced it. How delightfully careless.');
     }
-    await say(BEZEL, 'A setter\'s bench has arms to carry stones and setters to bond them. Nobody\'s thumbs get pinched!!');
+    await say(BEZEL, 'A setter\'s bench has arms to hold stones and setters to secure them. Nobody\'s thumbs get pinched!!');
     await act('bezel', 'lift');
     giveKey('gemboard');
     if (!G.gem.found.includes('g1')) G.gem.found.unshift('g1');
     sound('level');
-    await notice('Got the Setting board.');
-    await say(BEZEL, 'I keep three benches and the third is most surplusable. Here is a first sketch to begin on as well.');
-    await hint('(Setting is in the menu now. Press X and choose Setting.)');
-    await say(BEZEL, 'Sketches blow about the Volute like leaves. Bring back any you find set, and I will be thrilled.');
+    await notice('You\'ve obtained the Setting board.');
+    await say(BEZEL, 'I maintain three workbenches, though the third is largely unnecessary.');
+    await say(BEZEL, 'Here\'s a first sketch to get you started.');
+    await hint('(Setting is now available in the menu. Press X to select Setting.)');
+    await say(BEZEL, 'Sketches drift through the Volute like leaves. Bring back any you find set, and I will be delighted.');
     save();
     return;
   }
@@ -192,20 +193,20 @@ defScript('bezel', async () => {
     setFlag('bezelQuick');
     const pz = PUZZLE_BY_ID[quick.id];
     await emote('bezel', 'surprise');
-    await say(BEZEL, `${G.gem.best[quick.id].c} cycles for ${pz.name}? My own machine takes ${refOf(quick.id)}.`);
-    await say(BEZEL, 'You have out-set the setter. That is quick work. Indecent, I mean, but in the good way.');
+    await say(BEZEL, `${G.gem.best[quick.id].c} cycles for ${pz.name}? My own machine runs on ${refOf(quick.id)}.`);
+    await say(BEZEL, 'You\'ve outdone the setter. That was fast. Indecent, I mean, but in a good way.');
     return;
   }
   if (n >= 3 && !flag('bezelShopTold') && !SHOP_PUZZLES.some(p => G.gem.found.includes(p.id))) {
     setFlag('bezelShopTold');
-    await say(BEZEL, 'The Shellwrights sell sketches over the counter now. Hard ones. Vicious ones, I mean.');
-    await say(BEZEL, 'Buy one and suffer splendidly.');
+    await say(BEZEL, 'The Shellwrights are now selling sketches over the counter. Tough ones. Vicious ones, I mean.');
+    await say(BEZEL, 'Buy one and suffer magnificently.');
     return;
   }
-  if (n === 0) await say(BEZEL, 'The first sketch needs one arm. Grab the pearl, swing it round, and let go over the setting.');
-  else if (n < 6) await say(BEZEL, `${n} set of ${baseSolved(G.gem.found)} found. A sketch left unset is a stone left rough!!`);
-  else if (n < 12) await say(BEZEL, `${n} set. Druse in Hum talks of a geode that wants all twelve. I find geodes vulgar, personally.`);
-  else await say(BEZEL, `All twelve, and ${G.gem.runs} machines set running. I have counted, I am a setter.`);
+  if (n === 0) await say(BEZEL, 'The first sketch requires one arm. Grab the pearl, swing it around, and drop it over the setting.');
+  else if (n < 6) await say(BEZEL, `${n} of ${baseSolved(G.gem.found)} set. an unset sketch is like an uncut stone!!`);
+  else if (n < 12) { await say(BEZEL, `${n} set. Druse in Hum speaks of a geode that needs all twelve.`); await say(BEZEL, 'I find geodes rather vulgar, personally.'); }
+  else await say(BEZEL, `All twelve, and ${G.gem.runs} machines are now set and running. I keep count, I'm a setter.`);
 });
 
 // ---------------------------------------------------------------- Druse, the geode-cracker in Hum
@@ -218,23 +219,23 @@ defScript('druse', async () => {
     await act('druse', 'bow');
     await wait(10);
     sound('cut');
-    await say(DRUSE, 'Inside this one there\'s a hollow the size of a fist, lined with violet. Watch.');
+    await say(DRUSE, 'There\'s a hollow in here, fist-sized and lined with violet. Watch closely.');
     await act('druse', 'hop');
     await emote('druse', 'music');
-    await say(DRUSE, 'There. Violet. I\'m Druse. I crack geodes and I\'m never wrong about the inside.');
+    await say(DRUSE, 'See that? Violet. I\'m Druse. I crack geodes open, and I never miss what\'s inside.');
     if (!G.keys.includes('gemboard')) {
-      await say(DRUSE, 'Inside your pack there\'s no setter\'s board. Bezel in Rib has spares. Ask.');
+      await say(DRUSE, 'Your pack doesn\'t have a setter\'s board. Bezel in Rib has extras. Ask around.');
       return;
     }
-    await say(DRUSE, 'Inside your pack there\'s a setter\'s board with sketches on it. Show me what you\'ve set.');
+    await say(DRUSE, 'You\'ve got a setter\'s board in your pack, covered in sketches. Let me see what you\'ve worked on.');
   }
-  if (!G.keys.includes('gemboard')) { await say(DRUSE, 'Still no board in there. Bezel, in Rib. Spares.'); return; }
+  if (!G.keys.includes('gemboard')) { await say(DRUSE, 'Still no board. Bezel, in Rib. They\'ve got spares.'); return; }
   if (n >= 12) {
     face('druse', 1);
     await emote('druse', 'silence');
-    await say(DRUSE, 'All twelve set. Inside the crater fields, the geode just opened. I heard it from here.');
-    await say(DRUSE, 'The east crater, north of Fall. Its south rim. Bring something soft for your ears.');
-    if (n + shopSolved() < ALL_PUZZLES.length) await say(DRUSE, 'Inside the Hollow the whorl is still counting. It wants every sketch, the Shellwrights\' too.');
+    await say(DRUSE, 'All twelve are set. Out in the crater fields, a geode just cracked open. I could hear it from here.');
+    await say(DRUSE, 'The east crater, north of Fall. Focus on its south rim. Bring something soft to cover your ears.');
+    if (n + shopSolved() < ALL_PUZZLES.length) await say(DRUSE, 'Inside the Hollow, the whorl is still ticking. It demands every sketch, including the Shellwrights\'.');
     faceToward('druse', 'ouro');
     setFlag('geodeTold');
     return;
@@ -243,21 +244,22 @@ defScript('druse', async () => {
     if (!flag('druseQuest')) {
       setFlag('druseQuest');
       await emote('druse', 'surprise');
-      await say(DRUSE, `${n} set. Inside your head there's a machine-shaped room now. Good. I need it.`);
-      await say(DRUSE, 'Inside the crater fields north of Fall there\'s a geode as big as Rib. Nobody\'s opened it.');
-      await say(DRUSE, 'Its door is a seam in the east crater, a lock of twelve settings. Set all 12 sketches and it opens.');
+      await say(DRUSE, `${n} set. there's a machine-shaped chamber inside your head now. perfect. I need that space.`);
+      await say(DRUSE, 'North of Fall, in the crater fields, sits a geode as large as Rib. No one has opened it yet.');
+      await say(DRUSE, 'The entrance is a seam in the east crater, a lock of twelve settings.');
+      await say(DRUSE, 'Set all 12 sketches and it opens.');
       await act('druse', 'look');
-      await say(DRUSE, 'Inside it there\'s a whorl strung like a necklace. I\'ve never seen it. It\'s there, though.');
+      await say(DRUSE, 'Inside, there\'s a whorl strung like a necklace. I\'ve never seen it, but I know it\'s there.');
       save();
       return;
     }
-    await say(DRUSE, `${n} of 12. Inside the geode the whorl is counting along with you.`);
+    await say(DRUSE, `${n} of 12. Inside the geode, the whorl is counting in time with you.`);
     return;
   }
   // Below half, Druse just reacts to how much Ouro has played.
   const runs = G.gem.runs;
-  if (runs === 0) await say(DRUSE, 'Inside that board there\'s not a scratch. Run something. Break something.');
-  else if (runs < 15) await say(DRUSE, `${runs} runs. Inside each one there's a little click where it works or doesn't.`);
-  else if (runs < 40) await say(DRUSE, `${runs} runs. Inside that number there are a lot of stones on the floor.`);
+  if (runs === 0) await say(DRUSE, 'That board is pristine. Not a single scratch. Try running something. Break something.');
+  else if (runs < 15) await say(DRUSE, `${runs} runs. Inside each one, there's a faint click that tells you whether it works or not.`);
+  else if (runs < 40) await say(DRUSE, `${runs} runs. Inside that number, there are plenty of stones scattered on the floor.`);
   else await say(DRUSE, `${runs} runs! Inside you there's a setter. Bezel will be cross.`);
 });

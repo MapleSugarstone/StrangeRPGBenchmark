@@ -1,0 +1,140 @@
+# WHORL game text, chunk 13 of 26. Files: src/content/ring9.ts, src/content/tack.ts, src/content/townlife.ts
+# Speakers: ? (32), look (19), Sweeper (8), ? (sign) (8), Man (6), Fisher (4), Woman (3), Ring-walker (2), Hare (2), Paring (2), Net-mender (2), Fiddler (2), Mycel (2), Dandle (2), Tinker (2), Piston (2), Auk (2), Old man (2), Old woman (2), Shoveler (2), Guard (2), Tang (2), Smith's boy (2), Tor (2)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/ring9.ts
+
+== scene: shut
+[06q2m7o] look | Closed. The bar is on the far side.
+
+== scene: map gatering
+[1jhqtwt] look | The Apex rises straight up from the woods. Nothing can climb it from this side.
+[1lzmj1h] look | A spring emerges at the foot of the Apex and flows downhill.
+
+== scene: ringwalker
+[1ybr6u4] Ring-walker | Lap {lap}. Every gate opens from the outside. You came in, so you know that.
+[04rwafp] Ring-walker | Lap {lap}, still. Four springs. Every stream in the Volute starts at one of them.
+
+==== file: src/content/tack.ts
+
+== scene: tackWinsLine
+[1ckraxl] ? | {t.tack} for me, {t.ouro} for you.
+
+== scene: tackLosesLine
+[1oihs8p] ? | {t.ouro} for you, {t.tack} for me.
+
+==== file: src/content/townlife.ts
+
+== scene: chase
+[1n0jz0y] ? | It skips sideways and keeps going round.
+
+== scene: napper
+[045b3ny] ? | Fast asleep. One foot twitches.
+
+== scene: townlife
+[1gglzo5] Hare | It's not mine! I just like chasing it.
+[1a9fmtu] Hare | It's the one that always wins. I'm the one who comes closest.
+[0zk6zvn] ? | We're talking about the fracture. Again.
+[1rxlkz2] ? | Don't reveal that I used that word.
+[18683oz] ? | When I was young, the earth stayed solid.
+[0ile4dg] ? | Well. Mostly. There was that single instance.
+[0gqsjze] Woman | Laundry dries quickly after a Shedding Day. It must be the air.
+[1ab06u8] Woman | Or maybe I just had fewer clothes to wash. That's probably it.
+[0g61ith] Sweeper | I'm sweeping shell fragments off the step. They always end up back there.
+[06xmtlk] Sweeper | Everyone seems to be shedding something this year.
+[183dunv] look | A tipped-over basket, with cockles scattered everywhere. Tiny footprints lead away toward the cove.
+[04w3xfw] Paring | Paring! Ease up! ...Please?
+[0xafu0z] Paring | It's the same routine every time. I could just wait it out.
+[1429qka] ? | The Rib was humming all night long.
+[1kjvqhy] ? | She claims I was snoring. It was the Rib.
+[1obihf8] ? | It was actually him snoring.
+[07yt7kv] ? | The Rib doesn't snore. It hums. That's a completely different thing.
+[0tu46ff] Man | A wheel came off on a rib bone. Rib bones everywhere here.
+[1m66mlu] Man | You'd think we'd learn by now. We never do.
+[02nd952] Man | The wheel is back on. It took a week and nearly all my patience.
+[0zdeugt] Man | Now I just polish it. It feels well-deserved.
+[0y83ia6] Woman | Hang it near the Rib and it dries warm. The Rib is always slightly warm.
+[1ue5nqb] Net-mender | Mending nets for an ocean that doesn't exist.
+[1iyowol] Net-mender | When it returns, I'll be here. Are you? You look prepared.
+[12cci5h] Fisher | Casting lines in the Dry Sea. Not a single bite.
+[0tyazpo] Fisher | There won't be. That isn't the point.
+[0gwdshf] Fiddler | It moves laterally! You can't pursue what moves sideways!
+[16s2kp1] Fiddler | I'm attempting to, though.
+[0p7ou56] ? | The ship isn't coming. There is no sea.
+[13zmmhh] ? | We wait regardless. It is what sailors do.
+[0jsdw0c] ? | I've heard the sea is returning.
+[0ibkp1d] ? | I heard it from him. He heard it from me.
+[15f5nex] Sweeper | quiet. i'm sweeping the church steps.
+[0z0ef26] Sweeper | Quietly. The broom is new. It squeaks.
+[0wa2lrh] ? | honestly, i preferred them when they were wrong.
+[0fsobkh] Mycel | come back. please, come back.
+[1l6p35h] Mycel | i'm not permitted to shout here. it knows that.
+[0gb37cc] Sweeper | Bark sheds from the Bole all day long. Someone must sweep it away.
+[0qtbj9l] Sweeper | That's me. No complaints. It smells lovely.
+[0yuwzlb] ? | The rain went up again this morning.
+[12etq99] ? | It took my hat with it.
+[1ooespk] ? | It was a lousy hat anyway.
+[0b8lfel] ? | The rain actually did you a service.
+[04s839x] Dandle | It drifts away when I approach! That's not fair!
+[13sls7u] Dandle | Alright, one more lap.
+[0bzf42m] Man | A root popped up under the cart overnight.
+[06xwxyc] Man | The roots do that here. You get used to parking on rock.
+[1vexd9i] Tinker | Fitting a Rider cog into a cart wheel.
+[102hanl] Tinker | Now it ticks when it rolls. An improvement, I'd say.
+[14ap7dm] ? | The Pylon vibrates with a tone. I match it.
+[00273nj] ? | He claims I'm out of tune.
+[02gib17] ? | The Pylon's flat too, to be fair.
+[08ilyz1] Piston | It rises and falls, rises and falls!
+[1gxkclp] Piston | I feel sick. Does it feel sick too?
+[1ldohvc] Fisher | The Rimwater fish taste like batteries.
+[0p8i9gp] Fisher | At least they're good batteries.
+[1u83uz2] Auk | The auk slides better than I do.
+[1id32h9] Auk | I'm picking it up. Mostly by falling on my face.
+[1q9cwd1] Old man | Warm your hands. The brazier is for everyone.
+[0u35xwh] Old man | The Tusk's decree. Or maybe it's older than the Tusk itself.
+[1oidask] Old woman | He just made that rule up last year.
+[0gyhjpw] Old woman | But it's a good one, anyway.
+[1d8wim7] Shoveler | Clear the street. Then shovel it again.
+[163zvws] Shoveler | It's a life's work.
+[01vbp6j] Guard | On patrol. From here to there, then back.
+[1ku69du] Guard | Extremely vital. No one's bothered to explain why.
+[0up8zt6] ? | Clocking out. Still on guard duty, in a way.
+[03rnjhy] ? | You never truly clock out.
+[00s4atx] ? | He never truly clocks out.
+[01mc91o] ? | He watches the soup. He watches the cat.
+[02yyof6] Tang | It's a blade-stone on legs!
+[1ljms58] Tang | It's not sharp, though. I tested it. With my hand.
+[0a44ryu] Smith's boy | Mending the smith's cart. Smith said it'd build character.
+[0spba4s] Smith's boy | I've got plenty of character now.
+[0aw5tc2] Tor | It rolls down the hill, then walks back up!
+[1b6swp2] Tor | Then it rolls again. It loves it. I love it.
+[04omy5l] ? | A star crashed into my garden last night.
+[0uh3knk] ? | Wonderful. It ate my cabbages.
+[065tizs] ? | Stars don't consume vegetables.
+[04mxx8y] ? | It was something, though. The cabbages are gone.
+[063a8ek] Sweeper | Sweeping up star glitter. It sweeps itself down the hill.
+[0ipgbii] Sweeper | I just trail behind it, really.
+[1puofzg] ? (sign) | The Midden Road. Rib to the west. Turnstone to the east. Leave the middens as they are.
+[07rcrwa] look | A basket of reeds has tipped over. Small footprints lead away toward the pond.
+[18k47c3] look | Hidden behind a post at the dunes' end, a periwinkle horn.
+[0qm3eeu] ? (sign) | The Dry Sea. Walk where the boats used to. Mast to the west.
+[0j011ay] look | An empty crate marked with the stamp "MAST." The word "sorry" has been chalked onto its side.
+[1k4sz88] look | Nestled in the upper corner, half-buried, is a jar containing a cowrie shell.
+[0v0gz7q] ? (sign) | The salt marsh. Spire, north. Stay on the boardwalks.
+[1733yuv] look | Tucked among the reeds in the corner is a block of marsh salt, still dry.
+[13xjbvj] ? (sign) | The understory. Bole, north. Roots block the road, so lift your feet high.
+[0qo22uo] look | Two names are carved into the bark alongside a heart. A third name has been scratched out.
+[06uwsx8] look | Someone's lunch tin rests beneath the roots. The food is long gone, but the coins remain.
+[1dabal3] ? (sign) | The machine fields. Do not disturb the machines. They are on duty.
+[0u4691m] look | A note tied to the cart reads: "Back soon. Don't take the wheel." The wheel is missing.
+[1pbhkdi] look | Behind the final machine lies a tin of spare parts, wrapped in oilcloth.
+[0b26v0i] ? (sign) | The tundra. Tusk, north. The ledges are one-way only, much like the weather.
+[1b4bbrw] look | A red mitten lies in the snow, frozen mid-wave.
+[1pf0yxx] look | Hidden beneath a snowdrift in the corner is a flask of smelling salts, sealed tight with a cork.
+[1y8q14e] ? (sign) | The Hilt road. Hilt is east. Tusk is west. The Hermitage is there, if you insist.
+[1er0a5c] look | Pilgrims' bags sit on a cart with a broken wheel. A sign reads: "Gone to Hilt for a wheel.
+[1hzuosx] look | Polished to a shine, a guard's lost button lies under the rubble in the corner.
+[11cly7l] ? (sign) | The crater fields. Fall, south. Everything here rolls that way.
+[17lwzcr] look | A tipped-over basket, with a trail of apples rolling away toward Fall.
+[0g3x233] look | In the far corner, a thumb-sized shard of star glass.

@@ -53,13 +53,13 @@ defMap({
   zone: { kinds: kinds([['tang', 3], ['buckler', 2], ['sallet', 2], ['gore', 2], ['quarry', 2]]), lv: [20, 22], n: 10, area: 'shingle' },
   props: [{ x: 38, y: 9, pic: 'holmfar', when: holmSeen(7) }, { x: 23, y: 7, pic: 'lorestep', when: () => !hasKey('lore_step') && !flag('back_lore_step') }],
   npcs: [
-    { id: 'stonesorter', x: 14, y: 17, sprite: 'elder', name: 'Stone-sorter', dir: 1, lines: ['Three stones in the cut and a cave behind. You can\'t push a stone. You walk away and it follows.'] },
-    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { nacre: 1, name: 'Blade-picker', team: [['tang', 21], ['buckler', 21], ['sallet', 21]], intro: 'Every stone here\'s the shape of a blade. Not one of them\'s sharp. I check them all. Daily.', defeat: 'Still not sharp. Same as you.', sight: 3 } },
+    { id: 'stonesorter', x: 14, y: 17, sprite: 'elder', name: 'Stone-sorter', dir: 1, lines: ['Three stones in the cut and a cave behind. You can\'t shove a stone. You leave, and it trails you.'] },
+    { id: 'shingletrainer', x: 28, y: 18, sprite: 'keeper', name: 'Blade-picker', dir: 3, trainer: { nacre: 1, name: 'Blade-picker', team: [['tang', 21], ['buckler', 21], ['sallet', 21]], intro: 'Every stone here is shaped like a blade. None of them are sharp. I check them all. Every day.', defeat: 'Still dull. Just like you.', sight: 3 } },
   ],
   spots: [
-    { x: 23, y: 7, when: () => !field.objAt(23, 8) && !hasKey('lore_step') && !flag('back_lore_step'), script: async () => { sfx('guard'); await wait(16); await giveKeyItem('lore_step', 'Ouro drags out a flat stone worn into a dip. It is the front step.'); } },
-    stash('sh_amber', 33, 22, 'Washed up between two blade-stones, a gray lump that smells of the sea.', { items: [['ambergris', 1]] }),
-    look(35, 12, 'The Lipwater, gray. The Lip far across it, gray. Between them, gray stones the shape of blades.'),
+    { x: 23, y: 7, when: () => !field.objAt(23, 8) && !hasKey('lore_step') && !flag('back_lore_step'), script: async () => { sfx('guard'); await wait(16); await giveKeyItem('lore_step', 'Ouro drags out a flat stone worn into a dip. It serves as the front step.'); } },
+    stash('sh_amber', 33, 22, 'Washed up between two blade-shaped stones, a gray lump that smells of the sea.', { items: [['ambergris', 1]] }),
+    look(35, 12, 'The Rimwater is gray. The Rim is far away and gray. Between them lie gray stones shaped like blades.'),
   ],
 });
 SPAWNS.shingle = [6, 1];
@@ -108,23 +108,23 @@ defMap({
   rows: room(['p_p_____', '________', '_cccc___', '________', '________', '________']),
   warps: roomDoor('hilt', 33, 10),
   npcs: [{ id: 'hiltsmith', x: 3, y: 2, sprite: 'tanner', name: 'Hilt smith', dir: 0, talk: 'hiltsmith' }],
-  spots: [look(5, 0, 'An anvil worn into a dip in the middle. Every blade in Hilt was beaten flat here, except the one.')],
+  spots: [look(5, 0, 'An anvil worn into a dip at the center. Every blade in Hilt was beaten flat here, except for one.')],
 });
 
 defScript('hiltsmith', async () => {
-  await say('Hilt smith', 'Notions for finishing. A blade shard keeps a low one low. Clang.');
+  await say('Hilt smith', 'Finishing notions. A blade shard keeps a low one low. Clang.');
   await shop(['bladeshard', 'coldiron', 'cleaver']);
   save();
 });
 
 // The east gatekeeper works for Purchase, and swaps what a thing costs for what it is worth.
 defScript('gateE', gatekeeper('e', 'Purchase', {
-  shut: 'Shut. The gate is owed a seal. You haven\'t paid one. Come back worth it.',
-  read: 'Apex seal. Paid in full, which is to say owed. Through you go.',
-  open: 'Open from this side now. The Ring\'s past it. Mind you owe it nothing on the way.',
+  shut: 'Shut. The gate requires a seal. You haven\'t paid one. Return when you\'re worth it.',
+  read: 'Apex seal. Paid in full, meaning you still owe it. Go through.',
+  open: 'Open from this side now. The Ring is beyond it. Remember, you owe it nothing as you pass.',
 }));
 
-MAPS.moonwater.spots = [...(MAPS.moonwater.spots || []), stash('mw_silt', 10, 16, 'At the lake\'s edge, in an empty shell, silt the color of the moon.', { items: [['moonsilt', 1]] })];
-MAPS.moonbed.spots = [...(MAPS.moonbed.spots || []), stash('mb_silt', 3, 9, 'In a fold of the old lakebed, a handful of silt the color of the moon.', { items: [['moonsilt', 2]] })];
+MAPS.moonwater.spots = [...(MAPS.moonwater.spots || []), stash('mw_silt', 10, 16, 'At the lake\'s edge, inside an empty shell, silt the color of the moon.', { items: [['moonsilt', 1]] })];
+MAPS.moonbed.spots = [...(MAPS.moonbed.spots || []), stash('mb_silt', 3, 9, 'A small patch of moon-colored silt rests in a crease of the dried lakebed.', { items: [['moonsilt', 2]] })];
 
 void setFlag;

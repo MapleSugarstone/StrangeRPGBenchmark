@@ -1,0 +1,254 @@
+# WHORL game text, chunk 3 of 26. Files: src/content/ch7.ts, src/content/ch8.ts, src/content/ch9.ts
+# Speakers: Tack (21), Bare (14), Hermit (12), Guard (9), goal (9), Quillon (9), Purchase (9), Perihel (8), Murex (7), hint (6), narration (5), Lug (5), Fid (4), Hasp (4), Cinch (4), Gran (4), Man at the well (4), Sword drill (3), choice (3), Star walker (3), ? (hand) (3), ? (listMenu) (3), Pilgrim (2), Smith (2), sign or spot in The Hermitage (2), Child (2), Old man (2), notice (2), Rock walker (2), Sky watcher (2), Old woman (2), Shellwright (2), Woman (1), ? (giveKeyItem) (1), Synced keeper (1), Man (1), Fall guard (1), Register entry: Ouro's cast (1), Small Gran (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/ch7.ts
+
+== scene: map route7
+[1wnbqz5] Guard | The Hilt is under guard. I am the guard. I am the entire guard.
+[0xmw8px] Guard | That is, I was the entire guard.
+[10xswd3] Pilgrim | There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!
+[1myjlf0] Pilgrim | Both halves are gone. A terrible day for halves.
+[1fn4rsr] Hermit | Moonwater is flowing tonight. Everyone is going. Bring a towel.
+[052qjtx] Hermit | Very well. You are going too, then.
+[0i5nz2g] Smith | Folks ask if it's sharp. It's a Seal! Sharpness isn't the point. I'm the smith. I'd know.
+[1cwm2y5] Smith | Go look for yourself, then.
+[19iehmw] Hermit | Moonwater is closed. Murex says so. If you want to argue, Murex is in the Hermitage.
+
+== scene: map peelhouse
+[01e6nr4] sign or spot in The Hermitage | Painted on the wall: a spiral shell with a dark crack running down the front.
+[0i59qbi] sign or spot in The Hermitage | Below it, in smaller letters: WIPE FEET.
+[15r8k4w] Hermit | We pry old shells off the rocks in here. The late ones watch. So they can see how it comes off.
+[1072ybz] Hermit | See? That is how it comes off.
+[1ama39f] Hermit | Bare is down by the water. Murex is at the door.
+[1fwnbsk] Hermit | Murex is still at the door. Murex is always at the door.
+
+== scene: map hilt
+[083pq61] Guard | We've stood watch over it for two hundred years, and tonight it's finally moving.
+[129f1ws] Guard | I've never seen a protocol for that. I checked.
+[165z4mq] Guard | Our job is to guard the sword.
+[0ekohrz] Guard | No living soul has laid eyes on the blade, which is exactly why we're so good at our jobs.
+[0cpzfwy] Woman | The blade is visible! No one alive has ever seen the blade, and now I have!
+[10c0wct] Child | I actually touched it. It's not even sharp. I'm never washing this hand again.
+[1lkx9qe] Old man | Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before.
+[1s60tjv] Old man | Must be the moon.
+[1wrjsex] Guard | The crater road heads south. Quillon insists no one passes until the sword is accounted for.
+[0900maa] Guard | And so, no one passes.
+[0lx4men] Guard | The glass road is to the south-east. Same rule. Sword first, then glass. Quillon's very firm.
+
+== scene: map hiltgym
+[0aafkj2] Sword drill | Finish them while they're down, or they'll return. They always return.
+[0dr8fbr] Sword drill | Certain moves kill outright if the target is below a certain line. Count their HP. Always count.
+[09d8mej] Sword drill | Ah. I must have miscounted.
+
+== scene: route7Enter
+[11sqiz4] goal | The Hermitage sits on the road to the Hilt. The Moonwater is located just south of that point.
+
+== scene: pith
+[0bduhre] Murex | Have you ever... seen the moon rise out of a lake?
+[0mj4r1o] Murex | Are you the... late one? From the Pylon?
+[1bts504] Murex | Did you... uh... count the Seals? Like she instructed?
+[0ptpxee] Murex | Do you know how many kids in Tusk have shed over the last ten years? Want to take a guess?
+[1br39zk] Murex | Shall we fight? Or would you prefer to keep standing there for a while longer?
+[1i17j1h] Murex | Have you ever watched the moon rise from a lake? Would you like to see it? Tonight?
+[0quag2u] Murex | Then why not go and look?
+[1fj86hl] Hermit | Here. Take a harness. We have plenty.
+[0wj2fsv] ? (giveKeyItem) | Ouro receives the haul, along with a harness and a long rope.
+[183zohm] goal | Head south from the Hilt road toward the Moonwater.
+
+== scene: moonwaterEnter
+[1awslh6] Bare | Easy now. All of you.
+[0cybk63] Bare | Lift it.
+[1hswphe] Bare | Pull. Keep pulling. Don't look at it. Just pull.
+[0d8qwy7] choice | Catch it
+[1ijdw3y] choice | Fight it.
+[0cooenj] Bare | Hold it tight.
+[1avqexd] choice | You aren't taking it?
+[0f7gmfz] Bare | Head up to the Hilt.
+[14eb4g0] Bare | Walk.
+[1lkk0qp] goal | Head to Hilt, at the east end of the road.
+
+== scene: quillon
+[1v5glco] Quillon | Head south to Fall, and unfortunately, you'll hit the incline next.
+[0mkf6cr] Quillon | You want my pearl? First, you'll have to come back from the Moonwater. Ideally, dripping wet.
+[1bcbyqa] Quillon | If you're the one from the Moonwater, then you're carrying the moon in a horn!
+[0gvu8fc] Quillon | If you would duel me, you must do so with it out. That is my condition.
+[00ziyxs] Quillon | If you lose, I take nothing. If you win, you get the pearl. And a biscuit.
+[0ww6rjd] Quillon | If that concludes matters, then it's yours, won fairly!
+[157xlkv] notice | Ouro claims the Hilt pearl.
+[1vwazy5] Quillon | If we fill the hole now, it'll hold. I've got a spade. Actually, two spades.
+[13c4ql4] Hermit | Or we could just pull it out. It's halfway there already.
+[1g01x7c] Quillon | If it lasts through the night, then it stays. Then, breakfast.
+[0p2s6k1] Quillon | If that's what you wanted, then here it is, along with the ringing.
+[1m07jjf] goal | Travel south from Hilt, crossing the crater fields to reach Fall.
+
+==== file: src/content/ch8.ts
+
+== scene: map route8
+[0e5y0j9] Rock walker | Everything rolls to the Fall. Rocks, carts, me. You're rolling now.
+[1yi8iuf] Rock walker | Eh. I was heading for the middle anyway.
+[0m8zk0c] Sky watcher | It fell but stays a star. Just down there now. Doing great.
+[183n05o] Sky watcher | Go touch it. It's warm. Like a mug of tea.
+[1bripj0] Hermit | This is the last Seal before the Apex. Then she heads up. She's laced up her good boots.
+[1p2oosl] Hermit | Doesn't matter. She'll go up regardless.
+[1dcg3l7] Synced keeper | I fight at twenty-five. That's when everyone levels out. That's when you see who's truly talented.
+
+== scene: map fall
+[1ifmjku] Man | Watch the slope. You'll end up at the star by supper time whether you like it or not. We all do.
+[1d2fggn] Child | The star is warm, so we do homework on it! Mine got too hot and curled up. That counts as eaten.
+[0ggjoh6] Old woman | Perihel tells you what will happen, and then it happens.
+[0xzbnih] Old woman | Ask her why, and she tells you what will happen next.
+[1aw4zrc] Fall guard | The climb is to the south. Star first, though. That's the Keeper's order.
+
+== scene: map fallgym
+[06hjqrw] Star walker | Your turn comes when it comes, alright? So push theirs back. That's the trick.
+[1txht3n] Star walker | Speed yours up, slow theirs down. That's it. That's the whole game.
+[0qog0s3] Star walker | Ugh. I'm going to be slow tomorrow.
+
+== scene: route8Enter
+[1aaqr0w] goal | Head south across the crater fields to reach Fall.
+
+== scene: fallEnter
+[1ptmcvx] hint | The terrain slopes down toward the star from all directions.
+[1obnnox] hint | It's a quick walk in, but a slow trek back out.
+
+== scene: fallTannery
+[0qu7fbm] Shellwright | Rematches are back on. Every keeper is doing them now.
+[0q018xz] Shellwright | We're synced to level twenty-five, so it's fair. Right?
+[17f7k5z] hint | (You can challenge a keeper again once you have their pearl. Both teams will fight at level 25.)
+
+== scene: tack4
+[0bohebv] Tack | Try {#1}. Still 0 regrets. I'm still keeping track.
+[11qlm9y] Tack | it's the 4th round. you've got ${G.scales.length} pearls, I've got ${G.scales.length}. we're tied. i still despise it.
+[1qj0r0l] Tack | I tallied the cost. I ran it 2 times to verify.
+[1u33ai6] Tack | 1 cast, that's all you get. Tackle had my walk. Brack's got 2 walks. Neither's mine.
+[0wlt612] Tack | 0 regrets. That's the count, right? bring it on.
+[16xpekp] Tack | {#1} I'll take it. I'm backing this star until you win 1.
+[1gxvosz] Tack | {t.ouro} losses. {t.tack} wins. I track both. The 2nd figure is just shorter.
+
+== scene: perihel
+[19cs22t] Perihel | You will rise. Will you look at its hands? You will have looked.
+[1iez7y5] Perihel | You will win this. You will enjoy it less than you expect. Then you will go up.
+[134b4zn] Perihel | The Holdfast will still be standing after you are gone. After everyone is gone.
+[0wo5dhe] Perihel | Will you want to look at its hands? You will have wanted to, more than anything.
+[1fch5zm] Perihel | You will hold out your hand. You will hold the Fall pearl. You will drop it once, then pick it up.
+[1o2oxa6] notice | Ouro has claimed the Fall pearl.
+[0l00kpb] Perihel | Will it settle? It settles if you set it. It emerges if you pull.
+[0h0qddt] Hermit | She's already at the Apex. So this one is yours. The haul is right here.
+[0sm2zrz] Tack | 8 Seals. Count what remains. I'll wait.
+[15s3kw6] Perihel | It will hold. It'll be a bit warmer tomorrow, too.
+[18de760] Perihel | It will be a very long time before it lands again. No one will be standing beneath it.
+[1b96cpf] Tack | Apex is 1 day ahead. I'll have the schedule ready by tomorrow.
+[1jnrr63] Tack | I'm heading to stand guard at the Operculum. Just 1 day of standing. Simple. See you there.
+[06u84ur] Tack | I'm taking my place on the Climb. If you come up loose, that's 1 more Hermit, and I'm not having it.
+[1oylk1d] goal | The Climb leads south from Fall, ascending to the Apex.
+
+==== file: src/content/ch9.ts
+
+== scene: map climb
+[1wpkszl] Bare | Bare sits on the Climb, looking down at the Volute.
+
+== scene: map crown
+[1ujwa8f] Tack | 1 day up. 0 days off. I'm standing with the Hands now. my feet are fine. completely fine.
+
+== scene: climbEnter
+[1xcua3i] narration | The wind descends from above, carrying the scent of salt.
+[1pisdxz] goal | Reach the Apex.
+
+== scene: climbBlock
+[0ha2tus] Bare | Halt.
+[0yndokl] Bare | Look back down.
+[1t10bkm] Bare | Tally the Seals that remain upright.
+[0fv77mx] Bare | Right. Let me pass now.
+[17osyjc] Bare | Then ascend.
+[1qo5jr0] Bare | Climb up and rotate it.
+[12mvxct] Tack | Try {#1}. It's still loose. Just 1 rule.
+[0z104zf] Tack | that's the 5th time. You're loose. I can see it from 10 steps away.
+[148uh1d] Tack | Your back is fractured {#1} fingers long. I counted once, then I counted again.
+[0eka0yb] Tack | Nothing loose up to the Operculum. That's my 1 rule. I only have 1.
+[01d5bas] Tack | {#1} Go count, then return.
+[0wp6pov] Tack | {t.ouro} losses. {t.tack} wins. alright. that works.
+[0t7q52z] Tack | Go ahead. Take it 1 at a time. I'm going first.
+
+== scene: crownEnter
+[0g074us] goal | Prioritize the four Hands: Fid, Lug, Hasp, and Purchase.
+
+== scene: hand
+[1qxutgi] hint | The Hands arrive in a specific sequence: Fid, Lug, Hasp, Purchase.
+
+== scene: fid
+[08jwl2g] Fid | You stand four spans tall, little one, just a span shy of a Hand.
+[1ckinue] Fid | The Operculum measures nineteen spans in circumference, officially.
+[1yezyvm] Fid | Walk the perimeter and count out loud.
+[1f69j8n] ? (hand) | That was one hand's width short, according to my standards. Make another lap.
+
+== scene: lug
+[05hdtqk] Lug | The air's thick in here. Storm's coming by supper time. It'll rain inside. Rain right in the soup.
+[02hvmd4] Lug | Soup on the stairs. Stairs leading up into the clouds.
+[0u55hwb] Lug | The damp has already crept up the walls. You have to fight it off. Wipe your feet before you enter.
+
+== scene: hasp
+[1v71l1b] Hasp | Do they stay steady? When no one is looking? Your hands?
+[1uvi97n] Hasp | Did you scrub them before coming up? Specifically under the nails?
+[1way50o] Hasp | Can you maintain your grip with those? For a single day? For a whole year?
+[1qfrjk5] ? (hand) | Trembling? Right now? Your hands?
+
+== scene: purchase
+[0alg34r] Purchase | My brother was the one who sold you your first stray. He did it for a song!
+[02vkx1c] Purchase | I would have charged triple, plus the cost of the sandwich.
+[191if0g] Purchase | A Hand is worth eight pearls and a Climb. You've carried that debt. Now, owe it all over again.
+[138puno] ? (hand) | Exactly the right amount, down to the last cowrie. Head to the post. Watch your hat.
+
+== scene: cinch
+[0riwwpy] Cinch | You need to stop right there. Both feet planted.
+[124wzyp] Cinch | Someone has to hold this spot.
+[0ukxcj1] Cinch | You'll have to physically pry my hands off it.
+[0eb9utq] Purchase | There. There it is! Forty years later, and its value hasn't shifted by a single cowrie.
+[19md08a] Purchase | Cinch shed HERE, right at this post, forty years ago. A re-shedding!
+[0eq7b3q] Purchase | Non-negotiable and non-refundable.
+[0aq227p] Purchase | The cast stayed at the post and kept working.
+[1plze6n] Purchase | Cinch just strolled over the Rim and never came back to collect.
+[0gzd6as] Purchase | We took our orders from a habit. Cheap orders. And we owed full price for every single one.
+[0yngs68] Fid | The post is four spans from your hand. I've double-checked the measurement.
+[0kvbi64] Hasp | Are you going to put them on? Both of them? Right now?
+[1wu6vpp] Lug | It's so quiet in here. Still as a held breath.
+[051e65m] Lug | A breath held for forty years. Decades with no weather to mark the time.
+
+== scene: holdEnding
+[1vpyp7u] Cinch | Someone's got to.
+[1wwcjqj] Bare | I wanted you to keep it.
+[0evoak7] Tack | 1 Holdfast. 0 days off. You'll need a chair.
+
+== scene: releaseEnding
+[0ym39ye] narration | The Volute's old shell rises and heads north, its towns laid out in fractures.
+[0jroo3n] Tack | 1. Yes. That's 1, for you.
+
+== scene: makeVellumSlip
+[0utmt57] hint | (Ouro's cast lets you keep any four moves and any two habits from species in the Register.)
+
+== scene: ki
+[1idptyn] ? (listMenu) | Move {#1} of 4: Choose a species.
+[1of9wxq] ? (listMenu) | Habit {#1} of 2: Choose a species.
+
+== scene: pi
+[0pszv25] ? (listMenu) | Which habit?
+
+== scene: makeVellumSlip
+[1g8i3c1] Register entry: Ouro's cast | Off Ouro, intact and a bit lighter. No price. You know what it cost. I'm not writing that down.
+
+== scene: epilogue
+[0d53hdd] narration | A week passes.
+[0hnbspw] Gran | Tell my little turnip, still my little turnip.
+[06rqs4t] Gran | Tell them everything's fine.
+[0smo0ps] Gran | Tell them to come home on a Sunday, for soup.
+[02sf4ml] Small Gran | There. Your turn.
+[0330ney] Gran | Tell my little turnip she said a new one.
+[055upcx] Man at the well | She's up. Right to the top. She hasn't been scared in quite a while.
+[12ib3gk] Man at the well | Dust remains. We carry from Rib now, it's not far. I still come and wait on her.
+[162ed7v] Man at the well | She came with us. All the way to the new ground and more. Stubborn old thing.
+[0nq2pvu] Man at the well | New ground. Maybe there's new water beneath it. I'll dig to see if she's down there.
+[0fplher] narration | The Operculum turns once a day, by Ouro's hand. Ouro does it while seated.
+[0ivv297] narration | Two old shells lie side by side far to the north, at the edge of the world.
+[1sp42mh] goal | The Shallows are north of Hum, beyond the Rim. The Stack is east of Fall.
+[0mwkper] hint | (The Shallows open north of Hum, while the Stack lies in Fall. Keepers schedule rematches.)

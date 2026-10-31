@@ -80,9 +80,9 @@ export function wireKinds(w: WireMon): string[] {
 
 /** Null for a name that can go online and otherwise the reason it cannot. */
 export function nameProblem(name: unknown, max = PLAYER_NAME_MAX): string | null {
-  if (typeof name !== 'string' || !name.trim()) return 'A name needs a letter or a number.';
-  if (name.length > max) return `A name has at most ${max} letters.`;
-  return NAME_CHARS.test(name) ? null : 'A name uses only the letters on the name screen.';
+  if (typeof name !== 'string' || !name.trim()) return 'Enter a letter or number.';
+  if (name.length > max) return `Max ${max} letters allowed.`;
+  return NAME_CHARS.test(name) ? null : 'Use only name-screen letters.';
 }
 
 const whole = (n: unknown, lo: number, hi: number): boolean => Number.isInteger(n) && (n as number) >= lo && (n as number) <= hi;
@@ -91,11 +91,11 @@ const known = (k: unknown): k is string => typeof k === 'string' && Object.proto
 
 /** Every reason one wire whorl from untrusted data cannot play. */
 export function whorlProblems(w: unknown): string[] {
-  if (!w || typeof w !== 'object') return ['is not a whorl.'];
+  if (!w || typeof w !== 'object') return ['isn\'t a whorl.'];
   const m = w as WireMon, out: string[] = [];
   // The room empties a name the word filter refuses, and the whorl then shows a stand-in.
-  if (m.name !== '' && nameProblem(m.name, WHORL_NAME_MAX)) out.push(`has a name the name screen cannot write in ${WHORL_NAME_MAX} letters.`);
-  if (m.notion !== null && !NOTION_IDS.includes(m.notion as string)) out.push('holds a notion this game does not know.');
+  if (m.name !== '' && nameProblem(m.name, WHORL_NAME_MAX)) out.push(`bears a name the name screen cannot render in ${WHORL_NAME_MAX} characters.`);
+  if (m.notion !== null && !NOTION_IDS.includes(m.notion as string)) out.push('holds a notion the game does not know.');
   // Online play sets no nacre limit. This refuses only nacre past the game's own caps, and only an edited save can hold that.
   if (m.tan !== undefined) {
     const tan = m.tan as Record<string, unknown>, keys = tan && typeof tan === 'object' ? Object.keys(tan) : null;
@@ -103,39 +103,39 @@ export function whorlProblems(w: unknown): string[] {
       out.push(`holds more nacre than the game lays (${TAN_PER_STAT} layers a stat and ${TAN_TOTAL} in all).`);
     }
   }
-  if (m.starborn !== undefined && typeof m.starborn !== 'boolean') out.push('has a starborn mark that cannot be read.');
-  if ((m.kind === undefined) === (m.fit === undefined)) return [...out, 'must be one kind or one fit.'];
+  if (m.starborn !== undefined && typeof m.starborn !== 'boolean') out.push('bears a starborn sigil that defies reading.');
+  if ((m.kind === undefined) === (m.fit === undefined)) return [...out, 'must be of one species or one fit.'];
   if (m.kind !== undefined) {
     const sp = known(m.kind) ? SPECIES[m.kind] : undefined;
-    if (!sp) out.push('is not a kind this game knows.');
-    else if (sp.person) out.push('is a person, and persons cannot go online.');
-    if (m.tape !== undefined && (m.kind !== 'carcanet' || typeof m.tape !== 'string' || !TAPE.test(m.tape))) out.push('carries a tape it cannot set.');
+    if (!sp) out.push('is not a species the game knows.');
+    else if (sp.person) out.push('is a person, and people can\'t go online.');
+    if (m.tape !== undefined && (m.kind !== 'carcanet' || typeof m.tape !== 'string' || !TAPE.test(m.tape))) out.push('holds a tape it cannot set.');
     return out;
   }
-  if (m.tape !== undefined) out.push('carries a tape it cannot set.');
+  if (m.tape !== undefined) out.push('holds a tape it cannot set.');
   return [...out, ...fitProblems(m.fit)];
 }
 
 /** Every reason a wire fit is not one the Conjoiner could have made. */
 function fitProblems(f: unknown): string[] {
-  if (!f || typeof f !== 'object') return ['is a fit that cannot be read.'];
+  if (!f || typeof f !== 'object') return ['is a fit that can\'t be read.'];
   const x = f as WireFit;
   const kinds = Array.isArray(x.kinds) ? x.kinds : [];
   const A = known(kinds[0]) ? SPECIES[kinds[0]] : undefined, B = known(kinds[1]) ? SPECIES[kinds[1]] : undefined;
-  if (kinds.length !== 2 || !A || !B || A === B) return ['is a fit of kinds this game does not know.'];
-  if (A.person || B.person) return ['is a fit with a person in it, and persons cannot go online.'];
+  if (kinds.length !== 2 || !A || !B || A === B) return ['is a fit of a species the game does not know.'];
+  if (A.person || B.person) return ['is a fit containing a person, and persons cannot go online.'];
   const out: string[] = [];
   const moves = Array.isArray(x.moves) ? x.moves : [];
   const fromA = moves.filter(id => A.moves.includes(id)).length, fromB = moves.filter(id => B.moves.includes(id)).length;
-  if (moves.length !== 4 || new Set(moves).size !== 4 || fromA !== 2 || fromB !== 2) out.push('is a fit that does not keep two moves from each parent.');
+  if (moves.length !== 4 || new Set(moves).size !== 4 || fromA !== 2 || fromB !== 2) out.push('is a fit that does not inherit two moves from each parent.');
   else if (moves.filter(id => MOVES[id]?.nerve).length > 2) out.push('is a fit with more than two crests.');
   const habits = new Set([...A.passives, ...B.passives].filter(id => !NO_FIT_HABITS.has(id)));
   const passives = Array.isArray(x.passives) ? x.passives : [];
-  if (passives.length !== 2 || new Set(passives).size !== 2 || passives.some(id => !habits.has(id) || !PASSIVES[id])) out.push('is a fit with habits its parents do not have.');
+  if (passives.length !== 2 || new Set(passives).size !== 2 || passives.some(id => !habits.has(id) || !PASSIVES[id])) out.push('is a fit with habits its parents do not possess.');
   const types = Array.isArray(x.types) ? x.types : [];
   const key = (t: string[]) => t.slice().sort().join();
   const options = typeOptions({ types: A.types } as Mon, { types: B.types } as Mon).map(key);
-  if (!types.every(t => TYPES.includes(t as Type)) || !options.includes(key(types))) out.push('is a fit with types its parents cannot give.');
+  if (!types.every(t => TYPES.includes(t as Type)) || !options.includes(key(types))) out.push('is a fit with types its parents cannot provide.');
   if (x.basic !== A.basic && x.basic !== B.basic) out.push('is a fit with a plain attack neither parent has.');
   if (x.retune !== null && (!x.retune || !moves.includes(x.retune.move) || !types.includes(x.retune.type))) out.push('is a fit with a retune it cannot make.');
   if (!x.look || !whole(x.look.shape, 0, SHAPES.length - 1) || !whole(x.look.palette, 0, PALETTES - 1)) out.push('is a fit with a look that cannot be drawn.');
@@ -144,9 +144,9 @@ function fitProblems(f: unknown): string[] {
 
 /** Every reason a wire roster cannot queue from its size, each whorl, and the team rule, legendary limit, and notion rule across all six. */
 export function teamProblems(roster: unknown): string[] {
-  if (!Array.isArray(roster)) return ['A roster is a list of whorls.'];
+  if (!Array.isArray(roster)) return ['A roster is a collection of whorls.'];
   const out: string[] = [];
-  if (roster.length !== ROSTER_SIZE) out.push(`A roster holds ${ROSTER_SIZE} whorls.`);
+  if (roster.length !== ROSTER_SIZE) out.push(`Each roster contains ${ROSTER_SIZE} whorls.`);
   const owner = new Map<string, string>(), holds = new Set<string>();
   let legends = 0;
   roster.forEach((w: WireMon, i) => {
@@ -160,12 +160,12 @@ export function teamProblems(roster: unknown): string[] {
     for (const k of kinds) {
       const first = owner.get(k);
       if (first === undefined) owner.set(k, who);
-      else out.push(`${known(k) ? SPECIES[k].name : k} is on this roster twice: in ${first} and in ${who}.`);
+      else out.push(`${known(k) ? SPECIES[k].name : k} appears on this roster twice: within ${first} and within ${who}.`);
     }
     // The species say what is legendary because a sender could leave the wire's flag off.
     if (kinds.some(k => known(k) && SPECIES[k].legendary)) legends++;
   });
-  if (legends > LEGENDARY_MAX) out.push(`A roster holds one legendary at most, and a fit with a legendary parent counts. This roster has ${legends}.`);
+  if (legends > LEGENDARY_MAX) out.push(`Max one legendary per roster. A fit with a legendary parent counts. ${legends} is here.`);
   return out;
 }
 
@@ -174,11 +174,11 @@ export const DEFAULT_PICK: readonly number[] = Array.from({ length: TEAM_SIZE },
 
 /** Every reason a pick is not four different members of a roster of `size`, given by index in battle order with the lead first. */
 export function pickProblems(pick: unknown, size = ROSTER_SIZE): string[] {
-  if (!Array.isArray(pick)) return ['A pick is a list of whorls from the roster.'];
+  if (!Array.isArray(pick)) return ['A pick is a selection of whorls drawn from the roster.'];
   const out: string[] = [];
-  if (pick.length !== TEAM_SIZE) out.push(`A pick holds ${TEAM_SIZE} whorls.`);
-  if (pick.some(i => !whole(i, 0, size - 1))) out.push('A pick names a whorl that is not on the roster.');
-  else if (new Set(pick).size !== pick.length) out.push('A pick names the same whorl twice.');
+  if (pick.length !== TEAM_SIZE) out.push(`Each pick contains ${TEAM_SIZE} whorls.`);
+  if (pick.some(i => !whole(i, 0, size - 1))) out.push('A pick identifies a whorl that is absent from the roster.');
+  else if (new Set(pick).size !== pick.length) out.push('A pick repeats a whorl.');
   return out;
 }
 

@@ -40,17 +40,19 @@ field.stepHooks.push(f => {
 
 MAPS.fall.props = [...(MAPS.fall.props || []), { x: 10, y: 7, pic: 'leangate', when: gateHere }];
 MAPS.fall.spots = [...(MAPS.fall.spots || []),
-  { x: 10, y: 7, when: gateHere, script: async () => { await giveKeyItem('lore_gate', 'Ouro gets the gate, leaning on the post where it stopped rolling.'); } },
-  stash('fa_glass', 10, 9, 'In the corner past the holes, a lump of star glass.', { items: [['starglass', 1]] }),
-  { x: 18, y: 17, when: () => !!flag('keysAsked') && !flag('fallKeys'), script: async () => { setFlag('fallKeys'); sfx('level'); await notice('Ouro finds a ring of keys against the star, warm through.'); } },
+  { x: 10, y: 7, when: gateHere, script: async () => { await giveKeyItem('lore_gate', 'Ouro catches the gate, leaning on the post where it has stopped rolling.'); } },
+  stash('fa_glass', 10, 9, 'In the corner beyond the holes, a chunk of star glass sits still.', { items: [['starglass', 1]] }),
+  { x: 18, y: 17, when: () => !!flag('keysAsked') && !flag('fallKeys'), script: async () => { setFlag('fallKeys'); sfx('level'); await notice('Ouro discovers a ring of keys resting against the star, radiating warmth.'); } },
 ];
 MAPS.fall.npcs.push({ id: 'leanman', x: 5, y: 12, sprite: 'elder', name: 'Basin-keeper', dir: 3, talk: 'leanman' });
 
 // The basin-keeper numbers everything he says.
 defScript('leanman', async () => {
-  if (flag('leanSolved')) { await say('Basin-keeper', 'One: you crossed. Two: the stones stay put now. Three: nobody does that.'); return; }
-  await say('Basin-keeper', 'One: round stones roll till they hit something. Two: never uphill. Three: a hole eats one.');
-  await say('Basin-keeper', 'One: the gate\'s past the holes. Two: haul stones stop a roll. Three: walk out and it all rolls back.');
+  if (flag('leanSolved')) { await say('Basin-keeper', 'First: you crossed. Second: the stones stay put now. Third: nobody does that.'); return; }
+  await say('Basin-keeper', 'First: round stones keep rolling until they strike an obstacle. Second: they never move uphill.');
+  await say('Basin-keeper', 'Third: a hole will swallow one whole.');
+  await say('Basin-keeper', 'First: the gate\'s past the holes. Second: haul stones stop a roll.');
+  await say('Basin-keeper', 'Third: walk out and it all rolls back.');
 });
 
 // The lean for the puzzle checks: the lowest tile of the ground Ouro can walk to, and where the round stones, haul
@@ -108,7 +110,7 @@ defScript('leanman', async () => {
   });
 }
 
-MAPS.glassdesert.spots = [...(MAPS.glassdesert.spots || []), stash('gd_bead', 32, 19, 'By the south way, a bead of star glass fused to a loose lump of it.', { notion: 'glassbead', items: [['starglass', 1]] })];
+MAPS.glassdesert.spots = [...(MAPS.glassdesert.spots || []), stash('gd_bead', 32, 19, 'By the south way, a bead of star glass is fused to a loose lump of it.', { notion: 'glassbead', items: [['starglass', 1]] })];
 
 // ---------------------------------------------------------------- the house of the woman whose keys roll to the middle
 
@@ -118,21 +120,21 @@ defMap({
   rows: room(['p_p_____', '________', '____cc__', '________', '________', '________']),
   warps: roomDoor('fall', 28, 6),
   npcs: [{ id: 'keywoman', x: 3, y: 2, sprite: 'starwalker', name: 'Woman', dir: 0, talk: 'keywoman' }],
-  spots: [look(6, 0, 'A row of hooks for keys. Every one of them is empty.')],
+  spots: [look(6, 0, 'A row of key hooks stands empty. Not a single key hangs on them.')],
 });
 
 defScript('keywoman', async () => {
-  if (flag('keysBack')) { await say('Woman', 'Will they roll off again? They will. Will I send you? I might.'); return; }
+  if (flag('keysBack')) { await say('Woman', 'Will they roll away again? They will. Will I send you? I might.'); return; }
   if (flag('fallKeys')) {
-    await say('Woman', 'Are those mine? They are. Warm, too. Do I mind warm keys? Not today.');
+    await say('Woman', 'Are those my keys? They are. They\'re warm, too. Do I mind warm keys? Not today.');
     setFlag('keysBack');
     await reward({ rind: 500 });
     save();
     return;
   }
-  if (flag('keysAsked')) { await say('Woman', 'Are they at the star still? They are. Round the bottom, on the warm side.'); return; }
-  await say('Woman', 'Where are my keys? At the star. Where else would they be?');
-  await say('Woman', 'Do I go and fetch them? Not on these knees. Not back up that slope.');
+  if (flag('keysAsked')) { await say('Woman', 'Are they still at the star? They are. Round the bottom, on the warm side.'); return; }
+  await say('Woman', 'Where are my keys? At the star. Where else could they be?');
+  await say('Woman', 'Should I go fetch them? Not on these knees. Not back up that slope.');
   setFlag('keysAsked');
 });
 
@@ -180,19 +182,19 @@ defMap({
   props: [{ x: 30, y: 21, pic: 'holmfar', when: () => chapter() >= 8 && !flag('holmHere') }],
   npcs: [
     { id: 'fordsitter', x: 31, y: 10, sprite: 'elder', name: 'Ford-sitter', dir: 3, talk: 'fordsitter' },
-    { id: 'dunewalker', x: 40, y: 4, sprite: 'villager2', name: 'Dune walker', dir: 0, trainer: { name: 'Dune walker', team: [['drift', 22], ['tor', 23]], intro: 'Sand goes west, I go west. Sand stops, I stop. We\'ve an understanding.', defeat: 'Sand\'s moving. I\'m moving.', sight: 3 } },
-    { id: 'tiderunner', x: 12, y: 14, sprite: 'child', name: 'Tide-runner', dir: 2, trainer: { name: 'Tide-runner', team: [['slag', 22], ['siderite', 23]], intro: 'Everything washes up here! Even you! Hi!', defeat: 'You can wash back out now! Bye!', sight: 3 } },
+    { id: 'dunewalker', x: 40, y: 4, sprite: 'villager2', name: 'Dune walker', dir: 0, trainer: { name: 'Dune walker', team: [['drift', 22], ['tor', 23]], intro: 'The sand drifts west, so I follow. When the sand halts, I halt. We\'re in sync.', defeat: 'The sand shifts, so I shift.', sight: 3 } },
+    { id: 'tiderunner', x: 12, y: 14, sprite: 'child', name: 'Tide-runner', dir: 2, trainer: { name: 'Tide-runner', team: [['slag', 22], ['siderite', 23]], intro: 'Everything washes ashore here! Even you! Hello!', defeat: 'You can drift back out now! Goodbye!', sight: 3 } },
   ],
   spots: [
     { x: 1, y: 12, when: () => !flag('longwayOpen'), script: async () => {
-      const c = await choose(['Lift the bar', 'Leave it'], true, 'A field gate. The bar is on this side.');
+      const c = await choose(['Raise the bar', 'Let it be'], true, 'A field gate. The bar is on this side.');
       if (c !== 0) return;
       sfx('switch');
       setFlag('longwayOpen');
       save();
     } },
-    { x: 30, y: 19, when: () => chapter() >= 8 && !flag('holmHere'), script: async () => { await narr('Far out, a pale hump in the water, heading west.'); } },
-    stash('lw_glass', 50, 18, 'On the tideline, two pieces of sea glass worn round.', { items: [['beachglass', 2]] }),
+    { x: 30, y: 19, when: () => chapter() >= 8 && !flag('holmHere'), script: async () => { await narr('Far out, a pale mound in the water, heading west.'); } },
+    stash('lw_glass', 50, 18, 'On the tideline, two pieces of sea glass worn smooth.', { items: [['beachglass', 2]] }),
   ],
 });
 SPAWNS.longway = [54, 12];
@@ -237,13 +239,13 @@ PUZZLE_DATA.extra.push(() => {
 
 // The ford-sitter ends everything the same way.
 defScript('fordsitter', async () => {
-  if (flag('longwayOpen')) { await say('Ford-sitter', 'Gate\'s open at the west end. Turnstone\'s just there. Somebody ought to visit.'); return; }
-  await say('Ford-sitter', 'Bridge went in the spring flood. Somebody ought to build it back. Somebody ought to.');
-  await say('Ford-sitter', 'Big stones on the banks. Tip one in the water and it\'s a step. Somebody ought to.');
-  await say('Ford-sitter', 'Get it wrong and walk off, the brook rolls them back. Somebody ought to stop it.');
+  if (flag('longwayOpen')) { await say('Ford-sitter', 'The gate\'s open at the west end. Turnstone is just there. Someone ought to check on it.'); return; }
+  await say('Ford-sitter', 'The bridge went out in the spring flood. Someone ought to rebuild it. Someone really ought to.');
+  await say('Ford-sitter', 'Big stones line the banks. Tip one into the water and it becomes a step. Someone ought to do that.');
+  await say('Ford-sitter', 'Mess it up and step off, the brook will roll them back. Someone ought to stop that.');
 });
 
 // Turnstone's east field gate, barred from the far side until Ouro lifts the bar on the Long Way Round.
 MAPS.fellside.mods = [...(MAPS.fellside.mods || []), { x: 42, y: 15, ch: '=', when: () => !!flag('longwayOpen') }];
 MAPS.fellside.warps.push({ x: 43, y: 15, to: 'longway', tx: 2, ty: 12, dir: 1, when: () => !!flag('longwayOpen') });
-MAPS.fellside.spots = [...(MAPS.fellside.spots || []), { ...look(42, 15, 'A field gate, barred from the other side.'), when: () => !flag('longwayOpen') }];
+MAPS.fellside.spots = [...(MAPS.fellside.spots || []), { ...look(42, 15, 'A field gate barred from the outside.'), when: () => !flag('longwayOpen') }];

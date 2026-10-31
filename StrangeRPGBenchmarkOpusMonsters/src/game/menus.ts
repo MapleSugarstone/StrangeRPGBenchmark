@@ -197,9 +197,9 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       const gains = statParts(m, lv).filter(p => p.nacre > 0).map(p => `+${p.nacre} ${p.k}`);
       if (gains.length) { para(`It adds ${gains.join(', ')}.`, 16, DIM); y += 3; }
       const per = tanPerLayer(lv);
-      para(`Each layer adds ${tanText(per.stat)} to one stat or ${tanText(per.hp)} to HP at level ${lv}, up to ${TAN_PER_STAT} layers in one stat.`, 16, DIM);
-      if (m.fitted) { y += 3; para(`The seam takes ${Math.round((1 - FIT_STAT) * 100)}% from every stat.`, 8, DIM); }
-      if (m.starborn) { y += 3; out.push({ y, s: 'Starborn', x: 8, c: STARLIGHT }); y += 9; para('About one wild whorl in four hundred comes out in night-sky colors, and glitters.', 16, DIM); }
+      para(`Each layer grants ${tanText(per.stat)} to a single stat or ${tanText(per.hp)} to HP at level ${lv}, capping at ${TAN_PER_STAT} layers in any one stat.`, 16, DIM);
+      if (m.fitted) { y += 3; para(`The seam reduces every stat by ${Math.round((1 - FIT_STAT) * 100)}%.`, 8, DIM); }
+      if (m.starborn) { y += 3; out.push({ y, s: 'Starborn', x: 8, c: STARLIGHT }); y += 9; para('Roughly one in four hundred wild whorls displays night-sky hues and sparkles.', 16, DIM); }
       y += 6;
       para(entryOf(m), 8, PAPER);
       if (m.parents) { y += 3; para(`From ${m.parents[0]} and ${m.parents[1]}.`, 8, DIM); }
@@ -281,7 +281,7 @@ export function monPage(m: Mon, opts: { noXp?: boolean; over?: () => void } = {}
       if (scroll > 0) for (let k = 0; k < 3; k++) rect(184 - k, 49 + k, 1 + k * 2, 1, SEL);
       if (scroll < end - (BOTTOM - TOP)) for (let k = 0; k < 3; k++) rect(184 - k, 181 - k, 1 + k * 2, 1, SEL);
       const lr = tab === 2 ? 'L/R views.' : 'L/R tabs.';
-      textCenter(end > BOTTOM - TOP ? `${lr} Up/down scroll. X back.` : `${lr} X back.`, 96, 179, HINT);
+      textCenter(end > BOTTOM - TOP ? `${lr} Scroll/X to exit.` : `${lr} X back.`, 96, 179, HINT);
       opts.over?.();
     },
   };
@@ -324,7 +324,7 @@ async function fourMenu(): Promise<void> {
 
 export async function giveNotion(m: Mon): Promise<void> {
   const have = NOTION_IDS.filter(id => (G.notions[id] || 0) > 0);
-  if (!have.length) { await say(null, `${HERO} has no notions.`); return; }
+  if (!have.length) { await say(null, `${HERO} lacks any notions.`); return; }
   const k = await listMenu('Give which?', have.map(id => `${NOTIONS[id].name} x${G.notions[id]}`), {
     w: 120,
     detail: (j) => { panel(4, 130, 184, 30); wrap(NOTIONS[have[j]].text, 176).forEach((l, n) => text(l, 8, 134 + n * 9, PAPER)); },

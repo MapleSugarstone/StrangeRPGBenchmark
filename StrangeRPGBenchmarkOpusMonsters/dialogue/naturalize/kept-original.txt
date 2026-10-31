@@ -1,0 +1,485 @@
+# Lines that kept their original text after three redo rounds, with the last problem found. Nothing to do here.
+
+1u067hd | Strandmonger | src/content/ch1.ts
+  original: Look at that. It's picked you back. That part I don't charge for.
+  why: The after line says the whorl has drawn Ouro back in, which still loses that the whorl picked Ouro back.
+
+1wqbrc4 | Tack | src/content/ch2.ts
+  original: Leeward's 1 keeper and there's 11 of them. So I'm gonna help. After I beat you.
+  why: The after line makes Tack Leeward's keeper and counts Ouro among the 11, when Leeward is the 1 keeper against 11 Hermits.
+
+0jnnhtn | look | src/content/ch4.ts
+  original: In the hollow past the sleeping stump, a heap of acorns and a notion under them.
+  why: The original has a notion under the acorns. The rewrite says a secret and drops the game term notion. Keep the game word notion. It is a term in this game.
+
+044q6k3 | Bare | src/content/ch5.ts
+  original: Arms in first. Then the head. That's it.
+  why: The original says arms in first. The rewrite says arms out first.
+
+11l0kqt | Old guard | src/content/ch6.ts
+  original: East's the Hilt road, south-east's the Shingle. Amber wants to see you first, though.
+  why: Keep every direction exactly as the original says it.
+
+0d8qwy7 | choice | src/content/ch7.ts
+  original: Catch it
+  why: The choice still drops the game term catch and now says Choose it.
+
+0330ney | Gran | src/content/ch9.ts
+  original: Tell my little turnip she said a new one.
+  why: The original says she said a new one. The rewrite says she said there is a new one.
+
+16pyo80 | notice | src/content/areas2.ts
+  original: Ouro takes down the bowl of upward rain, carefully upside down.
+  why: The after line still says Ouro holds the bowl and never says Ouro takes it down.
+
+1wv0a70 | Fencer | src/content/areas3.ts
+  original: The battle ended before my gran was born. Nobody told the swords. I'm not gonna be the one.
+  why: The after line says the war ended before the speaker was born when the original says before his gran was born.
+
+0a8vkm5 | The Listener | src/content/areas3.ts
+  original: You lit the glass room! I heard it from right here.
+  why: The after line still says Ouro set the glass room on fire instead of lighting it.
+
+1dhzsfp | Fall hall | src/content/gyms.ts
+  original: , hole filled
+  why: The fix drops the leading comma that joins this fragment to the text before it, so the joined line runs together.
+
+1r5m79w | Gran | src/content/act2/ch1.ts
+  original: Tell my little turnip soup.
+  why: The after line still drops the soup and replaces Gran's message with a message of love.
+
+1lc4ljl | Child in a whelk | src/content/act2/ch1.ts
+  original: I'm ROCKING, Dad.
+  why: Keep the words written in capitals exactly as they are.
+
+1b3m2oz | Strandmonger | src/content/act2/ch1.ts
+  original: Which I'll waive, once. Worth more to you than a cowrie and less to me. We both win. Me more.
+  why: The after line still compares the road's worth to Ouro with a cowrie's worth to the Strandmonger, and the added less to me than that makes the trade harder to follow.
+
+0niuu4i | choice prompt | src/content/act2/ch1.ts
+  original: {#1} measures here. {sack} in the sack.
+  why: The after line still says {#1} measured out instead of saying this cell holds {#1} measures.
+
+1fayi9d | Tooth-sitter | src/content/act2/ch2.ts
+  original: I sit between the teeth. Only gap in town. I got here first.
+  why: The after line still says the speaker is the only gap in town instead of sitting in the only gap.
+
+0pyt7ol | Gloss | src/content/act2/ch2.ts
+  original: EVERYONE STAMP. Stamp, everyone!!
+  why: Keep the words written in capitals exactly as they are.
+
+1wl9js8 | goal | src/content/act2/ch2.ts
+  original: Swim back across the Flats to the Sand Dollar at high water.
+  why: The fix changes high water to low water, which reverses the tide the player must swim at.
+
+1cke072 | Marks | src/content/act2/ch4.ts
+  original: Then one, two, three, cut fresh. Then a place for the next.
+  why: The after line still turns the reading of three freshly cut marks into instructions to count and mark.
+
+1iuvg79 | Marks | src/content/act2/ch4.ts
+  original: Four, and a star. Scraped. Three. Two. One.
+  why: The after line says the star is scraped off, but the scraped place is a separate blank mark after the four and star, so the puzzle clue changes.
+
+0vzccou | Tide-reader | src/content/act2/ch4.ts
+  original: At the low after the shut one last shed, it was soft. It reached in.
+  why: The after line still says the shut one made the last shed, which reads as a final shed instead of the shut one's most recent shed.
+
+1cfdbny | goal | src/content/act2/ch5.ts
+  original: Follow the footprints east, along the upper beach.
+  why: Keep every direction exactly as the original says it.
+
+0vrqv60 | Ring polisher | src/content/act2/ch5.ts
+  original: When a star falls at night, it shines right across to the far knuckle. All the way!
+  why: The original says the star shines across to the far knuckle (a place), and the rewrite says your farthest knuckle.
+
+0weqpix | hint | src/content/act2/ch6.ts
+  original: (Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)
+  why: The fix tells the player to brush a wall to make it ring, which turns the warning into an instruction.
+
+0ik1yxz | Gran | src/content/act2/ch6.ts
+  original: That is my left.
+  why: The rewrite inserts a bracketed editor note [boot] into the spoken line.
+
+10m9syv | notice | src/content/areakit.ts
+  original: A notion: {#1}.{#2}
+  why: The original reward is a notion (held item), and the rewrite calls it a thought. Keep the game word notion. It is a term in this game.
+
+0y8z3re | notice | src/content/areakit.ts
+  original:  x 
+  why: The after line is still a bare x with the surrounding spaces stripped, so the count still runs into the item name.
+
+0p56st6 | notice | src/content/areakit.ts
+  original: A notion: 
+  why: The after line loses the trailing space after the colon, so the reward name runs into the label.
+
+0yiypgd | notice | src/content/areakit.ts
+  original:  x 
+  why: The after line replaces the bare count separator x with a sentence about noticing an x, which is garbled and breaks the reward text.
+
+0r1fauu | notice | src/content/areakit.ts
+  original: {r.tan} nacre. Any grotto will layer it on.
+  why: The after line still tells the player to place the nacre in a grotto instead of saying any grotto will layer it on, and it starts in lowercase.
+
+17y2lku | ? | src/content/gems.ts
+  original: Take this ring. I set it at your age and it has never fit a single finger since.
+  why: The after line still says when you were my age, but Bezel set the ring when Bezel was the player's age.
+
+0y48i6o | ? (p) | src/content/guide.ts
+  original: About 1 in {STARBORN_ODDS} new wild whorls is Starborn. A new conjoined whorl can be Starborn too, at the same odds.
+  why: the fix made its guide chapter read above grade 4
+
+0ge635m | ? (p) | src/content/guide.ts
+  original: A Starborn whorl does not pass on its look when you conjoin it.
+  why: Keep the game word conjoin. It is a term in this game.
+
+1n742am | Tinker | src/content/homes.ts
+  original: Rider parts. Every one still ticks.
+  why: The after line still says Rider's parts as if Rider were one person, when Riders are a people.
+
+1u6bqw0 | Strandmonger | src/content/lesson.ts
+  original: Knock it down a bit, then catch it. Weaker means surer. Then it's yours, and I stop feeding a boot.
+  why: The after line still tells you to dial back your own force instead of weakening the whorl before you catch it.
+
+0rcjrhx | choice | src/content/ring.ts
+  original: Catch it
+  why: The choice still drops the game term catch and now says Seize it.
+
+1lcr2c8 | choice | src/content/ring.ts
+  original: Fight it
+  why: The choice still says Resist it instead of Fight it.
+
+1iuxi7a | choice | src/content/ring1.ts
+  original: Catch it
+  why: The original choice is Catch it, and the rewrite says Grab it and drops the game term catch.
+
+0pwcymo | ? (giveKeyItem) | src/content/ring1.ts
+  original: Ouro gets the kettle.
+  why: The after line says Ouro puts the kettle on, but the original says Ouro gets the kettle as a found item.
+
+14uefsw | ? | src/content/ring1.ts
+  original: He writes you down every night. {n} so far, he says. I don't ask what of.
+  why: The original says she does not ask what he is counting, and the rewrite says she does not ask why.
+
+0q6gnh2 | Woman with a basket | src/content/ring1.ts
+  original: Oh, the basket? Shells. I dust every one so they know somebody still lives here.
+  why: The original dusts the shells so the shells know someone still lives there, and the rewrite says so people know.
+
+0spvm51 | Stilt-maker | src/content/ring2.ts
+  original: Shallows come up to here on you. Three hands. Deep water, no stilt's tall enough. Not even mine.
+  why: The rewrite capitalizes the Shallows as a place name, and the original means any shallow water.
+
+1urpn13 | Shouter | src/content/ring3.ts
+  original: FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I'M SHOUTING THE SHOPPING LIST. eggs
+  why: The fix capitalizes eggs, which the original keeps lowercase as a quiet word after the shouting.
+
+1awt06u | Bellower | src/content/ring3.ts
+  original: THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I'M ALLOWED BOTH. sorry
+  why: Keep the words written in capitals exactly as they are.
+
+0x4e5ih | Rain-seller | src/content/ring4.ts
+  original: Rain falls down now. Like everywhere. These jars are the last of the up. Going nowhere.
+  why: The after line changes Going nowhere to We're going nowhere, so it describes the speaker instead of the jarred rain that now goes nowhere.
+
+0xf380x | hint | src/content/ring5.ts
+  original: An old crane of the Riders. Wear a GEAR whorl to turn its gears.
+  why: The after line still calls it a veteran crane, which reads as nonsense for an old machine of the Riders.
+
+11cly7l | ? (sign) | src/content/townlife.ts
+  original: The crater fields. Fall, south. Everything here rolls that way.
+  why: The after line puts the crater fields south of Fall, which reverses the sign that says Fall lies to the south.
+
+0pu3l4p | Register entry: Lupusmi | src/data/species.ts
+  original: A wolf's cast, nose down, still on a smell from years back. It sniffs the four cowries before you can hand them over.
+  why: The after line still says Tack's cast instead of a wolf's cast.
+
+00fi6jo | Register entry: Bosshi | src/data/species4.ts
+  original: A musk ox's cast, left standing in the snow. Eyes down by its knees. Frost on whatever it looks at. I ask four cowries, from behind it.
+  why: The original says this is a musk ox's cast. The rewrite calls it a shed antler, which drops the game term and gives an ox antlers. Keep the game word cast. It is a term in this game.
+
+1vlf0m3 | Register entry: Hupfuta | src/data/species6.ts
+  original: The hood a nautilus shuts its door with. Shuts any door. Mine hasn't opened since! Writing this through the window. Four cowries.
+  why: The original is the hood a nautilus shuts its door with. The rewrite garbles it into the shell a nautilus seals shut.
+
+02pvii4 | menu | src/battle/engine.ts
+  original: It was Untouchable. It cannot become Untouchable or Hidden until after its next turn.
+  why: The original rule lasts until after its next turn. The rewrite says until its next turn, which shortens it.
+
+02pc7vt | battle | src/battle/engine.ts
+  original: {s.name} runs {#2} tide into debt.
+  why: The after line still reads {#2}'s tide and treats the amount of tide as an owner.
+
+171fdbr | battle | src/battle/engine.ts
+  original: {#1} rolls with {f.poise} poise.
+  why: The original says the whorl rolls with poise, gaining it. The rewrite says it uses poise.
+
+18oma86 | battle | src/battle/engine.ts
+  original: {what} wait{#2} {n} more turn{#4}.
+  why: The after line swaps the placeholders so the turn count follows wait and the plural suffix stands where the number goes, which comes out garbled.
+
+0b4t4vn | battle | src/battle/engine.ts
+  original: {what} {#2} ready{#3}.
+  why: The rewrite adds is now in front of the {#2} verb slot, which doubles the verb.
+
+1ro5cva | battle | src/battle/engine.ts
+  original: {#1}'s crests cost {#2} {#3} tide.
+  why: The original says crests cost {#2} {#3} tide. The rewrite calls crests breaking waves and garbles the cost. Keep the game word crest. It is a term in this game.
+
+0uxcv0m | battle | src/battle/engine.ts
+  original: {#1}'s tide runs clear.
+  why: Keep the game word tide. It is a term in this game.
+
+16w3em0 | battle | src/battle/engine.ts
+  original: The bout stands {#1} to {#2}.
+  why: The fix still says the score is tied whatever the numbers are.
+
+19hysz2 | battle | src/battle/engine.ts
+  original: {#1} is knocked down.
+  why: "{#1} down." still reads as a knockout instead of the whorl being knocked down.
+
+13agoku | battle | src/battle/engine.ts
+  original: {#1}'s bench can reach again.
+  why: The after line says {#1} can reach the bench again, which reverses the original meaning that the bench can reach the field again.
+
+0j6j000 | battle | src/battle/engine.ts
+  original: {#1} casts nothing.
+  why: Keep the game word cast. It is a term in this game.
+
+0lqp3eq | battle | src/battle/engine.ts
+  original: The tide runs on.
+  why: The rewrite pastes the label Fight into the battle message.
+
+0wkuubs | menu | src/net/wire.ts
+  original: is a fit with a plain attack neither parent has.
+  why: The after line starts with whorl: and no longer reads as a predicate that follows the whorl name.
+
+1s4ye7p | menu | src/net/wire.ts
+  original: is a fit with a look that cannot be drawn.
+  why: The original says it is a fit with a look that cannot be drawn. The rewrite drops fit and says it pairs with a look.
+
+0c3xudq | menu | src/net/wire.ts
+  original: is a fit with a retune it cannot make.
+  why: The after line still starts with it and now says the whorl fits a retune instead of being a fit with a retune it cannot make.
+
+1gcc94m | menu | src/game/battleView.ts
+  original: A mirage over {#1} shows the foe {o.mirage.hp} more HP than it has, for {o.mirage.turns} more of its turns.
+  why: The after line still puts the HP placeholder in as the foe and the turn count in as the extra HP, and it drops how many turns the mirage lasts.
+
+0u8izn2 | menu | src/game/battleView.ts
+  original: Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can't be forced out.
+  why: The after line drops the general 0.5x, gives projectiles 0.5x instead of 0.25x, and gives dashes 0.25x when dashes deal full damage.
+
+14z5ho8 | menu | src/game/battleView.ts
+  original: Wait for the foe to act, then choose. Reads of a waiting foe see you wait.
+  why: The after line drops reads, so it no longer says that moves which read your choice see you wait and instead says a waiting foe sees you.
+
+08k7olb | menu | src/game/minigames/starfall.ts
+  original: {score} stars caught.
+  why: Keep the game word catch. It is a term in this game.
+
+0p365pm | menu | src/game/setting/puzzles.ts
+  original: A mold turns paste into a copy of the stone on its other cell. There is only one star.
+  why: The after line still says the stone in its neighboring cell instead of the stone on the mold's own other cell, which changes the puzzle rule.
+
+0tbh9rw | battle | src/data/kits1.ts
+  original: {#1} is caught in the hedge.
+  why: Keep the game word catch. It is a term in this game.
+
+1nn8vlj | battle | src/data/kits2.ts
+  original: {#1} turns the wind round.
+  why: The after line starts with a stray menu: label pasted into the battle text.
+
+1n5xbz1 | battle | src/data/kits4.ts
+  original: {#1} erupts.
+  why: The original says the whorl erupts. The rewrite says it goes on.
+
+0y9ia8h | battle | src/data/kits4.ts
+  original: {#1} throws {m.name} back.
+  why: The original says the whorl throws the move back. The rewrite says it tosses the move aside.
+
+11555go | battle | src/data/kits4.ts
+  original: {#1} has nothing ready.
+  why: The original says the whorl has nothing ready. The rewrite says it has no moves left.
+
+0lvgz3j | battle | src/data/kits5.ts
+  original: The tide comes in.
+  why: The original says the tide comes in. The rewrite drops the tide and says the waters surge forward. Keep the game word tide. It is a term in this game.
+
+0pldc79 | battle | src/data/kits5.ts
+  original: The tide goes out.
+  why: The original says the tide goes out. The rewrite drops the tide and says the waters recede. Keep the game word tide. It is a term in this game.
+
+0e15lft | battle | src/data/kits5.ts
+  original: {#1} and {#2} trade wounds.
+  why: The after line still says the whorls exchange blows instead of trading wounds.
+
+0xp2g04 | battle | src/data/kits6.ts
+  original: Label: KEEP THE {#1}.
+  why: Keep the words written in capitals exactly as they are.
+
+04m4aii | ? (s) | src/content/guide.ts
+  original: Hidden. A foe's single hits cannot find it. Its own next hit goes through Guard. The whorl is Revealed through its next turn after Hidden ends. Until then it cannot become Hidden or Untouchable.
+  why: The after line says the whorl becomes Revealed on its next turn after Hidden ends, when it is Revealed from the end of Hidden through its next turn.
+
+1x84hrg | ? (p) | src/content/guide.ts
+  original: When you win, each foe you knocked out or caught gives XP. A level 10 wild whorl gives 24 XP. A level 10 whorl of a trainer gives 32 XP.
+  why: the fix made its guide chapter read above grade 4
+
+1l9491d | ? (p) | src/content/guide.ts
+  original: Very long battles make whorls tired. This is called fatigue.
+  why: the fix made its guide chapter read above grade 4
+
+19pp9pa | ? (p) | src/content/guide.ts
+  original: A round is one turn for each side. Fatigue starts after round {FATIGUE_ROUND}.
+  why: the fix made its guide chapter read above grade 4
+
+0rgndt8 | ? (p) | src/content/guide.ts
+  original: Fatigue goes past DEF, RES, and Guard. The slower whorl gets hit first.
+  why: the fix made its guide chapter read above grade 4
+
+1x4d4iu | ? (p) | src/content/guide.ts
+  original: Each level needs more XP than the last. A level 5 whorl needs 72 XP to reach level 6.
+  why: the fix made its guide chapter read above grade 4
+
+1kc7lj7 | ? (p) | src/content/guide.ts
+  original: So no battle can go on forever. Try to win before fatigue starts.
+  why: the fix made its guide chapter read above grade 4
+
+1rkp45f | ? (p) | src/content/guide.ts
+  original: In round {#1}, each out whorl loses 5% of its max HP. In round {#2}, it loses 10%. It goes up by 5% each round.
+  why: the fix made its guide chapter read above grade 4
+
+11j8z5x | ? (s) | src/content/guide.ts
+  original: Items has horns and things to use, like a Salt Line.
+  why: The after line still renames the Items pocket as the Inventory.
+
+1c3olg8 | ? (p) | src/content/guide.ts
+  original: A Starborn whorl is just as strong as others of its species. Only its look is different.
+  why: the fix made its guide chapter read above grade 4
+
+1ynct5y | ? (p) | src/content/guide.ts
+  original: If your whole team is down, you drop 20% of your cowries. If you have 500, you drop 100.
+  why: This is a page of the guide for young readers. Use short sentences and simple, everyday words.
+
+0tc07b2 | ? (shut) | src/content/ring1.ts
+  original: Gate's shut. Shut by the Apex, nine spans of oak. No seal, no gate, no matter how far you came.
+  why: "The nine-oak gate" changes nine spans of oak into nine oaks.
+
+0lk2u3h | Old Amber | src/content/ch6.ts
+  original: Cinch had come down to the Rim, once. Cinch had gone back up quieter.
+  why: The original says Cinch came down to the Rim and went back up quieter. The rewrite names Ouro and reverses the direction. Keep the name Cinch.
+
+0nomez7 | look | src/content/areas1.ts
+  original: The meadow shed here once. The new meadow grew over its cast.
+  why: The after line still makes the shed a building that stood in the meadow instead of saying the meadow shed.
+
+05ao6xx | choice | src/content/act2/ch1.ts
+  original: Tack is.
+  why: The fix says Tack secures it, and the answer is that Tack is turning the post.
+
+1rybewm | hint | src/content/act2/ch4.ts
+  original: (One to four notches for how far the sea went out. Find the pattern and cut the six blanks.)
+  why: The after line says to cut out the six blanks, which reads as removing them instead of cutting notches into them.
+
+1j2stee | Gran | src/content/act2/ch6.ts
+  original: Tell my little turnip
+  why: The fix still ends the unfinished lead-in with a period, which makes it a complete line.
+
+19ltuu9 | choice | src/content/act2/kit.ts
+  original: Call {sitting.name}
+  why: The choice says Keep, which still reads as leaving the whorl in the shell instead of calling it back to the team.
+
+0vse1qq | choice | src/content/act2/kit.ts
+  original: Leave it
+  why: The choice says Discard it, which still means throwing the whorl away instead of leaving it in the shell.
+
+0w2dnfp | choice | src/content/act2/kit.ts
+  original: Leave it
+  why: The choice says Keep it, which does not say Ouro leaves the shell alone and can read as taking the shell.
+
+1lqq9a0 | ? (add) | src/content/credits.ts
+  original: Ouro conjoined nothing.
+  why: The original says Ouro conjoined nothing, and the rewrite says Ouro merged with nothing. Keep the game word conjoin. It is a term in this game.
+
+1tjrqni | ? (add) | src/content/credits.ts
+  original: The Volute sheds.
+  why: The original says the Volute sheds, and the rewrite says it releases its hold. Keep the game word shed. It is a term in this game.
+
+071vgku | DRUSE | src/content/gems.ts
+  original: {runs} runs! Inside you there's a setter. Bezel will be cross.
+  why: The after line still starts the sentence after the exclamation mark in lowercase.
+
+12zwdqd | hint | src/content/geode.ts
+  original: (The socket rings flat. It wants the stones it shows, each on its own mark.)
+  why: The after line still says the socket sits flush instead of ringing flat, so the sound clue is lost.
+
+02oxqx1 | choice | src/content/geode.ts
+  original: Catch it
+  why: The choice still drops the game term catch and now says Pick it up.
+
+0qo8t2h | choice | src/content/ring.ts
+  original: One
+  why: The rewrite adds an Option: prefix to the choice.
+
+06j8dld | choice prompt | src/content/ring.ts
+  original: {#1}: {#2} cowries each.
+  why: The rewrite adds a query: prefix to the question.
+
+0htq9yr | notice | src/content/ring.ts
+  original: {k} sold for {#2} cowries.
+  why: The rewrite adds an update: prefix to the notice.
+
+173e3wo | The crab | src/content/ring1.ts
+  original: crab {s.x},{s.y} Ouro by {#3},{#4}
+  why: The rewrite adds a crab: prefix that repeats the first word of the debug line.
+
+1h68bwg | hint | src/content/minigames.ts
+  original: (A card takes a touching rival card when its touching number is higher. Type advantage adds 1.)
+  why: The after line still compares only the card's number and drops that the numbers on the touching sides are compared.
+
+1t2s5qf | choice | src/content/minigames.ts
+  original: Play
+  why: The rewrite adds a Chosen: prefix to the Play choice.
+
+1gt3e21 | choice | src/content/postgame.ts
+  original: Floor {#1}
+  why: The rewrite adds a Chosen: prefix to the floor choice.
+
+0zk6zvn | ? | src/content/townlife.ts
+  original: We're talking about the fracture. Again.
+  why: The original talks about the fracture, and the rewrite calls it the crack. Keep the game word fracture. It is a term in this game.
+
+08p77i7 | battle | src/battle/engine.ts
+  original: The mantle wears through.
+  why: The original says the mantle wears through and breaks. The rewrite says it wears thin.
+
+0uqik8u | battle | src/battle/engine.ts
+  original: {#1}'s {#2} is locked.
+  why: The original says the whorl's move is locked. The rewrite says the whorl secures something.
+
+1jvtzbu | battle | src/battle/engine.ts
+  original: A mantle slides over {#1}'s side.
+  why: The original says the mantle covers the whorl's side, its team. The rewrite says its flank.
+
+0m657sc | battle | src/battle/engine.ts
+  original: {#1}'s bone sets.
+  why: The original says the bone sets. The rewrite says the bones break.
+
+0w35vsi | menu | src/net/wire.ts
+  original: is a fit with more than two crests.
+  why: The original says a fit. The rewrite changes the game term to pattern.
+
+15voyww | menu | src/game/battleView.ts
+  original: {#1} side can run up to {cr} tide into debt to pay for a crest.
+  why: The rewrite adds 's after {#1}, which already holds a possessive, and the line comes out garbled. Keep the game word tide. It is a term in this game.
+
+0b1ampy | battle | src/data/kits1.ts
+  original: {#1} catches it and throws some back.
+  why: The original says the whorl throws some of the hit back. The rewrite says it hurls it back, all of it. Keep the game word catch. It is a term in this game.
+
+1avyi1y | battle | src/data/kits3.ts
+  original: The short end.
+  why: The after line adds a stray "Fight:" label and changes the short end of the wishbone into a weak spot.
+
+1qfz3iw | battle | src/data/kits4.ts
+  original: {#1} croaks.
+  why: The original says the frog croaks. The rewrite says it gasps for air.

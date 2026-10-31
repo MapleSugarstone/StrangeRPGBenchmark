@@ -660,7 +660,7 @@ export class Field implements Mode {
 
   async offerRematch(n: NpcState): Promise<void> {
     const rm = n.def.rematch!;
-    const c = await choose(['Fight again at 25', 'Talk'], true, `${rm.name} will fight again. Both teams at level 25.`);
+    const c = await choose(['Fight again at 25', 'Talk'], true, `${rm.name} fights again. Both teams reset to level 25.`);
     if (c === 1) { const s = n.def.talk && SCRIPTS[n.def.talk]; if (s) await s(); return; }
     if (c !== 0) return;
     const r = await battle({ enemy: rm.team(), name: rm.name, ai: 'keeper', wild: false, bg: this.bg(), sync: true, music: 'keeper', noXp: true });
@@ -668,7 +668,7 @@ export class Field implements Mode {
     if (r.result === 'win') {
       G.rind += 500;
       G.flags['rematchWin_' + rm.scale] = (G.flags['rematchWin_' + rm.scale] || 0) + 1;
-      await say(rm.name, 'Again, then. Some other day.');
+      await say(rm.name, 'Try again another time.');
       await notice(`${HERO} gets 500 cowries.`);
     }
   }
@@ -710,7 +710,7 @@ export class Field implements Mode {
       if (tr.nacre) {
         sfx('level');
         G.tan += tr.nacre;
-        await notice(`${tr.nacre} nacre. Any grotto will layer it on.`);
+        await notice(`${tr.nacre} nacre gained. Any grotto can layer it on.`);
       }
       save();
     }
@@ -753,15 +753,15 @@ export class Field implements Mode {
     }
     if (scaleNow.strand && !G.flags.strandTold) {
       G.flags.strandTold = 1;
-      await hint('(Out here your whorls fight at their Strand level. It starts at 3.)');
-      await hint('(It rises only on the Strand. Moves, habits, notions, and nacre all come with them.)');
+      await hint('(Out here, your whorls fight at their Strand level. It begins at 3.)');
+      await hint('(It rises only on the Strand. Moves, habits, notions, and nacre all travel with them.)');
     }
     const r = await battle({ enemy: [w.mon], name: 'Wild', ai: 'wild', wild: true, canRun: true, bg: this.bg(), area: this.map.zone?.area, music: scaleNow.strand ? 'wildStrand' : 'wild' });
     this.playMapMusic();
     for (const m of r.pegged) {
       m.notion = null;
       const where = addMon(m);
-      await notice(where === 'party' ? `${m.name} joins your team.` : `${m.name} goes to the Midden.`);
+      await notice(where === 'party' ? `${m.name} has joined your squad.` : `${m.name} heads to the Midden.`);
       await offerName(m);
     }
     if (r.result === 'lose') await this.lose();
@@ -773,7 +773,7 @@ export class Field implements Mode {
   async lose(): Promise<void> {
     const lost = Math.floor(G.rind * 0.2);
     G.rind -= lost;
-    await notice(`${HERO} drops ${lost} cowries and walks back.`);
+    await notice(`${HERO} leaves behind ${lost} cowries and retreats.`);
     const t = G.lastTannery;
     const [x, y] = safeSpot(t.map, t.x, t.y);
     await this.changeMap(t.map, x, y, 0, false);
@@ -1329,7 +1329,7 @@ export function crustKey(map: string, x: number, y: number): string { return `cr
 export const field = new Field();
 export async function giveMon(m: Mon): Promise<void> {
   const where = addMon(m);
-  await notice(where === 'party' ? `${m.name} joins your team.` : `${m.name} goes to the Midden.`);
+  await notice(where === 'party' ? `${m.name} has joined your squad.` : `${m.name} enters the Midden.`);
   await offerName(m);
 }
 

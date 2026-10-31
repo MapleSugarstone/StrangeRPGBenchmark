@@ -1,0 +1,372 @@
+# WHORL game text, chunk 12 of 26. Files: src/content/ring1.ts, src/content/ring2.ts, src/content/ring3.ts, src/content/ring4.ts, src/content/ring5.ts, src/content/ring6.ts, src/content/ring7.ts, src/content/ring8.ts
+# Speakers: look (43), Islander (18), ? (11), Stilt-maker (10), choice (8), Rememberer (7), ? (giveKeyItem) (5), Basin-keeper (5), Woman (5), ? (shut) (4), ? (read) (4), ? (open) (4), Carver (4), Trader (4), Ford-sitter (4), Rain-seller (3), ? (lore_kettle) (2), ? (lore_door) (2), ? (lore_window) (2), ? (lore_chair) (2), ? (lore_vane) (2), ? (lore_tub) (2), ? (lore_step) (2), ? (lore_gate) (2), Boy (2), Woman with a basket (2), Porch man (2), notice (2), Tide-liner (2), Beachcomber (2), Old man (2), The Master (2), hint (2), ? (text) (2), choice prompt (2), sign or spot in The Saltings (2), Raker (2), Shouter (2), narration (2), Kelp-cutter (2), Driftwood man (2), Crane-minder (2), Rigger (2), Floe-watcher (2), Sealer (2), Blade-picker (2), Dune walker (2), Tide-runner (2), The crab (1), sign or spot in The Brook Wood (1), Porch kid (1), ? (listMenu) (1), sign or spot in The Saltings (giveKeyItem) (1), Bellower (1), ? (mast) (1), ? (bole) (1), ? (pylon) (1), ? (tusk) (1), ? (hilt) (1), ? (fall) (1), Clerk (1), Ledger (1), sign or spot in The Kelp Beds (giveKeyItem) (1), sign or spot in The Gantry Shore (giveKeyItem) (1), sign or spot in The Floes (giveKeyItem) (1), Stone-sorter (1), sign or spot in The Shingle (giveKeyItem) (1), Hilt smith (1), The lean (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/ring1.ts
+
+== scene: map cocklecove
+[0guiyza] look | On the sandbar in the inlet, a nautilus horn rolled up in weed lay, alongside beach glass.
+[01z7rsw] look | On the back shelf of the sea cave, above the waterline, lay nacre and a tide jar.
+[0wijqo2] look | At the end of the jetty, the Rim stood pale and distant across the water.
+[1sby00l] look | The jetty was built for a boat. That boat was an island. (It left.)
+[0bhznon] look | The Islander's hut contained driftwood, rope, and a single good window someone had given her.
+
+== scene: HINTS
+[1dnxfm3] ? (lore_kettle) | Kettle went over right here the last night. A crab moved into it.
+[1yj2d4k] ? (lore_kettle) | The crab took it to the rock shelf. I'd say a whelk in the shelf pool would suit it better.
+[1s1hy6k] ? (lore_door) | The door fell in the bay the year before the sea went. It's the deepest part of the bay, so.
+[075zm9d] ? (lore_door) | The shipman up at the Wrecks has a chart of the deep bits. Ask him nicely.
+[035gcwp] ? (lore_window) | The window is at the salt pans, past Mast. They keep the pans full.
+[00p7sl4] ? (lore_window) | With the pans full, I couldn't wade it. But you've got legs for it now, I see.
+[1dofy1i] ? (lore_chair) | The chair is in the kelp past Spire. Big ones sleep on that beach.
+[0f25m49] ? (lore_chair) | Large ones will sleep on any surface. I'd wager they're resting in my chair. Wake one.
+[0pj6k0j] ? (lore_vane) | The vane is on the crane shore past Bole. An old crane fished it out of the water.
+[13b1ifu] ? (lore_vane) | The crane never put it down. Someone wearing a gear sort might turn it.
+[1jd9ix7] ? (lore_tub) | The tub froze up north in the cold year. On a floe.
+[0gpeysc] ? (lore_tub) | The ice floes drift wherever they please. If you step onto one, you're at its mercy.
+[11vmnm1] ? (lore_step) | The Step is a stone. Heavy. It's under the long stones south of Tusk.
+[18ouwie] ? (lore_step) | You have to move the long stones first. That requires a harness.
+[1rhm4w9] ? (lore_gate) | The gate is at Fall. Everything rolls toward the star down there.
+[1nmxoxl] ? (lore_gate) | Mine did too, apparently. It rolled off and just kept going.
+
+== scene: islander
+[0uafwuj] Islander | Those, over there. Side by side. A bit like the old days, in a way.
+[0l17e1i] Islander | That one, over there. Resting on the sand. Thank you.
+[0w25zfr] Islander | The house was right here. Sitting on the back of an island for fifty years.
+[0gqapae] Islander | The island walked away with it one evening. I'd gone up for flour.
+[090iepm] Islander | Things fell off, one by one, all around the Rim. I watched. But I couldn't reach any of them.
+[11ncz5m] Islander | The house is standing straight now. So we wait for dusk.
+[1kqtgvm] Islander | The floor is laid. The stakes mark where things used to stand. I can't lift them myself anymore.
+[0iavv4n] Islander | The door faced the water. A step sat in front of the door.
+[0ot9kyk] Islander | The gate was at the end of the path, toward the water.
+[0v4ciiy] Islander | There's a window in the wall to the left of the door, if you're standing in the doorway looking out.
+[1kgcdbx] Islander | The chair is under the window.
+[0ib5f4o] Islander | The kettle is on the stove to your right, when you're sitting in the chair looking out.
+[18f2cyz] Islander | The vane is on the ridge, above the door. The tub is out back. That's everything.
+
+== scene: stakeTalk
+[0fkt9ik] choice | Take {#1}
+[16pb92z] choice | Leave it alone
+[1ftgfhx] Islander | Something's wrong with that. It didn't stand like that before. Try again.
+
+== scene: houseStands
+[0llm6ff] Islander | There. That's the one. Close enough to my house.
+
+== scene: holm
+[1hfuqcc] Islander | Holm. That's what I called it. It never really answered to that name. Still doesn't.
+
+== scene: c
+[1iuxi7a] choice | Catch it
+[16fbne0] choice | Leave it alone
+
+== scene: islanderAfter
+[1bakvqc] Islander | The house sits on sand now. It's not going anywhere. Odd, that. But nice.
+[006s5w1] Islander | Holm's back. We'll see where it ends up tomorrow. Likely right here.
+
+== scene: kettlecrab
+[0pwcymo] ? (giveKeyItem) | Ouro gets the kettle.
+
+== scene: ring1
+[173e3wo] The crab | crab {s.x},{s.y} Ouro by {#3},{#4}
+
+== scene: map brookwood
+[0hvvlxi] sign or spot in The Brook Wood | A board nailed to a tree. Written in Tack's hand: 1 then 2. Simple.
+[01ih0ds] Boy | Tack says he crossed the stones when he was six. I've never crossed them at all.
+[1wg72ep] Boy | Tack counts it, though.
+[1md2vun] look | Tack's old hideout. On the wall, a tally mark: one. Beneath it, in small letters: "me".
+[0e9fgnz] look | Deep in Tack's den, under his first tally mark, a cork tied to a string.
+[1izisib] look | Under an east-bank root, a pinch of smelling salts wrapped in paper.
+[0abhlky] look | A gate set into a wall of fitted stones. Beyond it, the trees age and the terrain begins to rise.
+
+== scene: gateS
+[0tc07b2] ? (shut) | Gate's shut. Shut by the Apex, nine spans of oak. No seal, no gate, no matter how far you came.
+[1ysta9g] ? (read) | A black spiral. The Apex seal, as certain as a span is a span. Stand back three.
+[0ngchl4] ? (open) | This side is open. The Gate Ring lies beyond, requiring a long, span-by-span detour.
+
+== scene: map tackhouse
+[1hfx893] look | A wall covered in tally marks, groups of four with a slash, counting down to Shedding Day.
+[00nituu] look | The final mark is pressed so deeply that it has pierced through the plaster.
+[0dgcq5w] look | More marks. These count upward. They begin the day after Shedding Day and never cease.
+
+== scene: tackMum
+[0tpn7zd] ? | He's been standing in the square before dawn. Don't tell him I said he's nervous.
+[14uefsw] ? | He writes you down every night. {n} so far, he says. I don't ask what of.
+[0l15toc] ? | A letter arrived. Two lines. One was a number. That's my boy, that is.
+[0084i9n] ? | He counts the fractures now. Says they're ahead. I asked what of. He said everything.
+
+== scene: map shellhouse
+[0q6gnh2] Woman with a basket | Oh, the basket? Shells. I dust every one so they know somebody still lives here.
+[06eumjj] Woman with a basket | That one belongs to my mother. That one *is* my mother. She shed late, just like you.
+[01fizoq] look | Shells on a shelf, dusted, each labeled with a scrap of paper bearing the name of a person.
+
+== scene: map oldshell
+[0461jo8] look | The interior of the old man's first home. It is silent and carries the scent of him, in his youth.
+
+== scene: map ribhouse
+[06c64nn] Porch man | Mum's cast rests upright on the porch. Mum sits in the yard. Tea is served to both.
+[0lewang] Porch man | It saves us from arguing.
+[124pmkm] Porch kid | I'm not allowed on the porch. The porch is full. Of grandma. Both of her.
+
+== scene: carver
+[17bedtp] Carver | I carve names into shells. A cowrie for each letter. A good name is cheap, that's the thing.
+
+== scene: i
+[0yjbajw] ? (listMenu) | Which name are we renaming?
+
+== scene: carver
+[1dblpob] Carver | Which name? I'll carve the new one right on its back.
+[0fg8wkp] Carver | Then keep the old one. It's wearing in nicely, that's how it is.
+[09d45gf] Carver | that's {cost} cowries, you know. You've got {G.rind}. a shorter name, is that what you want?
+[14mbwme] notice | {old} is now {name}, for {cost} cowries.
+
+== scene: map islanderhut
+[1lp3ij1] look | A table fashioned from a door that isn't hers. One bowl. One cup.
+[0ymsloe] look | A window someone gave her. It faces the wrong way, toward the hill, so she has hung a shell over it.
+
+==== file: src/content/ring2.ts
+
+== scene: map highwater
+[1e8ni1y] Tide-liner | The highest tide ever reached this line. I stuck a stick in it to mark it. The stick is still here.
+[0g3eb2n] Tide-liner | The tide isn't, is it?
+[1bkorts] Beachcomber | The sea's entire cast-off litter lines this shore. I've sifted it twice. Care to look?
+[1fnk36b] Beachcomber | I'll do a third comb tomorrow, then.
+[00zliex] look | In the side cove, nestled in a tangle of old weed, sits a tide jar someone corked and left behind.
+[0reisoi] look | The slope falls away to the Dry Sea. It's a long drop down, with no way back up.
+
+== scene: map stilthouse
+[07rx073] look | A row of stilts leans against the wall, ranging from short to towering heights.
+[1o61cbp] look | The tallest pair bears a label: FOR THE BIG TIDE.
+
+== scene: stiltmaker
+[0spvm51] Stilt-maker | Shallows come up to here on you. Three hands. Deep water, no stilt's tall enough. Not even mine.
+[15yc5lb] Stilt-maker | I've been making stilts for forty years.
+[12w39zp] Stilt-maker | These are twelve hands tall, built for the day the sea returns.
+[1hfcmlt] Stilt-maker | The sea hasn't returned. The Mast is still standing.
+[1fkay22] Stilt-maker | When the Mast falls, I'll know something is shifting. Two hands or ten.
+[0ry2bap] Stilt-maker | The Mast is down. I felt it through the floorboards, a fourteen-hand tremor.
+[1p8i5sr] Stilt-maker | Something's moving, then. Take these. They're a short pair, three hands high.
+[00lwlx5] Stilt-maker | You'll be wading, not drowning.
+[0sjpgv2] ? (giveKeyItem) | Ouro takes the wading stilts.
+[0glpdqv] Stilt-maker | Use them in streams, fords, pools, and inlets. Anywhere it's shallow.
+[0onwhf6] Stilt-maker | Deep water demands a sea whorl on you.
+
+== scene: map boathouse
+[11jlr3b] Old man | My boat shed last year. Now I've got two boats and no sea.
+[0ho9xjn] Old man | That one's the boat. That one's its cast. I row both on Sundays. On the floor.
+
+== scene: ring2
+[03pfgeg] look | Inside the flooded hold, resting on a dry crate, lies a small iron bar etched with a tide line.
+
+== scene: master
+[1eyxa2a] The Master | (a log and chart of the bay, issued to visitors. it shows depths from before the dry. for reference.
+[0an2rpu] The Master | noon.)
+[0cb0cvl] ? (giveKeyItem) | Ouro takes the Master's chart.
+[1j2w9nt] hint | (Select the chart from the Bag to examine it.)
+
+== scene: draw
+[09sbssb] ? (text) | The bay, prior to the dry
+[0zua1hr] ? (text) | by the Master. fathoms
+
+== scene: digDoor
+[04i8sn8] ? (giveKeyItem) | Ouro unearths a small door, its knocker shaped like a scallop.
+
+==== file: src/content/ring3.ts
+
+== scene: saltPump
+[1v5rvi6] choice | Fill them up
+[12mhu3c] choice | Let them be
+[1upekbq] choice prompt | The pump fills every pan to its starting point and drops every board.
+
+== scene: map saltings
+[0slnxkq] sign or spot in The Saltings | THE PANS. Lift a board, and the two sides balance. Any odd measure heads seaward.
+[000rdx4] sign or spot in The Saltings | Seaward means west, then south.
+[1tnj4gb] Raker | Rake, salt, sleep, repeat. You're the first walker I've raked.
+[1uu6vvl] Raker | Back to work.
+[1uyzery] sign or spot in The Saltings (giveKeyItem) | Ouro spots a small window in the salt works. One of the panes is cracked.
+[04z5056] look | The jetty ends above the Rimwater.
+[17buhjb] look | The Rim appears as a pale line across the water, far in the distance.
+
+== scene: saltLines
+[0v2e1bb] ? | A lad named Tack came through, bringing a whorl from our pans. Brine and boy, both salty.
+[0686304] ? | And that's salt.
+[0bcheut] ? | I hear they're calling it Brack now, the one from our pans. It's a good name. It tastes right.
+[06i5op3] ? | And that's salt.
+[0mz367z] ? | Pan four's cast left last spring. Went north with a kid. That's salt.
+
+== scene: map shoutwood
+[0i55c80] Shouter | I COME OUT HERE TO SAY THINGS AT FULL SIZE. My wife says I'm a bit much at home.
+[1urpn13] Shouter | FORTY YEARS OF HUSHING IN SPIRE. SO TODAY I'M SHOUTING THE SHOPPING LIST. eggs
+[1awt06u] Bellower | THREE WHORLS AND A VOICE. THIS IS THE ONLY PLACE I'M ALLOWED BOTH. sorry
+[0hqccei] look | Beneath the footbridge, under a stream stone, beach glass lay smoothed by the water.
+
+== scene: gateW
+[069fypz] ? (shut) | Shut. Like a cupboard of unused good plates. No seal, no way.
+[1al05zq] ? (read) | Apex seal. Black as a well, a well at night, night over the Ring. Through you go.
+[1yu216s] ? (open) | Open from here. Ring's past it, around the Apex, circling like a plate.
+
+== scene: LEDGER
+[0q1w0eg] ? (mast) | the mast. a loudness beneath the whole volute. one bell, long. no one to blame.
+[0nkk61p] ? (bole) | the bole. it rained down for the first time, and that was loud. two bells.
+[1rcv7w0] ? (pylon) | the pylon. a hum stopped. the silence was loud. three bells.
+[00oqv9d] ? (tusk) | the tusk. somebody very old said yes. four bells, slowly.
+[1tvdhw9] ? (hilt) | the hilt. a sword came out of the ground. five bells, sharp.
+[0folq3k] ? (fall) | the fall. a star let go. all the bells, at once, and then none.
+
+== scene: map ledgerroom
+[1temqj3] Clerk | The Verger's ledger of decibels. Three centuries of every noise in Spire, logged by the hour.
+[0v9zpwz] Ledger | a cart, dropped. one bell. a child, laughing. half a bell.
+[028ufyq] look | Wedged beneath the final pew lies a shard of bell. It still vibrates with a low hum.
+
+== scene: ring3
+[12q1x3s] look | At the pillar's base, two fragments of the old bell lie, humming softly.
+
+==== file: src/content/ring4.ts
+
+== scene: kelpRing
+[188165j] narration | Big old whorls slept in the kelp lanes. Nothing short of a jingle would wake them.
+
+== scene: ring4
+[0xqd30f] ? | puzzle 6: the chair is reached in {depth} rings, not enough
+
+== scene: map kelpbeds
+[0xgtrgk] Kelp-cutter | The giants sleep deep in the kelp. If you jingle at them, they roll over. Always away from you.
+[1gmabtb] Kelp-cutter | Rude creatures.
+[1too1ep] Driftwood man | Every stick on this shore has traveled somewhere. I ask them where they've been. Most say the sea.
+[12h309z] Driftwood man | Fair enough. I'll go question a plank next.
+[10soa6c] sign or spot in The Kelp Beds (giveKeyItem) | Ouro receives a small wooden chair. One leg is shorter than the rest.
+[17kbg9p] look | The kelp rises from the shallows like a forest.
+[1x77vb2] look | Between the stalks, the Rim gleams, pale and distant.
+
+== scene: map rainhouse
+[1elcieh] look | Jars sit on a shelf. The rain inside falls upward, tapping the lids. Tap. Tap. Ascending.
+
+== scene: rainseller
+[0x4e5ih] Rain-seller | Rain falls down now. Like everywhere. These jars are the last of the up. Going nowhere.
+[1jfvfvj] Rain-seller | Jars of rain moving upward. Snagged by the tree trunk. One hundred and twenty for each jar.
+[1snge9g] Rain-seller | Moving up.
+
+==== file: src/content/ring5.ts
+
+== scene: gantryCrane
+[0xf380x] hint | An old crane of the Riders. Wear a GEAR whorl to turn its gears.
+
+== scene: ring5
+[0joakcl] ? | puzzle 7: solved in {d} moves. too few.
+
+== scene: map gantry
+[1bw1b6z] Crane-minder | Four cranes, all staffed since the Riders shed. Turn one, and the others spin back.
+[1yuuz7e] Crane-minder | Union regulations.
+[0jcpnhm] Rigger | I climb the cranes for the view. The view is the Rim. Just like yesterday. I keep checking.
+[00s75fi] Rigger | Still the Rim. Good.
+[1pr3g57] sign or spot in The Gantry Shore (giveKeyItem) | Ouro takes a tin fish on a stick out of the cage.
+[0uiszos] look | Beneath an overturned bucket next to the final crane, a Rider tin.
+[0nnsyyp] look | The Rimwater, flat and gray beneath the cranes. In the distance, the Rim.
+
+== scene: humtrade
+[1b8y73q] Trader | Two notions for one, mm? Any two of yours for one of mine? Sounds fair, mm?
+[0mh9pfx] Trader | Two, mm? You've got fewer than two in your bag. Come back with more?
+[0gxzfrt] Trader | Changed your mind, eh? Happens to the best of us, eh?
+[0yh3kup] Trader | {#1}, then? my pleasure, mm?
+
+== scene: gateN
+[08ulylw] ? (shut) | Shut? Shut. Seal? No seal in your hands?
+[1w9rin8] ? (read) | Apex seal? Apex seal. Steady? Are your hands steady? Through, then.
+[0nk06ct] ? (open) | Open? Open. The Ring's past it. Mind your hands going round?
+
+==== file: src/content/ring6.ts
+
+== scene: map floes
+[00d9e3q] Floe-watcher | Step on a floe and it moves in the direction you stepped until it hits something. Then it stops. Then it becomes solid ground.
+[1igl7du] Floe-watcher | Swim it? Through that slush? Nothing swims through that slush. Not even the ones that swim.
+[0e29x46] Sealer | I count seals. These are casts. They count, I suppose. Mostly, they count me.
+[1ae8x8m] Sealer | Seventeen, then. Plus you.
+[0c4t0vs] sign or spot in The Floes (giveKeyItem) | Ouro chips a washtub from the ice. The wash inside is fine.
+[048327j] look | Beneath a snow-covered boat lies a gray lump that smells of a very big afternoon.
+[1ylhmqh] look | The ice creaks beneath your feet. Beyond it lies the Rimwater, and beyond that, the Rim.
+
+== scene: rememberer
+[0kud997] Rememberer | You found the spoons. Then I remembered I never liked them. Then I laughed.
+[0ia4h85] Rememberer | My grandmother's grandmother hid the good spoons from the Riders. She passed that story down to me.
+[1kfb8nt] Rememberer | Go north from the last house. Keep going until the Tusk's shadow falls to your left.
+[03rgmwr] Rememberer | Follow the drift with the stick in it. Then pass the stone capped with two caps of snow.
+[1y68tej] Rememberer | Continue to the second dead pine. Not the first. She was very clear. The second.
+[0az6trv] Rememberer | The drifts all look the same out there. Make a wrong turn and you'll end up back at the houses.
+[1i848l5] Rememberer | Then ask me again.
+
+==== file: src/content/ring7.ts
+
+== scene: map shingle
+[0tpf0ca] Stone-sorter | Three stones in the cut and a cave behind. You can't shove a stone. You leave, and it trails you.
+[0urrc35] Blade-picker | Every stone here is shaped like a blade. None of them are sharp. I check them all. Every day.
+[0xkk2vl] Blade-picker | Still dull. Just like you.
+[17eyh2k] sign or spot in The Shingle (giveKeyItem) | Ouro drags out a flat stone worn into a dip. It serves as the front step.
+[0iqa39n] look | Washed up between two blade-shaped stones, a gray lump that smells of the sea.
+[0ir3c6b] look | The Rimwater is gray. The Rim is far away and gray. Between them lie gray stones shaped like blades.
+
+== scene: map smithy
+[1mzakbu] look | An anvil worn into a dip at the center. Every blade in Hilt was beaten flat here, except for one.
+
+== scene: hiltsmith
+[110r0qc] Hilt smith | Finishing notions. A blade shard keeps a low one low. Clang.
+
+== scene: gateE
+[1bk2dy6] ? (shut) | Shut. The gate requires a seal. You haven't paid one. Return when you're worth it.
+[1pz2862] ? (read) | Apex seal. Paid in full, meaning you still owe it. Go through.
+[1hs8x01] ? (open) | Open from this side now. The Ring is beyond it. Remember, you owe it nothing as you pass.
+
+== scene: ring7
+[09gd501] look | At the lake's edge, inside an empty shell, silt the color of the moon.
+[1pav121] look | A small patch of moon-colored silt rests in a crease of the dried lakebed.
+
+==== file: src/content/ring8.ts
+
+== scene: ring8
+[18gs645] ? (giveKeyItem) | Ouro catches the gate, leaning on the post where it has stopped rolling.
+[075gt4v] look | In the corner beyond the holes, a chunk of star glass sits still.
+[1aqd8ik] notice | Ouro discovers a ring of keys resting against the star, radiating warmth.
+
+== scene: leanman
+[0g12kum] Basin-keeper | First: you crossed. Second: the stones stay put now. Third: nobody does that.
+[1av8x7k] Basin-keeper | First: round stones keep rolling until they strike an obstacle. Second: they never move uphill.
+[0myrooz] Basin-keeper | Third: a hole will swallow one whole.
+[0rfowxt] Basin-keeper | First: the gate's past the holes. Second: haul stones stop a roll.
+[1gokq3p] Basin-keeper | Third: walk out and it all rolls back.
+
+== scene: ring8
+[12wg7dh] The lean | Ouro by {#1},{#2} stones {#3} haul {#4}
+[0zqtf3a] look | By the south way, a bead of star glass is fused to a loose lump of it.
+
+== scene: map fallhouse
+[170ijf9] look | A row of key hooks stands empty. Not a single key hangs on them.
+
+== scene: keywoman
+[0y2o0uo] Woman | Will they roll away again? They will. Will I send you? I might.
+[1yb3jks] Woman | Are those my keys? They are. They're warm, too. Do I mind warm keys? Not today.
+[1bibcwi] Woman | Are they still at the star? They are. Round the bottom, on the warm side.
+[0it5cfg] Woman | Where are my keys? At the star. Where else could they be?
+[0ekmisu] Woman | Should I go fetch them? Not on these knees. Not back up that slope.
+
+== scene: map longway
+[0ci78k2] Dune walker | The sand drifts west, so I follow. When the sand halts, I halt. We're in sync.
+[1grb7eu] Dune walker | The sand shifts, so I shift.
+[1d65euj] Tide-runner | Everything washes ashore here! Even you! Hello!
+[1b6tayf] Tide-runner | You can drift back out now! Goodbye!
+
+== scene: c
+[1wdqrcf] choice | Raise the bar
+[1fswhvk] choice | Let it be
+[1udrs0n] choice prompt | A field gate. The bar is on this side.
+
+== scene: map longway
+[0lguuwm] narration | Far out, a pale mound in the water, heading west.
+[1r13ldy] look | On the tideline, two pieces of sea glass worn smooth.
+
+== scene: fordsitter
+[1v4mpln] Ford-sitter | The gate's open at the west end. Turnstone is just there. Someone ought to check on it.
+[17oq1ph] Ford-sitter | The bridge went out in the spring flood. Someone ought to rebuild it. Someone really ought to.
+[0fcg6xj] Ford-sitter | Big stones line the banks. Tip one into the water and it becomes a step. Someone ought to do that.
+[1qzljzu] Ford-sitter | Mess it up and step off, the brook will roll them back. Someone ought to stop that.
+
+== scene: ring8
+[1h0vdz1] look | A field gate barred from the outside.

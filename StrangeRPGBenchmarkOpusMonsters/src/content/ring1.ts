@@ -88,10 +88,10 @@ defMap({
   ],
   spots: [
     ...STAKE_LIST.map(([x, y], i) => ({ x, y, when: allBack, script: () => stakeTalk(i) })),
-    stash('cc_bar', 29, 15, 'On the sand bar in the inlet, a nautilus horn rolled up in weed, and beach glass.', { pegs: ['iron', 1], items: [['beachglass', 2]] }),
-    stash('cc_cave', 37, 7, 'On the shelf at the back of the sea cave, out of the water: nacre, and a tide jar.', { tan: 4, notions: [['tidejar', 1]] }),
-    look(16, 24, 'The end of the jetty. The Lip stands across the water, pale, a long way off.', 'The jetty was built for a boat. The boat was an island. (it left)'),
-    look(12, 7, 'The Islander\'s hut. Driftwood, rope, and one good window someone gave her.'),
+    stash('cc_bar', 29, 15, 'On the sandbar in the inlet, a nautilus horn rolled up in weed lay, alongside beach glass.', { pegs: ['iron', 1], items: [['beachglass', 2]] }),
+    stash('cc_cave', 37, 7, 'On the back shelf of the sea cave, above the waterline, lay nacre and a tide jar.', { tan: 4, notions: [['tidejar', 1]] }),
+    look(16, 24, 'At the end of the jetty, the Rim stood pale and distant across the water.', 'The jetty was built for a boat. That boat was an island. (It left.)'),
+    look(12, 7, 'The Islander\'s hut contained driftwood, rope, and a single good window someone had given her.'),
   ],
   enter: 'coveEnter',
 });
@@ -104,14 +104,14 @@ const LORE_NAME: Record<string, string> = {
 
 /** The Islander begins each line on the thing she means, as if pointing at it first. */
 const HINTS: Record<string, string[]> = {
-  lore_kettle: ['Kettle went over right here, the last night. A crab moved into it.', 'Crab took it up on the rock shelf. Whelk in the shelf pool would suit it better, I\'d say.'],
-  lore_door: ['Door fell in the bay the year before the sea went. Deepest bit of the bay, so.', 'Ship man up the Wrecks had a chart of the deep bits. Ask him nice.'],
-  lore_window: ['Window\'s at the salt pans, past Mast. They keep the pans full.', 'Pans full, so I couldn\'t wade it. You\'ve got legs for it now, I see.'],
-  lore_chair: ['Chair\'s in the kelp past Spire. Big ones sleep on that beach.', 'Big ones sleep on anything. Sleeping on my chair, I\'d bet. Wake one.'],
-  lore_vane: ['Vane\'s on the crane shore past Bole. An old crane picked it out of the water.', 'Crane never put it down. Somebody wearing a gear sort might turn it.'],
-  lore_tub: ['Tub froze in up north, the cold year. On a floe.', 'Floes go where they want. Step on one and you go where it wants too.'],
-  lore_step: ['Step\'s a stone. Heavy. It\'s under the long stones south of Tusk.', 'Long stones need moving first. Takes a harness, that.'],
-  lore_gate: ['Gate\'s at Fall. Everything rolls to the star down there.', 'My gate too, apparently. Rolled off and kept rolling.'],
+  lore_kettle: ['Kettle went over right here the last night. A crab moved into it.', 'The crab took it to the rock shelf. I\'d say a whelk in the shelf pool would suit it better.'],
+  lore_door: ['The door fell in the bay the year before the sea went. It\'s the deepest part of the bay, so.', 'The shipman up at the Wrecks has a chart of the deep bits. Ask him nicely.'],
+  lore_window: ['The window is at the salt pans, past Mast. They keep the pans full.', 'With the pans full, I couldn\'t wade it. But you\'ve got legs for it now, I see.'],
+  lore_chair: ['The chair is in the kelp past Spire. Big ones sleep on that beach.', 'Large ones will sleep on any surface. I\'d wager they\'re resting in my chair. Wake one.'],
+  lore_vane: ['The vane is on the crane shore past Bole. An old crane fished it out of the water.', 'The crane never put it down. Someone wearing a gear sort might turn it.'],
+  lore_tub: ['The tub froze up north in the cold year. On a floe.', 'The ice floes drift wherever they please. If you step onto one, you\'re at its mercy.'],
+  lore_step: ['The Step is a stone. Heavy. It\'s under the long stones south of Tusk.', 'You have to move the long stones first. That requires a harness.'],
+  lore_gate: ['The gate is at Fall. Everything rolls toward the star down there.', 'Mine did too, apparently. It rolled off and just kept going.'],
 };
 
 /** What Ouro needs before each thing can be reached, in the order the Islander names them. */
@@ -135,23 +135,25 @@ defScript('islander', async () => {
     sfx('level');
     await wait(20);
   }
-  if (carried.length) await say('Islander', carried.length > 1 ? 'Those, there. Next to each other. Like old times, sort of.' : 'That, there. On the sand. Thanks, you.');
+  if (carried.length) await say('Islander', carried.length > 1 ? 'Those, over there. Side by side. A bit like the old days, in a way.' : 'That one, over there. Resting on the sand. Thank you.');
   if (!flag('islanderMet')) {
     setFlag('islanderMet');
-    await say('Islander', 'House was here. Right here, on the back of an island, for fifty years.');
-    await say('Islander', 'Island walked off with it one evening. I\'d gone up for flour.');
-    await say('Islander', 'Things fell off it, one by one, all round the Lip. I watched. Couldn\'t reach any.');
+    await say('Islander', 'The house was right here. Sitting on the back of an island for fifty years.');
+    await say('Islander', 'The island walked away with it one evening. I\'d gone up for flour.');
+    await say('Islander', 'Things fell off, one by one, all around the Rim. I watched. But I couldn\'t reach any of them.');
   }
   if (allBack()) {
-    if (houseRight()) { await say('Islander', 'House stands right, so. Now we wait for dusk.'); return; }
+    if (houseRight()) { await say('Islander', 'The house is standing straight now. So we wait for dusk.'); return; }
     if (!flag('floorTold')) {
       setFlag('floorTold');
-      await say('Islander', 'Floor\'s laid. Stakes where things stood. Can\'t lift them myself any more.');
+      await say('Islander', 'The floor is laid. The stakes mark where things used to stand. I can\'t lift them myself anymore.');
     }
-    await say('Islander', 'Door faced the water. Step in front of the door. Gate at the end of the path, toward the water.');
-    await say('Islander', 'Window in the wall left of the door, when you stand in the door looking out.');
-    await say('Islander', 'Chair under the window. Kettle on the stove at your right hand, sat in the chair looking out.');
-    await say('Islander', 'Vane on the ridge, over the door. Tub out back. That\'s the lot.');
+    await say('Islander', 'The door faced the water. A step sat in front of the door.');
+    await say('Islander', 'The gate was at the end of the path, toward the water.');
+    await say('Islander', 'There\'s a window in the wall to the left of the door, if you\'re standing in the doorway looking out.');
+    await say('Islander', 'The chair is under the window.');
+    await say('Islander', 'The kettle is on the stove to your right, when you\'re sitting in the chair looking out.');
+    await say('Islander', 'The vane is on the ridge, above the door. The tub is out back. That\'s everything.');
     return;
   }
   const next = LORE.find(id => !isBack(id) && !hasKey(id) && REACH[id]()) || LORE.find(id => !isBack(id) && !hasKey(id));
@@ -163,7 +165,7 @@ async function stakeTalk(i: number): Promise<void> {
   const here = onStake(i);
   if (here) {
     const id = LORE[here - 1];
-    if (await choose([`Pick up ${LORE_NAME[id]}`, 'Leave it'], true) !== 0) return;
+    if (await choose([`Take ${LORE_NAME[id]}`, 'Leave it alone'], true) !== 0) return;
     setFlag('stake' + i, 0);
     sfx('back');
     return;
@@ -176,11 +178,11 @@ async function stakeTalk(i: number): Promise<void> {
   sfx('ok');
   save();
   if (STAKE_LIST.every((_, s) => onStake(s)) && houseRight()) await houseStands();
-  else if (STAKE_LIST.every((_, s) => onStake(s))) await say('Islander', 'Something\'s off, that. Not how it stood. Try again, you.');
+  else if (STAKE_LIST.every((_, s) => onStake(s))) await say('Islander', 'Something\'s wrong with that. It didn\'t stand like that before. Try again.');
 }
 
 async function houseStands(): Promise<void> {
-  await say('Islander', 'There. That\'s it. That\'s my house, near enough.');
+  await say('Islander', 'There. That\'s the one. Close enough to my house.');
   // Dusk comes, and Holm walks in from the bottom of the map, up out of the water, to lie beside the house.
   evening(true);
   await wait(40);
@@ -198,8 +200,8 @@ async function houseStands(): Promise<void> {
 }
 
 defScript('holm', async () => {
-  if (!flag('holmChoice')) await say('Islander', 'Holm. That\'s what I called it. Never answered to it. Doesn\'t now.');
-  const c = await choose(['Sound it', 'Leave it']);
+  if (!flag('holmChoice')) await say('Islander', 'Holm. That\'s what I called it. It never really answered to that name. Still doesn\'t.');
+  const c = await choose(['Catch it', 'Leave it alone']);
   if (c === 0) {
     const r = await fightWild(mon('holm', nearPlayer(-1)), { bossHp: 4.4, ai: 'keeper', area: 'shallows', music: 'holm' });
     if (r.pegged.length) {
@@ -221,8 +223,8 @@ defScript('holm', async () => {
 });
 
 defScript('islanderAfter', async () => {
-  if (flag('holmSounded')) await say('Islander', 'House on sand now. Doesn\'t go anywhere. Strange, that. Nice.');
-  else await say('Islander', 'Holm\'s back, so. We\'ll see where it walks tomorrow. Probably here.');
+  if (flag('holmSounded')) await say('Islander', 'The house sits on sand now. It\'s not going anywhere. Odd, that. But nice.');
+  else await say('Islander', 'Holm\'s back. We\'ll see where it ends up tomorrow. Likely right here.');
 });
 
 const onShelfFloor = (rows: string[], x: number, y: number) => x >= SHELF.x && x < SHELF.x + SHELF.w && y >= SHELF.y && y < SHELF.y + SHELF.h && rows[y][x] === '.';
@@ -459,17 +461,17 @@ defMap({
   ],
   npcs: [
     { id: 'gatekeeper_s', x: 15, y: 1, sprite: 'keeper', name: 'Gatekeeper', dir: 3, talk: 'gateS' },
-    { id: 'tackboard', x: 25, y: 8, sprite: 'sign', name: null as any, lines: ['A board nailed to a tree. In Tack\'s writing: 1 then 2. Easy.'] },
+    { id: 'tackboard', x: 25, y: 8, sprite: 'sign', name: null as any, lines: ['A board nailed to a tree. Written in Tack\'s hand: 1 then 2. Simple.'] },
     { id: 'brooksleeper', x: 36, y: 15, sprite: 'stone', mon: 'stump', name: 'Kankabu', sleeper: { kind: 'stump', lv: 9, flag: 'sl_brook' } },
     standingWild('brookhart', 5, 21, 'hart', 9),
     standingWild('brookmawkin', 38, 22, 'mawkin', 6),
-    { id: 'brookboy', x: 18, y: 15, sprite: 'boy', name: 'Boy', wander: true, lines: ['Tack says he crossed the stones when he was six. I\'ve crossed them zero times. Tack counts it.'] },
+    { id: 'brookboy', x: 18, y: 15, sprite: 'boy', name: 'Boy', wander: true, lines: ['Tack says he crossed the stones when he was six. I\'ve never crossed them at all.', 'Tack counts it, though.'] },
   ],
   spots: [
-    look(35, 6, 'Tack\'s old den. On the wall, a tally: one mark. Under it, in a small hand: "me".'),
-    stash('bw_den', 36, 6, 'In the back of Tack\'s den, under his first tally, a cork on a string.', { notion: 'floatcork' }),
-    stash('bw_east', 40, 27, 'Under a root on the east bank, a smelling salt in a twist of paper.', { notions: [['smellingsalt', 1]] }),
-    look(14, 0, 'A gate in a wall of fitted stones. Past it the trees get older and the ground starts to climb.'),
+    look(35, 6, 'Tack\'s old hideout. On the wall, a tally mark: one. Beneath it, in small letters: "me".'),
+    stash('bw_den', 36, 6, 'Deep in Tack\'s den, under his first tally mark, a cork tied to a string.', { notion: 'floatcork' }),
+    stash('bw_east', 40, 27, 'Under an east-bank root, a pinch of smelling salts wrapped in paper.', { notions: [['smellingsalt', 1]] }),
+    look(14, 0, 'A gate set into a wall of fitted stones. Beyond it, the trees age and the terrain begins to rise.'),
   ],
 });
 SPAWNS.brookwood = [13, 34];
@@ -477,8 +479,8 @@ SPAWNS.brookwood = [13, 34];
 // The south gatekeeper works for Fid, and talks in lengths the way Fid does: every answer ends on a measure.
 defScript('gateS', gatekeeper('s', 'Fid', {
   shut: 'Gate\'s shut. Shut by the Apex, nine spans of oak. No seal, no gate, no matter how far you came.',
-  read: 'Black spiral. Apex seal, sure as a span is a span. Stand back three.',
-  open: 'Open from this side now. The Gate Ring\'s past it, a long walk round, and every step a span.',
+  read: 'A black spiral. The Apex seal, as certain as a span is a span. Stand back three.',
+  open: 'This side is open. The Gate Ring lies beyond, requiring a long, span-by-span detour.',
 }));
 
 // ---------------------------------------------------------------- Turnstone's new rooms
@@ -489,25 +491,25 @@ defMap({
   warps: roomDoor('fellside', 17, 6),
   npcs: [{ id: 'tackmumin', x: 6, y: 3, sprite: 'villager', name: 'Tack\'s mum', dir: 3, lines: () => tackMum() }],
   spots: [
-    look(2, 0, 'A wall of tally marks, four and a slash, counting down to Turning Day.', 'The last mark is pressed in so hard it went through the plaster.'),
-    look(7, 0, 'More marks. These count up. They start the day after Turning Day and do not stop.'),
+    look(2, 0, 'A wall covered in tally marks, groups of four with a slash, counting down to Shedding Day.', 'The final mark is pressed so deeply that it has pierced through the plaster.'),
+    look(7, 0, 'More marks. These count upward. They begin the day after Shedding Day and never cease.'),
   ],
 });
 
 function tackMum(): string[] {
   const n = (G.flags.tackWins || 0) + Object.keys(G.beaten).length;
-  if (!flag('slipday')) return ['He\'s been in the square since before light. Don\'t tell him I said he\'s nervous.'];
+  if (!flag('slipday')) return ['He\'s been standing in the square before dawn. Don\'t tell him I said he\'s nervous.'];
   if (chapter() <= 2) return [`He writes you down every night. ${n} so far, he says. I don't ask what of.`];
-  if (chapter() <= 5) return ['Letter came. Two lines. One was a number. That\'s my boy, that is.'];
-  return ['He counts the crazes now. Says they\'re ahead. I said what of. He said everything.'];
+  if (chapter() <= 5) return ['A letter arrived. Two lines. One was a number. That\'s my boy, that is.'];
+  return ['He counts the fractures now. Says they\'re ahead. I asked what of. He said everything.'];
 }
 
 defMap({
   id: 'shellhouse', name: 'The shelf house', region: 11, indoor: true, music: 'home',
   rows: room(['p_p_p_p_', '________', '________', 'p______p', '________', '________']),
   warps: roomDoor('fellside', 15, 22),
-  npcs: [{ id: 'basketin', x: 4, y: 3, sprite: 'basket', name: 'Woman with a basket', dir: 0, lines: ['Oh, the basket? Shells. I dust every one so they know somebody still lives here.', 'That one\'s my mother\'s. That one\'s my mother. She turned late, like you.'] }],
-  spots: [look(1, 1, 'Shells on a shelf, dusted, each with a name on a scrap of paper. The names are of people.')],
+  npcs: [{ id: 'basketin', x: 4, y: 3, sprite: 'basket', name: 'Woman with a basket', dir: 0, lines: ['Oh, the basket? Shells. I dust every one so they know somebody still lives here.', 'That one belongs to my mother. That one *is* my mother. She shed late, just like you.'] }],
+  spots: [look(1, 1, 'Shells on a shelf, dusted, each labeled with a scrap of paper bearing the name of a person.')],
 });
 
 defMap({
@@ -515,7 +517,7 @@ defMap({
   rows: room(['________', '________', '______%_', '________', '________', '________']),
   warps: roomDoor('fellside', 12, 28),
   npcs: [],
-  spots: [look(3, 0, 'The inside of the old man\'s first house. It is very quiet, and smells of him, younger.')],
+  spots: [look(3, 0, 'The interior of the old man\'s first home. It is silent and carries the scent of him, in his youth.')],
 });
 CRUST_FINDS['oldshell:7,3'] = { items: [['lure', 1]], rind: 200 };
 
@@ -526,7 +528,7 @@ defMap({
   rows: room(['__cc____', '________', '________', '________', '________', '________']),
   warps: roomDoor('rib', 7, 5),
   npcs: [
-    { id: 'porchman', x: 6, y: 2, sprite: 'villager2', name: 'Porch man', dir: 3, lines: ['Mum\'s cast sits up on the porch. Mum sits in the yard. Tea goes to both. Saves arguing.'] },
+    { id: 'porchman', x: 6, y: 2, sprite: 'villager2', name: 'Porch man', dir: 3, lines: ['Mum\'s cast rests upright on the porch. Mum sits in the yard. Tea is served to both.', 'It saves us from arguing.'] },
     { id: 'porchkid', x: 2, y: 4, sprite: 'child', name: 'Porch kid', dir: 1, lines: ['I\'m not allowed on the porch. The porch is full. Of grandma. Both of her.'] },
   ],
 });
@@ -540,24 +542,24 @@ defMap({
 
 // The carver puts "on it" at the end of what he says, the way he talks about everything he cuts.
 defScript('carver', async () => {
-  await say('Carver', 'I carve names in shell. A cowrie a letter. A good name\'s cheap, on it.');
+  await say('Carver', 'I carve names into shells. A cowrie for each letter. A good name is cheap, that\'s the thing.');
   const all = [...G.party, ...G.rack];
   if (!all.length) return;
-  const i = await listMenu('Rename which?', all.map(monLine), { w: 140 });
+  const i = await listMenu('Which name are we renaming?', all.map(monLine), { w: 140 });
   if (i < 0) return;
   const m = all[i];
-  await say('Carver', `What name, on it? I'll carve it right on its back.`);
+  await say('Carver', `Which name? I'll carve the new one right on its back.`);
   const name = await run<string | null>(new NameEntry());
-  if (!name) { await say('Carver', 'Keep the old one, then. It\'s wearing in nice, on it.'); return; }
+  if (!name) { await say('Carver', 'Then keep the old one. It\'s wearing in nicely, that\'s how it is.'); return; }
   const cost = name.length;
-  if (G.rind < cost) { await say('Carver', `${cost} cowries, that. You've ${G.rind}. Shorter name, on it?`); return; }
+  if (G.rind < cost) { await say('Carver', `that's ${cost} cowries, you know. You've got ${G.rind}. a shorter name, is that what you want?`); return; }
   G.rind -= cost;
   const old = m.name;
   m.name = name;
   sfx('ok');
   save();
   await act('carver', 'nod');
-  await notice(`${old} is ${name} now, for ${cost} cowries.`);
+  await notice(`${old} is now ${name}, for ${cost} cowries.`);
 });
 
 // ---------------------------------------------------------------- the Islander's hut
@@ -568,8 +570,8 @@ defMap({
   warps: roomDoor('cocklecove', 10, 7),
   npcs: [],
   spots: [
-    look(2, 2, 'A table made from a door that is not her door. One bowl. One cup.'),
-    look(6, 0, 'A window someone gave her. It looks the wrong way, at the hill, so she has hung a shell over it.'),
+    look(2, 2, 'A table fashioned from a door that isn\'t hers. One bowl. One cup.'),
+    look(6, 0, 'A window someone gave her. It faces the wrong way, toward the hill, so she has hung a shell over it.'),
   ],
 });
 

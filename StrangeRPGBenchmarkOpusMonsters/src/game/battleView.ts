@@ -343,8 +343,8 @@ class BattleView implements Mode {
     const first = b.s[this.foe].f[b.s[this.foe].out], mine = b.s[this.side].f[b.s[this.side].out];
     // The Register marks a kind once a starborn one of it has come out.
     if (o.wild && first.mon.starborn) G.flags['sb:' + first.mon.kind] = 1;
-    const foeMsg: Ev = { e: 'msg', text: o.wild ? `A ${first.mon.starborn ? 'starborn' : 'wild'} ${who(first)} comes out of the ${o.area || 'brush'}.` : `${o.name} sends out ${who(first)}.` };
-    const myMsg: Ev = { e: 'msg', text: `${HERO} sends out ${who(mine)}.` };
+    const foeMsg: Ev = { e: 'msg', text: o.wild ? `A ${first.mon.starborn ? 'starborn' : 'wild'} ${who(first)} comes out of the ${o.area || 'brush'}.` : `${o.name} deploys ${who(first)}.` };
+    const myMsg: Ev = { e: 'msg', text: `${HERO} deploys ${who(mine)}.` };
     this.introCries.set(foeMsg, first).set(myMsg, mine);
     this.queue.push(foeMsg, myMsg);
     this.fieldShown = b.field?.id || null;
@@ -455,7 +455,7 @@ class BattleView implements Mode {
       const m = MOVES[id];
       if (!m) return;
       const ok = choices.some(a => a.k === 'move' && a.i === i);
-      opts.push({ label: m.name, kind: 'move', i, ok, why: m.nerve ? 'A crest cannot be cast in the past.' : m.rewinds ? 'It cannot be cast in the past.' : 'Nothing to cast it on.' });
+      opts.push({ label: m.name, kind: 'move', i, ok, why: m.nerve ? 'You cannot cast a crest into the past.' : m.rewinds ? 'It cannot be cast into the past.' : 'No target to cast on.' });
     });
     if (choices.some(a => a.k === 'wait')) opts.push({ label: 'Cast nothing', action: { k: 'wait' }, kind: 'wait', ok: true });
     if (this.net) opts.push({ label: 'Give up', kind: 'resign', ok: true });
@@ -498,15 +498,15 @@ class BattleView implements Mode {
         : m?.nerve && u.why === 'Not enough clear tide.' ? `Not enough clear tide (${me.nerve - pinkOf(b, this.side)} of ${tideCost(b, f, m)})` : u.why;
       opts.push({ label: m?.name || id, kind: 'move', i, ok: u.ok && !taunted, why });
     });
-    opts.push({ label: 'Guard', action: { k: 'guard' }, kind: 'guard', ok: !taunted && canGuard(f), why: taunted ? 'Taunted.' : 'Not two turns in a row.' });
+    opts.push({ label: 'Guard', action: { k: 'guard' }, kind: 'guard', ok: !taunted && canGuard(f), why: taunted ? 'Taunted.' : 'Not for two consecutive turns.' });
     const sw = canSwitch(b, f);
-    opts.push({ label: 'Switch', kind: 'switch', ok: sw, why: reserves(me).length ? 'It cannot switch out now.' : 'Nobody in reserve.' });
+    opts.push({ label: 'Switch', kind: 'switch', ok: sw, why: reserves(me).length ? 'It can\'t switch now.' : 'No reserves available.' });
     const n = f.mon.notion ? NOTIONS[f.mon.notion] : null;
     if (n?.action) opts.push({ label: n.action.name, action: { k: 'notion' }, kind: 'notion', ok: (f.k.notionUsed || 0) < (me.charm === 'pylon' && !n.spent ? 2 : 1), why: 'Used.' });
     for (const d of b.drops || []) if (DROPS[d.id]) opts.push({ label: `Take ${DROPS[d.id].name}`, action: { k: 'take', i: d.uid }, kind: 'take', ok: !taunted, why: 'Taunted.' });
     if (legal(b, this.side).some(a => a.k === 'wait')) opts.push({ label: 'Measure', action: { k: 'wait' }, kind: 'wait', ok: true });
     if (this.o.wild) {
-      opts.push({ label: 'Sound', kind: 'peg', ok: true });
+      opts.push({ label: 'Catch', kind: 'peg', ok: true });
       if (this.o.canRun !== false) opts.push({ label: 'Run', action: { k: 'run' }, kind: 'run', ok: true });
     } else if (!this.net && !this.o.scripted && !this.o.tips) opts.push({ label: 'Surrender', kind: 'resign', ok: true });
     if (this.net) opts.push({ label: 'Give up', kind: 'resign', ok: true });
@@ -522,8 +522,8 @@ class BattleView implements Mode {
       const full = b.s[1].f[0];
       if (!pegged.includes(full.mon)) {
         pegged.push(full.mon);
-        this.endLines.push(`${full.mon.name} sinks, and rises again, smaller.`);
-        this.endLines.push(`${HERO} sounds ${full.mon.name}.`);
+        this.endLines.push(`${full.mon.name} subsides, then rises again, diminished.`);
+        this.endLines.push(`${HERO} catches ${full.mon.name}.`);
       }
     }
     if (this.o.scripted === 'full' && b.over === 1) result = 'lose';
@@ -535,7 +535,7 @@ class BattleView implements Mode {
     for (const m of pegged) { owned(m.kind); if (scaleNow.strand) m.strandBorn = true; if (m.level > capHere()) { m.level = capHere(); m.xp = 0; } }
     if (!this.o.keepNotions) for (const f of b.s[0].f) {
       const n = f.mon.notion ? NOTIONS[f.mon.notion] : null;
-      if (n?.spent && f.k.notionUsed) { f.mon.notion = null; this.endLines.push(`${f.mon.name}'s ${n.name} is gone.`); }
+      if (n?.spent && f.k.notionUsed) { f.mon.notion = null; this.endLines.push(`${f.mon.name}'s ${n.name} has been lost.`); }
     }
     if (result === 'win' && !this.o.noXp) {
       let xp = 0;
@@ -549,16 +549,16 @@ class BattleView implements Mode {
         if (levelOf(m) >= cap) capped = true;
       }
       for (const m of G.rack) giveXp(m, Math.floor(xp / 2));
-      if (capped) this.endLines.push(`Level ${cap} is as far as the pearls allow.`);
+      if (capped) this.endLines.push(`Level ${cap} is the maximum the pearls permit.`);
       const bounty = sk(b, 0).bounty || 0;
-      if (bounty > 0) { G.rind += bounty; this.endLines.push(`The bounty pays ${bounty} cowries.`); }
+      if (bounty > 0) { G.rind += bounty; this.endLines.push(`The bounty awards ${bounty} cowries.`); }
       if (!this.o.wild) {
         const rind = b.s[1].f.reduce((n, f) => n + f.mon.level * 12, 0);
         G.rind += rind;
         this.endLines.push(`${HERO} gets ${rind} cowries.`);
       }
     }
-    if (result === 'lose') this.endLines.push(this.surrendered ? `${HERO} surrenders.` : 'Your whole team is down.');
+    if (result === 'lose') this.endLines.push(this.surrendered ? `${HERO} surrenders.` : 'Your entire team is defeated.');
     if (!this.endLines.length) this.endLines.push(result === 'run' ? '' : 'It is over.');
     this.endLines = this.endLines.filter(Boolean);
     this.phase = 'end';
@@ -724,7 +724,7 @@ class BattleView implements Mode {
       case 'msg': {
         this.msgText = e.text; this.timer = 34 + Math.min(40, e.text.length);
         this.log.push(e.text);
-        if (e.text.endsWith('won\'t curl into the horn.')) missJingle();
+        if (e.text.endsWith('refuses to curl into the horn.')) missJingle();
         if (this.log.length > 200) this.log.shift();
         const f = this.introCries.get(e);
         if (f) this.cry(f, 'out');
@@ -961,7 +961,7 @@ class BattleView implements Mode {
     this.backTo = this.phase === 'wait' ? 'wait' : 'menu';
     const f = this.me();
     const lines: string[] = [];
-    if (muted(f)) lines.push('Its passives are rubbed out for now.');
+    if (muted(f)) lines.push('Its passives are temporarily suppressed.');
     for (const p of passivesOf(f)) { const d = PASSIVES[p]; if (d) lines.push(`${d.name}: ${d.text}`); }
     for (const x of f.lent || []) { const d = PASSIVES[x.id]; if (d) lines.push(`Lent for ${x.turns} turn${x.turns > 1 ? 's' : ''}, ${d.name}: ${d.text}`); }
     if (f.mon.notion && NOTIONS[f.mon.notion]) lines.push(`${NOTIONS[f.mon.notion].name}: ${NOTIONS[f.mon.notion].text}`);
@@ -972,62 +972,62 @@ class BattleView implements Mode {
     }
     for (const sd of [0, 1] as const) {
       const sp = this.b.s[sd].spin;
-      if (sp) lines.push(`${sd === this.side ? 'Your' : 'Their'} side is spinning for ${sp.turns} more turn${sp.turns > 1 ? 's' : ''}: after each of its turns, its out whorl goes to the back of the line.`);
+      if (sp) lines.push(`${sd === this.side ? 'Your' : 'Their'} side spins for ${sp.turns} more turn${sp.turns > 1 ? 's' : ''}: after each of its turns, its out whorl moves to the back of the line.`);
     }
     for (const sd of [0, 1] as const) {
       const fg = this.b.s[sd].fog;
-      if (fg) lines.push(`Fog over ${sd === this.side ? 'your' : 'their'} bench for ${Math.ceil(fg.turns)} rounds: nothing from the other side reaches the reserves.`);
+      if (fg) lines.push(`Fog covers ${sd === this.side ? 'your' : 'their'} bench for ${Math.ceil(fg.turns)} rounds: nothing from the other side reaches the reserves.`);
       const hc = houseCap(this.b, sd);
-      if (hc > 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} house holds ${this.b.s[sd].pool || 0} of ${hc} HP: heals past full pour into it, and the next whorl to come out drinks it.`);
+      if (hc > 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} house holds ${this.b.s[sd].pool || 0} of ${hc} HP: healing beyond full capacity fills it, and the next whorl to emerge consumes it.`);
       const cr = creditOf(this.b, sd), owed = this.b.s[sd].nerve;
       if (cr) lines.push(`${sd === this.side ? 'Your' : 'Their'} side can run up to ${cr} tide into debt to pay for a crest.`);
-      if (owed < 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} side owes ${-owed} tide: the tide it gains pays the debt first.`);
+      if (owed < 0) lines.push(`${sd === this.side ? 'Your' : 'Their'} side owes ${-owed} tide: incoming tide first pays down this debt.`);
       const sh = this.b.s[sd].shut;
-      if (sh) lines.push(`${sd === this.side ? 'Your' : 'Their'} side is shut in for ${Math.ceil(sh.turns)} rounds: its switches go after the other side's action in a joint round.`);
+      if (sh) lines.push(`${sd === this.side ? 'Your' : 'Their'} side is locked for ${Math.ceil(sh.turns)} rounds: its switches go after the other side acts in joint rounds.`);
       const pk = this.b.s[sd].pink;
-      if (pk && pinkOf(this.b, sd) > 0) lines.push(`${pinkOf(this.b, sd)} of ${sd === this.side ? 'your' : 'their'} tide is pink for ${Math.ceil(pk.turns)} rounds: it cannot pay for a crest.`);
+      if (pk && pinkOf(this.b, sd) > 0) lines.push(`${pinkOf(this.b, sd)} of ${sd === this.side ? 'your' : 'their'} tide is pink for ${Math.ceil(pk.turns)} rounds: this tide cannot be used to pay for a crest.`);
       const pr = this.b.s[sd].price;
       if (pr) lines.push(`${sd === this.side ? 'Your' : 'Their'} crests cost ${Math.abs(pr.add)} ${pr.add > 0 ? 'more' : 'less'} tide for ${Math.ceil(pr.turns)} rounds.`);
     }
     for (const sd of [0, 1] as const) {
       const o = this.b.s[sd].f[this.b.s[sd].out];
-      if (o && o.up && !o.ko) lines.push(`${who(o)} is up off the ground for ${o.up} more turn${o.up > 1 ? 's' : ''}: dashes from the ground cannot reach it, and grounds do not touch it.`);
-      if (o && !o.ko && deaf(this.b, o)) lines.push(`${who(o)} is Deaf: its passives and stances ignore what other whorls do.`);
+      if (o && o.up && !o.ko) lines.push(`${who(o)} is airborne for ${o.up} more turn${o.up > 1 ? 's' : ''}: dashes from the ground cannot reach it, and ground-based interactions do not affect it.`);
+      if (o && !o.ko && deaf(this.b, o)) lines.push(`${who(o)} is Deaf: its passives and stances are unaffected by the actions of other whorls.`);
       const fl = o && !o.ko ? foretold(this.b, o) : [];
-      if (fl.length) lines.push(`${who(o)} sets off ${fl.map(g => g.name).join(', then ')}, in that order. Next, ${fl[0].name}: ${fl[0].text}`);
-      for (const r of watchers(this.b, sd)) if (o && !o.ko) lines.push(`${who(r)} watches over ${who(o)} from reserve: a foe that hits ${who(o)} answers to it.`);
+      if (fl.length) lines.push(`${who(o)} triggers ${fl.map(g => g.name).join(', then ')}, in that sequence. then ${fl[0].name}: ${fl[0].text}`);
+      for (const r of watchers(this.b, sd)) if (o && !o.ko) lines.push(`${who(r)} guards ${who(o)} from reserve: a foe that strikes ${who(o)} is subject to it.`);
       const dr = o && !o.ko ? drinkerOf(this.b, o) : null;
-      if (dr) lines.push(`${who(dr)} drinks every heal meant for ${who(o)}: each one goes to ${who(dr)} instead.`);
-      if (o && !o.ko && silent(this.b, o)) lines.push(`${who(o)} is Silent: no other whorl's passives, stances, or holes hear what it does.`);
-      if (o && !o.ko && o.takeIn) lines.push(`${who(o)}'s next attack or move goes into the cave and comes back out later.`);
-      for (const p of this.b.pend) if (p.kind === 'held' && p.side === sd) lines.push(`${who(this.b.s[sd].f[p.idx])}'s ${p.move ? MOVES[p.move]?.name || 'move' : 'Attack'} is in the cave and comes back out soon.`);
+      if (dr) lines.push(`${who(dr)} intercepts all heals intended for ${who(o)}: each heal is redirected to ${who(dr)} instead.`);
+      if (o && !o.ko && silent(this.b, o)) lines.push(`${who(o)} is Silent: no other whorl's passives, stances, or holes detect its actions.`);
+      if (o && !o.ko && o.takeIn) lines.push(`${who(o)}'s next attack or move is stored in the cave and returns later.`);
+      for (const p of this.b.pend) if (p.kind === 'held' && p.side === sd) lines.push(`${who(this.b.s[sd].f[p.idx])}'s ${p.move ? MOVES[p.move]?.name || 'move' : 'Attack'} is stored in the cave and will return soon.`);
       const at = o && !o.ko ? aimOf(this.b, o) : null;
-      if (o && at) lines.push(`${who(o)} keeps its bearing on ${who(at)}: its one-target moves land there, out or in reserve.`);
+      if (o && at) lines.push(`${who(o)} maintains its lock on ${who(at)}: its single-target moves hit that target, whether in play or in reserve.`);
     }
-    if (this.b.lowWater) lines.push(`Low Water for ${Math.ceil(this.b.lowWater.turns)} rounds: a star falls every round, and attacks gain no tide.`);
-    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) if (w.ko && w.glow) lines.push(`${who(w)} glows on for ${w.glow.turns} more turns: its reserve passives still work, and it heals its side's out whorl ${Math.round(w.glow.heal * 100)}% each turn.`);
-    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) { const h = latchHost(this.b, w); if (h) lines.push(`${who(w)} rides ${who(h)}, drinking ${Math.round(LATCH_DRINK * 100)}% of its max HP each turn its side takes.`); }
+    if (this.b.lowWater) lines.push(`Low Water lasts for ${Math.ceil(this.b.lowWater.turns)} rounds: a star falls every round, and attacks generate no tide.`);
+    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) if (w.ko && w.glow) lines.push(`${who(w)} remains active for ${w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out whorl for ${Math.round(w.glow.heal * 100)}% each turn.`);
+    for (const sd of [0, 1] as const) for (const w of this.b.s[sd].f) { const h = latchHost(this.b, w); if (h) lines.push(`${who(w)} rides ${who(h)}, consuming ${Math.round(LATCH_DRINK * 100)}% of its max HP each turn its side takes action.`); }
     if (boutOn(this.b)) {
       const bt = this.b.bout!;
-      lines.push(`A bout between ${who(this.b.s[0].f[bt.f0])} and ${who(this.b.s[1].f[bt.f1])}, ${bt.score[0]} to ${bt.score[1]} with ${bt.left} rounds left: neither can switch, a round goes to the one that dealt the other more, and the first to 2 gets Empower 2 and a 15% heal while the other gets Stun 1.`);
+      lines.push(`${who(this.b.s[0].f[bt.f0])} vs ${who(this.b.s[1].f[bt.f1])}. ${bt.score[0]}-${bt.score[1]}. ${bt.left} left. No switch. More damage wins. First to 2 wins Empower 2 + 15% heal. Loser gets Stun 1.`);
     }
-    if (this.b.swell) lines.push(`The swell is at ${this.b.swell.n} of 9, rising each turn. At 9 the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.`);
-    if (this.b.wind) lines.push(`Wind toward ${this.b.wind.to === this.side ? 'your' : 'their'} side for ${Math.ceil(this.b.wind.turns)} rounds: projectiles thrown with it deal 1.2x, and projectiles thrown against it 0.8x.`);
+    if (this.b.swell) lines.push(`The swell is at ${this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.`);
+    if (this.b.wind) lines.push(`Wind hits ${this.b.wind.to === this.side ? 'your' : 'their'} side for ${Math.ceil(this.b.wind.turns)} rounds: throws with it do 1.2x, against it 0.8x.`);
     const rg = rangeOf(this.b);
-    if (rg) lines.push(rg === 'near' ? 'Near: dashes deal 1.2x and projectiles 0.8x until either out whorl leaves.' : 'Far: projectiles deal 1.2x and dashes 0.8x until either out whorl leaves.');
+    if (rg) lines.push(rg === 'near' ? 'Near: dashes do 1.2x, projectiles 0.8x, until an out whorl leaves.' : 'Far: projectiles do 1.2x, dashes 0.8x, until an out whorl leaves.');
     for (const sd of [0, 1] as const) {
       const o = this.b.s[sd].f[this.b.s[sd].out], due = o && !o.ko ? dueOf(o) : 0;
-      if (due > 0) lines.push(`${who(o)} has ${due} damage over time still to come. If it comes due, all of it lands at once.`);
+      if (due > 0) lines.push(`${who(o)} has ${due} damage over time remaining. If the timer expires, all accumulated damage hits at once.`);
       if (o && !o.ko && o.swap && o.swap.turns > 0) {
         const p = this.b.s[Math.floor((o.swap.with - 1) / 8) as 0 | 1].f[(o.swap.with - 1) % 8];
-        lines.push(`${who(o)} and ${who(p)} have traded bodies for ${o.swap.turns} more of ${who(o)}'s turns: each uses the other's look, types, passives, and moves. Either leaving the field ends it.`);
+        lines.push(`${who(o)} and ${who(p)} have swapped bodies for ${o.swap.turns} more of ${who(o)}'s turns. each now uses the other's appearance, types, passives, and moves. if either leaves the field, the swap ends.`);
       }
-      if (o && !o.ko && o.wait) lines.push(`${who(o)} lies in wait: as the other side starts its next action, a guard or a switch included, it casts ${MOVES[o.wait.move]?.name || 'its strike'} first.`);
-      if (covering(this.b, sd)) lines.push(`${who(o)} stands in front of ${sd === this.side ? 'your' : 'their'} bench: it takes the other side's hits meant for the reserves.`);
-      if (o && !o.ko && o.mirage) lines.push(sd === this.side ? `A mirage over ${who(o)} shows the foe ${o.mirage.hp} more HP than it has, for ${o.mirage.turns} more of its turns.` : `${who(o)} shimmers: a mirage may show more HP than it has.`);
-      if (o && !o.ko && o.fracture) lines.push(`${who(o)} is Fractured for ${o.fracture.turns} more turn${o.fracture.turns > 1 ? 's' : ''}: no heal takes it above ${Math.round(o.maxHp * o.fracture.cap)} HP.`);
-      if (o && !o.ko && o.poise) lines.push(`${who(o)} rolls with ${o.poise} poise: a foe's Stun, Sleep, Root, Slow, and delays fail on it. Hits wear the poise down, and when it breaks the whorl is Stunned 1.`);
-      for (const r of reserves(this.b.s[sd])) if (r.stored) lines.push(`${who(r)} is in cold storage for ${r.stored.turns} more turn${r.stored.turns > 1 ? 's' : ''}: nothing from the other side reaches it, it cannot come out unless nobody else can, its cooldowns and marks wait, and it heals ${Math.round(r.stored.heal * 100)}% each turn.`);
+      if (o && !o.ko && o.wait) lines.push(`${who(o)} waits: when the other side acts, it casts ${MOVES[o.wait.move]?.name || 'its strike'} first.`);
+      if (covering(this.b, sd)) lines.push(`${who(o)} stands before ${sd === this.side ? 'your' : 'their'} bench: it intercepts hits meant for the reserves.`);
+      if (o && !o.ko && o.mirage) lines.push(sd === this.side ? `A mirage over ${who(o)} shows the foe ${o.mirage.hp} more HP than it has, for ${o.mirage.turns} more of its turns.` : `${who(o)} shimmers: a mirage may display more HP than it actually has.`);
+      if (o && !o.ko && o.fracture) lines.push(`${who(o)} is Fractured for ${o.fracture.turns} more turn${o.fracture.turns > 1 ? 's' : ''}: no healing can restore its HP above ${Math.round(o.maxHp * o.fracture.cap)}.`);
+      if (o && !o.ko && o.poise) lines.push(`${who(o)} rolls with ${o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the whorl becomes Stunned 1.`);
+      for (const r of reserves(this.b.s[sd])) if (r.stored) lines.push(`${who(r)} is in cold storage for ${r.stored.turns} more turn${r.stored.turns > 1 ? 's' : ''}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals ${Math.round(r.stored.heal * 100)}% of its max hp each turn.`);
     }
     const fl = this.b.field, fdef = fl ? FIELDS[fl.id] : null;
     if (fl && fdef) lines.push(`Field, ${fdef.name} for ${Math.ceil(fl.turns)} rounds: ${fdef.text}`);
@@ -1131,7 +1131,7 @@ class BattleView implements Mode {
     if (input.hit('back')) { sfx('back'); this.phase = 'menu'; return; }
     if (input.hit('ok') && barred(rs[this.sub])) { sfx('back'); this.banner = `${who(rs[this.sub])} is buried.`; this.bannerT = 50; return; }
     const called = calledOf(this.b.s[this.side]);
-    if (input.hit('ok') && called && rs[this.sub] !== called) { sfx('back'); this.banner = `${who(called)} comes out next.`; this.bannerT = 50; return; }
+    if (input.hit('ok') && called && rs[this.sub] !== called) { sfx('back'); this.banner = `${who(called)} is up next.`; this.bannerT = 50; return; }
     if (input.hit('ok')) { sfx('ok'); this.commit({ k: 'switch', to: rs[this.sub].idx }); }
   }
 
@@ -1164,7 +1164,7 @@ class BattleView implements Mode {
     // A buried whorl comes out only when nobody else can.
     if (input.hit('ok') && rs.length && barred(rs[this.sub]) && rs.some(r => !barred(r))) { sfx('back'); this.banner = `${who(rs[this.sub])} is buried.`; this.bannerT = 50; return; }
     const called = calledOf(this.b.s[this.side]);
-    if (input.hit('ok') && rs.length && called && rs[this.sub] !== called) { sfx('back'); this.banner = `${who(called)} comes out next.`; this.bannerT = 50; return; }
+    if (input.hit('ok') && rs.length && called && rs[this.sub] !== called) { sfx('back'); this.banner = `${who(called)} is up next.`; this.bannerT = 50; return; }
     if (input.hit('ok') && rs.length) {
       sfx('ok');
       if (this.net) { this.chooseNet(rs[this.sub].idx); return; }
@@ -1285,7 +1285,7 @@ class BattleView implements Mode {
   chooseNet(c: Choice): void {
     const n = this.net!, ok = typeof c === 'number' ? replaceChoices(this.b, this.side).includes(c)
       : this.b.need?.kind === 'visit' ? !!c && !!visitMatch(this.b, c as Action) : !!c && isLegal(this.b, this.side, c as Action);
-    if (!ok) { sfx('back'); this.banner = 'It cannot do that now.'; this.bannerT = 50; if (typeof c !== 'number') this.openMenu(); return; }
+    if (!ok) { sfx('back'); this.banner = 'It can\'t do that right now.'; this.bannerT = 50; if (typeof c !== 'number') this.openMenu(); return; }
     n.chosen = n.ls.n;
     n.sent = c;
     n.link.send({ type: 'choose', n: n.ls.n, c });
@@ -1319,14 +1319,14 @@ class BattleView implements Mode {
     const b = this.b;
     if (need.kind === 'replace' || need.kind === 'replace2') {
       const f = b.s[this.side].f[passiveReplace(b, this.side)];
-      return f ? `Time ran out, so ${who(f)} comes out.` : 'Time ran out.';
+      return f ? `Time up. ${who(f)} out.` : 'Time expired.';
     }
     if (need.kind === 'visit' && b.visit) {
       const a = passiveVisit(b), f = visitorOf(b, b.visit), m = a.k === 'move' ? moveDef(f, a.i) : null;
-      return m ? `Time ran out, so ${who(f)} casts ${m.name}.` : `Time ran out, so ${who(f)} casts nothing.`;
+      return m ? `Time expired, so ${who(f)} casts ${m.name}.` : `Time expired, so ${who(f)} casts nothing.`;
     }
     const a = passiveAction(b, this.side);
-    return `Time ran out, so ${who(this.me())} ${a.k === 'guard' ? 'guards' : a.k === 'attack' ? 'attacks' : `uses ${describeAction(b, this.side, a)}`}.`;
+    return `Time expired, so ${who(this.me())} ${a.k === 'guard' ? 'guards' : a.k === 'attack' ? 'attacks' : `uses ${describeAction(b, this.side, a)}`}.`;
   }
 
   /** The end as the room called it: who won the game, or the match after its last game, and why in one line. */
@@ -1336,9 +1336,9 @@ class BattleView implements Mode {
     const won = w === this.side, lost = w === this.foe, what = e.final ? 'the match' : 'this game';
     const why = n.foul ? `The other side sent a choice this game cannot play: ${n.foul}`
       : e.why === 'resign' ? (won ? `${name} gave up.` : 'You gave up.')
-      : e.why === 'timeouts' ? (won ? `${name} ran out of time three times in a row.` : 'Your time ran out three times in a row.')
-      : e.why === 'gone' ? (won ? `${name} left the match.` : 'The link was cut.')
-      : e.why === 'void' ? 'The match does not count.' : '';
+      : e.why === 'timeouts' ? (won ? `${name} ran out of time three times in a row.` : 'You ran out of time three times consecutively.')
+      : e.why === 'gone' ? (won ? `${name} left the match.` : 'The connection was lost.')
+      : e.why === 'void' ? 'The match is void.' : '';
     const head = won ? `You win ${what}.` : lost ? `${name} wins ${what}.` : 'No result.';
     this.endLines = [why ? `${head} ${why}` : head];
     this.outcome = { result: won ? 'win' : lost ? 'lose' : 'run', pegged: [], kos: this.b.stats.kos[this.foe], end: e };
@@ -1384,7 +1384,7 @@ class BattleView implements Mode {
     const n = this.net;
     if (!n || n.end) return '';
     const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, mine = n.link.slack?.() ?? 0;
-    if (mine > 0) return `The byssus went slack. ${mmss(mine)}`;
+    if (mine > 0) return `The byssus goes limp. ${mmss(mine)}`;
     const held = n.awayUntil ? Math.max(0, Math.ceil((n.awayUntil - Date.now()) / 1000)) : 0;
     return held > 0 ? `${this.o.name} dropped. Held ${mmss(held)}` : '';
   }
@@ -1589,7 +1589,7 @@ class BattleView implements Mode {
     const d = (this.b.drops || []).find(x => x.uid === uid), dd = d ? DROPS[d.id] : null;
     if (!d || !dd) return '';
     const left = Math.ceil(d.turns);
-    return `Spends your turn. ${dd.text} Either side may take it. Gone in ${left} round${left > 1 ? 's' : ''}.`;
+    return `Consumes your turn. ${dd.text} Either side may take it. It ends in ${left} round${left > 1 ? 's' : ''}.`;
   }
 
   /** Summons stand beside their side's out whorl, each with a one-pixel HP bar. */
@@ -2090,12 +2090,12 @@ class BattleView implements Mode {
       return;
     }
     if (this.phase === 'wait') {
-      text(this.net?.end || this.net?.need?.kind === 'over' ? 'The battle is over.' : `Waiting for ${this.o.name}.`, 6, 124, PAPER);
-      text('L/R habits. X gives up.', 6, 182, DIM);
+      text(this.net?.end || this.net?.need?.kind === 'over' ? 'The battle has ended.' : `Awaiting ${this.o.name}.`, 6, 124, PAPER);
+      text('L/R habits. X forfeits.', 6, 182, DIM);
       return;
     }
     if (this.phase === 'resign') {
-      text(this.net ? 'Give up this match?' : 'Surrender this battle?', 6, 124, SEL);
+      text(this.net ? 'Forfeit this match?' : 'Yield this fight?', 6, 124, SEL);
       (this.net ? ['Give up', 'Keep playing'] : ['Surrender', 'Keep fighting']).forEach((l, i) => {
         if (i === this.sub) cursor(6, 134 + i * 10);
         text(l, 14, 134 + i * 10, i === this.sub ? SEL : PAPER);
@@ -2103,7 +2103,7 @@ class BattleView implements Mode {
       return;
     }
     if (this.phase === 'replace') {
-      text('Send out who?', 6, 124, SEL);
+      text('Who to send out?', 6, 124, SEL);
       standing(this.b.s[this.side]).forEach((f, i) => this.drawMonRow(f, 6, 134 + i * 10, i === this.sub));
       return;
     }
@@ -2145,7 +2145,7 @@ class BattleView implements Mode {
       return;
     }
     if (this.phase === 'target' || this.phase === 'tagto') {
-      text(this.phase === 'tagto' ? 'Switch in who after?' : 'On who?', 6, 124, SEL);
+      text(this.phase === 'tagto' ? 'Who to switch in?' : 'On who?', 6, 124, SEL);
       this.targets().forEach((t, i) => {
         const f = this.b.s[t.side].f[t.idx];
         this.drawMonRow(f, 6, 134 + i * 10, i === this.sub, t.side !== this.side);
@@ -2280,17 +2280,17 @@ class BattleView implements Mode {
     } else {
       const n = f.mon.notion ? NOTIONS[f.mon.notion] : null;
       const say: Record<string, string> = {
-        attack: `${basicOf(f) === 'P' ? 'A physical hit' : 'A magic hit'} with no type.${this.b.rules.nerve ? ' If it lands: +1 tide.' : ''}`,
+        attack: `${basicOf(f) === 'P' ? 'A physical hit' : 'A magic hit'} with no type.${this.b.rules.nerve ? ' If it hits: +1 tide.' : ''}`,
         guard: 'Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can\'t be forced out.',
-        switch: this.b.s[f.side].shut ? 'Your side is shut in, so it goes after the foe this round. Send out a whorl from reserve. A whorl with more CHA acts again sooner.' : 'Goes first in a round. Send out a whorl from reserve. A whorl with more CHA acts again sooner.',
-        peg: 'Sound it with a horn. The weaker the foe, the more likely it curls in.',
-        run: 'Goes first in a round. Leave. It always works.',
+        switch: this.b.s[f.side].shut ? 'Your side is trapped, so the foe acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.' : 'Acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.',
+        peg: 'Catch it with a horn. The weaker the foe, the more likely it curls inward.',
+        run: 'Acts first in a round. Leave. It always succeeds.',
         wait: 'Wait for the foe to act, then choose. Reads of a waiting foe see you wait.',
         notion: n?.text || '',
         take: o.action?.k === 'take' ? this.dropText(o.action.i) : '',
-        resign: `Ends this match at once, and ${this.o.name} wins. It asks first.`,
+        resign: `Ends this match at once, and ${this.o.name} wins.`,
       };
-      body.push([this.visiting() && o.kind === 'wait' ? 'It casts nothing and goes home.' : say[o.kind] || '', PAPER]);
+      body.push([this.visiting() && o.kind === 'wait' ? 'It casts no spells and returns home.' : say[o.kind] || '', PAPER]);
       if (!o.ok && o.why) foot.push([plain(o.why), BADC]);
     }
     const lines: [string, string][] = [];

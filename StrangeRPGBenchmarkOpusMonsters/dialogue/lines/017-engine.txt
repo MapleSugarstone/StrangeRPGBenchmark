@@ -1,0 +1,638 @@
+# WHORL game text, chunk 17 of 26. Files: src/battle/engine.ts, src/net/client.ts, src/net/wire.ts, src/game/api.ts, src/game/bag.ts, src/game/battleView.ts, src/game/field.ts
+# Speakers: battle (174), menu (166)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/battle/engine.ts
+
+== scene: engine
+[02pvii4] menu | It was Untouchable. It cannot become Untouchable or Hidden until after its next turn.
+
+== scene: swapBodies
+[1an1hs7] battle | {#1} and {#2} swap bodies.
+
+== scene: endSwap
+[1av4zms] battle | {#1} and {#2} reclaim their original bodies.
+[1lywxt0] battle | {#1} reclaims its original body.
+
+== scene: raiseSwell
+[1rrspie] battle | The swell begins to rise.
+[0zag91k] battle | The ninth wave crashes.
+
+== scene: setWind
+[0661xsq] battle | The wind shifts toward {#1}.
+
+== scene: addMirage
+[05pzkqv] battle | {#1} glimmers.
+
+== scene: stealSummon
+[09teebn] battle | {#1} drags {#2} to its side.
+
+== scene: hitSummon
+[1q8oj9m] battle | {#1} collapses.
+
+== scene: banish
+[0p6noey] battle | {#1} leaves the field.
+
+== scene: tickBanished
+[0f1wa25] battle | {#1} comes back.
+
+== scene: tickGlow
+[0jfdcnk] battle | {#1}'s glow dims.
+
+== scene: storeAway
+[1cpjtyv] battle | {#1} is put into cold storage.
+
+== scene: tickStored
+[14hgnr5] battle | {#1} is retrieved from cold storage.
+
+== scene: fracture
+[1n28nka] battle | {#1} fractures: healing cannot raise it above {#2} HP.
+
+== scene: shutIn
+[0gkn0lp] battle | The door slams shut on {#1}: its switches act last.
+
+== scene: latchOn
+[0nqqx22] battle | {#1} clamps onto {#2}.
+
+== scene: drinkLatch
+[1sj6xkl] battle | {#1} drinks from {#2}.
+[00w1md5] battle | {#1} dismounts.
+
+== scene: bearWeight
+[12mpnzh] battle | {#1} takes {moved} damage.
+
+== scene: holdAction
+[0rhyjgs] battle | {#1}'s {#2} goes in and is not removed yet.
+
+== scene: fogBench
+[0wowwhe] battle | Mist drifts across {s.name}'s bench.
+
+== scene: dizzied
+[09b13lw] battle | {#1} feels lightheaded, and {#2} emerges as {#3}.
+
+== scene: landSticky
+[1pqivma] battle | {#1} is affected by the same effect.
+
+== scene: sporeMove
+[0bdj49a] battle | Spores infiltrate {#1}'s {#2}.
+
+== scene: returnToMoment
+[12xy1rh] battle | {#1} returns to how it stood.
+
+== scene: KIND_RULE
+[111muww] menu | Dash: takes 0.9x damage until its next turn. Guard cannot block it.
+[13xcpg4] menu | Projectile: guards take only 0.25x damage.
+[1c1pvfb] menu | Spell: ignores walls. Silence prevents its effect.
+[0zsw8at] menu | Channel: Ends on a stun, silence, or switch.
+[13frs6l] menu | Sound: cannot be guarded and reveals Hidden foes. Silence blocks it. A Deaf whorl takes 0.5x.
+[0f6mx4f] menu | Quick: Goes first.
+[0j3dz24] menu | Late: Acts after the enemy in the round.
+[1856v6d] menu | Splash: Each reserve foe takes a portion of the damage.
+
+== scene: addNerve
+[04b8jf6] battle | {#1}'s tide recedes into the hold.
+
+== scene: payTide
+[02pc7vt] battle | {s.name} runs {#2} tide into debt.
+
+== scene: dealDamage
+[0o5moyc] battle | {#1} absorbs the hit for {#2}.
+[0edgab6] battle | The attack passes straight through to {#1}.
+[08p77i7] battle | The mantle wears through.
+[0t9aong] battle | {#1} awakens.
+[1y58gct] battle | {#1} explodes.
+
+== scene: rollHp
+[0mzpyy9] battle | {#1} and {#2} flip over.
+
+== scene: handleKO
+[0ngh1m7] battle | {#1} stands tall, unshakable.
+[1ja2qma] battle | {#1} swaps in for {#2}.
+[11vekkc] battle | {#1} has no lives left to spare.
+[136i3k3] battle | {#1} has fallen.
+[1u527c8] battle | {#1} glows brightly on their side.
+
+== scene: turnStatuses
+[05czj19] battle | {#1} hears it backwards.
+
+== scene: comeDue
+[02sxcn8] battle | All on {#1} comes due.
+[0neepio] battle | {#1}'s timer expires.
+[1u6ijj2] battle | Misfortune strikes {#1}.
+
+== scene: addPoise
+[171fdbr] battle | {#1} rolls with {f.poise} poise.
+
+== scene: wearPoise
+[00i7ilv] battle | {#1}'s poise shatters.
+
+== scene: applyStatus
+[0yidfe6] battle | {#1} pulls it in.
+[1qlrpdn] battle | {#1} cannot become untouchable yet.
+[0nvmfbt] battle | {#1} is already concealed.
+[0pzb4pm] battle | {#1} cannot hide just yet.
+[1p1gett] battle | {#1} pushes through it.
+
+== scene: engine
+[123rp2r] menu | It skipped a turn for {#1}, meaning it can't land on it again until it takes action. One other effect might.
+[17thry5] menu | No effect can cost it a turn. This lasts for 2 of its turns.
+
+== scene: turnRelief
+[0zm6owx] battle | {#1} is stalwart.
+
+== scene: keepMove
+[1m5tk84] battle | {#1} holds {m.name} in a fifth slot.
+
+== scene: lockMove
+[0uqik8u] battle | {#1}'s {#2} is locked.
+
+== scene: retype
+[11aoth4] battle | {#1} is now {#2}.
+
+== scene: retypeMove
+[1k913cc] battle | {#1}'s {#2} is now {type}.
+
+== scene: shiftCd
+[18oma86] battle | {what} wait{#2} {n} more turn{#4}.
+[0b4t4vn] battle | {what} {#2} ready{#3}.
+
+== scene: cutMaxHp
+[1obpdq9] battle | {#1} loses {cut} max HP.
+
+== scene: passOn
+[04g5cor] battle | {#1} assumes what {#2} had.
+
+== scene: dropItem
+[1ssy77o] battle | A {d.name} lands on the field.
+
+== scene: setField
+[0srwsly] battle | {def.name} lasts {turns} rounds.
+[0uxlx45] battle | The field is cleared.
+
+== scene: spinSide
+[0vgbtt6] battle | {#1}'s side begins to rotate.
+
+== scene: spinOn
+[177dvba] battle | {#1} stands firm.
+[0ego32p] battle | {#1} turns, and {#2} emerges.
+[06kt2uy] battle | {s.name}'s side ceases to spin.
+
+== scene: swapRooms
+[0k1f0s8] battle | The two rooms swap positions.
+
+== scene: setLowWater
+[1vofmra] battle | The sea recedes. Low Water.
+
+== scene: starFall
+[0g4f676] battle | A star comes to rest with {#1}.
+[0pcm5yn] battle | A star appears on the battlefield.
+
+== scene: wedge
+[0pbtsrk] battle | {#1}'s side is severed from its bench.
+
+== scene: setMantle
+[1jvtzbu] battle | A mantle slides over {#1}'s side.
+
+== scene: pinkTide
+[0tneou0] battle | {#1} of {s.name}'s tide shifts pink.
+
+== scene: clearPink
+[0uxcv0m] battle | {#1}'s tide runs clear.
+
+== scene: setPrice
+[1ro5cva] battle | {#1}'s crests cost {#2} {#3} tide.
+
+== scene: holdTide
+[1vkf97k] battle | {#1}'s tide is locked in the hold.
+
+== scene: setGround
+[0t1ca9f] battle | The earth beneath {s.name} shifts into {def.name}.
+[0keon1h] battle | The {old.name} beneath {s.name}'s side settles.
+
+== scene: revive
+[1hlwznf] battle | {#1} comes back.
+
+== scene: endChannel
+[08bmt6q] battle | {#1}'s channel shatters.
+
+== scene: interrupt
+[1cq95p1] battle | {#1} is severed.
+
+== scene: heal
+[1d3pdu7] battle | {#1} consumes the healing intended for {#2}.
+[1fgxo0g] battle | The healing scalds {#1}.
+
+== scene: cleanse
+[0sf5bln] battle | {#1} shrugs it off.
+
+== scene: comeOut
+[061b2x3] battle | {#1} consumes {got} from the house.
+[1xz4tv2] battle | A cap detonates beneath {#1}.
+
+== scene: forceOut
+[1lxmogk] battle | {#1} refuses to retreat.
+[1welcfv] battle | {#1} is forced out. {#2} enters the fray.
+
+== scene: dragIn
+[0az1fxq] battle | {#1} is shelved.
+[0axfvtg] battle | The fog obscures {#1}.
+[1vd3b02] battle | {#1} refuses to retreat.
+[0uebx4c] battle | {#1} won't show up.
+[0o6mfs3] battle | {#1} is pulled out.
+
+== scene: usable
+[1l2edto] menu | Unavailable for {#1} more turn{#2}.
+[0yd4pwq] menu | Not while the past repeats itself.
+[14tqxqk] menu | Crests await later.
+[106sq51] menu | No reserves available.
+[04um8yu] menu | No one to drag.
+[0zwt4g2] menu | No reserves available.
+
+== scene: blocked
+[0kpqrje] battle | {#1}'s ward claims {m.name}.
+
+== scene: castMove
+[18ayjvt] battle | The signal distorts.
+
+== scene: goUp
+[1o4qubv] battle | {#1} rises.
+
+== scene: startBout
+[0a84s8q] battle | {#1} and {#2} face off.
+
+== scene: boutRound
+[16w3em0] battle | The bout stands {#1} to {#2}.
+[11x5jei] battle | The match ends in a draw.
+[17g53k8] battle | {#1} takes the victory.
+
+== scene: setFlock
+[10uv6f0] battle | {#1} dissolves into a flock of {n}.
+
+== scene: setRange
+[1yiox7r] battle | Near range.
+[0kmw754] battle | They retreat to Far range.
+[0plbruh] battle | The distance equalizes.
+
+== scene: knockDown
+[19hysz2] battle | {#1} is knocked down.
+
+== scene: rollIn
+[0ilqok4] battle | {#1} advances to engage.
+
+== scene: lastAct
+[0nor1f3] battle | {#1} presses forward.
+
+== scene: benchMove
+[06njh6g] battle | {#1} uses {m.name} from the bench.
+
+== scene: runMoveAt
+[0wk578u] battle | {m.name} maintains focus on {#2}.
+[01z1912] battle | {#1} reels {m.name} in.
+[03j3t02] battle | {m.name} goes through {#2}'s hole and comes out at {#3}.
+[02n9y9p] battle | {m.name} goes through {#2}'s hole and is gone.
+[1voj44k] battle | {#1} remains untouchable.
+[1gj9qkq] battle | The burr sinks into {#1}.
+
+== scene: startTurn
+[0uldija] battle | {#1}'s timer expires.
+[0jex7md] battle | News of trouble reaches {#1}.
+[1l0cjts] battle | {#1} is immobilized.
+[0mi9xyl] battle | {#1} asleep.
+
+== scene: turnStartEffects
+[0vr7mj7] battle | The monsoon returns.
+[1kv552q] battle | The storm strikes {#1}.
+[0qr0v4j] battle | The wound opens.
+
+== scene: addCharge
+[0ccrdgd] battle | {#1} is fully charged.
+
+== scene: land
+[010bhrh] battle | {#1} leaps to {#2}.
+
+== scene: endTurn
+[0krlupk] battle | {#1} thaws out.
+[0nl8bu8] battle | {#1} comes down.
+[1097uch] battle | {#1} coalesces.
+[0m657sc] battle | {#1}'s bone sets.
+[16ql647] battle | The mirage around {#1} fades.
+[1a8d3nq] battle | The wind dies down.
+[0nmexzh] battle | {#1}'s tide rises from the hold.
+[08d8g55] battle | The sea returns.
+[1ykqeeq] battle | {#1}'s crests cost as much as before.
+[0usds0g] battle | The fog lifts from {#1}'s bench.
+[1o12xd8] battle | The door opens for {#1}.
+[13agoku] battle | {#1}'s bench can reach again.
+[0d6kjix] battle | {#1} loses the mantle.
+[0nixj7k] battle | {#1} has vanished.
+
+== scene: resolvePending
+[0auc6os] battle | The {name} never comes back out.
+[0fjqf68] battle | {#1}'s {name} comes back out.
+[0pijpso] battle | The echo of {#1} comes back.
+[10gs5r5] battle | {#1}'s {#2} strikes.
+[128apno] battle | {#1} can't touch {#2} from up there.
+
+== scene: fatigue
+[0ve0ey6] battle | Both sides are growing weary.
+[0keh1wr] battle | {#1} is spent.
+
+== scene: castPick
+[0j6j000] battle | {#1} casts nothing.
+
+== scene: standIn
+[182p3qs] battle | {#1} uses {#2} in {v.back} round{#4} on.
+
+== scene: trade
+[1c6lgl8] battle | {#1}'s past self enters the time machine, leaving {#2} behind.
+[1qlubco] battle | {#1} enters the time machine, leaving {#2} behind.
+
+== scene: beginRewind
+[0zonm7a] battle | {#1} is absent, so the tide refuses to turn.
+[0xc4ypn] battle | There is no previous round to return to, so {#1} casts here.
+[1f9ri9j] battle | {#1} boards the time machine.
+[0zdqwbt] battle | The tide rewinds.
+
+== scene: visit
+[0z14471] battle | The tide will not rewind.
+[0lqp3eq] battle | The tide runs on.
+
+== scene: advance
+[1959p3a] battle | {#1} is unable to stop it.
+
+== scene: actJoint
+[06pcr5y] battle | Both sides wait, gaining no insight.
+
+== scene: resolveQueued
+[12n80sj] menu | {#1} hasn't acted.
+[0pcw8qp] menu | {#1} cannot move.
+[19f9as9] battle | {#1} is unable to stop it.
+[1dhjlue] menu | {#1} can't do that.
+
+== scene: replace
+[0f6yjml] battle | {s.name} calls forth {#2}.
+
+== scene: engine
+[05n19mq] menu | It acts first, interrupting the foe's next move regardless of what it is.
+
+== scene: lieInWait
+[18wfc2x] battle | {#1} lies in ambush.
+
+== scene: springWait
+[06r95lq] battle | {#1} strikes just as {#2} moves.
+[1lac5ir] battle | {#1} is immobilized.
+
+== scene: resolveAction
+[0wmtb8m] battle | {#1} strikes.
+[07f6qg4] battle | {#1} defends.
+[10zext0] battle | {#1} escapes.
+[1az6m25] battle | {t.mon.name} refuses to curl into the horn.
+[18so30b] battle | It has vanished.
+[1fuq3f5] battle | {#1} claims the {#2}.
+[1woimab] battle | {#1} holds.
+[06hpn5e] battle | {#1} unleashes its {n.name}.
+[0xfei37] battle | Spores billow from {m.name}.
+[0ul8acc] battle | {#1} winds up for {m.name}.
+[0uv9g41] battle | {#1} can't reach {#2} up there.
+[06f6se3] battle | {#1} rolls off while using {m.name}.
+
+== scene: doAttack
+[0wc0onb] battle | {#1} is untouchable.
+
+==== file: src/net/client.ts
+
+== scene: CANCELED
+[0lriugr] menu | The wait has been canceled.
+
+== scene: post
+[0vs3455] menu | The lobby provided an answer this version cannot process.
+[0ajdwtj] menu | The rooms are unreachable.
+
+== scene: connect
+[02s4lxn] menu | The room severed the connection.
+
+== scene: tick
+[0dxhqy1] menu | The byssus went slack, and the room's grip faded. {this.slackWhy}
+[0ogz9jt] menu | The room didn't respond.
+[1cto1cm] menu | The room stopped responding.
+
+== scene: receive
+[162q0y2] menu | The room sent a message this version cannot read. Please reload the page.
+
+==== file: src/net/wire.ts
+
+== scene: nameProblem
+[1vvk32d] menu | Enter a letter or number.
+[1k38xdz] menu | Max {max} letters allowed.
+[0ku32fs] menu | Use only name-screen letters.
+
+== scene: whorlProblems
+[0yiskio] menu | isn't a whorl.
+[04biyac] menu | bears a name the name screen cannot render in {WHORL_NAME_MAX} characters.
+[0kpv3bw] menu | holds a notion the game does not know.
+[0t3ycz2] menu | bears a starborn sigil that defies reading.
+[0szb2dz] menu | must be of one species or one fit.
+[0ic0hi9] menu | is not a species the game knows.
+[177yog8] menu | is a person, and people can't go online.
+[00anpmn] menu | holds a tape it cannot set.
+[000o3xo] menu | holds a tape it cannot set.
+
+== scene: fitProblems
+[0i9vzdt] menu | is a fit that can't be read.
+[0p0jbis] menu | is a fit of a species the game does not know.
+[0tblflz] menu | is a fit containing a person, and persons cannot go online.
+[0trckmt] menu | is a fit that does not inherit two moves from each parent.
+[0w35vsi] menu | is a fit with more than two crests.
+[077q9j2] menu | is a fit with habits its parents do not possess.
+[1hpo8l4] menu | is a fit with types its parents cannot provide.
+[0wkuubs] menu | is a fit with a plain attack neither parent has.
+[0c3xudq] menu | is a fit with a retune it cannot make.
+[1s4ye7p] menu | is a fit with a look that cannot be drawn.
+
+== scene: teamProblems
+[1v73qxv] menu | A roster is a collection of whorls.
+[1hhsfap] menu | Each roster contains {ROSTER_SIZE} whorls.
+[1hsw96i] menu | Two whorls hold {#1}. A roster takes each notion once.
+[0ej9pf0] menu | {#1} appears on this roster twice: within {first} and within {who}.
+[0qls52r] menu | Max one legendary per roster. A fit with a legendary parent counts. {legends} is here.
+
+== scene: pickProblems
+[0fto77h] menu | A pick is a selection of whorls drawn from the roster.
+[0cjxhed] menu | Each pick contains {TEAM_SIZE} whorls.
+[0xt6shx] menu | A pick identifies a whorl that is absent from the roster.
+[0z8bz1p] menu | A pick repeats a whorl.
+
+==== file: src/game/api.ts
+
+== scene: cart
+[0n7uai4] menu | The cart travels between towns you have visited, and you have visited only one.
+[0mmzzk7] menu | Ten cowries. You don't have ten.
+
+== scene: i
+[0pzmhqm] menu | Shellwright: What can I do for you?
+
+==== file: src/game/bag.ts
+
+== scene: HORN_TEXT
+[1g4ore1] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[1cg57er] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[0la9v9a] menu | Its threshold is at {#1}% of the foe's HP. It always functions when the foe's HP is at or below that threshold.
+[1mjsbar] menu | This always works on a wild whorl.
+
+== scene: act
+[02w5cbk] menu | No whorls to contain it.
+
+== scene: pick
+[0hyqrr8] menu | {m.name} holds no notion.
+[1kt3hlu] menu | {#1} has been retrieved.
+[02j7x8i] menu | {m.name} is already occupied.
+[0kvtnu1] menu | {m.name} is now holding {e.name}.
+
+== scene: drawSub
+[1gqita2] menu | Which whorl?
+[0j3b4ip] menu | To which whorl?
+
+==== file: src/game/battleView.ts
+
+== scene: foeMsg
+[15y8qdx] menu | A {#1} {#2} comes out of the {#3}.
+
+== scene: buildVisitOptions
+[07fjgsp] menu | You cannot cast a crest into the past.
+[16xl218] menu | It cannot be cast into the past.
+[0gn42k6] menu | No target to cast on.
+
+== scene: buildOptions
+[1y16q49] menu | Not for two consecutive turns.
+[1jykmix] menu | It can't switch now.
+[15hr1ks] menu | No reserves available.
+
+== scene: finishBattle
+[04vgo5w] menu | {full.mon.name} subsides, then rises again, diminished.
+[1rmew1j] menu | {f.mon.name}'s {n.name} has been lost.
+[1e5jd0p] menu | Each whorl in your team takes {xp} experience.
+[07r8cif] menu | Level {cap} is the maximum the pearls permit.
+[0nmtes2] menu | The bounty awards {bounty} cowries.
+[1iny0e0] menu | Your entire team is defeated.
+
+== scene: play
+[1o58ejl] menu | refuses to curl into the horn.
+
+== scene: showInfo
+[052kl4f] menu | Its passives are temporarily suppressed.
+[05kid4x] menu | {#1} side spins for {sp.turns} more turn{#3}: after each of its turns, its out whorl moves to the back of the line.
+[15kag3h] menu | Fog covers {#1} bench for {#2} rounds: nothing from the other side reaches the reserves.
+[16275ae] menu | {#1} house holds {#2} of {hc} HP: healing beyond full capacity fills it, and the next whorl to emerge consumes it.
+[15voyww] menu | {#1} side can run up to {cr} tide into debt to pay for a crest.
+[18tvcqb] menu | {#1} side owes {#2} tide: incoming tide first pays down this debt.
+[1dshl3x] menu | {#1} side is locked for {#2} rounds: its switches go after the other side acts in joint rounds.
+[0twoj84] menu | {#1} of {#2} tide is pink for {#3} rounds: this tide cannot be used to pay for a crest.
+[1r1ndx3] menu | {#1} crests cost {#2} {#3} tide for {#4} rounds.
+[13gdp17] menu | {#1} is airborne for {o.up} more turn{#3}: dashes from the ground cannot reach it, and ground-based interactions do not affect it.
+[1ctwimj] menu | {#1} is Deaf: its passives and stances are unaffected by the actions of other whorls.
+[147v5rj] menu | {#1} triggers {#2}, in that sequence. then {#3}: {#4}
+[10u4r83] menu | {#1} guards {#2} from reserve: a foe that strikes {#3} is subject to it.
+[0323ujn] menu | {#1} intercepts all heals intended for {#2}: each heal is redirected to {#3} instead.
+[06zek28] menu | {#1} is Silent: no other whorl's passives, stances, or holes detect its actions.
+[0xd46mk] menu | {#1}'s next attack or move is stored in the cave and returns later.
+[02r7ki5] menu | {#1}'s {#2} is stored in the cave and will return soon.
+[0glf9fi] menu | {#1} maintains its lock on {#2}: its single-target moves hit that target, whether in play or in reserve.
+[0crnejw] menu | Low Water lasts for {#1} rounds: a star falls every round, and attacks generate no tide.
+[0zuxh06] menu | {#1} remains active for {w.glow.turns} more turns: its reserve passives function normally, and it heals its side's out whorl for {#3}% each turn.
+[06038ui] menu | {#1} rides {#2}, consuming {#3}% of its max HP each turn its side takes action.
+[11bwr3s] menu | {#1} vs {#2}. {#3}-{#4}. {bt.left} left. No switch. More damage wins. First to 2 wins Empower 2 + 15% heal. Loser gets Stun 1.
+[1pvispe] menu | The swell is at {this.b.swell.n}/9 and rises each turn. At 9, the ninth wave breaks over both out whorls: a TIDE whorl gets Haste 1, and any other takes 12% of its max HP and Slow 1.
+[0wo71eb] menu | Wind hits {#1} side for {#2} rounds: throws with it do 1.2x, against it 0.8x.
+[0rjpbd4] menu | Near: dashes do 1.2x, projectiles 0.8x, until an out whorl leaves.
+[1mcbt9h] menu | Far: projectiles do 1.2x, dashes 0.8x, until an out whorl leaves.
+[1gvo9li] menu | {#1} has {due} damage over time remaining. If the timer expires, all accumulated damage hits at once.
+[027kit9] menu | {#1} and {#2} have swapped bodies for {o.swap.turns} more of {#4}'s turns. each now uses the other's appearance, types, passives, and moves. if either leaves the field, the swap ends.
+[1xho9uc] menu | {#1} waits: when the other side acts, it casts {#2} first.
+[0red1ra] menu | {#1} stands before {#2} bench: it intercepts hits meant for the reserves.
+[1gcc94m] menu | A mirage over {#1} shows the foe {o.mirage.hp} more HP than it has, for {o.mirage.turns} more of its turns.
+[006bovs] menu | {#1} shimmers: a mirage may display more HP than it actually has.
+[1cwjq2s] menu | {#1} is Fractured for {o.fracture.turns} more turn{#3}: no healing can restore its HP above {#4}.
+[13mbqhd] menu | {#1} rolls with {o.poise} poise: crowd control from foes like Stun, Sleep, Root, Slow, and delays fails against it. Hits erode the poise, and when it breaks, the whorl becomes Stunned 1.
+[0tn5d5b] menu | {#1} is in cold storage for {r.stored.turns} more turn{#3}: it is immune to all effects from the opposing side, cannot come out unless no other allies can, has its cooldowns and marks paused, and heals {#4}% of its max hp each turn.
+
+== scene: updateSwitch
+[0g7gjzl] menu | {#1} is up next.
+
+== scene: updateReplace
+[0fxgyam] menu | {#1} is up next.
+
+== scene: chooseNet
+[1mjoyq5] menu | It can't do that right now.
+
+== scene: applyNet
+[0u1l8ra] menu | {this.o.name} ran out of time.
+
+== scene: timeoutLine
+[086ot88] menu | Time up. {#1} out.
+[1f4620r] menu | Time expired.
+[09s5gyy] menu | Time expired, so {#1} casts {m.name}.
+[1a46dmj] menu | Time expired, so {#1} casts nothing.
+[1wwy4id] menu | Time expired, so {#1} {#2}.
+
+== scene: why
+[141kf0m] menu | You gave up.
+[1cxqbqj] menu | {name} ran out of time three times in a row.
+[00j6aoo] menu | You ran out of time three times consecutively.
+[1l9xqmz] menu | {name} left the match.
+[19p8g5t] menu | The connection was lost.
+[0lie6ur] menu | The match is void.
+
+== scene: linkLine
+[1owszc7] menu | The byssus goes limp. {#1}
+
+== scene: dropText
+[1q28nzd] menu | Consumes your turn. {dd.text} Either side may take it. It ends in {left} round{#3}.
+
+== scene: drawTempo
+[1iqzsre] menu | Both choose. {#1} goes first
+
+== scene: drawBottom
+[1685k1w] menu | The battle has ended.
+[1v3crbd] menu | L/R habits. X forfeits.
+[1qayxtq] menu | Forfeit this match?
+[0ns6trb] menu | Yield this fight?
+[0ycv5nn] menu | Who to send out?
+[15u7tzg] menu | Who to switch in?
+
+== scene: say
+[1gb4gyn] menu |  If it hits: +1 tide.
+[0u8izn2] menu | Goes first in a round. Till your next turn it takes 0.5x, 0.25x from projectiles, and full from dashes. It can't be forced out.
+[1bi4jip] menu | Your side is trapped, so the foe acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
+[0jxn9um] menu | Acts first this round. Deploy a whorl from reserve. Higher CHA whorls act sooner.
+[06e769r] menu | Catch it with a horn. The weaker the foe, the more likely it curls inward.
+[0oz7wrk] menu | Acts first in a round. Leave. It always succeeds.
+[14z5ho8] menu | Wait for the foe to act, then choose. Reads of a waiting foe see you wait.
+[1lvkm8o] menu | Ends this match at once, and {this.o.name} wins.
+
+== scene: drawDetail
+[0c4k6jf] menu | It casts no spells and returns home.
+
+==== file: src/game/field.ts
+
+== scene: c
+[0xciy8b] menu | {rm.name} fights again. Both teams reset to level 25.
+
+== scene: offerRematch
+[1ixiyvj] menu | Try again another time.
+
+== scene: fightTrainer
+[0x75f6u] menu | {tr.nacre} nacre gained. Any grotto can layer it on.
+
+== scene: encounter
+[1eu1xg5] menu | (Out here, your whorls fight at their Strand level. It begins at 3.)
+[0exjpou] menu | (It rises only on the Strand. Moves, habits, notions, and nacre all travel with them.)
+[05k78tm] menu | {m.name} has joined your squad.
+[1khg13o] menu | {m.name} heads to the Midden.
+
+== scene: lose
+[0r39pnn] menu | {HERO} leaves behind {lost} cowries and retreats.
+
+== scene: giveMon
+[05u6uil] menu | {m.name} has joined your squad.
+[0gznp45] menu | {m.name} enters the Midden.

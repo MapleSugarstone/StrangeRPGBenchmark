@@ -63,7 +63,7 @@ class MiddenMode implements Mode {
       if (G.party.length <= 1) { sfx('bump'); this.note('Your team needs one whorl.'); return; }
       G.party.splice(memory.team, 1);
       G.rack.push(m);
-      this.note(`${m.name} goes to the Midden.`);
+      this.note(`${m.name} is sent to the Midden.`);
     } else {
       if (G.party.length >= TEAM_MAX) { sfx('ok'); this.sub = { kind: 'swap', from: memory.rack, i: 0 }; return; }
       G.rack.splice(memory.rack, 1);
@@ -81,7 +81,7 @@ class MiddenMode implements Mode {
     G.party[teamAt] = b;
     G.rack[rackAt] = a;
     sfx('switch');
-    this.note(`${b.name} in, ${a.name} to the Midden.`);
+    this.note(`${b.name} enters, ${a.name} goes to the Midden.`);
     save();
   }
 
@@ -116,7 +116,7 @@ class MiddenMode implements Mode {
         if (m.notion) G.notions[m.notion] = (G.notions[m.notion] || 0) + 1;
         const back = refundNacre(m);
         sfx('back');
-        this.note(back ? `${m.name} walks off. +${back} nacre.` : `${m.name} walks off.`);
+        this.note(back ? `${m.name} leaves. +${back} nacre.` : `${m.name} walks off.`);
         this.clamp();
         save();
       }
@@ -187,7 +187,7 @@ class MiddenMode implements Mode {
     bevel(2, 2, 188, 19, '#211e2a', RACK_C);
     text('The Midden', 8, 8, RACK_C);
     // The head's right side gives the swap prompt, a note after a move, or the move key.
-    const head = this.sub.kind === 'swap' ? ['Swap with which team whorl?', SEL] : this.toastT > 0 ? [this.toast, SEL] : ['C: move across', DIM];
+    const head = this.sub.kind === 'swap' ? ['Swap with which team\'s whorl?', SEL] : this.toastT > 0 ? [this.toast, SEL] : ['C: move across', DIM];
     textRight(fit(head[0], 120), 184, 8, head[1]);
     this.drawColumn(0);
     this.drawColumn(1);

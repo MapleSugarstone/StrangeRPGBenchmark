@@ -48,7 +48,7 @@ defMark({ id: 'orrery_planet', name: 'planet', max: 3, orbit: true, negative: tr
     dealDamage(b, by.ko ? null : by, f, stat(b, by, 'mgk') * 0.2, { ...plain('M'), reserve: !isOut(b, f) }, 'STAR');
     if (mk.n < 2 || f.ko || !has(by, 'escapement')) return;
     unmark(f, 'orrery_planet');
-    msg(b, `Two planets line up over ${label(b, f)}.`);
+    msg(b, `Two planets align above ${label(b, f)}.`);
     for (let i = 0; i < mk.n; i++) orreryBurst(b, by, f);
     if (!f.ko) applyStatus(b, by, f, 'stun', 1);
   },
@@ -57,7 +57,7 @@ defMark({ id: 'orrery_shift', name: 'on an orbit', clock: 'own', value: 0.2,
   wouldKO(b, f) {
     unmark(f, 'orrery_shift');
     f.hp = Math.max(1, Math.round(f.maxHp * 0.3)); f.shield = 0;
-    msg(b, `${label(b, f)} comes back round.`);
+    msg(b, `${label(b, f)} completes its orbit.`);
     return true;
   } });
 defPassive({ id: 'epicycle', name: 'Epicycle', owner: 'orrery', text: 'In reserve, every 3rd turn your side takes: your out whorl\'s non-crest cooldowns drop 1.',
@@ -103,7 +103,7 @@ defMove({ id: 'conjunction', name: 'Comes Round', type: 'GEAR', owner: 'orrery',
 defMark({ id: 'crane_drive', name: 'swinging', clock: 'own', volatile: true, value: 0.05,
   expire(b, f) { applyStatus(b, f, f, 'slow', 1); } });
 defMark({ id: 'crane_fist', name: 'load raised', clock: 'own', volatile: true, value: 0.1,
-  afterAttack(b, f, t) { unmark(f, 'crane_fist'); if (f.up) { f.up = 0; msg(b, `${label(b, f)} drops onto ${label(b, t)}.`); } if (!t.ko && !t.gone) applyStatus(b, f, t, 'stun', 1); } });
+  afterAttack(b, f, t) { unmark(f, 'crane_fist'); if (f.up) { f.up = 0; msg(b, `${label(b, f)} lands on ${label(b, t)}.`); } if (!t.ko && !t.gone) applyStatus(b, f, t, 'stun', 1); } });
 defPassive({ id: 'counterweight', name: 'Counterweight', owner: 'crane', text: 'Once per battle, below 30% HP: a shield of 30% of its max HP.',
   afterTake(b, f) { if (!f.k.cw && f.hp > 0 && f.hp < f.maxHp * 0.3) { f.k.cw = 1; giveShield(b, f, f, f.maxHp * 0.3, 3); } } });
 defPassive({ id: 'hoist', name: 'Cable Snap', owner: 'crane', text: 'Every 3rd attack also hits for 40% MGK and forces the foe out.',
@@ -135,7 +135,7 @@ defMove({ id: 'staticfield', name: 'Drop the Load', type: 'GEAR', owner: 'crane'
     const hi = !!c.u.up;
     c.spread({ mgk: 1.08 }, { mult: hi ? 1.4 : 1 });
     c.delay(c.tgt, 30);
-    if (hi && !c.preview) { c.u.up = 0; c.msg(`${label(c.b, c.u)} comes down with it.`); }
+    if (hi && !c.preview) { c.u.up = 0; c.msg(`${label(c.b, c.u)} is brought down with it.`); }
   } });
 
 // turbine: a wind pump that faces into the sea wind and turns it round for its friends.
@@ -161,7 +161,7 @@ defMove({ id: 'gale', name: 'Whirlwind', type: 'STAR', owner: 'turbine', reach: 
     const gone = c.them.sum.length + (c.b.drops?.length || 0);
     for (const u of c.them.sum.slice()) dismiss(c.b, u);
     c.b.drops = [];
-    if (gone) c.msg('The wind clears the field.');
+    if (gone) c.msg('The wind sweeps the field clear.');
   } });
 defMove({ id: 'updraft', name: 'Lee Side', type: 'GEAR', owner: 'turbine', reach: 'ally', cd: 3, fx: 'sway | leaf*3 rise | ring ally',
   text: 'Ally: Empower 2. Shield 50% CHA + 6% max HP, 3 turns. Projectiles deal it 0.5x.',
@@ -181,7 +181,7 @@ defMark({ id: 'perigee_dart', name: 'pinned', clock: 'own', negative: true, valu
     return mk && src && markedBy(b, mk) === src && f.s.guard && !d.dot ? amt * 2 : amt;
   } });
 defMark({ id: 'perigee_fury', name: 'beaming', clock: 'own', volatile: true, value: 0.12,
-  turnStart(b, f) { msg(b, 'A beam goes through the line.'); splash(b, f, stat(b, f, 'atk') * 0.85, 'P', 'GEAR', true); } });
+  turnStart(b, f) { msg(b, 'A beam slices through the line.'); splash(b, f, stat(b, f, 'atk') * 0.85, 'P', 'GEAR', true); } });
 defPassive({ id: 'orbit', name: 'Far Watch', owner: 'perigee', text: 'Its moves ignore Ward and Fortify.' });
 defPassive({ id: 'telemetry', name: 'Locked On', owner: 'perigee', text: 'Deals 1.3x damage to foes with Slow, Root, Stun, Sleep, or Expose.',
   outMul(b, f, t) { return t.s.slow || t.s.root || t.s.stun || t.s.sleep || t.s.expose ? 1.3 : 1; } });
@@ -190,7 +190,7 @@ defMove({ id: 'ping', name: 'Bounce Signal', type: 'GEAR', owner: 'perigee', rea
   run(c) {
     c.spread({ atk: 0.87 });
     if (c.tgt.ko || c.blocked(c.tgt)) return;
-    if (c.tgt.s.hidden || c.tgt.s.invuln) { delete c.tgt.s.hidden; delete c.tgt.s.invuln; c.msg(`${label(c.b, c.tgt)} is spotted.`); }
+    if (c.tgt.s.hidden || c.tgt.s.invuln) { delete c.tgt.s.hidden; delete c.tgt.s.invuln; c.msg(`${label(c.b, c.tgt)} has been spotted.`); }
     c.mark(c.tgt, 'perigee_spot', 1, 2);
   } });
 defMove({ id: 'fix', name: 'Sweep', type: 'GEAR', owner: 'perigee', reach: 'spread', tags: ['projectile'], cd: 3, fx: 'flare | beam ray | flash all',
@@ -216,7 +216,7 @@ defSummon({ id: 'furnace_bear', name: 'Slag Crab', owner: 'furnace', text: 'Each
     const f = b.s[s.side].f[s.by];
     const t = b.s[1 - s.side].f[b.s[1 - s.side].out];
     if (!f || !t || t.ko || t.gone) return;
-    msg(b, 'The crab pinches.');
+    msg(b, 'The crab clamps down.');
     dealDamage(b, f.ko ? null : f, t, stat(b, f, 'mgk') * 0.35, plain('M'), 'GEAR');
     if (!t.ko) applyStatus(b, f, t, 'burn', 1, stat(b, f, 'mgk') * 0.2);
   } });
@@ -226,7 +226,7 @@ defPassive({ id: 'radiant', name: 'Stoked Full', owner: 'furnace', text: 'Every 
     f.k.pyro = (f.k.pyro || 0) + 1;
     if (f.k.pyro % 4 !== 0) return;
     const t = foeOf(b, f);
-    if (!t.ko && !t.gone) { msg(b, `${label(b, f)} roars.`); applyStatus(b, f, t, 'stun', 1); }
+    if (!t.ko && !t.gone) { msg(b, `${label(b, f)} bellows.`); applyStatus(b, f, t, 'stun', 1); }
   } });
 defPassive({ id: 'banked', name: 'Slag Shelter', owner: 'furnace', text: 'While its Slag Crab is out: takes 0.85x damage, and its attacks add Burn 2.',
   inMul(b, f) { return bearOut(b, f) ? 0.85 : 1; },
@@ -253,7 +253,7 @@ defMark({ id: 'piston_block', name: 'holding pressure', clock: 'own', volatile: 
 defMark({ id: 'piston_meteor', name: 'top of the stroke', clock: 'own', volatile: true, value: 0.15,
   turnStart(b, f) {
     unmark(f, 'piston_meteor');
-    msg(b, `${label(b, f)} comes down the stroke.`);
+    msg(b, `${label(b, f)} charges down the lane.`);
     splash(b, f, stat(b, f, 'atk') * 1.01, 'P', 'GEAR');
     const t = foeOf(b, f);
     if (!t.ko && !t.gone) applyStatus(b, f, t, 'slow', 2);
@@ -289,7 +289,7 @@ defMark({ id: 'dynamo_charge', name: 'charge', max: 3, contact: true, negative: 
     const by = markedBy(b, mk);
     if (mk.n < 3 || !by || by.side === f.side || f.ko) return;
     unmark(f, 'dynamo_charge');
-    msg(b, `${label(b, f)} is fully charged.`);
+    msg(b, `${label(b, f)} is fully charged up.`);
     applyStatus(b, by, f, 'stun', 1);
   } });
 defPassive({ id: 'charge', name: 'Builds Charge', owner: 'dynamo', text: 'Its damaging moves add a Charge to the foe. A foe at 3 Charges: Stun 1, and they go.',
@@ -323,7 +323,7 @@ defMark({ id: 'siren_word', name: 'hushed', clock: 'own', volatile: true, negati
     const mk = unmark(f, 'siren_word');
     const by = mk ? markedBy(b, mk) : null;
     if (!by) return;
-    msg(b, `${label(b, f)} is drowned out.`);
+    msg(b, `${label(b, f)} is silenced.`);
     dealDamage(b, by.ko ? null : by, f, stat(b, by, 'mgk') * 1, plain('M'), 'GEAR');
     if (!f.ko) applyStatus(b, by, f, 'silence', 1);
   } });
@@ -378,7 +378,7 @@ defMark({ id: 'yoke_pull', name: 'yoked', clock: 'own', volatile: true, value: 0
     if (f.ko) return;
     const t = foeOf(b, f);
     if (!t || t.ko || t.gone) return;
-    msg(b, `${label(b, f)} drags ${label(b, t)} out with it.`);
+    msg(b, `${label(b, f)} pulls ${label(b, t)} out with it.`);
     forceOut(b, f, t.side);
   } });
 defMark({ id: 'yoke_stomp', name: 'stamping', clock: 'own', volatile: true, value: 0.08,
@@ -418,14 +418,14 @@ defMark({ id: 'stoat_snare', name: 'snare set', value: 0.06,
   anyOut(b, f, who) {
     if (who.side === f.side) return;
     unmark(f, 'stoat_snare');
-    msg(b, `${label(b, who)} steps in a snare.`);
+    msg(b, `${label(b, who)} steps into a trap.`);
     dealDamage(b, f, who, stat(b, f, 'atk') * 0.55, plain('P'), 'BEAST');
     if (who.ko) return;
     applyStatus(b, f, who, 'slow', 1);
     mark(b, f, who, 'stoat_hunted', 1, 2);
   } });
 defMark({ id: 'stoat_cat', name: 'dancing', clock: 'own', value: 0.1,
-  expire(b, f) { clearForm(b, f); msg(b, `${label(b, f)} stops dancing.`); },
+  expire(b, f) { clearForm(b, f); msg(b, `${label(b, f)} ceases its dance.`); },
   leave(b, f) { unmark(f, 'stoat_cat'); clearForm(b, f); } });
 const stoatCat = (f: Fighter) => f.form?.tag === 'cat';
 defPassive({ id: 'weasel', name: 'War Dance', owner: 'stoat', text: 'While it dances: deals 1.25x damage to Hunted foes.',
@@ -492,7 +492,7 @@ defMark({ id: 'carrion_demon', name: 'a flock', clock: 'own', value: 0.2,
     }
     heal(b, f, f, total * 0.5);
   },
-  expire(b, f) { msg(b, `${label(b, f)} lets the flock go.`); clearForm(b, f); },
+  expire(b, f) { msg(b, `${label(b, f)} releases the flock.`); clearForm(b, f); },
   leave(b, f) { unmark(f, 'carrion_demon'); clearForm(b, f); } });
 defPassive({ id: 'gather', name: 'Picks Over', owner: 'carrion', text: 'When a foe is KO\'d: +6% ATK for the battle. Heals 8% of its max HP.',
   anyKO(b, f, v) { if (v === f || v.side === f.side) return; f.k.picked = (f.k.picked || 0) + 1; heal(b, f, f, f.maxHp * 0.08); },
@@ -513,7 +513,7 @@ defMove({ id: 'feast', name: 'Black Flock', type: 'BEAST', owner: 'carrion', rea
 // gore: a bull's shell, barnacled at the horns, that backs off for a run-up and comes from wherever you are not looking.
 function goreBash(b: Battle, f: Fighter, t: Fighter): void {
   if (t.ko || t.gone) return;
-  msg(b, `${label(b, f)} butts hard.`);
+  msg(b, `${label(b, f)} shoves hard.`);
   dealDamage(b, f, t, stat(b, f, 'atk') * 0.4, plain('P'), 'BEAST');
   if (!t.ko) delayFighter(b, t, 30);
 }
@@ -769,7 +769,7 @@ defMove({ id: 'badnews', name: 'Red Sky', type: 'STAR', owner: 'portent', reach:
   run(c) { c.mark(c.u, 'portent_scorch', 1, 3); } });
 defMove({ id: 'unlucky', name: 'On Its Way', type: 'STONE', owner: 'portent', reach: 'single', tags: ['spell'], cd: 3, fx: 'lift | pebble rain slow | crack',
   text: 'After 2 of the foe\'s turns: it takes 315% MGK.',
-  run(c) { if (c.blocked(c.tgt)) return; c.tgt.k.badnews = 2; c.tgt.k.badnewsDmg = Math.round(stat(c.b, c.u, 'mgk') * 3.15); c.msg(`Something is on its way to ${c.tgt.mon.name}.`); } });
+  run(c) { if (c.blocked(c.tgt)) return; c.tgt.k.badnews = 2; c.tgt.k.badnewsDmg = Math.round(stat(c.b, c.u, 'mgk') * 3.15); c.msg(`Something is approaching ${c.tgt.mon.name}.`); } });
 defMove({ id: 'doom', name: 'Ill Omen', type: 'STAR', owner: 'portent', reach: 'single', tags: ['spell'], cd: 7, nerve: 5, fx: 'flare big | rune*3 converge | sigil sparkle dark', text: 'Doom 3. The foe takes 60% MGK each turn.',
   run(c) { if (c.st(c.tgt, 'doom', 3, stat(c.b, c.u, 'mgk') * 0.6) && has(c.u, 'illwind')) c.tgt.k.illwind = 1; } });
 
@@ -783,10 +783,10 @@ defSummon({ id: 'flare_shell', name: 'Cinder Shell', owner: 'flare', sprite: { p
   gone(b, s, f) {
     if (!f || f.ko || !marked(f, 'flare_egg')) return;
     unmark(f, 'flare_egg'); clearForm(b, f); delete f.s.stun;
-    if (s.hp <= 0) { msg(b, `${label(b, f)}'s cinder goes out early.`); dealDamage(b, null, f, f.maxHp * 0.2, dot('T'), null); return; }
+    if (s.hp <= 0) { msg(b, `${label(b, f)}'s ember dies.`); dealDamage(b, null, f, f.maxHp * 0.2, dot('T'), null); return; }
     f.hp = Math.max(f.hp, Math.round(f.maxHp * 0.6));
     emit(b, { e: 'heal', side: f.side, idx: f.idx, amt: 0 });
-    msg(b, `${label(b, f)} lights again.`);
+    msg(b, `${label(b, f)} is rekindled.`);
     splash(b, f, stat(b, f, 'mgk') * 0.8, 'M', 'STAR');
     const t = foeOf(b, f);
     if (!t.ko && !t.gone) applyStatus(b, f, t, 'stun', 1);
@@ -827,7 +827,7 @@ defMark({ id: 'tackle_braced', name: 'braced', clock: 'own', volatile: true, val
     if (d.dot || !src || src.side === f.side) return;
     unmark(f, 'tackle_braced');
     const i = f.moves.indexOf('rush');
-    if (i >= 0 && f.cd[i] > 0) { f.cd[i] = 0; msg(b, `${label(b, f)} is ready to rush.`); }
+    if (i >= 0 && f.cd[i] > 0) { f.cd[i] = 0; msg(b, `${label(b, f)} prepares to charge.`); }
   } });
 
 defPassive({ id: 'tally', name: 'Tally', owner: 'tackle', text: 'Deals +10% damage for each foe its side has KO\'d.',

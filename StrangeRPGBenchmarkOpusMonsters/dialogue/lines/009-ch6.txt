@@ -1,0 +1,331 @@
+# WHORL game text, chunk 9 of 26. Files: src/content/act2/ch6.ts, src/content/act2/kit.ts, src/content/areakit.ts, src/content/byssus.ts, src/content/credits.ts, src/content/gems.ts, src/content/geode.ts
+# Speakers: hint (31), DRUSE (18), ? (16), BEZEL (16), Cinch (15), choice (14), notice (13), Gran (10), Strandmonger (9), look (7), Shellwright (7), Bare (6), Tack (5), ? (add) (5), Letter (5), narration (4), choice prompt (4), Man at the well (3), Eldest (3), Conch-diver (2), goal (2), ? (listMenu) (2), The Sifter (2), The Strand Boardmaster (2), Carving (1), ? (knot) (1), ? (vellumslip) (1), ? (welling) (1), ? (full) (1), ? (squall) (1), ? (dynamo) (1), ? (mundane) (1), Hermit (1), Old man (1), Woman (1), Boy (1), Girl (1), ? (once) (1), ? (toast) (1), ? (text) (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/content/act2/ch6.ts
+
+== scene: map conchlip
+[0itp7c8] Conch-diver | I dive in the mouth at low, while it's out walking. Pearls in there! Big pink ones!
+[1psdzxy] Conch-diver | Ugh. Not a single pink one today.
+[0wboeht] look | Letters pressed deep into the soft pink of the lip itself.
+[0dw6usg] look | Knobs line every turn of the spire, worn smooth at the top.
+[1x7mug5] look | Something has gripped this shell repeatedly, using those knobs.
+[0ktrkkc] look | Tucked under the lip's edge, where the pink curls inward, lies a nautilus horn.
+[09g77dz] look | A label stuck in the sand beside the massive pink shell.
+
+== scene: gleanerHolds
+[1i9toxf] choice | Call out to it
+[1fqmha4] choice | Leave it alone
+
+== scene: lipEnter
+[06vxqmw] Cinch | Sit. I'm not going any further. This ledge is perfect. It's made for sitting.
+[18aw6n4] Cinch | From here, you can hear something breathing. Or maybe the ocean. Hard to tell which.
+[13l4po0] goal | Dive in at the lip and circle the interior of the spiral.
+
+== scene: lipCinch
+[02iel05] Cinch | Wade. I've been repeating the name. It feels a bit small.
+[0garknt] Cinch | Rim holds. Haven't drifted off it. Plenty of space.
+[0nreobq] Cinch | Breathing, or the sea. I can't quite decide. Sit down and help me out.
+
+== scene: map conchpink
+[1gfef88] look | A circular door set into the pink wall. It's closed. Beyond it, the spiral continues upward.
+
+== scene: ch6
+[1yafxus] hint | (A closing wall will shove you in the direction you're facing.)
+
+== scene: brush
+[0weqpix] hint | (Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)
+[175v7r9] hint | (At low tide, the walls are deaf. The path only opens during high tide.)
+
+== scene: turnEnter
+[036w05c] hint | (A door remains closed as long as you can see it,
+[1klh1i8] hint | whether straight ahead or reflected in a polished surface.)
+[1t4hanm] hint | (Hold the face button to move in reverse.)
+
+== scene: opening
+[0akcnfc] hint | (Small Gran's lines unlock this path. Note: She is not part of your team.)
+
+== scene: map conchroar
+[0pfwsky] Carving | A circular shut door, intricately carved with {#1}.
+[0txeqqh] look | A pink pool situated at the second opening, its water mirroring the hue of the lip.
+
+== scene: roarEnter
+[0k74ez9] hint | (Speak to Small Gran at an opening.
+[0n3hbez] hint | Her subsequent line will emerge from the next opening above, amplified.)
+[0ovrbq7] hint | (Each door corresponds to one of her lines.)
+
+== scene: aperture
+[1ts7q69] choice | Awaken it
+[14mw3c8] choice | Not yet.
+[0ilr54r] hint | (Small Gran's final line triggers the awakening. Note: She is not part of your team.)
+[15arx7b] hint | (Her following line is her last.)
+[1duyzki] choice | Speak with her.
+
+== scene: wake
+[0zpxxzi] hint | (The tide is currently high. Both sides begin with 3 tide.)
+[0g3kf5a] hint | (The Conch will transport you out at the lip. Return when the tide is high.)
+
+== scene: lines
+[0lw0z9o] ? (knot) | Something shifts in Knot. Once. ... A long, creaking groan.
+[0uxu8gc] ? (vellumslip) | It flips over in the hand. ... Just once.
+[0mi2int] ? (welling) | Water stirs deep within Kaivodo. ... Far below.
+[0y45zdp] ? (full) | The tide in Full rises. ... Then falls.
+[10h13oh] ? (squall) | Rain falls from it, slanting. Lightly. ... Onto the vast hand.
+[0fi3pqx] ? (dynamo) | It vibrates. ... The same pitch as the old pump.
+[0l0qrl7] ? (mundane) | It pulses. ... Once. ... With excruciating slowness.
+
+== scene: hears
+[1it29hz] narration | It performs its usual action. The hand remains steady for it.
+
+== scene: i
+[0xv1luf] ? (listMenu) | Which whorl do you offer?
+
+== scene: chooseGift
+[1l7wwra] hint | (Your team must retain at least one whorl.)
+[14x36so] choice | Surrender it.
+[199g7m7] choice | Select again.
+[061qwlv] choice prompt | {m.name}. It will not return.
+
+== scene: theGift
+[0i6yn3w] Cinch | Sit down. You can see its empty hand from this angle.
+[0aeli4t] Cinch | It picked every shell off the sand. Clearly, it only ever needed one.
+[0hl0mjn] hint | (Select a whorl to offer it. It will not return.)
+[0ftjsn8] Cinch | Stay put. It's motionless now. The old thing was always good at staying still.
+[01cay3w] Cinch | Take a seat. She has the best spot on the beach.
+[145k8ql] notice | Ouro earns a star grain. That makes six.
+
+== scene: lowWaterAfter
+[1dxnd0m] Cinch | Sit if you wish. Nothing is coming.
+
+== scene: theVolute
+[0b3ha2y] narration | Far down the beach, the Gleaner sits in the pink shell, holding something to its ear.
+
+== scene: ch6
+[01e3836] Tack | 0 turns. 3 of us, seated, noting this.
+[1fmxsle] Tack | Day 41. That's 41 turns. I said, it's your go.
+[1sjoxv7] Bare | Sit if you like. Leave the post alone.
+[0u2ho6v] Hermit | (A Hermit sits on the hard new edge, with a haul team asleep beside them.)
+[0i47cfb] Bare | Go home. Your gran will have soup ready.
+
+== scene: epilogueApex
+[0682tb9] Tack | Day 41. 41 turns. Your move.
+[1eieo0n] Tack | 0 turns today. that still counts.
+[0dx02up] Bare | Drop it. Let things unfold in their own time.
+[02gq3mh] Tack | 3 seated. good. I'll count days.
+
+== scene: epilogueLip
+[18iliob] Bare | Take a seat. All of you. Rest.
+[00nhyjt] Bare | Put the loot away. Go get some food.
+[0hnh4ld] Bare | Head home. Have a meal at your grandmother's.
+
+== scene: kitchen
+[1j2stee] Gran | Tell my little turnip
+[0un6q5f] Gran | You handed her over to a child.
+[1yit1c3] Gran | She'll like that. She always loved the shore.
+[0ik1yxz] Gran | That is my left.
+[0rsymhg] Gran | Tell my little turnip she's finally come home.
+[02n53hv] Gran | Tell them she smells of salt.
+[1r7md7f] Gran | Tell them that's my boot.
+[0ns3gip] Gran | Tell them it was the left one. I hopped the whole way home.
+[1mcvrcg] Gran | Tell them they seem much lighter.
+[0kfgc2m] Gran | Tell my little turnip they're looking quite a bit lighter.
+[0ba5cys] Man at the well | Dry. Word is she's off to the beach. She's always been a nervous sort.
+[1dv7qil] Man at the well | She's up! The water's rising. She must have heard something she liked.
+[00czutv] Man at the well | She's still just dust. We carry it. The distance isn't far. I tell her about it on every trip.
+[1diddl8] Strandmonger | That stray cost me two cowries and a sandwich. I still miss that sandwich.
+[1jb404r] Strandmonger | You got the better end of that deal twice over. I've never been able to pull that off.
+[1hcexgr] narration | North of the Rim, the Exuvia sinks deeper into the sand and lies still.
+[1s11jem] narration | That night, the moon rises full and stays that way.
+[1n8h7wz] goal | The Strand stays open, whether through the Margin or the gray expanse of the Shoreline.
+[09gp5ra] hint | (The Strand remains open. Keepers on the Strand take rematches. Both teams fight at level 35.)
+
+== scene: credits2
+[16aqn2j] ? (add) | The Volute is resting.
+[0cfgqxz] ? (add) | The Volute is hardening.
+
+== scene: ch6
+[0wk9tzr] Cinch | Sit down. Wade. That's a small person's name.
+[11ejgoj] Cinch | I'm staying out here. They've got a fine fire going, and a log that fits me just right.
+[1kaq2zr] Cinch | Sit down. Your world has a hand in it, lying palm-up. I once sat on its thumb for a whole afternoon.
+[1tqlngg] Cinch | From that thumb, you could spot a ring on it. Inscriptions written around the inside band.
+[1ra1hi5] Cinch | Wait up. I'm coming along too. I've got a lip I can perch on.
+[0in37z3] Strandmonger | A substantial one! Three cowries.
+[12j3ghb] Strandmonger | He inscribed both sides, which is complimentary, though I regret it now.
+[0jux6t5] Letter | Day 30. 30 turns. Something lifted us at the low. Volute tipped. Lug fell over.
+[13xvk7c] Letter | Turned post. 1 hard turn. Set down. Fid says 4 spans down.
+[15ag934] Letter | Hasp asked if hands steady. No. 0 days off. Tack.
+[046zadx] Strandmonger | It came from Bare. They refused to pay the postage.
+[0ladw6u] Strandmonger | Still, I carried it, costing me a cowrie and my reputation.
+[1ec5iqp] Letter | Haul at every low tide. All teams, all at once, in rhythm. Keep moving.
+[10vr9zs] Letter | Mend two broken teams. Haul again. Return home when you're able. Bare.
+[1yfzia8] Strandmonger | You're headed for the pink one, aren't you? I can see it on your face.
+[0ulehg1] Strandmonger | That's a ten-cowrie look, easy enough.
+[1uz5x18] Strandmonger | Plus, I'll guard your Midden for free while you're down there. Just once. Free. It makes me sick.
+[00w653q] Eldest | Yesterday, that boot was on her foot. This morning, I'd recognize it in the dark.
+[1tsf19d] Eldest | Yesterday, she would have wanted it back. This morning, I think she still would.
+[03yl9mt] Eldest | (that girl went home yesterday. by this morning, she had aged.)
+[0b0muah] Old man | Big Low struck. It swept right past us twice! We flailed our legs wildly.
+[11hmegr] Woman | Every house held fast, except for the one on the far bar. He's currently with his sister.
+[0ggr869] Boy | A girl's voice emerged from the pink one! Everyone ceased sweeping. I was the first to stop.
+[0g3pifm] The Sifter | Two lows daily, every day, and one house restored. A perfectly fair arrangement!!
+[0w9rcc3] The Sifter | Two lows daily, every day, and one house. A just measure. A thimble, a barrow, a flannock.
+[07daz85] Girl | Someone shouted, "Don't look," very loudly. So Gloss looked. Gloss always does.
+[0nayvl9] ? (once) | I heard it on the stairs. It said it twice! The second time was louder.
+
+== scene: strandBoardmaster
+[0rbmo8v] The Strand Boardmaster | Every Strand card has passed through my hands, damp or dry.
+[11iqowf] The Strand Boardmaster | Five remained, showing the most loyalty!!
+
+==== file: src/content/act2/kit.ts
+
+== scene: useShell
+[19ltuu9] choice | Call {sitting.name}
+[0vse1qq] choice | Leave it
+[1cf8v3b] notice | {sitting.name} returns to your team.
+[0bbbzof] notice | {sitting.name} has been tossed into the Midden.
+[1o4nkuq] hint | Ouro must keep at least one whorl before leaving one in a shell.
+[0w2dnfp] choice | Leave it
+
+== scene: i
+[1wpkih1] ? (listMenu) | Which whorl are you leaving behind?
+
+== scene: turnTide
+[1pesbij] hint | (When the tide recedes, the sand is exposed, and stars align in a row.)
+[0mz1jr1] hint | (At low water, an empty shell is gone when the shadow passes over it.)
+[0s4le28] hint | (You can leave a whorl behind in a shell. Since the whorl moves, the shell stays.)
+[015x8k1] hint | (Ring the tide bell to reverse the flow. When the tide is high, the shallow sand is submerged.)
+
+== scene: giveGrain
+[09tzvbh] notice | {from} provides Ouro with a star grain.
+
+== scene: chooseGift
+[0hredji] choice | Offer {m.name}
+[114tkth] choice | Not yet
+[1bdezvi] choice prompt | It will not return.
+
+==== file: src/content/areakit.ts
+
+== scene: reward
+[1haetq6] notice | {#1} {#2}{#3}, for catching a weak, wild whorl.
+[10m9syv] notice | A notion: {#1}.{#2}
+[0y8z3re] notice |  x 
+[0p56st6] notice | A notion: 
+[0yiypgd] notice |  x 
+[0o9uclz] notice | {r.rind} cowries.
+[0r1fauu] notice | {r.tan} nacre. Any grotto will layer it on.
+
+==== file: src/content/byssus.ts
+
+== scene: introduceByssus
+[015vm6c] Shellwright | Byssus, right? That mussel thread.
+[1d4cm7o] Shellwright | I'll spin a line to a distant grotto, and you'll find a team waiting.
+[1xorcnm] Shellwright | Bring six whorls. Four fighters, each at level twenty-five. Each species once, each notion once.
+[1xpqfh8] Shellwright | Include one legendary, at most. No charms.
+[0j6hdmm] Shellwright | Check the roster in the menu to see which whorl breaks what.
+[1cr5i6k] Shellwright | Have a friend? Create a code and share it. Solo? Spin for whoever else is online.
+[1pswjat] Shellwright | Track wins and losses. No cowries or pearls. Anything else?
+[1ihm6mj] hint | (Press X, select Register, then press left on the first page. Find the Byssus section in the Guide.)
+
+==== file: src/content/credits.ts
+
+== scene: credits
+[1lqq9a0] ? (add) | Ouro conjoined nothing.
+[0dwzbi7] ? (add) | The Volute remains secure.
+[1tjrqni] ? (add) | The Volute sheds.
+
+==== file: src/content/gems.ts
+
+== scene: gems
+[1m6t6pz] ? | A foldable gem setter's bench, complete with arms, stations, and a tray of stones.
+
+== scene: findSketch
+[0ha5uk1] notice | A Setting sketch: {pz.name}.
+[0a7tfqn] hint | (A diagram of arms and stones. A gem setter in Rib would recognize its purpose.)
+[1bz9gxq] hint | (Place the sketch on the Setting board. Open the Setting menu to test it.)
+
+== scene: gems
+[05qcw06] ? (toast) | The sketch is yours.
+[0r6urdd] ? (text) | A Setting sketch. {pz.idea}
+
+== scene: BEZEL_TIERS
+[0gfsukh] ? | Just one set! A machine that functions once is luck. Yours ran four times. That is a trade.
+[1ov5vpk] ? | Three sketches set. Rib's setters usually took a season for three. Or maybe two.
+[1srys8f] ? | Six! Half the sketches, set with near perfection.
+[1xacedx] ? | There's a geode-cracker in Hum named Druse who collects people like you.
+[170u6l8] ? | Go on, let yourself be collected.
+[1p9li31] ? | Nine set. My bench is jealous of yours. It pinched my thumb this morning out of spite.
+[0ta61vv] ? | EVERY sketch set. I have nothing left to teach you, which feels incredibly strange!!
+[17y2lku] ? | Take this ring. I set it at your age and it has never fit a single finger since.
+
+== scene: BEZEL_SHOP_TIERS
+[0za7i58] ? | A counter sketch, set! Shellwrights sell the difficult ones to people they dislike.
+[0logwe3] ? | I mean, those they look up to.
+[0kbm836] ? | Four counter sketches set. Those aren't drawings for children.
+[1r5egg9] ? | For apprentices, I mean, which is even worse.
+[0zrq2dk] ? | Eight! I tried the strand of four one winter. My bench and I didn't speak until spring.
+[05n5p4f] ? | All twelve counter sketches. And the tiara?! Mine has never once stood up on its own.
+[182zrwz] ? | This stone kept track of my tiara runs. Take it. It has completely given up on me.
+
+== scene: bezel
+[1rxxdq3] BEZEL | A FINE afternoon for setting stones. I mean, splendid. "Fine" is two steps below "splendid".
+[00jxvvl] BEZEL | I'm Bezel. I set stones for Rib and anyone else who pays promptly.
+[1ejswox] BEZEL | Is that a sketch you're holding? Someone drew a machine and misplaced it. How delightfully careless.
+[0osrjdi] BEZEL | A setter's bench has arms to hold stones and setters to secure them. Nobody's thumbs get pinched!!
+[1pmi4y3] notice | You've obtained the Setting board.
+[10gi1pz] BEZEL | I maintain three workbenches, though the third is largely unnecessary.
+[0k73a7j] BEZEL | Here's a first sketch to get you started.
+[19zibkq] hint | (Setting is now available in the menu. Press X to select Setting.)
+[1eoey8e] BEZEL | Sketches drift through the Volute like leaves. Bring back any you find set, and I will be delighted.
+[1tnl8g9] BEZEL | {#1} cycles for {pz.name}? My own machine runs on {#3}.
+[1upnt9r] BEZEL | You've outdone the setter. That was fast. Indecent, I mean, but in a good way.
+[1le5bv8] BEZEL | The Shellwrights are now selling sketches over the counter. Tough ones. Vicious ones, I mean.
+[1hen0t7] BEZEL | Buy one and suffer magnificently.
+[1a0zc4p] BEZEL | The first sketch requires one arm. Grab the pearl, swing it around, and drop it over the setting.
+[11nzhwz] BEZEL | {n} of {#2} set. an unset sketch is like an uncut stone!!
+[1mafevs] BEZEL | {n} set. Druse in Hum speaks of a geode that needs all twelve.
+[00vov9q] BEZEL | I find geodes rather vulgar, personally.
+[0sz1eka] BEZEL | All twelve, and {G.gem.runs} machines are now set and running. I keep count, I'm a setter.
+
+== scene: druse
+[0fgmwqk] DRUSE | There's a hollow in here, fist-sized and lined with violet. Watch closely.
+[1nub0cx] DRUSE | See that? Violet. I'm Druse. I crack geodes open, and I never miss what's inside.
+[1bcit10] DRUSE | Your pack doesn't have a setter's board. Bezel in Rib has extras. Ask around.
+[1atquu8] DRUSE | You've got a setter's board in your pack, covered in sketches. Let me see what you've worked on.
+[0cizyey] DRUSE | Still no board. Bezel, in Rib. They've got spares.
+[1cy1e9g] DRUSE | All twelve are set. Out in the crater fields, a geode just cracked open. I could hear it from here.
+[1olc4l9] DRUSE | The east crater, north of Fall. Focus on its south rim. Bring something soft to cover your ears.
+[1il3u0s] DRUSE | Inside the Hollow, the whorl is still ticking. It demands every sketch, including the Shellwrights'.
+[0xueww1] DRUSE | {n} set. there's a machine-shaped chamber inside your head now. perfect. I need that space.
+[160lum9] DRUSE | North of Fall, in the crater fields, sits a geode as large as Rib. No one has opened it yet.
+[1upqz8w] DRUSE | The entrance is a seam in the east crater, a lock of twelve settings.
+[191ult4] DRUSE | Set all 12 sketches and it opens.
+[105dj9g] DRUSE | Inside, there's a whorl strung like a necklace. I've never seen it, but I know it's there.
+[0rd7vit] DRUSE | {n} of 12. Inside the geode, the whorl is counting in time with you.
+[14ktxg3] DRUSE | That board is pristine. Not a single scratch. Try running something. Break something.
+[0ogizzl] DRUSE | {runs} runs. Inside each one, there's a faint click that tells you whether it works or not.
+[1tds1cd] DRUSE | {runs} runs. Inside that number, there are plenty of stones scattered on the floor.
+[071vgku] DRUSE | {runs} runs! Inside you there's a setter. Bezel will be cross.
+
+==== file: src/content/geode.ts
+
+== scene: geode
+[0e859bq] hint | (The rim seam chimes once for each completed Setting puzzle: {n} of 12.)
+
+== scene: playMove
+[12zwdqd] hint | (The socket rings flat. It wants the stones it shows, each on its own mark.)
+
+== scene: c
+[1g4a3sa] choice prompt | Arm {#1}
+[01rxihm] choice prompt | The arm
+
+== scene: carcanet
+[1ud9yx2] hint | (Carcanet stays still. {n} of its {ALL_PUZZLES.length} settings chime. Place every sketch, including those you've bought.)
+
+== scene: c
+[02oxqx1] choice | Catch it
+[1qyniqk] choice | Let it be
+
+== scene: carcanet
+[15bhukr] hint | (Carcanet arranges its Stones according to the sequence of its Tape.
+[06a9rdw] hint | Record the Tape in the Setting, beneath its name.)

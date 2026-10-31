@@ -36,20 +36,20 @@ defScript('a2TackFlats', async () => {
   await act('a2TackFlats', 'nod');
   faceToward('a2TackFlats', 'ouro');
   const tries = tackTries('flats');
-  if (tries) await say('Tack', `Try ${tries + 1}. Same 47 footprints. Same tide.`);
+  if (tries) await say('Tack', `Try ${tries + 1}. The 47 footprints are the same. The tide hasn't changed.`);
   else {
-    await say('Tack', '47 footprints from the big shell to here. Each 1\'s the size of a pond. Walked round all of them.');
+    await say('Tack', '47 footprints from the big shell to here. Each 1 is the size of a pond. Walked round all of them.');
     await say('Tack', '2nd battle out here, 1st real one. Brack\'s at Strand level 14. I checked twice.');
-    await say('Tack', '1 of us is going home wet. Not me.');
+    await say('Tack', '1 of us is going home soaked. Not me.');
   }
   const r = await battle({ enemy: tackFlatsTeam(), name: 'Tack', ai: 'trainer', wild: false, bg: field.bg(), music: 'rival' });
   field.playMapMusic();
   countTack('flats', r.result === 'win');
   // Tack stays on the Flats until Ouro wins. Talking to him again starts the rematch.
-  if (r.result !== 'win') { await say('Tack', `${tackWinsLine()} Go on, count it. I'll be right here.`); return; }
+  if (r.result !== 'win') { await say('Tack', `${tackWinsLine()} Go ahead, count them. I'll be right here waiting.`); return; }
   setFlag('tackFlats');
   const t = tackTally();
-  await say('Tack', `${t.ouro} losses. ${t.tack} wins. Even out here. Great.`);
+  await say('Tack', `${t.ouro} losses. ${t.tack} wins. Even here, it's a tie. fantastic.`);
   await say('Tack', 'Footprints keep going. 1 every 30 steps. I\'m counting the rest. Don\'t wait up.');
 });
 
@@ -105,13 +105,13 @@ defMap({
     tideKinds: { high: kinds([['seiche', 3], ['pallium', 2], ['scud', 2]]), low: kinds([['macula', 3], ['scud', 2], ['skitter', 2]]) },
   },
   npcs: [
-    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { nacre: 1, name: 'Spot-counter', team: [['macula', 9], ['pallium', 9]], intro: 'I count the Cowrie\'s spots. They move when I blink. So I don\'t blink. Ow.', defeat: 'Lost count. Blinked. From the top.', sight: 3 } }),
-    person('a2SeicheStander', 12, 24, 'cowrie2', 'Seiche-stander', 2, { when: highTide, trainer: { name: 'Seiche-stander', team: [['seiche', 10], ['scud', 10]], intro: 'I stand in the gray at high water. It\'s super warm in there. Nobody believes me.', defeat: 'Back in the gray. It\'s warm in there, I swear.', sight: 2 } }),
+    person('a2SpotCounter', 30, 6, 'cowrie1', 'Spot-counter', 3, { trainer: { nacre: 1, name: 'Spot-counter', team: [['macula', 9], ['pallium', 9]], intro: 'I count the Cowrie\'s spots. They shift when I blink, so I force myself not to. Ow.', defeat: 'I lost my count. I blinked. Starting over from the top.', sight: 3 } }),
+    person('a2SeicheStander', 12, 24, 'cowrie2', 'Seiche-stander', 2, { when: highTide, trainer: { name: 'Seiche-stander', team: [['seiche', 10], ['scud', 10]], intro: 'I stand in the gray at high water. It\'s incredibly warm in there. Nobody believes me.', defeat: 'Back in the gray. It\'s warm in there, I swear it is.', sight: 2 } }),
     person('a2CinchPosts', 8, 22, 'realcinch', 'Cinch', 3, { when: () => marked() && !flag('cinchLeftPosts') }),
   ],
   spots: [
     { x: 20, y: 13, script: 'a2DrillHole' },
-    stash('cb_top', 21, 12, 'On top of the dome, in a dip worn by feet, a triton horn.', { pegs: ['bone', 1] }),
+    stash('cb_top', 21, 12, 'Resting in a depression worn smooth by feet atop the dome is a triton horn.', { pegs: ['bone', 1] }),
     { x: 31, y: 26, when: () => highTide() && !flag('found_cb_gray'), script: async () => {
       setFlag('found_cb_gray');
       await reward({ notion: 'thornvest' });
@@ -141,7 +141,7 @@ defScript('a2MovingSpot', async () => {
 
 defScript('a2Gray', async () => {
   await emote('ouro', 'silence');
-  if (!flag('grayTold')) { setFlag('grayTold'); await hint('(A SALT whorl worn in the lead walks you through gray.)'); }
+  if (!flag('grayTold')) { setFlag('grayTold'); await hint('(A SALT whorl worn in the lead walks you through the gray.)'); }
 });
 
 defScript('a2MouthOutside', async () => {
@@ -151,7 +151,7 @@ defScript('a2MouthOutside', async () => {
 });
 
 defScript('a2DrillHole', async () => {
-  if (await choose(['Climb in the hole', 'Not now']) !== 0) return;
+  if (await choose(['Drop into the hole.', 'Not now.']) !== 0) return;
   await act('ouro', 'hop');
   field.warp('polish', 18, 3, 0);
 });
@@ -163,9 +163,9 @@ defScript('a2CowrieLabel', async () => {
   await say('Label', 'KEEP THE COWRIE.');
 });
 defScript('a2CinchPosts', async () => {
-  await cinch('Still here? Sit. Came down when the stamping started. Heard it from the bar.');
-  await cinch('Four posts. White ones.');
-  await cinch('From down here they look new.');
+  await cinch('Still around? Take a seat. I came down when the stamping began. I heard it over at the bar.');
+  await cinch('Four posts. They\'re white.');
+  await cinch('From down here, they look brand new.');
 });
 
 // ---------------------------------------------------------------- the Polish
@@ -213,16 +213,16 @@ defMap({
     person('a2PoBoy', 12, 18, 'cowrie2', 'Boy', 0, { wander: true }),
     person('a2PoOldWoman', 30, 18, 'cowrie1', 'Old woman', 3),
     person('a2Clerk', 18, 12, 'villager2', 'Gloss\'s clerk', 0),
-    person('a2Polisher', 32, 5, 'cowrie2', 'Polisher', 3, { trainer: { name: 'Polisher', team: [['enamel', 10], ['emery', 10]], intro: 'I polish the sky. All of it. You\'re next, you\'ve got smudges.', defeat: 'Smudged. Leave it. Don\'t you dare wipe it.', sight: 3 } }),
-    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { nacre: 1, name: 'Pig-keeper', team: [['porcella', 10], ['specie', 11]], intro: 'My pig\'s glazed. So\'s my purse. So\'s my other pig.', defeat: 'Glaze cracks. Yeah. I knew that.', sight: 3 } }),
+    person('a2Polisher', 32, 5, 'cowrie2', 'Polisher', 3, { trainer: { name: 'Polisher', team: [['enamel', 10], ['emery', 10]], intro: 'I buff the sky. All of it. You\'re up next. You\'ve got smudges.', defeat: 'It\'s smudged. Let it be. Don\'t you dare try to wipe it off.', sight: 3 } }),
+    person('a2PigKeeper', 3, 19, 'cowrie2', 'Pig-keeper', 1, { trainer: { nacre: 1, name: 'Pig-keeper', team: [['porcella', 10], ['specie', 11]], intro: 'My pig is glazed. So is my purse. So is my other pig.', defeat: 'The glaze cracks. Yeah, I knew that.', sight: 3 } }),
     person('a2MaculaChild', 20, 21, 'cowrie1', 'Child', 0),
-    { id: 'a2ChildMacula', x: 20, y: 22, sprite: 'stone', name: 'Madaku', mon: SPECIES.macula ? 'macula' : undefined, lines: ['A small dark spot stands on the blank, on nothing at all.'] },
+    { id: 'a2ChildMacula', x: 20, y: 22, sprite: 'stone', name: 'Madaku', mon: SPECIES.macula ? 'macula' : undefined, lines: ['A tiny dark spot stands out against the blank, against nothing at all.'] },
   ],
   spots: [
-    look(14, 11, 'A pool of polish. Ouro leans over it. Nothing looks back for three breaths. Then Ouro does.'),
-    look(12, 8, 'Small handprints pressed into the polish when it was soft, hundreds of them, at one height.', 'The highest one is a little higher than the rest.'),
+    look(14, 11, 'A pool of polish. Ouro leans over it. Nothing reflects back for three breaths. Then Ouro does.'),
+    look(12, 8, 'Small handprints pressed into the polish while it was soft, hundreds of them,', 'all at the same height.', 'The highest one sits just a bit higher than the others.'),
     { x: 24, y: 18, script: 'a2Bowl' },
-    look(18, 2, 'A heap of cushions under the drill hole. Somebody plumps them after every drop.'),
+    look(18, 2, 'A pile of cushions lies beneath the drill hole. Someone fluffs them after every drop.'),
     ...[3, 10, 27, 33].map(x => ({ x, y: 22, script: 'a2Blank' })),
   ],
 });
@@ -239,7 +239,7 @@ defScript('a2PolishEnter', async () => {
   await walkTo('a2PoOldMan', 17, 5);
   faceToward('a2PoOldMan', 'ouro');
   await emote('a2PoOldMan', 'question');
-  goal('Gloss keeps the mouth. The way down is past the blank, at the bottom of town.');
+  goal('Gloss is the keeper of the mouth. The way down is past the blank, at the bottom of town.');
 });
 
 field.stepHooks.push(f => {
@@ -267,39 +267,39 @@ function cowrieTalk(id: string, name: string, l: { base: string; low?: string; h
     await say(name, line);
   });
 }
-cowrieTalk('a2PoWoman', 'Woman', { base: 'We polish the inside every day. You can see your feet in it. A bit late, but you can.', low: 'Low water. Stamp! Come on, stamp.', take: 'Something touched the floor. So we stamped. And it went. That\'s all I know.' });
+cowrieTalk('a2PoWoman', 'Woman', { base: 'We polish the interior daily. You can see your feet in it. It\'s a bit late, but you can.', low: 'The water is low. Stamp! Come on, stamp.', take: 'Something touched the floor. So we stamped. And it vanished. That\'s all I know.' });
 cowrieTalk('a2PoOldMan', 'Old man', {
-  base: 'Your reflection\'s three steps behind. Mine\'s four. I\'m older, so.', low: 'Stamping. My reflection\'s stamping too, eventually.',
-  open: 'There\'s a draft from the mouth. Haven\'t felt one since I was three behind.', take: 'Floor\'s crooked now. And I\'m four behind. Give me a year.',
+  base: 'Your reflection is three steps behind you. Mine\'s four. I\'m older, so.', low: 'We\'re stamping. My reflection is stamping too, eventually.',
+  open: 'There\'s a draft coming from the mouth. I haven\'t felt one since I was three steps behind.', take: 'The floor is crooked now. And I\'m four steps behind. Give me a year.',
 });
 cowrieTalk('a2PoGirl', 'Girl', {
-  base: 'The mouth\'s been shut since my gran\'s gran. We like it shut. Shut is good.', low: 'You stamp too, okay? Everybody stamps at low.',
-  open: 'Who opened the mouth? Was it you? Ugh. Now we\'ll have to stamp more.', take: 'Posts outside now. Gran says they\'re for us. Didn\'t say what for.',
+  base: 'The mouth has been shut since my grandmother\'s grandmother. We prefer it shut. Shut is good.', low: 'You stamp too, right? Everybody stamps at low tide.',
+  open: 'Who cracked it open? You? Great. Now we have to stamp more.', take: 'There are posts outside now. Gran says they\'re for us. She didn\'t say what for.',
 });
 cowrieTalk('a2PoMan', 'Man', {
-  base: 'At low water we all stamp at once. It\'s the only dance we\'ve got. It\'s a good dance.',
-  high: 'High water, and everything\'s rolled to the seaward wall again. Leave it. I do.', take: 'From now on we stamp every low. Harder. Way harder.',
+  base: 'At low water, we all stamp at once. It\'s the only dance we have. It\'s a good dance.',
+  high: 'High water, and everything has rolled back to the seaward wall. Leave it. I do.', take: 'From now on, we stamp every low tide. Harder. Way harder.',
 });
-cowrieTalk('a2PoBowl', 'Woman with a bowl', { base: 'You lot spend little cowries? Fine by us. They\'re nobody\'s.' });
-cowrieTalk('a2PoBoy', 'Boy', { base: 'Gloss lives at the mouth. Gloss says everything twice. We just say it once. Once is plenty.', high: 'High water! Lean or slide. I slide.' });
-cowrieTalk('a2PoOldWoman', 'Old woman', { base: 'The spots on the sky go round once a year, dear. That one\'s late. Always is.' });
+cowrieTalk('a2PoBowl', 'Woman with a bowl', { base: 'You lot spend little cowries? Fine by us. They belong to no one.' });
+cowrieTalk('a2PoBoy', 'Boy', { base: 'Gloss lives at the mouth. Gloss repeats everything. We only say it once. Once is enough.', high: 'High tide! Tilt or slide. I go with sliding.' });
+cowrieTalk('a2PoOldWoman', 'Old woman', { base: 'The spots in the sky complete a circle once a year, dear. That one is late. It always is.' });
 
 defScript('a2Clerk', async () => {
   await strandBoard({
     id: 'a2peg2', name: 'Gloss\'s clerk', deck: ['macula', 'laggard', 'enamel', 'porcella', 'luster'], tier: 6, prize: 'glazecoat',
-    lines: ['I play Gloss\'s cards. Gloss plays nothing whatsoever, and wins!! Most efficient.', 'We observe the Strand rule. The bottom row is wet. Do mind your edges, lest they soggify.'],
+    lines: ['I play Gloss\'s cards. Gloss plays nothing at all, and wins!! Most efficient.', 'We observe the Strand rule. The bottom row is wet. Watch your edges so they don\'t get soggy.'],
   });
 });
 
 defScript('a2MaculaChild', async () => {
-  await say('Child', 'That pale bit\'s the blank. It\'s where the Cowrie never finished. You can\'t walk on it.');
-  await say('Child', 'My spot can! It came off the sky. It walks on nothing. It\'s so good at it.');
+  await say('Child', 'That pale patch is the blank. It\'s where the Cowrie never finished. You can\'t walk there.');
+  await say('Child', 'Mine can! It fell from the sky. It walks on nothing. It\'s so good at it.');
   // The child's Madaku steps onto the blank and stands there, small and dark.
   await prop('madaku', 'mon:macula', 20, 22, 16);
   await wait(30);
-  await say('Child', 'Wear one like it and you can walk it too. They\'re on the back, outside. Go catch one!');
+  await say('Child', 'Put one on, and you\'ll be able to walk in it. They\'re on the Cowrie\'s back. Go catch one!');
   await unprop('madaku', 16);
-  if (!flag('blankTold')) { setFlag('blankTold'); await hint('(A VOID whorl worn in the lead walks you across the blank.)'); }
+  if (!flag('blankTold')) { setFlag('blankTold'); await hint('(A VOID whorl worn in the lead guides you across the blank.)'); }
 });
 
 // ---------------------------------------------------------------- the Under-teeth: the teeth
@@ -340,9 +340,9 @@ defMap({
   npcs: [person('a2ToothSitter', 10, 7, 'cowrie1', 'Tooth-sitter', 0)],
   spots: [
     ...TEETH.map(([x, y], i) => ({ x, y, script: () => toothScript(i) })),
-    stash('ut_fifth', 22, 9, 'Past the fifth tooth, in the packed sand, a nautilus horn and a notion.', { pegs: ['iron', 1], notion: 'bodkin' }),
+    stash('ut_fifth', 22, 9, 'Past the fifth tooth, buried in the packed sand, lie a nautilus horn and a notion.', { pegs: ['iron', 1], notion: 'bodkin' }),
     { x: 21, y: 10, when: () => !!flag('drill3') && !flag('gimletDone'), script: 'a2Gimlet' },
-    look(4, 10, 'The slit. A line of light comes up through it from outside.'),
+    look(4, 10, 'The slit. A line of light rises through it from outside.'),
   ],
 });
 
@@ -372,14 +372,15 @@ async function openMouth(): Promise<void> {
   await morphTo('mouthOpen', 4, 10);
   sound('wind');
   await act('ouro', 'shiver');
-  goal('With the mouth open, starlight crosses the Glaze Halls at low water. The door is in the Polish.');
+  goal('Mouth agape, starlight crosses the Glaze Halls at low water. The door is in the Polish.');
 }
 
 defScript('a2ToothSitter', async () => {
   if (!flag('teethRule')) {
     setFlag('teethRule');
-    await say('Tooth-sitter', 'The tooth at the light end moves whenever you like. That one\'s the easy one.');
-    await say('Tooth-sitter', 'Any other one moves if the next one lightward\'s open and the rest past it are shut.');
+    await say('Tooth-sitter', 'The tooth closest to the light moves at your command. That\'s the simple one.');
+    await say('Tooth-sitter', 'Any other tooth will only move if the one toward the light is open,');
+    await say('Tooth-sitter', 'while all those beyond it remain closed.');
     await hint('(Open the first four teeth to open the mouth.)');
     return;
   }
@@ -387,10 +388,10 @@ defScript('a2ToothSitter', async () => {
   if (!G.beaten[k]) {
     await say('Tooth-sitter', 'I sit between the teeth. Only gap in town. I got here first.');
     const r = await fightTrainer({ name: 'Tooth-sitter', team: [['denticle', 11], ['diastema', 11]], intro: '', defeat: '' });
-    if (r.result === 'win') { G.beaten[k] = 1; save(); await say('Tooth-sitter', 'Okay, gap\'s yours.'); }
+    if (r.result === 'win') { G.beaten[k] = 1; save(); await say('Tooth-sitter', 'Alright, the gap is yours.'); }
     return;
   }
-  await say('Tooth-sitter', 'Gap\'s yours. Mind the sand.');
+  await say('Tooth-sitter', 'The gap is yours. Watch out for the sand.');
 });
 
 // ---------------------------------------------------------------- the Glaze Halls: the late reflection
@@ -457,7 +458,7 @@ defMap({
   zone: { kinds: kinds([['laggard', 3], ['tain', 2], ['luster', 2]]), lv: [9, 11], n: 3, area: 'cowrie' },
   npcs: [
     { id: 'a2Refl', x: 8, y: 22, sprite: 'vellum', ghost: true, img: reflectionImg, when: () => lit() && !(marked() && field.y >= 13) },
-    person('a2ReflChaser', 13, 12, 'cowrie2', 'Reflection-chaser', 3, { trainer: { name: 'Reflection-chaser', team: [['laggard', 11], ['luster', 11]], intro: 'I chase my reflection down here! It\'s always three behind. I\'m gonna get it one day.', defeat: 'Whoa. It caught up. That\'s never happened before.', sight: 3 } }),
+    person('a2ReflChaser', 13, 12, 'cowrie2', 'Reflection-chaser', 3, { trainer: { name: 'Reflection-chaser', team: [['laggard', 11], ['luster', 11]], intro: 'I chase my own reflection down here! It\'s always three steps behind me. I\'ll catch it one day.', defeat: 'Whoa. It finally caught up. That\'s never happened before.', sight: 3 } }),
   ],
   spots: [
     { x: 15, y: 16, when: () => !flag('found_gh_niche'), script: async () => {
@@ -482,7 +483,7 @@ defScript('a2GlazeEnter', async () => {
     await emote('ouro', 'question');
   }
   if (!lit()) {
-    if (!flag('ghDarkSeen')) { setFlag('ghDarkSeen'); await hint('The halls are dark at high tide. At low water, with the mouth open, starlight comes in.'); }
+    if (!flag('ghDarkSeen')) { setFlag('ghDarkSeen'); await hint('The halls are pitch-black at high tide. At low water, with the mouth open, starlight streams in.'); }
     return;
   }
   if (flag('ghLitSeen')) return;
@@ -491,8 +492,8 @@ defScript('a2GlazeEnter', async () => {
   strandFx.landings.push({ x: 8, y: 1, t: 0 });
   await wait(40);
   await emote('ouro', 'surprise');
-  await hint('(Your reflection walks your path three steps behind you.)');
-  await hint('(A plate in the glaze opens its door while your reflection stands on it.)');
+  await hint('(Your reflection follows your path, staying three steps behind you.)');
+  await hint('(A plate in the glaze opens its door when your reflection stands on it.)');
 });
 
 field.stepHooks.push(f => {
@@ -552,7 +553,7 @@ defMap({
   enter: 'a2GlossEnter',
   npcs: [person('a2Gloss', 7, 6, 'gloss', 'Gloss', 0)],
   spots: GDOORS.map((d, i) => ({ x: d.x, y: d.y, when: () => !gdOpen(i), script: async () => {
-    await say('Door', `${d.word} marks are cut in it, one above the other.`);
+    await say('Door', `${d.word} marks are carved into it, stacked one above the other.`);
   } })),
 });
 
@@ -563,12 +564,12 @@ defScript('a2GlossEnter', async () => {
   setFlag('glossSeen');
   faceToward('a2Gloss', 'ouro');
   // Every line of Gloss's is two sentences, the second the first with its ends swapped.
-  await say('Gloss', 'You arrived by the backwardly entrance. By the backwardly entrance, you arrived.');
-  await say('Gloss', 'I keep at the mouth. The mouth keeps at me.');
-  await say('Gloss', 'The floor keeps your steps, illustriously. Illustriously, your steps keep the floor.');
-  await say('Gloss', 'Walk it there and back. Walk it back and there.');
-  await hint('(The floor keeps your last steps. A door opens when they read the same backward as forward.)');
-  await hint('(Bumping a pillar clears the floor. Each door wants as many steps as it has marks.)');
+  await say('Gloss', 'You entered through the reverse doorway. Through the reverse doorway, you entered.');
+  await say('Gloss', 'I remain at the threshold. The threshold remains with me.');
+  await say('Gloss', 'The floor preserves your steps with distinction. With distinction, your steps preserve the floor.');
+  await say('Gloss', 'Traverse it there and back. Traverse it back and there.');
+  await hint('(The floor retains your final steps. A door opens when they read the same backward as forward.)');
+  await hint('(Colliding with a pillar clears the floor. Each door requires as many steps as it has marks.)');
 });
 
 field.stepHooks.push(f => {
@@ -587,18 +588,20 @@ field.stepHooks.push(f => {
 export const GLOSS_TEAM: [string, number][] = [['laggard', 11], ['tain', 11], ['luster', 11], ['macula', 12]];
 defScript('a2Gloss', async () => {
   if (grains() >= 2) {
-    if (marked()) { await say('Gloss', 'The Cowrie is marked, alas!! Alas, marked is the Cowrie!!'); await say('Gloss', 'At every low, we stamp in unison. In unison, we stamp at every low.'); return; }
-    await say('Gloss', 'The light came in at low, most luminously!! Most luminously, at low, the light came in!!');
+    if (marked()) { await say('Gloss', 'The Cowrie is marked, alas! Alas, the Cowrie is marked!'); await say('Gloss', 'At every low water, we stamp in unison. In unison, we stamp at every low water.'); return; }
+    await say('Gloss', 'The light entered at the low water, shining brilliantly!');
+    await say('Gloss', 'Brilliantly, at the low water, the light entered!');
     return;
   }
-  if (!GDOORS.every((_, i) => gdOpen(i))) { await say('Gloss', 'Walk at it there and back. Back and there, walk at it.'); return; }
-  await say('Gloss', 'A grain is the prize of a fight. Of a fight, the prize is a grain.');
-  await say('Gloss', 'My four are tardy, like your face in the floor. Like your face in the floor, my four are tardy.');
-  if (!(await keeperFight('Gloss', GLOSS_TEAM, 'You lost at the light. The light lost at you.'))) return;
-  await say('Gloss', 'The grain is yours, bestowed!! Bestowed, the grain is yours!!');
+  if (!GDOORS.every((_, i) => gdOpen(i))) { await say('Gloss', 'Pace back and forth. There and back, pace it.'); return; }
+  await say('Gloss', 'A single grain is the reward for a struggle. For a struggle, the reward is a single grain.');
+  await say('Gloss', 'My four are slow, just like your face in the floor.');
+  await say('Gloss', 'Just like your face in the floor, my four are slow.');
+  if (!(await keeperFight('Gloss', GLOSS_TEAM, 'You lost to the light. The light lost to you.'))) return;
+  await say('Gloss', 'The grain is yours, a gift! A gift, the grain is yours!');
   await giveGrain('Gloss');
-  await hint('(With two grains your whorls can reach Strand level 18.)');
-  await say('Gloss', 'The light came in at low. At low, the light came in.');
+  await hint('(With two grains, your whorls can reach Strand level 18.)');
+  await say('Gloss', 'The light came in at low water. At low water, the light came in.');
   await fingerTake();
 });
 
@@ -635,8 +638,8 @@ async function fingerTake(): Promise<void> {
   bell(24);
   await wait(50);
   for (const n of [10, 5, 2]) { field.shakeT = n; await wait(25); }
-  await say('Gloss', 'It touched at the floor. The floor touched at it.');
-  await say('Gloss', 'You let in the light. The light let in you.');
+  await say('Gloss', 'It brushed against the floor. The floor brushed against it.');
+  await say('Gloss', 'You let the light in. The light let you in.');
   setFlag('cowrieMarked');
   scriptedHigh();
   field.warp('cowrieback', 19, 21, 0);
@@ -648,9 +651,9 @@ async function fingerTake(): Promise<void> {
   await say('Label', 'KEEP THE COWRIE.');
   await walkUp('a2CinchPosts');
   await act('a2CinchPosts', 'bow');
-  await cinch('Sit, sit. Came down when the stamping started. Heard it from the bar.');
-  await cinch('Four posts. White ones.');
-  await cinch('From down here they look new.');
+  await cinch('Sit down. I came down when the stamping started. I heard it from the bar.');
+  await cinch('Four posts, painted white.');
+  await cinch('They look brand new from down here.');
   goal('Swim back across the Flats to the Sand Dollar at high water.');
 }
 
@@ -672,17 +675,17 @@ strandmongerHooks.drill = async () => {
   if (grains() < 1) return false;
   if (flag('gimletDone') && !flag('drillPaid')) {
     setFlag('drillPaid');
-    await say('Strandmonger', 'And that\'s the driller? Looks like a button. A cheap one. I wouldn\'t sew it on a sack.');
-    await say('Strandmonger', 'Here\'s three hundred cowries. Keep that thing off my stock. And my shoes.');
+    await say('Strandmonger', 'Is that the driller? It looks like a button. A cheap one. I wouldn\'t sew it on a sack.');
+    await say('Strandmonger', 'Here\'s three hundred cowries. Keep that thing away from my stock. And my shoes.');
     await reward({ rind: 300 });
     return true;
   }
   if (flag('drillAsked')) return false;
   setFlag('drillAsked');
-  await say('Strandmonger', 'Somebody\'s drilling holes in my cowries!! A hole halves the price. Two holes, I weep.');
-  await say('Strandmonger', 'Find the driller. I\'ll pay you what a sack of whole ones is worth to me, exactly.');
-  await say('Strandmonger', 'Which is less than it\'s worth to you. That\'s trade.');
-  goal('Round holes are turning up in hard things. The first is in a stone on the Flats.');
+  await say('Strandmonger', 'Someone\'s drilling holes in my cowries! A hole cuts the price in half. Two holes, and I weep.');
+  await say('Strandmonger', 'Find the driller. I\'ll pay you exactly what a sack of whole ones is worth to me.');
+  await say('Strandmonger', 'That\'s less than you\'d ask for it. That\'s what trade is.');
+  goal('Round holes are appearing in hard objects. The first one was found in a stone on the Flats.');
   return true;
 };
 
@@ -727,7 +730,7 @@ defScript('a2GrayRoad', async () => {
   await wait(12);
   // Ouro comes out of a gray wall at the low end of the Wrack at night, and the Strandmonger's footprints go on west.
   await act('ouro', 'look');
-  goal('The Strandmonger is at his counter in the Sand Dollar.');
+  goal('The Strandmonger stands at his counter in the Sand Dollar.');
 });
 
 void sayAll; void Canvas;

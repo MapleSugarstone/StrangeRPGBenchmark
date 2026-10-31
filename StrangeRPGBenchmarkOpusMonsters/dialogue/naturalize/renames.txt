@@ -1,0 +1,132 @@
+[033y6wn] Old man | Your gran? Walked the whole Rim in a dry year. Came home missing a boot and won't say why.
+[0dq3355] Woman | House shed in spring. We moved into the old shell. The new one's off being a house somewhere.
+[0v2af1u] Man at the well | She's been low since the fracture. Wells go down when they're frightened. Everybody knows that.
+[1wqurba] Woman | Best drying spot is right up by the Seal, between the ribs. I got there first today!
+[1wjwo5o] Gran | Tell my little turnip it's Shedding Day. The day of all their days.
+[1y6bzbz] Gran | Tell them late ones walk the Rim, the edge of the world, from one Seal to the next.
+[05tapj9] Gran | Tell them the Seals are the great posts that hold the world shut.
+[0nb1dhq] Gran | Tell them the Sealkeepers ought to hear of it. Rib first, west along the Midden Road.
+[1s21cby] Gran | Tell them I walked the Rim myself, and came home with a pearl and a cough.
+[0ujeqfs] choice | Walk the Rim
+[0k7nfa9] Gran | Tell my little turnip the fracture has come right up to the door.
+[1jitl7k] Old man | Huh. That's a fracture. Yeah, don't stand in that.
+[0ro4f9u] Gran | Tell my little turnip that is a fracture, and a fracture is not for standing beside.
+[1h73t20] Strandmonger | Opening later, Shedding Day!! Go stand under that sky. It's a two-cowrie sky and today it's free.
+[10nq5lt] Strandmonger | And a late one! Which means the Rim walk, then.
+[1i2w2nf] Strandmonger | Ones who've shed walk out behind their own shell. // You've none yet. Wild ones don't let a body by alone.
+[1wfedlk] Strandmonger | Here's the Register. You catch a species, I write it in. Writing's free. Holding it's a cowrie.
+[0zeqeer] Strandmonger | Knock them down a bit and catch them. Weaker means surer. Weak enough, it never fails.
+[1g0if3o] goal | Walk the Midden Road west to Rib. Knuckle keeps the Seal there.
+[1iqkubh] Strandmonger | {kinds} species in the Register. A species is worth a cowrie to me. // That's {kinds} cowries I owe nobody.
+[0rrhpnx] Hermit | You've got a fracture in Turnstone too, right? That's the Seals. They hold too tight.
+[0w1sy63] Hermit | Big whorls can pull a Seal loose. So we take big whorls.
+[1yvqirl] Hermit | She runs the Hermits. Never shed, same as you.
+[1fq64od] Hermit | She says the whole Volute's overdue to shed. The fractures are it trying.
+[1iuk0qd] choice | Try to catch Kaivodo
+[1xlnxeb] Knuckle | Had these pearls since I shed. Beat me and you can have one. Not this one. That one.
+[1ecbbgf] Knuckle | And you got a fracture in Turnstone? The Rib's been creaking all month. Tell Leeward.
+[1h3rvi0] choice | Not my Seal
+[11qah3k] Man | Grandad shed in the nave and his cast's been in there singing the same song for sixty years.
+[0jmv1rw] Grafton | The pearl remains yours and the Seal remains lying across the street!! (we step over it)
+[0ce3l3b] Grafton | Nevertheless the pearl is yours and the Seal is gone, and on this both my heads agree.
+[1swvo9r] Tinker | These machines were the Riders'. They shed ages ago. The casts are still on shift.
+[1cjbppe] hint | (STONE crosses fractures. A fracture is a crack. TIDE walks on water. ROOT goes through thickets.)
+[0p0vua7] Bare | Count the Seals. Count what's left.
+[1fl9031] Old Amber | The Volute shed. Its old shell lifted off whole, in one magnificent piece.
+[16yaybb] Old Amber | The ones who climbed down drove the Seals. They had seen it go, you understand.
+[072j40k] Old Amber | Cinch had come down to the Rim, once. Cinch had gone back up quieter.
+[0co3gs9] Old Amber | My grandmother's grandmother's cast. A Rider's. She shed the very day she climbed down.
+[151ef2i] Smith | Everyone asks if the sword's sharp. It's a Seal! Sharp's not the point! I'm the smith, I'd know.
+[07de0xc] Murex | Did you, uh. Count the Seals? Like she said?
+[180usht] Murex | Do you know how many kids in Tusk have shed? In ten years? Do you want to guess?
+[16n1c0j] choice | Catch it
+[0lpa7nh] Hermit | Last Seal before the Apex. Then she's going up. She's got her good boots on.
+[19n8938] Tack | 8 Seals. Count what's left. Go on, I'll wait.
+[1gpwgj7] Bare | Count the Seals still standing.
+[1emyfhp] Tack | Your back's fractured {#1} fingers long. I counted. Then I counted again.
+[1583qqo] Purchase | Cinch shed HERE, at this very post, forty years back. A re-shedding!! Most unrefundable.
+[0u6d2bh] Purchase | The cast stayed at the post and kept at it. Cinch strolled off over the Rim and never collected.
+[1h20drm] narration | The old shell of the Volute gets up and walks north, with its towns drawn on it in fractures.
+[0wntsr1] hint | (Ouro's cast can keep any four moves and any two habits from species in the Register.)
+[1wpwl0h] ? (listMenu) | Move {#1} of 4: from which species?
+[0slo4sm] ? (listMenu) | Habit {#1} of 2: from which species?
+[14jz078] goal | The Shallows lie north of Hum, past the Rim. The Stack stands east of Fall.
+[0pa1mb0] Bootless | Lost a boot down here on my Shedding Day. It shed too, I reckon. Walks about now.
+[1df3z8r] look | The meadow shed here once. The new meadow grew over its cast.
+[1radki2] Pell | We shed this morning! Then half of us went down the fracture with one shoe off. The left one.
+[0e17kyv] Nail biter | I bit my nails so much one of them shed. Its shell follows me everywhere. It's kinda clingy.
+[1kpy8sw] The Master | Log. Ship shed in the night. Cast stayed aboard itself. Ship walked off, unauthorized.
+[1dd386c] Ice-fisher | Six fingers, the day I shed. Wasn't thick enough. ... It went through.
+[1gb3lvu] The Pruner | Four gone wild. Cut one back and its neighbors shed. That's how trees are up here.
+[116a610] Strandmonger | Strand species, a cowrie a page. Your gran's slate. It reaches this far, I checked.
+[1mp7by6] Tide-reader | At the low after the shut one last shed, it was soft. It reached in.
+[0z1kf8u] narration | The gray shell is drawn all over with fractures. In the fractures are the shapes of towns.
+[09v7vlp] look | In the square the ground is fractured all over.
+[1k8mg5b] look | The flat round place, fractured all over. Through the fractures, far below, the Tray's rows.
+[0vv9mts] Cinch | Rim's still good. Haven't moved off it once. Plenty of room.
+[0tz1nuc] narration | North past the Rim, the Exuvia settles lower in the sand, and lies still.
+[08ck0ku] notice | {#1} {#2}{#3}, for catching a weak wild whorl.
+[01fz8fi] Shellwright | Bring six whorls. Four fight, every one at level twenty-five. Each species once, each notion once.
+[0xuux8l] ? (add) | The Volute sheds.
+[19d0wlp] choice | Catch it
+[15flb43] ? (p) | Each species has its own strengths. One species may have more ATK. Another may have more DEF. Species are also different in their moves, habits, and types.
+[06qdfyy] ? (p) | Every species gets the same number of stat points. Each species puts them in different places. So a fast species has less DEF, and a tough species gets fewer turns. A conjoined whorl gets half its points from each of the two old whorls.
+[132jebo] ? (p) | A mark is a sign that some moves put on a whorl. Each species has its own marks. Kivishi gets a Stone each time it is hit.
+[0ft0oe5] ? (p) | You can catch a wild whorl with a horn. A caught whorl joins your team.
+[03rizkz] ? (p) | In a battle with a wild whorl, pick Catch. Then pick a horn. You can only catch wild whorls.
+[0axdaru] ? (p) | When you pick Catch, the list shows each horn's chance. Sure means it cannot fail.
+[1k4w8bg] ? (p) | When you win, each foe you knocked out or caught gives XP. A level 10 wild whorl gives 24 XP. A level 10 whorl of a trainer gives 32 XP.
+[1bknixs] ? (s) | STONE lets you walk over fractures. A fracture is a crack in the ground.
+[13e37g2] ? (p) | A Salt Line keeps wild whorls away for 150 steps. A Lure Shell brings out the rarest species on that map. A Carter's Whistle calls the cart one time.
+[0blukoh] ? (p) | Key items open new places or help the story. The Register is a key item. It lists each species you have seen and each species you have caught.
+[1kpv1bm] ? (p) | A Starborn whorl is just as strong as others of its species. Only its look is different.
+[1smc8tv] ? (p) | Once you see a Starborn whorl, the Register marks its species with a star.
+[0f7b98r] ? (p) | Pick a slot to change it. You can get a random whorl, find any species by its name, or conjoin two species.
+[1ejtn8r] ? (p) | A team can hold each species only once. A conjoined whorl uses up both of its species. So if you conjoin a species, you cannot use it alone or in another conjoined whorl on that team.
+[05kpoeq] ? (s) | Each species once. Each notion once.
+[1q35xcs] Dad | Baby shed last week. Cast's smaller than a teacup.
+[0qrjyrf] look | Eight little bone Seals on the shelf, each with a name scratched under it.
+[0xjef70] Twin | We're shedding on the same day. We decided.
+[0t3k0vg] Strandmonger | Knock it down a bit, then catch it. Weaker means surer. Then it's yours, and I stop feeding a boot.
+[0lu8esj] ? | (A horn can catch a whorl at any HP. The lower its HP, the better the chance.)
+[0dv475p] ? | (The boot is weak enough now. When you pick Catch, the horn list says sure: it cannot fail.)
+[1mjg8kk] ? | (Pick Catch and blow a horn. A caught whorl joins you. Knock it out and it gets away.)
+[157znf7] hint | (Your cards are the species you have caught. Most cards on the board at the end wins.)
+[0v90yxd] sign or spot in The Shallows | Past the Rim. Nothing is held here. Mind your hat.
+[1799b2h] hint | The fractures out here move when you are not looking at them.
+[0c8jp1w] ? (lore_door) | It fell in the bay the year before the sea shed. The knocker is a scallop. (it still knocks)
+[0kn3gi7] ? (lore_window) | Four panes. Three show the Rim. The fourth is cracked and shows it twice.
+[1b3jtgd] choice | Catch it
+[1u1d3hb] look | The end of the jetty. The Rim stands across the water, pale, a long way off.
+[144q59c] Islander | Things fell off it, one by one, all round the Rim. I watched. Couldn't reach any.
+[17zl7ra] choice | Catch it
+[1xdha8y] look | A wall of tally marks, four and a slash, counting down to Shedding Day.
+[0jcmsi3] look | More marks. These count up. They start the day after Shedding Day and do not stop.
+[0nnwcnv] ? | He counts the fractures now. Says they're ahead. I said what of. He said everything.
+[1a90oew] Woman with a basket | That one's my mother's. That one's my mother. She shed late, like you.
+[023x8rd] Old man | My boat shed last year. Now I've two boats and no sea.
+[1b99qlq] look | The jetty ends over the Lipwater. The Rim is a pale line across it, a long way off.
+[16h8czd] look | Kelp stands in the shallows like a wood. The Rim shows between the stalks, pale.
+[17cywpc] Crane-minder | Four cranes, all on shift since the Riders shed. Turn one, the next ones turn back. Union rules.
+[1bm1aa4] Rigger | I climb the cranes for the view. The view's the Rim. Same as yesterday. I keep checking.
+[0nsa5pb] Rigger | Still the Rim. Good.
+[0drynrd] look | The Lipwater, flat and gray under the cranes. Far off, the Rim.
+[1hpcbrs] look | The ice creaks underfoot. Past it, the Lipwater, and past that, the Rim.
+[0bpqadb] look | The Lipwater, gray. The Rim far across it, gray. Between them, gray stones the shape of blades.
+[1ba71lq] ? | We're talking about the fracture. Again.
+[09wy73f] Woman | Washing dries fast after a Shedding Day. Something about the air.
+[11m0cvy] Register entry: Menhir | Which is a standing stone's cast. Stands. Stood before the Seals went in. Five cowries, and I'd not ask it to sit.
+[096ii31] Register entry: Peubi | A giant's thumb, by itself. The rest of the giant didn't shed, or shed somewhere else. Five cowries a thumb.
+[1odt086] Register entry: Madotra | A fractured window from under Spire, an eye in each pane. Each pane takes one hit. Five cowries, by the pane.
+[0aeg932] Register entry: Vienum | Off the old mast on the Rim, where it kept vigil like a monk. Hums signals in no tongue anyone speaks and passes them round. Four cowries, quiet.
+[0txhm6d] Register entry: Hebrum | And a piece of the Rim that walked off. Pulls things over the edge and gets heavier. Seven cowries by weight. Today's weight.
+[0uzlbc2] Register entry: Vakone | A fracture that got up out of the ground and walked off. Sets a ring of thorns on whoever follows. Seven cowries. Walk beside it.
+[0qc5f6w] Register entry: Rakmata | Off the tide line, wrack weed that pops. Children buy it to hear it pop. One cowrie, and it won't pop for anyone who's shed.
+[07enyyw] menu | must be one species or one fit.
+[1o6gum4] menu | is not a species this game knows.
+[0d5faj1] menu | is a fit of species this game does not know.
+[1814ggt] menu | Catch it with a horn. The weaker the foe, the more likely it curls in.
+[1ocj4a5] item | The next wild whorl to come out on this map is its rarest species.
+[1dd70v3] menu | No species matches.
+[18nmki1] menu | {#1} is on {#2} team twice. A team holds each species once, fits too.
+[0b9228m] menu | Fit which species first?

@@ -86,14 +86,14 @@ defMap({
   npcs: [
     { id: 'lipcinch', x: 18, y: 9, sprite: 'realcinch', name: 'Cinch', dir: 1, talk: 'lipCinch', when: () => !!flag('cinchToLip') && !sat() },
     { id: 'conchdiver', x: 8, y: 9, sprite: 'beach2', name: 'Conch-diver', dir: 1,
-      trainer: { name: 'Conch-diver', team: [['strombus', 29], ['fleur', 29]], intro: 'I dive in the mouth at low, while it\'s out walking. Pearls in there! Big pink ones.', defeat: 'Ugh. No pink ones today.', sight: 3 } },
+      trainer: { name: 'Conch-diver', team: [['strombus', 29], ['fleur', 29]], intro: 'I dive in the mouth at low, while it\'s out walking. Pearls in there! Big pink ones!', defeat: 'Ugh. Not a single pink one today.', sight: 3 } },
   ],
   spots: [
-    look(14, 9, 'Letters pressed into the pink of the lip itself.', 'KEEP THE PINK.'),
-    look(14, 5, 'Knobs on every turn of the spire, worn smooth on top.', 'Something has held this shell, often, by the knobs.'),
+    look(14, 9, 'Letters pressed deep into the soft pink of the lip itself.', 'KEEP THE PINK.'),
+    look(14, 5, 'Knobs line every turn of the spire, worn smooth at the top.', 'Something has gripped this shell repeatedly, using those knobs.'),
     { x: 19, y: 11, when: lowWater, script: async () => { await emote('ouro', 'heart'); } },
-    stash('cl_lip', 11, 12, 'Under the lip\'s edge, where the pink curls back, a nautilus horn.', { pegs: ['iron', 1] }),
-    ...CL_LABELS.map(([x, y, t]) => look(x, y, 'A label stuck in the sand by the great pink shell.', `${t}.`)),
+    stash('cl_lip', 11, 12, 'Tucked under the lip\'s edge, where the pink curls inward, lies a nautilus horn.', { pegs: ['iron', 1] }),
+    ...CL_LABELS.map(([x, y, t]) => look(x, y, 'A label stuck in the sand beside the massive pink shell.', `${t}.`)),
     ...MOUTH_CELLS.filter(([, y]) => y >= 11).map(([x, y]) => ({ x, y, when: sat, script: gleanerHolds })),
   ],
 });
@@ -102,7 +102,7 @@ async function gleanerHolds(): Promise<void> {
   void giftName;
   await emote('ouro', 'silence');
   if (!flag('a2done') || flag('gleanerCaught')) return;
-  if (await choose(['Call to it', 'Leave it'], true) !== 0) return;
+  if (await choose(['Call out to it', 'Leave it alone'], true) !== 0) return;
   // After the credits the great child still sits listening. Called, it sets the whorl down and gets up.
   await act('ouro', 'bow');
   bell(0);
@@ -135,17 +135,17 @@ defScript('lipEnter', async () => {
     await walkIn('lipcinch', 0, 9, 18, 9);
     face('lipcinch', 1);
     await act('lipcinch', 'bow');
-    await cinch('Sit. This is as far as I go. Good lip, this. Made for sitting.');
-    await cinch('From here you can hear it breathe. Or the sea. One of the two.');
-    goal('Go in at the lip, round the inside of the spiral.');
+    await cinch('Sit. I\'m not going any further. This ledge is perfect. It\'s made for sitting.');
+    await cinch('From here, you can hear something breathing. Or maybe the ocean. Hard to tell which.');
+    goal('Dive in at the lip and circle the interior of the spiral.');
     save();
   }
 });
 
 defScript('lipCinch', async () => {
-  if (flag('ringRead') && !flag('cinchWade')) { setFlag('cinchWade'); await cinch('Wade. Been saying it over. Small sort of name.'); return; }
-  await cinch('Lip\'s still good. Haven\'t moved off it once. Plenty of room.');
-  await cinch('Breathing, or the sea. Haven\'t decided. Sit and help me.');
+  if (flag('ringRead') && !flag('cinchWade')) { setFlag('cinchWade'); await cinch('Wade. I\'ve been repeating the name. It feels a bit small.'); return; }
+  await cinch('Rim holds. Haven\'t drifted off it. Plenty of space.');
+  await cinch('Breathing, or the sea. I can\'t quite decide. Sit down and help me out.');
 });
 
 // ---------------------------------------------------------------- the Pink: don't scratch
@@ -203,7 +203,7 @@ defMap({
   enter: 'pinkEnter',
   zone: { kinds: kinds([['blush', 3], ['cochlea', 3], ['samphire', 3], ['gimbal', 2]]), lv: [27, 33], n: 6, area: 'conch' },
   npcs: [],
-  spots: [look(PK_DOOR.x, PK_DOOR.y, 'A round door in the pink. It is shut. Beyond it the spiral goes on up.')],
+  spots: [look(PK_DOOR.x, PK_DOOR.y, 'A circular door set into the pink wall. It\'s closed. Beyond it, the spiral continues upward.')],
 });
 
 const solidAt = (x: number, y: number) => isSolid(field.tile(x, y));
@@ -222,7 +222,7 @@ tideHooks.push(async high => {
     field.lastStep = -1;
     field.stepWho('ouro', out);
     await wait(9);
-    if (!flag('pinkPushTold')) { setFlag('pinkPushTold'); await hint('(A wall that closes on you pushes you on the way you face.)'); }
+    if (!flag('pinkPushTold')) { setFlag('pinkPushTold'); await hint('(A closing wall will shove you in the direction you\'re facing.)'); }
   }
   if (high) await brush();
 });
@@ -237,7 +237,7 @@ async function brush(): Promise<void> {
     await emote('ouro', 'surprise');
     if (smallGranOut() && granNext() === 1) await smallGranLine();
     await hint('(Brushing a wall makes it ring. At high tide, three rings and the sea washes you back.)');
-    await hint('(At low tide nothing listens. The way on opens only at high tide.)');
+    await hint('(At low tide, the walls are deaf. The path only opens during high tide.)');
   }
   if (rings() < 3) return;
   // The third ring wakes the sea far below. It comes up the Conch in a surge and carries Ouro round and out onto the lip.
@@ -389,8 +389,9 @@ defScript('turnEnter', async () => {
   if (flag('turnSeen')) return;
   setFlag('turnSeen');
   if (smallGranOut() && granNext() === 3) await smallGranLine();
-  await hint('(A door here is shut while you can see it, ahead or in a polished wall.)');
-  await hint('(Hold the face button to walk backward.)');
+  await hint('(A door remains closed as long as you can see it,');
+  await hint('whether straight ahead or reflected in a polished surface.)');
+  await hint('(Hold the face button to move in reverse.)');
 });
 
 // ---------------------------------------------------------------- the Roar: the lines
@@ -415,7 +416,7 @@ const roarOpen = (k: number) => !!flag('roarDoor' + k);
 const DOOR_MARKS = ['a curl shaped like a question mark', 'a scratched hand', 'a crack', 'a shut eye'];
 
 async function opening(k: number): Promise<void> {
-  if (!smallGranOut()) { sound('wind'); await hint('(Small Gran\'s lines open the way here. She is not in your team.)'); return; }
+  if (!smallGranOut()) { sound('wind'); await hint('(Small Gran\'s lines unlock this path. Note: She is not part of your team.)'); return; }
   const line = granNext();
   await smallGranLine();
   if (lowWater()) { await wait(30); await emote('ouro', 'silence'); return; }
@@ -465,8 +466,8 @@ defMap({
       sound('wind');
       await emote('ouro', 'silence');
     } },
-    ...R_DOORS.map((d, i) => ({ x: d.x, y: d.y, when: () => !roarOpen(i + 1), script: async () => { await say('Carving', `A round shut door, carved with ${DOOR_MARKS[i]}.`); } })),
-    look(2, 14, 'A pink pool off the second opening. The water in it is the color of the lip.'),
+    ...R_DOORS.map((d, i) => ({ x: d.x, y: d.y, when: () => !roarOpen(i + 1), script: async () => { await say('Carving', `A circular shut door, intricately carved with ${DOOR_MARKS[i]}.`); } })),
+    look(2, 14, 'A pink pool situated at the second opening, its water mirroring the hue of the lip.'),
   ],
 });
 
@@ -478,8 +479,9 @@ defScript('roarEnter', async () => {
   await pan(10, 4);
   await wait(30);
   await panBack();
-  await hint('(Talk to Small Gran at an opening, and her next line comes out of the next opening up, louder.)');
-  await hint('(Each door waits for one of her lines.)');
+  await hint('(Speak to Small Gran at an opening.');
+  await hint('Her subsequent line will emerge from the next opening above, amplified.)');
+  await hint('(Each door corresponds to one of her lines.)');
 });
 
 defScript('halophile', async () => {
@@ -537,7 +539,7 @@ async function aperture(): Promise<void> {
   if (!highTide()) { await emote('ouro', 'silence'); return; }
   if (awake()) return;
   if (flag('gleanerWoken')) {
-    if (await choose(['Wake it', 'Not yet'], true) !== 0) return;
+    if (await choose(['Awaken it', 'Not yet.'], true) !== 0) return;
     // Ouro calls into the clear place. The call goes in and in, and the back moves.
     await act('ouro', 'bow');
     bell(0);
@@ -549,14 +551,14 @@ async function aperture(): Promise<void> {
   await act('ouro', 'bow');
   await emote('ouro', 'silence');
   const gran = smallGranOut();
-  if (!gran) { await hint('(Small Gran\'s last line wakes it. She is not in your team.)'); return; }
+  if (!gran) { await hint('(Small Gran\'s final line triggers the awakening. Note: She is not part of your team.)'); return; }
   // Small Gran comes out of her horn by the opening beside the great neck.
   mouthScene.gran = true;
   offstage('mouthgran');
   await liftOff('mouthgran', 'ouro', 12, 10);
   face('mouthgran', 2);
-  if (granNext() === 4) await hint('Her next line is her last one.');
-  await choose(['Talk to her.']);
+  if (granNext() === 4) await hint('(Her following line is her last.)');
+  await choose(['Speak with her.']);
   const line = granNext();
   await smallGranLine();
   if (line !== 4) { await wait(40); await emote('ouro', 'silence'); return; }
@@ -607,7 +609,7 @@ async function wake(): Promise<void> {
   // The sea is up in the mouth for the fight.
   if (!highTide()) setTide(true);
   G.flags.seaBattles = 1;
-  await hint('(The tide here is high. Both sides start with 3 tide.)');
+  await hint('(The tide is currently high. Both sides begin with 3 tide.)');
   const r = await battle({ enemy: gleanerTeam(), name: 'The Gleaner', ai: 'champion', wild: false, bg: field.bg(), music: 'collector', bossHp: GLEANER_HP });
   field.playMapMusic();
   if (r.result !== 'win') {
@@ -618,7 +620,7 @@ async function wake(): Promise<void> {
     setFlag('gleanerAwake', 0);
     mouthScene = {};
     await shake(20);
-    await hint('(The Conch lets you out at the lip. Come back at high tide.)');
+    await hint('(The Conch will transport you out at the lip. Return when the tide is high.)');
     await warp('conchlip', 16, 8, 0);
     return;
   }
@@ -634,27 +636,27 @@ async function hears(m: Mon): Promise<void> {
   const k = m.kind;
   if (k === SMALL_GRAN_KIND) { await smallGranLine(); return; }
   const lines: Record<string, string> = {
-    knot: 'Something in Knot turns, once. ... A long creak.',
-    vellumslip: 'It turns over in the hand. ... Once.',
-    welling: 'Water moves in Kaivodo. ... A long way down.',
-    full: 'The tide in Full comes up. ... And goes down.',
+    knot: 'Something shifts in Knot. Once. ... A long, creaking groan.',
+    vellumslip: 'It flips over in the hand. ... Just once.',
+    welling: 'Water stirs deep within Kaivodo. ... Far below.',
+    full: 'The tide in Full rises. ... Then falls.',
     bramble: 'It rustles.',
-    squall: 'Rain comes out of it, sideways. A little. ... Onto the great hand.',
-    dynamo: 'It hums. ... The same note the old pump hummed.',
-    mundane: 'It beats. ... Once. ... Very slowly.',
+    squall: 'Rain falls from it, slanting. Lightly. ... Onto the vast hand.',
+    dynamo: 'It vibrates. ... The same pitch as the old pump.',
+    mundane: 'It pulses. ... Once. ... With excruciating slowness.',
   };
-  await narr(lines[k] || 'It does what it always does. The hand holds still for it.');
+  await narr(lines[k] || 'It performs its usual action. The hand remains steady for it.');
 }
 
 /** Ouro chooses one whorl to give. The four keep at least one. */
 async function chooseGift(): Promise<Mon> {
   for (;;) {
     const all = [...G.party, ...G.rack];
-    const i = await listMenu('Give which whorl?', all.map(monLine), { w: 160 });
+    const i = await listMenu('Which whorl do you offer?', all.map(monLine), { w: 160 });
     if (i < 0) continue;
     const m = all[i];
-    if (G.party.length === 1 && G.party[0] === m && all.length > 1) { await hint('(Your team must keep at least one whorl.)'); continue; }
-    if (await choose(['Give it.', 'Choose again.'], false, `${m.name}. It will not come back.`) !== 0) continue;
+    if (G.party.length === 1 && G.party[0] === m && all.length > 1) { await hint('(Your team must retain at least one whorl.)'); continue; }
+    if (await choose(['Surrender it.', 'Select again.'], false, `${m.name}. It will not return.`) !== 0) continue;
     G.party = G.party.filter(x => x !== m);
     G.rack = G.rack.filter(x => x !== m);
     G.flags.gaveUid = m.uid;
@@ -671,9 +673,9 @@ async function theGift(): Promise<void> {
   offstage('mouthcinch');
   await walkIn('mouthcinch', 10, 13, 4, 10);
   await act('mouthcinch', 'bow');
-  await cinch('Sit. You can see its hand from down here. Empty.');
-  await cinch('Picked up every shell on the beach, that one. Looks like it only ever wanted one.');
-  await hint('(Choose one whorl to give it. It will not come back.)');
+  await cinch('Sit down. You can see its empty hand from this angle.');
+  await cinch('It picked every shell off the sand. Clearly, it only ever needed one.');
+  await hint('(Select a whorl to offer it. It will not return.)');
   const m = await chooseGift();
   const labeled = G.flags.labeledUid === m.uid;
   const labeledMon = [...G.party, ...G.rack].find(x => x.uid === G.flags.labeledUid);
@@ -706,8 +708,8 @@ async function theGift(): Promise<void> {
     sound('bump');
     await unprop('oldlabel', 40);
   }
-  if (m.kind === 'knot') await cinch('Sit. It\'s holding still now. Always was good at that, the old thing.');
-  if (m.kind === SMALL_GRAN_KIND) await cinch('Sit a minute. She\'s got the best seat on the beach.');
+  if (m.kind === 'knot') await cinch('Stay put. It\'s motionless now. The old thing was always good at staying still.');
+  if (m.kind === SMALL_GRAN_KIND) await cinch('Take a seat. She has the best spot on the beach.');
   delete (G as any).a2label;
   G.flags.labeledUid = 0;
   // The sixth grain falls by itself.
@@ -717,7 +719,7 @@ async function theGift(): Promise<void> {
   await wait(40);
   G.flags.a2pearls = Math.max(6, (G.flags.a2pearls || 0) + 1);
   sfx('level');
-  await notice('Ouro gets a star grain. Six now.');
+  await notice('Ouro earns a star grain. That makes six.');
   await grainLine();
   save();
   await lowWaterAfter();
@@ -731,7 +733,7 @@ async function lowWaterAfter(): Promise<void> {
   mouthScene = {};
   // The tide goes out, and the Gleaner does not get up. No footsteps, no shaking ground, no line of stars.
   await wait(120);
-  await cinch('Sit, if you like. Nothing\'s coming.');
+  await cinch('Sit if you wish. Nothing is coming.');
   // Ouro walks back up the beach all night, past every place that kept still at low water and does not now:
   // the Mudlark standing up in the Tray, the Nautilus's pumps stopped, the climbers sitting on the stair,
   // nobody stamping in the Polish, and the Sand Dollar's people standing on the bar.
@@ -764,7 +766,7 @@ async function theVolute(): Promise<void> {
   strandFx.landings.push({ x: 26, y: 26, t: 0 });
   await wait(40);
   face('ouro', 0);
-  await narr('Far down the beach, the Gleaner sits in the pink shell with something held to its ear.');
+  await narr('Far down the beach, the Gleaner sits in the pink shell, holding something to its ear.');
   for (const x of [20, 14, 8]) { strandFx.landings.push({ x, y: 26, t: 0 }); await wait(24); }
   // Ouro climbs back up the ridges to the hole in the Volute's side, and goes in.
   face('ouro', 2);
@@ -778,14 +780,14 @@ async function theVolute(): Promise<void> {
 const epi = (k: string) => () => !!flag('epi' + k);
 MAPS.crown?.npcs.push(
   { id: 'epitack', x: 10, y: 11, sprite: 'tack', name: 'Tack', dir: 2, when: () => hold() && !!flag('epiApex'),
-    lines: () => [flag('a2done') ? '0 turns today. 3 of us, sitting. Writing that down.' : 'Day 41. That\'s 41 turns. Your go, I said.'] },
-  { id: 'epibare', x: 4, y: 16, sprite: 'bare', name: 'Bare', dir: 1, when: () => hold() && !!flag('epiApex'), lines: ['Sit, if you want. Leave the post be.'] },
+    lines: () => [flag('a2done') ? '0 turns. 3 of us, seated, noting this.' : 'Day 41. That\'s 41 turns. I said, it\'s your go.'] },
+  { id: 'epibare', x: 4, y: 16, sprite: 'bare', name: 'Bare', dir: 1, when: () => hold() && !!flag('epiApex'), lines: ['Sit if you like. Leave the post alone.'] },
 );
 const HERMITS: [number, number][] = [[12, 25], [14, 25], [16, 25], [21, 25], [23, 25], [25, 25]];
 MAPS.slack?.npcs.push(
   ...HERMITS.map(([x, y], i): NpcDef => ({ id: 'epihermit' + i, x, y, sprite: 'peeler', name: 'Hermit', dir: 0, when: () => release() && !!flag('epiLip'),
-    lines: ['(A Hermit sits on the hard new edge with a haul team asleep beside them.)'] })),
-  { id: 'epibare2', x: 10, y: 24, sprite: 'bare', name: 'Bare', dir: 1, when: () => release() && !!flag('epiLip'), lines: ['Go on home. Your gran will have soup on.'] },
+    lines: ['(A Hermit sits on the hard new edge, with a haul team asleep beside them.)'] })),
+  { id: 'epibare2', x: 10, y: 24, sprite: 'bare', name: 'Bare', dir: 1, when: () => release() && !!flag('epiLip'), lines: ['Go home. Your gran will have soup ready.'] },
 );
 
 async function epilogueApex(): Promise<void> {
@@ -795,7 +797,7 @@ async function epilogueApex(): Promise<void> {
   await tint('#0b0a10', 0, 30);
   // At the top, Tack stands at the Operculum with both hands on the post, and Bare sits near the edge with her knees up.
   face('epitack', 1);
-  await say('Tack', 'Day 41. 41 turns. Your go.');
+  await say('Tack', 'Day 41. 41 turns. Your move.');
   // Ouro puts both hands on the post, and does not turn it. Ouro takes them off and sits down beside it, legs out.
   await walkTo('epitack', 10, 12);
   await walkTo('ouro', 11, 11);
@@ -804,8 +806,8 @@ async function epilogueApex(): Promise<void> {
   await wait(90);
   await act('ouro', 'back');
   await act('ouro', 'bow');
-  await say('Tack', '0 turns today. That\'s still a number.');
-  await say('Bare', 'Leave it. Let it come when it comes.');
+  await say('Tack', '0 turns today. that still counts.');
+  await say('Bare', 'Drop it. Let things unfold in their own time.');
   setFlag('seamClosed', 0);
   G.flags.seamExtra = Math.max(0, 1 - loosened());
   // The craze down Ouro's back, closed since the Apex, opens one pixel at the nape.
@@ -815,7 +817,7 @@ async function epilogueApex(): Promise<void> {
   // Tack sits down too, on the other side of the post.
   await walkTo('epitack', 13, 11);
   await act('epitack', 'bow');
-  await say('Tack', '3 of us sitting. Fine. I\'ll count the days instead.');
+  await say('Tack', '3 seated. good. I\'ll count days.');
 }
 
 async function epilogueLip(): Promise<void> {
@@ -829,12 +831,12 @@ async function epilogueLip(): Promise<void> {
   // Bare walks along the row, slowly, looking at each of them.
   await walkIn('epibare2', 28, 24, 27, 24);
   for (const x of [25, 23, 21]) { await walkTo('epibare2', x, 24, 14); face('epibare2', 0); await wait(30); }
-  await say('Bare', 'Sit down. All of you. Rest.');
-  await say('Bare', 'Put the haul away. Go eat something.');
+  await say('Bare', 'Take a seat. All of you. Rest.');
+  await say('Bare', 'Put the loot away. Go get some food.');
   await panBack();
   // Bare stops at Ouro.
   await walkUp('epibare2');
-  await say('Bare', 'Go home. Eat at your gran\'s.');
+  await say('Bare', 'Head home. Have a meal at your grandmother\'s.');
 }
 
 /** Takes Small Gran out of the four, the Midden, or a shell. */
@@ -865,8 +867,8 @@ async function kitchen(): Promise<void> {
     await wait(40);
     await emote('gran', 'silence');
     faceToward('gran', 'ouro');
-    await say('Gran', 'You gave her to a child.');
-    await say('Gran', 'She will like that. She was always fond of the beach.');
+    await say('Gran', 'You handed her over to a child.');
+    await say('Gran', 'She\'ll like that. She always loved the shore.');
     if (boot) {
       await putBoot();
       await wait(120);
@@ -879,30 +881,30 @@ async function kitchen(): Promise<void> {
     await walkIn('smallgran', 4, 7, 7, 2);
     face('smallgran', 2);
     await smallGranLine();
-    await say('Gran', 'Tell my little turnip she has come home, then.');
+    await say('Gran', 'Tell my little turnip she\'s finally come home.');
     named = true;
-    await say('Gran', 'Tell them she is redolent of salt.');
+    await say('Gran', 'Tell them she smells of salt.');
     if (boot) {
       await putBoot();
-      await say('Gran', 'Tell them that is my boot.');
+      await say('Gran', 'Tell them that\'s my boot.');
       await smallGranLine();
-      await say('Gran', 'Tell them it was the left one. I hopped home, the entire distance.');
+      await say('Gran', 'Tell them it was the left one. I hopped the whole way home.');
     }
   }
   if (gave('vellumslip') && release()) {
     faceToward('gran', 'ouro');
     await wait(30);
-    await say('Gran', named ? 'Tell them they look a good deal lighter.' : 'Tell my little turnip they look a good deal lighter.');
+    await say('Gran', named ? 'Tell them they seem much lighter.' : 'Tell my little turnip they\'re looking quite a bit lighter.');
   }
   const wellFull = !!flag('wellingHome') || !flag('wellingGone');
-  if (gave('welling')) await say('Man at the well', 'Dry. They say she\'s gone to the beach. She always did frighten easy.');
-  else await say('Man at the well', wellFull ? 'She\'s up! Water\'s right up. She\'s heard something she liked.' : 'She\'s still dust. We carry, it\'s not far. I tell her about it every trip.');
+  if (gave('welling')) await say('Man at the well', 'Dry. Word is she\'s off to the beach. She\'s always been a nervous sort.');
+  else await say('Man at the well', wellFull ? 'She\'s up! The water\'s rising. She must have heard something she liked.' : 'She\'s still just dust. We carry it. The distance isn\'t far. I tell her about it on every trip.');
   if (gave('bramble') || gave('squall') || gave('dynamo')) {
-    await say('Strandmonger', 'Which that stray cost me two cowries and a sandwich. I still miss the sandwich.');
-    await say('Strandmonger', 'You got the best of that trade twice. I\'ve never once managed it.');
+    await say('Strandmonger', 'That stray cost me two cowries and a sandwich. I still miss that sandwich.');
+    await say('Strandmonger', 'You got the better end of that deal twice over. I\'ve never been able to pull that off.');
   }
-  if (gave('mundane')) await narr('North past the Lip, the Exuvia settles lower in the sand, and lies still.');
-  if (gave('full')) await narr('That night the moon comes up full, and stays full.');
+  if (gave('mundane')) await narr('North of the Rim, the Exuvia sinks deeper into the sand and lies still.');
+  if (gave('full')) await narr('That night, the moon rises full and stays that way.');
   // Ouro goes to bed. Through the wall, very faint, the Volute plays its tune.
   await tint('#0b0a10', 0.8, 60);
   await shellTune(false, false, loosened());
@@ -912,8 +914,8 @@ async function kitchen(): Promise<void> {
   await credits2();
   setFlag('a2done');
   save();
-  goal('The Strand stays open, through the Margin or the gray at the Shoreline.');
-  await hint('(The Strand stays open. Keepers on the Strand take rematches. Both teams fight at level 35.)');
+  goal('The Strand stays open, whether through the Margin or the gray expanse of the Shoreline.');
+  await hint('(The Strand remains open. Keepers on the Strand take rematches. Both teams fight at level 35.)');
 }
 
 // ---------------------------------------------------------------- the Act 2 credits
@@ -935,9 +937,9 @@ function credits2(): Promise<void> {
   add(`Starfall best: ${best}`);
   const owned = WILD_KINDS.filter(k => G.register[k] === 2).length;
   add(`Register: ${owned} of ${WILD_KINDS.length}`);
-  add(hold() ? 'Turns at the post, Tack: 41' : 'Teams hauled, Bare: all');
+  add(hold() ? 'Turns at the post: Tack 41' : 'Teams hauled: Bare all');
   add(''); add(''); add('');
-  add(hold() ? 'The Volute rests.' : 'The Volute hardens.', SEL);
+  add(hold() ? 'The Volute is resting.' : 'The Volute is hardening.', SEL);
   add(''); add(''); add('');
   add('The end.');
   let y = 200;
@@ -1005,17 +1007,17 @@ if (sdCinch) {
 }
 wrapTalk('a2CinchFire', async () => {
   if (flag('a2done')) {
-    if (flag('ringRead') && !flag('cinchWade')) { setFlag('cinchWade'); await cinch('Sit down. Wade. That\'s a small somebody\'s name.'); return true; }
-    await cinch('Staying out here, me. They\'ve got a good fire, and a log my shape.');
+    if (flag('ringRead') && !flag('cinchWade')) { setFlag('cinchWade'); await cinch('Sit down. Wade. That\'s a small person\'s name.'); return true; }
+    await cinch('I\'m staying out here. They\'ve got a fine fire going, and a log that fits me just right.');
     return true;
   }
   if (!flag('springHigh')) return false;
   if (!flag('ringAsked')) {
     setFlag('ringAsked');
-    await cinch('Sit. Your world\'s got a hand in it, lying palm up. I sat on its thumb once, a whole afternoon.');
-    await cinch('From the thumb you could see a ring on it. Writing round the inside.');
+    await cinch('Sit down. Your world has a hand in it, lying palm-up. I once sat on its thumb for a whole afternoon.');
+    await cinch('From that thumb, you could spot a ring on it. Inscriptions written around the inside band.');
   }
-  await cinch('Hang on. I\'m coming too. Got a lip to sit on.');
+  await cinch('Wait up. I\'m coming along too. I\'ve got a lip I can perch on.');
   setFlag('cinchToLip');
   return true;
 });
@@ -1025,44 +1027,46 @@ wrapTalk('a2PostShell', async () => {
   setFlag('letterSpring');
   if (hold()) {
     G.rind = Math.max(0, G.rind - 3);
-    await say('Strandmonger', 'A thick one! Three cowries. He wrote on both sides, which is free, which I regret.');
-    await say('Letter', 'Day 30. 30 turns. At low something lifted us. Whole Volute tipped. Lug fell over.');
-    await say('Letter', 'Turned post anyway. 1 turn, hard as could. Got put down. Fid says 4 spans down.');
-    await say('Letter', 'Hasp asked if hands steady. Were not. 0 days off. Tack.');
+    await say('Strandmonger', 'A substantial one! Three cowries.');
+    await say('Strandmonger', 'He inscribed both sides, which is complimentary, though I regret it now.');
+    await say('Letter', 'Day 30. 30 turns. Something lifted us at the low. Volute tipped. Lug fell over.');
+    await say('Letter', 'Turned post. 1 hard turn. Set down. Fid says 4 spans down.');
+    await say('Letter', 'Hasp asked if hands steady. No. 0 days off. Tack.');
   } else {
-    await say('Strandmonger', 'From Bare. Wouldn\'t pay postage. Which I carried it anyway, at a loss of a cowrie and my good name.');
-    await say('Letter', 'Haul every low. All teams, all at once, in time. Keep moving.');
-    await say('Letter', 'Mend two cracked teams. Haul again. Come home when you can. Bare.');
+    await say('Strandmonger', 'It came from Bare. They refused to pay the postage.');
+    await say('Strandmonger', 'Still, I carried it, costing me a cowrie and my reputation.');
+    await say('Letter', 'Haul at every low tide. All teams, all at once, in rhythm. Keep moving.');
+    await say('Letter', 'Mend two broken teams. Haul again. Return home when you\'re able. Bare.');
   }
   return true;
 });
 
-wrapTalk('a2Strandmonger', () => once('Strandmonger', ['Going to the pink one, aren\'t you. I can see it on you. That\'s a ten-cowrie face, easy.',
-  'Plus your Midden I\'ll keep for nothing while you\'re down there. Once. Free. I feel ill.'], () => !!flag('springHigh') && !flag('sweepOver') && !flag('smPink') && (setFlag('smPink'), true)));
+wrapTalk('a2Strandmonger', () => once('Strandmonger', ['You\'re headed for the pink one, aren\'t you? I can see it on your face.', 'That\'s a ten-cowrie look, easy enough.',
+  'Plus, I\'ll guard your Midden for free while you\'re down there. Just once. Free. It makes me sick.'], () => !!flag('springHigh') && !flag('sweepOver') && !flag('smPink') && (setFlag('smPink'), true)));
 
 wrapTalk('a2Eldest', async () => {
   if (G.keys.includes('granboot') && !flag('eldestBoot')) {
     setFlag('eldestBoot');
-    await say('Eldest', 'Yesterday that boot was on her foot. This morning I\'d know it in the dark.');
-    await say('Eldest', 'Yesterday she\'d have wanted it back. This morning I think she still would.');
+    await say('Eldest', 'Yesterday, that boot was on her foot. This morning, I\'d recognize it in the dark.');
+    await say('Eldest', 'Yesterday, she would have wanted it back. This morning, I think she still would.');
     await reward({ tan: 3 });
     return true;
   }
-  if (flag('springHigh') && !flag('sweepOver')) { await say('Eldest', '(yesterday that girl goes home. this morning she will be old)'); return true; }
+  if (flag('springHigh') && !flag('sweepOver')) { await say('Eldest', '(that girl went home yesterday. by this morning, she had aged.)'); return true; }
   return false;
 });
 
-wrapTalk('a2SdOldMan', () => once('Old man', ['Big low\'s done. Went right past us twice! We kicked our feet like anything.'], () => !!flag('springHigh') && !flag('sweepOver') && !roarNow()));
-wrapTalk('a2SdWoman', () => once('Woman', ['Everybody\'s house stayed! Except one on the far bar. He\'s in with his sister now.'], () => !!flag('springHigh') && !flag('sweepOver')));
-wrapTalk('a2SdBoy', () => once('Boy', ['A girl\'s voice came out of the pink one! Everybody stopped sweeping. I stopped first.'], roarNow));
-wrapTalk('a2SifterFire', () => once('The Sifter', ['Two lows a day, every day, and one house restored. A most equitable measure!!'], () => !!flag('springHigh') && !!flag('sifterHome')));
-wrapTalk('a2SifterHouse', () => once('The Sifter', ['Two lows a day, every day, and one house. Fair measure. A thimble, a barrow, a flannock.'], () => !!flag('springHigh') && !flag('sweepOver')));
+wrapTalk('a2SdOldMan', () => once('Old man', ['Big Low struck. It swept right past us twice! We flailed our legs wildly.'], () => !!flag('springHigh') && !flag('sweepOver') && !roarNow()));
+wrapTalk('a2SdWoman', () => once('Woman', ['Every house held fast, except for the one on the far bar. He\'s currently with his sister.'], () => !!flag('springHigh') && !flag('sweepOver')));
+wrapTalk('a2SdBoy', () => once('Boy', ['A girl\'s voice emerged from the pink one! Everyone ceased sweeping. I was the first to stop.'], roarNow));
+wrapTalk('a2SifterFire', () => once('The Sifter', ['Two lows daily, every day, and one house restored. A perfectly fair arrangement!!'], () => !!flag('springHigh') && !!flag('sifterHome')));
+wrapTalk('a2SifterHouse', () => once('The Sifter', ['Two lows daily, every day, and one house. A just measure. A thimble, a barrow, a flannock.'], () => !!flag('springHigh') && !flag('sweepOver')));
 wrapTalk('a2SifterTop', () => strandRematch('The Sifter', ['kipper', 'mote', 'halite', 'columba'], 'sifter'));
 
 // The Roar's voice heard in the Polish and on the Auger's stair, and the keepers of chapters 2 and 3.
-wrapPerson('polish', 'Girl', () => once('Girl', ['Somebody said "Don\'t look" really loud. So Gloss looked. Gloss always does.'], roarNow));
+wrapPerson('polish', 'Girl', () => once('Girl', ['Someone shouted, "Don\'t look," very loudly. So Gloss looked. Gloss always does.'], roarNow));
 for (const m of ['augermouth', 'augerstair']) for (const name of ['Woman', 'Man', 'Girl', 'Boy', 'Old man']) {
-  if (personOn(m, name)) { wrapPerson(m, name, () => once(name, ['Heard it on the stair. It said it twice! Second time was louder.'], roarNow)); break; }
+  if (personOn(m, name)) { wrapPerson(m, name, () => once(name, ['I heard it on the stairs. It said it twice! The second time was louder.'], roarNow)); break; }
 }
 for (const [map, name, team, who] of [
   ['glosshall', 'Gloss', ['laggard', 'tain', 'luster', 'macula'], 'gloss'],
@@ -1085,7 +1089,7 @@ async function strandBoardmaster(): Promise<void> {
   const sum = (k: string) => cardOf(k).e.reduce((a: number, b: number) => a + b, 0);
   const deck = ACT2_KINDS.filter(k => SPECIES[k]).sort((a, z) => sum(z) - sum(a)).slice(0, 5);
   await playShellboard({ id: 'a2pegmaster', name: 'The Strand Boardmaster', deck, look: true, tier: 10, prize: 'spareskin', strand: true,
-    lines: ['Every Strand card has been through my hands, damp or dry. Five stayed, most loyally!!'] });
+    lines: ['Every Strand card has passed through my hands, damp or dry.', 'Five remained, showing the most loyalty!!'] });
 }
 defScript('a2Boardmaster', strandBoardmaster);
 MAPS.sanddollar?.npcs.push({ id: 'a2Boardmaster', x: 17, y: 13, sprite: 'keeper', name: 'The Strand Boardmaster', dir: 1, talk: 'a2Boardmaster', when: () => !!flag('a2done') });

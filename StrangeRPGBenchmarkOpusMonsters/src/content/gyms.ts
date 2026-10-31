@@ -61,7 +61,7 @@ rebuild('ribgym', rib, 7);
 moveNpc('ribgym', 'knuckle', 7, 1);
 moveNpc('ribgym', 'help1', 3, 14, 1);
 moveNpc('ribgym', 'help2', 12, 14, 3);
-MAPS.ribgym.npcs.push({ id: 'ribsign', x: 2, y: 15, sprite: 'sign', name: undefined, lines: ['Knuckle had the floor polished. Knuckle likes to watch people try. Signed, Knuckle.'] });
+MAPS.ribgym.npcs.push({ id: 'ribsign', x: 2, y: 15, sprite: 'sign', name: undefined, lines: ['Knuckle polished the floor. Knuckle enjoys watching people attempt it. Signed, Knuckle.'] });
 (MAPS.ribgym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'ribTop', when: () => !flag('top_rib') });
 defScript('ribTop', hallTop('rib', 'knuckle'));
 WALK_PUZZLES.push({ name: 'Rib hall', map: 'ribgym', start: [7, 15], goal: (x, y) => y <= 2, floor: 6, exits: [[7, 15]], needs: ['ice'], prize: { at: [7, 1], view: [7, 15] } });
@@ -114,7 +114,7 @@ defScript('mastDeckEnter', async () => {
 moveNpc('mastgym', 'leeward', 7, 1);
 moveNpc('mastgym', 'deck1', 3, 14, 1);
 moveNpc('mastgym', 'deck2', 12, 14, 3);
-MAPS.mastgym.npcs.push({ id: 'mastsign', x: 2, y: 15, sprite: 'sign', name: undefined, lines: ['Wind: Deckward!! Leeward says a good sailor reads it before stepping in it.'] });
+MAPS.mastgym.npcs.push({ id: 'mastsign', x: 2, y: 15, sprite: 'sign', name: undefined, lines: ['Wind: Toward the deck!!', 'Leeward reminds us that a good sailor reads the sign before stepping into it.'] });
 (MAPS.mastgym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'mastTop', when: () => !flag('top_mast') });
 defScript('mastTop', hallTop('mast', 'leeward'));
 WALK_PUZZLES.push({
@@ -209,7 +209,7 @@ moveNpc('spiregym', 'ring2', 14, 11, 3);
 moveNpc('spiregym', 'note', 1, 14);
 {
   const note = MAPS.spiregym.npcs.find(n => n.id === 'note');
-  if (note) note.lines = ['A card on the pew: "the bells hang far below, and they ring late. i count them. so might you"'];
+  if (note) note.lines = ['A card on the pew: "The bells hang far below and ring late. I count them. You might too.'];
 }
 (MAPS.spiregym.triggers ||= []).push({ x: 1, y: 1, w: 14, h: 2, script: 'spireTop', when: () => !flag('top_spire') });
 defScript('spireTop', hallTop('spire', 'verger'));
@@ -305,7 +305,7 @@ defScript('boleHallEnter', async () => {
 moveNpc('bolegym', 'grafton', 7, 1);
 moveNpc('bolegym', 'graft1', 2, 14, 1);
 moveNpc('bolegym', 'graft2', 13, 14, 3);
-MAPS.bolegym.npcs.push({ id: 'bolesign', x: 7, y: 14, sprite: 'sign', name: undefined, lines: ['Grafton\'s note: waxed heartwood, and saplings grafted to answer a touch!! (mind your feet)'] });
+MAPS.bolegym.npcs.push({ id: 'bolesign', x: 7, y: 14, sprite: 'sign', name: undefined, lines: ['Grafton\'s note: Waxed heartwood and saplings grafted to respond to a touch! (Mind your feet.)'] });
 (MAPS.bolegym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'boleTop', when: () => !flag('top_bole') });
 defScript('boleTop', hallTop('bole', 'grafton'));
 WALK_PUZZLES.push({
@@ -394,7 +394,7 @@ defScript('humHallEnter', async () => {
 moveNpc('humgym', 'ohm', 7, 1);
 moveNpc('humgym', 'ohm1', 2, 10, 1);
 moveNpc('humgym', 'ohm2', 13, 10, 3);
-MAPS.humgym.npcs.push({ id: 'humsign', x: 10, y: 13, sprite: 'sign', name: undefined, lines: ['Tinker\'s chalk: posts turn the current. Don\'t stand in it. Ohm\'s gate opens while the coil hums.'] });
+MAPS.humgym.npcs.push({ id: 'humsign', x: 10, y: 13, sprite: 'sign', name: undefined, lines: ['Tinker\'s chalk: The posts divert the current. Do not stand in it.', 'Ohm\'s gate opens while the coil hums.'] });
 (MAPS.humgym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'humTop', when: () => !flag('top_hum') });
 defScript('humTop', hallTop('hum', 'ohm'));
 WALK_PUZZLES.push({
@@ -479,14 +479,14 @@ field.stepHooks.push(f => {
   if (amberCan(nx, ny, ouroOn(OURO_PLATE))) { s.x = nx; s.y = ny; }
   if (penAt(TUSK_R, TR, s.x, s.y) === 'm') void f.runBusy(SCRIPTS.youngTallowHome);
 });
-defScript('youngTallow', async () => { await act('youngtallow', 'nod'); await hint('Old Amber\'s first shell copies each step Ouro takes, the wrong way round.'); });
+defScript('youngTallow', async () => { await act('youngtallow', 'nod'); await hint('Old Amber\'s first shell mimics each of Ouro\'s steps, but in reverse.'); });
 defScript('youngTallowHome', async () => {
   // The young cast stops on the worn spot where Amber stood on her Turning Day, and the rail at the top of the hall lifts.
   sfx('heal');
   await act('youngtallow', 'bow');
   await payoff(TUSK_GATE, 'youngTallow');
 });
-MAPS.tuskgym.npcs.push({ id: 'tusksign', x: 2, y: 12, sprite: 'sign', name: undefined, lines: ['Walk the left pen. She walks the right one. She had always been contrary. (A.)'] });
+MAPS.tuskgym.npcs.push({ id: 'tusksign', x: 2, y: 12, sprite: 'sign', name: undefined, lines: ['Walk the left pen. She walks the right one. She has always been contrary. (A.)'] });
 (MAPS.tuskgym.triggers ||= []).push({ x: 1, y: 2, w: 16, h: 1, script: 'tuskTop', when: () => !flag('top_tusk') });
 defScript('tuskTop', hallTop('tusk', 'tallow'));
 {
@@ -556,7 +556,7 @@ function spotted(x: number, y: number): boolean {
     return false;
   });
 }
-GUARDS.forEach((g, i) => MAPS.hiltgym.npcs.push({ id: 'guard' + i, blocks: true, x: g.x0, y: g.y, sprite: 'keeper', name: 'Guard on drill', dir: 1, lines: ['Eyes front. Three paces. Turn.'] }));
+GUARDS.forEach((g, i) => MAPS.hiltgym.npcs.push({ id: 'guard' + i, blocks: true, x: g.x0, y: g.y, sprite: 'keeper', name: 'Guard on drill', dir: 1, lines: ['Eyes forward. Three paces. Turn.'] }));
 moveNpc('hiltgym', 'quillon', 7, 1);
 moveNpc('hiltgym', 'drill1', 2, 15, 1);
 moveNpc('hiltgym', 'drill2', 13, 15, 3);
@@ -571,12 +571,12 @@ field.stepHooks.push(f => {
 });
 defScript('hiltCaught', async () => {
   sfx('spot');
-  await say('Guard on drill', 'Oi. You. Back to the door.');
+  await say('Guard on drill', 'Hey. You. Head back to the door.');
   hiltT = 0;
   field.x = 8; field.y = 15; field.px = 64; field.py = 120; field.dir = 2;
   placeGuards();
 });
-MAPS.hiltgym.npcs.push({ id: 'hiltsign', x: 8, y: 15, sprite: 'sign', name: undefined, lines: ['The drill: three paces of sight. Move when they turn their backs. If seen, then the door.'] });
+MAPS.hiltgym.npcs.push({ id: 'hiltsign', x: 8, y: 15, sprite: 'sign', name: undefined, lines: ['The drill: three paces of sight. Move only when they turn their backs. If seen, head for the door.'] });
 moveNpc('hiltgym', 'hiltsign', 4, 15);
 (MAPS.hiltgym.triggers ||= []).push({ x: 1, y: 1, w: 14, h: 1, script: 'hiltTop', when: () => !flag('top_hilt') });
 defScript('hiltTop', hallTop('hilt', 'quillon'));
@@ -615,7 +615,7 @@ MAPS.fallgym.basin = { x: 1, y: 1, w: 14, h: 13, flag: 'fallSolved', done: (_x, 
 moveNpc('fallgym', 'perihel', 7, 1);
 moveNpc('fallgym', 'sw1', 1, 15, 1);
 moveNpc('fallgym', 'sw2', 14, 15, 3);
-MAPS.fallgym.npcs.push({ id: 'fallsign', x: 10, y: 16, sprite: 'sign', name: undefined, lines: ['Perihel keeps the hall dark. A star-type whorl worn in front lights it. You will have read this.'] });
+MAPS.fallgym.npcs.push({ id: 'fallsign', x: 10, y: 16, sprite: 'sign', name: undefined, lines: ['Perihel keeps the hall dark. A star-type whorl worn at the front illuminates it.', 'You will have read this.'] });
 (MAPS.fallgym.triggers ||= []).push({ x: 1, y: 2, w: 14, h: 1, script: 'fallTop', when: () => !flag('top_fall') });
 defScript('fallTop', hallTop('fall', 'perihel'));
 {

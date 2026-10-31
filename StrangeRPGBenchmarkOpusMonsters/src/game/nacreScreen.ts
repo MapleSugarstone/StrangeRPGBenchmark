@@ -121,9 +121,9 @@ class NacreMode implements Mode {
 
   lay(m: Mon): void {
     const k = STATS[this.stat], n = layersOf(m, k), name = k.toUpperCase();
-    if (usedOf(m) >= TAN_TOTAL) { this.refuse(`All ${TAN_TOTAL} layers are on.`); return; }
+    if (usedOf(m) >= TAN_TOTAL) { this.refuse(`All ${TAN_TOTAL} layers are active.`); return; }
     if (n >= TAN_PER_STAT) { this.refuse(`${name} has all ${TAN_PER_STAT}.`); return; }
-    if (G.tan <= 0) { this.refuse('No nacre left.'); return; }
+    if (G.tan <= 0) { this.refuse('No nacre remaining.'); return; }
     const before = this.total(m, k);
     (m.tan ||= {})[k] = n + 1;
     G.tan--;
@@ -148,7 +148,7 @@ class NacreMode implements Mode {
     G.tan += n;
     m.tan = {};
     sfx('back');
-    this.note(`${n} nacre back.`);
+    this.note(`${n} nacre restored.`);
   }
 
   update(): void {
@@ -177,7 +177,7 @@ class NacreMode implements Mode {
     else if (input.hit('wear')) this.takeOne(now);
     else if (input.hit('menu')) {
       if (usedOf(now)) { this.sub = { kind: 'clear', yes: false }; sfx('ok'); }
-      else this.refuse(`No layers on ${now.name}.`);
+      else this.refuse(`${now.name} has no layers.`);
     }
     memory.uid = now.uid;
     memory.stat = this.stat;
@@ -275,7 +275,7 @@ class NacreMode implements Mode {
     frame(2, PANEL_Y, 188, 35, '#1e1b26', sub.kind === 'clear' ? SEL : NACRE);
     if (!m) { text('X: back', 8, PANEL_Y + 21, HINT); return; }
     if (sub.kind === 'clear') {
-      text(fit(`Take all ${usedOf(m)} layers off ${m.name}?`, 176), 8, PANEL_Y + 3, PAPER);
+      text(fit(`Remove all ${usedOf(m)} layers from ${m.name}?`, 176), 8, PANEL_Y + 3, PAPER);
       ['Take off', 'Keep'].forEach((o, k) => {
         const x = 40 + k * 64, on = sub.yes === (k === 0);
         if (on) frame(x - 4, PANEL_Y + 14, 58, 13, '#3a3346', SEL);
@@ -285,10 +285,10 @@ class NacreMode implements Mode {
     }
     const k = STATS[this.stat], n = layersOf(m, k), used = usedOf(m), name = k.toUpperCase();
     let line: string, c = PAPER;
-    if (used >= TAN_TOTAL) { line = `A whorl takes ${TAN_TOTAL} layers at most.`; c = DIM; }
-    else if (n >= TAN_PER_STAT) { line = `A stat takes ${TAN_PER_STAT} layers at most.`; c = DIM; }
-    else if (G.tan <= 0) { line = 'You have no nacre left to lay on.'; c = BADC; }
-    else line = `A layer makes ${name} ${this.total(m, k, 1)} for 1 nacre.`;
+    if (used >= TAN_TOTAL) { line = `A whorl can hold up to ${TAN_TOTAL} layers.`; c = DIM; }
+    else if (n >= TAN_PER_STAT) { line = `A stat can hold up to ${TAN_PER_STAT} layers.`; c = DIM; }
+    else if (G.tan <= 0) { line = 'You are out of nacre to apply.'; c = BADC; }
+    else line = `A layer grants ${name} ${this.total(m, k, 1)} for 1 nacre.`;
     text(fit(line, 176), 8, PANEL_Y + 3, c);
     const canLay = used < TAN_TOTAL && n < TAN_PER_STAT && G.tan > 0;
     text('Z: lay one on', 8, PANEL_Y + 12, canLay ? HINT : HINT_OFF);

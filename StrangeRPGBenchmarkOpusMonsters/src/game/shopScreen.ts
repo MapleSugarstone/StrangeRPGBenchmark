@@ -98,7 +98,7 @@ class ShopMode implements Mode {
         give(w, sub.n);
         save();
         sfx('spot');
-        this.note(sub.n > 1 ? `Bought ${w.name} x${sub.n}.` : EXTRA_WARES[w.id]?.toast ?? `Bought the ${w.name}.`);
+        this.note(sub.n > 1 ? `Bought ${w.name} x${sub.n}.` : EXTRA_WARES[w.id]?.toast ?? `Purchased the ${w.name}.`);
       }
       return;
     }
@@ -109,9 +109,9 @@ class ShopMode implements Mode {
     if (input.hit('back')) { sfx('back'); close(this); this.done(); return; }
     if (input.hit('ok') && w) {
       const room = w.max === undefined ? MAX_BUY : w.max - heldOf(w);
-      if (room < 1) { sfx('bump'); this.note('You have it already.'); return; }
+      if (room < 1) { sfx('bump'); this.note('You already own this item.'); return; }
       const max = Math.min(MAX_BUY, room, Math.floor(G.rind / Math.max(1, w.price)));
-      if (max < 1) { sfx('bump'); this.note('Not enough cowries.'); return; }
+      if (max < 1) { sfx('bump'); this.note('Insufficient cowries.'); return; }
       sfx('ok');
       this.sub = w.max === 1 ? { kind: 'confirm', n: 1, yes: true } : { kind: 'count', n: 1, max };
     }
@@ -177,7 +177,7 @@ class ShopMode implements Mode {
       text('Total', 8, py + 47, DIM); textRight(String(total), 86, py + 47, PAPER); cowrie(89, py + 48);
       text('Left', 106, py + 47, DIM); textRight(String(G.rind - total), 178, py + 47, PAPER); cowrie(181, py + 48);
     } else if (sub.kind === 'confirm') {
-      const what = sub.n > 1 ? `Buy ${sub.n} for ${total} cowries?` : `Buy it for ${total} cowries?`;
+      const what = sub.n > 1 ? `Buy ${sub.n} for ${total} cowries?` : `Buy for ${total} cowries?`;
       text(what, 30, py + 11, PAPER);
       ['Buy', 'Cancel'].forEach((o, k) => {
         const x = 52 + k * 56, on = sub.yes === (k === 0);

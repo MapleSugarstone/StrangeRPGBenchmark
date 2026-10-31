@@ -1,0 +1,218 @@
+# Rewrites the guards turned down, for review. Each block shows the original and the reason above each
+# attempt. Delete the attempts you do not want, keep at most one per id, then import this file with:
+#   node scripts/lines.mjs import dialogue/naturalize/turned-down.txt
+
+# original: Hey. 1 battle before you go. Just you and me.
+# reason: numbers: 1
+[1pt0my4] Tack | Hey. One last fight before you leave. Just you and me.
+# reason: numbers: 1
+[1pt0my4] Tack | Hey. One battle before you leave. Just you and me.
+# reason: numbers: 1
+[1pt0my4] Tack | Hey. One battle before you leave. Just you and me.
+# reason: numbers: 1
+[1pt0my4] Tack | One more fight before you go. Just you and me.
+# reason: numbers: 1
+[1pt0my4] Tack | Hey. One battle before you go. Just you and me.
+
+# original: Ohm makes notions. I've worked here two years and Ohm's never said a whole sentence. Not one.
+# reason: over 100
+[05jjdtv] Conjoiner's boy | Ohm has opinions. I've worked here two years, and Ohm has never spoken a complete sentence. Not once.
+
+# original: 1 cast, that's all you get. Tackle had my walk. Brack's got 2 walks. Neither's mine.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | One cast—that's your only chance. Tackle had my walk. Brack got two walks. Neither one was mine.
+# reason: misread: Brack is a name here, not an ordinary word. Tackle is a name here, not an ordinary word
+[1u33ai6] Tack | One cast is all you receive. The tackle secured my walk. Brack secured 2 walks. Neither belongs to me.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | You only get one cast. Tackle had my turn. Brack has two walks. I'm out of turns.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | One cast is all you get. Tackle holds my walk. Brack has two. Neither is mine.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | You only get one cast. Tackle has mine. Brack has two. Neither is mine.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | 1 cast, that's all you get. Tackle had my walk. Brack has 2 walks. Neither's mine.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | You only get one cast. I lost mine, but Brack has two.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | One cast is all you get. Tackle had my walk. Brack has two walks. Neither one is mine.
+# reason: misread: Brack is a name here, not an ordinary word
+[1u33ai6] Tack | One cast, that's it. Tackle had my walk. Brack has two walks. Neither is mine.
+
+# original: Day 9. 9 turns. Lug says close in here. Fid says post 19 spans round. Knew already. Tack.
+# reason: numbers: 9 9 19
+[0i9n7sp] Letter | Day 9. Turn 9. Lug says we're close here. Fid says there are nineteen spans left. I already knew that. Tack.
+# reason: numbers: 9 9 19
+[0i9n7sp] Letter | Day 9. Nine turns passed. Lug advises closing up here. Fid suggests posting at nineteen spans around. I already knew. Tack.
+
+# original: Day 17. 17 turns. Hasp asked about hands 3 times. Purchase charged for 1 chair. Tack.
+# reason: numbers: 17 17 3 1
+[068hyjx] Letter | Day 17. Turn 17. Hasp asked about the hands three times. The charge for one chair was deducted. Tack.
+# reason: numbers: 17 17 3 1
+[068hyjx] Letter | Day 17. Seventeen turns passed. Hasp asked about hands three times. The charge for one chair was processed. Tack.
+
+# original: 39. 40. 41. Hey. 41 stars tonight, and 0 of them hit me.
+# reason: numbers: 39 40 41 41 0
+[1tefyzz] Tack | 39. 40. 41. Hey. 41 stars tonight, and none of them hit me.
+# reason: numbers: 39 40 41 41 0
+[1tefyzz] Tack | 39. 40. 41. Hey. There are forty-one stars tonight, but none fell on me.
+
+# original: 2nd battle out here, 1st real one. Brack's at Strand level 14. I checked twice.
+# reason: misread: Brack is a name here, not an ordinary word
+[059roxu] Tack | This is the second skirmish out here, but the first real fight. Brack is at Strand level 14. I checked twice.
+# reason: misread: Brack is a name here, not an ordinary word
+[059roxu] Tack | This is my second engagement in this area, but the first that was truly significant. Brack is located at Strand level 14. I verified the location twice.
+# reason: misread: Brack is a name here, not an ordinary word
+[059roxu] Tack | This is my second battle out here, and the first real one. Brack is at Strand level 14. I checked twice.
+# reason: numbers: 2 1 14
+[059roxu] Tack | This is my second battle here, but my first real one. Brack's at Strand level 14—I double-checked.
+# reason: misread: Brack is a name here, not an ordinary word
+[059roxu] Tack | This is my second battle here, but my first real one. Brack is at Strand level 14. I checked twice.
+
+# original: Footprints keep going. 1 every 30 steps. I'm counting the rest. Don't wait up.
+# reason: numbers: 1 30
+[0i2wdmd] Tack | The footprints just keep going. One every thirty steps. I'm counting the rest. Don't wait up for me.
+# reason: numbers: 1 30
+[0i2wdmd] Tack | The tracks continue. There is one print for every thirty steps. I am tallying the remainder. Do not wait for me.
+# reason: numbers: 1 30
+[0i2wdmd] Tack | Footprints keep going. One every 30 steps. I'm counting the rest. Don't wait up.
+# reason: numbers: 1 30
+[0i2wdmd] Tack | The footprints keep going, one every thirty steps. I'm counting the rest. Don't wait up.
+# reason: numbers: 1 30
+[0i2wdmd] Tack | The footprints keep going. One every 30 steps. I'm counting the rest. Don't wait up.
+
+# original: 4,000 steps. And 1 of them's mine. I'm keeping it.
+# reason: numbers: 4 000 1
+[0v36m46] Tack | 4,000 steps. And one of them is mine. I'm keeping it.
+
+# original: 91? Then it's 4,000. Exactly 4,000! Here, 1 stone. Number's on it.
+# reason: numbers: 91 4 000 4 000 1
+[1eoyax7] Tack | 91? Then it's 4,000. Exactly 4,000! Here, take one stone. The number is on it.
+
+# original: Oh, 1 more thing. My score's on the board at the point. 66. Beat that.
+# reason: numbers: 1 66
+[1ii54oi] Tack | Oh, one more thing. My score is on the board at the point: 66. Beat that.
+
+# original: 1,412 steps so far. 0 of them the same height. Who built this?
+# reason: numbers: 1 412 0
+[0gxlxsg] Tack | 1,412 steps so far. None of them the same height. Who built this?
+
+# original: 3 lows since we came down. 3 times it walked right past the Auger. Right past.
+# reason: numbers: 3 3
+[1gml15i] Tack | Three lows since we arrived. Three times it walked right past the Auger. Right past.
+# reason: numbers: 3 3
+[1gml15i] Tack | We've had three lows since we dropped down. Three times it walked right past the Auger. Right past it.
+# reason: numbers: 3 3
+[1gml15i] Tack | Three lows since we arrived. Three times it walked right past the Auger. Right past.
+# reason: numbers: 3 3
+[1gml15i] Tack | We've had three lows since arriving. Three times it walked right past the Auger. Right past.
+# reason: numbers: 3 3
+[1gml15i] Tack | We've seen three lows since we arrived. Three times, the tide passed right by the Auger. Right past it.
+# reason: numbers: 3 3
+[1gml15i] Tack | Three low passes since we descended. Three times it missed the Auger by inches.
+# reason: numbers: 3 3
+[1gml15i] Tack | Three low passes since we descended. Three times it missed the Auger by inches.
+
+# original: 312 squares. Still 1 empty. 1 of us sat by it all night, and it wasn't me.
+# reason: numbers: 312 1 1
+[02ciw0v] Tack | 312 squares. One remains empty. One of us kept watch by it all night, but it wasn't me.
+# reason: numbers: 312 1 1
+[02ciw0v] Tack | 312 squares. One remains empty. One of us sat beside it all night, but it wasn't me.
+
+# original: Counted 312 squares. Twice. 1 empty. The big 1, in the middle.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | I counted 312 squares, twice. There is one empty space—the large one in the center.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | I counted 312 squares, twice over. Just one was empty—the large one in the center.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | 312 squares counted twice. One empty: the center.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | I counted 312 squares, which were counted twice. There is 1 empty space: the large one in the middle.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | I counted 312 squares twice. 1 was empty—the large one in the center.
+# reason: numbers: 312 1 1
+[0x6c1ch] Tack | I counted 312 squares twice. One was empty—the large one in the center.
+
+# original: A Setting sketch. {pz.idea}
+# reason: misread: Setting is a name here, not an ordinary word
+[0r6urdd] ? (text) | A setting sketch. {v1}
+# reason: placeholders
+[0r6urdd] ? (text) | {v1} This room is {v2}. The room {v3} is {v4}.
+
+# original: I'm not allowed on the porch. The porch is full. Of grandma. Both of her.
+# reason: misread: Grandma is an ordinary word here, not a name
+[124pmkm] Porch kid | I'm not permitted on the porch. It's crowded. With Grandma. Both of her.
+# reason: misread: Grandma is an ordinary word here, not a name
+[124pmkm] Porch kid | I can't go on the porch. It's packed. With Grandma. Both of them.
+# reason: misread: Grandma is an ordinary word here, not a name
+[124pmkm] Porch kid | I'm not permitted on the porch. It's crowded. With Grandma. Both of them.
+# reason: misread: Grandma is an ordinary word here, not a name
+[124pmkm] Porch kid | I can't go on the porch. It's crowded with Grandma. Both of them.
+# reason: pronouns: she changed
+[124pmkm] Porch kid | I can't get on the porch. It's jammed with grandmas. Both of them.
+# reason: misread: Grandma is an ordinary word here, not a name
+[124pmkm] Porch kid | I can't go on the porch. It's crowded. With Grandma. Both of them.
+# reason: pronouns: she changed
+[124pmkm] Porch kid | I'm not allowed on the porch. It's full of grandmas. Both of them.
+
+# original: {#1} lies back down as itself.
+# reason: over 42
+[0bucnnp] battle | {v1} lies back down in its original form.
+# reason: over 42
+[0bucnnp] battle | {v1} returns to their original form, lying on the ground.
+
+# original: Buy and the Midden
+# reason: over 26
+[0kj0w8k] choice | Purchase and head to the Midden
+
+# original: Four. Notions. Each. Two point two six skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four notions per unit. That works out to 2.26 skellets each.
+# reason: numbers: 
+[0s9mcal] Ohm | Four. Notions. Each. 2.26 skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four. Notions. Each. 2.26 skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four. Notions. Each. 2.26 skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four notions, each costing 2.26 skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four notions. Each 2.26 skellets.
+# reason: numbers: 
+[0s9mcal] Ohm | Four. Notions. Each. 2.26 skellets.
+
+# original: Pylon. Hermits. Now. Eleven point three gallimots.
+# reason: misread: Pylon is a name here, not an ordinary word
+[0ei7nkc] Ohm | The pylon. Hermits. Right now. That's 11.3 gallimots.
+# reason: numbers: 
+[0ei7nkc] Ohm | Pylon. Hermits. Now. 11.3 gallimots.
+# reason: numbers: 
+[0ei7nkc] Ohm | Pylon. Hermits. Now. 11.3 gallimots.
+
+# original: Arm {#1}
+# reason: placeholders
+[1g4a3sa] choice prompt | The arm
+
+# original: {#1} loses {cut} max HP.
+# reason: over 39
+[1obpdq9] battle | {v1} takes {v2} damage to its maximum HP.
+
+# original: Fit which first?
+# reason: over 24
+[1t3z23f] menu | Which should you attach first?
+
+# original: {#1} is a frog.
+# reason: over 27
+[106z936] battle | {v1} transforms into a frog.
+
+# original: {#1} is buried.
+# reason: over 27
+[16p99wi] battle | {v1} is buried underground.
+
+# original: Ting.
+# reason: over 13
+[1pn8pgq] battle | A soft chime rings out.
+
+# original: {#1} snaps shut.
+# reason: placeholders
+[0z90mup] battle | The box slams shut.
+

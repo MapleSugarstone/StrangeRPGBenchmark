@@ -1,0 +1,384 @@
+# WHORL game text, chunk 18 of 26. Files: src/game/files.ts, src/game/fitter.ts, src/game/fitting.ts, src/game/items.ts, src/game/menus.ts, src/game/middenScreen.ts, src/game/minigames/pegboard.ts, src/game/minigames/scrape.ts, src/game/minigames/setting.ts, src/game/minigames/starfall.ts, src/game/nacreScreen.ts, src/game/online.ts, src/game/practice.ts, src/game/register.ts, src/game/setting/core.ts, src/game/setting/puzzles.ts, src/game/shopScreen.ts, src/game/state.ts, src/game/title.ts
+# Speakers: menu (179), item (11)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/game/files.ts
+
+== scene: fileMenu
+[0rh7ytz] menu | File {n} has been saved as a .whorl file.
+[17fk4nl] menu | The file is empty.
+[147g6tr] menu | Overwrite {n}? The existing save will be lost.
+[0o05l7n] menu | The file is now in file {n}.
+[1epq4e0] menu | Not a WHORL save.
+
+== scene: draw
+[02g94s8] menu | Continue from which file?
+[1w1be0g] menu | Start new game in which file?
+[16q8hjm] menu | Restart file {#1}?
+[1u7svj0] menu | The save will be lost.
+[1pzvcdp] menu | Z picks. Arrows move. X back.
+[17lfzgt] menu | Press C to export or import a .whorl file.
+
+== scene: files
+[11h0rqh] menu | What do you call yourself?
+
+== scene: draw
+[0w5ioa5] menu | Z types. X deletes. V moves to Done.
+[0cpvdhn] menu | If empty, the name stays {this.fallback}.
+
+== scene: n
+[14u69lm] menu | What should you name it?
+
+==== file: src/game/fitter.ts
+
+== scene: draw
+[1fjukvu] menu | Customize appearance?
+
+== scene: fitterMenu
+[0ivwo8h] menu | Two whorls required. You have one.
+
+== scene: ia
+[1t3z23f] menu | Fit which first?
+
+== scene: fitterMenu
+[0hbzzrj] menu | {cost} cowries. Ten per level. bring it back.
+[1i4jxe5] menu | There. {result.name}. It won't separate.
+[1uyvt2v] menu | The old nacre flaked off at the join. {nacreBack} layers. Yours.
+
+== scene: moveItem
+[1dblkbt] menu |  It is a crest and costs {mv.nerve} tide.
+
+== scene: ti
+[0pjcjf6] menu | Two types mean more moves get the same-type bonus, but also more weaknesses.
+
+== scene: bi
+[1etjv8k] menu | Is its standard Attack physical or magical?
+
+== scene: rt
+[00unni2] menu | Adjust one move to one of its types?
+
+== scene: tk
+[0kgrly6] menu | To what type?
+
+== scene: ni
+[0230efx] menu | What should it be named?
+
+== scene: draw
+[01zdsw4] menu | The seam drains {#1}% from all its stats.
+[15mgrth] menu | That costs {cost} cowries. You have {G.rind}.
+[0gf5f3s] menu | Both parents will be lost in the process.
+
+==== file: src/game/fitting.ts
+
+== scene: canFit
+[15batnm] menu | A person's cast has nothing to conjoin with.
+[15cswi1] menu | That one is already conjoined. A cast can only handle one.
+
+== scene: entry
+[0bs8gj2] menu | It is half {a.name} and half {b.name}. It {#3} and {#4}. {#5}.
+
+==== file: src/game/items.ts
+
+== scene: items
+[1focmzz] item | For 150 steps, wild whorls in the grass will avoid Ouro.
+[0o2399m] item | The next wild whorl that appears on this map will be its rarest species.
+[0u1w5ke] item | The cart appears once on any road or beach, taking Ouro to a town they have visited.
+[1twb982] item | Glass smoothed by the sea, green in hue. Grottos purchase it.
+[1gkafvl] item | A block of pan salt. Grottos buy it.
+[1ug14bv] item | A sealed tin from a Rider machine. Grottos will buy it.
+[0v612bn] item | Shard of Spire-bell. Humming. Grottos buy.
+[1l5ijio] item | Bottled rain from Bole. Strandmonger pays more.
+[1ko1wzr] item | Silt from the Moonwater's bed. It sinks slowly upward. Grottos will buy it.
+[13gbu1u] item | Sand fused into glass by the star's heat. Grottos will buy it.
+[0meutn2] item | Sea-smelling chunk. Grottos buy.
+
+==== file: src/game/menus.ts
+
+== scene: rowsOf
+[0ibbifc] menu | Each layer grants {#1} to a single stat or {#2} to HP at level {lv}, capping at {TAN_PER_STAT} layers in any one stat.
+[1e11oaw] menu | Roughly one in four hundred wild whorls displays night-sky hues and sparkles.
+
+== scene: draw
+[1h39pzz] menu | {lr} Scroll/X to exit.
+
+== scene: fourMenu
+[0bb0l54] menu | {HERO} has no whorls yet.
+[1k4ou9c] menu | {HERO} takes the {#2}.
+
+== scene: giveNotion
+[0ch6mzu] menu | {HERO} lacks any notions.
+[0oc1szb] menu | {m.name} holds the {#2}.
+
+==== file: src/game/middenScreen.ts
+
+== scene: move
+[0dg13h6] menu | Your team needs one whorl.
+[1vn9in2] menu | {m.name} is sent to the Midden.
+[1e5gokq] menu | {m.name} joins your team.
+
+== scene: swap
+[07m1heg] menu | {b.name} enters, {a.name} goes to the Midden.
+
+== scene: head
+[0q8kc7n] menu | Swap with which team's whorl?
+
+==== file: src/game/minigames/pegboard.ts
+
+== scene: note
+[16x6bpq] menu | You start first.
+[1lndh4y] menu | {rival.name} goes first.
+
+== scene: endIfOver
+[195c9zo] menu | You win, {a} to {b}.
+[1qcqw5p] menu | It's a draw, {a} each.
+
+==== file: src/game/minigames/scrape.ts
+
+== scene: update
+[1heoc69] menu | This one is cracked. The entire bed is corrupted.
+
+==== file: src/game/minigames/setting.ts
+
+== scene: beginSim
+[1dbrmed] menu | Position an arm first.
+
+== scene: tryPlace
+[01o1j8g] menu | Apply its tape below.
+[0lnuib6] menu | Each arm requires its own cell.
+
+== scene: partMenu
+[0b1110t] menu | Move it, then press Z to set it down.
+
+== scene: help
+[127jep6] menu | Each arm follows its tape, advancing one step per cycle. All tapes loop together for the duration of the longest tape.
+[18aeiyn] menu | Grab picks up the stone at the claw. Turning swings the arm and its load. Reaching out or pulling in adjusts its length.
+[1vr42tz] menu | Pivot rotates the piece held by the arm a quarter turn around the claw. The arm itself remains in place.
+[0xmx6bm] menu | A polisher shines a rough stone placed on it. A setter bonds two stones resting on it. A splitter breaks that bond.
+[0fa5vhb] menu | A mold consists of a model cell, marked with a dot, and a copy cell. Pasting onto the copy cell creates a stone identical to the one on the model cell.
+[08jg4qy] menu | A chute removes any piece resting on it entirely, even if just one stone is touching it.
+[1nmkbkp] menu | An input outlined in gold provides one piece for each gold dot on it, and then stops.
+[1uqk5nt] menu | A stone cannot be placed on an arm's base.
+[1mp8d0n] menu | C rotates the part under the cursor, or clears a tape step. Hold Shift to speed up.
+
+== scene: msg
+[1euo2v8] menu | Arm {#1}, step {#2}: {#3}. Press Z to swap, C to clear.
+
+== scene: drawTapes
+[0n1sh0n] menu | Position an arm to record its tape.
+
+== scene: settingMenu
+[025wg9j] menu | Setting: Build a machine that carries stones to the setting on the right of the board.
+[1tkj1fo] menu | Each puzzle originates from a sketch. Discover more sketches globally.
+[0hz67sb] menu | Purchased sketches follow the found ones here. They are more difficult, and some include their own components.
+
+== scene: tapeMenu
+[0y31zoi] menu | {m.name} places one Stone per turn in battle, cycling through this sequence. Its most recent Stone determines its actions.
+[1br3jqd] menu | Matching four Stones maintains one effect. Four distinct Stones allow its crest to strike all enemies.
+
+==== file: src/game/minigames/starfall.ts
+
+== scene: draw
+[08k7olb] menu | {score} stars caught.
+
+==== file: src/game/nacreScreen.ts
+
+== scene: lay
+[1yoihq6] menu | All {TAN_TOTAL} layers are active.
+[1ytr8mt] menu | No nacre remaining.
+
+== scene: takeOne
+[1kah34s] menu | No layers on {name}.
+
+== scene: takeAll
+[0yxqehg] menu | {n} nacre restored.
+
+== scene: update
+[0tfviqv] menu | {now.name} has no layers.
+
+== scene: drawPanel
+[00e5grx] menu | Remove all {#1} layers from {m.name}?
+[03hpo49] menu | A whorl can hold up to {TAN_TOTAL} layers.
+[0fodqs5] menu | A stat can hold up to {TAN_PER_STAT} layers.
+[0z5qycr] menu | You are out of nacre to apply.
+[0yz4utg] menu | A layer grants {name} {#2} for 1 nacre.
+
+==== file: src/game/online.ts
+
+== scene: linkLine
+[0br37mb] menu | The byssus went slack. {#1}
+
+== scene: nameNotes
+[00y8tps] menu | Your online name is {STRANGER}.
+[0bddt3l] menu | {m.name} is online as {#2}.
+
+== scene: lines
+[1xa59sa] menu | Six displayed, four to battle, all at level 25.
+
+== scene: draw
+[0v4ah5d] menu | Z swaps, V sees, X ends.
+[1es8usp] menu | It lasts for 15 minutes.
+
+== scene: s
+[0yufhsi] menu | Inquiring with the lobby.
+
+== scene: hint
+[174c99r] menu | Concluding the match.
+[0vb5eh8] menu | Time expired. Slots 1 through 4 will battle.
+[1lrzdkq] menu | The fight begins.
+[0ckznn8] menu | V examines it.
+[1p5xpor] menu | Awaiting {#1}. X modifies it.
+[0in4ig4] menu | Z sends your four whorls.
+[1eu2mcb] menu | Z flags it. V inspects it.
+
+== scene: endReason
+[027izam] menu | You gave up.
+[17e26kz] menu | {name} ran out of time three times in a row.
+[0kqmfsu] menu | Your time expired three times in a row.
+[0tb0trn] menu | {name} left the match.
+[1vysv0p] menu | The connection was lost.
+[1vvttbt] menu | You left the match.
+[1fxmsvm] menu | The match is invalidated.
+
+== scene: k
+[16sjz7r] menu | Leave match? It goes to {this.name}.
+
+== scene: head
+[11x5di3] menu | Game {g}: You won.
+[0l5nt8u] menu | Game {g}: No winner.
+
+== scene: why
+[0jqbggp] menu | {name} forfeited the game.
+[008octr] menu | You forfeited the game.
+
+== scene: wait
+[1koz6g0] menu | Waiting for {name}.
+[0ynbla2] menu | Game {#1} will begin once both players are ready.
+
+== scene: draw
+[1gbqoef] menu | The game will start in {NEXT_SECONDS} seconds regardless.
+
+== scene: online
+[0rtoa08] menu | You win the match.
+[0ldo729] menu | {name} wins the match.
+
+== scene: why
+[1vlu7mu] menu | You left the match.
+[1gj77xy] menu | The match ended while this page was away.
+
+== scene: tick
+[085zs49] menu | {this.name} requests a rematch.
+[02ja7iz] menu | Link closed.
+
+== scene: draw
+[1finv5x] menu | The rematch generates new whorls.
+[0eluul3] menu | The rematch retains both teams.
+[13qikfk] menu | Press Z to go back.
+[0zqf1d8] menu | Z types, X deletes, V done.
+
+== scene: serviceText
+[12tj6bj] menu | Generates a link for anyone else seeking a match. A match is the best of three games.
+[0309hfk] menu | Creates a one-time code for a friend, valid for 15 minutes.
+[050ko7p] menu | Uses a friend's code.
+[0ybh9jm] menu | Each side receives six random whorls, including some hybrids, and selects four for each game. Find an opponent, create a code, or use an existing one.
+[1ih7l1i] menu | Six to display, four to battle, all at level 25.
+[1ld4of2] menu | Go back to the counter.
+
+== scene: lines
+[1f751k5] menu | Returns to the match the page left. The room holds the seat for 90 seconds.
+
+== scene: r
+[0cac1xn] menu | Random encounter: six whorls each.
+
+==== file: src/game/practice.ts
+
+== scene: draw
+[023v7vp] menu | No species match.
+[0izzkzo] menu | Z selects it. X returns to typing.
+[0niqtl6] menu | V or List navigates to the list.
+
+== scene: start
+[1ofbuqp] menu | {#1} is on {#2} team twice. A team holds each species once, and fits count too.
+[1452n9h] menu | Opponent wins.
+
+== scene: k1
+[0wt07pl] menu | Which species goes first?
+
+== scene: k
+[0csa9fd] menu | Contains nothing.
+
+== scene: hint
+[1wnelma] menu | Z modifies this whorl. V examines it.
+[1wx1nfw] menu | Z begins with these teams.
+[1bd2fn1] menu | Z selects. X returns to the title screen.
+
+==== file: src/game/register.ts
+
+== scene: drawKind
+[0w1jp83] menu | Nowhere in the wild.
+
+==== file: src/game/setting/core.ts
+
+== scene: checkMachine
+[1utzl93] menu | A piece is off-board.
+[00f8mps] menu | An arm rests on part.
+[1v0otgy] menu | Parts share a cell.
+[10zvg4p] menu | Tape exceeds length.
+[0eogxug] menu | Arms cannot pivot.
+[1ke89uc] menu | Excess of same parts.
+
+== scene: runAll
+[198ymi6] menu | It did not complete.
+
+==== file: src/game/setting/puzzles.ts
+
+== scene: PUZZLES
+[1ni16io] menu | Pick up a pearl, rotate, and place it into the setting.
+[06zyfzu] menu | A polisher smooths rough nacre into a pearl. Deposit it here.
+[0g09qcj] menu | Reach out and pull in to move a stone two cells.
+[1v2fdpf] menu | Transfer the amber from one arm to the other.
+[0gs00d2] menu | A setter fuses the two stones resting upon it.
+[0d5qaax] menu | Polish the nacre before placing it next to the amber.
+[0r829eq] menu | A splitter severs the connection between the stones on it.
+[0049wm7] menu | Place a third stone on a pair to create a bar.
+[1hu8jxi] menu | Place two rough stones side by side, then polish them as a pair.
+[06pifbb] menu | Add a second setter to make the pair a clasp.
+[1nsifns] menu | Polish a star chip and place it between two pearls.
+[0xz6nxr] menu | Three arms construct a ring using four set stones.
+
+== scene: SHOP_PUZZLES
+[0p365pm] menu | A mold turns paste into a copy of the stone on its other cell. There is only one star.
+[00gbd96] menu | Pebbles emerged bonded to the stones, and a chute removes an entire piece.
+[0u8c7is] menu | Pivot the item held by an arm around its claw. Construct the cross on a single setter.
+[1mut96r] menu | The pin is too long to transport. Swing it by one end.
+[0ijch23] menu | String three nacre beads and use a single polisher for all of them.
+[0r16gs3] menu | Place pearls in one tray and amber in the other.
+[0sevfxh] menu | One arm, one setter, and a strand of four beads.
+[0sd9e1x] menu | A left-handed customer requires a mirrored clasp.
+[0kpna5p] menu | Use one amber and three paste. A copy can be a model too.
+[1amvvz5] menu | Create a left earring and a right earring using one machine.
+[1gl5xg9] menu | Use one nacre and one star chip. All subsequent brooches are paste.
+[0wz1ah4] menu | Do it all at once. Keep the piece standing up.
+
+==== file: src/game/shopScreen.ts
+
+== scene: update
+[0nws31a] menu | Purchased the {w.name}.
+[04l5d1g] menu | You already own this item.
+[0smbmln] menu | Insufficient cowries.
+
+== scene: what
+[1q84v8w] menu | Buy for {total} cowries?
+
+==== file: src/game/state.ts
+
+== scene: DIFFICULTY_TEXT
+[1lwi7s9] menu | Foes correspond to the story's levels.
+[13s1dls] menu | Enemies are 10% higher in level and fight smarter.
+[0a2fksi] menu | Each foe is 20% higher in level plus 1, and fights as well as a champion.
+
+==== file: src/game/title.ts
+
+== scene: drawMenu
+[00krifg] menu | Z selects. Arrows navigate.
+[00ur44f] menu | Z selects. Arrows navigate.

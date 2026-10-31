@@ -211,10 +211,10 @@ for (const t of Object.values(TOWNS)) SPAWNS[t.map] = [t.x, t.y];
 
 export async function cart(): Promise<void> {
   const can = Object.entries(TOWNS).filter(([k]) => G.flags['visited_' + k]);
-  if (can.length < 2) { await say('Carter', 'Cart goes between towns you\'ve been to. You\'ve been to the one.'); return; }
+  if (can.length < 2) { await say('Carter', 'The cart travels between towns you have visited, and you have visited only one.'); return; }
   const i = await listMenu('Ride the cart, 10 cowries', can.map(([, t]) => t.name), { w: 120 });
   if (i < 0) return;
-  if (G.rind < 10) { await say('Carter', 'Ten cowries. You\'ve not got ten.'); return; }
+  if (G.rind < 10) { await say('Carter', 'Ten cowries. You don\'t have ten.'); return; }
   G.rind -= 10;
   const t = can[i][1];
   await warp(t.map, t.x, t.y, 0);
@@ -241,7 +241,7 @@ export async function tannery(town: string, stock: string[]): Promise<void> {
     if (fittingUnlocked() && G.flags['fitter_' + town]) opts.push('Conjoiner');
     for (const x of tanneryExtras) if (x.when()) opts.push(x.label);
     opts.push('Cart', 'Leave');
-    const i = await choose(opts, true, 'Shellwright: What do you want?');
+    const i = await choose(opts, true, 'Shellwright: What can I do for you?');
     const k = opts[i];
     if (i < 0 || k === 'Leave') return;
     if (k === 'Buy') {

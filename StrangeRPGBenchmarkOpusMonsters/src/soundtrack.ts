@@ -8,7 +8,7 @@ interface Change { id: string; label: string; toggle?: boolean; steps?: string[]
 interface Track { id: string; title: string; length?: number; once?: boolean; changes?: Change[] }
 
 /** The Stays a player has loosened when first hearing the track, each of which lowers all the music a semitone. */
-const stays = (value: number): Change => ({ id: 'stays', label: 'Stays loosened', steps: ['0', '1', '2', '3', '4', '5', '6', '7', '8'], value });
+const stays = (value: number): Change => ({ id: 'stays', label: 'Seals loosened', steps: ['0', '1', '2', '3', '4', '5', '6', '7', '8'], value });
 const INTENSITY: Change = { id: 'intensity', label: 'Intensity', steps: ['Calm', 'Tense', 'Peak'] };
 const LEVELS = [0, 0.5, 0.9];
 const TIDE: Change = { id: 'tide', label: 'High tide', toggle: true };

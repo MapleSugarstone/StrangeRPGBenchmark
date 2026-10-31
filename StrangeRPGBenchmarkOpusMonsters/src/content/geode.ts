@@ -31,7 +31,7 @@ link('route8', 37, 21, 'q', { to: 'geodemouth', tx: 14, ty: 2, dir: 0 }, () => !
     await chimes(n);
     await wait(16);
     await emote('ouro', n ? 'music' : 'question');
-    if (!flag('geodeSeamTold')) { setFlag('geodeSeamTold'); await hint(`(The seam in the rim chimes once for each Setting puzzle set: ${n} of 12.)`); }
+    if (!flag('geodeSeamTold')) { setFlag('geodeSeamTold'); await hint(`(The rim seam chimes once for each completed Setting puzzle: ${n} of 12.)`); }
   },
 });
 (MAPS.route8.triggers ||= []).push({ x: 35, y: 22, w: 5, h: 1, script: 'geodeOpens', when: () => baseSolved(G.gem.solved) >= 12 && !flag('geodeOpen') });
@@ -491,17 +491,18 @@ defScript('carcanet', async () => {
     await chimes(Math.min(n, 12), 4);
     await emote('carcanet', 'silence');
     await emote('ouro', 'question');
-    await hint(`(Carcanet does not stir. ${n} of its ${ALL_PUZZLES.length} settings ring. Set every sketch, the bought ones too.)`);
+    await hint(`(Carcanet stays still. ${n} of its ${ALL_PUZZLES.length} settings chime. Place every sketch, including those you've bought.)`);
     return;
   }
   await act('carcanet', 'nod');
-  const c = await choose(['Sound it', 'Leave it'], true);
+  const c = await choose(['Catch it', 'Let it be'], true);
   if (c !== 0) return;
   const r = await fightWild(mon('carcanet', nearPlayer(-9)), { bossHp: 2.8, ai: 'keeper', area: 'crystal' });
   if (r.pegged.length) {
     setFlag('carcanetDone');
     await giveMon(r.pegged[0]);
-    await hint('(Carcanet sets its Stones in the order of its Tape. Write the Tape in Setting, under its name.)');
+    await hint('(Carcanet arranges its Stones according to the sequence of its Tape.');
+    await hint('Record the Tape in the Setting, beneath its name.)');
     save();
   } else if (r.result === 'lose') await field.lose();
 });

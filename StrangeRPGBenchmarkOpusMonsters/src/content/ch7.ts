@@ -53,11 +53,11 @@ defMap({
   ],
   zone: { kinds: [['gore', 3], ['thumb', 2], ['quarry', 2], ['portent', 2], ['plinth', 2], ['grotto', 2]], lv: [19, 21], n: 16, area: 'rubble', fitted: 0.25 },
   npcs: [
-    { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 20], ['gore', 20]], intro: 'The Hilt\'s guarded. I\'m the guard. All of it. The whole guard is me.', defeat: 'Okay. Was the whole guard.', sight: 4 } },
-    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 20], ['portent', 20]], intro: 'There\'s conjoined whorls walking wild out here now. Two shells grown into one. All on their own!', defeat: 'Both halves lost. Bad day for halves.', sight: 4 } },
-    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 20], ['quarry', 20]], intro: 'Moonwater tonight. Everybody\'s going. Bring a towel.', defeat: 'Fine. You\'re going too, then.', sight: 3 } },
-    { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 20], ['gore', 20], ['crane', 20]], intro: 'Everyone asks if the sword\'s sharp. It\'s a Stay! Sharp\'s not the point! I\'m the smith, I\'d know.', defeat: 'Go look at it yourself, then.', sight: 4 } },
-    { id: 'mwguard', blocks: true, x: 16, y: 28, sprite: 'peeler', name: 'Hermit', when: () => !flag('pithBeaten'), lines: ['Moonwater\'s closed. Murex says. You want to argue, Murex is in the Hermitage.'] },
+    { id: 'guard7', x: 10, y: 13, sprite: 'keeper', name: 'Guard', dir: 0, trainer: { name: 'Guard', team: [['menhir', 20], ['gore', 20]], intro: 'The Hilt is under guard. I am the guard. I am the entire guard.', defeat: 'That is, I was the entire guard.', sight: 4 } },
+    { id: 'pilgrim7', x: 30, y: 13, sprite: 'elder', name: 'Pilgrim', dir: 0, trainer: { name: 'Pilgrim', team: [['plinth', 20], ['portent', 20]], intro: 'There are conjoined whorls roaming free out here now. Two shells fused into one. Naturally!', defeat: 'Both halves are gone. A terrible day for halves.', sight: 4 } },
+    { id: 'peel7', x: 24, y: 15, sprite: 'peeler', name: 'Hermit', dir: 2, trainer: { nacre: 1, name: 'Hermit', team: [['grotto', 20], ['quarry', 20]], intro: 'Moonwater is flowing tonight. Everyone is going. Bring a towel.', defeat: 'Very well. You are going too, then.', sight: 3 } },
+    { id: 'smith', x: 36, y: 15, sprite: 'tanner', name: 'Smith', dir: 2, trainer: { name: 'Smith', team: [['thumb', 20], ['gore', 20], ['crane', 20]], intro: 'Folks ask if it\'s sharp. It\'s a Seal! Sharpness isn\'t the point. I\'m the smith. I\'d know.', defeat: 'Go look for yourself, then.', sight: 4 } },
+    { id: 'mwguard', blocks: true, x: 16, y: 28, sprite: 'peeler', name: 'Hermit', when: () => !flag('pithBeaten'), lines: ['Moonwater is closed. Murex says so. If you want to argue, Murex is in the Hermitage.'] },
   ],
   enter: 'route7Enter',
 });
@@ -85,9 +85,9 @@ defMap({
   warps: [{ x: 8, y: 15, to: 'route7', tx: 23, ty: 7, dir: 0 }, { x: 9, y: 15, to: 'route7', tx: 23, ty: 7, dir: 0 }],
   npcs: [
     { id: 'pith', x: 8, y: 1, sprite: 'pith', name: 'Murex', talk: 'pith' },
-    { id: 'wall', x: 15, y: 1, sprite: 'sign', name: null as any, lines: ['On the wall, painted: a spiral shell with a dark crack down the front. Under it, smaller: WIPE FEET.'] },
-    { id: 'ph1', x: 5, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['leech', 20], ['carrion', 20]], intro: 'We prise old shells off the rocks in here. The late ones watch. So they know how it comes off.', defeat: 'See? That\'s how it comes off.', sight: 5 } },
-    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['portent', 20], ['mycel', 20], ['undertow', 20]], intro: 'Bare\'s down at the water. Murex is on the door.', defeat: 'Murex is still on the door. Murex is always on the door.', sight: 5 } },
+    { id: 'wall', x: 15, y: 1, sprite: 'sign', name: null as any, lines: ['Painted on the wall: a spiral shell with a dark crack running down the front.', 'Below it, in smaller letters: WIPE FEET.'] },
+    { id: 'ph1', x: 5, y: 7, sprite: 'peeler', name: 'Hermit', dir: 1, trainer: { name: 'Hermit', team: [['leech', 20], ['carrion', 20]], intro: 'We pry old shells off the rocks in here. The late ones watch. So they can see how it comes off.', defeat: 'See? That is how it comes off.', sight: 5 } },
+    { id: 'ph2', x: 12, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, trainer: { nacre: 1, name: 'Hermit', team: [['portent', 20], ['mycel', 20], ['undertow', 20]], intro: 'Bare is down by the water. Murex is at the door.', defeat: 'Murex is still at the door. Murex is always at the door.', sight: 5 } },
   ],
 });
 
@@ -193,15 +193,15 @@ defMap({
   tileTalk: { B: 'hiltStay', O: 'hiltHole', d: 'shutDoor' },
   npcs: [
     { id: 'tanner', x: 5, y: 11, sprite: 'tanner', name: 'Shellwright', talk: 'hiltTannery' },
-    { id: 'g1', x: 16, y: 9, sprite: 'keeper', name: 'Guard', lines: () => flag('fullCaught') ? ['Two hundred years we\'ve guarded it and tonight it moves. There\'s no rule for that. I checked.'] : ['We guard the sword. Nobody alive has seen the blade. That\'s how you know we\'re good at it.'] },
-    { id: 'g2', x: 8, y: 17, sprite: 'villager', name: 'Woman', lines: ['There\'s blade showing! Nobody alive\'s ever seen blade! And now I\'ve seen blade!'], when: () => !!flag('fullCaught') },
-    { id: 'g3', x: 22, y: 23, sprite: 'child', name: 'Child', wander: true, lines: ['I touched the blade. It\'s not even sharp. I\'m never washing this hand.'] },
-    { id: 'g4', x: 3, y: 23, sprite: 'elder', name: 'Old man', lines: ['Conjoined whorls on the road now, wild ones. Two in one. Never used to be. I blame the moon.'] },
-    { id: 'sguard', blocks: true, x: 13, y: 28, dir: 3, sprite: 'keeper', name: 'Guard', when: () => !flag('chose_hilt'), lines: ['Crater road\'s south. Quillon says nobody goes till the sword\'s seen to. So nobody goes.'] },
+    { id: 'g1', x: 16, y: 9, sprite: 'keeper', name: 'Guard', lines: () => flag('fullCaught') ? ['We\'ve stood watch over it for two hundred years, and tonight it\'s finally moving.', 'I\'ve never seen a protocol for that. I checked.'] : ['Our job is to guard the sword.', 'No living soul has laid eyes on the blade, which is exactly why we\'re so good at our jobs.'] },
+    { id: 'g2', x: 8, y: 17, sprite: 'villager', name: 'Woman', lines: ['The blade is visible! No one alive has ever seen the blade, and now I have!'], when: () => !!flag('fullCaught') },
+    { id: 'g3', x: 22, y: 23, sprite: 'child', name: 'Child', wander: true, lines: ['I actually touched it. It\'s not even sharp. I\'m never washing this hand again.'] },
+    { id: 'g4', x: 3, y: 23, sprite: 'elder', name: 'Old man', lines: ['Wild conjoined whorls are on the road now. Two shells fused into one. Never seen it before.', 'Must be the moon.'] },
+    { id: 'sguard', blocks: true, x: 13, y: 28, dir: 3, sprite: 'keeper', name: 'Guard', when: () => !flag('chose_hilt'), lines: ['The crater road heads south. Quillon insists no one passes until the sword is accounted for.', 'And so, no one passes.'] },
     // Quillon and a Hermit by the sword after Quillon's fight.
     { id: 'quillonOut', x: 16, y: 12, sprite: 'quillon', name: 'Quillon', when: () => !!flag('hiltScene') },
     { id: 'hp1', x: 23, y: 11, sprite: 'peeler', name: 'Hermit', dir: 3, when: () => !!flag('hiltScene') },
-    { id: 'seguard', blocks: true, x: 29, y: 28, dir: 3, sprite: 'keeper', name: 'Guard', when: () => !flag('chose_hilt'), lines: ['Glass road\'s south-east. Same rule. Sword first, then glass. Quillon\'s very firm.'] },
+    { id: 'seguard', blocks: true, x: 29, y: 28, dir: 3, sprite: 'keeper', name: 'Guard', when: () => !flag('chose_hilt'), lines: ['The glass road is to the south-east. Same rule. Sword first, then glass. Quillon\'s very firm.'] },
   ],
   enter: 'hiltEnter',
 });
@@ -226,31 +226,31 @@ defMap({
   warps: [{ x: 6, y: 11, to: 'hilt', tx: 12, ty: 6, dir: 0 }, { x: 7, y: 11, to: 'hilt', tx: 12, ty: 6, dir: 0 }],
   npcs: [
     { id: 'quillon', x: 6, y: 1, sprite: 'quillon', name: 'Quillon', talk: 'quillon' },
-    { id: 'drill1', x: 3, y: 7, sprite: 'keeper', name: 'Sword drill', dir: 1, trainer: { name: 'Sword drill', team: [['stoat', 20], ['carrion', 20]], intro: 'Finish \'em while they\'re low. Or they come back. They always come back.', defeat: 'Came back.', sight: 5 } },
-    { id: 'drill2', x: 10, y: 4, sprite: 'keeper', name: 'Sword drill', dir: 2, trainer: { name: 'Sword drill', team: [['hemlock', 20], ['gore', 21]], intro: 'Some moves finish one outright when it\'s under a line. Count their HP. Always count.', defeat: 'Ah. Counted wrong.', sight: 3 } },
+    { id: 'drill1', x: 3, y: 7, sprite: 'keeper', name: 'Sword drill', dir: 1, trainer: { name: 'Sword drill', team: [['stoat', 20], ['carrion', 20]], intro: 'Finish them while they\'re down, or they\'ll return. They always return.', defeat: 'Came back.', sight: 5 } },
+    { id: 'drill2', x: 10, y: 4, sprite: 'keeper', name: 'Sword drill', dir: 2, trainer: { name: 'Sword drill', team: [['hemlock', 20], ['gore', 21]], intro: 'Certain moves kill outright if the target is below a certain line. Count their HP. Always count.', defeat: 'Ah. I must have miscounted.', sight: 3 } },
   ],
 });
 
 // ---------------------------------------------------------------- scripts
 
 defScript('route7Enter', async () => {
-  if (!flag('ch7start')) { setFlag('ch7start'); goal('The Hermitage is on the Hilt road. The Moonwater is south of it.'); }
+  if (!flag('ch7start')) { setFlag('ch7start'); goal('The Hermitage sits on the road to the Hilt. The Moonwater is located just south of that point.'); }
 });
 
 defScript('pith', async () => {
-  if (flag('pithBeaten')) { await say('Murex', 'Have you ever, um. Seen the moon come up? Out of a lake?'); return; }
-  await say('Murex', 'You\'re the... late one? From the Pylon?');
-  await say('Murex', 'Did you, uh. Count the Stays? Like she said?');
-  await say('Murex', 'Do you know how many kids in Tusk have turned? In ten years? Do you want to guess?');
-  await say('Murex', 'Shall we fight? Or would you rather keep standing there? For a while?');
+  if (flag('pithBeaten')) { await say('Murex', 'Have you ever... seen the moon rise out of a lake?'); return; }
+  await say('Murex', 'Are you the... late one? From the Pylon?');
+  await say('Murex', 'Did you... uh... count the Seals? Like she instructed?');
+  await say('Murex', 'Do you know how many kids in Tusk have shed over the last ten years? Want to take a guess?');
+  await say('Murex', 'Shall we fight? Or would you prefer to keep standing there for a while longer?');
   const r = await fightTrainer({ name: 'Murex', team: [['leech', 19], ['mycel', 19], ['portent', 19], ['grotto', 20]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
   setFlag('pithBeaten');
-  await say('Murex', 'Have you ever seen the moon come up out of a lake? Would you like to? Tonight?');
-  await say('Murex', 'So why don\'t you go and look?');
-  await say('Hermit', 'Here. Take a harness. We\'ve got loads.');
-  await giveKeyItem('haul', 'Ouro gets the haul, a harness and a long rope.');
-  goal('Go south from the Hilt road to the Moonwater.');
+  await say('Murex', 'Have you ever watched the moon rise from a lake? Would you like to see it? Tonight?');
+  await say('Murex', 'Then why not go and look?');
+  await say('Hermit', 'Here. Take a harness. We have plenty.');
+  await giveKeyItem('haul', 'Ouro receives the haul, along with a harness and a long rope.');
+  goal('Head south from the Hilt road toward the Moonwater.');
 });
 
 defScript('moonwaterEnter', async () => {
@@ -258,8 +258,8 @@ defScript('moonwaterEnter', async () => {
   if (!flag('fullRisen')) {
     // A round black lake below the Hilt, the Hermits all round its edge with every harnessed whorl they have.
     await pan(16, 12);
-    await say('Bare', 'Steady now. All of you.');
-    await say('Bare', 'Lift.');
+    await say('Bare', 'Easy now. All of you.');
+    await say('Bare', 'Lift it.');
     void Promise.all(['mp1', 'mp2', 'mp3', 'mp4', 'mh1', 'mh2'].map(id => act(id, 'shiver')));
     field.shakeT = 60;
     sfx('boom');
@@ -274,8 +274,8 @@ defScript('moonwaterEnter', async () => {
     await Promise.all([emote('mp1', 'surprise'), emote('mp4', 'surprise')]);
     music.bend();
     await panBack();
-    await say('Bare', 'Pull. Keep pulling. Don\'t look at it, just pull.');
-    await choose(['Sound it', 'Fight it']);
+    await say('Bare', 'Pull. Keep pulling. Don\'t look at it. Just pull.');
+    await choose(['Catch it', 'Fight it.']);
   }
   if (G.pegs.twig + G.pegs.brass + G.pegs.bone + G.pegs.iron === 0) G.pegs.brass += 1;
   const r = await fightWild(mon('full', 22), { scripted: 'full', canRun: false, bossHp: 2, ai: 'keeper' });
@@ -293,14 +293,14 @@ defScript('moonwaterEnter', async () => {
   field.shakeT = 20;
   await tint('#3060a0', 0.5, 10);
   await Promise.all([tint('#3060a0', 0, 30), ...['mp1', 'mp2', 'mp3', 'mp4', 'barem'].map(id => act(id, 'shiver'))]);
-  await say('Bare', 'Keep it close.');
-  await choose(['You\'re not taking it?']);
-  await say('Bare', 'Go on up to the Hilt.');
+  await say('Bare', 'Hold it tight.');
+  await choose(['You aren\'t taking it?']);
+  await say('Bare', 'Head up to the Hilt.');
   await say('Bare', 'Walk.');
   const later = (n: number, id: string) => (async () => { await wait(n); await walkOff(id, 18, 0); })();
   await Promise.all([later(0, 'mp1'), later(6, 'mp2'), later(12, 'mp3'), later(18, 'mp4'), later(24, 'mh1'), later(30, 'mh2'), later(60, 'barem')]);
   setFlag('fullDone');
-  goal('Go to Hilt, at the east end of the road.');
+  goal('Head to Hilt, at the east end of the road.');
 });
 
 defScript('hiltEnter', async () => { G.flags.visited_hilt = 1; });
@@ -309,16 +309,16 @@ defScript('hiltStay', async () => { if (hiltDown()) bell(14); await emote('ouro'
 defScript('hiltHole', async () => { await emote('ouro', 'question'); });
 
 defScript('quillon', async () => {
-  if (has('hilt')) { await say('Quillon', 'If you go south, then the Fall. Then, regrettably, the slope.'); return; }
-  if (!flag('fullCaught')) { await say('Quillon', 'If you desire my pearl, then you must first return from the Moonwater. Dripping, ideally.'); return; }
-  await say('Quillon', 'If you are the one from the Moonwater, then you carry the moon about in a horn!!');
-  await say('Quillon', 'If you would duel me, then you shall duel me with it out. I insist upon it.');
-  await say('Quillon', 'If you lose, then I take nothing. If you win, then the pearl. Then a biscuit.');
+  if (has('hilt')) { await say('Quillon', 'Head south to Fall, and unfortunately, you\'ll hit the incline next.'); return; }
+  if (!flag('fullCaught')) { await say('Quillon', 'You want my pearl? First, you\'ll have to come back from the Moonwater. Ideally, dripping wet.'); return; }
+  await say('Quillon', 'If you\'re the one from the Moonwater, then you\'re carrying the moon in a horn!');
+  await say('Quillon', 'If you would duel me, you must do so with it out. That is my condition.');
+  await say('Quillon', 'If you lose, I take nothing. If you win, you get the pearl. And a biscuit.');
   const r = await fightTrainer({ name: 'Quillon', team: [['stoat', 20], ['carrion', 20], ['gore', 20], ['hemlock', 21]], intro: '', defeat: '', ai: 'keeper' });
   if (r.result !== 'win') return;
-  await say('Quillon', 'If that is the end, then it is yours, and most fairly won!!');
+  await say('Quillon', 'If that concludes matters, then it\'s yours, won fairly!');
   giveScale('hilt');
-  await notice('Ouro gets the Hilt pearl.');
+  await notice('Ouro claims the Hilt pearl.');
   setFlag('hiltScene');
   field.warp('hilt', 17, 12, 1);
   offstage('quillonOut');
@@ -327,19 +327,19 @@ defScript('quillon', async () => {
   faceToward('quillonOut', 'ouro');
   await act('hp1', 'nod');
   await stayChoice('hilt', async () => {
-    await say('Quillon', 'If we pack the hole now, then it shall stand. I have a spade. I have two spades.');
-    await say('Hermit', 'Or we just take it. It\'s halfway out already.');
+    await say('Quillon', 'If we fill the hole now, it\'ll hold. I\'ve got a spade. Actually, two spades.');
+    await say('Hermit', 'Or we could just pull it out. It\'s halfway there already.');
   }, async () => {
     await packGround('quillonOut', 'g1');
     faceToward('quillonOut', 'ouro');
-    await say('Quillon', 'If it holds the night, then it holds. Then breakfast.');
+    await say('Quillon', 'If it lasts through the night, then it stays. Then, breakfast.');
   }, async () => {
     bell(14);
     await act('ouro', 'shiver');
     faceToward('quillonOut', 'ouro');
-    await say('Quillon', 'If that is what you wanted, then you have it, and the ringing as well.');
+    await say('Quillon', 'If that\'s what you wanted, then here it is, along with the ringing.');
   });
   await Promise.all([walkOff('hp1', 31, 4), walkOff('quillonOut', 12, 5)]);
   setFlag('hiltScene', 0);
-  goal('Go south from Hilt across the crater fields to Fall.');
+  goal('Travel south from Hilt, crossing the crater fields to reach Fall.');
 });

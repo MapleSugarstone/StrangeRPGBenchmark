@@ -47,10 +47,10 @@ function napper(map: string, id: string, x: number, y: number, kind: string, nam
 
 // ---------------------------------------------------------------- Turnstone
 
-chase('fellside', 'tschase', 29, 4, 'hare', 'Hare', 'child', ['It\'s not mine! I just like chasing it.', 'It always wins. I always nearly win.']);
+chase('fellside', 'tschase', 29, 4, 'hare', 'Hare', 'child', ['It\'s not mine! I just like chasing it.', 'It\'s the one that always wins. I\'m the one who comes closest.']);
 pairUp('fellside', 'tsbench', 13, 23,
-  ['villager', 'Woman', ['We\'re talking about the craze. Again.', 'Don\'t tell her I said "again".']],
-  ['elder', 'Old man', ['Back in my day the ground stayed shut.', 'Well. Mostly. There was the one time.']]);
+  ['villager', 'Woman', ['We\'re talking about the fracture. Again.', 'Don\'t reveal that I used that word.']],
+  ['elder', 'Old man', ['When I was young, the earth stayed solid.', 'Well. Mostly. There was that single instance.']]);
 // The carter's cart has a wheel off until Ouro has been out on the roads a while. Then it rolls again.
 piece('fellside', 'cartbroken', 5, 12, true, () => chapter() < 3);
 piece('fellside', 'cart', 5, 12, false, () => chapter() >= 3);
@@ -60,31 +60,31 @@ piece('fellside', 'cart', 5, 12, false, () => chapter() >= 3);
 }
 posts('fellside', 'washline', 30, 24, 3);
 add('fellside', { id: 'tswasher', x: 29, y: 24, sprite: 'oldwoman', name: 'Woman', dir: 1, idle: { every: 170, act: 'lift' },
-  lines: ['Washing dries fast after a Turning Day. Something about the air.', 'Or I just did less washing. Could be that.'] });
+  lines: ['Laundry dries quickly after a Shedding Day. It must be the air.', 'Or maybe I just had fewer clothes to wash. That\'s probably it.'] });
 napper('fellside', 'tsnapper', 10, 23, 'puffball', 'Puffball');
 piece('fellside', 'broom', 8, 22, false);
 add('fellside', { id: 'tssweeper', x: 6, y: 23, sprite: 'villager2', name: 'Sweeper', route: '.rr.ll', pace: 14, idle: { every: 90, act: 'bow' }, movable: true,
-  lines: ['Sweeping shell bits off the step. They come back.', 'Everybody\'s shedding something this year.'] });
+  lines: ['I\'m sweeping shell fragments off the step. They always end up back there.', 'Everyone seems to be shedding something this year.'] });
 piece('fellside', 'flowers', 2, 24, false); piece('fellside', 'flowers', 3, 24, false);
 piece('fellside', 'lantern', 12, 9, true);
 piece('fellside', 'spilled', 26, 30, false);
-(MAPS.fellside.spots ||= []).push(look(26, 30, 'A basket on its side and cockles everywhere. Small footprints run off toward the cove.'));
+(MAPS.fellside.spots ||= []).push(look(26, 30, 'A tipped-over basket, with cockles scattered everywhere. Tiny footprints lead away toward the cove.'));
 
 // ---------------------------------------------------------------- Rib
 
-chase('rib', 'ribchase', 31, 17, 'paring', 'Paring', 'boy', ['Paring! Slow down! ...Please?', 'It goes round the same way every time. I could just wait.']);
+chase('rib', 'ribchase', 31, 17, 'paring', 'Paring', 'boy', ['Paring! Ease up! ...Please?', 'It\'s the same routine every time. I could just wait it out.']);
 pairUp('rib', 'ribbench', 8, 18,
-  ['villager2', 'Man', ['The Rib hummed all last night.', 'She says it was me snoring. It was the Rib.']],
-  ['villager', 'Woman', ['It was him snoring.', 'The Rib doesn\'t snore. It hums. Totally different.']]);
+  ['villager2', 'Man', ['The Rib was humming all night long.', 'She claims I was snoring. It was the Rib.']],
+  ['villager', 'Woman', ['It was actually him snoring.', 'The Rib doesn\'t snore. It hums. That\'s a completely different thing.']]);
 // The wheel is back on once Ouro has the Rib pearl, and the man has time to talk about something else.
 piece('rib', 'cartbroken', 36, 26, true, () => chapter() < 2);
 piece('rib', 'cart', 36, 26, false, () => chapter() >= 2);
 add('rib', { id: 'ribfixer', x: 38, y: 26, sprite: 'tanner', name: 'Man', dir: 3, idle: { every: 140, act: 'bow' },
-  lines: () => chapter() < 2 ? ['Wheel came off on a rib bone. Rib bones everywhere here.', 'You\'d think we\'d learn. We don\'t.']
-    : ['Wheel\'s back on. Took a week and most of my patience.', 'Now I just polish it. Feels earned.'] });
+  lines: () => chapter() < 2 ? ['A wheel came off on a rib bone. Rib bones everywhere here.', 'You\'d think we\'d learn by now. We never do.']
+    : ['The wheel is back on. It took a week and nearly all my patience.', 'Now I just polish it. It feels well-deserved.'] });
 posts('rib', 'washline', 16, 5, 3);
 add('rib', { id: 'ribwasher', x: 15, y: 5, sprite: 'oldwoman', name: 'Woman', dir: 1, idle: { every: 160, act: 'lift' },
-  lines: ['Hang it by the Rib and it dries warm. The Rib\'s always a bit warm.'] });
+  lines: ['Hang it near the Rib and it dries warm. The Rib is always slightly warm.'] });
 napper('rib', 'ribnapper', 13, 5, 'cairn', 'Cairn');
 piece('rib', 'lantern', 19, 14, true); piece('rib', 'lantern', 24, 14, true);
 piece('rib', 'flowers', 30, 5, false); piece('rib', 'flowers', 31, 5, false);
@@ -93,14 +93,14 @@ piece('rib', 'flowers', 30, 5, false); piece('rib', 'flowers', 31, 5, false);
 
 posts('mast', 'netframe', 10, 13, 2);
 add('mast', { id: 'mastmender', x: 12, y: 13, sprite: 'villager2', name: 'Net-mender', dir: 3, idle: { every: 150, act: 'bow' },
-  lines: ['Mending a net for a sea that isn\'t here.', 'When it comes back, I\'m ready. Are you ready? You look ready.'] });
+  lines: ['Mending nets for an ocean that doesn\'t exist.', 'When it returns, I\'ll be here. Are you? You look prepared.'] });
 piece('mast', 'rodline', 23, 27, false);
 add('mast', { id: 'mastfisher', x: 22, y: 27, sprite: 'beach2', name: 'Fisher', dir: 1, idle: { every: 200, act: 'nod' },
-  lines: ['Fishing in the Dry Sea. Nothing\'s bitten.', 'Nothing\'s going to. That\'s not really the point.'] });
-chase('mast', 'mastchase', 11, 27, 'fiddler', 'Fiddler', 'child', ['It runs sideways! You can\'t chase sideways!', 'I\'m trying, though.']);
+  lines: ['Casting lines in the Dry Sea. Not a single bite.', 'There won\'t be. That isn\'t the point.'] });
+chase('mast', 'mastchase', 11, 27, 'fiddler', 'Fiddler', 'child', ['It moves laterally! You can\'t pursue what moves sideways!', 'I\'m attempting to, though.']);
 pairUp('mast', 'mastpair', 30, 13,
-  ['beach1', 'Sailor', ['Ship\'s not coming. There\'s no sea.', 'We wait anyway. It\'s what sailors do.']],
-  ['beach3', 'Sailor', ['I heard the sea\'s coming back.', 'Heard it from him. He heard it from me.']], false);
+  ['beach1', 'Sailor', ['The ship isn\'t coming. There is no sea.', 'We wait regardless. It is what sailors do.']],
+  ['beach3', 'Sailor', ['I\'ve heard the sea is returning.', 'I heard it from him. He heard it from me.']], false);
 piece('mast', 'crates', 24, 9, true); piece('mast', 'barrel', 26, 9, true);
 napper('mast', 'mastnapper', 12, 9, 'scree', 'Scree');
 
@@ -108,11 +108,11 @@ napper('mast', 'mastnapper', 12, 9, 'scree', 'Scree');
 
 piece('spire', 'broom', 16, 15, false);
 add('spire', { id: 'spiresweep', x: 17, y: 16, sprite: 'ringer', name: 'Sweeper', route: '.rrr.lll', pace: 16, idle: { every: 80, act: 'bow' }, movable: true,
-  lines: ['shh. Sweeping the church steps.', 'Quietly. The broom\'s new. It squeaks.'] });
+  lines: ['quiet. i\'m sweeping the church steps.', 'Quietly. The broom is new. It squeaks.'] });
 pairUp('spire', 'spirebench', 30, 20,
   ['villager', 'Woman', ['did you hear about the bells', 'they\'re all a bit wrong now']],
-  ['elder', 'Old man', ['i heard', 'i liked them better wrong, honestly']]);
-chase('spire', 'spirechase', 5, 19, 'mycel', 'Mycel', 'child', ['come back. come back please.', 'i\'m not allowed to shout here. it knows that.']);
+  ['elder', 'Old man', ['i heard', 'honestly, i preferred them when they were wrong.']]);
+chase('spire', 'spirechase', 5, 19, 'mycel', 'Mycel', 'child', ['come back. please, come back.', 'i\'m not permitted to shout here. it knows that.']);
 piece('spire', 'lantern', 16, 17, true); piece('spire', 'lantern', 24, 17, true);
 napper('spire', 'spirenapper', 11, 27, 'peat', 'Peat');
 
@@ -120,14 +120,14 @@ napper('spire', 'spirenapper', 11, 27, 'peat', 'Peat');
 
 piece('bole', 'broom', 13, 15, false);
 add('bole', { id: 'bolesweep', x: 14, y: 15, sprite: 'grafter', name: 'Sweeper', route: '.rr.ll', pace: 14, idle: { every: 90, act: 'bow' }, movable: true,
-  lines: ['Bark falls off the Bole all day. Somebody sweeps it.', 'Somebody\'s me. I don\'t mind. It smells nice.'] });
+  lines: ['Bark sheds from the Bole all day long. Someone must sweep it away.', 'That\'s me. No complaints. It smells lovely.'] });
 pairUp('bole', 'bolebench', 28, 18,
-  ['villager2', 'Man', ['Rain went up again this morning.', 'Took my hat with it.']],
-  ['villager', 'Woman', ['It was a bad hat.', 'The rain did you a favor.']]);
-chase('bole', 'bolechase', 37, 9, 'dandle', 'Dandle', 'boy', ['It floats when I get close! That\'s cheating!', 'Okay one more lap.']);
+  ['villager2', 'Man', ['The rain went up again this morning.', 'It took my hat with it.']],
+  ['villager', 'Woman', ['It was a lousy hat anyway.', 'The rain actually did you a service.']]);
+chase('bole', 'bolechase', 37, 9, 'dandle', 'Dandle', 'boy', ['It drifts away when I approach! That\'s not fair!', 'Alright, one more lap.']);
 piece('bole', 'cartbroken', 12, 23, true);
 add('bole', { id: 'bolefixer', x: 14, y: 23, sprite: 'villager2', name: 'Man', dir: 3, idle: { every: 150, act: 'bow' },
-  lines: ['A root came up under the cart overnight.', 'Roots do that here. You learn to park on stone.'] });
+  lines: ['A root popped up under the cart overnight.', 'The roots do that here. You get used to parking on rock.'] });
 posts('bole', 'washline', 36, 13, 3);
 napper('bole', 'bolenapper', 11, 7, 'burr', 'Burr');
 
@@ -135,52 +135,52 @@ napper('bole', 'bolenapper', 11, 7, 'burr', 'Burr');
 
 piece('hum', 'cartbroken', 31, 16, true);
 add('hum', { id: 'humfixer', x: 33, y: 16, sprite: 'hummer', name: 'Tinker', dir: 3, idle: { every: 130, act: 'bow' },
-  lines: ['Putting a Rider cog in a cart wheel.', 'Now it ticks when it rolls. Improvement, I\'d say.'] });
+  lines: ['Fitting a Rider cog into a cart wheel.', 'Now it ticks when it rolls. An improvement, I\'d say.'] });
 pairUp('hum', 'humbench', 7, 20,
-  ['villager', 'Woman', ['The Pylon hums a note. I hum along.', 'He says I\'m flat.']],
-  ['villager2', 'Man', ['She\'s flat.', 'The Pylon\'s also flat, to be fair.']]);
-chase('hum', 'humchase', 33, 24, 'piston', 'Piston', 'child', ['It goes up and down and up and down!', 'I\'m dizzy. Is it dizzy?']);
+  ['villager', 'Woman', ['The Pylon vibrates with a tone. I match it.', 'He claims I\'m out of tune.']],
+  ['villager2', 'Man', ['She\'s flat.', 'The Pylon\'s flat too, to be fair.']]);
+chase('hum', 'humchase', 33, 24, 'piston', 'Piston', 'child', ['It rises and falls, rises and falls!', 'I feel sick. Does it feel sick too?']);
 piece('hum', 'rodline', 11, 5, false);
 add('hum', { id: 'humfisher', x: 10, y: 6, sprite: 'beach4', name: 'Fisher', dir: 1, idle: { every: 220, act: 'nod' },
-  lines: ['Fish in the Lipwater taste like batteries.', 'Good batteries, though.'] });
+  lines: ['The Rimwater fish taste like batteries.', 'At least they\'re good batteries.'] });
 piece('hum', 'lantern', 21, 15, true); piece('hum', 'lantern', 23, 15, true);
 napper('hum', 'humnapper', 11, 24, 'turbine', 'Turbine');
 
 // ---------------------------------------------------------------- Tusk
 
-chase('tusk', 'tuskchase', 25, 27, 'auk', 'Auk', 'boy', ['The auk slides better than me.', 'I\'m learning. On my face, mostly.']);
+chase('tusk', 'tuskchase', 25, 27, 'auk', 'Auk', 'boy', ['The auk slides better than I do.', 'I\'m picking it up. Mostly by falling on my face.']);
 piece('tusk', 'stove', 13, 28, true);
 add('tusk',
-  { id: 'tuskwarm1', x: 12, y: 28, sprite: 'elder', name: 'Old man', dir: 1, pair: 'tuskwarm2', lines: ['Warm your hands. Brazier\'s for everyone.', 'Tusk rule. Older than the Tusk, maybe.'] },
-  { id: 'tuskwarm2', x: 14, y: 28, sprite: 'oldwoman', name: 'Old woman', dir: 3, pair: 'tuskwarm1', lines: ['He made that rule up last year.', 'It\'s a good rule, though.'] });
+  { id: 'tuskwarm1', x: 12, y: 28, sprite: 'elder', name: 'Old man', dir: 1, pair: 'tuskwarm2', lines: ['Warm your hands. The brazier is for everyone.', 'The Tusk\'s decree. Or maybe it\'s older than the Tusk itself.'] },
+  { id: 'tuskwarm2', x: 14, y: 28, sprite: 'oldwoman', name: 'Old woman', dir: 3, pair: 'tuskwarm1', lines: ['He just made that rule up last year.', 'But it\'s a good one, anyway.'] });
 piece('tusk', 'broom', 21, 31, false);
 add('tusk', { id: 'tuskshovel', x: 22, y: 31, sprite: 'villager2', name: 'Shoveler', route: '.rrrr.llll', pace: 16, idle: { every: 80, act: 'bow' }, movable: true,
-  lines: ['Snow off the street. More snow on the street.', 'It\'s a job for life.'] });
+  lines: ['Clear the street. Then shovel it again.', 'It\'s a life\'s work.'] });
 posts('tusk', 'washline', 2, 28, 3);
 napper('tusk', 'tusknapper', 10, 35, 'floe', 'Floe');
 
 // ---------------------------------------------------------------- Hilt
 
 add('hilt', { id: 'hiltpatrol', x: 14, y: 13, sprite: 'keeper', name: 'Guard', route: 'rrrrrrrrrr.llllllllll.', pace: 12, movable: true,
-  lines: ['Patrolling. From here to there. Then back.', 'Very important. Nobody\'s said why.'] });
+  lines: ['On patrol. From here to there, then back.', 'Extremely vital. No one\'s bothered to explain why.'] });
 pairUp('hilt', 'hiltbench', 6, 22,
-  ['keeper', 'Guard', ['Off shift. Still on guard, sort of.', 'You never really stop.']],
-  ['villager', 'Woman', ['He never really stops.', 'He guards the soup. He guards the cat.']]);
-chase('hilt', 'hiltchase', 33, 22, 'tang', 'Tang', 'child', ['It\'s a blade-stone with legs!', 'It\'s not sharp. I checked. With my hand.']);
+  ['keeper', 'Guard', ['Clocking out. Still on guard duty, in a way.', 'You never truly clock out.']],
+  ['villager', 'Woman', ['He never truly clocks out.', 'He watches the soup. He watches the cat.']]);
+chase('hilt', 'hiltchase', 33, 22, 'tang', 'Tang', 'child', ['It\'s a blade-stone on legs!', 'It\'s not sharp, though. I tested it. With my hand.']);
 piece('hilt', 'cartbroken', 2, 13, true);
 add('hilt', { id: 'hiltfixer', x: 4, y: 13, sprite: 'tanner', name: 'Smith\'s boy', dir: 3, idle: { every: 140, act: 'bow' },
-  lines: ['Fixing the smith\'s cart. Smith said it\'d build character.', 'I\'ve got loads of character now.'] });
+  lines: ['Mending the smith\'s cart. Smith said it\'d build character.', 'I\'ve got plenty of character now.'] });
 napper('hilt', 'hiltnapper', 3, 27, 'buckler', 'Buckler');
 piece('hilt', 'lantern', 11, 6, true); piece('hilt', 'lantern', 13, 6, true);
 
 // ---------------------------------------------------------------- Fall
 
-chase('fall', 'fallchase', 28, 10, 'tor', 'Tor', 'boy', ['It rolls downhill then walks back up!', 'Then rolls again. It loves it. I love it.']);
+chase('fall', 'fallchase', 28, 10, 'tor', 'Tor', 'boy', ['It rolls down the hill, then walks back up!', 'Then it rolls again. It loves it. I love it.']);
 pairUp('fall', 'fallbench', 31, 18,
-  ['starwalker', 'Woman', ['A star landed in my garden last night.', 'Lovely. Ate my cabbages.']],
-  ['villager2', 'Man', ['Stars don\'t eat cabbages.', 'It was something. The cabbages are gone.']]);
+  ['starwalker', 'Woman', ['A star crashed into my garden last night.', 'Wonderful. It ate my cabbages.']],
+  ['villager2', 'Man', ['Stars don\'t consume vegetables.', 'It was something, though. The cabbages are gone.']]);
 add('fall', { id: 'fallsweep', x: 24, y: 20, sprite: 'villager2', name: 'Sweeper', route: '.rrr.lll', pace: 14, idle: { every: 90, act: 'bow' }, movable: true,
-  lines: ['Sweeping up star glitter. It sweeps itself downhill.', 'I just walk behind it, really.'] });
+  lines: ['Sweeping up star glitter. It sweeps itself down the hill.', 'I just trail behind it, really.'] });
 piece('fall', 'broom', 23, 20, false);
 piece('fall', 'spilled', 24, 24, false);
 napper('fall', 'fallnapper', 35, 6, 'coma', 'Coma');
@@ -190,45 +190,45 @@ napper('fall', 'fallnapper', 35, 6, 'coma', 'Coma');
 const sign = (map: string, id: string, x: number, y: number, line: string) => add(map, { id, x, y, sprite: 'sign', name: null as any, lines: [line] });
 const spot = (map: string, s: NonNullable<(typeof MAPS)[string]['spots']>[number]) => (MAPS[map].spots ||= []).push(s);
 
-sign('route1', 'r1sign', 52, 6, 'The Midden Road. Rib, west. Turnstone, east. Leave the middens where they are.');
+sign('route1', 'r1sign', 52, 6, 'The Midden Road. Rib to the west. Turnstone to the east. Leave the middens as they are.');
 piece('route1', 'driftpile', 11, 17, true);
 piece('route1', 'spilled', 46, 4, false);
-spot('route1', look(46, 4, 'A basket of reeds tipped over. Small feet ran off toward the pond.'));
-spot('route1', stash('r1_corner', 54, 1, 'Wedged behind a post at the end of the dunes, a periwinkle horn.', { pegs: ['twig', 1] }));
+spot('route1', look(46, 4, 'A basket of reeds has tipped over. Small footprints lead away toward the pond.'));
+spot('route1', stash('r1_corner', 54, 1, 'Hidden behind a post at the dunes\' end, a periwinkle horn.', { pegs: ['twig', 1] }));
 
-sign('route2', 'r2sign', 52, 11, 'The Dry Sea. Walk where the boats used to. Mast, west.');
+sign('route2', 'r2sign', 52, 11, 'The Dry Sea. Walk where the boats used to. Mast to the west.');
 piece('route2', 'crates', 38, 23, true);
-spot('route2', look(37, 23, 'A crate stamped MAST, empty. Someone chalked "sorry" on the side.'));
+spot('route2', look(37, 23, 'An empty crate marked with the stamp "MAST." The word "sorry" has been chalked onto its side.'));
 posts('route2', 'netframe', 5, 23, 2);
-spot('route2', stash('r2_corner', 54, 1, 'Half buried in the top corner, a jar with a cowrie in it.', { rind: 80 }));
+spot('route2', stash('r2_corner', 54, 1, 'Nestled in the upper corner, half-buried, is a jar containing a cowrie shell.', { rind: 80 }));
 
-sign('route3', 'r3sign', 21, 2, 'The salt marsh. Spire, north. Keep to the boards.');
+sign('route3', 'r3sign', 21, 2, 'The salt marsh. Spire, north. Stay on the boardwalks.');
 piece('route3', 'lantern', 19, 9, true); piece('route3', 'lantern', 28, 13, true);
-spot('route3', stash('r3_corner', 41, 38, 'In the reeds at the corner, a cake of marsh salt, still dry.', { items: [['saltcake', 1]] }));
+spot('route3', stash('r3_corner', 41, 38, 'Tucked among the reeds in the corner is a block of marsh salt, still dry.', { items: [['saltcake', 1]] }));
 
-sign('route4', 'r4sign', 21, 2, 'The understory. Bole, north. Roots in the road, so step high.');
-spot('route4', look(14, 16, 'Two names carved in the bark with a heart, and a third name scratched out.'));
+sign('route4', 'r4sign', 21, 2, 'The understory. Bole, north. Roots block the road, so lift your feet high.');
+spot('route4', look(14, 16, 'Two names are carved into the bark alongside a heart. A third name has been scratched out.'));
 piece('route4', 'flowers', 22, 26, false); piece('route4', 'flowers', 23, 26, false);
-spot('route4', stash('r4_corner', 39, 28, 'Under the roots, somebody\'s lunch tin. The lunch is long gone. The coins are not.', { rind: 60 }));
+spot('route4', stash('r4_corner', 39, 28, 'Someone\'s lunch tin rests beneath the roots. The food is long gone, but the coins remain.', { rind: 60 }));
 
-sign('route5', 'r5sign', 21, 2, 'The machine fields. Do not wake the machines. They are on shift.');
+sign('route5', 'r5sign', 21, 2, 'The machine fields. Do not disturb the machines. They are on duty.');
 piece('route5', 'crates', 42, 13, true);
 piece('route5', 'cartbroken', 13, 27, true);
-spot('route5', look(15, 27, 'A note tied to the cart: "Back soon. Don\'t take the wheel." The wheel is gone.'));
-spot('route5', stash('r5_corner', 46, 1, 'Behind the last machine, a tin of spare parts wrapped in oilcloth.', { rind: 100 }));
+spot('route5', look(15, 27, 'A note tied to the cart reads: "Back soon. Don\'t take the wheel." The wheel is missing.'));
+spot('route5', stash('r5_corner', 46, 1, 'Behind the final machine lies a tin of spare parts, wrapped in oilcloth.', { rind: 100 }));
 
-sign('route6', 'r6sign', 23, 2, 'The tundra. Tusk, north. The ledges only go one way, like the weather.');
-spot('route6', look(30, 26, 'A red mitten on the snow, frozen in the middle of a wave.'));
+sign('route6', 'r6sign', 23, 2, 'The tundra. Tusk, north. The ledges are one-way only, much like the weather.');
+spot('route6', look(30, 26, 'A red mitten lies in the snow, frozen mid-wave.'));
 piece('route6', 'driftpile', 1, 29, true);
-spot('route6', stash('r6_corner', 42, 30, 'Under a drift in the corner, a flask of smelling salt, corked tight.', { notions: [['smellingsalt', 1]] }));
+spot('route6', stash('r6_corner', 42, 30, 'Hidden beneath a snowdrift in the corner is a flask of smelling salts, sealed tight with a cork.', { notions: [['smellingsalt', 1]] }));
 
-sign('route7', 'r7sign', 41, 1, 'The Hilt road. Hilt, east. Tusk, west. The Hermitage, if you must.');
+sign('route7', 'r7sign', 41, 1, 'The Hilt road. Hilt is east. Tusk is west. The Hermitage is there, if you insist.');
 piece('route7', 'cartbroken', 6, 13, true);
-spot('route7', look(8, 13, 'Pilgrims\' bags on a cart with a snapped wheel. A sign: "Gone to Hilt for a wheel."'));
+spot('route7', look(8, 13, 'Pilgrims\' bags sit on a cart with a broken wheel. A sign reads: "Gone to Hilt for a wheel.'));
 piece('route7', 'lantern', 39, 13, true);
-spot('route7', stash('r7_corner', 46, 27, 'Under the rubble in the corner, a guard\'s lost button, polished bright.', { rind: 50 }));
+spot('route7', stash('r7_corner', 46, 27, 'Polished to a shine, a guard\'s lost button lies under the rubble in the corner.', { rind: 50 }));
 
 sign('route8', 'r8sign', 23, 1, 'The crater fields. Fall, south. Everything here rolls that way.');
 piece('route8', 'spilled', 14, 24, false);
-spot('route8', look(14, 24, 'A basket on its side, and a trail of apples rolling off toward Fall.'));
-spot('route8', stash('r8_corner', 42, 30, 'In the far corner, a sliver of star glass the size of a thumb.', { items: [['starglass', 1]] }));
+spot('route8', look(14, 24, 'A tipped-over basket, with a trail of apples rolling away toward Fall.'));
+spot('route8', stash('r8_corner', 42, 30, 'In the far corner, a thumb-sized shard of star glass.', { items: [['starglass', 1]] }));

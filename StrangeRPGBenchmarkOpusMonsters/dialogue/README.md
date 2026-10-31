@@ -4,7 +4,10 @@ This folder holds every line of player-facing text in the game as plain text, so
 
 ## Files
 
-- `lines/*.txt` holds 14 chunks of about 20,000 characters each, in story order. Each line is `[id] speaker | text`.
+- `whorl-text.txt` holds every line in one document, in three sets. The story set is dialogue, narration, signs, hints, goals, guide pages, and Register entries. The interface set is battle messages, menu sentences, item text, and minigame text. The rules set is move, passive, and notion text, which follows the templates in `Notes/ability-text-style.md`.
+- `lines/*.txt` holds the same lines in chunks of about 20,000 characters each, in story order. Each line is `[id] speaker | text`.
+- `terms.json` lists the game's key terms with what each one means. `terms.md` is the table built from it, with how many lines use each term and names the Naturalizer suggests.
+- `naturalize/` holds the Naturalizer pass: `natural.txt` (accepted rewrites), `turned-down.txt` (rewrites the guards turned down, for review), `state.json` (so a stopped run resumes), and `prompt-test.md` (prompt comparisons).
 - `style.md` lists the patterns from your `Writing Examples.txt`. Give it, `cast.md`, and the examples file to the rewriting model with every chunk.
 - `cast.md` describes every speaker, with their voice and the one way each of them bends English.
 - `speakers.txt` counts lines per speaker.
@@ -21,11 +24,25 @@ This folder holds every line of player-facing text in the game as plain text, so
 
 To undo the last import, run `node scripts/lines.mjs restore`.
 
+## Steps with the Naturalizer
+
+The Naturalizer runs on the desktop and is reached through `Documents/Naturalizer-API/naturalize.py`.
+
+1. Run `node scripts/lines.mjs export`.
+2. Run `python scripts/naturalize_terms.py` to rebuild `terms.md`. Make any renames in the source before the pass, then export again.
+3. Run `python scripts/naturalize_prompt_test.py "prompt one" "prompt two"` to compare prompts on a fixed sample. Read `naturalize/prompt-test.md`.
+4. Run `python scripts/naturalize_run.py "prompt"` in the background. It covers the story and interface sets. Add `--sets story,ui,rules` to include the rules set, and `--push` to send each unchanged line back once for new words. Progress is in `Notes/naturalize-progress.txt`. Create `naturalize/stop` to stop after the batch in hand. Run the same command again to resume.
+5. Run `node scripts/lines.mjs import dialogue/naturalize/natural.txt --dry`, read `import-report.md`, then import without `--dry`.
+
+The pass keeps only mechanical guards: every `{placeholder}` and number kept, the box length limits below, banned words, lowercase and capital-letter speakers kept in their case, and dashes and semicolons turned into commas and periods. A rewrite that turns a name into an ordinary word, or the reverse, goes back to the model with a note.
+
 ## What the importer rejects
 
 - A line whose `{placeholder}` set changed. Each placeholder must appear exactly once.
 - A line whose numbers changed. Numbers are levels, counts, prices, and puzzle facts.
 - A game line over 100 characters, counting each placeholder as 8. The text box holds no more. To say more, split the line into several boxes with ` // ` between them. Each box must fit in 100 characters. Spoken lines, narration, NPC line lists, and look text can split. Trainer intros and a few one-off strings cannot, and the report says so.
+- An interface line that grows by more than a quarter of its length, or by more than 8 characters when it is short. Interface lines never split.
+- A rules line over 70 characters, or over its current length when that is longer.
 - Em dashes, en dashes, semicolons, and the validator's banned words (`src/tools/test.ts`, the `banned` list). Edit that list if you want to allow any of them.
 - Empty lines.
 

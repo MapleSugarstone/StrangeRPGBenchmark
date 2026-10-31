@@ -1,234 +1,241 @@
-# WHORL game text, chunk 7 of 15. Files: src/content/act2/ch4.ts
-# Speakers: Tide-reader (23), ? (13), look (12), Siphon (12), sign or spot in The living chamber (folk) (11), Cinch (11), hint (9), choice (7), notice (6), goal (6), ? () (6), Tack (5), Tide table (4), Nautilus doorkeeper (4), Marks (4), A goat (3), sign or spot in The living chamber (3), Nautilus fisher (2), Kelp-cutter (2), Deep-fisher (2), Pumper (2), Room-sitter (2), choice prompt (1), Woman (climbing) (1), Old man (climbing) (1), Star-picker (1), Brine-diver (1), Old man (1), Woman (1), Ballast-girl (1), ? (L) (1), ? (P) (1), ? (M) (1)
+# WHORL game text, chunk 7 of 26. Files: src/content/act2/ch4.ts
+# Speakers: Tide-reader (25), ? (13), look (13), Siphon (12), sign or spot in The living chamber (folk) (11), Cinch (11), hint (9), choice (7), Marks (7), notice (6), goal (6), Tack (6), ? () (6), Tide table (4), Nautilus doorkeeper (4), A goat (3), sign or spot in The living chamber (3), Nautilus fisher (2), Kelp-cutter (2), Deep-fisher (2), Pumper (2), Room-sitter (2), choice prompt (1), Woman (climbing) (1), Old man (climbing) (1), Star-picker (1), Brine-diver (1), Old man (1), Woman (1), Ballast-girl (1), ? (L) (1), ? (P) (1), ? (M) (1)
 # Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
 # Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
 # See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
 ==== file: src/content/act2/ch4.ts
 
 == scene: SMALL_GRAN
-[0e9dy2o] ? | Is it today?
-[113bxgu] ? | Mum says don't scratch.
-[092kiqd] ? | I can feel it starting.
-[0aeuwo7] ? | Don't look. Don't look yet.
-[00g9n6e] ? | There. There it goes.
+[1vwhwp4] ? | Is it happening today?
+[08zwt8n] ? | Mum said not to scratch.
+[00jlnwq] ? | I can feel it beginning.
+[1gnlqyl] ? | Don't look. Not yet.
+[1oaonsk] ? | There. It's happening.
 
 == scene: grainLine
-[126q96b] hint | (With {#1} grains your whorls can reach {#2}.)
+[1jz7b2z] hint | (With {#1} grains, your whorls can reach {#2}.)
 [13l8r7p] hint | Strand level 50
 
 == scene: c
-[10efmgo] choice | Fight again at 35
-[1yn4f99] choice | Talk
-[1tqn2p8] choice prompt | {name} will fight again, all four at level 35.
+[1ygo6ia] choice | Fight again at level 35
+[095blvl] choice | Dialogue
+[1jjjr38] choice prompt | {name} will fight again. Both teams are at level 35.
 
 == scene: strandRematch
 [1s0t0qv] notice | (500 cowries.)
 
 == scene: ch4
-[0e79m5v] Tide table | Now. The spring low. Four notches, and a star.
-[0h7ck7i] Tide table | The next low goes out four notches, with a star. A spring low.
+[1y0q263] Tide table | Now. The spring low. Four notches and a star.
+[1qcd09a] Tide table | The next low recedes four notches, marked by a star. A spring low.
 
 == scene: walk
 [0iwtb0b] ? |  A spring low.
 
 == scene: ch4
-[0wx8iwc] Tide table | The next low goes out {#1}{#2}.{walk}
-[167fkn4] Tide table | , with a star
+[12ifojz] Tide table | The next low water reaches {#1}{#2}.{walk}
+[1rxxowh] Tide table | , marked by a star
 
 == scene: AFTER_LOW
-[0tbx7py] ? | I'm just out on the sand, at low! Feels weird. Good weird.
-[1ga0ymh] ? | Nobody's kicking anymore. My legs don't know what to do.
-[1soj39r] ? | Low water. Would you look at all of it.
+[0xjhrs6] ? | I'm standing on the exposed sand at low tide. It feels strange. But in a good way.
+[1kb8noc] ? | Nobody's kicking anymore. My legs have forgotten how to move.
+[1p7w618] ? | Low tide. Take a look at all this.
 
 == scene: map lowline
-[0okxeue] Woman (climbing) | Up and down. Up and down. My whole life is stairs now.
-[0ldpo7a] Old man (climbing) | Long shell, lots of stair. Good thing, I suppose.
-[1adi6wb] Nautilus fisher | The Auger's come down to live by us. They're so loud at low. We pump quiet.
-[1tbf2gi] Nautilus fisher | We pump, they climb. Same thing, really. They'd say different.
-[0c6qrvz] Kelp-cutter | I cut kelp at low. It stands right up when the sea goes out. Very polite of it.
-[10q7xuz] Kelp-cutter | Alright. Lie down, then.
-[08mgesm] Deep-fisher | Deep ones come up at low. I wait right at the edge. Very patient. Very wet.
-[1rigsap] Deep-fisher | Back down deep, then. Bye.
-[1ozg1bx] Star-picker | My gran says starfish fell out of the sky. I pick them up anyway. They don't mind.
-[000sijd] Brine-diver | I dive at high water. Cold down there. Colder every year.
-[06epbet] A goat | (The Nautilus folk's goat, out on the sand. It looks at Ouro and chews.)
-[0n5nbh3] look | Under the anchor stone, pressed into the wet sand, a notion.
-[1yszu5f] look | A flat stone with a round hole drilled through it. Somebody's anchor. Nobody's boat.
-[1o8cq0f] look | A hollow in the wet sand where something lay until last low. A few small crabs walk round the rim.
-[1orf3wq] look | Down in the eelgrass, where it lies flat at low water, a nautilus horn.
+[1sibtqs] Woman (climbing) | Up and down. Up and down. My entire life is just stairs now.
+[1qbs40v] Old man (climbing) | Long shells, endless stairs. I suppose that's for the best.
+[1v6gkkp] Nautilus fisher | The Auger have come to live near us. They're so loud at low tide. We keep our pumping quiet.
+[0kxbo1a] Nautilus fisher | We pump, they climb. It's essentially the same thing. They'd disagree, of course.
+[04zjbpj] Kelp-cutter | I harvest kelp at low tide. It stands tall when the sea recedes. How polite.
+[0o97mtr] Kelp-cutter | Fine. Go ahead and lie down.
+[0bxg04p] Deep-fisher | The deep ones rise at low tide. I wait right at the edge. I'm very patient. And very wet.
+[1ayexce] Deep-fisher | Back down deep, then. Goodbye.
+[00de6ua] Star-picker | My grandmother says starfish fell from the sky. I pick them up anyway. They don't seem to mind.
+[1x0hmzf] Brine-diver | I dive in at high water. It's cold down there. It gets colder each year.
+[069sk76] A goat | (The Nautilus folk's goat, standing on the sand. It gazes at Ouro while chewing.)
+[0rs6h9t] look | Under the anchor stone, pressed into the damp sand, a notion.
+[0mjspcc] look | A flat rock pierced by a round hole, someone's anchor, but not for any boat here.
+[144wt2l] look | A depression in the wet sand marks where something rested until the tide receded.
+[0sm7g84] look | A few small crabs circle the edge.
+[03jryp8] look | Lying flat in the eelgrass at low water, a nautilus horn.
 
 == scene: lowlineEnter
-[0g2pgcm] Old man | Never been down here. Low line now. Still getting used to it.
-[125ddlk] Woman | Every low, we climb. Babies too. Carried, but still.
-[1j1t0k9] goal | Go in at the striped shell's hood.
+[1qs1oud] Old man | I've never been down here before. I'm on the low line now. Still getting used to it.
+[1iqbzdn] Woman | With every low tide, we climb. Even the babies. We carry them, but we climb nonetheless.
+[0da7hrk] goal | Enter through the hood of the striped shell.
 
 == scene: llTack
-[04zty3m] Tack | 1 hollow, 1 slate. Crabs on the rim now. 11. Hold still, crabs.
+[0srntxc] Tack | 1 hollow, 1 slate. Crabs are on the rim now. 11. stay still, crabs.
+[14ky7fa] Tack | Try {#1}. The tides don't stop. Neither do I.
 [1gml15i] Tack | 3 lows since we came down. 3 times it walked right past the Auger. Right past.
-[0cb0fec] Tack | Battle 3 out here. After this I'm counting something else. Something that holds still.
-[0hmgvsh] Tack | {G.flags.tackWins}. I'll count them on the Auger stair. 4,000 steps, 1 per loss. Plenty of room.
-[1v7e8i1] Tack | 1 back! I'm counting that twice.
+[0ig9z01] Tack | Battle 3 out here. After this, I'm counting something else. Something that stays put.
+[0dgby3d] Tack | {#1} I'm counting that 1 again. Come back.
+[1tyljnu] Tack | {t.ouro} losses, {t.tack} wins. I'll tally them on the Auger stairs. 4,000 steps. Plenty of room.
 
 == scene: map livingchamber
-[1xzurhn] Pumper | I pump the siphon at low. One of my arms is huge now. The other one's fine.
-[1qhwrn0] Pumper | Other arm next time, then.
-[0ky0gjb] Nautilus doorkeeper | Hood's shut for the big low. Only Siphon opens it. Sorry.
-[1e3ooyr] Nautilus doorkeeper | Low water, hood's shut. Knock and I'll open it. Knock nice.
-[1kvleol] Nautilus doorkeeper | High water. Hood's up. Mind your feet, it's wet.
-[1iosw8j] sign or spot in The living chamber (folk) | We all live in the big room now. The small rooms are where we grew up. Cozy, back then.
-[1b2soz2] sign or spot in The living chamber | The goat lay down when it heard that. Goats know.
-[1tv8ovl] sign or spot in The living chamber (folk) | Every few years we build a new wall behind us and move up a room. Moving day's the best.
-[0deb1h2] sign or spot in The living chamber (folk) | Low water. Pump and bob. Pump and bob. Bob's my favorite part.
-[184zzx5] sign or spot in The living chamber (folk) | Nan's old room is three walls back. She says it's cozy. She can't get in, though.
-[0auwu1k] sign or spot in The living chamber (folk) | Low water! Pump!
-[0v8sspw] sign or spot in The living chamber | Sealed in five, at spring? He's out at spring high. Bring him soup then. Hot soup.
-[13f7xw5] sign or spot in The living chamber (folk) | Sea comes in at the hood at high water. We like our feet wet. You get used to it.
-[0y8mby6] sign or spot in The living chamber (folk) | I'm on the pump with Gran. She's faster than me. Way faster.
-[13o54h3] sign or spot in The living chamber | There's a man in the wall. He waved at me! I waved back.
-[1ycp54n] sign or spot in The living chamber (folk) | Tide-reader lives back there, in five. Only comes out at spring high. Bit odd.
-[1yy6c91] sign or spot in The living chamber (folk) | Pumping. Yep. Still pumping.
-[1idgk3f] sign or spot in The living chamber (folk) | We tell the climbers the tides. They tell us about stairs. Fair trade, I think.
-[1wg0s2f] sign or spot in The living chamber (folk) | Shh, I'm pumping.
-[0z09pmf] A goat | (The goat is lying down.)
-[1fj11ej] A goat | (A goat. It looks at Ouro and chews something it found.)
-[1hm2ba7] look | A siphon pump, a long handle of shell on a pipe that goes into the floor.
-[0ncsyd5] look | The handle is worn bright in two places.
-[05o1c5f] look | A siphon pump. Someone has tied a rag round the handle.
-[0wsypae] look | The fire. A pot of kelp soup hangs over it, and nobody is watching it.
+[155uiz8] Pumper | I'm pumping the siphon on low. My one arm's swollen huge. The other's still normal.
+[1qcx6jk] Pumper | I'll hit the other arm next time, then.
+[0apr62a] Nautilus doorkeeper | The hood stays shut during the big low. Only Siphon opens it. Sorry.
+[1yn947e] Nautilus doorkeeper | Low tide means the hood's shut. Give a knock and I'll let you in. Please be polite about it.
+[17fgamn] Nautilus doorkeeper | High tide. The hood is open. Watch your step, it's slippery.
+[0dlf5vc] sign or spot in The living chamber (folk) | We all share the big room now. The smaller chambers are where we grew up. They were snug back then.
+[12ii9m1] sign or spot in The living chamber | The goat lay down as soon as it heard that. Goats have a knack for knowing.
+[03pi7q9] sign or spot in The living chamber (folk) | Every few years we build a wall behind us and move up a room. Moving day is the best.
+[1ezep2d] sign or spot in The living chamber (folk) | Low tide. Pump and bob. Pump and bob. I'm partial to the bobbing part.
+[1pqvlcb] sign or spot in The living chamber (folk) | Nan's old quarters are three walls back. She says it's cozy, but she can't fit in anymore.
+[0u4i8av] sign or spot in The living chamber (folk) | Low tide! Pump!
+[0j6zry9] sign or spot in The living chamber | Sealed in five, at spring? He comes out at spring high. Bring him soup then. Hot soup.
+[0qf5ymx] sign or spot in The living chamber (folk) | Sea comes in to the hood at high water. We like our feet wet. You get used to it.
+[13hqlui] sign or spot in The living chamber (folk) | I'm pumping alongside Gran. She's quicker than me. Much quicker.
+[1bcwc9a] sign or spot in The living chamber | There's a man inside the wall. He waved at me! I waved back.
+[0z3wisf] sign or spot in The living chamber (folk) | The tide-reader lives in five. Only comes out at spring high.
+[1ysdd32] sign or spot in The living chamber (folk) | Pumping. Yes. Still pumping.
+[0o4qqoh] sign or spot in The living chamber (folk) | We share the tides. They share the stairs. Fair trade, I reckon.
+[1sx1izm] sign or spot in The living chamber (folk) | Hush, I'm pumping.
+[01iqdm7] A goat | (The goat is resting on the ground.)
+[13f3wqr] A goat | (A goat. It gazes at Ouro while chewing on something it discovered.)
+[0e3wxr5] look | A siphon pump featuring a lengthy shell handle attached to a pipe extending into the floor.
+[0ewp87p] look | The handle shows significant wear, appearing bright in two spots.
+[1kjsgkb] look | A siphon pump. A cloth has been wrapped around the handle.
+[1esgnun] look | The fire. A pot of kelp soup is suspended above it, unattended.
 
 == scene: livingEnter
-[04w3st0] Nautilus doorkeeper | In, in, quick. We're about to pump.
-[0t08qf5] Cinch | Grab a pot and sit. They've got plenty of pots.
-[16vdnc6] goal | Talk to the round one by the back wall.
+[00fafdi] Nautilus doorkeeper | Come in, come in, quickly. We are about to begin pumping.
+[1m8yrzw] Cinch | Take a pot and take a seat. They have an abundance of pots available.
+[14t2x21] goal | Speak with the round individual standing near the back wall.
 
 == scene: lcCinch
-[19wc88g] Cinch | Have a pot. They don't mind. They've got loads.
-[0j4eepu] Cinch | Sit by the door and you see the whole room at once. Everything they own.
+[1bbo26b] Cinch | There's a pot over there. They don't mind. They've got plenty.
+[1bzn2dn] Cinch | Park yourself by the door and you can take in the entire space. All their belongings, laid bare.
 
 == scene: cinchWindow
-[05i6ol0] Cinch | Sit a minute. Not a lot to see from in here. I'm seeing all of it, though.
-[0fex5in] Cinch | Not much to see in here. Seeing it anyway. Pull up some floor.
+[05cu07p] Cinch | Hang out a moment. Not much to look at from this angle, but I'm seeing it all.
+[0nvoz4l] Cinch | Not a lot to see in here. I'm seeing it all, though. Grab a spot on the floor.
 
 == scene: siphonBack
-[1cj0y11] Siphon | WELCOME to this room!! This room is the biggest one. This room is where we all live now.
-[0pq400u] Siphon | This room's door is a hood. It shuts at the low, with tremendous decorum.
-[17s1soe] Siphon | This room is a hole in its back wall. That is all this room will say on the matter.
-[1dx66x3] hint | (Siphon will fight you here, when you come back out through the back.)
-[1bds2p7] goal | Go in at the hole in the back wall.
+[1m1xxpp] Siphon | WELCOME to this chamber!! It is the largest room. This is where we all reside now.
+[067ojxu] Siphon | The entrance to this chamber is a hood. It closes with great dignity when the tide is low.
+[1xk58h9] Siphon | The back wall of this chamber is an opening. That is all this chamber will say on the matter.
+[1owvsxo] hint | (Siphon will fight you here when you come back out through the rear.)
+[11urx34] goal | Enter through the opening in the back wall.
 
 == scene: SIPHON_THINGS
-[1hwgezw] ? | This room is my first bowl now!! This room is a great deal bigger than that bowl was.
-[089t0xe] ? | This room has my old mat in it. This room smells most powerfully of being four.
-[19as3nc] ? | This room now holds a drawing of this room. Drawn small, by a smaller me.
+[0swow8m] ? | This chamber is my first bowl now!! This chamber is far larger than that bowl was.
+[154cz8y] ? | My old mat lies within this chamber. The scent of being four years old is strongest here.
+[0ql8mrh] ? | This chamber now contains a drawing of itself. Drawn small, by a smaller version of me.
 
 == scene: siphonFire
-[1st3ves] Siphon | This room is amply wide for a fight!! This room is four of mine, at the ready.
-[0pfctjg] Siphon | This room's floor is wet at the hood end. This room recommends the dry end.
-[0wgrvyd] Siphon | This room is a fire for beaten people, until they are warm.
-[1jbm4nm] Siphon | This room bestows a grain upon whoever wins in it. This one. Here.
-[0rdpiry] Siphon | This room's hood is opening!! The sea is departing this room, as is customary.
-[0uq23am] goal | Go out under the hood.
-[11jwmne] Siphon | This room is in your debt. This room settles its debts in nacre.
-[1x6hjk9] Siphon | This room is warmest by the fire, and kelp-scented, as ever.
+[1u2qc1h] Siphon | Plenty of room here for a brawl! I've got four whorls ready.
+[1qwk4hg] Siphon | The floor near the hood is slick. I suggest you stay toward the dry side.
+[0unyuvz] Siphon | This room offers warmth to those who have been beaten, until they thaw out.
+[01ur1ac] Siphon | A grain of tribute is awarded to whoever prevails here. Take it. Right here.
+[0mtsmyq] Siphon | The hood is unlatching! The sea is receding, as it always does.
+[1mg6elh] goal | Exit through the hood.
+[1ifolyr] Siphon | This room owes you. It pays its debts in nacre.
+[0q36ozx] Siphon | The air is warmest near the fire, carrying that familiar scent of kelp.
 
 == scene: ballastgirl
-[12c9net] Ballast-girl | Wet row's the hood end. Always the hood end in here. Wanna play?
+[1vo51kx] Ballast-girl | The wet side is by the hood. It's always the hood side in here. Care to play?
 
 == scene: TILT_WORDS
-[06yg780] ? (L) | The shell is level.
-[03h7eb9] ? (P) | The point end is down.
-[0gqkbgo] ? (M) | The mouth end is down.
+[1jelyo6] ? (L) | The shell lies flat.
+[1xbu032] ? (P) | The pointed end faces downward.
+[13eq3sw] ? (M) | The opening faces downward.
 
 == scene: prompt
-[1ks3qr7] ? | {#1} This room is {#2}. The room {here} is {#4}.
+[1obq1dj] ? | {#1} This chamber is {#2}. The chamber {here} is {#4}.
 
 == scene: c
-[0hc49ae] choice | Pump inward
-[0h054kr] choice | Pump outward
-[00rd0pj] choice | Leave it
+[1l9043h] choice | Pump water inward
+[0s5xasu] choice | Pump water outward
+[0oq3bj6] choice | Leave as is
 
 == scene: valve
-[0bzh405] hint | (The holes line up only at certain tilts. Pump water from room to room at the valves.)
+[0ii75yr] hint | (The channels only align at specific angles. Pump water between the rooms using the valves.)
 
 == scene: map oldchambers
-[0x4ym8p] Room-sitter | I sat in an old room when it sealed. Liked it. So I stayed. It's nice in here.
-[1qggpvc] Room-sitter | Stay a while. It opens again at spring. I've got snacks.
-[1krbq08] notice | Ouro takes a child's bowl, very small, with a crack mended in gum.
-[179nqiq] notice | Ouro takes a sleeping mat of kelp, the size of a small child.
-[19hy2ir] notice | Ouro takes a shell with a drawing on it: a round room, and a round person.
-[0pgeje0] look | In a crack where the septum meets the floor, three grains of nacre.
-[06wc4um] look | Wedged in the wall of the little room, a triton horn.
+[0b4olpg] Room-sitter | I was inside when the walls sealed shut. I liked it, so I never left. It's quite cozy here.
+[0lgkoby] Room-sitter | Stay a while. It opens again at spring tide. I've got snacks.
+[0tij9e5] notice | Ouro picks up a child's bowl, very small, with a crack mended in gum.
+[1ccg1ka] notice | Ouro takes a kelp sleeping mat, sized for a small child.
+[0o9rz3l] notice | Ouro takes a shell painted with a picture: a circular room and a circular figure.
+[03bdew0] look | Three grains of nacre rest in the crevice where the septum joins the floor.
+[1mhbg56] look | A triton horn is wedged into the wall of the small room.
 
 == scene: oldEnter
-[0c3eyem] hint | (At high tide the Nautilus tips toward whichever end holds more water.)
-[0bphib6] hint | (The holes line up only at certain tilts. Pump water from room to room at the valves.)
+[0a4z90l] hint | (At high tide the Nautilus leans toward whichever end holds more water.)
+[1gmdf6v] hint | (The holes align only at specific angles. Pump water between rooms using the valves.)
 
 == scene: map tidechamber
-[0nk18m0] look | Marks cut in the wall, one to four notches each, in rows that go round and up.
-[1p10gzx] look | Marks in rows going round and up to a point in the ceiling. The lowest rows are pale with age.
+[0shc4l8] look | Rows of notched marks, with one to four notches on each mark, spiral upward around the wall.
+[01dbll8] look | Rows of marks spiral upward to a point on the ceiling, with the lowest lines faded by age.
 
 == scene: tcCinch
-[09bozhd] Cinch | Floor's good in here. Ears work better sitting down.
-[0fp1cli] Cinch | Sit on the floor and the low ones are right there to read. They go back a long way.
+[1oqzu9i] Cinch | The floor is solid here. You hear better sitting down.
+[1gaqkvc] Cinch | Sit on the floor so you can read the lower marks easily. They go back a long way.
 
 == scene: tidereader
-[15zu9rq] Tide-reader | At high water, it was my gran's, most cherishedly. At low, it is yours, most deservedly.
-[09dclam] Tide-reader | At low, look in the eelgrass for a brass thing with rings in it. A walking instrument.
-[1az8i3u] Tide-reader | At my gran's low, it fell out the hood. At some low since, it got up. Unprecedented!!
-[09mtqgk] Tide-reader | At the spring high, the old rooms open. At this one they're shut, as at the last, and the one befo-
-[0ov94cj] Tide-reader | At this tide, there's time to get out through the siphon. Go round. Not back. Round.
-[05jj3uj] Tide-reader | At half tide, you came in through the back!! Nobody does. Nobody ever has.
-[06swhba] Tide-reader | At high water, soup. At low, the wall. At flood, at ebb, at slack, at neap, at spr-
-[1o6u2lj] Tide-reader | At every low since this room was the big room, I have cut one mark. Faithfully.
-[0yry8wy] Tide-reader | At some high water, a pot hit the top three marks. Scraped clean off!! A calamitous pot.
-[0cpg3vh] Tide-reader | At any tide you like, cut them back for me. Here's the knife, my second-best.
-[0kdjjtq] hint | (One to four notches for how far the sea went out. Find the pattern and cut the three blanks.)
-[1uau4ye] Tide-reader | At the top, near the point. Three blank places. The knife's yours till they're cut.
+[0ebmvvp] Tide-reader | At high water, it was my gran's, most cherishedly. At low water, it is yours, most deservedly.
+[0szac6v] Tide-reader | At low tide, look for a brass object with rings in it among the eelgrass. It's a walking instrument.
+[150hz1h] Tide-reader | At my grandmother's low tide, it fell out of the hood. At some low tide since, it climbed back up.
+[1cmafwd] Tide-reader | Unprecedented!!
+[1jmfivo] Tide-reader | At the spring high tide, the old rooms open.
+[049ldpp] Tide-reader | At this one, they are shut, just as they were at the last, and the one before-
+[0afkcmf] Tide-reader | At this tide, you have time to escape through the siphon. Go around. Not back. Around.
+[0h39qag] Tide-reader | At half tide, you entered through the back!! No one does that. No one ever has.
+[05psu2m] Tide-reader | At high water, soup. At low, the wall. At flood, ebb, slack, neap, spr-
+[1lia932] Tide-reader | At every low tide since this room was the main hall, I have cut one mark. Faithfully.
+[1jh0e67] Tide-reader | At a high water, a pot hit the wall all over. Six marks scraped clean off!! A calamitous pot.
+[03z9i4x] Tide-reader | At any tide you choose, cut them back for me. Here is the knife, my second-best.
+[1rybewm] hint | (One to four notches for how far the sea went out. Find the pattern and cut the six blanks.)
+[144ugxm] Tide-reader | Six blanks. Three by the point, three along the wall. The knife's yours till then.
 
 == scene: marks
-[1s6o7f1] Marks | Newest, near the point, oldest first: two notches. One. One. Two. Three.
-[0l4qc67] Marks | Four, and a star. Four, and a star. Three. Two. One.
+[1xv5qjw] Marks | Start with the newest by the point, oldest first: two notches. Then one. Then one. Then two.
+[15752py] Marks | Then three.
+[1c865h9] Marks | Four, with a star. Four, with a star. Three. Two. One.
 [1cke072] Marks | Then one, two, three, cut fresh. Then a place for the next.
-[0mc48r8] Marks | Then three places scraped smooth.
-[1bhpd2j] Tide-reader | At low, the sea never went like that!! Never!! Scrape them and cut again.
+[15u5py0] Marks | Newest by the point, oldest first: two notches. Scraped. One. Two. Scraped.
+[1iuvg79] Marks | Four, and a star. Scraped. Three. Two. One.
+[0mygu0h] Marks | Then three places were scraped smooth.
+[09o8ce1] Tide-reader | The sea never receded that far at low tide!! Never!! Scrape them and cut again.
 
 == scene: reading
-[1doruxh] Tide-reader | At the next low, the sea goes out as far as it ever goes. A spring low, greatest of lows!!
-[15lfevq] Tide-reader | At a spring low, the Gleaner walks the whole beach.
-[1vz1yt0] Tide-reader | At the first of the ebb, it comes out of the pink shell at the end of the beach.
-[0011rj0] Tide-reader | At half ebb, it's at the shut one, up the beach. It lifts it, and puts it down.
-[1gcw9wd] Tide-reader | At dead low, it's back at the rows. It sets something in a row.
-[0qgk6jh] Tide-reader | At the turn, it goes back into the pink shell and lies down.
-[0cx0lh4] Tide-reader | At every spring low for three hundred years, that has been the walk. So say the marks.
-[1mp7by6] Tide-reader | At the low after the shut one last turned, it was soft. It reached in.
-[0hh5eop] Tide-reader | At the low after that, it walked with one hand. It's walked with one since.
-[0r2jrfw] Cinch | Sit. That's a lot to hear standing up.
-[1skssgo] Tide-reader | At the spring low, the old rooms seal. At the spring high, they open, and seal, and ope-
-[1pa5thm] Tide-reader | At this tide, you've still time to get out through the siphon. Go round, not back.
-[1u2yxod] notice | (The tide table: the menu now shows how far the next low goes, and marks spring lows.)
-[0krehu4] hint | (At low water, footprint marks show on the sand before the stars land.)
-[1q7sv2k] goal | Go out through the siphon, by the hole low in the wall.
+[1tyiu06] Tide-reader | At the next low, the sea retreats to its absolute limit. A spring low, the deepest of all.
+[0hci2w5] Tide-reader | During a spring low, the Gleaner traverses the entire beach.
+[1lru9uu] Tide-reader | At the start of the ebb, it emerges from the pink shell at the beach's end.
+[13al8xr] Tide-reader | At half ebb, it reaches the sealed one, further up the beach. It lifts the shell, then sets it down.
+[0m3nh26] Tide-reader | At dead low, it returns to the rows. It places an object within a row.
+[1gdhggi] Tide-reader | At the turn, it retreats into the pink shell and rests.
+[0g57xg8] Tide-reader | For three hundred years, this has been the pattern at every spring low. So state the marks.
+[0vzccou] Tide-reader | At the low after the shut one last shed, it was soft. It reached in.
+[02fhznt] Tide-reader | After that low, it moved with one hand. It has walked with one hand ever since.
+[1fjhjk4] Cinch | Sit down. That's a lot to take in while standing.
+[09mjl6z] Tide-reader | At the spring low, the old rooms seal shut. At the spring high, they open, seal, and ope-
+[0kohhaz] Tide-reader | With this tide, you still have time to escape through the siphon. Go around, not back.
+[1607cku] notice | (The tide table: the menu now displays how far the next low will drop, and marks the spring lows.)
+[1gu8l71] hint | (At low water, footprints appear in the sand before the stars arrive.)
+[1dpntl0] goal | Escape through the siphon, near the low hole in the wall.
 
 == scene: SIPHON_LINES
-[1uhiy1k] ? () | This room is a valve on the left. It seals behind you, and means it.
-[0u1yw2j] ? () | Two holes out, this room. This room was my room when I was six, and a fine room.
-[1knbdyq] ? () | This room is still my mother's cooking, to the nose, and a valve.
-[0esp4dc] ? () | This room is two holes out and a valve. Eggs were kept in it, in rows.
-[14z90cl] ? () | This room is where the pipe bends, ever so gracefully. Two holes out.
-[164lnmn] ? () | This room is the small one. This room is a valve and a hole and nothing else.
+[1inqben] ? () | This room is a valve on the left. It seals behind you, and it means it.
+[0jvgl3j] ? () | Two holes out, this room. When I was six, this was my room, and a fine one it was.
+[0ixcswa] ? () | To the nose, this room still smells of my mother's cooking, and it is a valve.
+[1fophh2] ? () | This room is two holes out and a valve. Eggs were kept here, arranged in rows.
+[0yo4uvc] ? () | This chamber is where the pipe curves, quite elegantly. Two outlets.
+[07q1j78] ? () | This room is the small one. It is a valve, a hole, and nothing more.
 
 == scene: siphEnter
 [1hrzz2x] notice | A ring of the siphon opens. {#1} of 6.
-[0yprmci] hint | (Every room you leave seals behind you. Pass through all six valve rooms and finish at the door.)
+[0t4697u] hint | (Each room you leave seals behind you. Traverse all six valve rooms and end at the door.)
 
 == scene: siphFail
-[1linx0p] Siphon | This room is sealed now. This room reopens at the next high water, without fail.
+[11ictui] Siphon | This chamber is now sealed. It will reopen at the next high water, without exception.
 
 == scene: disc
-[07mgyqa] Siphon | This room is on the far side of the door. This room is waiting for you, with great patience.
-[0t5im9w] Cinch | Ha. This is a sitting job. My favorite kind.
-[0e2ttjs] choice | Get up.
-[0gthm2n] choice | Come with me.
-[1onu7zq] Cinch | I'll sit. Can see you through the door from here. That's plenty.
-[1iv4prf] Cinch | Sit there, where I can see you through the window.
-[1dw9faw] goal | Siphon waits by the fire.
+[1x117bo] Siphon | This chamber lies on the other side of the door. It awaits you with great patience.
+[1l0esvy] Cinch | Ha. This calls for sitting. My preferred method.
+[1cylhps] choice | Rise.
+[04vrhtw] choice | Come along.
+[1n5sec3] Cinch | I'll stay put. I can see you through the doorway from here, and that's enough.
+[17afx8m] Cinch | Stay there, where I can watch you through the window.
+[00qg54y] goal | Siphon lingers by the hearth.

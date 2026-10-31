@@ -1,0 +1,336 @@
+# WHORL game text, chunk 22 of 26. Files: src/data/kits3.ts
+# Speakers: passive Seed Clock (1), passive Last Puff (1), move Puff Blow (1), move Seed Drift (1), move Tell the Hour (1), move Blow Apart (1), passive Looks Like One (1), passive Scare (1), move Kelp Swipe (1), move Flap Up (1), move Pick Clean (1), move Crows Come In (1), passive Leaves a Blade (1), passive Spare Blades (1), move Nick (1), move Draw Blades (1), move Score (1), move Lancing (1), passive Still Curing (1), passive Thick Staves (1), move Slop Over (1), move Barrel In (1), move Top Up (1), move Burst Hoops (1), passive Keeps Rolling (1), passive Heavier Load (1), move Run Over (1), move Into the Rut (1), move Chock Wheels (1), move Runaway Cart (1), passive Grub Store (1), passive Star Nose (1), move Nibble (1), move Dig Claw (1), move Go to Earth (1), move Surface Lunge (1), move Bubble Sniff (1), move Mound Up (1), move Tunnel Past (1), passive Cold Store (1), passive Fills Back Up (1), move Cold Draft (1), move Top Shelf (1), move Frost Bite (1), move Bad Months (1), summon Worm End (1), passive Two Ends (1), passive Sand Casts (1), move Long Slap (1), move Squirm (1), move Sling Self (1), move Loop Bounce (1), passive Broken In (1), passive Spare Nails (1), move Hobnail (1), move Scuff Mark (1), move Tread Hard (1), move Forced March (1), summon Ripe Pod (1), passive Sun Ripe (1), passive Full Pod (1), move Pea Shot (1), move Grow Pods (1), move Shell Out (1), move Pea Rain (1), passive Shut Air (1), passive Takes Weight (1), move Swing Shut (1), move Below Stairs (1), move Slam (1), move Down Below (1), summon Leg Snare (1), passive Fourth Chirp (1), passive Loud End (1), move Trill (1), move Cave Drip (1), move Hop Off (1), move Four Chirps (1), passive Lands Twice (1), passive Old Bone (1), move Toss Up (1), move Chip Off (1), move Roll for It (1), move All Five (1), passive Well Fed (1), passive Root Weight (1), move Cusp Bite (1), move Root Heave (1), move Molar Grind (1), move Chew Down (1), passive Bone Spurs (1), passive Spur Bed (1), move Spur Spray (1), move Marrow Spit (1), move Bow the Neck (1), move Hold Up (1), passive Same Spot (1), passive Hangnail (1), move Nail Flick (1), move Pin Under (1), move Pare Down (1), move Down to Quick (1), passive Leans Light (1), passive Off Level (1), move Pop Joint (1), move Swing Leg (1), move Shift Weight (1), move Cast Round (1), passive Lucky Break (1), passive Fourth Wish (1), move Splinter Spray (1), move Pull the Bone (1), move Make a Wish (1), move Wish Them Here (1), passive Test Shell (1), passive Sharp Spines (1), move Spine Sweep (1), move Water Jet (1), move Spine Pin (1), move All Spines Out (1), passive Courting Wave (1), passive Great Claw (1), move Sidelong Jab (1), move Wave the Claw (1), move Claw Raised (1), move Regrow Claw (1), summon Reflection (1), passive Reflected (1), passive Many Places (1), move Heat Glint (1), move Waver Off (1), move Haze Run (1), move Whole Mirage (1), passive Iron Swing (1), passive Hauled Up (1), move Fluke Swipe (1), move Drop Anchor (1), move Sand Spout (1), move Wreck Comes In (1), passive Prow First (1), passive Bow Wake (1), move Spray Over (1), move Into the Swell (1), move Stand In Front (1), move Ice Wake (1), passive Pumps Out (1), passive Spill Over (1), move Bail Out (1), move Suction (1), move Still Water (1), move Dead Calm (1), passive Same Tack (1), passive Close Haul (1), move Thrown Blocks (1), move Come About (1), move Boom Beat (1), move Fill Out (1), move Storm Canvas (1), passive Weighted (1), passive Deep Set (1), move Two Knocks (1), move Ram Ashore (1), move Sit Upright (1), move Launch (1), passive Second Charge (1), passive Swabbed Out (1), move Scatter Shot (1), move Load Grape (1), move Fire a Friend (1), move Late Shot (1), summon Spray Column (1), passive Builds Up (1), passive Whitewater (1), move Crash Down (1), move Curl Over (1), move Throw Spray (1), move Ninth Wave (1), passive High Wheel (1), passive Robber (1), move Harry (1), move Stoop (1), move Follow (1), move Out of the Sun (1), passive See-Through (1), passive Stung Twice (1), move Trailing Sting (1), move Upwelling (1), move Drift Over (1), move Open Bloom (1), passive Floats (1), passive Bleached (1), move Waterlog (1), move Weed Seed (1), move Bark Coat (1), move Washed Up (1), passive Buoyant (1), passive On the Bill (1), move Foam Wash (1), move Foam Cover (1), move Rinse Clean (1), move Kept Afloat (1), passive Turning Tide (1), passive Drawn Back (1), move Wave Shot (1), move Run Out (1), move Pull In (1), move High Water (1), move Wave Crash (1), move Churned Water (1), move Ebb Out (1), move Undertow Pull (1), passive Stock Still (1), passive Gray Coat (1), move Bill Stab (1), move Reed Snare (1), move Spot Prey (1), move Strike Down (1), move Spring Up (1), passive Third Bite (1), passive Slick (1), move Dart Off (1), move Eel Coil (1), move Writhe (1), move Elver Run (1), summon Bog Body (1), passive Bog Breath (1), passive Preserved (1), move Bog Pulse (1), move Marsh Gas (1), move Sink Hole (1), move Peat Spade (1), summon Bell Spirit (1), passive Undertone (1), passive Bell Mouth (1), move Clapper (1), move Peal (1), move Ring Out (1), move Great Toll (1), summon Glass Shard (1), passive Leaded Panes (1), passive Crazed (1), move Stained Light (1), move New Pane (1), move Lead Line (1), move Rose Window (1), summon Held Note (1), passive Open Stop (1), passive Full Chest (1), move Low Drone (1), move Stopped Note (1), move Draw Air (1), move Full Organ (1), summon Hymnbook (1), passive Pew Rent (1), passive Reserved (1), move Slide Along (1), move Open Hymnbook (1), move Box Pew (1), move All Kneel (1), passive Reliquary (1), passive Under Glass (1), move Gilt Edge (1), move Lid Shut (1), move Glass Dust (1), move Into the Case (1), passive Swung Wide (1), passive Incense (1), move Soot Bind (1), move Smoke Screen (1), move Ash Pool (1), move Smoke Closes (1), passive Night Wings (1), passive Hush Hunt (1), move Swoop (1), move Owl Stare (1), move Wing Mantle (1), move Moonless (1), passive Stored Up (1), passive Rut Season (1), move Antler Jab (1), move Lock Antlers (1), move All At Once (1), move Stag Leap (1), passive Swarming (1), passive Honeycomb (1), move Buzz (1), move Smoke Out (1), move Swarm Up (1), move Whole Hive (1), summon Sapling (1), passive Deep Drink (1), passive Deep Seated (1), move Root Shove (1), move Root Under (1), move Seedling Toss (1), move Root Wave (1), passive Out the Hole (1), passive Frass (1), move Bore Hole (1), move Galleries (1), move Hard Back (1), move Into the Wood (1), summon Lump (1), passive Earth Store (1), passive Clay Skin (1), move Roll Clod (1), move Pull Clod (1), move Pack Earth (1), move Earthen Hold (1), summon Root Friend (1), passive Green Hand (1), passive Whiplash (1), move Root Pull (1), move Seed Shield (1), move Leafing (1), move Sprout Guard (1), passive Bad Dream (1), passive Gnarled (1), move Sap Dream (1), move Bad Sleep (1), move Heavy Eye (1), move Dream Grip (1), passive Upward Drop (1), passive Topsy (1), move Rising Drops (1), move Shrink (1), move Help Up (1), move Grow Tall (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/kits3.ts
+
+== scene: kits3
+[0o92n38] passive Seed Clock | When it uses a move: 1 Seed on the foe, max 4. Seeds bloom in 2 foe turns: 30% MGK.
+[0itlbmw] passive Last Puff | When it is KO'd: hits the foe for 60% MGK. Everything on the foe comes due.
+[1j6zgc1] move Puff Blow | Hits for 129% MGK. The foe's Seeds bloom now at 1.33x.
+[0xneaz1] move Seed Drift | Hits for 64% MGK. 2 Seeds. 1 Seed on each foe reserve.
+[1wd758i] move Tell the Hour | Hits for 94% MGK. Root 2. Slow 1 per Seed. Everything on the foe comes due.
+[0c443ot] move Blow Apart | Wind-up. Hits for 129% MGK. Splash 35%. Stun 1. Every foe's Seeds bloom at 2x.
+[0hb0nwe] passive Looks Like One | When it comes out: looks like its first reserve until it acts. Disguised moves deal 1.3x.
+[1a2ryqo] passive Scare | Deals 1.2x damage to a foe that is Afraid or below 40% HP.
+[1c2nlfe] move Kelp Swipe | Hits for 129% MGK. Slow 1. 1.4x damage if the foe is Afraid.
+[0arry8g] move Flap Up | Hits for 86% MGK, 2x if Afraid. Afraid 1. It must switch at its next turn.
+[094b3t7] move Pick Clean | Hits for 49% MGK. Its next 2 turns: 35% MGK, heals 60% of it, takes a good status.
+[0tt26g0] move Crows Come In | Wind-up. Hits for 93% MGK. Splash 35%. Every foe: Afraid 1. Next 2 turns: 45% MGK, Splash 35%.
+[069fmtu] passive Leaves a Blade | Its hits lodge a Blade, up to 8, for 3 turns. When it attacks: its next turn comes 20% sooner.
+[0rzfcpd] passive Spare Blades | In reserve: hits by your out whorl lodge Blades too.
+[1jex0z3] move Nick | Hits for 179% ATK. 1 Blade, or 2 on a foe that came out since its last turn.
+[05uir1n] move Draw Blades | Pulls every Blade: 48% ATK + 59% ATK each. Slow 1. A KO resets its cooldown.
+[0nlfmwc] move Score | Hits for 124% ATK. Expose 1. Doubles the foe's Blades, up to 8.
+[1p47gp4] move Lancing | Hits for 131% ATK. Stun 1. Bleed 1 per Blade in it. Swaps in an ally.
+[12swqwk] passive Still Curing | When it uses a move: heals 4% of its max HP.
+[1tcyb89] passive Thick Staves | Takes 0.8x damage from attacks. A foe that dashes into it: Slow 1.
+[1bb6wbo] move Slop Over | Wind-up. Hits for 81% MGK. Splash 35%. Slow 1.
+[1gymkao] move Barrel In | Hits for 77% MGK + 4% of its max HP. Stun 1. The first reserve takes 50%.
+[1w0bggz] move Top Up | Fortify 2. Poise 20%. Its next attack adds 7% of the foe's max HP.
+[1k9szmg] move Burst Hoops | Hits for 124% MGK. Splash 35%. Forces the foe out. Its replacement: Slow 2.
+[0uhkupr] passive Keeps Rolling | Once, instead of a KO: a 40% HP Wreck with 1.3x ATK that only attacks and loses 20% max HP a turn.
+[1k0nm8a] passive Heavier Load | When a foe is KO'd while it is out: +6% max HP for the battle.
+[17eq0j3] move Run Over | Hits for 147% ATK. Slow 1. Poise +10%, up to 30%.
+[08tm6xd] move Into the Rut | Wind-up. Hits for 153% ATK. Root 2. The foe repeats its last move next turn.
+[1wzblq0] move Chock Wheels | Its Poise becomes a shield + 15% max HP, 2 turns. If it lasts: the foe loses 10% max HP.
+[1n39art] move Runaway Cart | Unstoppable wind-up. Hits for 217% ATK + 57% of its Poise. Stun 1.
+[0zcbxxb] passive Grub Store | Its hits add a Grub, up to 4. Burrowed, turn start: eats them, heals 4% max HP each.
+[00ovho9] passive Star Nose | Burrowed: when a foe comes out, hits it for 60% ATK.
+[0t3xgha] move Nibble | Hits 3 times for 56% ATK.
+[1o8j8m4] move Dig Claw | Hits for 156% ATK. At 4 Grubs: spends them, true damage.
+[19uwemp] move Go to Earth | Burrows: takes 0.85x damage, 1.2x AGI, and new moves.
+[1777cjw] move Surface Lunge | Hits for 124% ATK + 25% of the foe's missing HP. Surfaces.
+[1hruj22] move Bubble Sniff | Hits for 70% ATK. Splash 35%. Expose 1.
+[17m8kz8] move Mound Up | Hits for 90% ATK. Stun 1. Surfaces.
+[004srh9] move Tunnel Past | Hits for 50% ATK. Its next turn comes 40% sooner.
+[1de8sxl] passive Cold Store | Its hits add Slow 1. Every 4th hit on the same foe: Silence 1.
+[0mqaaov] passive Fills Back Up | Once per battle, below 25% HP: for 1 turn, damage heals it instead.
+[0hq3t2w] move Cold Draft | Pays 4% max HP. Hits for 98% ATK. Your lowest-HP whorl heals 30% of it.
+[0zuyvqg] move Top Shelf | Cleanses an ally. Shield 18% max HP, 3 turns. If it breaks: 60% ATK to the foe.
+[1t6pn4e] move Frost Bite | Hits for 62% ATK. Silence 1. Slow 2. Its moves still cooling wait 1 more turn.
+[1hqgm0w] move Bad Months | For 2 turns: damage heals it instead. Its reserves go into cold storage, 10% a turn.
+[0f3bz63] summon Worm End | Takes single-target hits meant for Mimato. After a split: if one lasts 2 turns, Mimato returns at 30% HP, and if both fall, Mimato is KO'd.
+[0gu3ei7] passive Two Ends | Once, instead of a KO: 2 Worm Ends (12% max HP each). One lasts 2 turns: back at 30% HP.
+[1qujku8] passive Sand Casts | Its hits leave a Cast, up to 3. Turn start: heals 2% max HP per Cast, spends them.
+[0zg0kjx] move Long Slap | Hits 2 times for 49% ATK. Slow 1.
+[18dc8lc] move Squirm | Hits for 35% ATK + 4% foe max HP. Splash 35%. Its next turn comes 10% sooner per foe.
+[19jgjpo] move Sling Self | Wind-up. Hits for 87% ATK. Splash 35%. Stun 1. A Worm End (8% max HP, 2 turns) guards it.
+[00jbs9f] move Loop Bounce | Hits 4 times for 34% ATK. Slow 2. Stun 1. Spends its Casts: heals 6% max HP each.
+[1uslrdx] passive Broken In | Heals 15% of the damage its moves deal.
+[0e1m50i] passive Spare Nails | When a foe is KO'd while it is out: 3 Nails.
+[02mtqmf] move Hobnail | Hits for 132% ATK, +7% per Nail, max 14. Adds a Nail when it lands.
+[1qorb3z] move Scuff Mark | Slow 2. Weaken 2. Delays the foe 30%. Its crest waits 1 more turn.
+[1wotron] move Tread Hard | Hits for 102% ATK. Splash 35%. Expose 2. 1 Nail for each foe it hits.
+[0jaqfkz] move Forced March | Max HP +15%. Taunt 2 on the foe. For 3 turns, Hobnail has no cooldown.
+[132ckbu] summon Ripe Pod | Pea Shot bursts it. A spread hit on its side can burst it first.
+[0s33py9] passive Sun Ripe | Every 3rd attack: Burn 2 on the foe (30% MGK each turn). Haste 1.
+[18didwj] passive Full Pod | Turn start: each Pod ripens, +20% burst, up to 60%. Bursting 3 Pods at once: Stun 1.
+[10sltnl] move Pea Shot | Hits for 179% MGK. Its Pods burst for 78% MGK each. Splash 35%. KO: 2 tide.
+[1pyc5uz] move Grow Pods | Hits for 71% MGK. Summons 2 Pods, up to 3 (6% of its max HP).
+[0tobjw8] move Shell Out | Cleanses itself. Heals 15% of its max HP.
+[1d9fymw] move Pea Rain | Hits for 101% MGK. Splash 35%. Slow 1. Next 2 turns: 50% MGK, Splash 35%, Slow 1, +1 Pod.
+[1xgr5l7] passive Shut Air | Every 3rd move: 1 tide. A foe it takes off the field takes 80% MGK when it comes back.
+[0010bpv] passive Takes Weight | Its hits take 2 MGK from the foe and give it to Tobiku, up to 20 total.
+[1xbsuwj] move Swing Shut | Hits for 219% MGK + 7% of its max HP.
+[051pezy] move Below Stairs | Takes the foe off the field for 1 turn.
+[1ybkpbo] move Slam | Hits for 143% MGK + its MGK over the foe's RES. The foe's side: Shut In 2 rounds.
+[0lw7209] move Down Below | Hits for 144% MGK + 4x the MGK it has taken. Splash 35%.
+[10zyahn] summon Leg Snare | Stays until a foe comes out. Hits it for 70% of Koolus's ATK. Slow 2.
+[159mput] passive Fourth Chirp | Every 4th action: deals 1.6x damage, and its next turn comes 20% sooner.
+[0btk9st] passive Loud End | Fourth Chirp deals up to 1.4x more, scaling with the foe's missing HP.
+[1xojilw] move Trill | Hits for 105% ATK. The first reserve takes 50%, every reserve on a Fourth Chirp.
+[032khc4] move Cave Drip | Hits for 90% ATK. Root 2 if it hit the foe since its last turn.
+[1d37n4f] move Hop Off | Summons a Leg Snare (6% of its max HP). Its next turn comes 20% sooner.
+[16evxvo] move Four Chirps | Hits 3 times for 45% ATK, then once for 110% ATK.
+[1sps3ru] passive Lands Twice | Every 3rd move it uses happens twice. Crests do not count.
+[0n923fi] passive Old Bone | Starts each battle with 1.1x max HP.
+[0iv2i2w] move Toss Up | Hits for 89% ATK. Slow 1. Expose 1.
+[1j9h4h2] move Chip Off | Hits for 95% ATK. Stun 1. Fracture 3.
+[1a3889u] move Roll for It | An ally gets Haste 2 and Empower 1. Its next move, not a crest, happens twice.
+[05vn65o] move All Five | Hits 5 times for 32% ATK, taking turns among every foe, out first. Stun 1.
+[0agg5kj] passive Well Fed | When a foe is KO'd while it is out: heals 15% of its max HP.
+[1cd2gip] passive Root Weight | Its moves add 1.5% of its max HP to their damage.
+[12lw3qy] move Cusp Bite | Hits for 137% ATK. Splash 25%.
+[09km6yo] move Root Heave | Wind-up. Hits for 94% ATK. Splash 35%. Stun 1. 1.5x if the foe is Fractured.
+[1bv7e0t] move Molar Grind | Hits for 117% ATK. Silence 1. Fracture 2.
+[1runkmk] move Chew Down | True damage: 84% ATK + 12% missing HP, 24% if Fractured. KO: max HP +12%.
+[1udwplm] passive Bone Spurs | Takes 0.9x from moves. Per 25% max HP lost: 15% ATK to every foe, 1 Spur.
+[1acrwvv] passive Spur Bed | Spur: a mark, up to 5, for 3 turns. Foes take +3% damage from it per Spur.
+[1lpcaxo] move Spur Spray | Hits for 36% ATK, +6% damage per Spur. Splash 35%. 1 Spur.
+[0pdm0e0] move Marrow Spit | Hits for 34% ATK. Slow 2. 2 Goo for 3 turns: -5 DEF per Goo, up to 4.
+[063mv9g] move Bow the Neck | Until its next turn: takes 0.6x. When hit: 20% ATK, Splash 35%.
+[0ok0gkm] move Hold Up | For 4 turns: each move adds +10% damage, up to 4, and Haste 1.
+[1hp00e4] passive Same Spot | Every 3rd hit on the same foe: true damage of 9% of its max HP.
+[0hzuftk] passive Hangnail | When a foe comes out: its next turn comes 20% sooner.
+[107i2k6] move Nail Flick | Hits for 106% ATK. Its next attack deals 1.7x damage.
+[0a1lsd8] move Pin Under | Hits for 153% ATK. A foe that can't switch out: Stun 1. Else: Root 2.
+[03j7agu] move Pare Down | Hits for 133% ATK. Same Spot goes off on this hit.
+[1bj3vsr] move Down to Quick | Empower 2. Haste 2. For 3 turns: Same Spot goes off every 2nd hit.
+[0jbmpm8] passive Leans Light | Light: 1.2x ATK, 0.8x DEF. Heavy: the reverse. It starts Light.
+[0w56pdd] passive Off Level | Heavy: takes 0.85x damage. Light: its turns come 10% sooner.
+[0p3sduc] move Pop Joint | Hits for 138% ATK. Its next turn comes 20% sooner.
+[0wqe9kb] move Swing Leg | Light: hits for 162% ATK. Heavy: hits for 91% ATK, Stun 1.
+[0kohs3e] move Shift Weight | Switches between Light and Heavy.
+[1q36vp6] move Cast Round | Hits for 96% ATK. Trades bodies with the foe 3 turns: look, types, passives, moves.
+[1rl7blu] passive Lucky Break | When a foe is KO'd while it is out: 2 tide.
+[08r3wbv] passive Fourth Wish | Every 4th attack: also hits for 60% MGK.
+[0lc555n] move Splinter Spray | Hits for 107% MGK. Splash 35%.
+[1us2uxw] move Pull the Bone | Alternates. Long end: 90% MGK, Splash 35%, Stun 1. Short end: 136% MGK, 1 tide.
+[0po97bw] move Make a Wish | Pick a wish. Tide: 2 tide. Health: Regen 3. Luck: its attacks add 58% MGK, 3 turns.
+[1gzd4xr] move Wish Them Here | Drags in a reserve and hits it for 124% MGK. Expose 2.
+[0hpmwde] passive Test Shell | Hits under 6% max HP deal it 0.7x. Per 25% max HP lost: gives the foe its bad statuses.
+[1ps65ww] passive Sharp Spines | Attackers take 12% of their damage back.
+[0i9e4hw] move Spine Sweep | Hits for 71% ATK. Splash 35%. Weaken 1.
+[0vj98cb] move Water Jet | Hits for 92% ATK. Slow 2. Expose 1. Pushes the two of them to Far.
+[1m0b7zb] move Spine Pin | Hits for 87% ATK. Root 2. Slow 1. Spine 3: attacks and dashes cost it 5% max HP.
+[0ylxcle] move All Spines Out | Hits for 118% ATK. Splash 100%. Stun 1 on the foe and each reserve.
+[15x23v3] passive Courting Wave | Attacks in a row: its next turn comes 10% sooner, then 20%, then 30%.
+[1nfkbyt] passive Great Claw | Every 3rd attack: also hits for 50% MGK.
+[1kms9xb] move Sidelong Jab | Hits for 117% ATK. Weaken 1.
+[0h6u2x1] move Wave the Claw | Hits for 50% ATK. Taunt 1. Its next attack deals 1.7x damage.
+[1qvap97] move Claw Raised | Attacks and dashes deal it 0 till its next turn. Then: 90% ATK +30% per blow. Splash 35%.
+[0x8ubqv] move Regrow Claw | Hits for 148% ATK. Fortify 3. For 3 turns its attacks also hit each reserve for 40%.
+[00a2yfo] summon Reflection | Takes single-target hits meant for your out whorl. 3 turns.
+[0v68bl9] passive Reflected | Starts with a Reflection (5% max HP, 3 turns). Every 4th attack: another.
+[1pif548] passive Many Places | When it attacks: each Reflection also hits for 15% MGK.
+[001j404] move Heat Glint | Hits for 85% MGK. Slow 1. A Reflection if it has none.
+[12oclwa] move Waver Off | Cleanses itself. A Reflection. Mirage 25% for 3 turns.
+[15nivcg] move Haze Run | Hits for 75% MGK, +20% per Reflection. Its next turn comes 30% sooner.
+[1xe6gw4] move Whole Mirage | Hits for 52% MGK + 50% MGK per Reflection. +2 Reflections. Mirage 30% for 3 turns.
+[01psl0s] passive Iron Swing | Every 3rd attack: 1.4x damage, and reserves take 60% ATK.
+[1qx6s05] passive Hauled Up | A foe Drop Anchor drags back takes 80% ATK and Root 2 instead of 1.
+[09t2nzy] move Fluke Swipe | Hits for 110% ATK. Its next attack is an Iron Swing.
+[0k8vu12] move Drop Anchor | Hits for 60% ATK. 4 turns: a foe that leaves is dragged back, Root 1.
+[0fx4kdt] move Sand Spout | Wind-up. Hits for 100% ATK, 1.5x on an anchored foe. Stun 1. Slow 2.
+[1ly2tct] move Wreck Comes In | Wind-up. Hits for 140% ATK. Splash 35%. Stun 1. Fortify 2. The foe's side: Shut In 2 rounds.
+[0k9wjw1] passive Prow First | Its hits add a Blow, up to 4. At 4 Blows: Stun 1.
+[1gao1x9] passive Bow Wake | When it switches out: the ally coming out gets Ward 1.
+[1p0rmok] move Spray Over | Hits for 114% ATK + 3% of its max HP. Slow 1.
+[1q9502l] move Into the Swell | Hits for 50% ATK. Until its next turn: blocks projectiles, takes 0.7x damage.
+[0kya6m8] move Stand In Front | Fortify 2. For 3 turns: it takes the foe's hits meant for its reserves.
+[07q37fo] move Ice Wake | Hits for 126% ATK. Splash 35%. Stun 1. Slow 2. 2 Blows on every foe.
+[0djrsfw] passive Pumps Out | Damage it takes spends your tide first: 1 tide stops 8% of its max HP.
+[0d4aen6] passive Spill Over | Its attacks hit each foe reserve for 20% MGK.
+[0l4r06d] move Bail Out | Hits for 73% MGK. Slow 1.
+[126zi1g] move Suction | Hits for 60% MGK. Splash 40%. Steals 1 tide.
+[04s20gr] move Still Water | Hits for 90% MGK. Root 2. Slow 1. For 1 round the foe's tide gains go to you.
+[1ps8u6i] move Dead Calm | Hits for 71% MGK. 2 turns: if the foe uses a move, Stun 1, Expose 2.
+[1kwn0n2] passive Same Tack | Attacks on one foe add a Tack, up to 5. Each Tack: +6% damage, its next turn comes 5% sooner.
+[1xbxv4i] passive Close Haul | Close: every 4th attack adds Stun 1.
+[0stkgyi] move Thrown Blocks | Hits for 84% ATK. Splash 35%. Slow 1.
+[17djjmv] move Come About | Switches Off and Close. Close: 1.15x ATK and DEF, and Boom Beat.
+[1e5wspt] move Boom Beat | Hits for 115% ATK. Weaken 1.
+[19lvgh3] move Fill Out | Wind toward the foe for 3 rounds. Its next 3 attacks: next turn comes 25% sooner.
+[1o6r2n4] move Storm Canvas | Haste 3. For 2 turns it can't fall below 1 HP, and attacks heal 30% of their damage.
+[0ex6fjy] passive Weighted | Every 3rd attack: 1.4x damage and a shield of 8% of its max HP.
+[1c1ombn] passive Deep Set | Cannot be forced out or dragged in.
+[1uph92i] move Two Knocks | Hits for 63% ATK, then 89% ATK. Slow 1.
+[1dhqkst] move Ram Ashore | Hits for 126% ATK, +20% per turn out, max +80%. Stun 1 if the foe can't switch.
+[01w9v57] move Sit Upright | Fortify 2. Interrupts. For 2 turns a dash at it is blocked, and its user gets Stun 1.
+[1h9izio] move Launch | Wind-up. Hits for 158% ATK. The foe is off the field for 2 turns.
+[1xzj80l] passive Second Charge | Every 3rd attack: fires again for 60% ATK.
+[0j3vrc5] passive Swabbed Out | An ally it fires in with Fire a Friend heals 10% of its max HP.
+[07jo21q] move Scatter Shot | Hits for 62% ATK, 1.4x if the foe came out since its last turn. Splash 35%.
+[0cf974g] move Load Grape | Its next 3 attacks add 2 hits of 30% ATK and Slow 1.
+[0xx0ce0] move Fire a Friend | Hits for 50% ATK. Stun 1. Switches to an ally.
+[1i2bv5m] move Late Shot | Hits for 36% ATK. Splash 35%. Its next 3 turns: 60% ATK, Splash 35%, Slow 1.
+[120n8g0] summon Spray Column | Stands 3 turns. While it stands, Whitewater makes each foe move cost that foe 60% MGK.
+[0d3a9we] passive Builds Up | When it first comes out: the swell starts. At 9 its wave breaks over both out whorls.
+[11zprwk] passive Whitewater | While its Spray Column stands: each foe move costs that foe 60% MGK. Deals 1.15x.
+[0bguo89] move Crash Down | Hits for 84% MGK. Splash 35%.
+[0fasu1i] move Curl Over | Hits for 40% MGK. For 2 turns: attacks deal the foe 0, moves deal it 1.4x.
+[1y2wpm7] move Throw Spray | Summons a Spray Column (16% of its max HP, 3 turns).
+[1f6691a] move Ninth Wave | The ninth wave breaks. Drains 53% MGK now and its next 3 turns, +15% each. Heals all of it.
+[1qtlxnu] passive High Wheel | When it comes out or guards: its next attack deals 1.5x and adds Slow 1.
+[0zlq6y7] passive Robber | Deals 1.2x to Followed foes. When a Followed foe is KO'd: 3 tide.
+[06uhaz3] move Harry | Hits for 129% ATK. A Followed reserve takes 60% of the damage.
+[1cfplya] move Stoop | Hits for 74% ATK. Its next attack deals 1.8x damage. Steals 1 tide.
+[057wy6m] move Follow | Expose 2. Followed for the battle: when the foe comes out, Tozodo follows it out.
+[18t5cqn] move Out of the Sun | Hidden 2. Its next attack deals 2x damage.
+[121xqju] passive See-Through | When it uses a move: each foe reserve takes 15% MGK.
+[1rpjsni] passive Stung Twice | Deals 1.1x damage to a Slowed foe.
+[09vwn6d] move Trailing Sting | Hits for 65% MGK. Slow 1. The first reserve takes 35% of the damage.
+[0e1vruk] move Upwelling | Wind-up. Hits for 61% MGK. Splash 35%. Stun 1. The swell rises 3.
+[1uw96kq] move Drift Over | Hits for 28% MGK. Its next 3 turns: 30% MGK to the foe, 60% if it has no reserve.
+[18hve70] move Open Bloom | Hits for 44% MGK. Splash 35%. Its next 4 turns: pays 1 tide for 45% MGK, Splash 35%.
+[0ggle5k] passive Floats | If nothing hit it since its last turn: its next move deals 1.25x and adds Root 1.
+[085lnwm] passive Bleached | Its moves add 4% of its max HP against a Rooted foe.
+[0lscfpz] move Waterlog | Hits for 131% MGK. Slow 1. 1.5x on a Rooted foe.
+[1q3b25z] move Weed Seed | Hits for 48% MGK. 3 turns: drains 25% MGK, healing your out whorl.
+[0lxrozw] move Bark Coat | An ally's next 3 hits deal 0.7x and each heals it 5% max HP.
+[1lgsdcd] move Washed Up | Hits for 119% MGK. Splash 35%. Every foe: Root 2. The foe's side loses 2 tide.
+[1tvk52e] passive Buoyant | Its heals are 1.3x on allies with a bad status.
+[0gvt35p] passive On the Bill | While it stands, your crests can run 2 tide into debt. New tide pays the debt first.
+[1rxz340] move Foam Wash | Hits for 242% MGK. Removes 1 good status from the foe. Root 1.
+[01kxk9a] move Foam Cover | An ally takes no magic damage and can't be Silenced, 2 turns.
+[1q9wpav] move Rinse Clean | Cleanses an ally. Heals 8% max HP, 16% if it cleansed one. Regen 3 (7% max HP a turn).
+[1g84gzg] move Kept Afloat | An ally takes no damage for 2 turns. Then 35% of it lands at once.
+[1t9yr1m] passive Turning Tide | When it changes stance: its next turn comes 30% sooner, and its next move deals 1.2x.
+[02eqbtm] passive Drawn Back | Pulled In: takes 0.75x damage.
+[1q2q7hz] move Wave Shot | Hits for 277% MGK.
+[0ojcrgm] move Run Out | Its next 2 attacks deal 1.8x and each makes its next turn 30% sooner.
+[0zotytu] move Pull In | Pulls In: 1.4x DEF and RES, physical attacks, and Pulled In moves.
+[0kjdj6w] move High Water | Hits for 304% MGK. Slow 1. The swell rises 4.
+[1rwzazc] move Wave Crash | Hits for 181% ATK. Slow 1.
+[0iip9fu] move Churned Water | Shield of 10% max HP. Next 3 turns: hits the foe for 25% ATK.
+[1i3srzc] move Ebb Out | Returns to its Out stance.
+[033ipqn] move Undertow Pull | Hits for 161% ATK + 13% of the foe's max HP. Forces it out.
+[0hg0i1p] passive Stock Still | Every 3rd hit it takes deals 0.
+[0h2g19z] passive Gray Coat | Deals 1.25x damage to a Rooted foe.
+[07xmr5t] move Bill Stab | Hits for 62% ATK. Slow 1. The first reserve takes 40% of the damage.
+[0yojyxi] move Reed Snare | Hits for 60% ATK. Root 2. Already Rooted: Stun 1 instead.
+[0ml2j4h] move Spot Prey | Hits for 90% ATK. For 2 turns the foe takes 1.2x from Ardeagi.
+[0igs7a1] move Strike Down | Lies in wait. When the foe next acts, guard or switch too: strikes first, 200% ATK, Slow 2.
+[1b2zkzf] move Spring Up | Hits for 200% ATK. Slow 2.
+[0bbkl0t] passive Third Bite | Every 3rd attack: also 35% ATK and holds on. Delays the foe 15%. Root 1.
+[0qrblof] passive Slick | Third Bite heals it 6% of its max HP.
+[1e8r1w5] move Dart Off | Haste 2. Its next attack sets off Third Bite.
+[193rj08] move Eel Coil | Hits for 54% ATK. Splash 35%. Stun 1.
+[1y5nm7h] move Writhe | Hits for 36% ATK. Removes Ward. -12 DEF for 3 turns.
+[0m38hqm] move Elver Run | Hits for 108% ATK, then Third Bite. Haste 2.
+[02jqyqu] summon Bog Body | A fallen foe the bog kept. On its own clock it uses that foe's small moves with Deispes's stats. 2 turns.
+[12p6e9m] passive Bog Breath | Turn start: the foe loses 2% of its max HP.
+[18n8qb6] passive Preserved | When a foe is KO'd while it is out: heals 18% of its max HP. The bog keeps a Bog Body.
+[0v4zwkm] move Bog Pulse | Hits for 70% MGK. Splash 35%. Your team heals 3% of max HP.
+[1813ce8] move Marsh Gas | Attacks deal it 0 until its next turn ends. Slow 1 on the foe.
+[08ps4is] move Sink Hole | Hits for 103% MGK. Rot 2. Slow 1.
+[1472myf] move Peat Spade | Hits for 54% MGK + 35% of the foe's missing HP. Stun 1.
+[1dm4hil] summon Bell Spirit | Each turn: hits the foe for 35% of Kelpana's MGK.
+[1t8laji] passive Undertone | When it Stuns a foe: each foe reserve takes 20% MGK.
+[0p15oc3] passive Bell Mouth | Deals 1.25x damage to a Stunned foe.
+[0ojb1o5] move Clapper | Hits for 56% MGK. Summons a Bell Spirit (8% max HP, 2 turns).
+[13qciyy] move Peal | Hits for 40% MGK. At the foe's next turn: 50% MGK and Stun 1.
+[00s9nr6] move Ring Out | Next 3 turns: the foe loses 5% of its max HP.
+[0cwbhrt] move Great Toll | Hits for 49% MGK now and next turn. Splash 35%. Stun 2.
+[0u8e65c] summon Glass Shard | Stays until a foe comes out. Hits it for 60% of Madotra's MGK. Slow 2.
+[127f412] passive Leaded Panes | Starts with 2 Panes. A hit breaks one and deals 0.6x. Per break: next move +15%.
+[0oyiz2r] passive Crazed | When its last Pane breaks: its next turn comes 30% sooner.
+[1hffxgg] move Stained Light | Hits for 60% MGK. The first reserve takes 40%. Each use turns it TIDE, GEAR, then STAR.
+[1i0xi1d] move New Pane | Gains a Pane, up to 4.
+[01jifxk] move Lead Line | Its next move deals 1.6x damage and adds Expose 2.
+[01m6k8r] move Rose Window | Hits for 120% MGK, typed to hurt the foe most. Slow 2. Sets a Glass Shard (6% max HP).
+[1kv7v8r] summon Held Note | Twice a turn: hits the foe for 22% of Urkuda's MGK and heals Urkuda 33% of the damage. It sounds on after Urkuda falls.
+[0r7c9tf] passive Open Stop | Its moves add 5% of the foe's max HP.
+[1q158tv] passive Full Chest | While its Held Notes are out: takes 0.85x damage.
+[0j8sb7p] move Low Drone | Hits for 78% MGK. Splash 35%. Heals 20% of the damage to the foe.
+[1l7e96d] move Stopped Note | Hits for 54% MGK. Silence 1. Slow 2.
+[1eua8iu] move Draw Air | Hits for 43% MGK. Next 3 turns: drains 4% of the foe's max HP.
+[0pg3clt] move Full Organ | Summons 2 Held Notes (8% max HP, 3 turns). They sound on after Urkuda falls.
+[1skbwss] summon Hymnbook | Each turn: snaps at the foe for 30% of Nanum's ATK. Slow 1.
+[1bp1qm1] passive Pew Rent | Saves a Seat for one foe at a time. When a Seated foe is KO'd: +8% damage for the battle.
+[1wwftl3] passive Reserved | Deals 1.2x damage to the Seated foe.
+[0h3b30i] move Slide Along | Hits for 100% ATK. Its next turn comes 25% sooner.
+[0m186rr] move Open Hymnbook | Summons a Hymnbook (12% of its max HP, 3 turns).
+[147boly] move Box Pew | Hits for 100% ATK + 8% of the foe's missing HP. Slow 1. Its Seat moves to it.
+[1bicomw] move All Kneel | For 2 turns, neither out whorl can fall below 10% HP.
+[03j8dx9] passive Reliquary | When it KOs a foe: wears its body 3 turns, then keeps its second move in a fifth slot.
+[11g9lcu] passive Under Glass | In a worn body: takes 0.85x damage. Putting one on heals 15% max HP.
+[1x6i33q] move Gilt Edge | Hits for 161% MGK + 6% of the foe's current HP.
+[0c3tn9u] move Lid Shut | Wind-up. Hits for 137% MGK, 1.5x on a foe below 30% HP. Stun 1.
+[190knfj] move Glass Dust | Its next move deals 1.6x. The next hit on it deals 0.5x.
+[19jpyye] move Into the Case | Hits for 137% MGK + 23% of the foe's missing HP. Each reserve takes 51% MGK.
+[0chr55u] passive Swung Wide | Heals 18% of the damage its moves deal.
+[12hw8rh] passive Incense | Deals 1.3x damage to a Rooted foe.
+[02ag7qx] move Soot Bind | Hits for 204% MGK. Root 2.
+[1xy7338] move Smoke Screen | Shields an ally 23% max HP, 3 turns. Blocks Stun, Sleep, Root, Slow.
+[0dfjgpj] move Ash Pool | Hits for 64% MGK. The foe's next 3 turns: 25% MGK to it, 50% if Rooted.
+[1axj43i] move Smoke Closes | Hits for 147% MGK. Slow 2. Still out after 2 of its turns: 90% MGK and Stun 1.
+[0641m9h] passive Night Wings | Night is rounds 5 to 8 of every 8. At night: deals 1.2x, turns come 15% sooner.
+[0fkwgdk] passive Hush Hunt | At night it is Silent: nothing hears what it does. Deals 1.25x damage to a Silenced foe.
+[058c24x] move Swoop | Hits for 94% ATK. Slow 1. At night: delays the foe's next turn 30%.
+[09hb6uw] move Owl Stare | Hits for 57% ATK. Silence 1, or 2 at night.
+[1vw9ru6] move Wing Mantle | Fortify 1. At night: Haste 2 and heals 8% of its max HP.
+[0dzkksh] move Moonless | Night for it for 3 turns: 1.1x ATK, immune to Root and Slow. Haste 2.
+[0zgrp2k] passive Stored Up | When hit: stores 30% of the damage as Grit, up to 40% of its max HP.
+[1s9oog6] passive Rut Season | Every 2nd attack deals 1.4x damage.
+[1rli6ha] move Antler Jab | Hits for 123% ATK + 2% foe max HP. Its next turn comes 15% sooner.
+[1531xel] move Lock Antlers | Hits for 84% ATK. Slowed or Rooted foe: Stun 1. Else: Slow 2.
+[1h429if] move All At Once | Spends Grit: shield of it. Hits for 70% ATK + 50% Grit, true damage.
+[11pfrsb] move Stag Leap | Leaps over the foe: 118% ATK + 12% of its max HP to its first reserve, 40% of that to it.
+[07270rc] passive Swarming | Its hits add a Sting, up to 6, for 4 turns. Each Sting: +7% ATK on its hits.
+[0sknw75] passive Honeycomb | At 4+ Stings on the foe: its attacks heal 20% of the damage.
+[18zfnc2] move Buzz | Its next 3 attacks each add 1 more Sting and come 20% sooner.
+[1jmxf6u] move Smoke Out | Hits for 88% ATK. Splash 35%. Slow 2. Drives out every foe summon.
+[0id4jyk] move Swarm Up | Until its next turn ends: takes 0.4x damage, Stings count 2.
+[0m4j967] move Whole Hive | Hits 5 times for 50% ATK, 1.5x each on a foe with 4 or more Stings.
+[135s71z] summon Sapling | Stays until a foe comes out. Hits it for 60% of Nekkori's MGK. Root 1.
+[0fyto21] passive Deep Drink | While the foe is Rooted: its heals go to Nekkori instead. Every 3rd move: heals 8% max HP.
+[0j7n5ml] passive Deep Seated | Takes 0.85x damage while the foe is Rooted.
+[01xpfza] move Root Shove | Hits for 116% MGK. Delays the foe's next turn by 20%.
+[1ylhn3y] move Root Under | Hits for 100% MGK. Root 2.
+[118zueu] move Seedling Toss | Hits for 63% MGK. Slow 2. Summons a Sapling (6% max HP).
+[1g36f5t] move Root Wave | Hits for 110% MGK. Splash 50%. Root 2. Each foe reserve gets Root 1.
+[1mo4exn] passive Out the Hole | When it comes out: its first move deals 1.4x.
+[1mw4fyq] passive Frass | When it switches out: 50% ATK to the foe. A foe that hits Hard Back also gets Slow 2.
+[078mbn8] move Bore Hole | Hits for 90% ATK. Every 2nd use: the foe's side loses 1 tide.
+[02wub9h] move Galleries | Hits for 60% ATK. Splash 35%. Stun 1.
+[1thnds4] move Hard Back | The next hit on it before its next turn: 50% returned, Stun 1.
+[14qwkfz] move Into the Wood | Hidden 2. Its next move deals 1.6x damage.
+[0h07e39] summon Lump | Mulchi's moves spend it for more.
+[0jyqa29] passive Earth Store | Starts with 2 Lumps (6% max HP). Every 3rd turn: another, up to 3.
+[0x30bl7] passive Clay Skin | Each Lump it has cuts damage taken by 4%.
+[1nyk7lx] move Roll Clod | Hits for 100% ATK. Spends a Lump: 1.3x and Slow 2.
+[1hqr9ki] move Pull Clod | Hits for 85% ATK. Its next turn comes 20% sooner. Spends a Lump: Stun 1.
+[0vjsv0e] move Pack Earth | Drags in a reserve. Hits it for 80% ATK. Spends a Lump: Silence 1.
+[1xcsuqt] move Earthen Hold | Spends every Lump: hits for 100% ATK, +25% per Lump. Next 3 turns: 30% ATK to it.
+[0pe0wqa] summon Root Friend | Takes single-target hits for your out whorl. Each turn: hits the foe for 55% of Virtsa's MGK. Every 3rd hit: Stun 1.
+[0z7ku39] passive Green Hand | Its heals and shields are 1.15x.
+[0pt1qu0] passive Whiplash | In reserve: Root 1 on a foe that hits your out whorl, once a turn. Hitting a Seed Shield: Root 1.
+[1ml0j3n] move Root Pull | Hits for 163% MGK. Root 2. Its next turn comes 20% sooner.
+[1xe61el] move Seed Shield | Shields an ally 15% max HP + 25% CHA. When it ends: 60% MGK, Slow 2.
+[1uj5sg8] move Leafing | Ally: Regen 2 (7% a turn), and its next attack deals 1.4x. Hits the foe for 59% MGK.
+[1ifmlgs] move Sprout Guard | Summons a Root Friend (30% of its max HP, 3 turns).
+[1r3xcm7] passive Bad Dream | Its hits add Weaken 1.
+[0hpn99r] passive Gnarled | A foe that sleeps through a whole Bad Sleep wakes with Weaken 2, Expose 2.
+[0n68x6n] move Sap Dream | Hits for 105% MGK. Heals 30% of the damage.
+[0lk2cv9] move Bad Sleep | Sleep 2. Whoever hits the sleeper gets Sleep 1 instead.
+[0jj9uqq] move Heavy Eye | Hits for 85% MGK, 1.5x on a sleeping foe without waking it. Weaken 2. Empower 1.
+[1fqwdp5] move Dream Grip | Stun 2. Drains 60% MGK now and 35% MGK at its next turn.
+[19wzfh0] passive Upward Drop | Its attacks also hit for 28% MGK.
+[1r35jez] passive Topsy | An ally it grows takes 0.9x damage while big.
+[03et0mb] move Rising Drops | Hits for 250% MGK. Slow 2.
+[18xyio7] move Shrink | Hits for 59% MGK. 1 turn: the foe can only attack or switch, and takes 1.15x.
+[1fd861y] move Help Up | Shields an ally 21% max HP. 3 turns: its attacks add 28% MGK.
+[19rzjca] move Grow Tall | Ally: +25% max HP for 3 turns and heals that much. Foe: Stun 1.

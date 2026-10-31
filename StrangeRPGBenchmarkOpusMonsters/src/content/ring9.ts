@@ -4,7 +4,7 @@ import { defMap, defScript, MAPS, SPAWNS } from '../game/world';
 import { kinds, look } from './areakit';
 
 const open = (g: string) => () => !!flag(g);
-const shut = (x: number, y: number, g: string) => ({ ...look(x, y, 'Shut. The bar is on the far side.'), when: () => !flag(g) });
+const shut = (x: number, y: number, g: string) => ({ ...look(x, y, 'Closed. The bar is on the far side.'), when: () => !flag(g) });
 
 defMap({
   id: 'gatering', name: 'The Gate Ring', region: 43, music: 'gatering', apexTile: [24, 24],
@@ -72,8 +72,8 @@ defMap({
   npcs: [{ id: 'ringwalker', x: 31, y: 11, sprite: 'elder', name: 'Ring-walker', dir: 3, wander: true, talk: 'ringwalker' }],
   spots: [
     shut(24, 0, 'gate_n'), shut(24, 47, 'gate_s'), shut(0, 24, 'gate_w'), shut(47, 24, 'gate_e'),
-    look(24, 16, 'The Apex goes straight up out of the wood. Nothing climbs it from this side.'),
-    look(18, 18, 'A spring comes up at the foot of the Apex and runs off downhill.'),
+    look(24, 16, 'The Apex rises straight up from the woods. Nothing can climb it from this side.'),
+    look(18, 18, 'A spring emerges at the foot of the Apex and flows downhill.'),
   ],
 });
 SPAWNS.gatering = [24, 11];

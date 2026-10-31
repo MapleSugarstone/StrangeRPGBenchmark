@@ -49,11 +49,11 @@ export class FileSelect implements Mode {
     const opts = has ? ['Export to a file', 'Import a file', 'Cancel'] : ['Import a file', 'Cancel'];
     const c = await choose(opts, true, `File ${n}`);
     const pick = c < 0 ? 'Cancel' : opts[c];
-    if (pick === 'Export to a file') this.note = downloadSlot(n) ? `File ${n} is saved as a .whorl file.` : 'File is empty.';
-    if (pick === 'Import a file' && (!has || await choose(['No', 'Yes'], true, `Replace file ${n}? Its save will be lost.`) === 1)) {
+    if (pick === 'Export to a file') this.note = downloadSlot(n) ? `File ${n} has been saved as a .whorl file.` : 'The file is empty.';
+    if (pick === 'Import a file' && (!has || await choose(['No', 'Yes'], true, `Overwrite ${n}? The existing save will be lost.`) === 1)) {
       const r = await pickInto(n);
       this.info = Array.from({ length: SLOTS }, (_, k) => freshInfo(k + 1));
-      this.note = r === 'done' ? `The file is in file ${n} now.` : r === 'bad' ? 'That is not a WHORL save.' : '';
+      this.note = r === 'done' ? `The file is now in file ${n}.` : r === 'bad' ? 'Not a WHORL save.' : '';
       if (r === 'done') sfx('ok');
     }
     this.noteT = this.note ? 150 : 0;
@@ -88,7 +88,7 @@ export class FileSelect implements Mode {
 
   draw(): void {
     backdrop();
-    textCenter(this.purpose === 'load' ? 'Continue which file?' : 'Start a new game in which file?', 96, 10, PAPER, INK);
+    textCenter(this.purpose === 'load' ? 'Continue from which file?' : 'Start new game in which file?', 96, 10, PAPER, INK);
     for (let n = 0; n < SLOTS; n++) {
       // The cards slide in from the right one after another as the screen comes up.
       const x = 8 + Math.max(0, 14 + n * 4 - this.t) ** 2;
@@ -105,15 +105,15 @@ export class FileSelect implements Mode {
     }
     if (this.confirm) {
       panel(20, 70, 152, 52, WARN);
-      textCenter(`Start over in file ${this.i + 1}?`, 96, 78, PAPER);
-      textCenter('Its save will be lost.', 96, 89, DIM);
+      textCenter(`Restart file ${this.i + 1}?`, 96, 78, PAPER);
+      textCenter('The save will be lost.', 96, 89, DIM);
       textCenter('No', 70, 104, this.confirm.yes ? DIM : SEL);
       textCenter('Yes', 122, 104, this.confirm.yes ? SEL : DIM);
       return;
     }
     if (this.noteT > 0) textCenter(this.note, 96, 160, SEL, INK);
-    textCenter('Z picks. Arrows move. X goes back.', 96, 171, DIM, INK);
-    textCenter('C exports or imports a .whorl file.', 96, 181, DIM, INK);
+    textCenter('Z picks. Arrows move. X back.', 96, 171, DIM, INK);
+    textCenter('Press C to export or import a .whorl file.', 96, 181, DIM, INK);
     fadeIn(this.t);
   }
 }
@@ -187,7 +187,7 @@ export class NameEntry implements Mode {
   fallback: string;
 
   constructor(o: NameOpts = {}) {
-    this.title = o.title ?? 'What is your name?';
+    this.title = o.title ?? 'What do you call yourself?';
     this.sprite = o.sprite ?? PEOPLE.vellum;
     this.fallback = o.fallback ?? HERO;
     this.name = (o.start ?? '').slice(0, MAX);
@@ -231,8 +231,8 @@ export class NameEntry implements Mode {
     if (this.name.length < MAX && (this.t >> 4) % 2) rect(fx + this.name.length * 12, fy - 1, 1, 9, SEL);
     this.grid.draw();
     rect(0, 168, 192, 1, INK);
-    textCenter('Z types. X deletes. V jumps to Done.', 96, 172, DIM);
-    textCenter(`Empty keeps the name ${this.fallback}.`, 96, 182, DIM);
+    textCenter('Z types. X deletes. V moves to Done.', 96, 172, DIM);
+    textCenter(`If empty, the name stays ${this.fallback}.`, 96, 182, DIM);
     fadeIn(this.t);
   }
 }
@@ -240,7 +240,7 @@ export class NameEntry implements Mode {
 /** Opens the name screen for a whorl. An empty name gives back the name it had before it was first renamed. */
 export async function renameMon(m: Mon): Promise<void> {
   const base = m.baseName ?? m.name;
-  const n = await run<string | null>(new NameEntry({ title: 'What will you call it?', sprite: m.sprite, fallback: base, start: m.name === base ? '' : m.name }));
+  const n = await run<string | null>(new NameEntry({ title: 'What should you name it?', sprite: m.sprite, fallback: base, start: m.name === base ? '' : m.name }));
   if (n === null) return;
   if (n !== base) m.baseName = base;
   m.name = n;
@@ -248,5 +248,5 @@ export async function renameMon(m: Mon): Promise<void> {
 
 /** Asks whether to name a whorl that just joined, and opens the name screen on a yes. */
 export async function offerName(m: Mon): Promise<void> {
-  if (await choose(['Yes', 'No'], true, `Give ${m.name} a name?`) === 0) await renameMon(m);
+  if (await choose(['Yes', 'No'], true, `Name ${m.name}?`) === 0) await renameMon(m);
 }

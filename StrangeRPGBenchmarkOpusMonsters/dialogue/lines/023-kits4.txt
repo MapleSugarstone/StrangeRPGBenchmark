@@ -1,0 +1,338 @@
+# WHORL game text, chunk 23 of 26. Files: src/data/kits4.ts
+# Speakers: passive Glazing (1), passive Hearth (1), move Clinker (1), move Into the Kiln (1), move Pillar Charge (1), move Fire Brick (1), passive Same Load (1), passive Idler Wheel (1), move Roller Spin (1), move Couple Up (1), move Belt Speed (1), move Carry Over (1), passive Clear Signal (1), passive Relay (1), move Static Flash (1), move Crosstalk (1), move Dead Air (1), passive North Point (1), passive Beside You (1), move Spin on Pin (1), move Throw Arrow (1), move After It (1), move Land Beside (1), passive Eject (1), passive Drogue Chute (1), move Hot Drop (1), move Seal In (1), move Clam Shut (1), move Turn Them (1), summon Clamp (1), passive Spent Stage (1), passive Burn Rate (1), move Thrust (1), move Spark Spray (1), move Drop Stage (1), move Long Burn (1), passive Turned Up (1), passive Ear Out (1), move Ping Back (1), move Feedback (1), move Say It Back (1), move Loud Hail (1), passive Burning Up (1), passive Heat Sink (1), move Hot Sparks (1), move Hull Hook (1), move Vent (1), move Low Pass (1), passive Winter Wool (1), passive Herd Ring (1), move Head Down (1), move Snow Snort (1), move Frozen Stiff (1), move Ring the Herd (1), passive Shatters (1), passive Still Air (1), move Ice Spall (1), move Glare Ice (1), move Frozen Boots (1), move Calving Face (1), passive Sleepy Sea (1), passive Sea Born (1), move Undertow Mend (1), move Lullaby (1), move Seal Bite (1), move Seven Waves (1), passive Third Tusk (1), passive Haul Out (1), move Flipper Slap (1), move Herd Roll (1), move Tusk Gouge (1), move Tusk Down (1), passive Below the Line (1), passive Mostly Under (1), move Scrape Hull (1), move Ice Groan (1), move Undercut (1), move Capsize (1), passive Under Watch (1), passive Ivory Point (1), move Shard Fall (1), move Breach (1), move Pod Dive (1), move Tusk Line (1), passive Cold Air (1), passive Loved (1), move Frost Flower (1), move Frost Bitten (1), move Chilly Kiss (1), move Kind Winter (1), passive Momentum (1), passive Last of Them (1), move Wing Slaps (1), move Crash Landing (1), move Belly Slide (1), move Ice Slide (1), passive Dented Hard (1), passive Rivet Heads (1), move Strap Whirl (1), move Hammer Out (1), move Take Dents (1), move Saw Edge (1), passive Catches Wind (1), passive Colors (1), move Wind Crack (1), move Guy Rope (1), move Plant Pole (1), move Snap Out (1), summon Whetstone (1), passive Keen Edge (1), passive Spin Through (1), move Pommel Chip (1), move Grip Spin (1), move Hand Over (1), move Thousand Cuts (1), passive Ledger (1), passive Riposte (1), move Rim Throw (1), move Pay It Back (1), move Raise the Rim (1), move Falling Shield (1), summon Barding (1), passive Barded (1), passive Pluck (1), move Lead Rope (1), move Spur On (1), move Ride Through (1), move Full Gallop (1), passive Full Cradle (1), passive Creaking Arm (1), move Loose Stones (1), move Fling Back (1), move Arm Swing (1), move Wind Arm (1), passive Warm Steel (1), passive Drake Scale (1), move Visor Breath (1), move Drake Fire (1), move Plume Bash (1), move Lend the Helm (1), move Drake Day (1), passive High Frost (1), passive Never Landed (1), move Loose (1), move Sheaf Loose (1), move Frost Tip (1), move Overdraw (1), passive Foreknowing (1), passive Calm Surface (1), move Mirror Flash (1), move Ripple Back (1), move Glassy Beam (1), move Reflect It (1), passive Slippery (1), passive Blood in Mud (1), move Skip In (1), move Mud Hop (1), move Barb Fin (1), move Something Big (1), summon Mire Pit (1), passive Settling (1), passive Soft Bottom (1), move Stir Up (1), move Cloud Up (1), move Sink Pit (1), move Bottom Opens (1), summon Tadpole (1), passive Toad Skin (1), passive Amphibian (1), move Frog Hop (1), move Croak (1), move Belly Croak (1), move Make a Frog (1), move Sticky Tongue (1), move Frogspawn (1), passive Boomerang Edge (1), passive Moonward (1), move Pale Beam (1), move Edges Out (1), move Full Light (1), move Shard Rain (1), passive Lodestone (1), passive Too Heavy (1), move Iron Wave (1), move Pull Iron (1), move Iron Grip (1), move Turn Poles (1), passive Going Off (1), passive Skim Off (1), move Dross Hit (1), move Acid Run (1), move Brew Up (1), move Melt Down (1), summon Glass Mite (1), passive Fresh Edge (1), passive Broken Sharp (1), move Glass Mites (1), move Ringing Glass (1), move Glass Visions (1), move Shard Grip (1), passive Walks on Sting (1), passive Venom Skin (1), move Sting Tip (1), move Venom Pool (1), move Venom Jet (1), move Deep Sting (1), summon Joint Sprout (1), mark joints in (1), passive Deep Spines (1), passive Catch a Ride (1), move Jump On (1), move Joint Drop (1), move Burst Pad (1), move Cholla Grab (1), summon Sand Polyp (1), summon Reef Wall (1), mark buried (1), passive Budding (1), passive Colony (1), move Polyp Rush (1), move Bud Polyp (1), move Sand Over (1), move Reef Rises (1), passive Three Weathers (1), passive Wavering (1), move Hard Glare (1), move Heat Wobble (1), move Night Dew (1), move Weather Mix (1), summon Small Bones (1), passive Unburied (1), passive Old Grudge (1), move Dry Bite (1), move Bleached Stare (1), move Crack Open (1), move Ossuary (1), passive Pivot Eye (1), passive Spring Back (1), move Snip Snip (1), move Prune Back (1), move Oil Pivot (1), move One Branch (1), passive Cuff Off (1), passive Push Off (1), move Weed Pull (1), move Lend a Hand (1), move Green Thumb (1), move Let Loose (1), passive Rootstock (1), passive Graft Union (1), move Graft Slash (1), move Long Shoot (1), move Splice In (1), move Grow Inside (1), drop Pear (1), passive Wall Fed (1), passive Pears Free (1), move Pear Drop (1), move Prop Up (1), move Wall Sap (1), move Full Trellis (1), summon Landing (1), passive Step Higher (1), passive Sure Footing (1), move Rung Rap (1), move Crossbar (1), move Landing Rest (1), move Top Rung (1), mark rubbed out (1), passive Spread Thin (1), passive Emptied (1), move Blank Edge (1), move Rub Out (1), move Blank Stamp (1), move Nothing There (1), passive Last Post (1), passive Stays Here (1), move Barrier Charge (1), move Warning Posts (1), move Toll Bar (1), move Road's End (1), summon Circling Star (1), passive Turning Stars (1), passive Falling Stars (1), move Star Breath (1), move Rise Up (1), move Sink Well (1), move Stars Fall (1), passive Unseen (1), passive Rolls In (1), move Cold Edge (1), move Fog Pall (1), move Thicken (1), move Fogbound (1), summon Drowned Image (1), passive Under Pull (1), passive Bigger Below (1), move Deep Rip (1), move Kelp Wrap (1), move Show a Part (1), move Deep Song (1), passive Heavier (1), passive Overhang (1), move Edge Bite (1), move Over the Edge (1), move Crumble (1), move Pull Apart (1), ground Rucked Ground (1), summon Raised Corner (1), passive Fold Over (1), passive Give Way (1), move Ruck Up (1), move Buckle Under (1), move Pucker Up (1), move Fold Up (1), ground Salt Pool (1), summon Mud Puppy (1), passive Laid Down (1), passive Seeps In (1), move Run Off (1), move Cold Hollow (1), move Settle In (1), move Mud Up (1), summon Thorn Tangle (1), passive Crack Walker (1), passive Ill Footing (1), move Crack Thorn (1), move Crazed Ground (1), move Into the Crack (1), move Thorn Ring (1)
+# Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
+# Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
+# See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
+==== file: src/data/kits4.ts
+
+== scene: kits4
+[0ealxmo] passive Glazing | Glaze cracks for 10% of the foe's max HP on a guard, a Stun, a Root, or its dash.
+[180t3il] passive Hearth | Boosted moves deal 1.15x: its own, and your out whorl's while it is in reserve.
+[1jze73z] move Clinker | Hits for 119% ATK. Slow 1. Glazes the foe for 3 turns.
+[1y02qm3] move Into the Kiln | Fires a move you pick: locked 1 turn, then 1.4x for 2 uses. Unstoppable 1.
+[1qkkyqg] move Pillar Charge | Hits for 119% ATK. On a Glazed foe: 1.4x and Stun 1.
+[1f94f5l] move Fire Brick | Hits for 114% ATK. Splash 35%. Glazes every foe. Its next turn: 50% ATK, Stun 1.
+[0pr5umu] passive Same Load | Its heals heal its Coupled ally 50% too. In reserve: it takes 25% of that ally's hits.
+[061ix5f] passive Idler Wheel | When a Coupled ally comes out: its first turn comes 30% sooner.
+[0hjec4n] move Roller Spin | Hits for 80% MGK. Splash 35%. Your Coupled ally's cooldowns drop 1.
+[1vaz6bk] move Couple Up | Couples an ally: both heal 10% max HP. It gets Vyobi's AGI if higher. Foe: Slow 1.
+[1ijt1qs] move Belt Speed | Haste 2 and Fortify 1 on it and its Coupled ally. Pays 6% max HP.
+[0m4jsjl] move Carry Over | Couples an ally and switches to it: heals 15%, acts at once.
+[001dzpu] passive Clear Signal | Tune In on the same band as last time deals 1.25x, and your team heals 5% of max HP.
+[1kfyhdp] passive Relay | Deals 1.2x to a Slowed or Stunned foe. In reserve: your out whorl's spells add 15% MGK.
+[1igsj6m] move Static Flash | Hits for 111% MGK. Weaken 1. Delays the foe's next turn by 20%.
+[1e3abzt] move Crosstalk | Hits for 75% MGK. The foe's ready moves wait 1 more turn. 1 tide.
+[1skxokz] move Dead Air | Hits for 60% MGK. Stun 1. Every foe can't use the kind you pick for 3 turns.
+[07ldbpo] passive North Point | Deals 1.2x to the foe lowest on HP. Every 3rd attack heals your team 5% of max HP.
+[1oiisr7] passive Beside You | Once, in reserve: your out whorl below 25% HP heals 20% of max HP. Foe: Stun 1.
+[1o2nhtn] move Spin on Pin | Hits 2 times for 35% ATK. Slow 1.
+[1b8tmga] move Throw Arrow | Hits the foe lowest on HP, even in reserve: 34% ATK. Returns: 19% ATK. Haste 1.
+[1q42854] move After It | Hits for 85% ATK. If its arrow is out: catches it, then 40% ATK and Stun 1.
+[1wn5cda] move Land Beside | Your lowest-HP whorl heals 30% of max HP. Hits for 80% ATK. Splash 35%. Stun 1.
+[0f1v1kd] passive Eject | Once, in reserve: it swaps in for an out ally about to be KO'd, which keeps 1 HP.
+[007l7qz] passive Drogue Chute | Takes 0.5x until its first turn out. Deals 1.15x and takes 0.85x against a Slowed foe.
+[1n6rjsx] move Hot Drop | Hits for 46% MGK. Splash 40%. Slow 1. Burn 2 (18% MGK each turn).
+[00lyl59] move Seal In | A reserve ally is Sealed In: no damage, heals 8% max HP a turn. Foe: Slow 1.
+[1uhgwur] move Clam Shut | Heals an ally 20% of max HP. If it is out: Stasis 1.
+[15kc2va] move Turn Them | Hits for 50% MGK. At its next turn: Stun, and its reserves hit it for 40% ATK.
+[0yt30qy] summon Clamp | Stays until a foe comes out. Hits it for 60% of Imshin's ATK. Burn 2.
+[0bjj6eo] passive Spent Stage | When a foe is KO'd while it is out: Haste 2. When it is KO'd: it leaves a hot Clamp.
+[0fihfrg] passive Burn Rate | Each 10% of its max HP it has paid this battle adds 5% to its damage.
+[0uyl9g0] move Thrust | Pays 5% of its max HP. Hits for 71% ATK. Its next turn comes 30% sooner.
+[19vkqqq] move Spark Spray | Hits for 50% ATK. Slow 2. Burn 2 (15% ATK each turn).
+[0qiwfbo] move Drop Stage | Hits for 36% ATK. Root 1. Sets a hot Clamp for the next foe out. Switches out.
+[0wqzj61] move Long Burn | Pays 15% max HP. Hits for 81% ATK + 25% foe missing HP. Splash 40%.
+[14713h5] passive Turned Up | Moves it says back (echoes, Say It Back, Loud Hail) deal 1.2x.
+[0tg1i4u] passive Ear Out | It hears every move a foe uses, even from reserve. Takes 0.85x from spells.
+[0jdu331] move Ping Back | Hits for 90% MGK. Splash 20%. Weaken 1.
+[0hi1sxl] move Feedback | Hits for 50% MGK. Its cooldowns go up 1. 3 turns: its moves echo 2 turns later.
+[0z67zjk] move Say It Back | Uses the last move a foe used, as itself.
+[1eau3kw] move Loud Hail | Says back the last 3 moves a foe used, each at 0.6x. Then Stun 1.
+[0air2yn] passive Burning Up | -10 Heat a turn. At 50+: moves deal 1.3x. At 100: erupts for 50% ATK. Splash 100%.
+[0napkws] passive Heat Sink | At 50+ Heat: a foe whose dash hits it gets Burn 2 (20% of Kuzumen's ATK).
+[1wyei6u] move Hot Sparks | Hits for 90% ATK. Splash 35%. Burn 1 (16% ATK each turn). 25 Heat.
+[19b42l7] move Hull Hook | Hits for 110% ATK. Slow 2. At 50+ Heat: -6 DEF for the battle, up to 18. 25 Heat.
+[1yfi7fa] move Vent | Spends its Heat: hits for 2% ATK per Heat. Splash 35%. Shield of 15% max HP.
+[1bork9o] move Low Pass | Hits for 90% ATK, then 45% ATK, Burn 1, and Slow 1 for 2 turns. Splash 35%. 50 Heat.
+[1prj72j] passive Winter Wool | Hits add Frost, max 4. Starts with a 10% shield, regrown after 2 unhit turns.
+[14dugz2] passive Herd Ring | While out with a shield: takes 0.85x, and hits on your reserves land on its shield.
+[1o022t8] move Head Down | Hits for 105% ATK. Delays the foe's next turn by 20%.
+[09pgi7c] move Snow Snort | Hits for 53% ATK. Splash 35%. Slow 1. 1 Frost on each.
+[1j3ipsu] move Frozen Stiff | At 3 Frost: spends it, 110% ATK, Stun 1. Else: 80% ATK, 1 Frost.
+[15llqb7] move Ring the Herd | Hits for 80% ATK. Splash 35%. Stun 1. Shield 15% max HP. 3 turns: your team takes 0.75x.
+[0yjdjwi] passive Shatters | A foe it hits that drops below 12% HP is KO'd.
+[1wmgawp] passive Still Air | Deals 1.25x to a foe that has taken 3+ turns since it came out. Its hits add Rot 2.
+[0mw1xz3] move Ice Spall | Hits for 148% MGK. Slow 1.
+[1cmvz2s] move Glare Ice | Hits for 75% MGK. Slow 2. 3 turns: its dashes cost it 30% of their damage.
+[092xcng] move Frozen Boots | Hits for 83% MGK. If the foe is still out after 2 turns: Stun 1.
+[0u3xun2] move Calving Face | Wind-up. Hits for 140% MGK. Splash 35%. Rot 3. Below 15% HP after: KO'd.
+[1s4deva] passive Sleepy Sea | When it heals an out ally at least 5% of its max HP: that ally's next turn comes 20% sooner.
+[107h0uu] passive Sea Born | When a foe wakes from its dream with damage held: your team heals 10% of max HP.
+[1cat43j] move Undertow Mend | Hits for 76% MGK. Your lowest-HP whorl heals 35% of it.
+[05qlget] move Lullaby | Wind-up. Sleep 2. Dreaming: hits wait, then land at 1.25x when it wakes.
+[0umfaz5] move Seal Bite | Hits for 72% MGK. 1.5x on a sleeping foe. Slow 1. Heals 8% of its max HP.
+[0fbqidz] move Seven Waves | Hits for 100% MGK. Splash 35%. A sleeping foe takes 2x. Stun 1. Slow 2.
+[0np2vca] passive Third Tusk | Every 3rd blow it lands on the foe deals 2x. Its count shows above it.
+[0o05rm8] passive Haul Out | In reserve: your out whorl's dashes deal 1.15x.
+[08ehhpi] move Flipper Slap | Hits for 85% ATK. Slow 1.
+[0jhww5u] move Herd Roll | Wind-up. Hits for 90% ATK, +20% per other ally standing. Stun 1.
+[0u5mi64] move Tusk Gouge | Hits for 68% ATK. Splash 35%. Root 2. Breaks a guard this round, for 2x.
+[1gz9nm7] move Tusk Down | Hits for 140% ATK. It always counts as its 3rd blow. Stun 1. Slow 2.
+[0kje637] passive Below the Line | Its hits ignore 25% of the foe's DEF and RES.
+[1d5omjk] passive Mostly Under | Takes 0.75x damage from dashes: they hit the part above the water.
+[06zldpe] move Scrape Hull | Hits for 120% ATK. The foe loses 4 DEF for the battle, up to 20.
+[1rbmmk7] move Ice Groan | Wind-up. Hits for 101% ATK. Splash 35%. Sleep 1.
+[1agj0yr] move Undercut | Hits for 85% ATK, 1.5x if the foe has a higher HP share than Gevuori. Empower 1.
+[1ydxb21] move Capsize | It and the foe swap their shares of HP. Then hits for 60% ATK. Splash 35%.
+[1tm34mm] passive Under Watch | Deals 1.2x damage to a foe that came out since its last turn.
+[076ds3p] passive Ivory Point | Its dashes and projectiles add a Line to the foe until it leaves. Its Stuns add Expose 2.
+[116bp5i] move Shard Fall | Hits for 90% ATK. Splash 35%.
+[1kx05qx] move Breach | Hits for 70% ATK, +20% per Line on the foe. Its next turn comes 20% sooner.
+[0lqijt8] move Pod Dive | Haste 1 on your team. Switches to an ally. Its first turn comes 30% sooner.
+[0gpa2kw] move Tusk Line | Long wind-up. Hits for 100% ATK, +30% per Line on the foe. Stun 2.
+[1y74zxy] passive Cold Air | In reserve: every 3rd turn your side takes, 1 tide.
+[1thslfv] passive Loved | When an ally it Kissed is KO'd: Empower 3 on Puikria.
+[0dkfibp] move Frost Flower | Hits for 58% MGK. Splash 35%. Slow 1.
+[18yjkxx] move Frost Bitten | Hits for 64% MGK. Root 2. Burn 2 (30% MGK each turn).
+[1e0e65y] move Chilly Kiss | Kisses an ally 3 turns: the first hit on it each turn deals 0.5x. 1 tide.
+[0lsta9m] move Kind Winter | Hits for 64% MGK. Splash 35%. At its next 3 turns: 45% MGK, Splash 35%, Slow 1.
+[1smkp6m] passive Momentum | Each turn in a row it dashes: 1 Momentum, up to 4. Its moves deal +8% per Momentum.
+[1nchl7l] passive Last of Them | Takes 0.85x while Unstoppable or shielded. While last on its side: deals 1.3x, takes 0.8x.
+[19jcx8h] move Wing Slaps | Hits 3 times for 30% ATK.
+[01jx1hd] move Crash Landing | Hits for 35% ATK. Splash 35%. Shield of 6% max HP per foe standing.
+[0hrjbfz] move Belly Slide | Hits for 48% ATK, +15% per Momentum. Weaken 1. Its next turn comes 25% sooner.
+[0dpjxog] move Ice Slide | Unstoppable 2. Hits for 80% ATK. Stun 1. 3 Momentum. Next 2 turns: 60% ATK, Splash 35%.
+[1woec3u] passive Dented Hard | When hit: a Dent, up to 8. Each cuts damage by 3%. Turn start: one fades.
+[0xz656o] passive Rivet Heads | When a dash hits it: the dasher takes 25% of Losari's DEF as true damage.
+[073tnm7] move Strap Whirl | Hits for 80% ATK. Splash 35%. Weaken 1.
+[05t63wm] move Hammer Out | Spends its Dents: 57% ATK + 17% ATK per Dent. Its next turn comes 30% sooner.
+[1jdzlqa] move Take Dents | Gains 4 Dents. Heals 8% of its max HP.
+[10bm7aq] move Saw Edge | Hits for 137% ATK, +11% ATK per Dent. Its Dents stay. Slow 2.
+[0i1wq8j] passive Catches Wind | When it hits a foe: Snap Out's cooldown drops 1.
+[0k1o9sg] passive Colors | Allies it shields get Empower 1. A foe KO'd while it is out: its next move reaches wide.
+[16gufo6] move Wind Crack | Hits for 88% MGK. Splash 35%. Slow 1.
+[0qab5n4] move Guy Rope | Hits for 100% MGK. Root 2. After the foe's next turn: it takes 50% MGK.
+[1n0jwx1] move Plant Pole | Shields an ally 15% of max HP. It gets Haste 1, and its next move reaches wide.
+[08kqj4n] move Snap Out | Its next move reaches wide (reserves too), or its next 2 tight (1.4x, one foe). Heals 6% max HP.
+[00wvr9t] summon Whetstone | Each turn: your out whorl heals 6% of its max HP.
+[0e8rtgx] passive Keen Edge | Every 3rd hit it lands on the foe deals 1.3x and heals it 15% of the damage.
+[1qyh2ok] passive Spin Through | While spinning: immune to Stun and Silence.
+[0z80vyj] move Pommel Chip | Hits for 84% ATK. Its next turn comes 20% sooner.
+[0ccbp30] move Grip Spin | 2 turns: it takes 0.2x magic. At each of its turns: 56% ATK, Splash 35%.
+[0kx62fs] move Hand Over | Lends an ally Keen Edge for 3 turns, and sets a Whetstone (3 turns) for it.
+[1i3pm15] move Thousand Cuts | Untouchable 1. Hits 6 times for 14% ATK, every 3rd on a reserve.
+[07eh2cb] passive Ledger | Each hit it takes adds 1 Blow Taken, up to 8. Pay It Back spends them.
+[1s2aghs] passive Riposte | Each hit Raise the Rim stops is answered for 40% ATK.
+[06ky6jd] move Rim Throw | Hits for 115% ATK. 1.5x on a foe below 25% HP.
+[0pe2h21] move Pay It Back | Spends its Blows Taken: hits for 50% ATK + 20% ATK per Blow. Stun 1.
+[0j7r4vo] move Raise the Rim | Attacks and projectiles deal it 0 till its next turn. Then 83% ATK, Splash 35%.
+[1p35lm8] move Falling Shield | Unstoppable wind-up. Hits for 177% ATK. Splash 35%. Slow 2.
+[112xyw6] summon Barding | Umatsu's armour. Takes single-target hits meant for Umatsu until it falls.
+[0u1qc4w] passive Barded | Comes out in Barding (20% max HP) that takes its hits. Without it: deals 0.9x.
+[0rfc5fv] passive Pluck | Without Barding: each hit it lands adds Pluck. At 3: Barding again at 15%.
+[1ydd9a7] move Lead Rope | Hits for 61% ATK. Delays the foe's next turn by 30%. At that turn: 38% ATK.
+[0niy002] move Spur On | Its next 3 attacks come 25% sooner and add 3% of the foe's max HP.
+[0x582wy] move Ride Through | Hits for 88% ATK. In Barding: its cooldown resets, but not twice in a row.
+[1oxb27h] move Full Gallop | Barding again if it has none. Hits for 132% ATK. Forces the foe out.
+[1eb180w] passive Full Cradle | When a foe's projectile hits it: it catches the move in its cradle for Fling Back.
+[0r1qu96] passive Creaking Arm | With a full cradle: 0.8x from projectiles. Every 3rd attack on it: Slow 2 on the attacker.
+[1e5awzj] move Loose Stones | Hits for 60% ATK. Splash 35%.
+[08gbenm] move Fling Back | Throws the caught move at 1.2x. Empty: 90% ATK, Splash 35%, forces the foe out.
+[1ua41zs] move Arm Swing | Hits for 90% ATK. Splash 35%. Stun 1. Cuts off the foe's wind-up.
+[1d2r50u] move Wind Arm | Grows: +15% ATK and DEF, -6 AGI, max 2. Heals 10% of max HP. Hits for 94% ATK.
+[1xdu611] passive Warm Steel | Turn start: heals 2% of its max HP. Takes 0.9x damage from moves.
+[0spq6bz] passive Drake Scale | As the drake: immune to Stun, takes 0.8x, attacks hit reserves 40% ATK.
+[0vqke7f] move Visor Breath | Hits for 57% ATK. Splash 35%. Weaken 1.
+[10o5vpk] move Drake Fire | Hits for 80% ATK. Splash 35%. Burn 2 on every foe (20% ATK each turn).
+[0oumy8u] move Plume Bash | Hits for 78% ATK. Stun 1. Expose 1. 2x if the foe dashes this round.
+[02gzaxz] move Lend the Helm | An ally wears its helm: Warm Steel for 3 turns. Fortify 1. Regen 2.
+[1aeyuhb] move Drake Day | Hits for 80% ATK. Splash 35%. Drake for 3 turns: 1.2x ATK, 1.1x AGI, Drake Fire.
+[1kn3a4e] passive High Frost | Its attacks add Slow 1. Its projectiles deal 2x to a guarding foe.
+[1xeczv4] passive Never Landed | Deals 1.2x to a Slowed foe. Loose's last shot drops an arrow next turn: 60% ATK.
+[0eqwwj4] move Loose | Hits for 82% ATK. 3 shots with no wait, then its cooldown starts.
+[0mjrsdh] move Sheaf Loose | Spends every shot left in Loose: 25% ATK per shot. Splash 35%. Slow 2.
+[1llql54] move Frost Tip | Hits for 70% ATK. Expose 2 on every foe.
+[12p7nch] move Overdraw | Wind-up. Hits for 160% ATK. Splash 30%. Stun 2. Loose is ready with all 3 shots.
+[0xfj11i] passive Foreknowing | While out: your side sees the foe's choice first. Its first turn out comes 25% sooner.
+[0pkntq4] passive Calm Surface | Takes 0.8x damage from crests.
+[1biuhju] move Mirror Flash | Hits for 71% MGK. Splash 35%.
+[0zoqfd1] move Ripple Back | Quick. Uses the move the foe chose this round, as itself. Else: 80% MGK.
+[0wb56ut] move Glassy Beam | Hits for 80% MGK, 2x on a foe below 50% HP.
+[0hrakj0] move Reflect It | Becomes the foe for 4 turns, every move ready.
+[1rm9tr2] passive Slippery | Takes 0.85x damage from attacks. Immune to Root.
+[15npkdk] passive Blood in Mud | Something Big comes up 1 turn sooner under a Bleeding foe.
+[1cp9s07] move Skip In | Hits for 75% ATK. Its next turn comes 20% sooner.
+[1j4ni45] move Mud Hop | Untouchable 1. At its next turn: 59% ATK, Splash 35%, Slow 2.
+[1hgeqgq] move Barb Fin | Hits for 76% ATK. Bleed 3 (2% of the foe's max HP per stack each turn).
+[10umj42] move Something Big | Hits for 30% ATK. Slow 2. After 2 of the foe's turns: 140% ATK, Splash 35%, Stun 1.
+[0lbcszg] summon Mire Pit | Each foe that comes out: Root 2 and 40% of Liemus's MGK. 3 turns.
+[0aesk11] passive Settling | Each turn it stays out: takes 4% less damage, up to 20%. Leaving resets it.
+[0zcl5w9] passive Soft Bottom | Takes 0.85x damage from a Rooted foe.
+[19cc1wi] move Stir Up | Hits for 33% MGK. Splash 35%. At its next turn: 27% MGK to every foe.
+[16hhkqy] move Cloud Up | Hits for 70% MGK. Weaken 2. Slow 1. The foe's projectiles deal 0.6x for 2 turns.
+[0o3ffjk] move Sink Pit | Hits for 35% MGK. Root 2. Summons a Mire Pit (15% max HP, 3 turns).
+[0t08uy6] move Bottom Opens | Hits for 80% MGK, +10% per turn settled. Splash 35%. Every foe: Root 2. Slow 2.
+[0miec2z] summon Tadpole | Twice a turn: bites the foe for 30% of Ranaru's MGK.
+[186ynex] passive Toad Skin | Deals 1.3x damage to a foe that is a frog or Stunned.
+[0iiewsm] passive Amphibian | Takes 0.85x magic damage.
+[1ewgmvx] move Frog Hop | Hits for 30% of its ATK or MGK, whichever is higher.
+[1644dfc] move Croak | Croaks. Nothing happens.
+[1tpdp97] move Belly Croak | Hits for 85% MGK. Splash 35%.
+[1ohkla9] move Make a Frog | The foe is a frog for 2 turns: its moves become Frog Hop and Croak.
+[1t7qg2b] move Sticky Tongue | Hits for 49% MGK. Stun 1. At its next turn: 39% MGK, 2x on a frog.
+[0lgs6on] move Frogspawn | Summons 2 Tadpoles (10% max HP, 3 turns).
+[17ktrkq] passive Boomerang Edge | Its one-foe moves bounce on to 1 foe reserve for 35% of the damage.
+[1nqb2wd] passive Moonward | In reserve: your out whorl's spells deal 1.15x.
+[1yf33ve] move Pale Beam | Hits for 100% MGK. Delays the foe's next turn by 20%.
+[00qdtpl] move Edges Out | Hits for 75% MGK. Haste 1. The edge comes back at its next turn: 75% MGK.
+[1d8j4jf] move Full Light | Empower 1 on your team. Heals itself 12% of its max HP.
+[0l9h6bz] move Shard Rain | Hits 4 times for 40% MGK. Splash 25%.
+[0fiamzn] passive Lodestone | Even in reserve: a foe's one-target GEAR move aimed at your side hits it instead.
+[1bnwfn7] passive Too Heavy | Cannot be forced out or dragged in. Ignores delays.
+[0ye61mg] move Iron Wave | Hits for 70% ATK. Splash 35%. Slow 1.
+[0zmb8u0] move Pull Iron | Drags in a reserve and hits it for 90% ATK, 1.4x if it has a GEAR move. Slow 2.
+[1lp49mj] move Iron Grip | Hits for 90% ATK. Root 1. Empower 1.
+[0zpo0mw] move Turn Poles | Hits for 105% ATK, +10% per foe reserve. Splash 35%. Stun 1.
+[03srjut] passive Going Off | While brewing: +1 Brew a turn. At 5 it goes off on Kuoria: 10% max HP, Stun 1.
+[15j8co2] passive Skim Off | When a foe is KO'd while it is out: 1 tide, and heals 8% of its max HP.
+[1e6s4rw] move Dross Hit | Hits for 121% ATK. The foe loses 3 DEF, up to 15.
+[0ugy0oz] move Acid Run | Hits for 69% ATK. Splash 35%. 3 turns: -8 DEF and 20% ATK a turn.
+[1ksgurx] move Brew Up | Hits for 50% ATK and starts a Brew, or throws it: 40% ATK per Brew, Stun 1 (2 at 3+).
+[067ff8a] move Melt Down | 3 turns: 1.2x ATK, Haste 3, heals 6% max HP a turn. Cleanses itself.
+[0irmwtx] summon Glass Mite | Hits the out foe for 40% of Vilasi's MGK each turn, 1.5x on a foe with Visions.
+[1jr53u6] passive Fresh Edge | When it comes out: the first move to hit it deals 0.5x.
+[1yby36n] passive Broken Sharp | Deals 1.15x to foes with Visions. A foe KO'd with Visions passes them on.
+[10e1j7i] move Glass Mites | Hits for 63% MGK. Summons a Glass Mite (3 turns) that cuts the foe, up to 2.
+[0w987tw] move Ringing Glass | Hits for 118% MGK. Silence 1.
+[0lkqvof] move Glass Visions | Hits for 61% MGK. Visions 3: loses 5% max HP a turn.
+[0oagpte] move Shard Grip | Stun 1. Hits for 72% MGK now, 45% MGK next turn. Heals 30% of it.
+[1ar75mr] passive Walks on Sting | Its attacks add Poison 1 and Slow 1.
+[1r4uu2o] passive Venom Skin | Takes 0.9x magic damage. Foes that attack it get Poison 1.
+[0e16kqt] move Sting Tip | Hits for 105% ATK. Poison 2.
+[00mv0gg] move Venom Pool | Hits for 45% ATK. Splash 35%. Envenomed 3 on each: heals burn them. Silence 1 under 50% HP.
+[1sf2cq7] move Venom Jet | Hits for 80% ATK. Root 1. Doubles the foe's Poison.
+[19u8rnk] move Deep Sting | Hits for 130% ATK. Poison 4. Slow 3. Weaken 2. Envenomed for 4 turns.
+[1so13t6] summon Joint Sprout | Each turn: pricks the out foe for 25% of Spitoge's ATK. 3 turns.
+[1uqf88v] mark joints in | A whorl that leaves with Joints in it drops them, and they root as a Joint Sprout.
+[0zp9aa3] passive Deep Spines | Its hits add a Joint, up to 3. At 3: true damage of 8% of the foe's max HP.
+[0xznegu] passive Catch a Ride | Takes 0.85x while shielded. While it is out: a Joint jumps into each foe that comes out.
+[0uuflpi] move Jump On | Hits for 100% ATK, 1.5x if the foe switches this round. Delays it 15%.
+[0sd0049] move Joint Drop | Hits for 38% ATK. Splash 35%. Slow 1. A Joint in every foe. Shield 11% max HP.
+[1ymzjin] move Burst Pad | Hits for 90% ATK, 1.5x at 2+ Joints. Stun 1 if it can't switch, else Slow 2.
+[1tt2xqa] move Cholla Grab | Hits for 110% ATK. Stun 1. Root 3. Every Joint in it goes deep: 8% max HP each.
+[1lqqhqz] summon Sand Polyp | Strikes with Sunaka's attacks and its Polyp Rush. 4 turns.
+[02ioicu] summon Reef Wall | Takes single-target hits meant for your out whorl until it falls. 20% of Sunaka's max HP.
+[0ipz9yf] mark buried | Cannot come out. It comes out only if nobody else can.
+[1psa7vx] passive Budding | When it attacks: each Polyp also hits for 30% MGK.
+[1bgx7hd] passive Colony | Takes 6% less damage per Polyp.
+[0peip6j] move Polyp Rush | Its Polyps rush the foe: 94% MGK, +35% per Polyp. Splash 35%. Slow 1.
+[0j2w10n] move Bud Polyp | Hits for 93% MGK. Buds a Polyp (10% max HP, 4 turns), up to 3.
+[09vdpnb] move Sand Over | Hits for 86% MGK. Buries a foe reserve 3 turns: it can't come out. Shield 6% max HP per Polyp.
+[0tne5td] move Reef Rises | Hits for 149% MGK. Splash 35%. Forces the foe out. Raises a Reef Wall.
+[0pomfxh] passive Three Weathers | It holds its last 3 weathers. Moves deal +10% per kind held.
+[055f9hk] passive Wavering | Takes 8% less move damage per Waver held. Mix: Slow 2 at 1 Waver, Stun 1 at 2, Stun 2 at 3.
+[1pwln3h] move Hard Glare | Hits for 151% MGK. Holds a Glare.
+[1mefha9] move Heat Wobble | Hits for 112% MGK. Delays the foe's next turn by 15%. Holds a Waver.
+[0wng1o7] move Night Dew | Hits for 61% MGK. Heals 8% of its max HP. Fortify 1. Holds a Dew.
+[0iq8awc] move Weather Mix | Hits for 71% MGK +45% per Glare. Splash 35%. Your team heals 6% per Dew.
+[0ouw7f6] summon Small Bones | Each turn: claws the foe for 22% of Calkuro's ATK.
+[0w7g8iu] passive Unburied | Once a battle, instead of a KO: up at 5% HP, cleansed. Foe: Stun 1, its moves wait 1 turn.
+[09vc2es] passive Old Grudge | Its attacks heal it 10% of their damage. 1.5x on the foe that last KO'd one of its allies.
+[0bi1833] move Dry Bite | Hits for 85% ATK. Dry 2: the foe's heals do half.
+[0cgvpj8] move Bleached Stare | Hits for 70% ATK. Slow 2. Burn 2 (25% ATK a turn). Locks its last move 2 turns.
+[1xui3yc] move Crack Open | Its next attack deals 1.9x damage and heals 30% of it.
+[0oikmsy] move Ossuary | Raises a Small Bones for each whorl down on either side, at least 1, up to 3.
+[1ux707l] passive Pivot Eye | The first foe it hits is its Branch: 1.3x damage to it, 0.85x to other foes.
+[1i0khx5] passive Spring Back | Every 3rd hit it takes: strikes back for 50% ATK, heals 30% of it.
+[0zhs09u] move Snip Snip | Hits twice for 48% ATK. Splash 25%.
+[16x7aas] move Prune Back | Cuts every good status off the foe, then hits for 70% ATK +25% per cut. Haste 1.
+[1igvk7l] move Oil Pivot | The next hit on it is answered for 70% ATK. Heals 50% of that.
+[0wgq67w] move One Branch | The foe is its Branch. Duel 3: neither switches or guards. Empower 2. Hits for 95% ATK.
+[0m289ns] passive Cuff Off | Its attacks deal 1.3x while Let Loose runs.
+[1kf9fid] passive Push Off | When it switches out: the ally that comes in gets Empower 1.
+[1q2ejaz] move Weed Pull | Hits for 132% ATK. Delays the foe's next turn by 25%.
+[1q77jhq] move Lend a Hand | A reserve ally uses its first ready move at 0.9x from the bench. Foe: Slow 2.
+[1cnkdwc] move Green Thumb | Hits for 100% ATK. Your lowest-HP whorl heals 30% of the damage. Empower 1.
+[06or93b] move Let Loose | 3 turns: Haste 3. Every 2nd attack also hits for 50% ATK. Splash 35%. Slow 1.
+[0jp1vsy] passive Rootstock | Its first KO makes it Old Wood after a physical foe, else Pale Graft.
+[1f7p7zr] passive Graft Union | Unformed: takes 0.8x. Old Wood: 1.2x DEF and RES, moves heal 25%. Pale Graft: 1.15x ATK and AGI.
+[04v32ji] move Graft Slash | Hits for 80% ATK, 1.4x on a foe below half HP. Splash 35%.
+[0bncdof] move Long Shoot | Short wind-up. Hits for 110% ATK. Slow 2. Old Wood: Stun 1, Root 2. Pale Graft: 1.3x.
+[1sa9t4x] move Splice In | Hits for 90% ATK. Haste 1. Heals 8% max HP. Pale Graft: next move deals 1.3x.
+[0gymtiu] move Grow Inside | Hits for 37% ATK. Untouchable 1. Next turn: 90% ATK + 10% of its max HP.
+[1gib0i5] drop Pear | It heals the whorl that eats it 20% of its max HP.
+[0uezecr] passive Wall Fed | In reserve: your out whorl heals 3% of max HP a turn and deals 1.05x.
+[1pwn1j6] passive Pears Free | Every 2nd move it uses drops a Pear. Either out whorl may eat it to heal 20%.
+[0r1fxor] move Pear Drop | Hits for 78% MGK. 1.3x on a foe that was already out at its last turn.
+[1ffoer0] move Prop Up | Switches to an ally. It heals 8% of max HP. Empower 2.
+[0sjzmnt] move Wall Sap | Hits for 70% MGK. Heals an ally 12% of its max HP, with Haste 1 and Fortify 1.
+[1pcq233] move Full Trellis | Hits for 78% MGK. Splash 35%. Root 2. Your team heals 10% of max HP.
+[1xk4ydr] summon Landing | At your next turn: heals your out whorl 25% of its max HP. Haste 2. Then it goes.
+[18ofz8t] passive Step Higher | Turn start: +1 Step, up to 6. Its attacks add 8% MGK per Step.
+[0s3qh6d] passive Sure Footing | Its switches take 30% of a turn.
+[1jj11vs] move Rung Rap | Hits for 110% MGK, +5% per Step. Slow 1. At 6 Steps it rings: Silence 1.
+[1sw6hv9] move Crossbar | Hits the foe and its first reserve for 72% MGK each. Stun 1, or Slow 2 if no reserve.
+[0l6gbuc] move Landing Rest | Sets a Landing (8% max HP).
+[0em2a1d] move Top Rung | Hits for 100% MGK, +15% per Step, and drops to 0 Steps. Heals 10% of max HP.
+[0jjyiv7] mark rubbed out | Its passives do nothing.
+[104r7bc] passive Spread Thin | When hit: every foe takes 10% of it as true damage.
+[13pradw] passive Emptied | Deals 1.2x damage to a foe with 1 reserve or none.
+[1cltqiq] move Blank Edge | Hits for 95% MGK. Slow 1. Its next turn comes 15% sooner.
+[0kukhs6] move Rub Out | Hits for 75% MGK. The foe's passives are rubbed out for 2 turns.
+[12u96qc] move Blank Stamp | Hits for 80% MGK, 1.5x if the foe's passives are rubbed out. Haste 1. Fortify 1.
+[0c3z4ax] move Nothing There | Hits for 64% MGK. Splash 100%.
+[0psrrgm] passive Last Post | Every 3rd attack: adds 15% of the foe's max HP.
+[03jmig2] passive Stays Here | A foe whose dash hits it gets Root 2. When Road's End KOs a foe: heals 20% of max HP.
+[13jombk] move Barrier Charge | Hits for 155% ATK. Root 1. Slow 1. The foe loses 3 DEF, up to 15.
+[1qnpkwl] move Warning Posts | For 2 turns its attacks hit 2 more times for 48% ATK.
+[11vs1p8] move Toll Bar | Hits for 100% ATK. Stun 1. Shield 10% max HP. The foe pays 1 tide to your side.
+[1gc1r1h] move Road's End | Hits for 120% ATK. Below 25% HP after: KO'd, and the next foe out skips a turn.
+[1xo0lfx] summon Circling Star | Each turn: hits the foe for 12% of Finihei's MGK.
+[00dq5f7] passive Turning Stars | Starts with a Circling Star (10% max HP). Each KO it lands: another, max 3.
+[1a8dm92] passive Falling Stars | A Circling Star knocked down falls on the out foe for 40% of its MGK.
+[09w8wii] move Star Breath | Hits for 42% MGK, +15% per Circling Star.
+[0ccvqd0] move Rise Up | Raises a Circling Star (10% max HP), up to 3. Haste 1.
+[047fchv] move Sink Well | Hits for 20% MGK. At its next 3 turns: 16% MGK and Slow 1. Below 8% HP: it falls in.
+[1ib6w6e] move Stars Fall | Hits for 80% MGK, +30% per Circling Star. Splash 35%. Stun 1. They all fall.
+[0szz3xn] passive Unseen | If nothing hit it since its last turn: its hits deal 1.4x.
+[0k5nedy] passive Rolls In | When it comes out: Hidden 1.
+[1wgla32] move Cold Edge | Hits for 75% ATK, 1.4x on a foe that never hit it. Its next turn comes 25% sooner.
+[07kuptn] move Fog Pall | Hits for 60% ATK. Silence 1. Weaken 2. Sea Fog for 4 rounds.
+[1sqiqqi] move Thicken | Hidden 1. Every foe counts as never having hit it.
+[0dqxo1u] move Fogbound | Hidden 1. Hits 3 times for 30% ATK. Splash 35%.
+[1u6ckdm] summon Drowned Image | Takes single-target hits meant for your out whorl. Each turn: hits the foe for 25% ATK.
+[1suacme] passive Under Pull | Every 4th attack: Expose 2, and each foe reserve takes 55% MGK.
+[0804mpg] passive Bigger Below | Too big to see whole: one hit takes at most 25% of its max HP.
+[0xuwk0x] move Deep Rip | Hits for 84% MGK. Splash 35%. The foe loses 3 DEF, up to 15. Delays it 15%.
+[0klrn73] move Kelp Wrap | Hits for 97% MGK. Root 2, or Root 4 on a foe below half HP.
+[18c2zkq] move Show a Part | Hits for 80% MGK. Summons a Drowned Image (7% max HP, 2 turns).
+[1tvh3fu] move Deep Song | Stasis 2 on the foe. Your team heals 10% of max HP.
+[0i3rtl3] passive Heavier | When a foe is KO'd while it is out: +8% max HP for the battle.
+[0d96sak] passive Overhang | While it is out: a foe that switches out in front of it slips for 8% max HP.
+[0z5iy8a] move Edge Bite | Hits for 110% ATK. Rot 2.
+[1rob5qn] move Over the Edge | Pulls the foe's newest summon to your side, or drags in a reserve and hits it for 72% ATK.
+[1dsmq7g] move Crumble | Hits for 80% ATK. 3 turns: it loses 3% max HP and the foe loses 8%, Slow 1.
+[1sh5qyp] move Pull Apart | Hits for 58% ATK + 4% max HP now and next turn, healing half. Stun 1. Root 2.
+[1mkwp6k] ground Rucked Ground | A hit on the out whorl here also hits each reserve here for 25% of it.
+[1frlggk] summon Raised Corner | Takes single-target hits for your out whorl. Each turn: hits the foe for 30% MGK.
+[0sfzsk6] passive Fold Over | Its moves deal 1.2x to a foe on rucked ground, and each foe reserve takes 25% of it.
+[1y7o72a] passive Give Way | While its Raised Corner stands: your out whorl heals 2% of max HP a turn.
+[1h6hzhr] move Ruck Up | Hits for 47% MGK. At the foe's next 2 turns: it takes 28% MGK.
+[11u9678] move Buckle Under | Rucks the ground under the foe's side for 3 rounds. Hits for 38% MGK.
+[1ueqxh7] move Pucker Up | Hits for 70% MGK, 1.5x on rucked ground. Slow 2. Weaken 1. Delays it 30%.
+[15tllba] move Fold Up | Hits for 60% MGK. Splash 35%. Stun 1. Raises a Corner (25% max HP, 3 turns).
+[161lpou] ground Salt Pool | Whorls here heal 4% of max HP a turn. Dashes that hit them deal 0.75x.
+[16wcd7a] summon Mud Puppy | Each turn: bites the foe for 30% of Notbomi's MGK.
+[1oycsuy] passive Laid Down | Wears 4 Layers, each 6% less damage. A hit over 10% max HP strips one.
+[1i9xc2v] passive Seeps In | When it hits or is hit: 1 Drop, up to 5, for Cold Hollow.
+[0l2f7iu] move Run Off | Hits for 85% MGK. Slow 1. +1 Layer, up to 4. Its next turn comes 20% sooner.
+[0952js4] move Cold Hollow | Spends Drops: hits for 43% MGK + 18% MGK per Drop.
+[1yt65zw] move Settle In | Untouchable 1. Floods your side into a Salt Pool for 4 rounds. All 4 Layers back.
+[1y1p3ps] move Mud Up | Summons 2 Mud Puppies (12% of its max HP, 3 turns).
+[0bu2aun] summon Thorn Tangle | Each foe that comes out: Root 2 and 80% of Vakone's MGK. 3 turns.
+[0ygyv4i] passive Crack Walker | Its moves deal 1.2x damage to a Rooted foe.
+[1l0qpc8] passive Ill Footing | Foes it Roots also get Slow 1. Once a turn: a Rooted foe it hits with a move loses 1 tide.
+[0djnpqv] move Crack Thorn | Hits for 144% MGK.
+[0zclj28] move Crazed Ground | Hits for 78% MGK. Root 1. Summons a Thorn Tangle (12% max HP).
+[05ew1bs] move Into the Crack | Hidden 1. Its next move deals 1.5x and Roots the foe for 1.
+[0jcqn89] move Thorn Ring | Hits for 83% MGK. After 2 of its turns: 80% MGK, Splash 35%, Stun 1, Root 2.

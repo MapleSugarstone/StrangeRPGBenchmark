@@ -1,350 +1,320 @@
-# WHORL game text, chunk 1 of 15. Files: src/content/ch1.ts, src/content/ch2.ts, src/content/ch3.ts
-# Speakers: Gran (23), Tack (23), choice (15), Strandmonger (15), Leeward (11), look (10), goal (10), Hermit (10), Knuckle (10), Man at the well (9), Bare (8), Verger (8), hint (7), Woman (5), ? (5), Ringer (5), Conjoiner (5), Old man (4), Child (4), sign or spot in Turnstone (4), ? (turnBack) (4), Shellwright (4), Tack's mum (3), Helper (3), notice (3), Drover (2), Scraper (2), Man (2), Old woman (2), ? (giveKeyItem) (2), Salter (2), Wrecker (2), Shell girl (2), Old fisher (2), Deckhand (2), Bosun (2), Eel boy (2), Cutter (2), Tackle (1), Girl with a net (1), Boy (1), Ribman (1), Carter (1), Man on stilts (1), Reeve (1), sign or spot in The nave (1)
+# WHORL game text, chunk 1 of 26. Files: src/content/ch1.ts, src/content/ch2.ts
+# Speakers: Gran (27), Strandmonger (24), Tack (19), choice (15), Leeward (12), Hermit (10), Knuckle (10), Man at the well (9), goal (8), Bare (8), sign or spot in Turnstone (7), look (7), hint (7), Woman (6), Tack's mum (5), Old man (4), ? (4), ? (turnBack) (4), Shellwright (4), Child (3), Helper (3), Drover (2), Scraper (2), Ribman (2), Carter (2), notice (2), Salter (2), Wrecker (2), Shell girl (2), Old fisher (2), Man on stilts (2), Deckhand (2), Bosun (2), Tackle (1), Girl with a net (1), Man (1), Boy (1), Old woman (1), ? (giveKeyItem) (1)
 # Rewrite only the text after " | ". Keep each [id] and speaker as they are. One line in, one line out.
 # Keep every {placeholder} and every number. Stay under 100 characters per box. " // " splits a line into more boxes.
 # See dialogue/README.md, dialogue/style.md, and dialogue/cast.md.
 ==== file: src/content/ch1.ts
 
 == scene: map fellside
-[0961oju] Tackle | Tackle looks at Ouro. Ouro looks back. (neither blinks)
-[06nwzq4] Tack's mum | Don't scratch, Tack. He's in the square already.
-[033y6wn] Old man | Your gran? Walked the whole Lip in a dry year. Came home missing a boot and won't say why.
-[1xn0ha0] Old man | Big day! Stand still, that's the trick. I didn't, and mine came off in a hedge.
-[0dq3355] Woman | House turned in spring. We moved into the old shell. The new one's off being a house somewhere.
-[1sorue6] Child | Not my turn yet. Could be ages. I'm practicing standing still already.
-[0wkikos] Man at the well | I let the bucket all the way down and she sends me up dust.
-[0lxdkhs] Man at the well | I'm waiting on her. However long. She'd wait on me.
-[0v2af1u] Man at the well | She's been low since the craze. Wells go down when they're frightened. Everybody knows that.
-[1203v92] sign or spot in Turnstone | The Midden Road. Rib, west along the dunes. Please do not lick the post.
-[0iu1yjv] sign or spot in Turnstone | East: Fall. A long way round. Painted by someone who never went.
-[17yl2ct] sign or spot in Turnstone | North: the Brook Wood. Mind the brook. It minds you back.
-[0o5xxbt] sign or spot in Turnstone | South: Cockle Cove. Shells free. Sea not for sale.
+[1z02wms] Tackle | Tackle meets Ouro's gaze. Ouro holds it. Neither looks away.
+[097l0do] Tack's mum | Stop scratching, Tack. He's already in the square.
+[18npjny] Old man | Your gran? She walked the entire Rim during a drought. Got home missing a boot and wouldn't say how.
+[06rteuv] Old man | Big day! Stand still, that's the trick. I didn't, and mine shed in a hedge.
+[0irqs87] Woman | The house shed in spring. We moved into the hollow shell.
+[1iwx7fn] Woman | The new one's off being a house somewhere else.
+[1sbnnca] Child | Not my turn yet. Might be a while. I'm practicing standing still already.
+[114ouo4] Man at the well | I let the bucket go all the way down, and she sends me up dust.
+[0rsjdyd] Man at the well | I'm waiting for her. However long it takes. She'd wait for me.
+[0lq3cru] Man at the well | She's been down since the fracture. Wells drop when they're scared. Everyone knows that.
+[0pxxo21] sign or spot in Turnstone | Signpost: The Midden Road. Rib is to the west, along the dunes.
+[0285ck0] sign or spot in Turnstone | Please refrain from licking the post.
+[18vlh9p] sign or spot in Turnstone | East: Fall. A long way round. Painted by someone who's never been.
+[0yhrw82] sign or spot in Turnstone | North: the Brook Wood. Watch the brook. It watches you back.
+[0l0q4ly] sign or spot in Turnstone | South: Cockle Cove. Shells are free. The sea is not for sale.
+[0hoycbt] sign or spot in Turnstone | THE STRANDMONGER. Strays, horns, the Register. Looking is free.
+[0zkbdt5] sign or spot in Turnstone | Leaning on the sign costs one cowrie.
 
 == scene: map route1
-[0uaitp0] Drover | These four pull carts all day. Kinda want them to pull something else for once. You'll do.
-[11wv5hv] Drover | Aw. Now they'll want a snack.
-[0txlqjz] Scraper | I scrape shells clean for the grotto. Best scraper on the road. I'm looking at yours. Just looking.
-[1wgyl5y] Scraper | Fine, fine! Back to the ones that hold still.
-[1b98b9c] Girl with a net | I caught a hare's cast! The actual hare's still out here somewhere. It's way faster.
-[0necb0s] look | In a hollow behind the sleeping cairn, a triton horn someone hid and forgot.
-[0p8i8j3] look | On the sand spit, half buried, a wax seal still warm from the sun.
-[0pmnvov] look | A bank of sand and roots. Somebody slides down it from the wood above most days.
+[0kcfa95] Drover | These four haul carts all day long. I'm starting to think they deserve a change of pace. You're it.
+[1q5nowo] Drover | Oh, great. Now they're going to demand a snack.
+[0l4psue] Scraper | I scour shells for the grotto. I'm the finest polisher around. I'm just taking a look at yours.
+[170y4x6] Scraper | Alright, alright! I'll go back to the ones that actually stay put.
+[0erge4f] Girl with a net | I caught a hare's cast! The real hare is still out there, though. It's much faster than this.
+[1i66r43] look | In the hollow behind the sleeping cairn, someone hid a triton horn and then forgot about it.
+[1j1k6w0] look | Half-buried on the sand spit, a wax seal still holds the sun's warmth.
+[16tsj5c] look | A bank of sand and roots. People slide down it from the woods above most days.
 
 == scene: map rib
-[1wqurba] Woman | Best drying spot is right up by the Stay, between the ribs. I got there first today!
-[1yjj31a] Man | Yeah, it's a giant's rib. Nobody ever found the rest of him. I kinda hope he's okay.
-[0pcrli7] Boy | Put your ear on the Rib and you can hear the Volute! Do it! Do it now! Did you hear it?
-[15c09ap] Old woman | My cast's up on the porch and I'm down here in the yard. We wave at each other all day :-]
-[0idxp24] Ribman | Dry Sea's west. High-water Mark's up the slope. Knuckle won't want you on either without a pearl.
+[0le4tx7] Woman | The best place to dry off is right up by the Seal, tucked between the ribs.
+[0mm09xx] Woman | I beat everyone here today!
+[0d5xnyh] Man | It's a giant's rib, actually. Nobody ever found the rest of him. I kind of hope he's alright.
+[0cez54j] Boy | Press your ear against the Rib and you can hear the Volute! Go on, do it! Did you hear it?
+[0fwy22v] Old woman | My cast is up on the porch while I'm down here in the yard. We wave at each other all day :-]
+[009w7jq] Ribman | Dry Sea is to the west. High-water Mark is up the slope.
+[195nouh] Ribman | Knuckle won't let you near either without a pearl.
 
 == scene: map ribgym
-[1u3zzxb] Helper | Knuckle's always like, switch when it's bad. I don't. I'm loyal.
-[0tzz64g] Helper | Okay, I should've switched.
-[1bkt06n] Helper | Only one of yours fights at a time. The rest sit and watch, like my brothers at supper.
+[04p2lat] Helper | Knuckle's advice is to switch when it gets bad. I don't. I'm loyal.
+[1msatvu] Helper | Right, I should've switched.
+[0jwyy59] Helper | Only one of yours gets to fight at a time. The rest just sit and watch, like my brothers at dinner.
 
 == scene: SMALL_GRAN
-[0qftqii] ? | Is it today?
-[1mx1fnw] ? | Mum says don't scratch.
-[0r4b7hz] ? | I can feel it starting.
-[0d8nlpt] ? | Don't look. Don't look yet.
-[115tr6k] ? | There. There it goes.
+[1ssh0wi] ? | Mum says not to scratch.
+[0osu4pc] ? | I can feel it beginning.
+[09de9un] ? | Don't look. Not yet.
+[0npuqae] ? | There. It's happening.
 
 == scene: intro
-[0f7v2a4] Gran | Tell my little turnip it's today. The day of all its days.
-[0oxc4rj] Gran | Tell my little turnip to present itself in the square and remain there until it comes.
+[0zii05z] Gran | Tell my little turnip it's Shedding Day. The biggest day of all.
+[0il733t] Gran | Tell them to stand in the square and wait until their shell falls off.
 
 == scene: c
-[1lxjtj4] choice | Go to the square
+[0mslz0k] choice | Head to the square
 [1udhrml] choice | Eat first
 
 == scene: intro
-[08tb966] Gran | Tell my little turnip porridge, of the yesterday variety.
-[13h0cgs] goal | Stand in the square.
+[00rkrn8] Gran | Let them know there's porridge, specifically the leftovers from yesterday.
+[056inhg] goal | Go to the square.
 
 == scene: gran
-[01fzvm3] Gran | Tell my little turnip the square lies in that direction. That one. Where I am pointing.
-[1olhgkh] Gran | Tell my little turnip the Strandmonger commences trade at eight.
-[1ytbcco] Gran | Tell my little turnip the road dry at this season, and dusty beyond all reason.
-[1x3rgjh] Gran | Tell my little turnip a bowl awaits, should it find itself hungry.
+[1lzx5vz] Gran | Let my little turnip know the square is that way, where I'm pointing.
+[0tc6dwm] Gran | Let my little turnip know the Strandmonger opens at eight. Head south, past the square.
+[0m2482g] Gran | Let them know the road is dry this time of year, and dustier than you'd believe.
+[0oz3nur] Gran | Let them know there's a bowl waiting, in case they get hungry.
 
 == scene: nightScene
-[0zzq26n] Gran | Tell my little turnip that late ones are obliged to walk the Lip, Stay to Stay.
-[182ri73] Gran | Tell my little turnip the shell lets go somewhere on the way.
-[1u22280] Gran | Tell my little turnip a craze in the village means the Stays pull too tight.
-[1q15z3f] Gran | Tell my little turnip the keepers ought to hear of it. Rib first, west on the Midden Road.
-[11ket3e] Gran | Tell my little turnip the Strandmonger keeps strays of an unpedigreed nature.
-[0x6zfzq] Gran | Tell my little turnip I walked it also, and returned with a pearl and a cough.
+[1kmw65u] Gran | Let my little turnip know their shell didn't come off today, which makes them a late bloomer.
+[0nt859q] Gran | Let them know late bloomers walk the Rim, the edge of the world, from one Seal to the next.
+[1sdbzvn] Gran | The shell eventually comes off somewhere along the way.
+[0zi4r5y] Gran | Let them know the Seals are the great posts that keep the world sealed shut.
+[0ijw6cb] Gran | That crack in the village means they're pulling too tight.
+[16ngtxu] Gran | Tell the Sealkeepers. Rib is first, heading west along the Midden Road.
+[0s3jgks] Gran | Let them know most people keep their own shed shell as their first whorl.
+[0lylq6t] Gran | Since theirs is still on, they'll need another one.
+[07l3z5i] Gran | Let them know the Strandmonger takes in strays. No specific breeding.
+[1s8i5ge] Gran | Let them know I walked the Rim myself, and came home with a pearl and a cough.
 
 == scene: c
-[0ujeqfs] choice | Walk the Lip
+[0qq5vej] choice | Walk the Rim
 [03rlcoh] choice | Stay home
 
 == scene: nightScene
-[11rppar] Gran | Tell my little turnip soup.
-[1xvejxk] Gran | Tell my little turnip the craze has come calling at the door.
-[134s2iu] Gran | Tell my little turnip the Strandmonger opens at eight, and is punctilious about it.
+[0j3iq31] Gran | Tell them: soup.
+[013sz3f] Gran | Tell my little turnip that the fracture has arrived at the doorstep.
+[0jct0fw] Gran | Tell them the Strandmonger opens at eight. South of the square, under the lanterns.
 [1l19m3r] goal | See the Strandmonger, south of the square.
 
 == scene: granNeck
-[0frneh6] Gran | Tell my little turnip to be seated.
-[0kxn75x] Gran | Tell my little turnip I can see it from here.
-[1q2txg5] Gran | Tell my little turnip mine started at the neck too.
-[03lltey] Gran | Tell my little turnip there is soup, and that soup precedes going north.
+[198g5q8] Gran | Tell my little turnip to take a seat.
+[16a0q32] Gran | Tell them I can see the crack down their back from here.
+[0td85pr] Gran | Tell them mine started at the neck, too.
+[0iy67x4] Gran | Tell them there is soup, and soup comes before going north.
 
 == scene: slipDay
-[01medhf] Tack | 2 of us this year. Me and you. That's it, that's the whole year.
-[02kwxmz] Tack | Uh, move 1 step over? It's gonna come off sideways.
+[00iyza6] Tack | That's 2 of us this year. just you and me. That's the whole count.
+[1rjpx2v] Tack | Uh, take 1 step over? It's going to come off at an angle.
 [16vs3os] Tack's mum | Don't scratch, Tack.
-[10sqym8] Tack | Mum. I haven't scratched in 3 days.
-[0zfe32t] Tack | 1. Yeah. That's 1.
-[17ahfqx] Tack | This is Tackle. Had the name ready 4 years. Took you long enough, Tackle.
-[0w8ekbj] Tack's mum | Aw, pet. It's a tight year.
-[1u4obp8] Old man | My lad went late as well, and look at him now. Well, don't look at him. He's shy.
-[0z3jgf8] Tack | 0's still a number. I'll count you again tomorrow.
-[1jitl7k] Old man | Huh. That's a craze. Yeah, don't stand in that.
-[0vga093] Gran | Tell my little turnip that is a craze, and that a craze is not for standing beside.
-[0i3qgll] Gran | Tell my little turnip that late is a different thing from never.
-[0k92cfb] Gran | Tell my little turnip there is supper, and that explanations are served with it.
+[1bzvvh0] Tack | Mum. I haven't scratched for 3 days.
+[1wbnqla] Tack's mum | There it is, pet. Your first shell, intact. It even has your shape.
+[051qlxy] Tack's mum | Every whorl is a shell something grew out of. Rivers, houses, people. Yours follows you home.
+[1o07622] Tack | 1. Right, that's 1.
+[1bdfno8] Tack | Name's Tackle. Had it ready 4 years ago. Took you long enough.
+[031naj4] Tack's mum | Oh, love. It's been a rough year.
+[1b0do9b] Old man | My shell shed late as well, and look at him now. Well, don't look at him. He's shy.
+[1oovl0o] Tack | 0 still counts. I'll tally you up tomorrow.
+[01lk27x] Old man | Huh. That's a fracture. Yeah, don't stand in that.
+[140nch4] Gran | Tell my little turnip that a fracture is not a place to stand.
+[0vtppgy] Gran | Tell them that late is different from never.
+[04vwjit] Gran | Tell them supper is ready, and the explanation comes with it.
 [0hrriyj] goal | Go home to Gran.
 
 == scene: turnBackWest
-[0uqc1i6] ? (turnBack) | The west road's for them with a whorl. The mule won't walk it with you, and neither will I.
+[1hiubtb] ? (turnBack) | The west road is for those with a whorl. The mule won't walk it with you, and neither will I.
 
 == scene: turnBackNorth
-[1t0qtpj] ? (turnBack) | Not up the wood without a whorl. The brook minds you back, and it's rude about it.
+[191xlq2] ? (turnBack) | No getting past the wood without a whorl. The stream's rude about it.
 
 == scene: turnBackSouth
-[1kv8hoi] ? (turnBack) | Mum says no beach without a whorl. Not even paddling. I asked.
+[1w0swoh] ? (turnBack) | Mum's rule is simple: no beach access unless you have a whorl. Not even for paddling. I checked.
+
+== scene: tackCalls
+[0fr6vk1] Tack | OURO! Not that way! 1 battle first. I'm at the west road!
 
 == scene: crazeHole
 [1tnzzua] ? (turnBack) | Don't go down without a whorl. Half of us went down there. Look how that went.
 
 == scene: fellmonger
-[07szifu] Strandmonger | Closed, Turning Day!! Go stand under that sky. It's a two-cowrie sky and today it's free.
-[10nq5lt] Strandmonger | And a late one! Which means the Lip walk, then.
-[132hr92] Strandmonger | The walk is free. The road costs shoes.
-[1pvg1rd] Strandmonger | Three strays this month. Take one. Your gran's slate is long enough to walk on, it'll hold one more.
-[0y4ioab] Strandmonger | Ibabus. Off a briar by the mill. Holds on, bleeds them slow. Worth eleven thorns, easy.
-[0483qf2] Strandmonger | Plus Squall. Off a sideways spring rain. Hits twice, which is two for the price of one.
-[0ailq6r] Strandmonger | Virtaki's off the old pump. Stuns, if you let it build.
+[1so0en0] Strandmonger | Opening later, because it's Shedding Day!! Go stand under that sky.
+[097r0vn] Strandmonger | It's a two-cowrie sky and today it's free.
+[0s3qa2j] Strandmonger | And a late one! That means the Rim walk.
+[06fp1pu] Strandmonger | The path is free. The road demands shoes.
+[1wtnecn] Strandmonger | Those who've shed walk out behind their own shell.
+[0ut9u48] Strandmonger | You haven't shed yet. Wild shells won't let a lone walker pass.
+[0rmh47a] Strandmonger | A stray steps up. A shell with no one to guide it. They seek a companion.
+[04mi9hl] Strandmonger | Three strays this month. Take one. Your gran's slate is long enough to take one more.
+[1kmshzd] Strandmonger | Ibabus. Found off a briar by the mill. It clings and bleeds them slowly. Easy eleven thorns.
+[037kby7] Strandmonger | Plus Squall. From a sideways spring rain. Hits twice, which is two for the price of one.
+[1g4q57q] Strandmonger | Virtaki comes from the old pump. It stuns, if you let the charge build.
 
 == scene: c
-[0s01006] choice | Say that again?
+[0law5h4] choice | Could you repeat that?
 
 == scene: fellmonger
-[0kdhsls] Strandmonger | And good. That one cost me two cowries and a sandwich, and I miss the sandwich.
-[1wfedlk] Strandmonger | Here's the Register. You sound a kind, I write it in. Writing's free. Holding it's a cowrie.
-[03m27q3] Strandmonger | Five periwinkle horns. These I charge for!! On your gran's slate. She'll be thrilled.
-[17yvk7q] Strandmonger | Knock them down a bit and sound them. Weaker means surer. Under the line, it never fails.
-[1plpasw] Strandmonger | Rib first. Knuckle keeps it. Hands on Knuckle, I'd price at a house each. The pearl's cheap.
-[1t05jzx] Strandmonger | Which the Holdfast never sends for anything. Forty years, no horn. I've a crate with its name on.
-[0rrxu9m] hint | (Press X for the menu. Z talks and picks. Hold Shift to hurry.)
-[1g0if3o] goal | Walk the Midden Road west to Rib. Knuckle keeps the Stay there.
+[1u067hd] Strandmonger | Look at that. It's picked you back. That part I don't charge for.
+[0scn8y3] Strandmonger | That one set me back two cowries and a sandwich. I'm still sore about the sandwich.
+[1xhte1i] Strandmonger | Here's the Register. You catch a species, I log it. Writing's free. Holding it's a cowrie.
+[0vogcvz] Strandmonger | Five periwinkle horns. I charge for those!! Put it on your gran's tab. She'll love it.
+[05nqjqp] Strandmonger | Dull them down a bit, then catch them. A weaker whorl makes for a surer catch.
+[049wioa] Strandmonger | Weak enough, and it never fails.
+[1x57gg3] Strandmonger | Start with the Rib. Knuckle keeps it. Hands on Knuckle, I'd price at a house each.
+[1ho0xon] Strandmonger | The pearl's cheap.
+[093uffu] Strandmonger | The Holdfast never asks for anything. Forty years, no horn.
+[1owlj0q] Strandmonger | I've got a crate waiting with its name on it.
+[0t8h0ex] hint | (Press X for the menu. Z to talk or pick. Hold Shift to speed up.)
+[0tfwk6e] goal | Head west along the Midden Road to Rib. Knuckle guards the Seal there.
 
 == scene: c
 [0kj0w8k] choice | Buy and the Midden
-[14tmx33] choice | Talk
+[1ls9jnj] choice | Speak
 
 == scene: fellmonger
-[1iqkubh] Strandmonger | {kinds} kinds in the Register. A kind is worth a cowrie to me. That's {kinds} cowries I owe nobody.
-[1ar25a5] Strandmonger | The well's worth more than everything on my shelves. I'd put it back. I'd charge for the advice.
+[1l72wo8] Strandmonger | ${kinds} species listed in the Register. to me, every one is worth a cowrie.
+[0cyw475] Strandmonger | That's ${kinds} cowries I don't owe anyone.
+[07zqfrt] Strandmonger | The well is worth more than everything I have. I'd give it back. I'd charge for the advice, too.
 
 == scene: tackTalk
-[06e5fh0] Tack | 40 years Cinch has stood up there. 0 days off. 1 morning I can do, if there's lunch.
+[0do19v7] Tack | 40 years Cinch has stood there. 0 days off. 1 morning I can do, if there's lunch.
 
 == scene: tack1
+[1u6q7h4] Tack | Try {#1}. Tackle is ready. Tackle is always ready.
 [1pt0my4] Tack | Hey. 1 battle before you go. Just you and me.
-[1wbqskt] Tack | Tackle's got 4 moves and I've seen 2. Why won't it show me the rest?
-[0w6260d] hint | (One whorl fights at a time. The others wait in reserve. Switch to bring one out.)
-[1alf6op] hint | (Look at a move before you pick it. It says Strong when the foe is weak to it.)
-[1wkpfhv] Tack | 1 loss. Okay. I'm writing it down.
-[0ewcrdr] Tack | 1 win! That's 1 more than you, by the way.
+[0jm41zp] Tack | Tackle has 4 moves but I've seen 2. Why won't it reveal the rest?
+[0supumr] hint | (Only one whorl fights at a time. The others wait in reserve. Switch to bring one out.)
+[06r5wl5] hint | (Preview a move before choosing it. It says "Strong" when the foe is weak to it.)
+[0q8yo04] Tack | {#1} The road stays closed until you win 1. I'll wait.
+[06oxk7y] Tack | {#1} Alright. I'm writing it down.
 
 == scene: c
-[1yu5xh0] choice | Put Kaivodo back
+[1bs3cf0] choice | Return Kaivodo
 [1cilkb3] choice | Keep it
 
 == scene: well
-[0an585q] Man at the well | There she is! Nobody shout. She frightens easy.
+[00csa8q] Man at the well | There she is! Nobody make a sound. She's skittish.
 
 == scene: peelers
-[1y7mqcl] Hermit | Keep walking, kid. It's just a well.
+[085x3qj] Hermit | Move along, kid. It's just a well.
 [0hstc6b] Man at the well | Hey! That's Kaivodo! That's our well, put her down!
-[19bs2uh] Hermit | Sorry. Bare said bring deep ones to the Mast. This one's deep.
-[0uukizv] Man at the well | She's the only water in Turnstone!
-[0rrhpnx] Hermit | You've got a craze in Turnstone too, right? That's the Stays. They hold too tight.
-[0w1sy63] Hermit | Big whorls can pull a Stay loose. So we take big whorls.
+[1pnbzg8] Hermit | My apologies. Bare told me to bring a deep one to the Mast. This one counts as deep.
+[13vi8vc] Man at the well | She's the only water source in Turnstone!
+[1nzxj77] Hermit | Turnstone's got a fracture too, doesn't it? That's the Seals. They grip too tightly.
+[0kdkfs7] Hermit | Large whorls can wrench a Seal loose. So we take large whorls.
 
 == scene: c
 [1xgqr8u] choice | Give it back
 [192818s] choice | Who's Bare?
 
 == scene: peelers
-[1yvqirl] Hermit | She runs the Hermits. Never turned, same as you.
-[1fq64od] Hermit | She says the whole Volute's overdue to turn. The crazes are it trying.
-[0ghfsxw] Hermit | Can't. It's ours now.
-[0xclb5i] Man at the well | We drink out of her! Where's Turnstone meant to drink?
-[143vtaw] Hermit | Ugh, this one's loose. Can you deal with the kid?
-[18y2hcx] Hermit | Fine. Leave it. Mast's got wells.
+[0am4k5q] Hermit | She leads the Hermits. Never sheds, just like you.
+[1vzk8ld] Hermit | She says the entire Volute is overdue for a shedding. The fractures are it struggling to break free.
+[16fqaoz] Hermit | No can do. It's ours now.
+[0snz6w6] Man at the well | We drink from her! Where is Turnstone supposed to get its water?
+[03300ke] Hermit | Ugh, this one's loose. Can you handle the kid?
+[1gkh4no] Hermit | Fine. Leave it. The Mast has its own wells.
 [0brbl64] Hermit | She'll want to hear about this kid.
-[07hofbk] Man at the well | She's gone in the reeds. She won't come to me. She never would.
-[1lu7iip] Man at the well | The well's dry till she's back. I'll go and wait by it.
+[1r1mcca] Man at the well | She's vanished into the reeds. She won't come to me. She never does.
+[0tqsggk] Man at the well | The well stays dry until she returns. I'll go and wait by it.
 
 == scene: c
-[1iuk0qd] choice | Try to sound Kaivodo
+[0c52qex] choice | Try to catch Kaivodo
 [0799wvt] choice | Leave it
 
 == scene: ribTannery
-[0air7s8] Shellwright | Knuckle's pearl, yeah? Then you'll be wanting one of these.
-[0pge9s0] Shellwright | Prising iron. Old shells grow over everything out here. Rocks, middens, doors.
-[04204qu] Shellwright | Face a crust, give it a lean, off it comes. Mind your fingers. I didn't.
-[15m5yda] ? (giveKeyItem) | Ouro gets the prising iron.
-[1nrdunl] Shellwright | And now you can Prise for me at the counter too. Any grotto. Pays okay.
+[0t56h7w] Shellwright | You've got one of Knuckle's pearls, right? Then you'll be wanting one of these.
+[0foaola] Shellwright | It's a prising iron. Old shells overgrow everything out here, rocks, middens, doors.
+[1pk8xm9] Shellwright | When you hit a crust, lean on it, and it pops off. Watch your fingers. I didn't.
+[0tayat6] ? (giveKeyItem) | Ouro acquires the prising iron.
+[0rx66ki] Shellwright | It opens clams, too. Prising a bed of them for me at the counter pays well. Any grotto will do.
 
 == scene: carter
-[0u8uug9] Carter | Cart goes to any town you've been to. Ten cowries. No haggling, the mule's heard it all.
+[1q61emn] Carter | The cart goes to any town you've visited. Ten cowries. No haggling.
+[0dtszja] Carter | The mule has heard it all before.
 
 == scene: knuckle
-[10rx1ft] Knuckle | Mast next, yeah? Along the Dry Sea.
+[08tzmmg] Knuckle | Next up: Mast, yeah? Out along the Dry Sea.
 [1dqrzn2] Knuckle | Hi. I'm Knuckle. I keep the Rib.
-[1xlnxeb] Knuckle | Had these pearls since I turned. Beat me and you can have one. Not this one. That one.
-[02wfu6w] Knuckle | So I send one out and keep three back. When it's going bad, I switch. Easy.
-[16dqglg] Knuckle | You should totally do that too.
+[0krxpnh] Knuckle | I've had these pearls since I shed. Beat me, and you can have one. Not that one. The other one.
+[0degazl] Knuckle | So I send one out and keep three back. When one goes bad, I swap it. Simple.
+[09edlt6] Knuckle | You should totally try that too.
 [01bvyeh] Knuckle | Oh. I lost.
-[0qyhgf7] Knuckle | Here. Rib pearl. It's yours.
-[0ongrip] notice | Ouro gets the Rib pearl.
-[0re9z6e] Knuckle | Heard there's Hermits on the Midden Road. Don't like that.
-[1ecbbgf] Knuckle | And you got a craze in Turnstone? The Rib's been creaking all month. Tell Leeward.
-[14sz1v2] Knuckle | Anyway. Mast's next. Go along the Dry Sea.
-[1d3h98b] goal | Go west from Rib along the Dry Sea to Mast.
+[1hxuz2l] Knuckle | Here. The Rib pearl is yours.
+[0zt34si] notice | Ouro receives the Rib pearl.
+[0ardb59] Knuckle | I've heard Hermits are lurking on the Midden Road. Not a good sign.
+[1mj8oyy] Knuckle | You've got a fracture in Turnstone? The Rib has been groaning all month. You need to tell Leeward.
+[06v5ab8] Knuckle | Anyway, Mast's next. Go along the Dry Sea.
+[1ifxxb7] goal | Travel west from Rib, following the Dry Sea to Mast.
 
 ==== file: src/content/ch2.ts
 
 == scene: map route2
-[1nfqgcq] Salter | Sea's been gone forty years and I still salt the fish. They're already dry. I just like doing it.
-[0jwz4j6] Salter | Fine. I'll go salt a rock.
-[0p89tdg] Wrecker | I live in a boat on the sand. Love it. Never sunk once.
-[0aetjpi] Wrecker | Gonna go sit in my boat now.
-[1l03l4t] Shell girl | Every shell out here used to have someone in it. The pink one's mine. I called it, okay?
+[1mg4ljk] Salter | The sea's been gone forty years, yet I still salt the fish. They're dry. I just like doing it.
+[1l1cwia] Salter | Great. I'll go salt a rock, then.
+[1kmcsij] Wrecker | I live in a boat on the sand. I love it. It's never sunk, not once.
+[1l43bqr] Wrecker | I'm going to go sit in my boat now.
+[03rsqhp] Shell girl | Every shell out here used to house a person. The pink one is mine. I claimed it first, okay?
 [1d5eh6y] Shell girl | Don't step on it.
-[0zlfxhx] Old fisher | That gray's the sea's old shell. Every dusk it comes back and stands there, staring at my house.
-[10jdopm] Old fisher | Never comes in. If I were younger I'd walk out there and have a word with it.
-[0e6mqf3] look | Inside the reef ring, where the sleeper lay across the gap, a pepper kelp, still green.
-[0vahf1m] look | In the bay's last pool, inside the gray, a gray lump that smells of the sea.
+[0jx7zrm] Old fisher | That gray one is the sea's old shell. Every dusk, it returns and stands there, staring at my house.
+[1b4zwuf] Old fisher | It never comes in. If I were younger, I'd walk out there and speak to it.
+[0ar2jlk] look | Inside the reef ring, where the sleeper spanned the gap, grew a pepper kelp, still green.
+[1vo5b1t] look | In the bay's final pool, within the gray haze, lay a gray lump that smelled of the sea.
 
 == scene: map mast
-[0tx6ohg] Man on stilts | We built the whole town up for the tide. The tide's out forty years. Any day now.
-[182zjrh] Woman | Leeward said wind from the west. Nothing about the Mast falling over. Not one word.
-[1l6vnam] Woman | Leeward says wind from the west, so. Wind from the west.
-[074zng3] Child | It came a bit nearer :-( I'm still gonna wave though.
-[1vofjc0] Child | The sea comes every night and I wave and it doesn't wave back yet!
-[0oyx1gf] Leeward | Outlook: Fair. I shall be sleeping outdoors, by meteorological preference.
-[050kasq] look | The end of the pier. Below it there is only sand, and past the sand, the gray at dusk.
-[0kcjuga] look | Under the pier's end, inside the gray, a tarred box of whelk horns someone meant to come back for.
+[16rubd3] Man on stilts | We raised the entire town to keep the tide at bay. The water hasn't been in for forty years.
+[13c2ffr] Man on stilts | It's only a matter of time.
+[19iqt9i] Woman | Leeward meant west wind. Not the Mast toppling. Not a word.
+[1aw7pvv] Woman | Leeward called for a west wind. So, there it is. A west wind.
+[0tcotqj] Child | It's drawn a little closer :-( I'm waving anyway.
+[1mtzrsb] Child | The ocean rolls in every night. I wave, but it hasn't waved back yet!
+[1y89sdi] Leeward | The forecast is fair. I've chosen to sleep outside, strictly for meteorological reasons.
+[1e9o0tl] look | The pier's end. Beneath it lies only sand, and beyond that, the gray dusk.
+[1s8u0sw] look | Beneath the pier, in the gray, lay a tarred box of whelk horns, waiting to be retrieved.
 
 == scene: map mastgym
-[1x3ukse] Deckhand | Crests cost tide, right? You get tide from the small moves. That's the whole thing.
-[0lseulo] Deckhand | I did the small ones! I did so many!
-[1p2d3i7] Bosun | I'm saving all my tide for the end. Watch this. Watch.
-[1apuz5a] Bosun | ...Saved it too long.
+[1pmbava] Deckhand | Crests require tide, right? You gain tide from the small moves. That's the entire mechanism.
+[19eogu6] Deckhand | I mastered the small ones! I handled countless small ones!
+[176fgyo] Bosun | I'm hoarding all my tide for the finale. Watch closely. Watch.
+[1y3zczz] Bosun | ...I held onto it too long.
 
 == scene: route2Enter
-[0ndi58e] goal | Cross the Dry Sea west to Mast.
+[0xptah2] goal | Make the passage from the Dry Sea to the west, reaching the Mast.
 
 == scene: tack2
-[1sdoye9] Tack | Hey, 2nd time. There's 11 Hermits at the Mast, I counted.
-[0j1xc4g] Tack | They've dug 3 holes already. Like, big holes.
+[0hs1aof] Tack | Try {#1}. Still 11 Hermits. I'm still in the road.
+[1omjqnr] Tack | Hey, this is round 2. I counted, and there are 11 Hermits at the Mast.
+[0lwoibd] Tack | They've already dug 3 holes. Like, huge ones.
 [1wqbrc4] Tack | Leeward's 1 keeper and there's 11 of them. So I'm gonna help. After I beat you.
-[1h7oy4m] Tack | {#1} wins for me. {G.flags.tackWins} for you. 11 Hermits still.
-[0gt7cuf] Tack | 1 more for me. Right. Hermits.
+[125kz2b] Tack | {#1} I'm still stuck in the road. You get through when it's 1 more for you.
+[12vfq0o] Tack | {#1} The Hermits are still at 11.
 
 == scene: mastEnter
-[0qxnt5a] Bare | Easy. Easy now.
-[19e87gz] Bare | Breathe out. Let it lean.
-[0aw5web] Bare | North side, okay? Leave the south alone.
-[0zelsk1] Bare | Hey. Back up from the kid.
-[0e4d2yw] Bare | Keep going. You're doing great.
-[01k6z6i] goal | Leeward keeps the Mast. Leeward's deck is north.
+[0yd42k9] Bare | Take it easy. Slow down.
+[0ktf2iw] Bare | Breathe out. Let the Mast lean.
+[1yn4lht] Bare | Aim for the north side. Leave the south alone.
+[19lqv3k] Bare | Hey. Step back from the child.
+[05a19i4] Bare | Keep moving. You're doing wonderfully.
+[0ktr4z8] goal | Leeward keeps the Mast. Leeward's deck is to the north.
 
 == scene: leeward
-[09abz9z] Leeward | A northerly!! Cold, and most Spireward in its disposition.
-[1xstpbx] Leeward | Wind: Westerly. Light, and dry by noon, I prognosticate.
-[1iu0cp2] Leeward | GREETINGS, late one!! Clear skies above you. Conditions are fair for a test.
-[0r5oels] Leeward | Tide rises with each landed hit and each good guard. After a knockout, a spring tide, most copious.
-[1yo8sg1] Leeward | Pressure: Plummeting!! A crest cometh. Watch the line on top.
-[10kwq5k] hint | (A crest is a whorl's biggest move. A crest costs tide. Your whole team shares one pool of tide.)
-[0pt1hvq] hint | (You get tide when an Attack lands, when a move hits your Guard, and when a whorl is knocked out.)
-[0llr59h] Leeward | A great calm follows. The Mast pearl is bestowed upon you, under clearing skies.
-[1hbvubo] notice | Ouro gets the Mast pearl.
-[0cflve3] Leeward | Gusts of Hermits at the foot. Thirteen, by the sound.
-[014qtg7] choice | Help drive them
-[1h3rvi0] choice | Not my Stay
-[1q1gpvn] Leeward | Wind: Turning!! Shovels down. Here they come, from the hermitward quarter!!
+[1l2e7j9] Leeward | A northerly blast! It's freezing, and possesses a distinctly Spireward temper.
+[0uevzg0] Leeward | Wind: Westerly. Light, and dry by noon, I predict.
+[03msyso] Leeward | GREETINGS, late one!! Clear skies overhead. Conditions are favorable for a trial.
+[1v1elq5] Leeward | Tide rises with every landed strike and successful guard.
+[015zens] Leeward | After a knockout, a spring tide of great abundance.
+[1v6jj7u] Leeward | Pressure: Plummeting!! A crest approaches. Watch the line at the top.
+[1v4qnb4] hint | (A crest is a whorl's most powerful move. A crest consumes tide.
+[1ts8had] hint | Your entire team shares a single tide pool.)
+[1tmeao7] hint | (You gain tide when an Attack connects, when a move strikes your Guard,
+[0wpgypw] hint | and when a whorl is knocked out.)
+[1wr20ul] Leeward | A profound calm ensues. The Mast pearl is bestowed upon you, beneath clearing skies.
+[12879x9] notice | Ouro receives the Mast pearl.
+[0sd5t0y] Leeward | Gusts of Hermits at the base. Thirteen, by the count.
+[0kym5nw] choice | Help drive them off
+[1sdro1k] choice | Not my Seal
+[1mrz0of] Leeward | Wind: Shifting!! The shovels are down. They come from the hermitward quarter!!
 [09gdnzp] Bare | Spades down, everyone.
-[132se7x] Bare | Okay. Walk away from the Mast.
-[0tv5sa1] Bare | We'll come back when it's dark.
-[18ilp03] Leeward | A storm!! Inside the house!! Most irregular!!
-[01k5kx7] Leeward | Fair tonight, outdoors!! A most unroofed and agreeable evening!!
+[1jz7z2p] Bare | Alright. Step away from the Mast.
+[034q1zk] Bare | We'll return when it's dark.
+[09u4r2e] Leeward | A storm! Right inside the house! How utterly irregular!
+[1aloell] Leeward | Clear skies tonight, outside! Such an open-air, delightful evening!
 
 == scene: mastDusk
-[0dc390x] goal | Go north from Mast, across the salt marsh, to Spire.
-
-==== file: src/content/ch3.ts
-
-== scene: map route3
-[153rnjk] Reeve | Each morning I conduct the Official Measurement of the marsh, and it is a whole foot bigger!!
-[16r8t21] Eel boy | Found a leech cast! That's good luck. A leech is the other kind.
-[0habt6z] Eel boy | Oh. Bad luck for you, then.
-[16qn14w] Cutter | I cut reeds for Spire. They stuff 'em in the bells so the bells shut up.
-[1odf1cz] Cutter | Yeah, mine are quiet now.
-[1eo90ak] look | On a reed islet, in a heron's old nest, a cake of salt wrapped in a leaf.
-[00o1qvh] look | On the far islet, a heap of drift with nacre caught in it.
-[1wzoiid] look | On the west islet, a reed plug cut for a bell, and never used.
-
-== scene: map spire
-[16wycmr] Woman | Don't shout. They ring if you shout, and then the Verger gets involved.
-[11qah3k] Man | Grandad turned in the nave and his cast's been in there singing the same song for sixty years.
-[0yy56ux] Child | I tried to make them ring on purpose and it doesn't work on purpose! It's so unfair.
-[0wo7ghf] Old woman | Conjoiner's down the crypt steps, dear. Mind your head. The crypt's on the ceiling.
-[00jkkze] Ringer | bole road's closed if you don't have the spire pearl. verger's rule. not mine.
-
-== scene: map spiregym
-[1en9mdj] Ringer | hear that? yeah that's a wind-up. stop it or eat it.
-[1ongnay] Ringer | huh. i didn't stop it.
-[0okvedn] Ringer | some big ones can't be stopped though. the line on top tells you which.
-[19dxnn4] Ringer | the line did tell me. i just didn't read it.
-[1auksnf] sign or spot in The nave | A card pinned to the pew: "top. bottom. middle. softly." Under it, in other ink: "SOFTER"
-
-== scene: route3Enter
-[12dl0az] goal | Follow the boardwalk north to Spire.
-
-== scene: fitter
-[0rqniyb] Conjoiner | So. Two whorls. You put one in the other, they kinda settle, and then one comes out.
-[175yoy6] Conjoiner | You get to pick what it keeps. Four moves, two habits, its look, its name. Go nuts.
-[0mi47jr] Conjoiner | People ask if it comes apart. It doesn't. Then they ask again. Still doesn't.
-[14froec] Conjoiner | And a person's second cast won't join with anything. I've tried. It won't take.
-[1wlh8yd] Conjoiner | Ten cowries a level.
-[0rdikoc] hint | (Conjoining cannot be undone. You pick what the new whorl keeps. Every grotto now has a Conjoiner.)
-
-== scene: tack3
-[0d9q501] Tack | 3rd time. I've got 2 pearls, you've got 2. Even. I hate even.
-[1jom03n] Tack | Hang on. 1 minute.
-[1enynp2] Tack | It's fine. It's Brack now. 2 of Tackle's moves, 2 of a salt pan's.
-[16wzxgp] Tack | {G.flags.tackWins} loss{#2}.
-[0qinzmr] Tack | es
-[1g4pp2n] Tack | Still even. 2 pearls each. Ugh.
-[1qf98c1] Tack | 2 to 1.
-
-== scene: verger
-[1wagc9f] Verger | the bole lies north, through the understory. half a day's perambulation. eleven bells.
-[0vqih5m] Verger | you belled two late. that is entirely forgivable
-[0eblro5] Verger | when someone above speaks too loudly the bells ring, and i enter them in my ledger of loudnesses.
-[0pwzm1t] Verger | in a fight, a wind-up is a bell you can hear coming. stop it, or get out from under it.
-[01gbwc9] hint | (A ! over a whorl is a wind-up. Stun, Silence, Sleep, Taunt, or forcing it out cuts it off.)
-[0zatfu7] Verger | it belled three!! the spire pearl is most rightfully yours
-[0lji8dt] notice | Ouro gets the Spire pearl.
-[15tk67f] Verger | the bell for your friend was the wind.
-[0a7ps4v] Verger | take this jingle. it belled for the old ones asleep across the roads, and wakes them still
-[13x2pm1] ? (giveKeyItem) | Ouro gets the jingle.
-[0khtjek] Verger | north to the bole, through the understory. half a day. eleven bells, should you not dawdle.
-[1xo8o96] goal | Go north from Spire through the understory to the Bole.
+[1c4t35x] goal | Head north from the Mast, cross the salt marsh, and reach the Spire.

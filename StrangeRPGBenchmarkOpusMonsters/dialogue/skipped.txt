@@ -41,15 +41,12 @@ no lowercase (label)	src/content/act2/ch6.ts	KEEP THE SPIRE
 no lowercase (label)	src/content/act2/ch6.ts	THE VOLUTE HARDENS.
 no lowercase (label)	src/content/act2/ch6.ts	THE VOLUTE RESTS.
 no lowercase (label)	src/content/areas1.ts	WIND NONE. SEA NONE. CREW ASHORE. SHIP ALSO.
-no lowercase (label)	src/content/areas2.ts	I AM NOT SECOND.
-no lowercase (label)	src/content/areas2.ts	I GO FIRST. I ALWAYS HAVE.
-no lowercase (label)	src/content/areas2.ts	I GO LAST, AND LOUDEST.
-no lowercase (label)	src/content/areas2.ts	NAMES LIE IN THIS TOWER.
 no lowercase (label)	src/content/ch9.ts	THE POST HAS TO TURN ONCE A DAY AND IT HAS TO BE TODAY AND IT HAS TO BE EVERY DAY AND-
 no lowercase (label)	src/content/ch9.ts	THE VOLUTE HAS TO HOLD AND SOMEONE HAS TO STAND HERE AND THE HANDS HAVE TO STAY ON AND
 no lowercase (label)	src/content/ch9.ts	THE VOLUTE HOLDS.
 no lowercase (label)	src/content/ch9.ts	THE VOLUTE TURNS.
 no lowercase (label)	src/content/ch9.ts	YOU HAVE TO GO ROUND THE HANDS FIRST AND ALL FOUR HAVE TO LET YOU AND THEN YOU HAVE TO-
+no lowercase (label)	src/content/ring3.ts	I LOST. THAT WAS ACTUALLY NICE.
 not prose	src/content/act2/ch1.ts	Man by the fire
 not prose	src/content/act2/ch1.ts	Man by the fire
 not prose	src/content/act2/ch1.ts	Woman with a basin
@@ -57,9 +54,10 @@ not prose	src/content/act2/ch1.ts	Woman with a basin
 not prose	src/content/act2/ch2.ts	Woman with a bowl
 not prose	src/content/act2/ch2.ts	Woman with a bowl
 not prose	src/content/act2/ch4.ts	A drawing on a shell
+not prose	src/content/act2/ch4.ts	Four and a star
 not prose	src/content/act2/ch4.ts	Four notches
 not prose	src/content/act2/ch4.ts	Man with a net
-not prose	src/content/act2/ch4.ts	Scraped place {#1} of 3
+not prose	src/content/act2/ch4.ts	Scraped place {#1} of 6
 not prose	src/content/act2/ch4.ts	Siphon's first bowl
 not prose	src/content/act2/ch4.ts	Siphon's old mat
 not prose	src/content/act2/ch4.ts	Strand level 13
@@ -78,6 +76,8 @@ not prose	src/content/act2/ch5.ts	not this one either
 not prose	src/content/act2/ch6.ts	Kept by WADE
 not prose	src/content/act2/ch6.ts	Star grains: {#1}
 not prose	src/content/act2/ch6.ts	Starfall best: {best}
+not prose	src/content/act2/ch6.ts	Teams hauled: Bare all
+not prose	src/content/act2/ch6.ts	Turns at the post: Tack 41
 not prose	src/content/act2/ch6.ts	a curl shaped like a question mark
 not prose	src/content/act2/ch6.ts	a scratched hand
 not prose	src/content/act2/ch6.ts	acorn varix mew halite skitter fucus flotsam mote seaglass kipper actinia lacuna columba lobworm
@@ -88,37 +88,54 @@ not prose	src/content/act2/ch6.ts	razor annulet macula pallium seiche scud ename
 not prose	src/content/act2/ch6.ts	saltwort albedo cuttle medusa bollard docket vacancy trochus hopper crabwise magpie cache strombus
 not prose	src/content/act2/ch6.ts	sanderling flood surf fleur madrepore blush cochlea samphire gimbal lull flange pleiad aphelion
 not prose	src/content/act2/ch6.ts	slackwater brinicle transit ballast sluice septum vacuole evaporite hood spoor bolide marram
+not prose	src/content/act2/ch6.ts	without the push
 not prose	src/content/areakit.ts	map {mapId} has no zone
 not prose	src/content/areakit.ts	no map {mapId} to link from
 not prose	src/content/areas1.ts	You knocked my pile over :-(
+not prose	src/content/areas1.ts	without the calluses
+not prose	src/content/areas2.ts	without striking
+not prose	src/content/areas3.ts	without pruning
 not prose	src/content/ch1.ts	The hare would've won :-(
 not prose	src/content/credits.ts	Every whorl Ouro conjoined
-not prose	src/content/credits.ts	Kinds in the Register: {pegged} of {WILD_KINDS.length}
 not prose	src/content/credits.ts	Ouro's four at the end
-not prose	src/content/credits.ts	Stays Ouro pulled: {#1}
-not prose	src/content/credits.ts	Time on the Lip: {h}:{#2}
+not prose	src/content/credits.ts	Seals Ouro pulled: {#1}
+not prose	src/content/credits.ts	Species in the Register: {pegged} of {WILD_KINDS.length}
+not prose	src/content/credits.ts	Time on the Rim: {h}:{#2}
 not prose	src/content/credits.ts	Wins against Tack: {#1}
+not prose	src/content/credits.ts	Wins for Tack: {#1}
 not prose	src/content/gems.ts	Setting board
+not prose	src/content/geode.ts	The geode: one arm
+not prose	src/content/geode.ts	The geode: polish first
+not prose	src/content/geode.ts	The geode: two arms
+not prose	src/content/geode.ts	with the second arm fixed
+not prose	src/content/geode.ts	without reaching out
+not prose	src/content/geode.ts	without the polisher
 not prose	src/content/guide.ts	Bad statuses
 not prose	src/content/guide.ts	Before you conjoin
+not prose	src/content/guide.ts	Both pick at once
+not prose	src/content/guide.ts	Catching with horns
 not prose	src/content/guide.ts	Comes sooner
 not prose	src/content/guide.ts	Crests and tide
-not prose	src/content/guide.ts	Each kind is different
+not prose	src/content/guide.ts	Each species is different
 not prose	src/content/guide.ts	Getting cowries
 not prose	src/content/guide.ts	Good statuses
 not prose	src/content/guide.ts	How to get tide
+not prose	src/content/guide.ts	Kinds of moves
 not prose	src/content/guide.ts	Levels and XP
 not prose	src/content/guide.ts	Losing cowries
-not prose	src/content/guide.ts	Moves that hit every foe
+not prose	src/content/guide.ts	Lost turns do not chain
 not prose	src/content/guide.ts	Moving twice
 not prose	src/content/guide.ts	Physical and magic
 not prose	src/content/guide.ts	Quick actions
-not prose	src/content/guide.ts	Sounding with horns
+not prose	src/content/guide.ts	Slow and Haste
 not prose	src/content/guide.ts	Spending cowries
 not prose	src/content/guide.ts	Switching clears statuses
 not prose	src/content/guide.ts	Things to use
 not prose	src/content/guide.ts	Turns and time
 not prose	src/content/guide.ts	Two more types
+not prose	src/content/gyms.ts	with the stones fixed
+not prose	src/content/gyms.ts	without the draft
+not prose	src/content/gyms.ts	without the plates
 not prose	src/content/ring.ts	Big whelk shell
 not prose	src/content/ring.ts	Prising iron
 not prose	src/content/ring.ts	The Master's chart
@@ -127,13 +144,12 @@ not prose	src/content/ring.ts	The weathervane
 not prose	src/content/ring.ts	Wading stilts
 not prose	src/content/ring1.ts	Set on this stake
 not prose	src/content/ring2.ts	Z or X to fold it
-not prose	src/content/ring3.ts	puzzle 5: the salt pans cannot be crossed from their start
 not prose	src/content/ring4.ts	puzzle 6: the sleepers in the kelp cannot be cleared from the chair's lane
 not prose	src/content/ring5.ts	puzzle 7: the gantries cannot be turned to the sea from their start
+not prose	src/content/ring6.ts	with the floes fixed
 not prose	src/content/ring7.ts	puzzle 10: the three stones cannot be dragged out of the cut
-not prose	src/content/ring8.ts	puzzle 11: the lean can be crossed without the haul stones
-not prose	src/content/ring8.ts	puzzle 11: the lean cannot be crossed
 not prose	src/content/ring8.ts	the Long Way Round: the ford cannot be crossed with the haul stones
+not prose	src/content/ring8.ts	without dragging the haul stone
 not prose	src/content/townlife.ts	did you hear about the bells
 not prose	src/content/townlife.ts	they're all a bit wrong now
 not text	src/content/act2/ch1.ts	Child in a whelk
@@ -189,6 +205,7 @@ not text	src/content/areas1.ts	The Shoreline
 not text	src/content/areas1.ts	The Undermeadow
 not text	src/content/areas2.ts	A cast under the ice
 not text	src/content/areas2.ts	The Dropfield
+not text	src/content/areas2.ts	The Dropfield
 not text	src/content/areas2.ts	The Iceshelf
 not text	src/content/areas2.ts	The Rootfall
 not text	src/content/areas2.ts	The Underspire
@@ -200,9 +217,11 @@ not text	src/content/areas2.ts	The Upright Man
 not text	src/content/areas2.ts	The Upright Man
 not text	src/content/areas2.ts	The Upright Man
 not text	src/content/areas2.ts	The cast under the ice
+not text	src/content/areas2.ts	Underspire loft
 not text	src/content/areas3.ts	A reflection
 not text	src/content/areas3.ts	A soldier's cast
 not text	src/content/areas3.ts	A soldier's cast
+not text	src/content/areas3.ts	The Glass Desert
 not text	src/content/areas3.ts	The Glass Desert
 not text	src/content/areas3.ts	The Hands' Orchard
 not text	src/content/areas3.ts	The Listener
@@ -211,6 +230,8 @@ not text	src/content/areas3.ts	The Listener
 not text	src/content/areas3.ts	The Listener
 not text	src/content/areas3.ts	The Listener
 not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Listener
+not text	src/content/areas3.ts	The Old Field
 not text	src/content/areas3.ts	The Old Field
 not text	src/content/ch1.ts	Girl with a net
 not text	src/content/ch1.ts	Girl with a net
@@ -302,6 +323,7 @@ not text	src/content/ring2.ts	The stilt-maker's
 not text	src/content/ring3.ts	The Saltings
 not text	src/content/ring3.ts	The Shouting Wood
 not text	src/content/ring3.ts	The ledger room
+not text	src/content/ring3.ts	The salt pans
 not text	src/content/ring4.ts	Driftwood man
 not text	src/content/ring4.ts	Driftwood man
 not text	src/content/ring4.ts	The Kelp Beds
@@ -362,7 +384,7 @@ not text	src/data/species.ts	thins and comes back
 not text	src/data/species.ts	turns in place
 not text	src/data/species.ts	waits on the fence
 not text	src/data/species.ts	walks like Tack
-not text	src/data/species.ts	walks round the Lip with a house on
+not text	src/data/species.ts	walks round the Rim with a house on
 not text	src/data/species.ts	was the middle of everything once
 not text	src/data/species.ts	watches from very high up
 not text	src/data/species3.ts	blows apart and grows back where it lands
