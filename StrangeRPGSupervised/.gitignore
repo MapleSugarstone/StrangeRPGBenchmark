@@ -1,0 +1,19 @@
+Notes
+node_modules
+dist
+.test-build
+
+# Only what building and playing Ruin needs is kept: src/, the build script and its dependency check, the approved
+# package and TypeScript files, design/chapters.json (the game imports it), package.json, tsconfig.json, play.cmd.
+client/
+brief/
+tasks/
+test/
+design/*
+!design/chapters.json
+tools/*
+!tools/build.mjs
+!tools/verify_deps.mjs
+!tools/approved/
+tools/approved/tunnel.json
+src/playtest.md

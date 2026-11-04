@@ -484,6 +484,38 @@
       "chapters": 8,
       "blurb": "Rust is spreading through the soil of the garden. Buphila is a beetle girl, and Myco is her mushroom girlfriend. They leave home to find the signal that calls to the Spore Crown, and a clockwork fox named Cogsworth joins them. Each chapter ends with a boss. The garden cracks open after the fourth chapter, and the second act takes place outside the spore. Every dungeon in the second act opens with a puzzle.",
       "controls": "Arrows or WASD move. Enter confirms and interacts. Space skips a scene. I opens your items. In fights: A attacks, B picks an ability, I uses an item, M moves, F flees, Left and Right pick a target, Esc cancels. Click the puzzles, or use the arrows and Enter."
+    },
+    {
+      "id": "ruin",
+      "title": "Ruin",
+      "model": "Qwen 3.6 35B A3B",
+      "effort": "No thinking",
+      "agent": "Naturalizer narrow agent",
+      "polish": "Opus 5.5",
+      "folder": "StrangeRPGSupervised",
+      "status": "playable",
+      "build": {
+        "command": "npm run build",
+        "dist": "dist"
+      },
+      "colors": {
+        "accent": "#ffaa66",
+        "ink": "#0a0812"
+      },
+      "hero": {
+        "name": "Shard",
+        "role": "A fragment of the Great Vessel",
+        "sprite": "menu/art/ruin-hero.png"
+      },
+      "scene": "menu/art/ruin-ch1.png",
+      "shots": [
+        "menu/art/ruin-battle.png",
+        "menu/art/ruin-silica.png",
+        "menu/art/ruin-seal.png"
+      ],
+      "chapters": 14,
+      "blurb": "The world cooled and cracked. From the fissures, the Ruin pour out, shapeless until you give them purpose. You are Shard, a fragment with no memory of the Great Vessel that birthed these sinking islands. Keep the bridges standing. Bind the spillage into Shardlings with your Magnet. Feed them tasks or watch them crumble to dust. The ground is falling. Find the source. Stop the pour. Or let it all break.",
+      "controls": "Arrows or WASD move. Z, Enter, or Space confirms and talks. X or Esc goes back and opens the menu. M mutes."
     }
   ]
 }

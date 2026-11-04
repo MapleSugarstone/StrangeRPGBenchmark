@@ -1,0 +1,85 @@
+import { NPC } from "../../engine/maps.js";
+
+export const CH1_PEOPLE: NPC[] = [
+  {
+    x: 14,
+    y: 10,
+    dir: "right",
+    name: "Chemar",
+    sprite: "brix",
+    lines: [
+      "The ground shakes. Be careful.",
+      "The Weeps are restless today.",
+      "You hold the horn. You catch what falls.",
+      "Don't let the glass break.",
+    ],
+    battle: "keeper_nyx_scout",
+    flag: "ch1_chemar_talked",
+    level: 4,
+    isTrainer: true,
+  },
+  {
+    x: 10,
+    y: 10,
+    dir: "right",
+    name: "Tansha",
+    sprite: "brix",
+    lines: [
+      "Sand in the gears again.",
+      "I can fix it if you bring me three cinders.",
+      "The Weep near the shore is loud today.",
+    ],
+    battle: "keeper_nyx_scout",
+  },
+  {
+    x: 18,
+    y: 10,
+    dir: "left",
+    name: "Kiluofn",
+    sprite: "osm",
+    lines: [
+      "The clay remembers the water.",
+      "This ash does not remember anything.",
+      "It just falls.",
+    ],
+  },
+  {
+    x: 14,
+    y: 14,
+    dir: "up",
+    name: "Helme",
+    sprite: "brix",
+    lines: [
+      "Gear jammed. Need leverage.",
+      "You push, I turn.",
+      "The bridge is out. We wait for the Weep to cool.",
+    ],
+  },
+  {
+    x: 14,
+    y: 16,
+    dir: "down",
+    name: "Kaema",
+    sprite: "vell",
+    lines: [
+      "Truth is clear, but clarity burns.",
+      "I can see the cracks in your shell.",
+      "They are leaking.",
+    ],
+  },
+  {
+    x: 14,
+    y: 18,
+    dir: "up",
+    name: "Bradme",
+    sprite: "kest",
+    lines: [
+      "Stone does not lie.",
+      "Stone breaks.",
+      "The big one is coming. The scout is just the finger.",
+    ],
+    battle: "keeper_nyx_scout",
+    level: 7,
+    isTrainer: true,
+  },
+];
