@@ -38,7 +38,44 @@ export const DRAWN: Record<string, Drawn> = {
     right: ['........', 'AA......', 'AAAAAA..', '.AAAAAD.', '.AADBCB.', '.DDDDCD.', '..AEEE..', '.BEEDE..', '.B.C..C.'],
     up: ['........', '...AA...', '.AAAAAA.', '.AAAAAA.', '.AAAAAA.', '.AAAAAA.', '.AEEEEA.', 'BDEEEED.', 'B.C..C..'],
   },
+  // Anouk: frost-pale hair cut short, a white Desk coat with the Board's red stripe at the cuff, gloves to the elbow.
+  anouk: {
+    legend: { A: C.steel4, B: C.skin5, C: C.black, D: C.pale, E: C.steel2, F: C.red2 },
+    down: ['........', '..AAAA..', '.AAAAAA.', '.ABBBBA.', '.BCBBCB.', '..DDDD..', '.FDDDDF.', '.EDDDDE.', '..C..C..'],
+    right: ['........', '..AAAA..', '.AAAAAA.', '.AABBBB.', '.ABBBCB.', '...DDD..', '..DDDF..', '..DDED..', '...C..C.'],
+    up: ['........', '..AAAA..', '.AAAAAA.', '.AAAAAA.', '.ABBBBA.', '..DDDD..', '.FDDDDF.', '.EDDDDE.', '..C..C..'],
+  },
+  // Net things. Their glow color survives the net look, so a drift shows its feeling.
+  sentry: {
+    legend: { A: C.pale, B: C.steel3, C: C.black, D: C.cyan4 },
+    down: ['...A....', '..ABA...', '..ABBA..', '.ABDDBA.', '.ABDDBA.', '..ABBA..', '...BA...', '...B....', '........'],
+    right: ['...A....', '..ABA...', '..ABBA..', '.ABBDDA.', '.ABBDDA.', '..ABBA..', '...BA...', '...B....', '........'],
+    up: ['...A....', '..ABA...', '..ABBA..', '.ABBBBA.', '.ABBBBA.', '..ABBA..', '...BA...', '...B....', '........'],
+  },
+  icehound: {
+    legend: { A: C.steel4, B: C.steel2, C: C.black, D: C.cyan4 },
+    down: ['........', '..A..A..', '..AAAA..', '.ADAADA.', '..ACCA..', '.BBBBBB.', '.BBBBBB.', '.C.CC.C.', '........'],
+    right: ['........', '.....A.A', '.....AAA', 'A....ADA', 'ABBBBBAC', '.BBBBBB.', '.B.B.B.B', '.C.C.C.C', '........'],
+    up: ['........', '..A..A..', '..AAAA..', '..AAAA..', '..AAAA..', '.BBBBBB.', '.BBBBBB.', '.C.CC.C.', '........'],
+  },
+  drift_anger: {
+    legend: { A: C.steel2, B: C.steel1, C: C.black, D: C.mag3 },
+    down: ['...DD...', '..DAAD..', '.DABBAD.', '.ACBBCA.', '.ABBBBA.', '..ABBA..', '.D.AA.D.', '..D..D..', '........'],
+    right: ['...DD...', '..DAAD..', '.DABBAD.', '.ABBBCA.', '.ABBBBA.', '..ABBA..', '.D.AA.D.', '..D..D..', '........'],
+    up: ['...DD...', '..DAAD..', '.DABBAD.', '.ABBBBA.', '.ABBBBA.', '..ABBA..', '.D.AA.D.', '..D..D..', '........'],
+  },
+  drift_quiet: {
+    legend: { A: C.pale, B: C.steel3, C: C.black, D: C.cyan4 },
+    down: ['..AAAA..', '.ABBBBA.', '.ABCCBA.', '.ABDDBA.', 'AAABBAAA', 'A.ABBA.A', '..ABBA..', '..A..A..', '.AA..AA.'],
+    right: ['..AAAA..', '.ABBBBA.', '.ABBCCA.', '.ABBDDA.', '.AABBAAA', '..ABBA.A', '..ABBA..', '..A..A..', '.AA..AA.'],
+    up: ['..AAAA..', '.ABBBBA.', '.ABBBBA.', '.ABBBBA.', 'AAABBAAA', 'A.ABBA.A', '..ABBA..', '..A..A..', '.AA..AA.'],
+  },
 };
+
+/** The other drifts are the angry one in another feeling's color. */
+for (const [id, c] of [['drift_grief', C.cyan4], ['drift_joy', C.grn3], ['drift_fear', C.vio3]] as const) {
+  DRAWN[id] = { ...DRAWN.drift_anger, legend: { ...DRAWN.drift_anger.legend, D: c } };
+}
 
 /** Ambrose with his leased eye in arrears, showing ads in magenta. */
 DRAWN.ambrose_ads = {

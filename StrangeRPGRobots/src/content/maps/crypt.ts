@@ -97,6 +97,7 @@ export const crypt: MapDef = {
     camp_ambrose: [16, 12],
     camp_tova: [4, 9],
     camp_ignace: [21, 12],
+    camp_anouk: [17, 15],
     dowser_stand: [12, 2],
     sniper_stand: [13, 3],
     camp_rail: [16, 9],

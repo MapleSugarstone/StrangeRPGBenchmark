@@ -126,10 +126,11 @@ export const flats_mud: MapDef = {
       ],
     },
   ],
-  markers: { west_in: [1, 21], east_in: [48, 13], mud_view: [25, 15], wall_view: [25, 3], sea_view: [25, 29], jukebox: [40, 28], juke_front: [40, 27], juke_side: [39, 27], juke_edge: [40, 29], beacon: [27, 23], beacon_front: [27, 24], morgen_view: [26, 19], noud: [7, 24], noud_front: [8, 24], hook: [6, 19], wreck_view: [5, 22], buyer: [46, 28], buyer_front: [45, 27], jawboat: [46, 30], car_spot: [9, 10], vend_spot: [44, 9], washer_spot: [18, 27], pull: [25, 0] },
+  markers: { west_in: [1, 21], east_in: [48, 13], mud_view: [25, 15], wall_view: [25, 3], sea_view: [25, 29], jukebox: [40, 28], juke_front: [40, 27], juke_side: [39, 27], juke_edge: [40, 29], beacon: [27, 23], beacon_front: [27, 24], morgen_view: [26, 19], noud: [7, 24], noud_front: [8, 24], hook: [6, 19], wreck_view: [5, 22], buyer: [46, 28], buyer_front: [45, 27], jawboat: [46, 30], car_spot: [9, 10], vend_spot: [44, 9], washer_spot: [18, 27], pull: [25, 0], exchange_out: [14, 28] },
   exits: [
     { x: 0, y: 18, w: 1, h: 7, to: 'flats_camp', at: 'east_in', dir: 'left' },
     { x: 49, y: 10, w: 1, h: 7, to: 'drowned', at: 'west_in', dir: 'right' },
+    { x: 12, y: 29, w: 5, h: 1, to: 'exchange', at: 'mud_in', dir: 'down', showIf: 'exchange_seen' },
   ],
   triggers: [
     { x: 9, y: 18, w: 4, h: 9, scene: 'stuck_call', hideIf: 'stuck_called|noud_saved' },

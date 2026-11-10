@@ -120,6 +120,7 @@ function update(dt: number) {
   WORLD.t += dt;
   if (FXS.flash > 0) FXS.flash -= dt;
   if (OV.sluice) { OV.sluice.update(dt); return; }
+  if (OV.mini) { OV.mini.update(dt); return; }
   if (OV.card) { OV.card.t += dt; if (OV.card.t > 3.2 || (OV.card.t > 0.8 && pressed('a'))) { OV.card = null; consume(); } return; }
   if (OV.name) { OV.name.update(dt); if (OV.name.done) { OV.nameSet?.(OV.name.done); OV.name = null; consume(); } return; }
   if (OV.gameOver) {
@@ -225,17 +226,18 @@ function render(dt: number) {
   renderDialogue();
   renderMenu();
   if (FXS.flash > 0) shadeRect(0, 0, W, H, Math.min(1, FXS.flash * 6), C.white);
-  if (OV.fade > 0) fadeFrame(OV.fade);
+  if (OV.fade > 0) fadeFrame(OV.fade, OV.fadeColor);
   if (OV.card) {
     const a = Math.min(1, OV.card.t / 0.5) * Math.min(1, Math.max(0, (3.2 - OV.card.t) / 0.5));
     rect(0, 70, W, 50, C.black);
-    const t1 = `CHAPTER ${OV.card.n}`, t2 = OV.card.title;
+    const t1 = OV.card.n > 0 ? `CHAPTER ${OV.card.n}` : 'ENDING', t2 = OV.card.title;
     drawText(t1, Math.round((W - textWidth(t1)) / 2), 82, C.amb3);
     drawText(t2, Math.round((W - textWidth(t2)) / 2), 96, C.white);
     shadeRect(0, 70, W, 50, 1 - a);
   }
   if (OV.name) OV.name.render();
   if (OV.sluice) OV.sluice.render();
+  if (OV.mini) OV.mini.render();
   if (OV.gameOver) {
     rect(0, 0, W, H, C.black);
     const t = 'FLATLINED';
@@ -245,6 +247,9 @@ function render(dt: number) {
   if (OV.ending && credits) credits.render();
   present();
 }
+
+/** Harness switches: whether idle and play win the hacking minigames they skip. */
+const HARNESS = { miniWin: true };
 
 let last = performance.now();
 let acc = 0;
@@ -279,6 +284,7 @@ const H_ = {
     for (; i < maxFrames && (sceneRunning() || CB.active || OV.fade > 0); i++) {
       if (OV.name && i % 20 === 0) OV.name.done = OV.name.text || 'Lode';
       if (OV.card && i % 30 === 0) OV.card.t = 99;
+      if (OV.mini && i % 20 === 0 && !OV.mini.done) { OV.mini.won = HARNESS.miniWin; OV.mini.done = true; }
       if (OV.gameOver) return { ok: false, frames: i, why: 'game over' };
       if (i % 10 === 0 && menuOpen()) injectPress('b');
       else if (i % 10 === 0 && dialogueOpen()) injectPress('a');
@@ -296,6 +302,7 @@ const H_ = {
     for (; i < maxFrames && !done; i++) {
       if (OV.name && i % 20 === 0) OV.name.done = OV.name.text || 'Lode';
       if (OV.card && i % 30 === 0) OV.card.t = 99;
+      if (OV.mini && i % 20 === 0 && !OV.mini.done) { OV.mini.won = HARNESS.miniWin; OV.mini.done = true; }
       if (OV.gameOver) { err = 'game over'; break; }
       if (i % 10 === 0 && menuOpen()) injectPress('b');
       else if (i % 10 === 0 && dialogueOpen()) injectPress('a');
@@ -468,6 +475,8 @@ const H_ = {
     return (await fetch('/__shot?name=' + name, { method: 'POST', body: blob })).text();
   },
   /** Starts a test game in save slot 9 so real saves are never touched. */
+  /** Whether idle and play win or lose the hacking minigames they skip. */
+  miniWin: (on: boolean) => { HARNESS.miniWin = on; },
   setup: async (o: { name?: string; cls?: 'blade' | 'diver' | 'rigger' | 'mouth' } = {}) => {
     SETTINGS.slot = 9;
     mode = 'field';
@@ -481,7 +490,7 @@ const H_ = {
     combat: await import('./combat/combat'), core: await import('./combat/core'), actions: await import('./combat/actions'), state: await import('./game/state'), details: await import('./game/details'),
     dcontent: await import('./content/details'), quests: await import('./content/quests'), replay: await import('./content/replay'),
     shops: await import('./content/shops'), cards: await import('./content/cards'), rules: await import('./rules/data'),
-    companions: await import('./content/companions'), speakers: await import('./content/speakers'), maps: await import('./world/map'), sluice: await import('./ui/sluice'), people: await import('./art/people'), palette: await import('./engine/palette'),
+    companions: await import('./content/companions'), speakers: await import('./content/speakers'), maps: await import('./world/map'), sluice: await import('./ui/sluice'), hack: { splice: await import('./ui/splice'), current: await import('./ui/current'), bail: await import('./ui/bail'), puzzles: await import('./content/undertow_puzzles') }, people: await import('./art/people'), palette: await import('./engine/palette'),
   }),
   /** Opens every screen and returns the text that overlaps, touches, or is cut off. */
   uiAudit: async (parts?: import('./tools/uiaudit').Part[]) => (await import('./tools/uiaudit')).uiAudit(H_, parts),

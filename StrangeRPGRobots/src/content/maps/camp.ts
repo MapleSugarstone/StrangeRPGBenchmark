@@ -120,6 +120,6 @@ export const camp: MapDef = {
   triggers: [
     { x: 5, y: 5, w: 14, h: 22, scene: 'raid5_retry', showIf: 'raid5_on', hideIf: 'raid5_won' },
   ],
-  markers: { marit_bed: [13, 18], camp_tova: [6, 13], camp_ignace: [16, 20], brink_spot: [14, 18], opal_stall: [14, 24], gig_back: [12, 24], start: [11, 16], camp_hero: [11, 14], camp_sallis: [9, 14], camp_quaye: [15, 14], camp_ambrose: [7, 16], camp_courtesy: [11, 4], camp_bow: [12, 5], camp_rail: [17, 10], camp_rail_side: [16, 10], camp_wall: [12, 0], camp_stern: [12, 25], pull: [12, 0], marit_side: [12, 18], kees_spot: [8, 18] },
+  markers: { marit_bed: [13, 18], camp_tova: [6, 13], camp_ignace: [16, 20], brink_spot: [14, 18], opal_stall: [14, 24], gig_back: [12, 24], start: [11, 16], camp_hero: [11, 14], camp_sallis: [9, 14], camp_quaye: [15, 14], camp_ambrose: [7, 16], camp_courtesy: [11, 4], camp_bow: [12, 5], camp_rail: [17, 10], camp_rail_side: [16, 10], camp_wall: [12, 0], camp_stern: [12, 25], pull: [12, 0], marit_side: [12, 18], kees_spot: [8, 18], camp_anouk: [16, 16] },
   enter: 'camp_enter',
 };

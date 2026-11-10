@@ -1,15 +1,18 @@
 // Balance simulator: plays every map encounter many times with scripted parties and reports win rates and
 // fun metrics. Progress goes to Notes/sim-progress.txt every few seconds. Create Notes/sim.stop to end
-// early; the report covers everything finished so far.
-//   node dist-tools/sim.js [runs] [filter] [--profile careful|rush|poor] [--diff runner]
+// early, or pass --minutes to cap the run time; the report covers everything finished so far. In net maps the
+// hero's port joins as a fifth member.
+//   node dist-tools/sim.js [runs] [filter] [--profile careful|rush|poor] [--diff runner] [--minutes 20] [--out file]
+//   --arena adds net test fights with the expansion's enemies. --trees random spends tree points in a random
+//   branch order for every member, to cover every node. --uses lists how often the party used each ability.
 import fs from 'node:fs';
 import path from 'node:path';
 import { ALL_MAPS } from '../content/maps/index';
 import { registerMaps, MAPS, type MapDef, type EncounterDef } from '../world/map';
 import '../content/register';
 import { setSave, blankSave, G, type Difficulty } from '../game/state';
-import { makeMember, maxHp } from '../rules/stats';
-import { buildCompanion } from '../content/companions';
+import { makeMember, maxHp, autoSpend, isTreeNode } from '../rules/stats';
+import { buildCompanion, buildPort } from '../content/companions';
 import { WORLD, loadWorld, walkable } from '../world/world';
 import { findPath } from '../world/path';
 import { spawnEncounters, F } from '../world/field';
@@ -23,7 +26,11 @@ import { CLASSES } from '../rules/data';
 
 const args = process.argv.slice(2);
 const runs = Number(args.find((a) => /^\d+$/.test(a)) ?? 60);
-const filter = args.find((a) => !/^\d+$/.test(a) && !a.startsWith('--') && !['careful', 'rush', 'poor', 'story', 'runner', 'flatline'].includes(a));
+const valueOf = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : undefined);
+const flagValues = new Set(['--profile', '--diff', '--minutes', '--out', '--trees'].map(valueOf).filter(Boolean));
+const filter = args.find((a) => !/^\d+$/.test(a) && !a.startsWith('--') && !flagValues.has(a) && !['careful', 'rush', 'poor', 'story', 'runner', 'flatline'].includes(a));
+const minutes = Number(valueOf('--minutes') ?? 20);
+const outName = valueOf('--out') ?? 'sim-report.txt';
 const profArg = args.includes('--profile') ? args[args.indexOf('--profile') + 1] : null;
 const diff = (args.includes('--diff') ? args[args.indexOf('--diff') + 1] : 'runner') as Difficulty;
 const NOTES = path.resolve('Notes');
@@ -31,6 +38,46 @@ const PROGRESS = path.join(NOTES, 'sim-progress.txt');
 const STOP = path.join(NOTES, 'sim.stop');
 
 registerMaps(ALL_MAPS);
+const randomTrees = valueOf('--trees') === 'random';
+/** --trees old keeps only as many nodes as the old perk tiers gave (levels 4, 6, 8, 10), to measure the trees. */
+const oldTrees = valueOf('--trees') === 'old';
+
+// Net arenas for the expansion's enemies, so their abilities and the frost tide get played.
+const ARENA_ROWS = [
+  'BBBBBBBBBBBBBBBBBBBBBBBB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BAAAABBAAAAAAAAAABBAAAAB',
+  'BAAAABBAAAAaaAAAABBAAAAB',
+  'BAAAAAAAAAAaaAAAAAAAAAAB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BAAAAAAAABBAABBAAAAAAAAB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BAAAABBAAAAAAAAAABBAAAAB',
+  'BAAAABBAAAAAAAAAABBAAAAB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BAAAAAAAAAAAAAAAAAAAAAAB',
+  'BBBBBBBBBBBBBBBBBBBBBBBB',
+];
+const ARENA: MapDef = {
+  id: 'sim_arena', name: 'Sim Arena', district: 'net', net: true, ambient: 0x3ef0e8, ambientLevel: 0.45, rows: ARENA_ROWS, markers: {}, exits: [],
+  encounters: [
+    { id: 'arena_drifts', units: [{ kind: 'drift_anger', at: [18, 3] }, { kind: 'drift_grief', at: [19, 6] }, { kind: 'drift_joy', at: [18, 9] }, { kind: 'drift_fear', at: [20, 11] }], simParty: ['quaye', 'anouk'], simLevel: 5 },
+    { id: 'arena_desk', units: [{ kind: 'sentry', at: [20, 2] }, { kind: 'icehound', at: [17, 6] }, { kind: 'deskdiver', at: [20, 8] }, { kind: 'deskdiver', at: [19, 11] }], simParty: ['quaye', 'anouk'], simLevel: 6 },
+    { id: 'arena_maas', units: [{ kind: 'maas_net', at: [20, 6] }, { kind: 'deskdiver', at: [18, 3] }, { kind: 'icehound', at: [18, 10] }], simParty: ['anouk', 'tova', 'courtesy'], simLevel: 8 },
+    { id: 'arena_heart', units: [{ kind: 'quiet_heart', at: [20, 6] }, { kind: 'sentry', at: [21, 2] }, { kind: 'sentry', at: [21, 11] }], simParty: ['anouk', 'ambrose', 'quaye'], simLevel: 10, frostTide: { top: 1, bottom: 12, perRound: 1 } } as EncounterDef,
+    { id: 'arena_riders', units: [{ kind: 'rider', at: [18, 4] }, { kind: 'rider', at: [18, 8] }, { kind: 'rider', at: [19, 6] }, { kind: 'deskagent', at: [21, 6] }], simParty: ['anouk', 'ignace'], simLevel: 5 },
+  ],
+} as MapDef;
+if (args.includes('--arena')) registerMaps([ARENA]);
+
+/** Respends a member's tree points in a random branch order. */
+function shuffleTree(m: ReturnType<typeof makeMember>) {
+  m.perks = m.perks.filter((p) => !isTreeNode(m.cls, p));
+  const order = [0, 1, 2].sort(() => rng() - 0.5);
+  autoSpend(m, order);
+  m.hp = maxHp(m);
+}
 
 /** Party and level by chapter, for encounters that name their chapter with `ch` in the id or by map. */
 const PARTY_BY_CH: Record<number, { level: number; members: string[] }> = {
@@ -50,7 +97,7 @@ function chapterOf(def: MapDef, e: EncounterDef): number {
   return lv <= 1 ? 1 : lv <= 3 ? 2 : lv <= 5 ? 3 : lv <= 7 ? 4 : lv <= 8 ? 5 : 6;
 }
 
-function setupParty(ch: number, heroCls: 'blade' | 'diver' | 'rigger' | 'mouth', members?: string[], level?: number) {
+function setupParty(ch: number, heroCls: 'blade' | 'diver' | 'rigger' | 'mouth', members?: string[], level?: number, net = false) {
   const s = blankSave();
   s.difficulty = diff;
   setSave(s);
@@ -63,6 +110,9 @@ function setupParty(ch: number, heroCls: 'blade' | 'diver' | 'rigger' | 'mouth',
   G.items = { stim: 3, frag: 1 };
   G.chapter = ch;
   G.flags.port_powers = ch >= 4 ? 1 : 0;
+  if (net) { G.roster.port = buildPort(p.level); G.party.push('port'); }
+  if (randomTrees) for (const m of Object.values(G.roster)) shuffleTree(m);
+  if (oldTrees) for (const m of Object.values(G.roster)) { const keep = Math.max(0, Math.min(4, Math.floor((m.level - 2) / 2))); let n = 0; m.perks = m.perks.filter((p) => !isTreeNode(m.cls, p) || n++ < keep); m.hp = maxHp(m); }
 }
 
 /** Puts the party on open tiles 5 to 8 tiles from the encounter, on the side with the most room. */
@@ -97,7 +147,7 @@ let seed = 12345;
 function rng() { seed = (Math.imul(seed ^ (seed >>> 15), 2246822507) + 0x9e3779b9) >>> 0; return seed / 4294967296; }
 
 async function runOne(def: MapDef, e: EncounterDef, ch: number, cls: 'blade' | 'diver' | 'rigger' | 'mouth'): Promise<{ win: boolean; rounds: number; hpLeft: number; downed: number; close: boolean; variety: number; env: number; dead: number } | null> {
-  setupParty(ch, cls, e.simParty, e.simLevel);
+  setupParty(ch, cls, e.simParty?.filter((id) => id !== 'port'), e.simLevel, !!def.net);
   loadWorld(def);
   F.inCombat = false;
   for (const x of def.encounters ?? []) G.defeated.push(`${def.id}:${x.id}`);
@@ -133,7 +183,7 @@ async function main() {
     const ch = chapterOf(def, e);
     const row: Row = { id: `${def.id}:${e.id}`, ch, n: 0, wins: 0, rounds: 0, hpLeft: 0, downed: 0, close: 0, variety: 0, env: 0, dead: 0 };
     for (let i = 0; i < runs; i++) {
-      if (fs.existsSync(STOP)) { stopped = true; break; }
+      if (fs.existsSync(STOP) || Date.now() - t0 > minutes * 60000) { stopped = true; break; }
       const r = await runOne(def, e, ch, classes[i % 4]);
       done++;
       if (!r) { row.skipped = 'no room for the party'; break; }
@@ -154,7 +204,8 @@ async function main() {
   const head = `Fathom balance, ${diff}, ${runs} runs per fight${stopped ? ` (PARTIAL: stopped after ${done} fights)` : ''}`;
   const out = [head, 'fight | ch | win% | rounds | hp left | downed/fight | close% | variety | env/fight', ...rows.map(fmt)].join('\n');
   console.log(out);
-  fs.writeFileSync(path.join(NOTES, 'sim-report.txt'), out + '\n');
+  if (args.includes('--uses')) console.log('party ability uses: ' + Object.entries(CB.usage).sort((p, q) => q[1] - p[1]).map(([k, v]) => k + ' ' + v).join(', '));
+  fs.writeFileSync(path.join(NOTES, outName), out + '\n');
   fs.writeFileSync(PROGRESS, `done: ${done}/${total}${stopped ? ' (stopped)' : ''}\n`);
 }
 

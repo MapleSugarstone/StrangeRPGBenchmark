@@ -1,0 +1,779 @@
+# Undertow side quests and gigs: The Singing Sign (Brandt), Arrears Night (Kat), The Courier (Sem), Frostbite
+# (Hessel), Three Drifts (Kat's bounties), Sleepwalkers (the second building), Dead Channel (Ignace), and
+# The Last Ferry (the Undertow). Every one uses a minigame or a net fight and ends at least two ways.
+
+# ---------------------------------------------------------------- The Singing Sign
+
+== ut_sign_menu
+> if sign_done -> done
+?
+- {anouk} Anouk can hush it. Gently. -> hush
+- Let it sing. It's your mother's. -> stay
+- ?ut_beyond We could carry it to where the drowned live. -> carry
+- ?sign_carried It's on its way home. -> home_wait
+- ?!sign_told It said "supper's on the table." -> ut_sign_talk
+- Not tonight. -> bye
+* hush
+Brandt: Hush it? She'd hate that. She talked through every film.
+Brandt: ...Do it. I can't sleep. I keep waiting up for her.
+Anouk: Thirty seconds. It will not hurt it. Nothing hurts it.
+> walk anouk 52 25
+> face anouk right
+> sfx hush
+> anim hush brandt_spk
+> set sign_hushed
+> set sign_done
+> approve anouk 2
+> quest ut_sign done "Anouk hushed the speaker. Brandt sleeps through the night now."
+> gilt 50
+> end
+* stay
+Brandt: Then I'll keep the box open till it's done every night. Six bells.
+Brandt: People come to hear it. They sing along. Nobody knows the words but me.
+> set sign_stays
+> set sign_done
+> self 1
+> rep deeps 1
+> quest ut_sign done "Truus's port sings over Brandt's box every night at six. Brandt keeps the box open late."
+> end
+* carry
+Brandt: Where the drowned live. You mean past the Pale. You mean with the others.
+Brandt: She hated being alone. Go on. Take her.
+> set sign_carry_go
+> quest ut_sign 2
+> ifnot party:anouk -> d
+Anouk: The ad's port is still in the Steps pocket. We cut it loose and carry it in your port.
+* d
+> dive net_shallows @steps_in
+> goto ut_sign_net
+* home_wait
+Brandt: Tell her the box is still open. Tell her I sing her song.
+> end
+* bye
+* done
+
+== ut_sign_net
+> wait 0.8
+> walk hero @steps_front
+> face hero right
+> sfx blip
+Drowned: Truus, love. Wear your coat.
+> splice ut_sign_carry -> ok | bad
+* ok
+> sfx port
+> give signport
+> set sign_carried
+> if port_quiet|port_fading -> p
+PORT: She is in our neck. She is humming the bakery song. I am learning it.
+* p
+> quest ut_sign 3
+> surface
+> end
+* bad
+> sfx error
+Drowned: Lock Road Bakery, open at six!
+> ifnot party:anouk -> b2
+Anouk: It tore at the edge. It will not move now. It will stay and sing.
+* b2
+> set sign_stays
+> set sign_done
+> quest ut_sign done "Truus's port would not come loose. It sings over Brandt's box every night."
+> surface
+
+== ut_truus_give
+> take signport
+> sfx port
+> wait 1
+> enter truus brandt 21 10 up
+> walk truus 19 5
+> face truus mam
+> set sign_home
+> set sign_done
+Drowned: Truus, love. Supper's on the table.
+Mam: Sleep tight, love.
+> if port_quiet|port_fading -> p
+PORT: She went to the big one. They are standing together. Is that home?
+* p
+> quest ut_sign done "Truus's port is with the drowned in the Ferry Hall. Brandt's speaker has gone quiet."
+> rep woken 1
+> self 1
+
+== ut_truus_hall
+> face truus hero
+Drowned: Lock Road Bakery. Open at six.
+Drowned: Tell Elsje I'll be late.
+> wait 1
+(Elsje Brandt's name is painted on the stall's speaker.)
+
+# ---------------------------------------------------------------- Arrears Night (Kat)
+
+== ut_kat_arrears
+> face kat hero
+> if arrears_done -> pay
+> if quest:ut_arrears -> wait
+Kat: Runner. This one's called Arrears Night.
+Kat: Bodywell runs its lease server through a Shallows node. Every switched-off limb in Pell is on it.
+Kat: Switch them all back on. One night. Four hundred.
+Kat: Do it clean and leave no clock on them, and it's for good. Then I'll owe you a favor.
+> ifnot party:ambrose -> a
+Ambrose: Every limb in Pell. Every leased knee. My knee. My compatriots' knees.
+Ambrose: Kat, you are a poet of commerce. I accept on behalf of my entire body.
+> approve ambrose 2
+* a
+> set arrears_open
+> quest ut_arrears 1
+?
+- Dive now. -> dive
+- Later. -> bye
+* wait
+Kat: Bodywell's node. Behind the gate in the Shallows. Still waiting.
+?
+- Dive now. -> dive
+- Later. -> bye
+* dive
+Kat: Chair's behind the curtain. It's warm. Somebody just left it.
+> dive net_shallows @bw_in
+> goto ut_arrears_in
+* pay
+> if arrears_paid -> paid
+> set arrears_paid
+> if arrears_forever -> big
+Kat: One night. Pell danced till the twelfth bell. Four hundred.
+> gilt 400
+> quest ut_arrears done
+> end
+* big
+Kat: For good. Bodywell's screaming down the wire. Four hundred, and a favor.
+Kat: I'll sing your name at Violet. That's the favor.
+> gilt 500
+> quest ut_arrears done
+> end
+* paid
+Kat: That song's sung, Runner.
+* bye
+
+== ut_arrears_in
+> wait 0.8
+> camera @bw_front 1
+> wait 1
+> camera hero 1
+> ifnot party:anouk -> a
+Anouk: Bodywell's node. Commercial ICE. It is badly written. That is not an invitation.
+* a
+> ifnot party:quaye -> b
+Quaye: Twelve racks. Eleven thousand leases. One clock. Kill the clock, kid.
+* b
+
+== ut_arrears_node
+> face hero up
+> if arrears_done -> done
+> ifnot quest:ut_arrears -> shut
+? Bodywell's lease server. Every leased limb in Pell Market, and a clock beside each one.
+- Splice it. -> sp
+- Leave it. -> no
+* sp
+> splice ut_arrears -> ok | bad
+* ok
+> set arrears_done
+> set arrears_night
+> if arrears_clock&arrears_ledger -> forever
+> goto res
+* forever
+> set arrears_forever
+* res
+> rep bodywell -3
+> rep deeps 2
+> ifnot party:ambrose -> a
+> if arrears_forever -> af
+Ambrose: Tonight every arm in Pell is its owner's arm. Tonight I would kiss a lamppost.
+> approve ambrose 3
+> goto a
+* af
+Ambrose: Forever. They cannot switch us off. Hear that, Bodywell? Forever is a long word.
+Ambrose: Okay. Okay. Sorry. I need to sit down.
+> approve ambrose 5
+* a
+> ifnot party:anouk -> b
+Anouk: That was illegal. It was also correct. I am logging only the second part.
+* b
+> quest ut_arrears 2
+> autosave
+> end
+* bad
+> sfx alarm
+> ifnot bw_fought -> ice
+Anouk: Traced again. The node is locked until morning.
+> end
+* ice
+Anouk: Traced. Bodywell's ICE. It wants to repossess your port.
+> set bw_on
+> fight ut_bw_ice
+> set bw_fought
+> ifnot party:quaye -> c
+Quaye: Their ICE is dead. The clock's still running. Try again, kid. Faster.
+* c
+> end
+* shut
+(BODYWELL. YOUR BODY, YOUR PLAN. Authorized leases only.)
+* done
+(The lease server is quiet. Every clock reads zero.)
+* no
+
+# ---------------------------------------------------------------- The Courier (Sem)
+
+== ut_sem_talk
+> face sem hero
+> if courier_done -> after
+Sem: Don't. I'm not here. I'm not anywhere.
+> ifnot party:sallis -> nos
+> face sem sallis
+Sem: You're Vein. The circle on your sleeve. Okay. Okay.
+* nos
+Sem: I'm carrying a packet in my port. Cellar list for Cell Six. The Desk is tracing it.
+Sem: Every time I stop, the trace catches up. I can't stop.
+?
+- We'll shake the trace for you. -> help
+- Dump the packet. It's not worth your head. -> dump
+- What's the Vein pay for a clean run? -> money
+* money
+Sem: Nothing. Sixty gilt from my own pocket. That's it. That's all of it.
+> goto help2
+* dump
+Sem: Dump it? It's forty names. Forty wilds and their cellars. I'd rather get caught.
+> goto help2
+* help
+* help2
+?
+- I'll ride the current with it. Take me in. -> go
+- Later. -> bye
+* go
+> set courier_on
+> quest ut_courier 1
+> dive net_shallows @courier_in
+> goto ut_courier_node
+* after
+> if sem_frostbit -> flat
+Sem: Still here. Still uncounted.
+> end
+* flat
+Sem: The left side of my head's cold. The Desk doc says a month. Maybe.
+* bye
+
+== ut_courier_node
+> face hero up
+> if courier_done -> done
+> ifnot courier_on -> shut
+? The courier pad. Sem's packet sits in your port, warm. The Desk's trace is right behind it.
+- Ride the current. -> surf
+- Not yet. -> no
+* surf
+> surf ut_courier -> ok | bad
+* ok
+> set courier_done
+> rep vein 2
+> ifnot party:sallis -> s
+Sallis: Clean. Forty cellars. Good run.
+> approve sallis 2
+* s
+> ifnot party:anouk -> a
+Anouk: That trace was ours. The Desk's. I am not going to mention that.
+* a
+> quest ut_courier done "The trace lost Sem's packet in the Shallows. Forty cellars are still uncounted."
+> gilt 60
+> surface
+> end
+* bad
+> set courier_done
+> set sem_frostbit
+> sfx hush
+> ifnot party:anouk -> b
+Anouk: The trace caught the packet. It frosted the port carrying it. Sem's port.
+* b
+> rep vein -1
+> quest ut_courier done "The Desk's trace caught Sem's packet. He is frostbitten. The list got through, slowly."
+> surface
+> end
+* shut
+(A courier pad. Fast packets leave from here.)
+* done
+(The pad is quiet.)
+* no
+
+== ut_sem_after
+> goto ut_sem_talk
+
+# ---------------------------------------------------------------- Frostbite (Hessel)
+
+== ut_hessel_talk
+> face hessel hero
+> if quest:ut_frostbite -> wait
+Hessel: Desk.
+> wait 2
+Hessel: Used to be.
+> wait 2
+Hessel: Touched the Pale. Came back. Not all.
+> ifnot party:quaye -> q
+> face hessel quaye
+> wait 1.5
+Hessel: Quaye.
+Quaye: Hessel. Bailer project, the cable crew. You did the night shifts.
+Quaye: You used to talk. You never stopped talking.
+Hessel: Yes.
+> approve quaye 1
+* q
+> ifnot party:anouk -> a
+Anouk: Diver Hessel. Frostbite, eight months. The gray part of his port is still in the Shallows.
+Anouk: The Desk filed it as lost. It is not lost. It is behind a gate, southwest.
+* a
+?
+- We'll bring it back. -> help
+- There's nothing we can do. -> no
+- Does the Desk pay for recovery? -> money
+* money
+> ifnot party:anouk -> help
+Anouk: The Desk does not recover frostbite. It replaces divers.
+* help
+> set frostbite_open
+> quest ut_frostbite 1
+Hessel: Thank you.
+> wait 2
+Hessel: Cold there.
+> wait 1
+Hessel: My jack. Use it.
+?
+- Dive now. -> go
+- Later. -> later
+* go
+> dive net_shallows @hessel_in
+> end
+* later
+Hessel: Later. Yes.
+> end
+* no
+Hessel: No.
+> end
+* wait
+Hessel: Gray. Southwest.
+?
+- Use your jack. -> go
+- Later. -> later
+
+== ut_hessel_frost
+> if hessel_fought -> done
+> camera @hessel_front 1
+> wait 1
+> ifnot party:anouk -> a
+Anouk: Desk ICE. Still guarding a dead diver's memory. That is procedure, too.
+* a
+> camera hero 1
+> set hessel_on
+> fight ut_hessel_f
+> set hessel_fought
+> ifnot party:quaye -> done
+Quaye: There he is. Gray as a sink. Get him warm, kid.
+* done
+
+== ut_hessel_echo
+> face hessel_echo hero
+> if hessel_done -> done
+> ifnot hessel_fought -> ice
+Desk Diver: Pale check. Cold. Pale check. Cold. Cold.
+? A gray avatar, frozen to the knees. The frost runs in lines away from it.
+- Route the warm out of the cables and into him. -> b
+- Leave him. -> no
+* b
+> bail ut_hessel_thaw -> ok | bad
+* ok
+> set hessel_done
+> sfx heal
+Desk Diver: Pale check. Quiet.
+Desk Diver: Wife's name. Sanne. Sanne. I forgot Sanne.
+> quest ut_frostbite done "Hessel's frozen memory is back in his port. He remembered his wife's name."
+> xp 200
+> approve quaye 2 anouk 2
+> end
+* bad
+> set hessel_done
+> set hessel_partial
+Desk Diver: Pale check... Cold.
+> quest ut_frostbite done "Part of Hessel's memory thawed. The rest stayed in the frost."
+> approve quaye 1
+> end
+* ice
+(Desk ICE stands around the gray avatar. It has not seen you yet.)
+> end
+* done
+(Nobody is here now. The frost has gone soft.)
+* no
+
+== ut_hessel_after
+> face hessel hero
+> if hessel_partial -> part
+Hessel: Thank you. I talk again. My wife says too much.
+Hessel: Sanne. Terrace 4. Tomatoes, if you want them. Red ones.
+> ifnot party:quaye -> fin
+Quaye: There he is. Night shift Hessel.
+* fin
+> end
+* part
+Hessel: Better.
+> wait 1.5
+Hessel: Some things. Not her name. Not yet.
+
+# ---------------------------------------------------------------- Three Drifts (Kat's bounties)
+
+== ut_kat_bounty
+> face kat hero
+> if b_door_done&b_ad_done&b_lift_done -> pay
+> if quest:ut_bounty -> wait
+Kat: Runner. This one's called Three Drifts. It's a short song. Three verses.
+Kat: A lock daemon has Terrace 1's doors shut. An ad on the Steps stops people dead.
+Kat: A jingle in a terraces lift sends it up and down all night. All of them are in the Shallows.
+Kat: Fight them, cut them, or talk them back over. A hundred a verse.
+> quest ut_bounty 1
+?
+- Dive now. -> dive
+- Later. -> bye
+* wait
+Kat: Verses left. Door, ad, lift. Whichever's still singing.
+?
+- Dive now. -> dive
+- Later. -> bye
+* dive
+> dive net_shallows @hub_in
+> end
+* pay
+> if bounty_paid -> paid
+> set bounty_paid
+Kat: Three verses. That's a whole song. Three hundred, and an encore of fifty.
+> gilt 350
+> quest ut_bounty done
+> end
+* paid
+Kat: That song's sung, Runner.
+* bye
+
+== ut_bounty_door
+> face door_drift hero
+> if b_door_done -> done
+Drowned: LOCKED. LOCKED. RESIDENTS ONLY. LOCKED.
+> ifnot party:anouk -> a
+Anouk: A door-lock daemon. It woke angry. It thinks everyone is a burglar.
+* a
+?
+- [Talk 3] We're residents. Everyone's a resident. Open up. -> talk | fight
+- Cut it. -> sp
+- Put it down. -> fight
+* talk
+Drowned: Resident. Resident. Welcome home.
+> anim still door_drift
+> set b_door_done
+> self 1
+> goto out
+* sp
+> splice ut_b_door -> sp_ok | fight
+* sp_ok
+> sfx shock
+> set b_door_done
+> goto out
+* fight
+> set b_door_fight
+> fight ut_b_door_f
+> set b_door_done
+* out
+> quest ut_bounty 2
+* done
+
+== ut_bounty_ad
+> face ad_drift hero
+> if b_ad_done -> done
+Drowned: SALE. EVERYTHING MUST GO. EVERYTHING. EVERYTHING MUST GO.
+> ifnot party:anouk -> a
+Anouk: A clearance ad. It woke in grief. People stop under it and cannot remember why.
+* a
+?
+- [Talk 2] Nothing has to go. Let them keep walking. -> talk | fight
+- {ignace} Ignace. Talk it down. -> ignace
+- Cut it. -> sp
+- Put it down. -> fight
+* ignace
+Ignace: Peace, small ad. Everything must go, and everything goes. You may rest now.
+Drowned: Everything... goes.
+> approve ignace 1
+* talk
+> anim still ad_drift
+> set b_ad_done
+> self 1
+> goto out
+* sp
+> splice ut_b_ad -> sp_ok | fight
+* sp_ok
+> sfx shock
+> set b_ad_done
+> goto out
+* fight
+> set b_ad_fight
+> fight ut_b_ad_f
+> set b_ad_done
+* out
+> quest ut_bounty 2
+* done
+
+== ut_bounty_lift
+> face lift_drift hero
+> if b_lift_done -> done
+Drowned: UP UP UP! DOWN DOWN DOWN! UP UP UP!
+> ifnot party:tova -> a
+Tova: oh no. that's a joy one. that's a line 2. that's... is that mine? i think that's mine.
+Tova: i woke a lift last summer for a party. it was a good party.
+> approve tova -1
+* a
+?
+- {tova} Tova. It's yours. Ask it nicely. -> tova
+- [Talk 2] Sing it a song that ends. -> talk | fight
+- Cut it. -> sp
+- Put it down. -> fight
+* tova
+> mood tova calm
+Tova: hey. hey you. party's over. go home. it was a good one.
+Drowned: Up... down. Good night.
+> approve tova 2
+* talk
+> anim still lift_drift
+> set b_lift_done
+> self 1
+> goto out
+* sp
+> splice ut_b_lift -> sp_ok | fight
+* sp_ok
+> sfx shock
+> set b_lift_done
+> goto out
+* fight
+> set b_lift_fight
+> fight ut_b_lift_f
+> set b_lift_done
+* out
+> quest ut_bounty 2
+* done
+
+# ---------------------------------------------------------------- Sleepwalkers: the second building
+
+== ut_sleep2_box
+> face hero up
+> if sleep2_done -> done
+> ifnot party:anouk -> a
+Anouk: The same route as the first building. Copied, line for line. Somebody is teaching them.
+* a
+? The building's junction. Three sleepers walk toward the Spire gate with their eyes shut.
+- Reroute it in the Shallows. -> dive
+- Wake them here. -> wake
+- Not now. -> no
+* dive
+> bail ut_sleep2_bail -> ok | bad
+* ok
+> set sleep2_done
+> set sleep2_routed
+> quest ut_sleep done "Both buildings' routes are fixed. The terraces sleep in their own beds."
+> rep deeps 1
+> end
+* bad
+> sfx error
+> ifnot party:anouk -> wake
+Anouk: The route is holding. We will have to wake them.
+* wake
+> if riders2_on -> rfight
+> walk sleeper5 @rider2_a &
+> walk sleeper6 @rider2_b &
+> walk sleeper7 @rider2_c
+> set riders2_on
+* rfight
+> fight ut_riders2
+> set sleep2_done
+> quest ut_sleep done "You woke the second building's sleepers one by one. They walk every night until the Pale changes."
+> end
+* done
+(The junction box hums at a normal pitch.)
+* no
+
+# ---------------------------------------------------------------- Dead Channel (Ignace)
+
+== ut_channel_hear
+> if quest:ut_channel -> done
+> face ignace hero
+> sfx blip
+Drowned: Repent, Fathom. The water rises because you are wet with sin.
+Drowned: Walk to her. Walk into the water and be raised.
+> wait 1.5
+Ignace: That's Channel Nine. The Church radio. That's Archdeacon Pruim. He died before I was born.
+Ignace: That's the Wet Night sermon. They played it all night while people walked into the canals.
+Ignace: It's still broadcasting. In here. Of course it is.
+> set channel_open
+> anim open channel_open
+> quest ut_channel 1
+* done
+
+== ut_channel_node
+> face hero up
+> if channel_done -> done
+> ifnot channel_fought -> ice
+? Channel Nine. The Wet Night sermon, still on air.
+- Shut it off. -> off
+- ?party:ignace Let Ignace rewrite it. -> rewrite
+- ?party:ignace Sell blessings against frost while it plays. -> sell
+* ice
+> set channel_on
+> fight ut_channel_f
+> set channel_fought
+> ifnot party:ignace -> done
+Ignace: The sermon had guards. Fear and grief. Naturally.
+> goto ut_channel_node
+* off
+> splice ut_channel -> ok | bad
+* ok
+> set channel_done
+> set channel_off
+Ignace: Off. Forty years of the worst sermon in the city, and it's off.
+> approve ignace 1
+> rep church -1
+> quest ut_channel done "Channel Nine is off the air. The Wet Night sermon has stopped."
+> end
+* bad
+> sfx error
+Ignace: It's still going. Pruim always did run long.
+> goto ut_channel_node
+* rewrite
+> splice ut_channel -> rw | bad
+* rw
+> set channel_done
+> set channel_rewrite
+Ignace: Blessed be the wet, for they are not wicked. They are only wet.
+Ignace: Stay in. Stay dry. Ring your mother. Two gilt, friend. No. Free. It's free.
+> approve ignace 3 anouk 1
+> rep church 1
+> quest ut_channel done "Ignace rewrote the Wet Night sermon. Channel Nine tells people to stay in and ring their mothers."
+> end
+* sell
+Ignace: Blessings against frost. Two gilt each. I can move a thousand by Sunday.
+> gilt 200
+> set channel_done
+> set channel_sold
+> approve ignace 1 tova -2 anouk -2
+> quest ut_channel done "Ignace sold blessings against frost to the faithful. The sermon still plays."
+> end
+* done
+(Channel Nine.)
+
+== ut_cache_channel
+> face hero right
+Drowned: Church of the Raised Hand, Channel Nine. Mass at six. Candles at the door.
+Drowned: Two gilt for a candle. Two gilt.
+> ifnot party:ignace -> fin
+Ignace: Two gilt. Forty years ago. The price has never moved. That's the only honest thing about it.
+* fin
+
+# ---------------------------------------------------------------- The Last Ferry
+
+== ut_ferry_drift
+> face ferry_drift hero
+> if ferry_done -> done
+Drowned: Ferry at six. Pier 2. Ferry at six. Pier 2. On time.
+Drowned: Ferry at six. Pier 2.
+> ifnot party:anouk -> a
+Anouk: The old ferry timetable. It woke grieving. It keeps sending the six o'clock ferry.
+Anouk: The six o'clock sank in the Flood. With everyone on it.
+* a
+> ifnot party:quaye -> q
+Quaye: The Morgenster. Pell to the islands. It's lying on its side on the Flats.
+* q
+?
+- We'll take the route. All the way to the Stair pier. -> take
+- Leave it be. -> bye
+* take
+> set ferry_on
+> quest ut_ferry 1
+Drowned: Ferry at six. Boarding.
+> end
+* done
+Drowned: Arrived.
+* bye
+
+== ut_ferry_node
+> face hero right
+> if ferry_done -> travel
+> ifnot ferry_on -> shut
+? Pier 2. The current runs east, out of the hall, toward a stair that isn't there.
+- Ride the ferry's route. -> surf
+- Not yet. -> no
+* surf
+> surf ut_ferry -> ok | bad
+* ok
+> set ferry_done
+> sfx bailer
+Drowned: Ferry at six. Arrived. Arrived.
+> anim still ferry_drift
+> rep woken 1
+> self 1
+> quest ut_ferry done "The ferry timetable's last ferry arrived. Pier 2 runs between the message hall and the Ferry Hall now."
+> warp net_ferryhall @ferry_front2 up
+> end
+* bad
+> sfx splash
+Drowned: Ferry at six. Delayed. Ferry at six.
+> end
+* travel
+?
+- Take the ferry to the Ferry Hall. -> go
+- Stay. -> no
+* go
+> warp net_ferryhall @ferry_front2 up
+> end
+* shut
+(A pier in the message hall. The current is too fast to wade.)
+* no
+
+== ut_ferry_back
+> face hero up
+?
+- Take the ferry back to the message hall. -> go
+- Stay. -> no
+* go
+> warp net_exchange @pier_front up
+* no
+
+== ut_small_left
+> face small2 hero
+Small: noekie's here sometimes. on the trams.
+Small: one two three, the water's free.
+
+# ---------------------------------------------------------------- World events
+
+== ut_ev_ad
+> wait 0.6
+> sfx blip
+(A holo-ad over the walkway reads FERRY AT SIX. Then it reads NOODLES again.)
+> if port_quiet|port_fading -> fin
+PORT: That one was a drowned one. I know the voice now. Is it following us?
+* fin
+
+== ut_ev_sleeper
+> wait 0.6
+Neighbor: My husband walked to the top of the ramp last night. Eyes shut. In his socks.
+Neighbor: He says he was going home. We live here. We've always lived here.
+
+== ut_ev_frostbite
+> wait 0.6
+Desk Diver: Excuse me. Which way is the Lock? I had it a minute ago.
+Desk Diver: I touched the wall. I am fine. The Desk says I will be fine in a month.
+> ifnot party:anouk -> fin
+Anouk: Diver Kool. Frostbite leave. Down the stairs, Kool. The Lock is at the bottom.
+* fin
+
+== ut_ev_lamp
+> wait 0.6
+> sfx blip
+(A streetlamp at the water's edge hums, very low. The hum has words in it.)
+Drowned: Home by eight.
+> ifnot party:anouk -> fin
+Anouk: It came through on its own. The Pale is thinner than it has ever been.
+* fin

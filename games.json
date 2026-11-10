@@ -516,6 +516,38 @@
       "chapters": 14,
       "blurb": "The world cooled and cracked. From the fissures, the Ruin pour out, shapeless until you give them purpose. You are Shard, a fragment with no memory of the Great Vessel that birthed these sinking islands. Keep the bridges standing. Bind the spillage into Shardlings with your Magnet. Feed them tasks or watch them crumble to dust. The ground is falling. Find the source. Stop the pour. Or let it all break.",
       "controls": "Arrows or WASD move. Z, Enter, or Space confirms and talks. X or Esc goes back and opens the menu. M mutes."
+    },
+    {
+      "id": "unsurveyed",
+      "title": "Unsurveyed",
+      "model": "Claude Fable 5.2",
+      "effort": "Extra high",
+      "folder": "StrangeRPGBenchmarkFable52",
+      "status": "playable",
+      "build": {
+        "command": "npm run build",
+        "dist": "dist",
+        "exclude": [
+          "harness.js"
+        ]
+      },
+      "colors": {
+        "accent": "#e8402a",
+        "ink": "#2b2620"
+      },
+      "hero": {
+        "name": "Perch",
+        "role": "Junior surveyor, eleven sheets unsigned",
+        "sprite": "menu/art/unsurveyed-hero.png"
+      },
+      "scene": "menu/art/unsurveyed-sheet.png",
+      "shots": [
+        "menu/art/unsurveyed-fight.png",
+        "menu/art/unsurveyed-title.png"
+      ],
+      "chapters": 6,
+      "blurb": "Past the last sheet of the map, ground is two things at once until someone measures it. Perch carries a chain for the Office of Survey and plays a board game for land against four rivals: sketch tiles, measure them, peg them, and make deals that nobody enforces. Each rival follows rules you can read and remembers what you did. Whoever closes a sheet picks what counts on the next one, so no two campaigns run the same. One to four people can play a single sheet.",
+      "controls": "Arrows or WASD move your pawn. Z, Enter, or Space opens your actions and confirms. X or Esc goes back. Tab shows rivals and rules. E ends your turn. R opens the rules. Hold Shift to hurry the rivals. M mutes. Clicking works too."
     }
   ]
 }

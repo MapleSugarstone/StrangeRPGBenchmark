@@ -12,19 +12,22 @@ import { hash } from '../world/tiles';
 interface Row { text?: string; color?: number; who?: string; gap?: number }
 
 function rows(): Row[] {
-  const out: Row[] = [{ text: 'FATHOM', color: C.cyan3, gap: 14 }];
+  const out: Row[] = [{ text: 'FATHOM', color: C.cyan3, gap: G.flags.pale_thaw || G.flags.pale_held ? 4 : 14 }];
+  if (G.flags.pale_thaw) out.push({ text: 'Ending: Low Water', color: C.cyan4, gap: 14 });
+  else if (G.flags.pale_held) out.push({ text: 'Ending: Frost', color: C.steel4, gap: 14 });
   out.push({ text: 'Your crew', color: C.amb3, gap: 4 });
+  const away = (id: string) => (id === 'anouk' && (!!G.flags.pale_anouk || (!!G.flags.anouk_returned && !G.flags.anouk_back)));
   for (const m of Object.values(G.roster)) {
-    if (m.dead) continue;
+    if (m.dead || m.id === 'port' || away(m.id)) continue;
     out.push({ who: m.id, text: `${m.id === 'hero' ? G.heroName : m.name} (level ${m.level})`, color: C.pale, gap: 3 });
   }
-  const gone = Object.values(G.roster).filter((m) => m.dead);
+  const gone = Object.values(G.roster).filter((m) => m.dead || away(m.id));
   if (gone.length) {
     out.push({ text: 'Not with you at the end', color: C.amb3, gap: 4 });
     for (const m of gone) out.push({ who: m.id, text: m.name, color: C.gray, gap: 3 });
   }
   out.push({ gap: 10 });
-  out.push({ text: `${G.port.name}`, color: C.cyan4 }, { text: `Hold: ${G.port.hold}, Self: ${G.port.self}`, color: C.gray, gap: 10 });
+  out.push({ text: `${G.port.name}`, color: C.cyan4 }, { text: G.flags.pale_port ? 'Holding the Pale' : `Hold: ${G.port.hold}, Self: ${G.port.self}`, color: C.gray, gap: 10 });
   const done = Object.values(G.quests).filter((q) => q.done).length;
   out.push({ text: `${done} jobs completed`, color: C.pale }, { text: `Played for ${fmtTime(G.playtime)}`, color: C.pale, gap: 14 });
   out.push({ text: 'Story, code, art, and music', color: C.amb3 }, { text: 'Claude Opus 5.5', color: C.pale, gap: 10 });

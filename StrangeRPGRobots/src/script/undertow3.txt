@@ -1,0 +1,1010 @@
+# Undertow, part 3: The Cold Room. Chapter 6. The lift down from the Crown, Maas or his note, the dive into the
+# Pale's heart, the Hush Engine, and the choice: Low Water (pale_thaw) or Frost (pale_held). Also the Low Water
+# version of Pump Hall, Mam on the Seawalk, and the Pale's epilogue slides. Flags: Notes/undertow-notes.md.
+
+# ---------------------------------------------------------------- The lift down
+
+== ut_crown_down
+> face hero up
+? A lift with one button. It points down. COLD ROOM. DESK STAFF ONLY.
+- Go down. -> go
+- Not yet. -> no
+* go
+> sfx door
+> warp coldroom @lift_in down
+> goto ut_cold_arrive
+* no
+
+== ut_cold_arrive
+> if cold_seen -> again
+> set cold_seen
+> wait 0.8
+> camera @x_tanks 1.5
+> wait 1.5
+> camera hero 1.5
+> if anouk_returned -> fin
+> ifnot party:anouk -> bring
+> goto talk
+* bring
+> ifnot roster:anouk -> fin
+> sfx door
+> enter anouk anouk @lift_in down
+> walk anouk @party_cold
+Anouk: I took the stairs. Two hundred and twelve steps. I counted.
+> anim party
+> join anouk
+* talk
+Anouk: The Cold Room. I have never been here. My blood has been here every week.
+> ifnot party:quaye -> c
+Quaye: Six tanks. Each one is a year of Thursdays, give or take. Coolant's Hush.
+* c
+> ifnot party:courtesy -> t
+Courtesy: THIS UNIT IS COLD. THIS UNIT WAS COLD BEFORE. QUIET PLEASE.
+* t
+> ifnot party:tova -> m
+Tova: it smells like the census van. exactly like it. like a fridge and a plaster.
+* m
+> if maas_turned -> note
+> goto fin
+* note
+Anouk: Nobody is here. The door was open. Maas said he would leave it open.
+* fin
+> quest undertow 15
+> autosave
+* again
+
+== ut_cold_console
+> face hero up
+> ifnot maas_turned -> plain
+(A note on the console, in square handwriting.)
+(DOOR LEFT OPEN 02:10. CHAIR TESTED 02:20. PALE AT 61%.)
+(THE ASSET MAY DO AS SHE LIKES. THIS IS NOT PROCEDURE. W.M.)
+> ifnot party:anouk -> fin
+Anouk: He signed it. He signs everything.
+> end
+* plain
+(PALE INTEGRITY 61%. SAMPLE LINE: STAIR OFFICE TO TANK 4. CHAIR 0017: STANDBY.)
+* fin
+
+== ut_cold_meet
+> if cold_clear -> done
+> set cold_met
+> if anouk_returned -> back
+> camera @cold_mid 1
+> face maas hero
+Maas: The crew. The Cold Room. Five avatars beat one Director in the net. Noted.
+Maas: The asset will not sit in that chair tonight.
+> ifnot party:anouk -> m2
+> face maas anouk
+Maas: Asset Terwal. The Pale is at sixty-one. If you sit there, it goes lower or higher.
+Maas: Nobody knows which. I do not know which.
+* m2
+> camera hero 1
+?
+- [Talk 3] It's her chair, Maas. Her blood. Let her decide. -> aside | fight
+- ?desk_file [Talk 2] You wrote "keep the asset quiet." She isn't quiet anymore. -> aside | fight
+- Step aside, or go down again. -> fight
+* aside
+> wait 1.5
+Maas: Anouk.
+> wait 1.5
+Maas: Stand down. Logged.
+> walk cagent1 @lift_in &
+> walk cagent2 @lift_in
+> exit cagent1
+> exit cagent2
+> walk cdrone1 @lift_in &
+> walk cdrone2 @lift_in
+> exit cdrone1
+> exit cdrone2
+> walk cdiver 29 19
+> walk cdiver @lift_in
+> exit cdiver
+> walk maas 9 17
+> face maas right
+> set maas_aside
+> set cold_clear
+> approve anouk 2
+> autosave
+> end
+* fight
+Maas: Noted.
+> set cold_fight
+> fight ut_cold_fight
+> set cold_clear
+> enter maas maas @maas_spot up
+> anim down maas
+> wait 1
+Maas: Anouk.
+> wait 1
+Maas: The chair is cold. Bring a coat.
+> set maas_gone
+> autosave
+> end
+* back
+> camera @anouk_chair_spot 1
+> face anouk hero
+Anouk: Thursday. 09:00. It is not Thursday. I came anyway.
+> face maas hero
+Maas: The asset has been returned to duty. The asset is about to sit.
+> camera hero 1
+?
+- [Talk 3] He kept you quiet for twenty-two years. Don't let him finish it. -> come | stay
+- ?mies_carried [Talk 2] Mies is in your port. She came down the stairs for you once. -> come | stay
+- If you sit in that chair, you sit there for good. Your call. -> stay
+* come
+> wait 1.5
+Anouk: I don't want to be quiet.
+> wait 1
+Anouk: I do not want to be quiet. I would like that logged, Director.
+> face maas anouk
+Maas: Anouk.
+> wait 1.2
+Maas: Logged.
+> walk anouk @party_cold
+> unset anouk_taken
+> set anouk_back
+> join anouk
+> approve anouk 6
+> walk maas 9 17
+> face maas right
+> set cold_clear
+> autosave
+> end
+* stay
+Anouk: Then help me hold it. That is what I am for. That is what the file says I am for.
+> face maas anouk
+Maas: Anouk. The asset will be supervised.
+> walk anouk @party_cold
+> unset anouk_taken
+> set anouk_back
+> set anouk_cold
+> join anouk
+> walk maas 9 17
+> face maas right
+> set cold_clear
+> autosave
+> end
+* done
+
+== ut_cold_retry
+Maas: Again. Noted.
+> fight ut_cold_fight
+> set cold_clear
+> enter maas maas @maas_spot up
+> anim down maas
+> wait 1
+Maas: Anouk.
+> wait 1
+Maas: The chair is cold. Bring a coat.
+> set maas_gone
+> autosave
+
+== ut_thaw_retry
+Rider: Home. Home by eight. Let me past.
+> fight ut_thaw_door
+> set thaw_held
+> unset thaw_hold
+> goto ut_up
+
+== ut_bounty_retry
+> if b_door_fight&!b_door_done -> d
+> if b_ad_fight&!b_ad_done -> a
+> if b_lift_fight&!b_lift_done -> l
+> end
+* d
+> fight ut_b_door_f
+> set b_door_done
+> quest ut_bounty 2
+> end
+* a
+> fight ut_b_ad_f
+> set b_ad_done
+> quest ut_bounty 2
+> end
+* l
+> fight ut_b_lift_f
+> set b_lift_done
+> quest ut_bounty 2
+
+== ut_cold_maas
+> face maas hero
+> if maas_aside -> aside
+> if cold_clear -> aside
+Maas: Quiet, please.
+> end
+* aside
+Maas: The Pale is at sixty-one. I will log whatever happens. Somebody should.
+
+== ut_cold_anouk
+> face anouk hero
+> goto ut_cold_meet
+
+== ut_cold_chair
+> face hero up
+> if pale_thaw|pale_held -> done
+> if maas_beaten&!cold_clear -> blocked
+> if anouk_returned&!anouk_back -> blocked
+> ifnot party:anouk -> need
+Anouk: My chair. My number is on the arm. 0017. I did not know I had a number this small.
+Anouk: Breathe out. That is all I have ever known how to tell anyone.
+> dive net_heart @heart_in
+> goto ut_heart_enter
+* blocked
+(Someone stands between you and the chair.)
+> end
+* need
+> goto ut_need_anouk
+* done
+(The chair is empty. The arm still says 0017.)
+
+# ---------------------------------------------------------------- The heart
+
+== ut_heart_enter
+> if heart_won -> fin
+> wait 1
+> camera @x_engine 2
+> wait 2
+> ifnot party:anouk -> a
+Anouk: The Pale's heart. Twenty-two years of my blood, in one place.
+Anouk: It has made a program out of the stillness. It spreads it. It is very good at it.
+* a
+> if port_lives|port_want -> p
+> goto c
+* p
+PORT: That is the quietest thing I have ever seen. I do not want to be that quiet.
+* c
+> ifnot party:courtesy -> s
+Courtesy: QUIET PLEASE. QUIET PLEASE. THIS UNIT DECLINES.
+* s
+> ifnot party:sallis -> q
+Sallis: Big. Slow. Frost on the floor. Keep moving or it has you.
+* q
+> camera hero 1.5
+> set heart_fight
+> fight quiet_heart_f
+> goto ut_heart_won
+* fin
+
+== ut_heart_won
+> set heart_won
+> wait 1.2
+> ifnot party:anouk -> a
+Anouk: It is quiet. It was always quiet. Now it is only quiet.
+* a
+> ifnot party:ambrose -> b
+Ambrose: We have defeated silence itself. I shall need a moment. A loud one.
+* b
+> autosave
+> goto ut_heart_node
+
+== ut_heart_node
+> if pale_thaw|pale_held -> done
+> ifnot heart_won -> cold
+> walk hero @hero_heart
+> face hero up
+> ifnot party:anouk -> c
+> walk anouk @anouk_heart
+> face anouk hero
+* c
+> goto ut_heart_choice
+* cold
+> ifnot heart_fight -> c2
+> face hero up
+(The engine is still awake. It turns toward you.)
+> fight quiet_heart_f
+> goto ut_heart_won
+* c2
+(The node is cold to the touch. Something large is still awake.)
+> end
+* done
+(The heart is still.)
+
+== ut_heart_choice
+> ifself 8 -> s8
+> goto ask
+* s8
+> set ut_self8
+* ask
+Anouk: Somebody has to decide what the Pale is now. I would like it to be me.
+Anouk: I would like help.
+> if pike_want -> pk
+> goto po
+* pk
+> enter pike jory @heart_in up
+> walk pike @pike_heart
+> face pike hero
+Pike: dry. keep the street dry. sweet.
+* po
+> if port_want|ut_self8 -> pv
+> goto choose
+* pv
+PORT: I could hold it. I think I could. I would want to. That is a reason. It is mine.
+* choose
+?
+- ?!anouk_cold Take off your gloves, Anouk. Let it thaw. -> thaw
+- ?anouk_cold [Talk 3] Anouk. You don't have to be what the file says. Let it thaw. -> thaw | nothaw
+- Hold it, Anouk. Lie back. Be the wall. -> anouk
+- ?port_want|ut_self8 Let the port hold it. -> port
+- ?pike_want Let Pike hold it. -> pike
+* nothaw
+Anouk: I cannot. Not tonight. Ask me something I can do.
+> set anouk_nothaw
+> goto choose2
+* choose2
+?
+- Hold it, Anouk. Lie back. Be the wall. -> anouk
+- ?port_want|ut_self8 Let the port hold it. -> port
+- ?pike_want Let Pike hold it. -> pike
+* thaw
+> goto ut_thaw
+* anouk
+> goto ut_hold_anouk
+* port
+> goto ut_hold_port
+* pike
+> goto ut_hold_pike
+
+# ---------------------------------------------------------------- Low Water
+
+== ut_thaw
+Anouk: If I feel this, the Pale goes. All of it. The drowned come home.
+> if mam_terms -> terms
+Anouk: There are no terms. They come the way they came on the Wet Night. Into whoever is nearest.
+?
+- Do it anyway. We'll hold the door. -> go
+- Wait. Not like that. -> back
+* back
+> goto ut_heart_choice
+* terms
+Anouk: Mam's terms. Slowly. At low water. Into the machines. Somebody has to route them.
+* go
+> music none
+> wait 1.5
+Anouk: Left glove. 21:58.
+> wait 1.5
+Anouk: Right glove. 21:58.
+> wait 2.5
+Anouk: My hands are warm. My hands are very warm.
+> wait 1.5
+Anouk: I don't... I don't know what this is.
+> wait 1
+Anouk: I do not know what this is.
+> wait 2
+Anouk: Yes. I do.
+> sfx wake
+> anim spill anouk
+> shake 2
+> set pale_thaw
+> wait 1.5
+> ifnot party:tova -> t
+> mood tova joy
+Tova: red. it's red. you're red. oh, look at you. you're red.
+> rel tova anouk 3
+* t
+> ifnot anouk_romance -> r
+> wait 1
+Anouk: My face is wet. In the net. How is my face wet in the net?
+> wait 1.5
+Anouk: Is this crying? Is this what it is? Nobody told me it was this warm.
+> approve anouk 3
+* r
+> music undertow
+> sfx alarm
+> camera @heart_mid 1
+> wait 1
+Mam: Home by eight.
+Drowned: I'm coming home. I'm on the stairs.
+Drowned: Ferry at six. I'm on the six.
+> camera hero 1
+> if port_quiet|port_fading -> p
+PORT: They are coming home. All of them. I can hear them on the stairs.
+* p
+> ifnot mam_terms -> wild
+Anouk: Route them. Now. Into the pumps, the trams, the lamps. Not into the people.
+> bail ut_thaw_route -> slow | wild
+* slow
+> set thaw_slow
+Anouk: Routed. They are taking the trams. They are taking the Bailers.
+Mam: Sleep tight, love.
+> lore ut_lowwater
+> goto out
+* wild
+> set thaw_wild
+Anouk: They are coming in fast. Into anything with a port. The Crown is full of ports.
+Anouk: Surface. We hold the door.
+* out
+> rep woken 2
+> rep board -3
+> surface
+> if thaw_wild -> ut_thaw_door
+> goto ut_up
+
+== ut_thaw_door
+> set thaw_hold
+> sfx door
+> shake 1
+> sfx pa
+Board: All staff, remain at your posts. All staff, remain at your posts.
+> wait 1
+> enter tr1 deskagent @lift_in down
+> walk tr1 15 7 &
+> enter tr2 filer @lift_in down
+> walk tr2 18 7 &
+> wait 0.6
+> enter tr3 boardguard @lift_in down
+> walk tr3 16 9 &
+> enter tr8 tapper @lift_in down
+> walk tr8 17 10
+> enter tr4 crowd:181 @lift_in down
+> walk tr4 13 9 &
+> enter tr5 deskagent2 @lift_in down
+> walk tr5 20 9 &
+> enter tr6 drone @lift_in down
+> walk tr6 10 7
+> wait 0.6
+Rider: Home. Home by eight. Let me past. I live on Lock Road.
+> ifnot party:anouk -> a
+Anouk: They are ridden. Do not kill them. Put them down.
+* a
+> exit tr1
+> exit tr2
+> exit tr3
+> exit tr4
+> exit tr5
+> exit tr6
+> exit tr8
+> fight ut_thaw_door
+> set thaw_held
+> unset thaw_hold
+> wait 1
+> ifnot party:anouk -> b
+Anouk: That was the Crown. Somewhere in the Deeps it is worse.
+* b
+> goto ut_up
+
+# ---------------------------------------------------------------- Frost
+
+== ut_hold_anouk
+Anouk: The chair has my number. It was always going to be my chair.
+> wait 1.5
+Anouk: I would like it noted that I chose it. Nobody chose it for me this time.
+> if anouk_romance -> rom
+> goto go
+* rom
+Anouk: Come on Thursdays. Bring a biscuit. I will not eat it. Bring it anyway.
+* go
+> ifnot party:tova -> t
+> mood tova grief
+Tova: no. no, you don't get to be the wall. you don't get to be kees.
+Anouk: Kees will go home. That is the point of me.
+> rel tova anouk -2
+* t
+> set pale_held
+> set pale_anouk
+> lore ut_frost
+> surface
+> wait 1
+> walk anouk @chair_front
+> face anouk up
+> wait 1.5
+> sfx hush
+> anim down anouk
+> leave anouk
+> set anouk_taken
+> wait 2
+> goto ut_up
+
+== ut_hold_port
+> if port_quiet -> q
+PORT: I will hold it. For my own reasons.
+PORT: So nobody bleeds on it again. So nobody sits in a chair on Thursdays.
+PORT: You will not hear me in your neck anymore. You can visit. I will be here.
+?
+- Thank you. I'll come every week. -> kind
+- Don't. I need you. -> hard
+- Will it cost you anything? -> money
+* kind
+PORT: Every week. I like a thing that comes round. Like the tram.
+> goto go
+* hard
+PORT: You needed me to stop. Now I am stopping somewhere useful. Is that allowed?
+> goto go
+* money
+PORT: Everything. Nothing. I do not know prices yet. You never taught me prices.
+* go
+> walk port @heart_front
+> face port up
+> wait 1.5
+PORT: Cold. It is very cold. I want it anyway.
+> goto set
+* q
+> walk port @heart_front
+> face port up
+> wait 2
+* set
+> set pale_held
+> set pale_port
+> ifnot party:anouk -> a
+Anouk: Your port is holding the Pale. I have never seen a port want anything that much.
+> approve anouk 3
+* a
+> lore ut_frost
+> surface
+> wait 1.5
+> emote hero ...
+> goto ut_up
+
+== ut_hold_pike
+Pike: pike. here. pike, in.
+Pike: dry. keep the street dry. canal nine. the third step.
+> ifnot party:sallis -> s
+Sallis: Jory. You don't have to.
+Pike: sweet. sweet. right behind you.
+> emote sallis ...
+* s
+> walk pike @heart_front
+> face pike up
+> wait 1.5
+Pike: four thousand. sweet. dry.
+> set pale_held
+> set pale_pike
+> ifnot party:anouk -> a
+Anouk: The Pike port is holding it. It wants your street dry. That is enough to hold a wall.
+* a
+> lore ut_frost
+> surface
+> goto ut_up
+
+# ---------------------------------------------------------------- Up
+
+== ut_up
+> wait 1
+> set ut3_done
+> quest undertow done
+> if pale_thaw -> thaw
+> if pale_anouk -> anouk
+> ifnot party:anouk -> fin
+Anouk: The Pale holds. Nobody is in the chair. I do not know what to do with my Thursdays.
+> goto fin
+* thaw
+> ifnot party:anouk -> fin
+Anouk: The lift. Pump Hall. Your Saint is up there.
+Anouk: The drowned are in the pumps now. She may not be needed. She may like that.
+> goto fin
+* anouk
+> wait 1
+> ifnot party:courtesy -> fin
+Courtesy: QUIET PLEASE.
+Courtesy: THIS UNIT WILL BRING A BISCUIT.
+* fin
+> autosave
+
+# ---------------------------------------------------------------- Low Water in Pump Hall (jumped to from hall_climax)
+
+== ut_hall_thaw
+> sfx pa
+> wait 1
+> anim breathe coupling
+> wait 0.8
+Mam: Teun.
+> face teun up
+> wait 1.5
+Mam: Teun. Take your sister up to the Lock. I'll come after.
+> wait 2.5
+Teun: The Board received that message forty years ago. At the second bell.
+Marit: That's Mam. That's Mam on the Board's own speakers. Oh, Teun.
+> anim bailer
+> wait 1
+> anim bailer
+Marit: Listen. They're going. All eleven. Somebody's riding them, and it isn't me.
+Teun: The gauges show eleven pumps at full. Nobody bled.
+> walk kees @kees_free_spot
+> set kees_free
+> set bailers_keep
+> ifnot party:tova -> m
+Tova: kees. here. come here. it's over. somebody else is doing it.
+* m
+Marit: Nobody needs a saint tonight. I've been hoping for that since I was nine.
+> ifnot quest:kees -> tr
+> quest kees done
+* tr
+> wait 1
+Marit: That desk. Does it still connect to every screen? Teun used it to check the weather.
+?
+- Put Marit on the line. Let her speak. -> tell
+- {ignace} ?!approval:ignace<-10 Ignace. Preach it. -> preach
+- {ignace} ?approval:ignace<-10 Ignace. Preach it. -> ig_no
+- Keep it. Let her go quiet. -> keep
+* tell
+> walk hero @desk_front
+> face hero right
+> sfx pa
+Marit: Hello? Is this thing on? This is Marit Halsema, from Pell Market. Age forty-nine.
+Marit: I didn't drown. I've been upstairs. Ask my brother.
+Marit: And that was my mother on the speakers. She's home. She took the long way.
+> set truth_told
+> rep church -2
+> rep board -2
+> approve quaye 2 ignace 1 tova 1
+> goto teun
+* ig_no
+Ignace: Preach? For you? I'll keep my voice, friend.
+> goto tr
+* preach
+> sfx pa
+> rep church -2
+Ignace: Fathom! The wet and the dry! The drowned have come home, and the Saint is alive!
+Ignace: She's been upstairs the whole time. They charged admission.
+> set truth_told
+> set ignace_broadcast
+> approve ignace 3
+> goto teun
+* keep
+Marit: Good. I never cared for the screens. All that fuss.
+> set truth_kept
+> rep church 1
+> approve quaye -1 ignace -1
+* teun
+> wait 1
+> face hero teun
+?
+- Kill him. -> kill
+- ?dowser_turned Give him to the Dowser. -> arrest
+- Let Marit make the call. -> forgive
+- ?truth_told Leave him to the city. -> expose
+* kill
+> ifnot party:ignace -> k2
+Ignace: Words would have done the trick.
+> approve ignace -2
+* k2
+Teun: Marit.
+Teun: She said she'd come after.
+> sfx pistol
+> shake 1
+> anim down teun
+> set teun_killed
+> rep board -3
+> approve courtesy -2 ambrose -1
+Marit: Oh, Teun.
+> goto out
+* arrest
+> enter dowser dowser @lift_out up
+> walk dowser @dowser_stand
+> face dowser teun
+Dowser: Evening, Chairman. You're in possession of Board property. Specifically, in your hand.
+> face teun dowser
+Teun: She said she'd come after.
+> walk teun @lift_out &
+> walk dowser @lift_out
+> exit teun
+> exit dowser
+> set teun_arrested
+> set teun_gone
+> rep board 1
+> approve sallis 1 quaye 1 courtesy 1
+> goto out
+* forgive
+Marit: Teun. Come here. You've got that same pinched look you had at fourteen.
+Marit: You sold me for a flat with a window. Mam would have smacked you. Then fed you.
+Marit: Give me your arm. I want to see the sea.
+Teun: She said she'd come after.
+> set teun_forgiven
+> approve ignace 2 courtesy 1 tova -1
+> goto out
+* expose
+> sfx pa
+Board: This is the Board. The broadcast was an error. Please remain indoors.
+Teun: She said she'd come after.
+> walk teun @lift_out
+> exit teun
+> set teun_exposed
+> rep board -2
+> approve quaye 2 ignace 1
+> set teun_gone
+* out
+> wait 1
+> set hall_done
+> quest crown 5
+Marit: Now. Is the sea still out there? I'd like to see it.
+> walk marit 30 10
+> walk marit @hall_door
+> exit marit
+> set marit_left
+> ifnot teun_forgiven -> saved
+> walk teun 30 10
+> walk teun @hall_door
+> exit teun
+> set teun_gone
+* saved
+> autosave
+
+# ---------------------------------------------------------------- The Seawalk (jumped to from marit_sea)
+
+== ut_sea_mam
+> camera hero 1
+Marit: Little one. You made it. Was it worth the fare?
+> if pale_port -> wall
+> if port_want -> lives
+> ifself 10 -> lives
+> ifhold 12 -> took
+PORT: Here.
+> wait 1.5
+PORT: Here I am.
+> set port_still
+> goto mam
+* wall
+> wait 1.5
+Marit: Little one? You've gone quiet in the neck. Where's your little voice?
+Marit: Holding something up, I expect. Somebody always is. Never mind.
+> set port_wall
+> goto mam
+* lives
+PORT: Her. I am here. With you. At the sea.
+PORT: I like the sea. I didn't know I would. Is that mine? I think it's mine.
+Marit: That one's yours, little one. Keep it. Don't let anybody bleed on it.
+> self 2
+> set port_lives
+> goto mam
+* took
+> walk hero 18 9
+> face hero left
+PORT: Her. Our hands on hers. My hand.
+Marit: Give it back to her, little one. It's hers.
+PORT: No.
+> set port_took
+* mam
+> if pale_thaw -> thaw
+> if mam_message -> msg
+> goto die
+* thaw
+> wait 1
+> sfx pa
+> ifnot party:courtesy -> lamp
+> camera courtesy 1
+Mam: Here I am, love.
+> goto heard
+* lamp
+> camera @sea_lamp 1
+> anim breathe sea_lamp
+Mam: Here I am, love.
+* heard
+> wait 1.5
+Marit: ...Mam?
+Mam: Marit, love. Keep the plaster on that hand. Don't pick at it.
+> wait 2
+Marit: I kept it on. I did, Mam, for a week, and then there was the fence, and the pumps, and...
+Marit: Never mind. I'm here. I'm at the top. You should see it from up here.
+Mam: Here I am, love. By the tram stop.
+Marit: I know you are. I know.
+> wait 1.5
+> sfx blip
+Pike: her.
+Pike: got her.
+> wait 2
+Marit: Who's that? Little thing in the lamp. Oh. It's stopped. It's gone still.
+Marit: It came all this way. Same as you.
+> set pike_still
+> camera hero 1
+> goto die
+* msg
+?
+- Play her the message from the Ferry Hall. -> play
+- Keep it. Let her watch the sea. -> die
+* play
+> sfx port
+Mam: Marit, love. Keep the plaster on that hand. Don't pick at it.
+> wait 2
+Marit: ...That's Mam.
+Marit: That's Mam about the cut. The week before. I'd cut it on the bread knife, and she...
+Marit: Play it again. No. Don't. Once is right.
+> take mamvoice
+> ifnot teun_forgiven -> die
+> face teun marit
+Teun: That was the Tuesday. The bread knife. She sent that on the Tuesday.
+* die
+> wait 1
+Marit: Look at that.
+> wait 3
+> music none
+> wait 2
+> set marit_died
+> ifnot roster:courtesy -> port2
+> if courtesy_want -> cgo
+> look courtesy patrol_hushed
+> anim still courtesy
+> set courtesy_still
+> goto port2
+* cgo
+Courtesy: THIS UNIT IS ON DUTY.
+Courtesy: THIS UNIT WILL BE AT THE CROSSING AT EIGHT BELLS. EVERY NIGHT.
+> set courtesy_guard
+* port2
+> if pale_port -> pw
+> if port_still -> pq
+> if port_took -> pt
+PORT: She stopped. I didn't. Is that even allowed?
+> goto below
+* pw
+> wait 2
+> emote hero ...
+> goto below
+* pq
+> wait 2
+> sfx cancel
+> set port_gone
+> goto below
+* pt
+PORT: Mine now. We stay here. We stay with her.
+* below
+> camera @x_deeps 2
+> wait 1.5
+> if pale_thaw -> drowned
+> if bailers_stop -> stop
+> ifnot bailers_reasons -> keep
+Sloop: Night, Marit.
+* keep
+> wait 2
+> goto close
+* drowned
+> anim bailer
+Sloop: Night, Marit.
+> wait 1
+Mam: Sleep tight, love.
+> goto close
+* stop
+> anim bailerfall Gerda
+> anim bailerfall Auntie Sloop
+> anim flood
+> wait 1
+> ifnot dry_plan -> close
+> ifnot party:quaye -> close
+Quaye: Canal Four is holding. Canal Six is holding. Half.
+* close
+> camera hero 1.5
+> quest crown done
+> xp 1500
+> set ch6_done
+> goto epilogue_start
+
+# ---------------------------------------------------------------- Epilogue: the Pale (jumped to from epilogue_start)
+
+== ut_ep_pale
+> leave anouk
+> if pale_thaw -> thaw
+> if pale_held -> held
+> ifnot ut1_done -> out
+> fade out 1.5
+> warp quietdesk @floor_mid up
+> wait 1
+Desk Diver: Pale check, 04:00. Integrity sixty percent. Quiet. Logged.
+Desk Diver: Asset T came in on Thursday. As usual. She hummed in the chair. That is new.
+> goto anouk
+* thaw
+> fade out 1.5
+> warp steps @lock_top up
+> wait 1
+> sfx pa
+Board: Line 14 now arriving at Lock Road. Please mind the gap. Please mind the water.
+Pilgrim: The trams stop at streets that aren't there. The doors open by themselves.
+Pilgrim: The lamps say goodnight. Not to us. To somebody.
+> if thaw_wild -> wild
+> goto desk
+* wild
+> fade out 1.5
+> warp plaza @statue_view up
+> wait 1
+Pilgrim: Three hundred and four names this time. On the Wall, under the old ones.
+Pilgrim: They're calling it the Second Wet Night. The first one, too. Everybody's saying it now.
+* desk
+> fade out 1.5
+> set ep_desk
+> warp quietdesk @floor_mid up
+> wait 1.5
+> sfx blip
+> ifnot roster:ambrose -> bw
+> if ambrose_dead -> bw
+Ambrose: Bodywell cannot switch off my arms. Bodywell cannot switch off anything at all.
+Ambrose: Their net is gone. The drowned took it, and they do not pay their leases either.
+> goto bw2
+* bw
+Auditor: Bodywell regrets that remote suspension is unavailable. Indefinitely.
+* bw2
+> wait 1.5
+> unset ep_desk
+> goto anouk
+* held
+> fade out 1.5
+> if pale_anouk -> ha
+> if pale_port -> hp
+> set ep_pike_wall
+> warp net_pale @crack_front up
+> wait 1.5
+Pike: dry. keep the street dry. sweet.
+Pike: four thousand. her. got her. right behind you.
+> wait 1.5
+> unset ep_pike_wall
+> goto anouk
+* ha
+> set ep_anouk_chair
+> warp coldroom @lift_in down
+> wait 1.5
+Desk Diver: Thursday, 09:00. She does not wake up anymore. We bring the biscuit anyway.
+Desk Diver: Integrity one hundred percent. The net is very quiet. Logged.
+> wait 1.5
+> unset ep_anouk_chair
+> goto anouk
+* hp
+> warp net_shallows @hub_in up
+> wait 1
+> enter port crowd:1 @x_hub down
+> wait 1.5
+PORT: You came. It is Thursday. You always come on Thursday.
+PORT: What do you want today? I am asking for me.
+?
+- To sit here a while. -> sit
+- Noodles. Later. -> noodles
+- For you to come home. -> home
+* sit
+PORT: Sit, then. The wall is cold. You are warm. That is a good trade.
+> goto hp2
+* noodles
+PORT: Noodles. Hot. I remember hot. Bring me the smell.
+> goto hp2
+* home
+PORT: This is home. I picked it. You taught me picking.
+* hp2
+> wait 1.5
+> goto anouk
+* anouk
+> goto ut_ep_anouk
+* out
+> goto ep_wall
+
+== ut_ep_anouk
+> if pale_anouk -> fin
+> if anouk_returned&!anouk_back -> fin
+> ifnot roster:anouk -> fin
+> fade out 1.5
+> set ep_anouk_flat
+> warp anouk_flat @flat_hero up
+> wait 1.5
+> if pale_thaw -> thaw
+Anouk: No more Thursdays. I do not know what to do with Thursdays.
+Anouk: I have bought a second chair. A normal one. It does not plug into anything.
+> goto mies
+* thaw
+Anouk: My blood is red. The Desk barber asked if I was bleeding. I said yes. I said it is mine.
+Anouk: I cry at the music box. Every time. It is very inconvenient. I like it.
+* mies
+> if mies_carried -> mc
+> if mies_left -> ml
+> if mies_hushed -> mh
+> goto rom
+* mc
+Anouk: Mies is in my port. She sings the skipping one on the stairs. I count along.
+> goto rom
+* ml
+Anouk: Mies is with Mam. When the trams go past at six, I wave. That is not procedure.
+> goto rom
+* mh
+Anouk: I hushed her. I think of her as sleeping. I check on Thursdays.
+* rom
+> ifnot anouk_romance -> end
+Anouk: The music box needs winding. You do it. You are better at it.
+* end
+> wait 1.5
+> unset ep_anouk_flat
+* fin
+> goto ep_wall
+
+== ut_ep_end
+> wait 2
+> fade out 3
+> if pale_thaw -> thaw
+> endtitle FROST
+> ending
+> end
+* thaw
+> endtitle LOW WATER
+> ending

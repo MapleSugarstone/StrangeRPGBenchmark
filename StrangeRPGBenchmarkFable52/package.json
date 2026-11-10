@@ -1,0 +1,20 @@
+{
+  "name": "unsurveyed",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A tile-laying board game campaign for one to four seats, where ground is two things at once until someone measures it.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "tools": "node scripts/build.mjs --tools",
+    "test": "node scripts/build.mjs --tools && node dist-tools/test.js",
+    "sim": "node scripts/build.mjs --tools && node dist-tools/sim.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}

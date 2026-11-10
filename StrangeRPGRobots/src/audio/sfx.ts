@@ -13,7 +13,7 @@ export type SfxName = (typeof SFX_NAMES)[number];
 
 export const TRACK_NAMES = [
   'none', 'title', 'home', 'deeps', 'market', 'pound', 'ferries', 'clinic', 'combat', 'boss', 'camp', 'stair', 'lanterns',
-  'church', 'farm', 'spire', 'brim', 'crown', 'flood', 'tense', 'sad', 'ending', 'credits',
+  'church', 'farm', 'spire', 'brim', 'crown', 'flood', 'tense', 'sad', 'ending', 'credits', 'net', 'undertow', 'quiet',
 ] as const;
 
 export type CombatEvent = 'start' | 'party_turn' | 'enemy_turn' | 'low_hp' | 'kill' | 'victory' | 'defeat' | 'boss_phase' | 'end';

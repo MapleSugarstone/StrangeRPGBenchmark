@@ -1,6 +1,7 @@
 // Every map in the game. Add new maps to this list.
 import type { MapDef } from '../../world/map';
 import { test } from './test';
+import { net_test } from './net_test';
 import { home } from './home';
 import { market } from './market';
 import { canal9 } from './canal9';
@@ -43,5 +44,16 @@ import { drowned } from './drowned';
 import { metro_station } from './metro_station';
 import { metro_tunnel } from './metro_tunnel';
 import { metro_deep } from './metro_deep';
+import { net_shallows } from './net_shallows';
+import { net_desk } from './net_desk';
+import { net_pale } from './net_pale';
+import { net_exchange } from './net_exchange';
+import { net_ferryhall } from './net_ferryhall';
+import { net_wetnight } from './net_wetnight';
+import { net_heart } from './net_heart';
+import { quietdesk } from './quietdesk';
+import { exchange } from './exchange';
+import { coldroom } from './coldroom';
+import { anouk_flat } from './anouk_flat';
 
-export const ALL_MAPS: MapDef[] = [test, home, market, canal9, hold, bargerun, clinic, pound, ferries, camp, spin, pit, garage, vein, lock, steps, plaza, church, crypt, census, terraces, spirebase, lostprop, sunny, spire, overlook, market_flood, pumpline, seawall, boardplaza, crown, pumphall, seawalk, depot, houseboat, violet, rooftop, flats_camp, flats_mud, drowned, metro_station, metro_tunnel, metro_deep];
+export const ALL_MAPS: MapDef[] = [test, net_test, home, market, canal9, hold, bargerun, clinic, pound, ferries, camp, spin, pit, garage, vein, lock, steps, plaza, church, crypt, census, terraces, spirebase, lostprop, sunny, spire, overlook, market_flood, pumpline, seawall, boardplaza, crown, pumphall, seawalk, depot, houseboat, violet, rooftop, flats_camp, flats_mud, drowned, metro_station, metro_tunnel, metro_deep, net_shallows, net_desk, net_pale, net_exchange, net_ferryhall, net_wetnight, net_heart, quietdesk, exchange, coldroom, anouk_flat];

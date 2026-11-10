@@ -223,6 +223,7 @@ Dirkje: Low tide, dry-foot. I'm Dirkje. I run the far mud.
 - Where is the drowned street? -> street
 - What's out on the mud? -> mud
 - What do you charge to guide? -> charge
+- ?ut_exchange_lead The telephone building. -> ut_dirkje_exchange
 - Low tide. -> bye
 * street
 Dirkje: East. Past the Morgenster, past the bakery chimney. That's Lock Road.

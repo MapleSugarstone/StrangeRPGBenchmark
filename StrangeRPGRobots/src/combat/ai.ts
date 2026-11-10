@@ -1,11 +1,11 @@
 // Enemy, ally, and woken-object decisions. Each turn the unit scores every tile it can reach by the best
 // thing it could do from there, minus the danger of standing there, weighted by its temperament.
 import { CB, dist, cheb, unitAt, foesOf, friendsOf, los, hitInfo, weaponFor, isMelee, rangeOf, freeTile, rnd, roll, isWet } from './core';
-import { type Unit, has, alive, hostile, addStatus } from './unit';
-import { ABILITY, type ItemDef } from '../rules/data';
+import { type Unit, has, alive, hostile, addStatus, perk } from './unit';
+import { ABILITY, type ItemDef, type AbilityDef } from '../rules/data';
 import { reachable, findPath } from '../world/path';
 import { WORLD, propAt, elevAt, walkable } from '../world/world';
-import { attack, useAbility, moveAlong, canUse, validTarget, pause, push, damage, float, applyStatus, setSurface, droneAct } from './actions';
+import { attack, useAbility, moveAlong, canUse, validTarget, pause, push, damage, float, applyStatus, setSurface, droneAct, areaOf, wallTiles, levelBonus, rangeFor, HOOKS } from './actions';
 import { C } from '../engine/palette';
 import { G } from '../game/state';
 import { sfx } from '../audio/sfx';
@@ -77,7 +77,22 @@ function candidateTargets(u: Unit, id: string): { x: number; y: number }[] {
   if (a.target === 'ally') return [u, ...friendsOf(u)];
   if (a.target === 'enemy' || a.target === 'unit') return CB.units.filter((t) => alive(t) && t !== u);
   if (a.target === 'prop') return WORLD.props.filter((p) => !p.broken && !p.wake && p.def.wake && dist(p, u) <= a.range).map((p) => ({ x: p.x, y: p.y }));
-  if (a.target === 'tile') return targetsOf(u).map((f) => ({ x: f.x, y: f.y }));
+  if (a.target === 'tile') {
+    const foes = targetsOf(u).filter((f) => !f.downed);
+    if (a.wall) {
+      const out: { x: number; y: number }[] = [];
+      for (const f of foes) { const line = lineTiles(u.x, u.y, f.x, f.y); for (const k of [1, 2, Math.floor(line.length / 2)]) if (line[k] && k < line.length - 1) out.push({ x: line[k][0], y: line[k][1] }); }
+      return out;
+    }
+    if (a.summon || a.surface?.kind === 'mine') {
+      const out: { x: number; y: number }[] = [];
+      const near = foes.sort((f1, f2) => dist(f1, u) - dist(f2, u)).slice(0, 3);
+      for (const c of [u, ...near]) for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) out.push({ x: c.x + dx, y: c.y + dy });
+      return out;
+    }
+    if (a.affects === 'allies') return [u, ...friendsOf(u)].map((f) => ({ x: f.x, y: f.y }));
+    return foes.map((f) => ({ x: f.x, y: f.y }));
+  }
   return [];
 }
 
@@ -99,6 +114,10 @@ function abilityValue(u: Unit, id: string, x: number, y: number): number {
       for (const f of CB.units) if (alive(f) && cheb(f, { x, y }) <= 1) n += hostile(u, f) ? 1 : -1.2;
       return n >= 2 ? n * 6 : 0;
     }
+    case 'leak': return foesAround(u, 1) * 4;
+    case 'jingle': return foesAround(u, 2) * 3.5;
+    case 'alarm': return foesAround(u, 1) * 4 + (u.hp < u.maxHp * 0.5 ? 4 : 0);
+    case 'hushport': { const t2 = unitAt(x, y); return t2 ? genericValue(u, ABILITY.get(id)!, x, y) * (t2.member?.cls === 'port' ? 3 : 1) : 0; }
     default: return classValue(u, id, x, y);
   }
 }
@@ -166,6 +185,10 @@ function classValue(u: Unit, id: string, x: number, y: number): number {
     case 'heartfelt': return WORLD.props.some((p) => !p.broken && p.def.wake && dist(p, u) <= 5) ? 3 : 0;
     case 'secondhands': return near(6).length ? 4 : 0;
     case 'call': return CB.units.some((c) => c.member?.id === 'courtesy' && alive(c)) && near(6).length ? 4 : 0;
+    case 'wheel': return CB.units.some((h) => h.member?.id === 'hero' && alive(h) && h.extraActions === 0) && near(8).length ? 5 : 0;
+    case 'dream': return CB.units.filter((f) => f.downed && !f.dead && f.side === u.side && dist(f, u) <= 6).length * 14 + genericValue(u, a, x, y);
+    case 'longing': return foe && dist(foe, u) > 2 ? 2 + (foe.ranged && coverOfAt(u, foe) ? 2.5 : 0) : 0;
+    case 'heartbeat': return CB.units.filter((w) => w.wake?.by === u.id && alive(w)).length * 4 - 1;
     case 'shove': {
       if (!foe) return 0;
       const nx = foe.x + Math.sign(foe.x - u.x), ny = foe.y + Math.sign(foe.y - u.y);
@@ -175,8 +198,97 @@ function classValue(u: Unit, id: string, x: number, y: number): number {
       const fire = CB.surf.get(ny * m.w + nx)?.kind === 'fire';
       return (deep ? (foe.machine && !foe.flying ? 25 : 9) : drop ? 8 : fire ? 6 : 0);
     }
-    default: return 0;
+    default: return genericValue(u, a, x, y);
   }
+}
+
+/** Whether a foe has cover against this unit right now. */
+function coverOfAt(u: Unit, f: Unit): boolean { return hitInfo(u, f, u.ranged).cover > 0; }
+
+function foesAround(u: Unit, r: number): number { return targetsOf(u).filter((f) => !f.downed && cheb(f, u) <= r).length; }
+
+function threatOf(f: Unit): number { return avg(f.ranged ?? f.melee, f) * 0.8 + (f.boss ? 4 : 0); }
+
+/** Rough worth of putting a status on a unit. Foes: how much it hinders them. Allies: how much it helps. */
+function statusWorth(u: Unit, id: string, o: Unit): number {
+  if (has(o, id) && id !== 'marked') return 0;
+  const near = targetsOf(u).filter((f) => !f.downed && dist(f, o) <= 6).length;
+  switch (id) {
+    case 'stunned': return threatOf(o) * (o.boss ? 0.5 : 1);
+    case 'hushed': return o.woken || o.wake ? threatOf(o) * 1.2 + 3 : 0;
+    case 'frosted': return 2 + (o.ranged ? 0.5 : 2.5) + threatOf(o) * 0.15;
+    case 'immobile': case 'crippled': return o.ranged ? 1 : 3;
+    case 'slowed': return o.ranged ? 0.5 : 1.5;
+    case 'distracted': return threatOf(o) * 0.5;
+    case 'blinded': return threatOf(o) * (o.ranged ? 0.6 : 0.3);
+    case 'marked': return has(o, 'marked') ? 0 : 1.2 + friendsOf(u).length * 0.3;
+    case 'turncoat': return o.boss ? 0 : threatOf(o) * 1.8;
+    case 'taunted': return u.hp > u.maxHp * 0.5 ? threatOf(o) * 0.5 : 0;
+    case 'prone': return 1.5;
+    case 'burning': return 4;
+    case 'braced': return near ? 2 + near * 0.5 : 0;
+    case 'rallied': return near ? 2 : 0;
+    case 'hidden': return near ? 1.5 + danger(o) * 0.4 : 0;
+    case 'guarded': return near ? 2 : 0;
+    default: return 1;
+  }
+}
+
+/** Worth of any data-driven ability, so allies, companions, and the simulator use new kits without a case each. */
+function genericValue(u: Unit, a: AbilityDef, x: number, y: number): number {
+  const area = a.target === 'tile' || (a.target === 'self' && !!a.area) || !!a.shape;
+  const tiles = area ? areaOf(u, a, x, y) : [];
+  const t = unitAt(x, y);
+  const allies = a.affects === 'allies' || (a.affects !== 'foes' && !!(a.heal || a.cleanse) && !a.dmg);
+  let touched: Unit[];
+  if (a.target === 'self' && !a.area) touched = allies ? [u] : [];
+  else if (tiles.length) {
+    const set = new Set(tiles.map(([tx, ty]) => ty * WORLD.map!.w + tx));
+    touched = CB.units.filter((o) => alive(o) && set.has(o.y * WORLD.map!.w + o.x) && (a.target !== 'self' || o !== u || allies));
+  } else touched = t && alive(t) ? [t] : [];
+  touched = touched.filter((o) => (allies ? !hostile(u, o) : hostile(u, o) && !o.dormant));
+  if (!allies) touched = touched.filter((o) => (!a.chromeOnly || o.chrome) && (!a.notMachine || !o.machine) && (!a.wokenOnly || o.woken || !!o.wake));
+  const scale = a.scale === 'wits' ? Math.floor(u.attr.wits / 2) : a.scale === 'hold' ? Math.floor(G.port.hold / 2) : a.scale === 'self' ? Math.floor(G.port.self / 2) : 0;
+  let v = 0;
+  for (const o of touched) {
+    if (allies) {
+      if (a.heal) { const h = (a.heal[0] + a.heal[1]) / 2 + scale; v += Math.min(h, o.maxHp - o.hp) * (o.hp < o.maxHp * 0.5 ? 1.2 : 0.5); }
+      if (a.cleanse) for (const k of o.status.keys()) if (k !== 'wet' && k !== 'turncoat' && k !== 'hidden' && !['guarded', 'rallied', 'overclocked', 'bulwark', 'overwatch', 'braced'].includes(k)) v += 2;
+      if (a.status) v += statusWorth(u, a.status.id, o);
+      continue;
+    }
+    const w = a.weapon === 'ranged' ? u.ranged : a.weapon === 'melee' ? u.melee : rangeFor(u, a) <= 1 ? u.melee : u.ranged ?? u.melee;
+    const p = a.hit === 'resist' ? (o.boss ? 0.45 : 0.65) : a.hit === 'attack' ? hitInfo(u, o, w, a).chance / 100 : 1;
+    let dmg = 0;
+    if (a.dmg && !a.weapon) dmg = (a.dmg[0] + a.dmg[1]) / 2 + levelBonus(u) + scale - (a.dtype === 'kinetic' || !a.dtype ? o.plating : 0);
+    else if (a.hit === 'attack') dmg = avg(w, u);
+    let st = 0;
+    if (a.status) st += statusWorth(u, a.status.id, o) * (a.status.chance ?? 1) * (a.sresist ? 0.6 : 1);
+    for (const s2 of a.also ?? []) st += statusWorth(u, s2.id, o);
+    if (a.vsMachine && (o.machine || o.woken || o.wake)) st += statusWorth(u, a.vsMachine.id, o);
+    if (a.hushWoken && (o.woken || o.wake)) st += statusWorth(u, 'hushed', o);
+    if (a.push) st += 1.2;
+    if (a.strip) st += [...o.status.keys()].filter((k) => ['guarded', 'bulwark', 'braced', 'overwatch', 'rallied'].includes(k)).length * 1.5;
+    if (a.reveal && has(o, 'hidden')) st += 3;
+    v += targetValue(u, o, Math.max(0, dmg) * p) + st * p;
+  }
+  if (a.self) v += statusWorth(u, a.self.id, u);
+  const foesNear = targetsOf(u).filter((f) => !f.downed && dist(f, u) <= 7).length;
+  if (a.extra) v += foesNear ? 5 : 0;
+  if (a.ramGain) v += u.ramMax && u.ram <= u.ramMax - a.ramGain ? 3 : 0;
+  if (a.wall) {
+    const wall = new Set(wallTiles(u, a, x, y).map(([wx, wy]) => wy * WORLD.map!.w + wx));
+    for (const g of [u, ...friendsOf(u)]) for (const f of targetsOf(u)) {
+      if (f.downed || !los(f, g) || dist(f, g) > (f.ranged ? rangeOf(f.ranged) + 2 : f.move + 1)) continue;
+      if (lineTiles(f.x, f.y, g.x, g.y).some(([lx, ly]) => wall.has(ly * WORLD.map!.w + lx))) v += threatOf(f) * (g === u ? 0.6 : 0.4);
+    }
+  }
+  if (a.surface?.kind === 'frost') for (const [sx, sy] of tiles) { const o = unitAt(sx, sy); if (o && alive(o)) v += hostile(u, o) ? 2.5 : -2; }
+  if (a.surface?.kind === 'mine') v += targetsOf(u).filter((f) => !f.ranged && !f.flying && dist(f, { x, y }) <= 2 && dist(f, u) > dist({ x, y }, u)).length * 3;
+  if (a.summon) v += foesNear ? 8 + (u.boss ? 3 : 0) : 0;
+  v -= (a.blood ?? 0) * (u.hp < u.maxHp * 0.4 ? 1 : 0.3);
+  v -= (a.ram ?? 0) * 0.2;
+  return v;
 }
 
 const TEMPER: Record<string, { danger: number; melee: number; range: number; high: number }> = {
@@ -239,6 +351,12 @@ export async function aiTurn(u: Unit) {
       if (again.id) await useAbility(u, again.id, again.x!, again.y!);
     }
   }
+  for (let k = 0; k < 3 && alive(u) && (u.action || u.extraActions > 0); k++) {
+    const again = bestAction(u);
+    if (!again.id || again.score < 0.5) break;
+    await useAbility(u, again.id, again.x!, again.y!);
+    await pause(0.12);
+  }
   if (alive(u) && u.bonus) await bonusPass(u);
   if (u.droneHp > 0) await droneAct(u);
 }
@@ -267,14 +385,27 @@ async function bonusPass(u: Unit) {
 }
 
 async function turretTurn(u: Unit) {
-  const t = targetsOf(u).filter((f) => !f.downed && los(u, f) && dist(u, f) <= 8).sort((a, b) => a.hp - b.hp)[0];
-  if (t) await attack(u, t, u.ranged);
+  if (u.abilities.length) {
+    const b = bestAction(u);
+    if (b.id) { await useAbility(u, b.id, b.x!, b.y!); return; }
+  }
+  const owner = CB.units.find((o) => o.id === u.owner);
+  const shots = owner && perk(owner, 'autoloader') ? 2 : 1;
+  for (let k = 0; k < shots; k++) {
+    const t = targetsOf(u).filter((f) => !f.downed && los(u, f) && dist(u, f) <= 8).sort((a, b) => a.hp - b.hp)[0];
+    if (t) await attack(u, t, u.ranged);
+  }
 }
 
 /** Woken objects act on their feeling. */
 async function wokenTurn(u: Unit) {
   const w = u.wake!;
   const p = u.prop!;
+  const waker = CB.units.find((x) => x.id === w.by);
+  if (w.feeling === 'calm' && waker && perk(waker, 'kind')) {
+    const near = [waker, ...friendsOf(waker)].filter((f) => f !== u && !f.prop && f.hp < f.maxHp).sort((f1, f2) => dist(f1, u) - dist(f2, u))[0];
+    if (near) { const { heal } = await import('./actions'); heal(near, 3); }
+  }
   const reps = w.twice ? 2 : 1;
   for (let r = 0; r < reps; r++) {
     if (!alive(u)) return;
@@ -288,7 +419,7 @@ async function wokenTurn(u: Unit) {
     }
     const by = CB.units.find((x) => x.id === w.by);
     let targets: Unit[];
-    if (w.feeling === 'anger') targets = CB.units.filter((o) => alive(o) && o !== u && o.id !== w.by && !o.prop);
+    if (w.feeling === 'anger') targets = CB.units.filter((o) => alive(o) && o !== u && o.id !== w.by && !o.prop && !(by && perk(by, 'fury') && !hostile(by, o)));
     else targets = CB.units.filter((o) => alive(o) && by && hostile(by, o) && o !== u && !o.prop);
     targets.sort((a, b) => dist(a, u) - dist(b, u));
     const t = targets[0];
@@ -306,6 +437,8 @@ async function wokenTurn(u: Unit) {
   }
   void p;
 }
+
+HOOKS.wokenTurn = wokenTurn;
 
 async function stepToward(u: Unit, t: Unit, n: number) {
   const path = findPath(u.x, u.y, t.x, t.y, { adjacent: true, blocked: (x, y) => !freeTile(x, y) || !!propAt(x, y) });

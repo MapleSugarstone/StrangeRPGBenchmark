@@ -1,0 +1,686 @@
+# Undertow at camp: Anouk's hub, her camp scenes and romance beats, the Tova and Anouk conflict, each companion's
+# scene about Anouk or the Pale, Marit and Anouk on the barge, her flat on the terraces, and party banter.
+# Camp hooks are registered in src/content/undertow.ts.
+
+# ---------------------------------------------------------------- Anouk's hub
+
+== camptalk_anouk
+> face anouk hero
+Anouk: Good evening. I am listening.
+?
+- The Pale. -> pale
+- ?!ut_thin The Desk. -> desk
+- ?ut_thin&!mies_done The port that calls you. -> thin
+- ?mies_done Mies. -> mies
+- ?desk_file Maas. -> maas
+- Thursdays. -> thurs
+- ?approval:anouk>=15&desk_file&!rom_anouk_1 Stay a while. -> stay
+- ?rom_anouk_1&approval:anouk>=20&!anouk_romance&!rom_anouk_off Your flat. -> flat
+- ?!port_quiet The port. -> port
+- ?ut_dived Take us into the Shallows. -> dive
+- Nothing. -> bye
+* pale
+> if desk_file -> pale2
+Anouk: The Pale is a wall in the net, made of Hush. It keeps the Undertow out.
+Anouk: On the Wet Night it was not there. 312 people drowned. Now it is there.
+> end
+* pale2
+Anouk: The Pale is a wall in the net, made of me.
+Anouk: I have said it out loud now. It does not feel any different. That is a lie.
+> end
+* desk
+Anouk: Board Net Security. Fourteen divers. One Director. One asset.
+Anouk: I did not know I was the asset until I read it.
+> end
+* thin
+Anouk: It says Noekie. On Thursdays, after the sample. Through the frost over Canal Four.
+Anouk: I would like to go and see it. I have said that already. I am saying it again.
+> end
+* mies
+> if mies_carried -> mc
+> if mies_left -> ml
+Anouk: I hushed her port. It was the gentlest thing I know how to do.
+Anouk: I still think it was right. I am allowed to think it was right, and also cry. Tova says.
+> end
+* mc
+Anouk: She is in my port. Sometimes, on stairs, she counts the steps. One, two, three.
+Anouk: I count with her. Out loud. People stare. I don't care.
+> end
+* ml
+Anouk: She is with Mam. Mam knows where everyone lives.
+Anouk: I go to the Ferry Hall sometimes. Not to bring her back. To wave.
+> end
+* maas
+Anouk: Every fourth Monday, after the barber, he came to my flat. He sat. He did not take his coat off.
+Anouk: He asked about my temperature. I thought it was kindness. It was a reading.
+> end
+* thurs
+> if desk_file -> t2
+Anouk: Thursday, 09:00. A sample. Ninety minutes. Then tea and a biscuit. For research.
+> end
+* t2
+Anouk: Thursday, 09:00. My arm itches at 08:55. It has done that for twenty-two years.
+Anouk: I have not gone back since the file. The itch has not noticed.
+> end
+* stay
+> goto ut_rom_glove
+* flat
+Anouk: My flat. Terrace 2. The white door with no name on it.
+Anouk: I would like you to come tonight. There is something I have not done there.
+> set ut_flat_night
+> end
+* port
+> if pale_port -> wall
+Anouk: Your port waved at you, in the Shallows. I have watched ports for twenty years.
+Anouk: None of them waved. I have been thinking about it on Thursdays instead of the sample.
+> end
+* wall
+Anouk: Your port is holding the Pale. It said it wanted to. I have never envied a port before.
+> end
+* dive
+Anouk: Sit down. Breathe out. I will take us to the hub.
+> dive net_shallows @hub_in
+* bye
+
+# ---------------------------------------------------------------- Romance
+
+== ut_rom_glove
+Anouk: You may sit. I will tell you the temperature of things. That is how I talk.
+Anouk: The camp is eleven degrees. Your hand is warmer than that. I can tell from here.
+> wait 1.5
+Anouk: Left glove. 23:30.
+?
+- Take her hand. -> take
+- Sit with her. That's enough. -> sit
+- Isn't this against procedure? -> proc
+* take
+> approve anouk 3
+> wait 1.5
+Anouk: That was warm. I am not used to it.
+> goto end
+* sit
+> approve anouk 1
+Anouk: That is also warm. A different kind. I did not know there were kinds.
+> goto end
+* proc
+Anouk: Everything is. Procedure is mostly a list of things nobody tried.
+* end
+> set rom_anouk_1
+> face anouk up
+> wait 1.5
+
+== ut_flat_door
+> ifnot roster:anouk -> locked
+> if ut_flat_night&!flat_night_done -> night
+> ifnot party:anouk -> locked
+> warp anouk_flat @door_in up
+> goto ut_flat_in
+* night
+> warp anouk_flat @door_in up
+> goto ut_flat_romance
+* locked
+(A white door with no name on it. Locked.)
+
+== ut_flat_in
+> if flat_seen -> fin
+> set flat_seen
+> wait 0.6
+> face anouk hero
+Anouk: My flat. One bed, one table, one chair. The chair is a Desk dive chair.
+Anouk: The Desk issued it in case I was needed at night. I was not needed at night.
+> ifnot party:tova -> a
+Tova: nothing on the walls. not one thing. you've lived here how long?
+Anouk: Eleven years.
+* a
+> ifnot party:ignace -> fin
+Ignace: I've seen livelier vaults. I've robbed livelier vaults.
+* fin
+
+== ut_flat_anouk
+> face anouk hero
+> if flat_night_done -> after
+> goto ut_flat_romance
+* after
+Anouk: The music box is wound. It will play for nine minutes. I have timed it.
+
+== ut_flat_romance
+> if flat_night_done -> done
+> walk hero @flat_hero
+> face hero up
+> walk anouk @box_front
+> face anouk up
+Anouk: The music box. The Desk barber gave it to me when I was eight. He said it was against procedure.
+Anouk: I have never wound it. I did not want to find out what it would do to my temperature.
+> wait 1.5
+> sfx blip
+> set flat_box_wound
+> music sad
+> wait 3.5
+Anouk: That is warm.
+> wait 1.5
+Anouk: That is very warm. I am not used to it.
+> face anouk hero
+Anouk: I would like you to stay. Not for procedure.
+* ask
+?
+- I'll stay. -> yes
+- I can't. Not like this. -> no
+- What happens to the Pale if you feel this? -> pale
+* pale
+Anouk: The file says it gets thinner. Tonight I would like it to get thinner.
+> goto ask
+* yes
+> set anouk_romance
+> approve anouk 4
+Anouk: Then I will not log anything tonight.
+> fade out 1.5
+> wait 1.5
+> fade in 1.5
+> face anouk hero
+Anouk: 06:10. I slept. I do not usually sleep. I usually lie very still.
+> goto end
+* no
+Anouk: Noted. That was honest. Thank you for being honest. It is still warm.
+> set rom_anouk_off
+* end
+> set flat_night_done
+> music camp
+* done
+
+== ut_flat_box
+> face hero up
+> if flat_box_wound -> wound
+(A shelf. On it, one music box, unwound. The key is still taped to the bottom.)
+> end
+* wound
+(The music box. Somebody wound it.)
+
+== ut_flat_bed
+> face hero up
+(A Desk bed. Made with hospital corners.)
+
+== ut_flat_table
+> face hero up
+(A table. One cup, one plate, one spoon. A Desk binder, open at Procedure Four: Quiet Days.)
+> ifnot party:anouk -> fin
+Anouk: Quiet Days. A schedule. No music, no pets, no visitors. I wrote my own copy when I was nine.
+* fin
+
+== ut_flat_chair
+> face hero up
+? A white Desk dive chair. The only chair in the flat.
+- ?desk_file|item:maasfile Dive to the Pale. -> pale
+- ?ut_dived Dive into the Shallows. -> sh
+- Leave it. -> no
+* pale
+> goto ut_pale_dive
+* sh
+> dive net_shallows @hub_in
+* no
+
+== ut_flat_locker
+> face hero up
+> if flat_locker_open -> empty
+(A Desk locker. Inside: forty-four pairs of white gloves, folded.)
+> ifnot party:anouk -> fin
+Anouk: The Desk sends a new pair every month. I have never worn out a pair.
+Anouk: Take some. They are warm. That is what they are for, apparently.
+> give hush
+> set flat_locker_open
+> end
+* empty
+(Forty-three pairs of white gloves.)
+* fin
+
+# ---------------------------------------------------------------- Anouk's first night
+
+== ut_camp_first
+> music camp
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face anouk hero
+> face hero anouk
+Anouk: I have set out my bedroll. It is square to the wall. That is how I sleep.
+Anouk: Your camp has no procedure. Nobody knows who is on watch.
+?
+- You're on watch. You're good at it. -> watch
+- We don't do procedure here. -> none
+- What does a Desk diver eat? We're low on rations. -> food
+* watch
+Anouk: Yes. I will take first watch. And second. I do not need much sleep.
+> approve anouk 1
+> goto end
+* none
+Anouk: I noticed. It is very loud. Everybody talks at once and nobody writes it down.
+> goto end
+* food
+Anouk: Desk rations. Gray, and square. I have forty in my bag. You may have them.
+> give ration 2
+* end
+> ifnot roster:courtesy -> c
+> if courtesy_taken -> c
+Courtesy: QUIET PLEASE. THIS UNIT IS ON WATCH WITH THE NEW UNIT.
+Anouk: Thank you. You are very large.
+* c
+> face anouk up
+> wait 1
+
+# ---------------------------------------------------------------- Anouk reads the file at camp
+
+== ut_camp_file
+> music none
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face anouk hero
+> face hero anouk
+Anouk: You have a Desk file in your bag. I can see the red edge.
+?
+- It's about you. Read it. -> give
+- You don't want to read this. -> keep
+* keep
+Anouk: I would like to decide that myself. I have not decided much myself.
+* give
+> take maasfile
+> wait 2.5
+> face anouk down
+> wait 3
+> face anouk left
+> wait 1.5
+> set anouk_glove1
+> set desk_file
+> ifnot roster:tova -> nt
+> walk tova @camp_rail
+> face tova anouk
+Tova: you took your glove off.
+Tova: you don't have to say anything. you don't have to say anything at all.
+> rel tova anouk 2
+* nt
+> give maasfile
+> lore ut_file
+> approve anouk 2
+> music camp
+> wait 2
+
+# ---------------------------------------------------------------- After Mies
+
+== ut_camp_mies
+> music camp
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face anouk hero
+> face hero anouk
+Anouk: I have a report. It is a personal report.
+Anouk: I said her name. Out loud, in the net, in front of people. My hands have been warm since.
+Anouk: I keep using contractions. I don't know how to stop. I do not know how to stop.
+?
+- Don't stop. -> dont
+- It'll settle. Give it a week. -> settle
+- Does the Desk dock pay for contractions? -> joke
+* dont
+Anouk: All right. I won't. I will try not to. That's the same thing, isn't it.
+> approve anouk 2
+> goto end
+* settle
+Anouk: A week. Noted. I will measure it.
+> goto end
+* joke
+Anouk: That was a joke. I recognize the shape. I will laugh at it in the morning.
+* end
+> face anouk up
+> wait 1.5
+
+# ---------------------------------------------------------------- Tova and Anouk
+
+== ut_camp_tova_anouk
+> music camp
+> walk tova @camp_tova
+> walk anouk @camp_rail_side
+> face tova anouk
+> face anouk tova
+> walk hero @camp_hero
+> mood tova anger
+Tova: you read the file. you know what they did. so walk out.
+Tova: take the gloves off and walk out. let the stupid wall melt.
+Anouk: And then what happens?
+Tova: then you're free. then you get to be a person.
+Anouk: Then the drowned come home. On the Wet Night they came home into nine-year-olds.
+Anouk: One of them was my sister.
+Tova: so you sit in a chair every thursday forever, so nobody else has to. that's the board's whole plan.
+Tova: that's the plan for kees. that's exactly the plan for kees.
+Anouk: Kees is ten. I am twenty-nine. If somebody has to be the one, I would like it to be me.
+Tova: nobody should be the one!
+> face tova hero
+> face anouk hero
+?
+- Tova's right. Nobody should be the one. -> tova
+- It's her blood. Anouk decides what it's for. -> anouk
+- ?mam_met There might be a way nobody has to be the one. Mam's terms. -> broker
+- Not my fight. -> ignore
+* tova
+> approve tova 2 anouk -1
+> rel tova anouk 1
+Anouk: Noted. I will think about it on Thursday. Out of habit.
+> goto end
+* anouk
+> approve anouk 2 tova -1
+> rel tova anouk -1
+Tova: fine. fine. but i'm not sitting in your chair. and you're not either. not if i can help it.
+> goto end
+* broker
+Anouk: Slowly. At low water. Into the machines. Not into anyone.
+Tova: ...into the machines. not kees. not you. machines.
+> rel tova anouk 3
+> approve tova 1 anouk 1
+> set ut_tova_hope
+> goto end
+* ignore
+> rel tova anouk -2
+Tova: great. thanks. really helpful.
+* end
+> set ut_tova_talked
+> mood tova calm
+> wait 1.5
+
+# ---------------------------------------------------------------- The others, about Anouk and the Pale
+
+== ut_camp_quaye_maas
+> music camp
+> walk quaye @camp_quaye
+> walk hero @camp_hero
+> face quaye hero
+> face hero quaye
+Quaye: Kid. Maas. Wendel Maas. We were juniors on the Bailer project together.
+Quaye: He counted cables. I signed forms. Forty years ago he was the boy who brought the cake.
+Quaye: The Wet Night, he ran the count. Three hundred and twelve. He got every one.
+Quaye: Then he went and found a seven-year-old in the Census with blood that wakes nothing.
+> wait 1.5
+Quaye: That file in his desk. There's a transfer form stapled to page four.
+Quaye: Girl, seven, Canal Four, into Desk custody. Same form I signed. Same boxes. Same ink.
+?
+- You signed one. He signed one. Two people signed. The Board did the rest. -> kind
+- So you knew what it looked like the whole time. -> hard
+- What does a form like that cost the Board? -> money
+* kind
+Quaye: Two people. Two girls. That's the arithmetic. I don't like it either.
+> approve quaye 1
+> goto end
+* hard
+Quaye: No. I knew what mine looked like. I never thought there was a second one.
+> goto end
+* money
+Quaye: One sheet of paper, kid. Forty years, two girls. One sheet each.
+* end
+> face quaye up
+> wait 1.2
+
+== ut_camp_sallis_steps
+> music camp
+> walk sallis @camp_sallis
+> walk hero @camp_hero
+> face sallis hero
+> face hero sallis
+Sallis: Cell Two. Twenty-one years ago. I was thirteen. Lookout.
+Sallis: We had a van at the Sunny Steps gate. Target was a girl. Eight. Gray blood.
+Sallis: The Desk moved her the night before. Somebody sold the van.
+> wait 1.5
+Sallis: It was her. Terwal. I knew it when I saw her bleed.
+?
+- You were thirteen. It wasn't on you. -> kind
+- Tell her. -> tell
+- Who sold the van? -> who
+* kind
+Sallis: Copy.
+> wait 1
+Sallis: Still on me.
+> approve sallis 1
+> goto end
+* tell
+Sallis: Copy. Tomorrow.
+> set sallis_told_anouk
+> approve sallis 1 anouk 1
+> goto end
+* who
+Sallis: Same as always. Somebody inside. Somebody who wanted a dry flat.
+* end
+> face sallis up
+> wait 1.2
+
+== ut_camp_ignace_wet
+> music camp
+> walk ignace @camp_ignace
+> walk hero @camp_hero
+> face ignace hero
+> face hero ignace
+Ignace: The Wet Night. I was sixteen. I sold candles on the plaza for the Church.
+Ignace: The radio was playing Pruim. Walk to her, walk to the water. The faithful walked.
+Ignace: I sold a hundred candles before the second bell. I never sold that many again.
+> wait 1.5
+Ignace: Mevrouw Kist bought two. One for her, one for her son. They found her in Canal Six.
+?
+- You were a kid selling candles. -> kind
+- And you kept selling them for twenty years. -> hard
+- How much did the Church make that night? -> money
+* kind
+Ignace: I was a kid selling candles. Yes. That's the plain voice. Thank you for it.
+> approve ignace 1
+> goto end
+* hard
+Ignace: Yes. I did.
+> goto end
+* money
+Ignace: Two hundred gilt. I counted it in the vestry. My hands were wet.
+* end
+> face ignace up
+> wait 1.2
+
+== ut_camp_ambrose_arm
+> music camp
+> walk ambrose @camp_ambrose
+> walk hero @camp_hero
+> face ambrose hero
+> face hero ambrose
+Ambrose: Allow me a confession, of a sort the dictionaries file under "anecdote, mortifying."
+Ambrose: On the Wet Night I owned my first arm outright. Bought it with prize money.
+Ambrose: At the second bell it embraced my sponsor. Tenderly. It did not let go until dawn.
+Ambrose: He never sponsored me again. I blamed the arm. For twenty years I blamed the arm.
+> wait 1.5
+Ambrose: It was not the arm. It was a drowned man looking for his brother.
+Ambrose: Okay. That's... okay. I had to say that one out loud.
+?
+- You were holding someone for a drowned man. That's not nothing. -> kind
+- Your sponsor probably deserved a hug. -> joke
+- Do you still have the arm? -> money
+* kind
+Ambrose: Not nothing. A mighty phrase. I shall keep it in my good pocket.
+> approve ambrose 2
+> goto end
+* joke
+Ambrose: He did not. He charged me for the creases in his jacket.
+> approve ambrose 1
+> goto end
+* money
+Ambrose: Pawned. Forty gilt, Canal Six. I hope it holds somebody kind.
+* end
+> face ambrose up
+> wait 1.2
+
+== ut_camp_courtesy_frost
+> music camp
+> walk courtesy @camp_courtesy
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face anouk courtesy
+> face courtesy anouk
+Anouk: Unit. Your plating has frost on the left shoulder. From the Desk's Hush. From Recovery.
+Courtesy: THIS UNIT WAS HUSHED. THIS UNIT WAS COLD FOR NINETEEN DAYS.
+Anouk: I could take the frost off. My blood is the frost. It will take it back.
+> face courtesy hero
+?
+- Let her, Courtesy. -> let
+- Courtesy decides. -> ask
+- Will it hurt either of you? -> cost
+* cost
+Anouk: No. It is the one thing my blood is good for that does not hurt anybody.
+* let
+* ask
+> walk anouk 12 5
+> anim spill 11 4 pale
+> wait 1
+Courtesy: QUIET PLEASE.
+Courtesy: THIS LINE IS MONITORED. THIS UNIT IS WARM. THANK YOU FOR YOUR COOPERATION.
+Anouk: You are welcome. That is the first time I have used it to warm something.
+> approve anouk 2 courtesy 2
+> face anouk up
+> wait 1.2
+
+== ut_camp_port_hand
+> music camp
+> walk hero @camp_hero
+> face hero down
+> wait 1
+PORT: In the Shallows I had a hand. Two. And feet. I was small.
+PORT: When we come out, where does my hand go? Is it still in there, waiting?
+?
+- It comes with us. It's yours. It's just folded up. -> kind
+- It's gone until we dive again. -> hard
+- Does a hand cost extra out here? -> money
+* kind
+PORT: Folded. Like a jacket. I like that. I will keep it folded.
+> self 1
+> goto end
+* hard
+PORT: Gone. Okay. Then I want to dive again soon. Is that allowed?
+> hold 1
+> goto end
+* money
+PORT: Out here we only have your hand. You pay for both of us. Sorry. Sorry is right?
+* end
+> wait 1
+
+== ut_camp_thursday
+> music camp
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face anouk hero
+> face hero anouk
+Anouk: It is Thursday. 08:55. My arm itches.
+Anouk: The Desk car will wait outside the Stair office until 09:20. Then it will leave and log me absent.
+?
+- Don't go. -> dont
+- Go, if you need to. We'll be here. -> go
+- What happens to your pay if you don't? -> pay
+* dont
+Anouk: I am not going. I just wanted somebody to know it was Thursday.
+> approve anouk 2
+> goto end
+* go
+Anouk: I do not need to. I needed to say it. That was the procedure. Saying it.
+> goto end
+* pay
+Anouk: They dock a day. I have twenty-two years of pay. I have never bought anything.
+* end
+> wait 1
+> face anouk up
+> wait 1.5
+
+# ---------------------------------------------------------------- Marit and Anouk, aboard the Clement
+
+== ut_marit_anouk
+> set m5_anouk
+> walk anouk @marit_side
+> face anouk marit
+> face marit anouk
+Marit: Who's this? White coat. Red stripe. You're Board, love. You walk like Board.
+Anouk: Quiet Desk. Anouk Terwal. I was.
+Marit: They bleed you? Look at your arm. They bleed you, don't they, Thursdays.
+Anouk: Thursdays.
+Marit: Sundays, me. Teun came with the papers and they took a pint after he left. Forty years of Sundays.
+Marit: Does it go gray? I heard there's one that goes gray. I heard a nurse say it once.
+Anouk: Mine is gray.
+> wait 1.5
+Marit: Well. Give us your hand. No, the bare one. Never mind the glove, I've had worse things on me.
+> wait 2
+Marit: Cold. You're cold as the vault. They kept you quiet so it'd stay gray. Never mind. It won't.
+Anouk: How do you know?
+Marit: Because you're sitting on a barge with this lot, love. Nobody stays quiet with this lot.
+> approve anouk 3
+> wait 1
+
+# ---------------------------------------------------------------- Banter
+
+== b_ut_ta_gloves
+Tova: do you ever take them off?
+Anouk: On Thursdays. For the sample.
+Tova: that's not taking them off.
+Anouk: It is the only time I take them off.
+
+== b_ut_qa_numbers
+Quaye: How many leaks this month, Terwal?
+Anouk: Nineteen. Three of them were you.
+Quaye: Fair.
+
+== b_ut_aa_words
+Ambrose: Is there a Desk word for joy?
+Anouk: Integrity event. Logged.
+Ambrose: Exquisite. Utterly bloodless.
+
+== b_ut_sa_copy
+Sallis: Two blocks. Desk drone. Moving off.
+Anouk: Acknowledged.
+Sallis: "Copy." We say copy.
+Anouk: Copy.
+
+== b_ut_ia_bless
+Ignace: A blessing against frost, Terwal?
+Anouk: I am the frost.
+Ignace: Then a blessing for the frost. Free.
+
+== b_ut_ca_quiet
+Courtesy: QUIET PLEASE.
+Anouk: Thank you.
+Courtesy: THIS UNIT LEARNED IT FROM YOU.
+Anouk: That was warm. Please continue.
+
+== b_ut_port_hand
+PORT: I have a hand in here.
+Anouk: You do. It is small.
+PORT: It is mine. Is small mine too?
+Anouk: Yes. Logged.
+
+== b_ut_port_wall
+PORT: The wall is not moving.
+Anouk: Nothing touches it and moves.
+PORT: Then I will not touch it.
+
+== b_ut_net_neck
+Quaye: No Throne. My neck hates this.
+Anouk: Bare-port diving. You are doing well.
+Quaye: Seventy-one, kid. I'm doing great.
+
+== b_ut_net_red
+Tova: my blood's red in here too.
+Anouk: All blood is red in the net.
+Tova: not yours.
+Anouk: Not mine.
+
+== b_ut_pike
+Sallis: That port talks like Jory.
+Anouk: It learned from him. At the end.
+Sallis: Then it learned him scared.
+Anouk: It learned him counting money.
+
+== b_ut_mud
+Tova: the mud's red. why's the mud red?
+Anouk: The Bailers pour the Deeps out here.
+Tova: so that's all of us out there.
+Anouk: Yes. Forty years of us.
+
+== b_ut_desk
+Ignace: Your office has a hymn. Quiet please.
+Anouk: It is a notice.
+Ignace: Everything's a hymn if you charge for it.
+
+== b_ut_flats
+Ambrose: The Flats. Salt eats my chrome.
+Anouk: The Undertow eats ports.
+Ambrose: I shall stand very still.

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "unsurveyed",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8770", "--shots"],
+      "port": 8770
+    }
+  ]
+}

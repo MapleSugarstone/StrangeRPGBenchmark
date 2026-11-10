@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Issue } from '../engine/layout';
 
-export type Part = 'field' | 'dialogue' | 'choices' | 'menus' | 'travel' | 'shops' | 'combat' | 'sluice' | 'overlays' | 'credits';
-const ALL: Part[] = ['field', 'dialogue', 'choices', 'menus', 'travel', 'shops', 'combat', 'sluice', 'overlays', 'credits'];
+export type Part = 'field' | 'dialogue' | 'choices' | 'menus' | 'travel' | 'shops' | 'combat' | 'sluice' | 'hacking' | 'overlays' | 'credits';
+const ALL: Part[] = ['field', 'dialogue', 'choices', 'menus', 'travel', 'shops', 'combat', 'sluice', 'hacking', 'overlays', 'credits'];
 
 export async function uiAudit(h: any, parts: Part[] = ALL): Promise<{ issues: Record<string, Issue[]>; states: number; partial: boolean }> {
   const M = await h.mods();
@@ -240,6 +240,45 @@ export async function uiAudit(h: any, parts: Part[] = ALL): Promise<{ issues: Re
       }
       for (let k = 0; k < 120 && !S.done; k++) { await step(1); if (k % 20 === 0) snap(`sluice vs ${op.id}, result`); }
       OV.sluice = null;
+    }
+  }
+
+  if (parts.includes('hacking')) {
+    const OV = M.runner.OV;
+    const H = M.hack;
+    for (const id of H.puzzles.SPLICE.keys()) {
+      clear();
+      OV.mini = new H.splice.Splice(id);
+      const S = OV.mini;
+      await step(2); snap(`splice ${id}, start`);
+      for (let k = 0; k < 10 && S.phase === 'play'; k++) {
+        for (let i = 0; i < S.n; i++) { if (S.canPick(S.cellOf(i))) { S.cur = i; break; } }
+        await step(1); snap(`splice ${id}, pick ${k}`);
+        h.press('a'); await step(2);
+      }
+      if (S.phase === 'play') { h.press('b'); await step(2); }
+      snap(`splice ${id}, result`);
+      OV.mini = null;
+    }
+    for (const id of H.puzzles.SURF.keys()) {
+      clear();
+      OV.mini = new H.current.Current(id);
+      const S = OV.mini;
+      await step(2); snap(`surf ${id}, intro`);
+      h.press('a'); await step(2);
+      for (let k = 0; k < 12 && S.phase === 'play'; k++) { await step(30); snap(`surf ${id}, riding ${k}`); }
+      if (S.phase === 'play') S.finish(true);
+      await step(1); snap(`surf ${id}, result`);
+      OV.mini = null;
+    }
+    for (const id of H.puzzles.BAIL.keys()) {
+      clear();
+      OV.mini = new H.bail.Bail(id);
+      const S = OV.mini;
+      for (let k = 0; k < 12 && S.phase === 'play'; k++) { h.press(k % 3 === 0 ? 'right' : 'a'); await step(20); snap(`bail ${id}, turn ${k}`); }
+      if (S.phase === 'play') { h.press('b'); await step(2); }
+      snap(`bail ${id}, result`);
+      OV.mini = null;
     }
   }
 

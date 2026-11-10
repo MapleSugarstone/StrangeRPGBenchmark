@@ -3,7 +3,7 @@
 import { TILE_BY_CH, VOID, type TileDef } from './tiles';
 import { PROP_BY_CH } from './props';
 
-export type District = 'deeps' | 'stair' | 'brim' | 'inside' | 'flats';
+export type District = 'deeps' | 'stair' | 'brim' | 'inside' | 'flats' | 'net';
 export type Dir = 'up' | 'down' | 'left' | 'right';
 
 export interface PropPlace { kind: string; x: number; y: number; id?: string; woken?: boolean; hushed?: boolean; tapeIf?: string; dir?: Dir; text?: string; color?: number; light?: number; scene?: string; loot?: string; lock?: number; hidden?: string; showIf?: string; hideIf?: string }
@@ -50,6 +50,8 @@ export interface EncounterDef {
   sightRange?: number;
   /** Water rises during the fight: each round the next row up from the bottom row floods. */
   tide?: { top: number; bottom: number; perRound?: number };
+  /** Frost spreads during the fight: each round the next row up turns to frost floor. */
+  frostTide?: { top: number; bottom: number; perRound?: number };
   /** Units that fight on the party's side, controlled by the game (enemy kinds, with an optional look). */
   allies?: UnitPlace[];
   /** Who the party is when this fight happens in the story, for the balance simulator (hero is implied). */
@@ -97,6 +99,8 @@ export interface MapDef {
   noFill?: boolean;
   /** Fog color for void tiles at the map edge (city far below). */
   below?: boolean;
+  /** A map in the net: the net look, no rain or sky, avatars, and the port fights as a fifth unit. */
+  net?: boolean;
 }
 
 export interface Cell { tile: TileDef; elev: number }

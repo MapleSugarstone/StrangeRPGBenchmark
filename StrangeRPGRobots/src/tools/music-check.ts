@@ -2,7 +2,7 @@
 // renders every track symbolically and checks key, range, density, reflections, repetition, and gaps, then melts
 // every track into every other and checks that no melt passes through silence. Also checks combat events, the boss
 // mechanics, sound effects, voices, script coverage, and that the API never throws in Node.
-// Usage: node scripts/build.mjs --tools && node dist-tools/music-check.js [--minutes 10] [--max-seconds 900]
+// Usage: node scripts/build.mjs --tools && node dist-tools/music-check.js [--minutes 10] [--max-seconds 900] [--only net,undertow]
 // Progress goes to dist-tools/music-check.progress.json every two seconds. Creating dist-tools/music-check.stop ends
 // the run after the job in hand and writes a partial report. The report goes to dist-tools/music-report.md.
 import fs from 'node:fs';
@@ -28,7 +28,8 @@ const REPORT = path.join(OUT_DIR, 'music-report.md');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 try { fs.unlinkSync(STOP); } catch { /* no stop file left from before */ }
 
-const PUBLIC = api.TRACK_NAMES.filter((t) => t !== 'none') as string[];
+const ONLY = args.includes('--only') ? (args[args.indexOf('--only') + 1] ?? '').split(',') : null;
+const PUBLIC = api.TRACK_NAMES.filter((t) => t !== 'none' && (!ONLY || ONLY.includes(t))) as string[];
 
 // ---------------------------------------------------------------- progress and early stop
 

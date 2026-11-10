@@ -14,6 +14,9 @@ import '../content/register';
 import { BANTER } from '../content/banter';
 import { FACTION, TRAVEL, EVENTS, BACKGROUND } from '../content/replay';
 import { DETAILS, LORE } from '../content/details';
+import { checkTrees, checkMechanics } from '../rules/treecheck';
+import { SPLICE, SURF, BAIL } from '../content/undertow_puzzles';
+import { DRAWN } from '../art/drawn';
 
 const errors: string[] = [];
 const warns: string[] = [];
@@ -23,10 +26,10 @@ const warn = (s: string) => warns.push(s);
 try { loadScripts(SCRIPT_FILES); } catch (e) { err(String(e)); }
 
 const BANNED = ['whisper', 'shimmer', 'tapestry', 'testament', 'journey', 'destiny', 'ancient', 'gaze', 'grin', 'mutter', 'something shifted', 'a part of me', 'i guess', 'look,', 'elara', 'kael'];
-const LOOK_OK = (l: string) => !!LOOKS[l] || ['courtesy', 'courtesy_cyan', 'patrol', 'patrol_hushed', 'drone', 'turret', 'tilly', 'dog'].includes(l) || l.startsWith('crowd:');
+const LOOK_OK = (l: string) => !!LOOKS[l] || !!DRAWN[l] || ['courtesy', 'courtesy_cyan', 'patrol', 'patrol_hushed', 'drone', 'turret', 'tilly', 'dog'].includes(l) || l.startsWith('crowd:');
 
 const mapIds = new Set(ALL_MAPS.map((m) => m.id));
-const COMPANION_IDS = new Set(['courtesy', 'sallis', 'quaye', 'ambrose', 'tova', 'ignace', 'hero']);
+const COMPANION_IDS = new Set(['courtesy', 'sallis', 'quaye', 'ambrose', 'tova', 'ignace', 'anouk', 'port', 'hero']);
 const markers = new Map<string, Set<string>>();
 const encounters = new Map<string, Set<string>>();
 const npcs = new Map<string, Set<string>>();
@@ -86,6 +89,14 @@ function checkCmd(L: Extract<SLine, { k: 'cmd' }>, where: string, labels: Map<st
     case 'quest': if (!QUEST.has(a[0])) err(`${where}: unknown quest ${a[0]}`); else if (a[1] !== 'done' && a[1] !== 'fail' && !(a[1] in QUEST.get(a[0])!.stages)) err(`${where}: quest ${a[0]} has no stage ${a[1]}`); break;
     case 'fight': if (!allEnc.has(a[0])) err(`${where}: no encounter ${a[0]} on any map`); break;
     case 'shop': if (!SHOPS.has(a[0])) err(`${where}: unknown shop ${a[0]}`); break;
+    case 'dive': if (!mapIds.has(a[0])) err(`${where}: dive to unknown map ${a[0]}`); else if (!ALL_MAPS.find((m) => m.id === a[0])?.net) err(`${where}: dive to ${a[0]}, which is not a net map`); else if (a[1] && !markers.get(a[0])!.has(a[1].replace('@', ''))) err(`${where}: map ${a[0]} has no marker ${a[1]}`); break;
+    case 'splice': case 'surf': case 'bail': {
+      const reg = L.name === 'splice' ? SPLICE : L.name === 'surf' ? SURF : BAIL;
+      if (!reg.has(a[0])) err(`${where}: unknown ${L.name} puzzle ${a[0]}`);
+      const i = a.indexOf('->');
+      if (i >= 0) for (const t of a.slice(i + 1).join(' ').split('|')) target(t.trim());
+      break;
+    }
     case 'say': break;
     default: break;
   }
@@ -178,6 +189,9 @@ for (const b of BANTER) {
   }
   for (const m of b.maps ?? []) if (!mapIds.has(m) && !m.startsWith('flats')) err(`${where}: unknown map ${m}`);
 }
+
+// Skill trees, the old-save migration, the level cap, and the tree screen's layout.
+for (const e of [...checkTrees(), ...await checkMechanics()]) err(e);
 
 console.log(`${SCENES.size} scenes, ${lines} spoken lines, ${ALL_MAPS.length} maps`);
 for (const w of warns) console.log('warn: ' + w);

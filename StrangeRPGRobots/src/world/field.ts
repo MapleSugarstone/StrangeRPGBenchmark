@@ -56,6 +56,7 @@ export const F = {
 
 export function lookFor(id: string): ReturnType<typeof sheetFor> {
   if (id === 'hero') return personSheet(G.look);
+  if (id === 'port') return personSheet({ ...G.look, build: 'small', accent: C.cyan4, coat: C.cyan2, extras: [...(G.look.extras ?? []).filter((e) => e !== 'beanie'), 'eyeglow'] });
   const m = G.roster[id];
   if (id === 'courtesy') return sheetFor(G.flags.courtesy_painted ? 'courtesy_cyan' : 'courtesy');
   if (id === 'ambrose' && G.flags.ambrose_eye_arrears && !G.flags.ambrose_free) return sheetFor('ambrose_ads');
@@ -138,7 +139,7 @@ function spawnCamp(def: MapDef) {
   const spots = Object.entries(def.markers ?? {}).filter(([k]) => k.startsWith('camp_')).map(([, p]) => p);
   let i = 0;
   for (const m of Object.values(G.roster)) {
-    if (m.id === 'hero' || m.dead || G.party.includes(m.id) || G.flags[m.id + '_taken']) continue;
+    if (m.id === 'hero' || m.id === 'port' || m.dead || G.party.includes(m.id) || G.flags[m.id + '_taken']) continue;
     if (WORLD.actors.some((a) => a.id === m.id)) continue;
     const p = def.markers?.[`camp_${m.id}`] ?? spots[i++ % Math.max(1, spots.length)] ?? [2 + i, 2];
     const a = newActor(m.id, m.name, p[0], p[1], 'down', lookFor(m.id), 'npc');

@@ -1,9 +1,9 @@
 // Combat units: party members, enemies, allies, drones, turrets, and woken objects, all with one shape.
-import { ENEMY, ITEM, type Attr, type Skill, type ItemDef, type Feeling, SKILLS } from '../rules/data';
-import { attrOf, skillOf, maxHp, defenseOf, moveOf, initBonus, ramOf, abilitiesOf, edgeMax } from '../rules/stats';
+import { ENEMY, ITEM, type Attr, type Skill, type ItemDef, type Feeling, type PerkMod, SKILLS } from '../rules/data';
+import { attrOf, skillOf, maxHp, defenseOf, moveOf, initBonus, ramOf, abilitiesOf, edgeMax, mods } from '../rules/stats';
 import type { Member } from '../game/state';
 import { G } from '../game/state';
-import type { Actor, PropInst } from '../world/world';
+import { WORLD, type Actor, type PropInst } from '../world/world';
 
 export type Side = 'party' | 'enemy' | 'wild';
 
@@ -59,6 +59,14 @@ export interface Unit {
   /** Skips its turns until it takes damage or is shoved. */
   dormant?: boolean;
   unbrokenUsed?: boolean;
+  /** A woken thing: drifts, ridden chrome, woken objects. Hush and Frost hush it. */
+  woken?: boolean;
+  /** Knocked out and freed at 0 HP instead of killed. */
+  spare?: boolean;
+  /** Turns left for a called unit before it goes. */
+  summoned?: number;
+  /** Perk modifiers, merged once when the fight starts. */
+  mod: PerkMod;
   /** Enemy-specific uses for this fight. */
   phase: number;
   /** The x and y the unit stands on, mirrored from its actor or prop. */
@@ -68,19 +76,24 @@ export interface Unit {
 
 function blankSkills(): Record<Skill, number> { return Object.fromEntries(SKILLS.map((s) => [s, 0])) as Record<Skill, number>; }
 
+/** The fight is in a net map. */
+export function isNet(): boolean { return !!WORLD.def?.net; }
+
 export function unitFromMember(m: Member, actor: Actor): Unit {
+  const net = isNet();
+  const mod = mods(m);
   const attr = { body: attrOf(m, 'body'), reflex: attrOf(m, 'reflex'), wits: attrOf(m, 'wits'), nerve: attrOf(m, 'nerve') };
   const skills = blankSkills();
   for (const s of SKILLS) skills[s] = skillOf(m, s);
   const mh = maxHp(m);
   const u: Unit = {
-    id: m.id, name: m.id === 'hero' ? G.heroName : m.name, side: 'party', actor, prop: null, member: m, kind: m.cls,
+    id: m.id, name: m.id === 'hero' ? G.heroName : m.cls === 'port' ? G.port.name : m.name, side: 'party', actor, prop: null, member: m, kind: m.cls,
     level: m.level, hp: Math.max(1, Math.min(m.hp, mh)), maxHp: mh, def: defenseOf(m), move: moveOf(m), init: initBonus(m),
     attr, skills, melee: ITEM.get(m.gear.melee ?? 'fists') ?? ITEM.get('fists')!, ranged: m.gear.ranged ? ITEM.get(m.gear.ranged) ?? null : null,
-    plating: m.cls === 'unit' ? 2 + (m.perks.includes('plating') ? 2 : 0) : 0, machine: m.cls === 'unit', chrome: m.cls !== 'witch', flying: false,
-    abilities: abilitiesOf(m), ai: 'party', boss: false, xp: 0, status: new Map(),
+    plating: (m.cls === 'unit' ? 2 : 0) + (mod.plating ?? 0), machine: m.cls === 'unit', chrome: net || (m.cls !== 'witch' && m.cls !== 'keeper'), flying: false,
+    abilities: abilitiesOf(m, net), ai: 'party', boss: false, xp: 0, status: new Map(),
     moveLeft: 0, action: true, bonus: true, reaction: true, extraActions: 0,
-    ram: ramOf(m), ramMax: ramOf(m), spentFight: {}, downed: m.hp <= 0, dead: false, mood: m.mood,
+    ram: ramOf(m, net), ramMax: ramOf(m, net), spentFight: {}, downed: m.hp <= 0, dead: false, mood: m.mood, mod, woken: m.id === 'courtesy' || m.cls === 'port',
     droneHp: m.cls === 'rigger' ? (m.perks.includes('armored_drone') ? 24 : 12) : 0, droneMax: m.cls === 'rigger' ? (m.perks.includes('armored_drone') ? 24 : 12) : 0,
     swimming: 0, phase: 0, x: actor.tx, y: actor.ty,
   };
@@ -114,11 +127,11 @@ export function unitFromEnemy(kind: string, actor: Actor, level?: number): Unit 
     id: actor.id, name: e.name, side: 'enemy', actor, prop: null, member: null, kind, level: lv,
     hp, maxHp: hp, def: attr.reflex + (e.armor ?? 0), move: e.move ?? 5, init: 2 * attr.reflex,
     attr, skills, melee: e.melee ? ITEM.get(e.melee) ?? null : ITEM.get('fists')!, ranged: e.ranged ? ITEM.get(e.ranged) ?? null : null,
-    plating: e.plating ?? 0, machine: !!e.machine, chrome: !!e.chrome || !!e.machine, flying: !!e.flying,
+    plating: e.plating ?? 0, machine: !!e.machine, chrome: !!e.chrome || !!e.machine || isNet(), flying: !!e.flying,
     abilities: e.abilities ?? [], ai: e.ai, boss: !!e.boss, xp: e.xp, status: new Map(),
     moveLeft: 0, action: true, bonus: true, reaction: true, extraActions: 0,
     ram: 0, ramMax: 0, spentFight: {}, downed: false, dead: false, droneHp: 0, droneMax: 0, swimming: 0, phase: 0,
-    x: actor.tx, y: actor.ty,
+    x: actor.tx, y: actor.ty, mod: {}, woken: e.woken ?? (kind.startsWith('drift_') || kind === 'rider'), spare: !!e.spare,
   };
 }
 
@@ -135,7 +148,7 @@ export function unitFromProp(p: PropInst, by: Unit, feeling: Feeling, turns: num
     moveLeft: 0, action: true, bonus: true, reaction: true, extraActions: 0,
     ram: 0, ramMax: 0, spentFight: {}, downed: false, dead: false, droneHp: 0, droneMax: 0, swimming: 0, phase: 0,
     wake: { by: by.id, feeling, turns }, owner: by.id,
-    x: p.x, y: p.y,
+    x: p.x, y: p.y, mod: {}, woken: true,
   };
 }
 
@@ -143,6 +156,8 @@ export function has(u: Unit, s: string): boolean { return (u.status.get(s) ?? 0)
 export function addStatus(u: Unit, s: string, turns: number) { u.status.set(s, Math.max(u.status.get(s) ?? 0, turns)); }
 export function alive(u: Unit): boolean { return !u.downed && !u.dead; }
 export function perk(u: Unit, p: string): boolean { return !!u.member?.perks.includes(p); }
+/** Free hits, Overwatch, Riposte, and the port's reactions all need this. */
+export function canReact(u: Unit): boolean { return u.reaction && !has(u, 'stunned') && !has(u, 'shocked') && !has(u, 'frosted'); }
 
 export function hostile(a: Unit, b: Unit): boolean {
   if (a === b) return false;

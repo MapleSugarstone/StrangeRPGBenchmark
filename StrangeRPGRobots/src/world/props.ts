@@ -902,6 +902,193 @@ def({
   ], [C.night, C.cyan3]),
 });
 
+// Undertow props: net nodes and gates, packets and caches, and the server rooms that hold the Pale.
+def({
+  kind: 'node', name: 'node', block: true, cover: 1, use: 'read', networked: true,
+  ox: 1, oy: -2, glow: [3, 4],
+  light: { dx: 4, dy: 4, r: 22, i: 0.8, color: LIGHT.cyan, z: 8 },
+  art: img([
+    '...00...',
+    '..0330..',
+    '.033330.',
+    '03344330',
+    '03344330',
+    '.033330.',
+    '..0330..',
+    '...00...',
+    '...11...',
+    '..1221..',
+    '.111111.',
+    '.000000.',
+  ], [C.cyan0, C.cyan1, C.cyan3, C.white]),
+});
+def({
+  kind: 'gate', name: 'gate', block: true, cover: 2, opaque: true, use: 'read', networked: true,
+  ox: 0, oy: -6, glow: [3],
+  art: img([
+    '0000000000',
+    '0111111110',
+    '0122332210',
+    '0121111210',
+    '0121331210',
+    '0121331210',
+    '0121111210',
+    '0122332210',
+    '0121111210',
+    '0121331210',
+    '0121331210',
+    '0121111210',
+    '0122332210',
+    '0111111110',
+    '0000000000',
+    '..........',
+  ], [C.cyan0, C.cyan1, C.cyan3]),
+});
+def({
+  kind: 'packet', name: 'packet', block: false, cover: 0, use: 'loot',
+  ox: 2, oy: 1, glow: [2, 3],
+  light: { dx: 3, dy: 3, r: 12, i: 0.6, color: LIGHT.cyan, z: 4 },
+  art: img([
+    '..00..',
+    '.0220.',
+    '022320',
+    '023220',
+    '.0220.',
+    '..00..',
+  ], [C.cyan0, C.cyan3, C.white]),
+});
+def({
+  kind: 'cache', name: 'message cache', block: true, cover: 1, use: 'read', networked: true,
+  ox: 1, oy: -3, glow: [3],
+  light: { dx: 4, dy: 3, r: 18, i: 0.6, color: LIGHT.cold, z: 8 },
+  art: img([
+    '.000000.',
+    '01111110',
+    '01333310',
+    '01111110',
+    '01333310',
+    '01111110',
+    '01333310',
+    '01111110',
+    '01222210',
+    '.000000.',
+  ], [C.steel1, C.steel2, C.pale]),
+});
+def({
+  kind: 'rack', name: 'server rack', block: true, cover: 2, opaque: true, hp: 20, plating: 2, networked: true, wake: 'flash',
+  ox: 0, oy: -8, glow: [4],
+  art: img([
+    '0000000000',
+    '0111111110',
+    '0122222210',
+    '0124242210',
+    '0122222210',
+    '0111111110',
+    '0122222210',
+    '0122424210',
+    '0122222210',
+    '0111111110',
+    '0122222210',
+    '0124222210',
+    '0122222210',
+    '0111111110',
+    '0133333310',
+    '0122222210',
+    '0111111110',
+    '0000000000',
+  ], [C.night, C.slate, C.ink, C.cyan3]),
+});
+def({
+  kind: 'frostrack', name: 'frosted rack', block: true, cover: 2, opaque: true, hp: 20, plating: 3, networked: true,
+  ox: 0, oy: -8,
+  art: img([
+    '3333333333',
+    '0111111113',
+    '0122222210',
+    '0124242210',
+    '0122222210',
+    '0111111110',
+    '0122222213',
+    '0122424210',
+    '0122222210',
+    '3111111110',
+    '0122222210',
+    '0124222213',
+    '0122222210',
+    '0111111110',
+    '0122222210',
+    '0122222210',
+    '0111111110',
+    '0000000000',
+  ], [C.steel1, C.steel2, C.pale, C.steel4]),
+});
+def({
+  kind: 'tank', name: 'cooling tank', block: true, cover: 2, opaque: true, hp: 30, plating: 3,
+  ox: 0, oy: -6, glow: [3],
+  light: { dx: 5, dy: 6, r: 24, i: 0.6, color: LIGHT.cold, z: 10 },
+  art: img([
+    '..000000..',
+    '.01111110.',
+    '0122222210',
+    '0123333210',
+    '0123443210',
+    '0123333210',
+    '0123443210',
+    '0123333210',
+    '0122222210',
+    '0111111110',
+    '0100000010',
+    '0111111110',
+    '.00000000.',
+  ], [C.steel1, C.steel2, C.steel3, C.pale]),
+});
+def({
+  kind: 'divechair', name: 'dive chair', block: true, cover: 1, use: 'sit',
+  ox: 0, oy: -2,
+  art: img([
+    '.000000...',
+    '.011110...',
+    '.012210...',
+    '.012210...',
+    '.012210000',
+    '.012222220',
+    '.011111110',
+    '..0....0..',
+    '..0....0..',
+    '.000..000.',
+  ], [C.pale, C.steel2]),
+});
+def({
+  kind: 'cable', name: 'cable', block: false, cover: 0, flat: true,
+  art: img([
+    '..........',
+    '..........',
+    '00........',
+    '1100......',
+    '..1100....',
+    '....1100..',
+    '......1100',
+    '........11',
+    '..........',
+    '..........',
+  ], [C.night]),
+});
+
+def({
+  kind: 'musicbox', name: 'music box', block: true, cover: 1, use: 'read',
+  ox: 1, oy: 1,
+  art: img([
+    '........',
+    '.000000.',
+    '01111110',
+    '01222210',
+    '01333310',
+    '01111110',
+    '.0....0.',
+    '........',
+  ], [C.mud1, C.amb2, C.pale]),
+});
+
 for (const d of P) if (!d.wet) d.wet = false;
 
 export const PROPS = new Map<string, PropDef>(P.map((d) => [d.kind, d]));

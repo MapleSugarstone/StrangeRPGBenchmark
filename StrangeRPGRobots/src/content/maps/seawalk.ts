@@ -78,7 +78,7 @@ export const seawalk: MapDef = {
   props: [
     { kind: 'bulbs', x: 8, y: 12 },
     { kind: 'bulbs', x: 28, y: 12 },
-    { kind: 'lampcold', x: 3, y: 10 },
+    { kind: 'lampcold', x: 3, y: 10, id: 'sea_lamp' },
     { kind: 'bulbs3', x: 8, y: 8 },
     { kind: 'bulbs3', x: 28, y: 8 },
     { kind: 'bulbs', x: 6, y: 18 },
@@ -117,7 +117,7 @@ export const seawalk: MapDef = {
       speed: 2,
     },
   ],
-  markers: {
+  markers: { sea_lamp: [3, 10],
     hall_door: [1, 10],
     marit_rail: [18, 8],
     hero_rail: [20, 8],

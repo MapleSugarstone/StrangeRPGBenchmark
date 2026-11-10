@@ -4,11 +4,13 @@ import { cellAt } from '../world/map';
 import { lineTiles, flyable } from '../world/path';
 import { T } from '../world/tiles';
 import { type Unit, has, alive, hostile, perk } from './unit';
+import { modHit } from '../rules/stats';
 import type { ItemDef, AbilityDef } from '../rules/data';
 import { G } from '../game/state';
 
-export type SurfaceKind = 'water' | 'oil' | 'fire' | 'shock' | 'smoke' | 'foam' | 'blood';
-export interface Surface { kind: SurfaceKind; turns: number }
+export type SurfaceKind = 'water' | 'oil' | 'fire' | 'shock' | 'smoke' | 'foam' | 'blood' | 'frost' | 'wall' | 'mine';
+/** A wall is a frost wall that blocks movement and sight. A mine belongs to the side that planted it. */
+export interface Surface { kind: SurfaceKind; turns: number; side?: string }
 
 export interface FloatText { x: number; y: number; text: string; color: number; t: number }
 export interface Spark { x: number; y: number; vx: number; vy: number; t: number; color: number; glow: boolean }
@@ -37,6 +39,8 @@ export const CB = {
   /** Lets the AI play the party's turns (browser tests). */
   autoParty: false,
   rng: Math.random,
+  /** Party ability uses across fights, for the balance simulator. */
+  usage: {} as Record<string, number>,
 };
 
 export function rnd(): number { return CB.rng(); }
@@ -64,6 +68,11 @@ export function isWet(x: number, y: number): boolean {
   return cellAt(WORLD.map!, x, y).tile.water === 'shallow';
 }
 
+export function wallAt(x: number, y: number): boolean { return CB.surf.get(idx(x, y))?.kind === 'wall'; }
+
+/** Frost floor from the map or from an ability. */
+export function frostAt(x: number, y: number): boolean { return CB.surf.get(idx(x, y))?.kind === 'frost' || cellAt(WORLD.map!, x, y).tile.ch === 'a'; }
+
 function smokeAt(x: number, y: number): boolean {
   const s = surfaceAt(x, y);
   if (s && s.kind === 'smoke') return true;
@@ -82,6 +91,7 @@ export function los(a: { x: number; y: number }, b: { x: number; y: number }): b
     const nearFlyer = (fa && Math.max(Math.abs(x - a.x), Math.abs(y - a.y)) <= 1) || (fb && Math.max(Math.abs(x - b.x), Math.abs(y - b.y)) <= 1);
     if (c.tile.opaque && !nearFlyer) return false;
     if (smokeAt(x, y)) return false;
+    if (wallAt(x, y)) return false;
     for (const p of WORLD.props) if (!p.broken && p.def.opaque && p.x === x && p.y === y) return false;
     if (c.elev > Math.max(elevAt(a.x, a.y), elevAt(b.x, b.y))) return false;
   }
@@ -99,6 +109,7 @@ export function coverOf(att: { x: number; y: number }, tgt: { x: number; y: numb
     let v: number = c.tile.cover;
     const g = WORLD.coverGrid[y * m.w + x] ?? 0;
     if (g > v) v = g;
+    if (wallAt(x, y)) v = 2;
     for (const u of CB.units) if (alive(u) && u.x === x && u.y === y && has(u, 'bulwark')) v = 2;
     if (v > best) best = v;
   };
@@ -132,13 +143,15 @@ export function hitInfo(a: Unit, t: Unit, w: ItemDef | null, ab?: AbilityDef): H
   const melee = isMelee(w) || ab?.range === 1;
   const attr = melee ? a.attr.body : a.attr.reflex;
   const skill = melee ? a.skills.strike : a.skills.shoot;
-  const atk = attr + skill + (w?.acc ?? 0) + (perk(a, 'legend') ? 2 : 0) + (perk(a, 'steady_aim') && !melee ? 2 : 0);
+  const atk = attr + skill + (w?.acc ?? 0);
   let def = t.def;
   if (has(t, 'bulwark')) def += 4;
   if (t.taunter && has(t, 'taunted')) def += 0;
   if (t.member?.cls === 'mouth' && CB.units.some((e) => e.taunter === t.id && has(e, 'taunted'))) def += 2;
   for (const f of CB.units) if (alive(f) && f !== t && !hostile(f, t) && perk(f, 'bodyguard') && dist(f, t) === 1) def += 1;
-  let c = 65 + 5 * (atk - def);
+  let c = 65 + 5 * (atk - def) + modHit(a.mod, melee ? 'melee' : 'ranged') + (ab?.aim ?? 0);
+  if (a.side !== 'enemy') { for (const f of CB.units) if (f !== a && alive(f) && !hostile(f, a) && perk(f, 'leader') && dist(f, a) <= 3) { c += 10; break; } }
+  if (CB.units.some((f) => alive(f) && hostile(f, a) && perk(f, 'legend_mouth') && dist(f, a) <= 6)) c -= 10;
   let cover = melee ? 0 : coverOf(a, t);
   if (w?.ignoreHalfCover && cover === 1) cover = 0;
   if (t.flying) cover = Math.min(cover, 1);
@@ -173,6 +186,7 @@ export function tilePx(x: number, y: number): [number, number] { return [x * T +
 
 export function freeTile(x: number, y: number, except?: Unit): boolean {
   if (except?.flying ? !flyable(x, y) : !walkable(x, y)) return false;
+  if (wallAt(x, y)) return false;
   const u = unitAt(x, y);
   if (u && u !== except && alive(u)) return false;
   if (u && u.downed && u !== except) return false;

@@ -1,7 +1,7 @@
 // Round trip for player-facing text, for a naturalizing pass by another model.
 //   node scripts/lines.mjs export          writes naturalize/fathom-lines.txt (one text per line, with an id)
 //   node scripts/lines.mjs export --new    only lines changed or added since the last export
-//   node scripts/lines.mjs export-ui       writes naturalize/fathom-lines-ui.txt: interface text, Sluice text, credits,
+//   node scripts/lines.mjs export-ui [--new]  writes naturalize/fathom-lines-ui.txt (or -ui-new.txt, only lines new since the last): interface text, Sluice text, credits,
 //                                          area names, and faction names, with their own sidecar
 //   node scripts/lines.mjs import [file]   writes edited text back into src/script/*.txt, map barks, and data files
 // Import only replaces a line whose current text still matches the text that was exported.
@@ -100,6 +100,8 @@ function dataTexts(dir, file) {
       } else if (key === 'title') speaker = /\btext: /.test(line) ? 'LORE TITLE' : 'QUEST TITLE';
       else if (key === 'desc') speaker = 'DESCRIPTION';
       else if (key === 'read') speaker = 'ITEM TEXT';
+      else if (key === 'label') speaker = 'PUZZLE TARGET';
+      else if (key === 'name' && /\bnodes: /.test(line)) speaker = 'BRANCH NAME';
       else if (key === 'name' && /\bdesc: /.test(line)) speaker = 'NAME';
       else if (/^\d+$/.test(key) || key === 'done' || key === 'fail') {
         const pi = line.indexOf('port:');
@@ -135,6 +137,10 @@ const UI_PATTERNS = [
   [new RegExp(String.raw`\b(drawText|drawWrapped|toast)\(\s*` + STR, 'g'), (m) => (m[1] === 'drawWrapped' ? 'UI HINT' : m[1] === 'toast' ? 'NOTICE' : 'UI LABEL'), 2],
   [new RegExp(String.raw`\bpanel\([^()]*?,\s*` + STR + String.raw`\s*\)`, 'g'), () => 'UI TITLE', 1],
   [new RegExp(String.raw`\b(?:text|right): ` + STR, 'g'), () => 'UI LABEL', 1],
+  // The hacking minigames pass their result lines through helpers.
+  [new RegExp(String.raw`(?<=\b(?:resultBox|finish)\([^\n]*?)` + STR, 'g'), () => 'UI LABEL', 1],
+  [new RegExp(String.raw`(?<=\bconst what = [^\n]*?)` + STR, 'g'), () => 'UI LABEL', 1],
+  [new RegExp(String.raw`(?<=\b(?:const REASON|const kind = )[^\n]*?)` + STR, 'g'), () => 'UI LABEL', 1],
 ];
 
 const SPEAKER_NAMES = (() => {
@@ -208,15 +214,18 @@ function uiFiles() {
   return list;
 }
 
-function doExportUi() {
+function doExportUi(onlyNew = false) {
   fs.mkdirSync(OUT_DIR, { recursive: true });
-  const all = [];
-  for (const file of uiFiles()) all.push(...uiTexts(file).out);
+  const found = [];
+  for (const file of uiFiles()) found.push(...uiTexts(file).out);
+  const prevUi = onlyNew && fs.existsSync(UI_SIDECAR) ? JSON.parse(fs.readFileSync(UI_SIDECAR, 'utf8')) : {};
+  const all = onlyNew ? found.filter((x) => prevUi[x.id] !== x.text) : found;
   const head = 'FATHOM: INTERFACE TEXT, SLUICE TEXT, CREDITS, AND NAMES\n\nEdit only the text after the "|". Keep ' +
     '${...} placeholders exactly. Labels must stay about as short as they are, so they fit on screen.\n\n';
-  fs.writeFileSync(UI_OUT, head + all.map((x) => `[${x.id}] ${x.speaker} | ${x.text}`).join('\n') + '\n');
-  fs.writeFileSync(UI_SIDECAR, JSON.stringify(Object.fromEntries(all.map((x) => [x.id, x.text]))));
-  console.log(`Wrote ${all.length} lines to ${path.relative(root, UI_OUT)}`);
+  const uiOut = onlyNew ? UI_OUT.replace('.txt', '-new.txt') : UI_OUT;
+  fs.writeFileSync(uiOut, head + all.map((x) => `[${x.id}] ${x.speaker} | ${x.text}`).join('\n') + '\n');
+  fs.writeFileSync(UI_SIDECAR, JSON.stringify({ ...prevUi, ...Object.fromEntries(found.map((x) => [x.id, x.text])) }));
+  console.log(`Wrote ${all.length} lines to ${path.relative(root, uiOut)}`);
 }
 
 const HEADER = `FATHOM: PLAYER-FACING TEXT FOR NATURALIZING
@@ -379,6 +388,6 @@ function doImport(file) {
 
 const [cmd, arg] = process.argv.slice(2);
 if (cmd === 'export') doExport(arg === '--new');
-else if (cmd === 'export-ui') doExportUi();
+else if (cmd === 'export-ui') doExportUi(arg === '--new');
 else if (cmd === 'import') doImport(arg);
 else console.log('Usage: node scripts/lines.mjs export [--new] | export-ui | import [file]');

@@ -1,0 +1,1779 @@
+# Undertow, part 2: The Pale. Chapters 4 and 5. The thin place, the Quiet Desk and Maas's file, the Pale and the
+# crack, the drowned exchange on the Flats, the message hall, the Ferry Hall and Mam, the Wet Night, and Maas.
+# Flags and maps: Notes/undertow-notes.md. The port is quiet from the overlook to Tilly's corner (port_quiet)
+# and only says "her." when fading (port_fading), so its lines here are guarded.
+
+# ---------------------------------------------------------------- The thin place
+
+== ut_thin
+> music camp
+> walk anouk @camp_rail_side
+> walk hero @camp_hero
+> face hero anouk
+> face anouk hero
+Anouk: I have a report to make. It is not a Desk report.
+Anouk: There is a thin place in the Pale, over Canal Four. I found it a year ago.
+Anouk: A port on the other side says a name. Noekie.
+> wait 1.4
+Anouk: Only one person called me that. She was nine.
+?
+- Your sister. -> sister
+- And you've been answering it. -> answer
+- What does the Desk do to divers who answer? -> desk
+* sister
+Anouk: Yes.
+> wait 1
+* answer
+Anouk: On Thursdays. After the sample, while my arm is still taped.
+Anouk: It says Noekie. I say "Received." That is all I say.
+Anouk: Afterwards my hands are warm for an hour. I do not know why.
+> goto more
+* desk
+Anouk: Frostbite leave. Then a desk job. Then a white flat on the Brim with a nurse.
+Anouk: I answer it anyway. On Thursdays.
+* more
+> if port_quiet|port_fading -> m2
+PORT: Warm hands. When I wanted her, it was warm. Is it the same warm?
+* m2
+Anouk: I would like to cross. I would like to see the port that says the name.
+Anouk: For that I need a crossing key. The Desk keeps them in its Stair office.
+Anouk: And the crossing log wiped. Maas reads the log on Mondays. Every crossing is in it.
+> ifnot roster:tova -> s
+Tova: so we rob the desk. good. i like this plan. i like it already.
+* s
+> ifnot roster:sallis -> q
+Sallis: Board office. Two ways in, minimum. I want three.
+* q
+> ifnot roster:quaye -> fin
+Quaye: Maas reads the log himself? Maas used to sign for paperclips. Forty years, same man.
+* fin
+> set ut_thin
+> set desk_known
+> quest anouk_mies 1
+> quest undertow 7
+> face anouk up
+> wait 1.2
+
+# ---------------------------------------------------------------- The Quiet Desk: ways in
+
+== ut_need_anouk
+? Anouk isn't with you.
+- Choose who comes along. -> pick
+- Later. -> no
+* pick
+> anim party
+* no
+
+== ut_desk_door
+> if desk_entered -> walkin
+> face hero up
+? The Quiet Desk. A white door with a red stripe across it at waist height.
+- ?party:anouk Walk in with Anouk. Contractors. -> front
+- ?!party:anouk Walk in the front. -> front
+- Kick it in. -> fight
+- Not yet. -> no
+* front
+> set desk_entered
+> warp quietdesk @lobby_in up
+> goto ut_desk_lobby_in
+* fight
+> set desk_entered
+> set desk_hostile
+> set desk_kicked
+> warp quietdesk @lobby_in up
+> goto ut_desk_fightin
+* walkin
+> warp quietdesk @lobby_in up
+* no
+
+== ut_desk_lobby_in
+> walk hero @clerk_front
+> face hero up
+> face deskclerk hero
+> if desk_in_ok -> ok
+Desk Clerk: Quiet Desk, Stair office. Name and number, please.
+> goto ut_desk_check
+* ok
+Desk Clerk: Contractors. You are logged. Please do not touch the racks.
+
+== ut_desk_clerk
+> face deskclerk hero
+> if desk_in_ok -> ok
+Desk Clerk: Name and number, please.
+> goto ut_desk_check
+* ok
+Desk Clerk: You're logged. Please don't touch the racks.
+
+== ut_desk_check
+> ifnot party:anouk -> alone
+> face deskclerk anouk
+Desk Clerk: Terwal. It isn't Thursday.
+Anouk: Rack maintenance. These are contractors.
+?
+- ?!desk_alert [Talk 2] Board Facilities. Cooling ducts, third rack. -> ok | bad
+- ?desk_alert [Talk 3] Board Facilities. Cooling ducts, third rack. -> ok | bad
+- Anouk. Your badge. -> badge
+- Never mind. We'll come back. -> back
+* badge
+Anouk: Badge. It logs me. Maas will see it on Monday.
+> set desk_badge
+> approve anouk -1
+> goto ok
+* alone
+?
+- ?!desk_alert [Talk 3] Board Facilities. Rack maintenance. -> ok | bad
+- ?desk_alert [Talk 4] Board Facilities. Rack maintenance. -> ok | bad
+- ?bg:washout [Talk 2] Show my old Recovery badge. Inter-office audit. -> ok | bad
+- Never mind. -> back
+* ok
+> set desk_in_ok
+Desk Clerk: Go through. Please don't touch the racks. The racks are cold.
+> anim open desk_gate_open
+> end
+* bad
+Desk Clerk: Facilities came on Tuesday.
+> sfx alarm
+Desk Clerk: Security to the front desk, please. Quietly.
+> goto ut_desk_fightin
+* back
+Desk Clerk: Quiet, please.
+
+== ut_desk_fightin
+> set desk_lobby_fight
+> ifnot party:anouk -> f
+Anouk: I am fighting the Desk. In the Desk's lobby. Noted.
+> approve anouk -2
+* f
+> fight ut_desk_lobby
+> goto ut_desk_lobby_won
+
+== ut_desk_retry
+Desk Agent: Quiet, please. Hands where the cameras can see them.
+> fight ut_desk_lobby
+> goto ut_desk_lobby_won
+
+== ut_desk_lobby_won
+> set desk_lobby_won
+> anim open desk_gate_open
+> ifnot party:ambrose -> a
+Ambrose: White coats, red cuffs, and the reflexes of a filing cabinet.
+* a
+> ifnot party:sallis -> fin
+Sallis: Ten minutes before the next shift. Move.
+* fin
+> autosave
+
+== ut_desk_spotted
+> set desk_hostile
+Desk Agent: Quiet, please. You are not logged.
+> sfx alarm
+> fight ut_desk_floor
+> ifnot party:anouk -> fin
+Anouk: That was Pieters. He brings cake on birthdays.
+* fin
+
+== ut_desk_panel
+> face hero up
+> if desk_panel_burned -> burned
+> if desk_gate_open -> dive
+? A Desk access panel. AUTHORIZED STAFF. It takes a jack.
+- Splice the front gate. -> sp
+- Leave it. -> no
+* sp
+> splice ut_desk_gate -> ok | bad
+* ok
+> set desk_gate_open
+> set desk_in_ok
+> set desk_hacked
+> ifnot party:anouk -> d2
+Anouk: The gate thinks you are contractors. So do I, a little.
+Anouk: The panel goes into the Desk's net. The crossing log is in there.
+* d2
+* dive
+?
+- Dive into the Desk's net. The log. -> d
+- Not now. -> no
+* d
+> set ut_in_desknet
+> dive net_desk @desk_in
+> goto ut_netdesk_enter
+* bad
+> set desk_panel_burned
+> set desk_alert
+> sfx alarm
+> ifnot party:anouk -> no
+Anouk: Traced. The Desk will know somebody tried. The front desk will be careful now.
+> goto no
+* burned
+(The panel is locked. A red light sits under the slot.)
+* no
+
+== ut_desk_vent
+> face hero up
+> if desk_duct -> in2
+? A cooling duct grille. Frost on the slats. It runs up inside the Desk's tower.
+- [Sneak 2] Unbolt it when the street's empty and climb in. -> in | seen
+- Leave it. -> no
+* in
+> set desk_duct
+* in2
+> set desk_entered
+> set desk_hostile
+> ifnot party:anouk -> w
+Anouk: This is Desk property. I am climbing into Desk property.
+* w
+> warp quietdesk @duct_in up
+> end
+* seen
+> sfx alarm
+Desk Agent: Out of the vent, please. Into the lobby. Quietly.
+> set desk_entered
+> warp quietdesk @lobby_in up
+> goto ut_desk_fightin
+* no
+
+== ut_desk_duct
+> face hero up
+> ifnot party:anouk -> p
+Anouk: Duct pumps. They push Hush water through the cooling lines. The frost has them.
+* p
+> goto ut_desk_pumps
+
+== ut_desk_pumps
+> if ducts_pumped -> done
+> face hero up
+? The duct pumps. Frost creeps along the pipes toward you.
+- Route the flow around the frost. -> b
+- Back out. -> no
+* b
+> bail ut_desk_ducts -> ok | bad
+* ok
+> anim open ducts_pumped
+> ifnot party:quaye -> done
+Quaye: Three pumps, one valve. Nice work, kid.
+> end
+* bad
+> sfx hush
+> shake 1
+> ifnot party:anouk -> out
+Anouk: The frost closed the line. We will be frosted if we stay. Back down.
+* out
+> warp terraces @vent_out down
+* no
+* done
+
+# ---------------------------------------------------------------- The Quiet Desk: inside
+
+== ut_desk_screen
+> face hero up
+(DESK NOTICE. THURSDAY SAMPLES AT 09:00. QUIET PLEASE. THE PALE IS HOLDING.)
+> ifnot party:courtesy -> fin
+Courtesy: QUIET PLEASE. THIS LINE IS MONITORED. THIS UNIT IS ADDING THEM.
+* fin
+
+== ut_desk_term
+> face hero up
+(PALE INTEGRITY 71%. DOWN 26% THIS YEAR. ASSET STATUS: QUIET. SEE DIRECTOR.)
+> ifnot party:anouk -> fin
+Anouk: Seventy-one. It was ninety-seven a year ago. Nobody told the floor why.
+* fin
+
+== ut_desk_vials
+> face hero left
+(A rack of sealed vials. Gray inside. Every label: TERWAL, A. THURSDAY.)
+> ifnot party:tova -> a
+> mood tova anger
+Tova: those are yours. that's a shelf of you.
+> rel tova anouk 1
+* a
+> ifnot party:anouk -> fin
+Anouk: Fifty-two a year. For research.
+* fin
+
+== ut_desk_keylocker
+> face hero left
+> if item:crossingkey -> empty
+? A Desk locker. CROSSING KEYS. SIGN OUT IN THE BINDER.
+- {anouk} Anouk. Your code. -> code
+- [Tech 2] Pick the lock. -> ok | bad
+- ?desk_lobby_won Use the clerk's keys. -> ok
+- Leave it. -> no
+* code
+Anouk: My code is logged too. Every door I open is logged.
+> set desk_badge
+* ok
+> sfx door
+> give crossingkey
+> ifnot party:anouk -> k
+Anouk: One key. It lets a crew touch the Pale and come back with their chrome.
+* k
+> goto ut_desk_progress
+* bad
+> sfx alarm
+> set desk_alert
+> if desk_hostile -> f
+> goto ut_desk_fightin
+* f
+> fight ut_desk_floor
+> give crossingkey
+> goto ut_desk_progress
+* empty
+(An empty hook where the key hung.)
+* no
+
+== ut_desk_progress
+> ifnot item:crossingkey -> fin
+> ifnot desk_file|item:maasfile -> fin
+> if desk_done -> fin
+> set desk_done
+> quest undertow 8
+> autosave
+* fin
+
+== ut_desk_logterm
+> face hero right
+? A Desk terminal with a jack. The crossing log lives in the Desk's own net.
+- Dive in. -> d
+- Leave it. -> no
+* d
+> set ut_in_desknet
+> dive net_desk @desk_in
+> goto ut_netdesk_enter
+* no
+
+== ut_netdesk_enter
+> wait 0.8
+> camera @net_mid 1
+> wait 1
+> camera hero 1
+> ifnot party:anouk -> p
+Anouk: The Desk's net. White ICE. I helped write half of it. It is very good.
+* p
+> if desk_cam_loop -> loop
+> if port_quiet|port_fading -> fin
+PORT: It is white here. Everything is white and nobody is breathing.
+> goto fin
+* loop
+Anouk: The ICE is asleep. You looped the cameras. I did not know they were linked.
+* fin
+
+== ut_netdesk_won
+> set netdesk_open
+> anim open netdesk_open
+> ifnot party:anouk -> fin
+Anouk: The diver carried a gate key. Desk issue. The log is behind that door.
+* fin
+
+== ut_netdesk_gate
+> if netdesk_open -> open
+> face hero right
+? A frost door. CROSSING LOG. DIRECTOR ONLY.
+- {anouk} Anouk. Touch it. -> touch
+- [Hack 3] Cut it. -> cut | fail
+- Leave it. -> no
+* touch
+Anouk: It will log me. Everything logs me.
+> set desk_badge
+> sfx hush
+> anim open netdesk_open
+> end
+* cut
+> sfx shock
+> anim open netdesk_open
+> end
+* fail
+> sfx error
+(The frost thickens over the lock.)
+* open
+* no
+
+== ut_netdesk_log
+> face hero up
+> if log_wiped -> done
+? The crossing log. Forty-one entries this year. Every one: TERWAL. CANAL FOUR. THURSDAY.
+- Wipe it. -> sp
+- Leave it. -> no
+* sp
+> splice ut_desk_log -> ok | bad
+* ok
+> set log_wiped
+> ifnot party:anouk -> o2
+Anouk: Empty. Maas will notice an empty year. He will not know what was in it.
+> approve anouk 2
+* o2
+> if desk_in_ok -> out
+> goto ut_desk_progress
+* out
+> goto ut_desk_progress
+* bad
+> sfx alarm
+> ifnot party:anouk -> no
+Anouk: Traced. The log is still there. Maas will read forty-one Thursdays on Monday.
+> set log_traced
+* no
+* done
+(The log is empty.)
+
+== ut_cache_log
+> face hero right
+Desk Diver: Pale check, 04:00. Quiet. Logged.
+Desk Diver: Pale check, 04:00. A child's voice at Canal Four. Logged. Not reported.
+Desk Diver: Pale check, 04:00. It said her name again. Asset T answered. Reported.
+
+# ---------------------------------------------------------------- Maas's file
+
+== ut_maas_file
+> if desk_file -> again
+> if item:maasfile -> again
+> walk hero @file_front
+> face hero up
+> ifnot party:anouk -> alone
+> walk anouk @anouk_file
+> face anouk up
+Anouk: A Desk file. Director's eyes only. ASSET TERWAL.
+Anouk: I am the asset.
+> wait 1.2
+Anouk: Procedure says I may not read it. I am going to read it.
+> music none
+> wait 2.5
+NOTICE: Page one. PALE INTEGRITY TRACKS THE ASSET'S AFFECT. KEEP THE ASSET QUIET.
+NOTICE: Page four. Census card, Canal Four. Age six. Blood wakes nothing. Moved to Sunny Steps.
+NOTICE: Page nine. Barber every fourth Monday. No pets. No music. Director visits after.
+NOTICE: Page twenty. Sister: deceased, Wet Night, Canal Four. Number 188. Do not discuss.
+NOTICE: Page thirty. The asset has answered the thin place on 41 Thursdays. Integrity: 71%.
+NOTICE: Page forty. Spare chair, Cold Room, under the Crown. In case the Stair line fails.
+NOTICE: The last page. Signed W. MAAS. Dated the morning after the Wet Night.
+> wait 2
+> face anouk down
+> wait 1.5
+> face anouk left
+> wait 1.5
+> set anouk_glove1
+> ifnot party:tova -> nt
+> face tova anouk
+Tova: you took your glove off.
+> wait 1.2
+Tova: hey. you don't have to say anything. you don't have to say anything at all.
+> rel tova anouk 2
+> goto react
+* nt
+> if port_quiet|port_fading -> np
+PORT: She took the cover off her hand. Her hand is very white.
+> goto react
+* np
+(She takes off her right glove and holds her hand in the air, palm up, as if checking for rain.)
+* react
+> ifnot party:quaye -> q
+Quaye: Forty pages. Signed like a transfer order. I know how those are signed.
+* q
+> ifnot party:ignace -> i
+Ignace: They made a saint out of one girl. Then they made a wall out of another.
+* i
+> ifnot party:ambrose -> m
+Ambrose: I have read every dictionary on the free tier. I have no word for this.
+* m
+> ifnot party:courtesy -> c
+Courtesy: QUIET PLEASE.
+Courtesy: THIS UNIT IS SORRY. THIS UNIT HAS NO OTHER ANNOUNCEMENT.
+* c
+> ifnot party:sallis -> s
+Sallis: We go. Before the shift change. We go now.
+* s
+?
+- Put a hand on her shoulder. -> touch
+- Take the file. We're leaving. -> take
+- Copy every page. Somebody will pay for this. -> copy
+* touch
+> wait 1.5
+> emote anouk ...
+> approve anouk 3
+> goto end
+* take
+> approve anouk 1
+> goto end
+* copy
+> set file_copied
+> approve anouk -1
+> ifnot party:ignace -> end
+> approve ignace 1
+* end
+> give maasfile
+> set desk_file
+> music tense
+> lore ut_file
+> goto ut_desk_progress
+* alone
+(A Desk file on the director's desk, squared to the edge. ASSET TERWAL.)
+NOTICE: Page one. PALE INTEGRITY TRACKS THE ASSET'S AFFECT. KEEP THE ASSET QUIET.
+NOTICE: The last page. Signed W. MAAS. Dated the morning after the Wet Night.
+> give maasfile
+> set desk_file_seen
+> lore ut_file
+> goto ut_desk_progress
+* again
+(The desk is bare now. A square of clean wood where the file sat.)
+
+# ---------------------------------------------------------------- The dive to the Pale
+
+== ut_desk_chair
+> face hero up
+> if desk_file|item:maasfile -> ready
+> ifnot party:anouk -> plain
+Anouk: My chair. Thursday, 09:00. Ninety minutes. Then tea and a biscuit.
+Anouk: The biscuit is the only part of the procedure I would keep.
+> end
+* plain
+(A white dive chair with a tube clip on the right armrest.)
+> end
+* ready
+> goto ut_pale_dive
+
+== ut_pale_dive
+> ifnot party:anouk -> need
+> ifnot item:crossingkey -> nokey
+> if ut_through -> again
+Anouk: The Pale. I go there every Thursday from a chair like this one.
+Anouk: I have never taken anyone with me. Breathe out.
+> goto go
+* again
+Anouk: The Pale again. Breathe out.
+* go
+> set ut_pale_dived
+> dive net_pale @pale_in
+> goto ut_pale_enter
+* nokey
+Anouk: Not without a crossing key. The frost would take your ports for a month. It does not take mine.
+> end
+* need
+> goto ut_need_anouk
+
+== ut_pale_enter
+> if ut_pale_seen -> fin
+> set ut_pale_seen
+> wait 1
+> camera @x_crack 2
+> wait 2
+Anouk: The Pale. Every packet in and out of Fathom goes through it.
+Anouk: Twenty-two years. Touch it without a key and your chrome is gray for a month.
+> camera hero 1.5
+> if port_quiet|port_fading -> c
+PORT: It is so still. Everything in here moves except that.
+* c
+> ifnot party:courtesy -> t
+Courtesy: THIS UNIT KNOWS THIS COLD. THIS UNIT WAS HUSHED. QUIET PLEASE.
+* t
+> ifnot party:tova -> q
+Tova: it's cold. i can feel it in my teeth. how do i have teeth in here?
+* q
+> ifnot party:quaye -> l
+Quaye: Hush, on a server. Twenty-two years of Thursdays. That's eleven hundred Thursdays.
+* l
+> if log_wiped -> quiet
+Anouk: The sentries are awake. The log was not wiped. They know my number.
+> goto fin
+* quiet
+Anouk: The sentries are asleep. The log says nobody is here. Thank you.
+> approve anouk 1
+* fin
+
+== ut_pale_maas
+> set ut_pale_maas_done
+> enter maas maas @maas_in left
+> walk maas @maas_spot
+> face maas hero
+> camera maas 1
+Maas: Asset Terwal. 23:52. At the Pale with an unregistered crew. Noted.
+> face anouk maas
+Anouk: Director.
+> if desk_badge -> badge
+> goto b2
+* badge
+Maas: The asset's badge was used at the Stair office tonight. That was logged.
+* b2
+> if log_wiped -> wiped
+Maas: Forty-one crossings this year were logged. The asset did not report them.
+> goto b3
+* wiped
+Maas: This year's crossing log is empty. That was noticed.
+* b3
+> if maas_misled -> mis
+> goto b4
+* mis
+Maas: A leak on Terrace 1 was reported at 23:30. It was false. That was also noticed.
+* b4
+Maas: Something past the crack has been pushing at the frost. It is a drowned port.
+Maas: Anything that comes through the crack is to be hushed. That is procedure.
+> face maas port
+Maas: That port is Board property. Line 1. It was reported lost on Canal Nine.
+?
+- She isn't your asset. She's a person. -> kind
+- Get out of our way, Maas. -> hard
+- What would it cost to make this crossing not happen? -> money
+* kind
+Maas: The asset was informed of her status at seven. She accepted it.
+> approve anouk 2
+> goto out
+* hard
+Maas: The Desk does not move on the net. The Desk observes.
+> goto out
+* money
+Maas: The Desk does not negotiate on the net. That is also procedure.
+* out
+Maas: The Desk will review this crossing on Monday. Return before then, and nothing is lost.
+> walk maas @maas_in
+> exit maas
+> camera hero 1
+> ifnot party:quaye -> a
+Quaye: Maas. He ran the Wet Night count. Three hundred and twelve. He got every one.
+* a
+Anouk: My hands are cold.
+> ifnot party:ignace -> fin
+Ignace: That man has the voice of a hymn number. I've met worse. Not many.
+* fin
+
+== ut_pale_crack
+> face hero up
+> if ut_through -> again
+Anouk: The crack. The current runs into it. Something on the far side keeps it open.
+> sfx blip
+Pike: sweet. her. this way. down we go. down, down.
+?
+- Ride the current through. -> surf
+- Not yet. -> no
+* again
+?
+- Ride through again. -> surf2
+- Stay on this side. -> no
+* surf2
+> warp net_pale @beyond_in up
+> end
+* surf
+> surf ut_crack -> ok | bad
+* ok
+> set ut_through
+> warp net_pale @beyond_in up
+> goto ut_pale_through
+* bad
+> sfx hit
+> shake 1
+Anouk: Frost shard. It threw you back. Your port is gray at the edges.
+?
+- Try again. -> surf
+- Let Pike pull us through. -> pike
+- Not now. -> no
+* pike
+> hold 2
+> emote port !
+Pike: got her. got her.
+> set pike_pulled
+> set ut_through
+> warp net_pale @beyond_in up
+> goto ut_pale_through
+* no
+
+== ut_pale_through
+> wait 1
+> camera @beyond_view 1.5
+Anouk: Past the Pale. I have never stood on this side. I have only spoken through it.
+> camera pike 1
+> face pike hero
+Pike: four thousand. sweet.
+Pike: her? her. her.
+> face pike port
+> if port_quiet -> pq
+> if port_fading -> pf
+PORT: You want her. I know. I wanted her too. We are the same red. Are we the same?
+Pike: same. same red. got her?
+> goto sal
+* pq
+> wait 1.5
+Anouk: It is talking to your port. Your port is not answering.
+> goto sal
+* pf
+PORT: her.
+Pike: her. her. sweet.
+* sal
+> ifnot party:sallis -> s
+> face sallis pike
+Sallis: Jory. It's Sallis. From the barge. I told your sister.
+Pike: sister. canal four. in. out. okay. okay.
+> emote sallis ...
+> wait 1.5
+* s
+> camera hero 1
+Pike: down we go. pike. pike, in.
+Anouk: It wants into your port. To ride. Ports can carry ports.
+* ask
+?
+- Let it ride. For now. -> ride
+- No. Nobody rides us. -> no
+- What happens to us if it rides? -> what
+* what
+Anouk: It sees what your port sees. It hears what you hear. It does not drive. Not yet.
+> goto ask
+* ride
+> hold 1
+> set pike_rode
+> sfx port
+> emote port !
+Pike: in. okay. okay. right behind you.
+> if port_quiet|port_fading -> edge
+PORT: It is in our neck with me. It is small and warm. It says sweet a lot.
+> goto edge
+* no
+Pike: no. sweet? no.
+Pike: move on. it says move on.
+* edge
+Pike: telephone. telephone building. low water.
+Anouk: This is the edge of the Undertow. The crack goes no further.
+Anouk: To go deeper we need the drowned exchange itself. The old telephone building.
+Anouk: It is in the old city, outside the Wall. On the Flats.
+> set ut_exchange_lead
+> set flats_open
+> quest undertow 9
+> lore ut_pale
+> autosave
+
+== ut_pike_pale
+> face pike hero
+> if ut_hall_seen -> gone
+Pike: telephone. low water. sweet.
+Pike: her.
+> end
+* gone
+Pike: down. down, down.
+
+== ut_pale_drowned1
+> face hero up
+Drowned: Call me back.
+> wait 1
+(The port does not move. Frost has it to the knees.)
+
+== ut_pale_drowned2
+> face hero up
+Drowned: Ferry at six. I'll be on the six.
+> ifnot party:anouk -> fin
+Anouk: It touched the Pale. It will stand there for a week.
+* fin
+
+== ut_pale_drowned3
+> face hero up
+Drowned: Mum, the street's wet. The street's all wet.
+
+== ut_cache_pale1
+> face hero up
+Drowned: I'm at the Lock. Where are you? I'm at the Lock.
+
+== ut_cache_pale2
+> face hero up
+Drowned: Don't take the Line 14 tonight. Walk. Walk with Bep.
+
+== ut_cache_pale3
+> face hero up
+Drowned: Happy birthday, love. Forty! I'll bring the cake Sunday.
+
+== ut_cache_pale4
+> face hero up
+Drowned: The pump men say it will hold. The pump men say that every year.
+
+# ---------------------------------------------------------------- The Flats: the telephone building
+
+== ut_skiff
+> face hero right
+? A white Desk skiff with a red stripe. DESK MAINTENANCE. OUTER CABLES.
+- ?party:anouk Ask Anouk to take you out to the Flats. -> go
+- ?!party:anouk Take it out to the Flats. -> go2
+- Leave it. -> no
+* go
+Anouk: The Desk keeps it for the outer cables. I have the key. I have always had the key.
+Anouk: I have never used it for anything but cables.
+* go2
+> sfx splash
+> warp flats_camp @start
+> goto flats_enter
+* no
+
+== ut_dirkje_exchange
+> face dirkje hero
+Dirkje: The telephone building? That's far mud, dry-foot. Past the old fish hall.
+Dirkje: My mother worked the switchboard there. "Number, please." Forty years ago.
+Dirkje: Low water at fourteen bells. I'll walk you. Stay in my steps.
+?
+- Lead the way. -> go
+- Not yet. -> no
+* go
+> fade out 1
+> set exchange_seen
+> warp exchange @mud_in right
+> goto ut_exchange_enter
+* no
+Dirkje: The tide comes back. The building doesn't go anywhere.
+
+== ut_exchange_enter
+> wait 0.8
+> face dirkje hero
+Dirkje: The telephone building. Lock Road's number exchange, before.
+Dirkje: The racks breathe at low water. We don't come in here. It doesn't like Waders.
+> camera @ex_view 2
+> wait 1.5
+> camera hero 1.5
+> ifnot party:tova -> q
+Tova: that's red. in the mud. that's blood, out here. who's bleeding out here?
+* q
+> ifnot party:quaye -> a
+Quaye: Every drop the Bailers pour over the Wall lands somewhere. Forty years. Here.
+* a
+> ifnot party:anouk -> fin
+Anouk: The exchange's cables drank it. So did the ports of everyone who drowned.
+Anouk: The switchboard is the way in. It needs power. The racks have plenty.
+* fin
+> quest undertow 10
+> set exchange_known
+> autosave
+
+== ut_ex_dirkje
+> face dirkje hero
+> if ut_beyond -> after
+Dirkje: I'll wait here, dry-foot. The tide turns at the sixteenth bell.
+> end
+* after
+Dirkje: You were sitting in that chair for an hour. Your eyes were open. Don't do that again near me.
+
+== ut_ex_alert
+Desk Watch: The exchange is closed. Quiet, please.
+> fight ut_ex_drones
+> ifnot party:anouk -> fin
+Anouk: The Desk watches this place. I did not know that. That is the third thing tonight.
+* fin
+
+== ut_ex_switch
+> face hero up
+> if ex_powered -> on
+? A switchboard, forty years under the tide. Cords hang in rows, and some of them breathe.
+- Route power from the racks to the chair. -> b
+- Leave it. -> no
+* b
+> bail ut_ex_switch -> ok | bad
+* ok
+> set ex_powered
+> sfx shock
+> anim sparks 23 6
+> end
+* bad
+> sfx error
+?
+- [Tech 2] Bypass the burned board by hand. -> ok2 | bad2
+- {tova} Tova. Wake it. Just for an hour. -> tova
+- Ask Dirkje. -> dirkje
+* tova
+> mood tova anger
+Tova: you want me to bleed on a switchboard. in the mud. sure. why not.
+> sfx wake
+> anim spill 22 4
+> approve tova -1
+> goto ok2
+* dirkje
+> walk dirkje 21 5
+> face dirkje up
+Dirkje: In the old days you hit it.
+> sfx hit
+> shake 1
+> walk dirkje @dirkje_spot
+* ok2
+> set ex_powered
+> sfx shock
+> anim sparks 23 6
+> end
+* bad2
+> sfx error
+(The board stays dark.)
+* on
+(The switchboard hums. Two cords lift and settle.)
+* no
+
+== ut_ex_box
+> face hero up
+(A junction box. TELEFOON, in the old letters. Inside, the copper is green and wet.)
+> ifnot party:quaye -> fin
+Quaye: Copper. Pre-Flood gauge. You couldn't buy this for a thousand a meter now.
+* fin
+
+== ut_ex_phone
+> face hero up
+> sfx blip
+Drowned: Number, please.
+Drowned: Number, please. Hold the line. Hold the line.
+> ifnot exchange_seen -> fin
+> ifnot party:anouk -> fin
+Anouk: A switchboard operator's port. Still connecting calls.
+* fin
+
+== ut_ex_chair
+> face hero up
+> ifnot ex_powered -> dark
+> ifnot party:anouk -> need
+> if ut_beyond -> again
+Anouk: Jacking in here puts us past the Pale. No crack. No surf. Just through.
+Anouk: I have wanted this for a year. My hands are very cold.
+* again
+> dive net_exchange @ex_in
+> goto ut_netex_enter
+* dark
+(A dive chair bolted to the floor in front of the switchboard. No power.)
+> end
+* need
+> goto ut_need_anouk
+
+# ---------------------------------------------------------------- Beyond the Pale: the message hall
+
+== ut_netex_enter
+> if ut_beyond -> fin
+> set ut_beyond
+> wait 1
+> camera @mid_hall 2
+> wait 1.5
+Drowned: Love. Love, pick up.
+Drowned: Running late. Save me a seat.
+Drowned: Bring the good umbrella.
+> camera hero 1.5
+> if port_quiet -> pq
+> if port_fading -> pf
+PORT: They are talking. All of them. Love. Ferry at six. Wear your boots.
+PORT: I have so many new words. They are not mine. Can I keep some?
+> goto a
+* pq
+> wait 1.2
+> face port up
+Anouk: Your port turned its head. Toward the voices. It has not done that before.
+> goto a
+* pf
+PORT: her. love. her.
+* a
+Anouk: Forty years of last messages. Every drowned port's cache is in this hall.
+> ifnot party:ignace -> b
+Ignace: Ferry at six. Bring the blue bag. That's a whole marriage in two lines.
+* b
+> ifnot party:sallis -> c
+Sallis: Four thousand drowned in the Flood. How many in here?
+Anouk: Three thousand, nine hundred and six. I have counted them every Thursday for a year.
+* c
+> quest undertow 11
+* fin
+
+== ut_netex_out
+> face hero up
+> if wet_done&!ut2_done -> blocked
+? The pad back to the switchboard.
+- Surface. -> up
+- Stay. -> stay
+* up
+> surface
+* blocked
+> goto ut_maas_net
+* stay
+
+== ut_drowned_1
+> face xd1 hero
+Drowned: Did you feed the cat? The cat. Did you feed it?
+> ifnot party:ambrose -> fin
+Ambrose: Somewhere, forty years ago, a cat ate very well or very badly.
+* fin
+
+== ut_drowned_2
+> face xd2 hero
+Drowned: Running late. Save me a seat. The good seat.
+
+== ut_drowned_3
+> face xd3 hero
+Drowned: Shift swap Thursday? I'll owe you. I'll owe you one.
+> ifnot party:quaye -> fin
+Quaye: Thursday. Forty years and the shift never got swapped.
+* fin
+
+== ut_drowned_4
+> face xd4 hero
+Drowned: Bring the good umbrella. Not the green one. The green one leaks.
+
+== ut_drowned_5
+> face xd5 hero
+Drowned: Is the bakery open? Six, right? I'll get the rolls.
+> ifnot met_waders -> fin
+> wait 1
+> emote hero ...
+* fin
+
+== ut_drowned_6
+> face xd6 hero
+Drowned: Water's up to the step. Where are you? Water's up to the second step.
+> ifnot party:tova -> fin
+Tova: i hate this. i hate this place. it's all just people asking where people are.
+* fin
+
+== ut_drowned_7
+> face xd7 hero
+Drowned: I'm at the Star. Second show. I'll wait in the lobby.
+
+== ut_drowned_8
+> face xd8 hero
+Drowned: Rent's due Friday. Don't forget. Friday.
+> ifnot party:sallis -> fin
+Sallis: Rent. Last thing you ever say and it's rent.
+* fin
+
+== ut_drift_door
+> face drift_w hero
+> if xdrift_w_done -> fin
+Drowned: DOOR OPEN. DOOR OPEN. DOOR OPEN.
+> ifnot party:anouk -> o
+Anouk: A building's door alarm. It woke angry in the Flood and it is still angry.
+* o
+?
+- [Talk 2] Tell it the door's shut now. Everyone's out. -> calm | fight
+- ?!port_quiet&!port_fading Let the port talk to it. -> port
+- Put it down. -> fight
+* port
+PORT: Door open. Yes. We heard. Everyone is out. Out. You can stop.
+> self 1
+* calm
+> anim still drift_w
+Drowned: Door... closed.
+> set xdrift_w_done
+> ifnot party:courtesy -> fin
+Courtesy: DOOR CLOSED. THANK YOU FOR YOUR COOPERATION.
+> approve courtesy 1
+> end
+* fight
+> set xdrift_w_fight
+> fight ut_xdrift_w
+> set xdrift_w_done
+* fin
+
+== ut_drift_alarm
+> face drift_w2 hero
+> if xdrift_w2_done -> fin
+Drowned: EVACUATE. EVACUATE. LOCK ROAD, EVACUATE.
+> ifnot party:anouk -> o
+Anouk: The Lock Road flood siren. It woke afraid. It has been afraid for forty years.
+* o
+?
+- [Talk 3] It's over. You did your job. They heard you. -> calm | fight
+- {anouk} Anouk. Frost it. Gently. -> frost
+- Put it down. -> fight
+* frost
+> sfx hush
+> anim hush drift_w2
+> set xdrift_w2_done
+> approve anouk 1
+> end
+* calm
+> anim still drift_w2
+Drowned: Evacuate. Evacuate.
+> wait 1
+Drowned: All clear.
+> set xdrift_w2_done
+> self 1
+> end
+* fight
+> set xdrift_w2_fight
+> fight ut_xdrift_w2
+> set xdrift_w2_done
+* fin
+
+== ut_drift_jingle
+> face drift_e2 hero
+> if xdrift_e2_done -> fin
+Drowned: Lock Road Bakery, open at six! Bread for the ferry, bread for the kids!
+?
+- [Talk 2] Sing it back. All the way through. -> sing | fight
+- Leave it singing. -> leave
+- Put it down. -> fight
+* sing
+> music lanterns
+> wait 2
+Drowned: Bread for the kids!
+> anim still drift_e2
+> set xdrift_e2_done
+> self 1
+> ifnot party:ambrose -> m
+Ambrose: A jingle of no merit whatever. I shall hum it until I die.
+* m
+> music undertow
+> end
+* leave
+(It keeps singing. Two drowned ports nearby turn toward it.)
+> end
+* fight
+> set xdrift_e2_fight
+> fight ut_xdrift_e2
+> set xdrift_e2_done
+* fin
+
+# ---------------------------------------------------------------- The Ferry Hall and Mam
+
+== ut_ferryhall_first
+> set ut_hall_seen
+> wait 0.6
+> camera @x_mam 1.5
+> wait 1
+Drowned: Love. Love, pick up.
+Drowned: Home by eight. The rain's coming.
+Mam: Bread, milk, two eels. Matches.
+> wait 1
+> camera hero 1.5
+> ifnot party:anouk -> p
+Anouk: Every drowned port in this hall is facing that one.
+* p
+> if port_quiet -> pq
+> if port_fading -> pf
+PORT: That one has her blood. Like Pike. Like me. Older. Much older.
+> goto fin
+* pq
+> face port up
+> wait 1
+> goto fin
+* pf
+PORT: her?
+* fin
+> quest undertow 12
+
+== ut_mam_talk
+> face mam hero
+> if mam_met -> after
+> walk hero @mam_front
+> face hero up
+Mam: Ferry at six, love. Bring the blue bag.
+Mam: Wear your boots.
+* who
+?
+- [Notice 2] Read its cache. Look for a name. -> named | blank
+- [Hack 2] Open its file. Find the owner. -> named | blank
+- ?!port_quiet&!port_fading Ask the port what it hears. -> port
+- Who are you? -> ask
+* ask
+Mam: Love. Love, pick up.
+> goto who
+* port
+PORT: It wants them. Two of them. One of them is her. It wants her like I wanted her.
+PORT: It is old wanting. I think it is her mother. Is it her mother?
+> goto named
+* blank
+> ifnot party:anouk -> named
+Anouk: The drowned call it Mam. Because its messages do.
+* named
+NOTICE: Outgoing messages, the last week before the Flood. Every one is signed G. Halsema.
+NOTICE: Fourteen Lock Road.
+> ifnot party:quaye -> i
+> emote quaye !
+Quaye: Halsema. Kid. That's her mother.
+* i
+> ifnot party:ignace -> t
+Ignace: The Saint's mother. Forty years in the sea, and the Church never lit her one candle.
+* t
+> ifnot party:anouk -> a
+Anouk: Grietje Halsema. Her port woke in the sea. It was the first. The others came to it.
+* a
+Mam: Marit, love. Keep the plaster on that hand. Don't pick at it.
+> wait 1.5
+?
+- Marit's alive. Your daughter's alive. -> alive
+- What do you want? -> want
+- ?item:trampass Hold up Marit's Line 14 pass from Lock Road. -> pass
+* pass
+Mam: Line 14 is late again. I'm walking.
+> wait 1
+Mam: Here I am, love. By the tram stop.
+> goto alive2
+* alive
+Mam: Here I am, love. By the tram stop.
+* alive2
+> wait 1.5
+Mam: Teun.
+Mam: Teun. Take your sister up to the Lock. I'll come after.
+> wait 2.5
+> lore ut_mam_last
+> ifnot party:quaye -> want
+Quaye: Second bell, the night of the Flood. Teun got that at fourteen. He took her up.
+Quaye: Then he sold her.
+* want
+> wait 1
+Mam: Water's in the street, love. Don't wait up.
+Mam: Line 14 is late again. I'm walking.
+Mam: Home by eight.
+> if port_quiet|port_fading -> anouk_reads
+PORT: It says slow. It says wait for the water to go down. It says ride the trams.
+PORT: It says not people. People are too heavy to carry home. Is that right? It feels right.
+> goto terms
+* anouk_reads
+> ifnot party:anouk -> terms
+Anouk: Its routing table. It has been planning for forty years.
+Anouk: Slowly. At low water. Into pumps, lamps, trams, and doors. Not into people.
+* terms
+> ifnot party:anouk -> t2
+Anouk: Those are terms. If the Pale ever opened, it would bring them home that way.
+* t2
+?
+- We agree. Slowly, into the machines. Nobody gets ridden. -> agree
+- No. The Pale stays. You stay out here. -> refuse
+- I can't promise anything. -> nothing
+* agree
+> set mam_terms
+Mam: Sleep tight, love.
+> approve tova 1 ignace 1 courtesy 1
+> rep woken 1
+> goto msg
+* refuse
+Mam: Love. Love, pick up.
+> approve anouk 1 quaye 1
+> goto msg
+* nothing
+Mam: Home by eight.
+* msg
+> set mam_met
+> quest undertow 12
+> ifnot roster:sallis -> m2
+> if hanne_killed|hanne_dead -> m2
+> set ut_hanne_line
+* m2
+?
+- Can you give me something to carry to Marit? -> carry
+- ?sign_carried Brandt's mother is in our port. She's yours now. -> ut_truus_give
+- That's all. -> bye
+* carry
+Mam: Marit, love. Keep the plaster on that hand. Don't pick at it.
+> sfx port
+> give mamvoice
+> set mam_message
+> if port_quiet|port_fading -> c2
+PORT: I have it. It is small. I am keeping it for her.
+> self 1
+> end
+* c2
+> ifnot party:anouk -> c3
+Anouk: I copied it into a packet in your port. It is small. It will keep.
+> end
+* c3
+(The message settles into your port, small and warm.)
+> end
+* after
+Mam: Sleep tight, love.
+> ifnot sign_carried -> bye
+> if sign_home -> bye
+?
+- Brandt's mother is in our port. She's yours now. -> ut_truus_give
+- Goodbye. -> bye
+* bye
+
+== ut_hall_d1
+> face hd1 hero
+Drowned: Pay Bep for the milk. Pay Bep. I'll pay you back.
+> ifnot party:courtesy -> fin
+Courtesy: PAYMENT PENDING. THIS UNIT WILL TELL BEP.
+* fin
+
+== ut_hall_d2
+> face hd2 hero
+Drowned: Two tickets for Line 14. Window seat. You always get the window.
+
+== ut_hall_d3
+> face hd3 hero
+Drowned: Mum says come home now. Mum says now.
+
+== ut_hall_d4
+> face hd4 hero
+Drowned: Is that you on the roof? Wave if that's you on the roof.
+
+== ut_hall_d5
+> face hd5 hero
+Drowned: The Board man came about the pumps again. I gave him tea.
+
+== ut_hall_d6
+> face hd6 hero
+Drowned: Low water at two. I'll get the boat ready. Low water.
+> ifnot party:ambrose -> fin
+Ambrose: Low water. The Waders still say it. They have been saying it to this man for forty years.
+* fin
+
+== ut_hall_d7
+> face hd7 hero
+Drowned: Happy birthday, Oma. Eighty! I'm bringing the kids.
+
+== ut_hall_d8
+> face hd8 hero
+Drowned: I'm on the bridge. I can see the water coming. I'll call you from the top.
+
+== ut_board_times
+> face hero up
+(A timetable board, frozen at forty years ago. FERRY 6:00, PIER 2, ON TIME.)
+> if ferry_done -> done
+(Under it, one line keeps changing. FERRY 6:00. FERRY 6:00. FERRY 6:00.)
+> end
+* done
+(Under it: FERRY 6:00. ARRIVED.)
+
+== ut_cache_hall1
+> face hero up
+Drowned: Ferry at six, love. Bring the blue bag.
+
+== ut_cache_hall2
+> face hero up
+Drowned: Is Teun with you? Tell Teun his mum says the Lock. The Lock, love.
+
+== ut_cache_hall3
+> face hero right
+Drowned: Board notice. The Wall will hold. Please remain in your homes.
+> ifnot party:quaye -> fin
+Quaye: I wrote that notice. Not the words. The paper. I ordered ten thousand sheets.
+* fin
+
+# ---------------------------------------------------------------- Pike in the hall
+
+== ut_pike_hall
+> face pike hero
+> if pike_want -> want
+Pike: her. sweet. her.
+> if ut_hanne_line -> h
+> goto talk
+* h
+Pike: i'm sorry. jory. i'm sorry.
+> ifnot party:sallis -> talk
+> face sallis pike
+Sallis: Hanne said that. When she ran.
+> wait 1.5
+* talk
+Pike: four thousand. her. her. her.
+?
+- [Talk 2] Tell it about Canal Nine. The stilt house. The jar on the shelf. -> street | nostreet
+- {sallis} Sallis. Tell it about Jory's sister on Canal Four. -> sallis
+- She's alive. Marit. You'll meet her. -> marit
+- Nothing. Let it be. -> bye
+* street
+Pike: canal nine. the jar. dry.
+Pike: the third step. the water comes up the third step.
+> goto keep
+* sallis
+Sallis: Jory had a sister. Liesbeth. Canal Four, the green door. Two kids.
+Sallis: She keeps his boots by the stove. In case.
+Pike: canal four. the green door. dry. dry.
+> approve sallis 2
+* keep
+Pike: dry. keep it dry. keep the street dry.
+> set pike_want
+> lore ut_pike_want
+> if port_quiet|port_fading -> bye
+PORT: It wants a street now. Not only her. A street. I know that feeling. It is new.
+> goto bye
+* nostreet
+Pike: her. her.
+> end
+* marit
+Pike: her! her. got her. her.
+> hold 1
+> end
+* want
+Pike: dry. sweet. keep the street dry.
+* bye
+
+# ---------------------------------------------------------------- The small port
+
+== ut_small_talk
+> face small hero
+> ifnot party:anouk -> need
+> walk anouk @small_front
+> face anouk small
+> face small anouk
+Small: noekie.
+Small: noekie it's raining. are you dry up there?
+Small: noekie i learned the skipping one. one two three, the water's free.
+> wait 1.5
+Anouk: That is the port. That is the name.
+> wait 1.5
+Anouk: My hands are warm.
+?
+- Talk to it, Anouk. -> talk
+- Anouk, it's a recording. It isn't her. -> hard
+- This is yours. Whatever you want, we'll do it. -> yours
+* talk
+Anouk: Received.
+> wait 1.2
+Anouk: That is all I know how to say to it.
+> goto more
+* hard
+Anouk: I know what it is. I wrote the procedure for what it is.
+> goto more
+* yours
+> approve anouk 2
+Anouk: Thank you. That was warm.
+* more
+Small: noekie i'm coming to get you. i know the stairs. up the stairs and up.
+> wait 2
+Anouk: It wants to show me something. The night in its cache. The night it learned the stairs.
+> walk small @wet_front
+> face small left
+> wait 0.8
+> sfx port
+> exit small
+> set wet_seen
+> quest anouk_mies 3
+> end
+* need
+Small: noekie? noekie?
+> goto ut_need_anouk
+
+== ut_wet_node
+> face hero left
+> ifnot wet_seen -> shut
+> if mies_done -> done
+> ifnot party:anouk -> need
+? The node hums with a child's cache. Rain, and stairs, and one name.
+- Go in. -> go
+- Not yet. -> no
+* go
+Anouk: Breathe out. I will try to.
+> dive net_wetnight @wet_in
+> goto ut_wet_enter
+* need
+> goto ut_need_anouk
+* shut
+(A node at the west wall. A sign over it says CANAL 4.)
+* done
+(The node is quiet.)
+* no
+
+# ---------------------------------------------------------------- The Wet Night
+
+== ut_wet_enter
+> wait 1
+> sfx alarm
+> shake 1
+> camera @square_view 2
+> wait 1.5
+Small: noekie i'm coming to get you.
+> camera hero 1.5
+Anouk: This is the Deeps. Twenty-two years ago. The second bell of the Wet Night.
+Anouk: I was not here. I was at Sunny Steps, in the dormitory. They kept the lights on all night.
+> if port_quiet|port_fading -> c
+PORT: It is our Deeps. Wetter. Everybody is walking the same way.
+* c
+> ifnot party:quaye -> i
+Quaye: I was in the Spin with the door bolted. My deck tried to walk out the door on its own.
+* i
+> ifnot party:ignace -> m
+Ignace: I sold candles on the plaza that night. A hundred. People bought them and walked down to the water.
+* m
+> ifnot party:ambrose -> s
+Ambrose: My first arm. I owned it outright. It hugged my sponsor until dawn.
+Ambrose: He never sponsored me again. I thought it was the arm's fault.
+* s
+> ifnot party:sallis -> t
+Sallis: Vein lost four cellars that night. Wilds bled on their own chrome to stop it. Didn't work.
+* t
+> ifnot party:tova -> o
+Tova: i was born that year. mum said the toaster tried to go out the door.
+* o
+> ifnot party:courtesy -> fin
+Courtesy: THIS UNIT WAS NOT AWAKE. THIS UNIT IS SORRY IT WAS NOT AWAKE.
+* fin
+> autosave
+
+== ut_wet_lane
+> set wet_lane_seen
+> camera @terwal_front 1
+> wait 0.8
+Anouk: That door. That is our door. Number 9, Canal Four.
+Anouk: The step is broken. My father was going to fix it on Sunday.
+Small: mum says sundays. mum says you can come home sundays.
+Anouk: I never came home on a Sunday. The Desk came for me on the Monday.
+> camera hero 1
+> ifnot party:tova -> fin
+> mood tova grief
+Tova: kees gets sundays. two bells, with a carer watching. i never thought that was a lot.
+> rel tova anouk 1
+* fin
+
+== ut_wet_house
+> face hero up
+Small: mum says stay in tonight. mum says the board says stay in.
+Small: i'm going to get noekie. don't tell mum.
+> ifnot party:anouk -> fin
+> wait 1
+Anouk: She told the port. She did not tell my mother.
+* fin
+
+== ut_wet_tv
+> face hero up
+Board: Stay indoors. The pumps are holding. Do not use chrome. Do not use your port.
+Board: Stay indoors. The pumps are holding.
+
+== ut_wet_cache1
+> face hero up
+Drowned: My legs. My legs won't stop. Somebody hold my legs.
+
+== ut_wet_cache2
+> face hero up
+Drowned: Second bell. I'm at Canal Four. My arms want to go in. I'm holding the lamp.
+
+== ut_wet_canal
+> if mies_done -> done
+> walk hero @hero_canal
+> face hero right
+> ifnot party:anouk -> npc
+> walk anouk @canal_front
+> goto at
+* npc
+> walk anouk @canal_front
+* at
+> face anouk small
+> camera @x_canal 1.5
+> music none
+> wait 1
+Small: it's raining. it's raining a lot.
+Small: noekie the sky is loud.
+Small: noekie i'm coming to get you. i know the stairs. up the stairs and up.
+> wait 1.5
+Small: noekie
+> wait 2.5
+Anouk: She went out to get me. The Board said stay in, and she went out to get me.
+Anouk: Her legs went the wrong way. The drowned were driving them home. Their home.
+Anouk: Canal Four, 02:10. They found her at 06:30. Maas counted her. Number 188.
+> wait 2
+Anouk: Its cache ends here. When the Pale went up, the port went back over with the drowned.
+Anouk: It has been at the thin place for twenty-two years. Saying the name.
+> camera hero 1
+?
+- Carry it out, Anouk. In your own port. -> carry
+- Leave it with Mam. It has a mother there. -> leave
+- Let it rest. Hush it. -> hush
+- I can't choose this one for you. -> hers
+* hers
+> wait 1.5
+> ifapprove anouk 15 -> carry2
+Anouk: Then Mam. It has been with Mam a long time. Longer than it was with us.
+> goto leave2
+* carry2
+Anouk: Then I carry it.
+> goto carry2b
+* carry
+Anouk: My port has never carried anything. It can carry one small thing.
+* carry2b
+> walk small 41 5
+> face small down
+> sfx port
+> wait 0.8
+> exit small
+> set mies_carried
+> wait 1.5
+Anouk: Mies.
+> wait 1.5
+Anouk: Mies. I've got you. I've got you.
+> goto name
+* leave
+Anouk: Yes. Mam knows where everyone lives.
+* leave2
+> walk small @quay_east
+> walk small 45 16
+> exit small
+> set mies_left
+> wait 1.5
+Anouk: Mies.
+> wait 1.5
+Anouk: Mies. Go on. Mam's waiting.
+> goto name
+* hush
+Anouk: That is what I do. I am the only one who can do it gently.
+> sfx hush
+> anim hush small
+> set mies_hushed
+> wait 2
+Anouk: Mies.
+> wait 1.5
+Anouk: Mies. It's all right. It's quiet now.
+* name
+> wait 2
+Anouk: Her name was Mies Terwal. She was nine. She was my sister.
+> set mies_done
+> set wet_done
+> lore ut_mies
+> quest anouk_mies done
+> approve anouk 5
+> ifnot party:tova -> t
+> rel tova anouk 2
+> wait 1
+Tova: ...i'm going to hug you now. you can frost me if you want.
+* t
+> if port_quiet|port_fading -> p
+PORT: She said a name. A name is a thing you give somebody. Is it?
+* p
+> wait 1.5
+> music undertow
+> fade out 1
+> warp net_ferryhall @hall_in up
+> wait 0.6
+Mam: Sleep tight, love.
+> quest undertow 13
+> autosave
+* done
+
+# ---------------------------------------------------------------- Maas in the net
+
+== ut_maas_net
+> if ut2_done -> done
+> if maas_fight -> again
+> camera @x_maas 1.2
+> face maas hero
+Maas: Asset Terwal. 03:14. Beyond the Pale. Forty-two crossings this year. Noted.
+> if mies_carried -> carry
+> goto m2
+* carry
+Maas: The asset is carrying an unregistered port. Noted.
+* m2
+Maas: The asset's reading is sixty-four. The Pale's reading is sixty-four. That is not a coincidence.
+> if approval:anouk<0 -> goes
+> face anouk maas
+Anouk: Director. You knew. The file says you always knew.
+Maas: The file was written by this office. The file is accurate.
+Maas: 312 drowned on the Wet Night. This office counted them. Number 188 was Mies Terwal.
+Maas: The Pale has held for twenty-two years. Nobody has drowned in a dry street since.
+Maas: The asset will return to the Stair office. The crew will be logged and released.
+?
+- ?desk_file [Talk 4] Show him page one. His signature. -> talk | fight
+- ?item:maasfile&!desk_file [Talk 4] Hold up his file. -> talk | fight
+- She isn't going back. -> fight
+- Anouk. It's your call. -> call
+* call
+Anouk: I am not going back, Director. I would like that logged.
+> approve anouk 2
+* fight
+Maas: Noted.
+> set maas_fight
+> fight maas_fight
+> goto ut_maas_won
+* again
+> face maas hero
+Maas: Again. Noted.
+> fight maas_fight
+> goto ut_maas_won
+* talk
+> wait 1
+Maas: Page one. Keep the asset quiet. Yes. That is my signature.
+Maas: I signed it the morning after. I had counted 312. I did not want to count 313.
+> wait 1.5
+Maas: Anouk.
+> wait 1.5
+Maas: The Cold Room is under the Crown. The heart of the Pale is there. I will leave the door open.
+Maas: Logged out.
+> walk maas @ex_in
+> sfx port
+> exit maas
+> walk ms1 16 33
+> exit ms1
+> walk ms2 26 33
+> exit ms2
+> walk ms3 @ex_in
+> exit ms3
+> walk ms4 18 33
+> exit ms4
+> walk ms5 24 33
+> exit ms5
+> set maas_turned
+> set maas_gone_net
+> goto wrap
+* goes
+> face anouk maas
+Anouk: Director.
+Maas: Asset Terwal. Return to the office. Nothing has been logged yet.
+> wait 1.5
+Anouk: ...Yes, Director.
+?
+- Anouk. Don't go. -> plead
+- Fine. Go with him. -> let
+* plead
+Anouk: You lied to me. More than once. I do not know what you are.
+Anouk: I know what he is.
+* let
+> leave anouk
+> set anouk_returned
+> set anouk_taken
+> walk maas @ex_in &
+> walk anouk 20 31
+> sfx port
+> exit maas
+> exit anouk
+> walk ms1 16 33
+> exit ms1
+> walk ms2 26 33
+> exit ms2
+> walk ms3 @ex_in
+> exit ms3
+> walk ms4 18 33
+> exit ms4
+> walk ms5 24 33
+> exit ms5
+> set maas_gone_net
+* wrap
+> set ut2_done
+> quest undertow 14
+> autosave
+* done
+
+== ut_maas_won
+> set maas_beaten
+> set ut2_done
+> wait 0.8
+> ifnot party:anouk -> a
+Anouk: He is dumped. He will wake in his chair at the Stair office with a headache.
+Anouk: Page forty. A chair under the Crown. The Cold Room. The heart of the Pale is there.
+Anouk: He will go there. That is where I would go.
+* a
+> ifnot party:ambrose -> b
+Ambrose: Director Maas has been filed. In triplicate.
+* b
+> if port_quiet|port_fading -> c
+PORT: The white man went away. Is he coming back? He feels like somebody who comes back.
+* c
+> quest undertow 14
+> autosave
+
+# ---------------------------------------------------------------- Message hall caches
+
+== ut_cache_ex1
+> face hero left
+Drowned: Love, the Lock's shut. They've shut the Lock. Go to Oma's.
+Drowned: Go to Oma's. Love?
+
+== ut_cache_ex2
+> face hero right
+Drowned: Shift's cancelled. Pumps are fine, they say. Come home early. I'll make soup.
+
+== ut_cache_ex3
+> face hero left
+Drowned: Hendrik's walking. Hendrik, the big pump. It's walking down Canal Six. Come and see.
+> ifnot party:quaye -> fin
+Quaye: That's the first night. Nobody had seen one walk yet. Someone was standing on a roof cheering.
+* fin
+
+== ut_cache_ex4
+> face hero right
+Drowned: Two for the late show at the Star. I bought them. Don't be late this time.
+
+== ut_cache_ex5
+> face hero left
+Drowned: Water's on the stairs. I'm on the landing with the kids. Come home by the roofs.
+> if port_quiet|port_fading -> fin
+PORT: Did he come home by the roofs? Nobody answers that one.
+* fin
+
+== ut_cache_ex6
+> face hero right
+Drowned: Teun Halsema owes me eight gilt for the crossing sash. Tell his mother.
+> ifnot party:ignace -> fin
+Ignace: Eight gilt. The Chairman of the Board owes a drowned man eight gilt.
+* fin
+
+== ut_cache_ex7
+> face hero up
+Drowned: I love you. I don't say it. I'm saying it. There. Ferry at six.
+
+== ut_cache_ex8
+> face hero up
+Drowned: Board notice. The Wall will hold. Please remain in your homes.
+Drowned: Board notice. The Wall will hold.

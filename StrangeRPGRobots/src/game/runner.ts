@@ -31,6 +31,10 @@ import { playMusic, sfx } from '../audio/sfx';
 import type { NewGame } from '../ui/title';
 import { anim } from './anims';
 import { Sluice } from '../ui/sluice';
+import type { Minigame } from '../ui/minigame';
+import { Splice } from '../ui/splice';
+import { Current } from '../ui/current';
+import { Bail } from '../ui/bail';
 
 export const OV = {
   fade: 0,
@@ -38,6 +42,9 @@ export const OV = {
   gameOver: false,
   name: null as NameEntry | null,
   sluice: null as Sluice | null,
+  mini: null as Minigame | null,
+  /** The color a fade goes to. Dives fade through the net's cyan. */
+  fadeColor: C.black as number,
   nameSet: null as null | ((s: string) => void),
   ending: false,
 };
@@ -189,6 +196,15 @@ export const stage: Stage = {
     playMusic(WORLD.def?.music ?? 'deeps');
     return won;
   },
+  async dive(map, marker) { await diveTo(map, marker); },
+  async surface() { await surfaceNow(); },
+  async mini(kind, id) {
+    OV.mini = kind === 'surf' ? new Current(id) : kind === 'bail' ? new Bail(id) : new Splice(id);
+    await until(() => !!OV.mini?.done);
+    const m = OV.mini!;
+    OV.mini = null;
+    return { won: m.won, bonus: m.bonus, count: m.count };
+  },
   give(item, n) {
     G.items[item] = (G.items[item] ?? 0) + n;
     const it = ITEM.get(item);
@@ -318,6 +334,7 @@ export async function changeMap(to: string, at: string, dir?: Dir) {
 let travelArrival: string | null = null;
 
 async function travelMenu() {
+  if (WORLD.def?.net) { toast('Surface first', C.gray); return; }
   let pick = null as Destination | null;
   let closed = false;
   pushScreen(new TravelScreen((d) => { pick = d; }, () => { closed = true; }));
@@ -434,6 +451,7 @@ function isShort(id: string): boolean { return ABILITY.get(id)?.uses?.per === 's
 /** A long rest: go to camp, eat, heal, and play a camp scene if one is ready. */
 export async function longRest(fromScript = false) {
   if (!fromScript && !flag('camp_open')) { toast('Nowhere safe to sleep yet', C.gray); return; }
+  if (!fromScript && WORLD.def?.net) { toast('Surface first', C.gray); return; }
   if (!fromScript && WORLD.def?.inside && G.map !== campMap()) { toast('Rest outside or at camp', C.gray); return; }
   if (!eat(40)) {
     if (!fromScript) {
@@ -455,6 +473,60 @@ export async function longRest(fromScript = false) {
   const scene = CAMP.find((c) => (c.repeat || !G.flags[`camp:${c.scene}`]) && flag(c.when));
   if (scene) { setFlag(`camp:${scene.scene}`); await runScene(scene.scene); }
   autosave();
+}
+
+/** The fade a dive plays: the frame dithers into the net's cyan, holds, and opens on the other side. */
+async function netFade(map: () => void, music?: string) {
+  sfx('port');
+  OV.fadeColor = C.cyan1;
+  await fadeTo(0.55, 0.35);
+  OV.fadeColor = C.black;
+  await fadeTo(1, 0.3);
+  map();
+  if (music) playMusic(music);
+  snapCamera();
+  OV.fadeColor = C.cyan1;
+  OV.fade = 0.55;
+  await fadeTo(0, 0.45);
+  OV.fadeColor = C.black;
+}
+
+/** Adds the hero's port to the party as a fifth unit in a net map, built fresh from the hero's level. */
+async function portJoins() {
+  const comp = await import('../content/companions') as unknown as Record<string, unknown>;
+  const build = comp.buildPort as ((level: number) => import('./state').Member) | undefined;
+  if (!build) return;
+  const lvl = G.roster.hero?.level ?? 1;
+  G.roster.port ??= build(lvl);
+  const sync = comp.syncPort as (() => void) | undefined;
+  (sync ?? (await import('../rules/stats')).syncPort)();
+  const p = G.roster.port;
+  p.name = G.port.name;
+  if (p.hp <= 0) p.hp = maxHp(p);
+  if (!G.party.includes('port')) G.party.push('port');
+}
+
+export async function diveTo(map: string, marker: string) {
+  if (!MAPS.has(map)) { console.warn(`[dive] no map ${map}`); return; }
+  const fromNet = MAPS.get(G.map)?.net;
+  if (!fromNet && F.leader) G.dive = { map: G.map, x: F.leader.tx, y: F.leader.ty, dir: F.leader.dir };
+  await portJoins();
+  const def = MAPS.get(map)!;
+  await netFade(() => { changeMapNow(map, marker); noteArrival(map); }, def.music ?? 'net');
+  if (!CB.active && !sceneRunning()) autosave();
+  void (async () => { if (def.enter && !sceneRunning()) await runScene(def.enter); })();
+}
+
+export async function surfaceNow() {
+  const r = G.dive;
+  if (!r) return;
+  G.dive = undefined;
+  G.party = G.party.filter((id) => id !== 'port');
+  const port = G.roster.port;
+  if (port) port.downed = false;
+  await netFade(() => { enterMap(r.map, [r.x, r.y], r.dir); noteArrival(r.map); }, MAPS.get(r.map)?.music ?? 'deeps');
+  for (const m of Object.values(G.roster)) if (m.downed) { m.downed = false; m.hp = Math.max(1, m.hp); }
+  if (!CB.active && !sceneRunning()) autosave();
 }
 
 export async function leaveCamp() {

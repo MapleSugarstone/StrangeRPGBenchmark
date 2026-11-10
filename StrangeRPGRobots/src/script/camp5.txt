@@ -20,6 +20,7 @@
 - ?roster:ambrose Ambrose. -> camptalk5_ambrose
 - ?roster:tova Tova. -> camptalk5_tova
 - ?roster:ignace Ignace. -> camptalk5_ignace
+- ?roster:anouk Anouk. -> camptalk_anouk
 - Nobody. -> no
 * marit
 > goto marit5
@@ -61,6 +62,7 @@ Marit: There you are. Sit down, if there's any place to sit on this boat. Who di
 - ?roster:ambrose&!m5_ambrose Ambrose. -> marit5_ambrose
 - ?roster:tova&!m5_tova Tova. -> marit5_tova
 - ?roster:ignace&!m5_ignace Ignace. -> marit5_ignace
+- ?roster:anouk&!m5_anouk Anouk. -> ut_marit_anouk
 - Nobody. -> bye
 * how
 Marit: Like a woman with four days and a barge, which is three more than you.

@@ -13,6 +13,7 @@
 - {ambrose} Speak with Ambrose. -> ambrose
 - {tova} Speak with Tova. -> tova
 - {ignace} Speak with Ignace. -> ignace
+- {anouk} Speak with Anouk. -> camptalk_anouk
 - Not now. -> no
 * pick
 > anim party

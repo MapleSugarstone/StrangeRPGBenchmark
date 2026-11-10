@@ -1,6 +1,6 @@
 // Companions: how each one is built when they join. They join at the hero's level.
-import { makeMember } from '../rules/stats';
-import type { Member } from '../game/state';
+import { makeMember, maxHp } from '../rules/stats';
+import { G, type Member } from '../game/state';
 import { LOOKS } from '../art/cast';
 
 export interface CompanionDef { id: string; name: string; cls: Member['cls']; look: string; gear?: Partial<Member['gear']>; attr?: Partial<Member['attr']>; mood?: Member['mood'] }
@@ -12,6 +12,7 @@ export const COMPANIONS: Record<string, CompanionDef> = {
   ambrose: { id: 'ambrose', name: 'Ambrose', cls: 'blade', look: 'ambrose', gear: { melee: 'sledge', ranged: 'revolver', armor: 'jacket', chrome: ['gripper', 'optic'] } },
   tova: { id: 'tova', name: 'Tova', cls: 'witch', look: 'tova', gear: { melee: 'knife', ranged: 'slingshot', armor: 'poncho', chrome: [] }, mood: 'calm' },
   ignace: { id: 'ignace', name: 'Ignace', cls: 'mouth', look: 'ignace', gear: { melee: 'knuckles', ranged: 'revolver', armor: 'coat', chrome: ['voicebox'] } },
+  anouk: { id: 'anouk', name: 'Anouk', cls: 'keeper', look: 'anouk', gear: { melee: 'baton', ranged: 'stunner', armor: 'coat', chrome: [] } },
 };
 
 export function buildCompanion(id: string, level: number): Member {
@@ -21,5 +22,14 @@ export function buildCompanion(id: string, level: number): Member {
   if (d.attr) Object.assign(m.attr, d.attr);
   if (d.mood) m.mood = d.mood;
   if (LOOKS[d.look]) m.look = LOOKS[d.look];
+  return m;
+}
+
+/** The hero's port as a party member for net maps, at the given level (the hero's). Its tree points are spent for it on the first build. */
+export function buildPort(level: number): Member {
+  const m = makeMember('port', G.port.name, 'port', level);
+  m.gear = { chrome: [] };
+  if (LOOKS.port) m.look = LOOKS.port;
+  m.hp = maxHp(m);
   return m;
 }

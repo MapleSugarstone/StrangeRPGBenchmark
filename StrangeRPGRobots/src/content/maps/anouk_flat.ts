@@ -1,0 +1,72 @@
+import type { MapDef } from '../../world/map';
+import { C, LIGHT } from '../../engine/palette';
+
+// Anouk's Desk flat on the terraces: a bed, a table, one chair, and the music box.
+export const anouk_flat: MapDef = {
+  id: 'anouk_flat',
+  name: 'A Desk Flat',
+  district: 'inside',
+  inside: true,
+  ambient: 9079480,
+  ambientLevel: 0.3,
+  music: 'camp',
+  rows: [
+    'IIIIIIIIIIIIIIII',
+    'IIIIIIIIIIIIIIII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIttttttttttttII',
+    'IIIIIIItIIIIIIII',
+    'IIIIIIIIIIIIIIII',
+  ],
+  elev: [
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+    '0000000000000000',
+  ],
+  props: [
+    { kind: 'door', x: 7, y: 10 },
+    { kind: 'bed', x: 12, y: 2, id: 'anouk_bed', scene: 'ut_flat_bed' },
+    { kind: 'table', x: 5, y: 5, id: 'anouk_table', scene: 'ut_flat_table' },
+    { kind: 'divechair', x: 6, y: 5, id: 'flat_chair', scene: 'ut_flat_chair' },
+    { kind: 'musicbox', x: 3, y: 2, id: 'music_box', scene: 'ut_flat_box' },
+    { kind: 'locker', x: 13, y: 8, id: 'flat_locker', scene: 'ut_flat_locker' },
+  ],
+  signs: [],
+  lights: [
+    { x: 7, y: 5, r: 50, i: 0.6, color: LIGHT.cold },
+    { x: 3.5, y: 3, r: 20, i: 0.4, color: LIGHT.amber, showIf: 'flat_box_wound' },
+  ],
+  npcs: [
+    { id: 'anouk', at: '@flat_anouk', look: 'anouk', dir: 'down', talk: 'ut_flat_anouk', showIf: 'ut_flat_night&!party:anouk|ep_anouk_flat' },
+  ],
+  markers: {
+    door_in: [7, 9],
+    flat_hero: [7, 7],
+    flat_anouk: [9, 5],
+    box_front: [3, 3],
+    bed_side: [11, 4],
+    chair_front: [6, 6],
+    table_front: [5, 6],
+    window: [9, 3],
+  },
+  exits: [
+    { x: 7, y: 10, w: 1, h: 1, to: 'terraces', at: 'flat_out', dir: 'down' },
+  ],
+  triggers: [],
+  encounters: [],
+};

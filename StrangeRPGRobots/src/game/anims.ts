@@ -29,10 +29,13 @@ export async function anim(name: string, args: string[]) {
     case 'spill': {
       let px = nx * T + 5, py = ny * T + 5;
       if (Number.isNaN(nx)) { const a = findActor(args[0]); if (a) { px = a.px + 5; py = a.py + 5; } }
-      sfx('wake');
-      WORLD.shake = 0.4;
-      for (let k = 0; k < 4; k++) { burst(px, py, 26, C.red2, 70); burst(px, py, 8, C.red3, 40); await wait(0.08); }
-      CB.flashes.push({ x: px, y: py, r: 70, i: 1.6, color: LIGHT.red, t: 0.6, life: 0.6 });
+      // Anouk's blood is Hush: pale frost, or pink at the edges once she starts to feel.
+      const tone = Number.isNaN(nx) ? args[1] : args[2];
+      const [c1, c2, lc] = tone === 'pale' ? [C.steel3, C.pale, LIGHT.cold] : tone === 'pink' ? [C.mag2, C.steel3, LIGHT.magenta] : [C.red2, C.red3, LIGHT.red];
+      sfx(tone === 'pale' ? 'hush' : 'wake');
+      WORLD.shake = tone === 'pale' ? 0.15 : 0.4;
+      for (let k = 0; k < 4; k++) { burst(px, py, 26, c1, 70); burst(px, py, 8, c2, 40); await wait(0.08); }
+      CB.flashes.push({ x: px, y: py, r: 70, i: tone === 'pale' ? 0.9 : 1.6, color: lc, t: 0.6, life: 0.6 });
       await wait(0.5);
       return;
     }

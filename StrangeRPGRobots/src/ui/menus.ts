@@ -5,8 +5,9 @@ import { C } from '../engine/palette';
 import { pressed, repeat, consume } from '../engine/input';
 import { W, H } from '../engine/screen';
 import { G, SETTINGS, saveSettings, type Member } from '../game/state';
-import { maxHp, defenseOf, moveOf, pool, ramOf, abilitiesOf, attrOf, edgeMax, partyMembers } from '../rules/stats';
-import { ABILITY, ATTRS, ATTR_NAME, CLASSES, ITEM, PERKS, PERK_LEVELS, SKILLS, SKILL_NAME, XP_TO, type ItemDef } from '../rules/data';
+import { maxHp, defenseOf, moveOf, pool, ramOf, abilitiesOf, attrOf, edgeMax, partyMembers, needsAttention, pointsLeft } from '../rules/stats';
+import { ABILITY, ATTRS, ATTR_NAME, CLASSES, ITEM, PERKS, LEVEL_CAP, SKILLS, SKILL_NAME, XP_TO, type ItemDef } from '../rules/data';
+import { TreeScreen } from './tree';
 import { QUEST } from '../content/quests';
 import { FACTIONS, type Destination } from '../content/replay';
 import { destinations, rep, tier } from '../game/replay';
@@ -45,7 +46,7 @@ export function updateMenu(dt: number) {
 
 export function renderMenu() { for (const s of MENU.stack) s.render(); }
 
-function nameOf(m: Member): string { return m.id === 'hero' ? G.heroName : m.name; }
+function nameOf(m: Member): string { return m.id === 'hero' ? G.heroName : m.cls === 'port' ? G.port.name : m.name; }
 
 function roster(): Member[] {
   const all = Object.values(G.roster).filter((m) => !m.dead);
@@ -84,7 +85,7 @@ class MainMenu implements Screen {
     drawText('FATHOM', 10, 8, C.cyan3);
     drawText(`${G.gilt} gilt`, W - 12 - textWidth(`${G.gilt} gilt`), 8, C.amb3);
     hline(6, 17, W - 12, C.night);
-    const pend = Object.values(G.roster).some((m) => m.pendingPerks || m.pendingAttr);
+    const pend = Object.values(G.roster).some(needsAttention);
     drawList(this.items.map((t) => ({ text: t, color: t === 'Party' && pend ? C.amb3 : undefined })), this.sel, 10, 22, 60);
     let y = 22;
     for (const m of partyMembers()) {
@@ -96,7 +97,7 @@ class MainMenu implements Screen {
       rect(97, y + 10, 60, 2, C.night);
       rect(97, y + 10, Math.round(60 * Math.max(0, m.hp) / mh), 2, m.hp < mh * 0.3 ? C.mag3 : C.grn3);
       drawText(`${Math.max(0, m.hp)}/${mh}`, 160, y + 7, C.gray);
-      if (m.pendingPerks || m.pendingAttr) drawText('!', 92, y, C.amb3);
+      if (needsAttention(m)) drawText('!', 92, y, C.amb3);
       y += 22;
     }
     drawText(`${G.district}`, 84, H - 32, C.vio3);
@@ -125,24 +126,15 @@ class ConfirmScreen implements Screen {
 
 // ---------- party ----------
 
-class PartyScreen implements Screen {
+export class PartyScreen implements Screen {
   done = false;
   i = 0;
   scroll = 0;
-  perkSel = 0;
   attrSel = 0;
-  mode: 'view' | 'perk' | 'attr' = 'view';
+  mode: 'view' | 'attr' = 'view';
   update() {
     const list = roster();
     const m = list[this.i % list.length];
-    if (this.mode === 'perk') {
-      const tier = CLASSES[m.cls].perks[PERK_LEVELS.findIndex((l) => l <= m.level && !CLASSES[m.cls].perks[PERK_LEVELS.indexOf(l)].some((p) => m.perks.includes(p)))] ?? [];
-      if (pressed('b')) { consume(); this.mode = 'view'; return; }
-      const r = listInput(this.perkSel, tier.length, 10, 48, 180, 32);
-      this.perkSel = r.sel;
-      if (r.ok && tier[this.perkSel]) { m.perks.push(tier[this.perkSel]); m.pendingPerks--; m.hp = Math.min(maxHp(m), m.hp + 8); this.mode = 'view'; sfx('levelup'); }
-      return;
-    }
     if (this.mode === 'attr') {
       if (pressed('b')) { consume(); this.mode = 'view'; return; }
       const r = listInput(this.attrSel, 4, 10, 60, 100);
@@ -156,9 +148,12 @@ class PartyScreen implements Screen {
     if (repeat('down')) this.scroll++;
     if (repeat('up')) this.scroll = Math.max(0, this.scroll - 1);
     if (pressed('a')) {
-      if (m.pendingPerks) { this.mode = 'perk'; this.perkSel = 0; }
-      else if (m.pendingAttr) { this.mode = 'attr'; this.attrSel = 0; }
+      consume();
+      if (m.pendingAttr) { this.mode = 'attr'; this.attrSel = 0; }
+      else { pushScreen(new TreeScreen(m)); sfx('confirm'); }
+      return;
     }
+    if (pressed('tab')) { consume(); pushScreen(new TreeScreen(m)); sfx('confirm'); return; }
     if (pressed('rename')) {
       if (m.id === 'hero') pushScreen(new RenameScreen('Your name', G.heroName, (s) => { G.heroName = s; }));
     }
@@ -172,21 +167,10 @@ class PartyScreen implements Screen {
     drawText(nameOf(m), 24, 8, C.white);
     drawText(`${CLASSES[m.cls].name} ${m.level}`, 24, 17, C.gray);
     drawText(`< ${this.i % list.length + 1}/${list.length} >`, W - 14 - textWidth(`< 1/1 >`), 8, C.slate);
-    const nxt = XP_TO[Math.min(10, m.level + 1)];
-    drawText(m.level >= 10 ? 'XP max' : `XP ${m.xp}/${nxt}`, W - 14 - textWidth(m.level >= 10 ? 'XP max' : `XP ${m.xp}/${nxt}`), 17, C.cyan3);
+    const nxt = XP_TO[Math.min(LEVEL_CAP, m.level + 1)];
+    const xpText = m.level >= LEVEL_CAP ? 'XP max' : m.cls === 'port' ? 'Level of the hero' : `XP ${m.xp}/${nxt}`;
+    drawText(xpText, W - 14 - textWidth(xpText), 17, C.cyan3);
     hline(6, 27, W - 12, C.night);
-    if (this.mode === 'perk') {
-      const tierI = PERK_LEVELS.findIndex((l) => l <= m.level && !CLASSES[m.cls].perks[PERK_LEVELS.indexOf(l)].some((p) => m.perks.includes(p)));
-      const tier = CLASSES[m.cls].perks[tierI] ?? [];
-      drawText('Choose a perk', 10, 32, C.amb3);
-      tier.forEach((p, k) => {
-        const y = 48 + k * 32;
-        if (k === this.perkSel) rect(8, y - 1, W - 16, 31, C.vio0);
-        drawText(PERKS[p]?.name ?? p, 12, y, k === this.perkSel ? C.white : C.pale);
-        drawWrapped(PERKS[p]?.desc ?? '', 12, y + 9, W - 24, C.gray, 2);
-      });
-      return;
-    }
     if (this.mode === 'attr') {
       drawText('Raise an attribute', 10, 32, C.amb3);
       drawList(ATTRS.map((a) => ({ text: ATTR_NAME[a], right: String(m.attr[a]) })), this.attrSel, 10, 60, 100);
@@ -198,8 +182,9 @@ class PartyScreen implements Screen {
     drawText(`Def ${defenseOf(m)}`, 80, y, C.pale);
     drawText(`Move ${moveOf(m)}`, 120, y, C.pale);
     drawText(`Edge ${m.edge}/${edgeMax(m)}`, 10, y + 9, C.amb3);
-    if (m.cls === 'diver') drawText(`RAM ${ramOf(m)}`, 80, y + 9, C.grn3);
-    if (m.id !== 'hero' && m.id !== 'courtesy') drawText(`Approval ${m.approval}`, 120, y + 9, m.approval >= 10 ? C.grn3 : m.approval <= -10 ? C.mag3 : C.gray);
+    if (m.cls === 'diver' || m.cls === 'port') drawText(`RAM ${ramOf(m, true)}`, 80, y + 9, C.grn3);
+    if (m.id !== 'hero' && m.id !== 'courtesy' && m.cls !== 'port') drawText(`Approval ${m.approval}`, 120, y + 9, m.approval >= 10 ? C.grn3 : m.approval <= -10 ? C.mag3 : C.gray);
+    if (m.cls === 'port') drawText(`Hold ${G.port.hold}  Self ${G.port.self}`, 120, y + 9, C.cyan3, W - 132);
     if (m.id === 'hero' && G.flags.port_named) drawText(`${G.port.name}: Hold ${G.port.hold}  Self ${G.port.self}`, 80, y + 9, C.cyan3, W - 92);
     if (m.id === 'courtesy') drawText(`Approval ${m.approval}`, 120, y + 9, C.gray);
     y += 21;
@@ -215,13 +200,16 @@ class PartyScreen implements Screen {
     y += 3;
     const lines: { t: string; c: number }[] = [];
     for (const id of abilitiesOf(m)) { const a = ABILITY.get(id)!; lines.push({ t: a.name, c: C.amb3 }, { t: a.desc, c: C.gray }); }
-    for (const p of m.perks) lines.push({ t: PERKS[p]?.name ?? p, c: C.vio3 }, { t: PERKS[p]?.desc ?? '', c: C.gray });
+    for (const p of m.perks) if (PERKS[p]) lines.push({ t: PERKS[p].name, c: C.vio3 }, { t: PERKS[p].desc, c: C.gray });
     const flat: { t: string; c: number }[] = [];
     for (const l of lines) for (const w of wrapLines(l.t, W - 20)) flat.push({ t: w, c: l.c });
-    const vis = Math.floor((H - 14 - y) / 9);
+    const vis = Math.floor((H - 21 - y) / 9);
     this.scroll = Math.min(this.scroll, Math.max(0, flat.length - vis));
     flat.slice(this.scroll, this.scroll + vis).forEach((l, k) => drawText(l.t, 10, y + k * 9, l.c));
-    if (m.pendingPerks || m.pendingAttr) { box(W - 86, H - 20, 78, 12, C.ink, C.amb2); drawText('Z: level up', W - 82, H - 18, C.amb3); }
+    hline(6, H - 19, W - 12, C.night);
+    const pts = pointsLeft(m);
+    drawText(m.pendingAttr ? 'Z: raise  Tab: tree' : pts ? 'Z: learn  Tab: tree' : 'Tab: tree', 10, H - 16, needsAttention(m) ? C.amb3 : C.slate);
+    if (pts) { const p = `${pts} ${pts === 1 ? 'point' : 'points'}`; drawText(p, W - 10 - textWidth(p), H - 16, C.amb3); }
   }
 }
 
@@ -266,7 +254,8 @@ class GearScreen implements Screen {
     const r = listInput(this.slot, 5, 10, 30, 180);
     this.slot = r.sel;
     if (r.ok) {
-      if (m.cls === 'witch' && this.slot >= 3) { toast("Witches can't carry chrome", C.mag3); sfx('error'); return; }
+      if ((m.cls === 'witch' || m.cls === 'keeper') && this.slot >= 3) { toast("Witches can't carry chrome", C.mag3); sfx('error'); return; }
+      if (m.cls === 'port') { toast('The port carries nothing', C.gray); sfx('error'); return; }
       if (m.cls === 'unit' && this.slot !== 0) { toast('Courtesy keeps its own shell', C.gray); sfx('error'); return; }
       this.picking = true; this.pick = 0;
     }
@@ -492,7 +481,7 @@ function renderStanding() {
   if (y === 24) { drawText('No one knows you yet.', 10, y, C.gray); y += 11; }
   y += 4;
   for (const m of Object.values(G.roster)) {
-    if (m.id === 'hero' || m.dead) continue;
+    if (m.id === 'hero' || m.dead || m.cls === 'port') continue;
     drawText(m.name, 10, y, C.pale);
     drawText(tier(m.id), 100, y, C.cyan3);
     y += 10;
@@ -710,7 +699,7 @@ export class PartyPick implements Screen {
   sel = 0;
   update() {
     if (pressed('b')) { consume(); this.done = true; return; }
-    const all = Object.values(G.roster).filter((m) => !m.dead && !G.flags[m.id + '_taken']);
+    const all = Object.values(G.roster).filter((m) => !m.dead && m.cls !== 'port' && !G.flags[m.id + '_taken']);
     const r = listInput(this.sel, all.length, 10, 32, 180);
     this.sel = r.sel;
     if (!r.ok) return;
@@ -723,7 +712,7 @@ export class PartyPick implements Screen {
   }
   render() {
     panel(4, 4, W - 8, H - 8, 'Party Members');
-    const all = Object.values(G.roster).filter((m) => !m.dead && !G.flags[m.id + '_taken']);
+    const all = Object.values(G.roster).filter((m) => !m.dead && m.cls !== 'port' && !G.flags[m.id + '_taken']);
     drawList(all.map((m) => ({ text: nameOf(m), right: G.party.includes(m.id) ? 'IN' : '', color: G.party.includes(m.id) ? C.grn3 : undefined })), this.sel, 10, 32, 180);
     drawText(`${G.party.length}/4`, W - 30, 8, C.gray);
   }

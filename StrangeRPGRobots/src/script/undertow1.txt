@@ -1,0 +1,1150 @@
+# Undertow, part 1: Frost. The Stair from chapter 3 on. Ottens's hand, Anouk Terwal, the first dive into the
+# Shallows, three leaks (Brandt's sign first, then the terraces and the Census in either order), Pike through
+# the crack, and Anouk's pale blood at camp. Flags and maps: Notes/undertow-notes.md.
+
+# ---------------------------------------------------------------- The sign
+
+== ut_sign
+> if ut_sign_seen -> done
+> set ut_sign_seen
+> set ut_sign_on
+> wait 0.4
+> face hero up
+> camera @x_sign 1.2
+> sfx blip
+> wait 1.4
+PORT: That sign says {name}.
+PORT: It says us. Why does a sign say us?
+?
+- Somebody's having fun with the ad boards. -> fun
+- Don't read the signs out loud. -> hush
+- What does an ad like that cost? -> cost
+* fun
+PORT: Fun. Is fun when a sign knows your name?
+> goto out
+* hush
+PORT: Okay. It is still saying it.
+> goto out
+* cost
+PORT: Nobody paid for it. I think it paid for itself.
+* out
+> ifnot party:courtesy -> q
+Courtesy: THIS SIGN IS NOT AUTHORIZED. THIS SIGN IS NOT A PERSON.
+* q
+> ifnot party:quaye -> s
+Quaye: Ad boards don't take names, kid. They take money.
+* s
+> wait 0.6
+> sfx blip
+> unset ut_sign_on
+> wait 0.8
+> camera hero 1
+* done
+
+# ---------------------------------------------------------------- The hand
+
+== ut_ottens
+> face ottens hero
+> anim breathe ottens
+Ottens: Hey. You. Don't laugh. My hand won't let go of the rail.
+Ottens: Since the ninth bell. It's breathing. Watch it go up and down.
+> wait 1
+> if port_quiet -> opts
+PORT: His hand goes up and down. Like the barge. Is his hand wanting something?
+* opts
+?
+- [Talk 2] Breathe with me. Slow. Your heart first, then the hand. -> calm | calmfail
+- [Athletics 2] Brace your feet. I'll pull. -> pull | pullfail
+- Let me look at the chrome. -> splice
+- I'll wait with you. Somebody's bound to come. -> wait
+* calm
+> wait 1.2
+Ottens: Okay. Okay. Slow. My heart's slow. The hand's not.
+> set ottens_calm
+> goto meet
+* calmfail
+> shake 1
+Ottens: It squeezed. It squeezed harder. Don't talk to me. Talk to it.
+> goto meet
+* pull
+> sfx shove
+> shake 1
+Ottens: It came up an inch. Then it went back. It's stronger than me.
+> goto meet
+* pullfail
+> sfx hit
+> emote ottens !
+Ottens: Ow. Ow. Stop. It holds harder when you pull.
+> set ottens_pulled
+> goto meet
+* splice
+> splice ut_ottens -> sp_ok | sp_no
+* sp_ok
+Ottens: The fingers opened. One, two. Then it grabbed again.
+> set ottens_spliced
+> goto meet
+* sp_no
+> sfx error
+Ottens: The rail bent. Did you see the rail bend?
+> goto meet
+* wait
+Ottens: Thanks. Really. My wife thinks I'm at the bar.
+* meet
+> wait 0.8
+> sfx step
+> enter anouk anouk @anouk_in up
+> walk anouk @anouk_ottens
+> face anouk ottens
+Anouk: Quiet Desk. Please stand still, sir. This is a routine closure.
+Ottens: The Desk? I didn't call the Desk.
+Anouk: You did not have to. Leak at 01:40. One citizen. Right hand.
+Anouk: The hand is breathing.
+> if ottens_pulled -> pulled
+> goto touch
+* pulled
+> face anouk hero
+Anouk: Do not pull a ridden limb. The port holds harder. Now he has a sprain.
+> face anouk ottens
+* touch
+> wait 0.6
+> anim spill 12 37 pale
+> anim still ottens
+> wait 1
+Ottens: It's cold. It's cold, and it... it let go. It let go!
+> set ottens_free
+> face ottens anouk
+Ottens: What did you do? You touched it with one finger.
+Anouk: Procedure.
+> face anouk hero
+> ifnot port_quiet -> p1
+NOTICE: The tip of her white glove is wet. The wet is gray.
+> goto scan
+* p1
+PORT: Her finger is wet. Gray wet. Is gray a kind of blood?
+* scan
+Anouk: Hold still. Desk scan.
+> sfx port
+> wait 1.2
+Anouk: Your port is warm. Ports are not warm.
+Anouk: The leaks on the Stair started nine nights ago. Every one is on your route.
+Anouk: They follow your port. I would like to know why.
+?
+- It woke in a barge hold. Line 1. It talks to me. -> truth
+- It's a factory port. Nothing special. -> lie
+- What's it worth to you not to write that down? -> cash
+* truth
+> set ut_t_truth
+Anouk: Line 1 was retired forty years ago. That is in the binder.
+Anouk: You told me the truth. Most people tell me their port is a factory model.
+> goto log
+* lie
+Anouk: Factory ports do not breathe. Noted.
+> set ut_lied
+> goto log
+* cash
+Anouk: The Desk does not pay for silence. I do not either.
+* log
+> wait 0.8
+Anouk: Procedure is to log a woken port and call Recovery.
+> wait 1.2
+Anouk: I am not going to log it. Not tonight.
+> ifnot party:sallis -> s2
+Sallis: Desk diver who skips procedure. Watch her.
+* s2
+> ifnot party:quaye -> q2
+Quaye: Quiet Desk. White coat, red cuff. I haven't seen one off the Brim in years.
+* q2
+Anouk: There are three leaks on the Stair tonight. I close them. You will help me.
+Anouk: Forty gilt a leak. That is the Desk rate.
+> give deskcard
+?
+- I'll help. People are getting hurt. -> yes
+- Find someone else. -> no
+- Forty's nothing. Make it sixty. -> sixty
+- Sure. See you there. -> fib
+* yes
+> set ut_job
+Anouk: Good.
+> goto where
+* sixty
+> set ut_job
+> set ut_rate60
+Anouk: Sixty. That is above the Desk rate. I will pay the difference myself.
+> goto where
+* fib
+> set ut_job
+> set ut_fib
+> if port_quiet -> where
+PORT: You said see you there. You are not going there. Is that a lie? I think it is.
+> goto where
+* no
+Anouk: Then I will find you at the next leak. They follow you, so it will not be hard.
+* where
+Anouk: The first leak is Brandt's box. Middle terrace, east side. The ad over it is singing.
+> set ut_met
+> quest undertow 2
+> walk anouk @anouk_brandt &
+> face ottens hero
+Ottens: Thanks. All of you. I'm going to go stand somewhere without rails.
+> autosave
+
+== ut_ottens_after
+> face ottens hero
+> if chapter>=4 -> later
+Ottens: Hand's still cold. I keep it in my pocket. I don't trust it out.
+Ottens: My granddad drowned by this rail. The Flood. Funny, huh.
+> end
+* later
+Ottens: The Desk sent me a form. "Please describe the incident." I drew a hand.
+
+# ---------------------------------------------------------------- Anouk at the leaks
+
+== ut_anouk_steps
+> face anouk hero
+> if leak_steps -> after
+Anouk: Brandt's ad. The jingle is from a bakery that closed forty years ago.
+Anouk: The ad's port is riding the speaker. I will take you into the Shallows.
+?
+- Take us in. -> ut_brandt_dive
+- Not yet. -> wait
+* wait
+Anouk: I will be here. Leaks do not close on their own.
+> end
+* after
+Anouk: Brandt's leak is closed. The other two are on the terraces and in the Census office.
+
+== ut_anouk_terr
+> face anouk hero
+> if leak_terr -> after
+> goto ut_terr_leak
+* after
+Anouk: The terraces are quiet. Logged.
+
+== ut_anouk_census
+> face anouk hero
+> if leak_census -> after
+> goto ut_census_leak
+* after
+Anouk: The queue is clean. Logged.
+
+# ---------------------------------------------------------------- Leak one: Brandt's sign, and the first dive
+
+== ut_brandt
+> face brandt hero
+> if sign_home -> home
+> if sign_stays -> stays
+> if sign_hushed -> hushed
+> if sign_closed -> closed
+> if leak_steps -> listened
+> if ut_met -> desk
+Brandt: Five gilt a song. Any song but the one the speaker plays.
+Brandt: It started Tuesday. A bakery jingle. Lock Road Bakery, open at six.
+Brandt: There hasn't been a bakery on Lock Road since the Flood.
+> end
+* desk
+Brandt: The Desk woman's waiting on you. She told me not to touch the speaker.
+Brandt: It calls me Truus. The ad. It says "Truus, love." Truus was my mother.
+?
+- Let's close it. -> ut_brandt_dive
+- I'm sorry about your mother. -> sorry
+- Is the stall making money with all this? -> money
+* sorry
+Brandt: The Flood. I was ten. She went for bread.
+> end
+* money
+Brandt: Since it started? I've never been busier. People come to hear a dead bakery sing.
+> end
+* closed
+Brandt: Quiet now. Just the karaoke. I miss it a little. Don't tell anyone.
+> end
+* hushed
+Brandt: It's gray. The speaker's gray. It doesn't even play my songs right now.
+> end
+* stays
+Brandt: Six bells, every night. "Truus, love." I keep the box open till it's done.
+> end
+* listened
+Brandt: You listened to it? What did it say? Did it say anything about bread?
+> goto ut_sign_menu
+* home
+Brandt: It stopped singing on Thursday. The Desk woman says it went home.
+Brandt: Home. Lock Road's under the mud. But all right.
+
+== ut_brandt_speaker
+> face hero right
+> if sign_hushed -> gray
+> if leak_steps&!sign_stays -> plain
+> sfx blip
+Drowned: Lock Road Bakery, open at six! Bread for the ferry, bread for the kids!
+Drowned: Truus, love.
+> end
+* gray
+(The speaker is a flat gray. It does not breathe.)
+> end
+* plain
+(A karaoke speaker. Brandt's name is scratched into the side.)
+
+== ut_brandt_dive
+> walk hero @brandt_front
+> face hero left
+> face anouk hero
+> ifnot ut_dived -> first
+> goto go
+* first
+Anouk: Have you dived before?
+?
+- <diver> I'm a diver. I live in the Shallows. -> diver
+- Never. Show me. -> never
+- Is diving extra? -> extra
+* diver
+Anouk: Then you know the Shallows. You do not know them with a port like yours.
+> goto go
+* never
+Anouk: Sit down on the step. Close your eyes. Breathe out when I say.
+> goto go
+* extra
+Anouk: The Desk pays for the chair. You pay with your head. That is the usual rate.
+* go
+> ifnot party:quaye -> a
+Quaye: No Throne. Bare port, then. My neck's going to hate me.
+* a
+> ifnot party:ambrose -> b
+Ambrose: I have never dived. I am told the net is a fluorescent purgatory.
+* b
+Anouk: Breathe out.
+> set ut_in_steps
+> set ut_dived
+> dive net_shallows @steps_in
+> goto ut_dive1
+
+== ut_dive1
+> wait 1
+> camera port 1
+> face port down
+> wait 1.4
+> if port_quiet -> quiet
+> if port_fading -> fading
+PORT: This is. Hand?
+> wait 1
+> face port left
+> wait 0.8
+> face port right
+> wait 0.6
+PORT: A hand. Not ours. Mine.
+> emote port !
+PORT: You are over there. I am over here. We are two.
+PORT: Is that allowed? Nobody told me it was allowed.
+?
+- It's allowed. Look at you. -> kind
+- Don't get used to it. It's only the net. -> hard
+- Does a hand cost extra in here? -> money
+* kind
+> face port hero
+PORT: I am looking. I am small. You are big. Is small right?
+> self 1
+> goto anouk
+* hard
+PORT: Only the net. Okay. I am still keeping the hand.
+> hold 1
+> goto anouk
+* money
+PORT: I do not know prices. Nobody gave me a price for it. I just have it.
+> goto anouk
+* quiet
+> wait 2.5
+> emote port ...
+Anouk: Your port's avatar has not moved since we arrived.
+Anouk: It is looking at its hand. That is unusual.
+> goto anouk2
+* fading
+PORT: her.
+> wait 1.5
+Anouk: Your port's avatar is facing north. Toward the Brim.
+> goto anouk2
+* anouk
+> wait 0.6
+> face anouk port
+Anouk: That is your port. In the Shallows every port has a body.
+Anouk: Most of them stand still. Yours waved at you.
+> ifnot party:tova -> anouk2
+Tova: it's so small. why is it so small? is ours small? ours is small.
+* anouk2
+> camera hero 1
+> face anouk hero
+Anouk: The rules of the net. I will say them once.
+?
+- Go on. I'm listening. -> listen
+- Skip it. We'll learn by doing. -> skip
+- Does the Desk charge for the lesson? -> lesson
+* listen
+> set ut_t_listen
+Anouk: Every hand does the same thing in here. Spike. It costs memory. It never misses.
+Anouk: Hack matters. Muscle does not. Frost slows you. Do not stand in it.
+Anouk: White ICE can be cut. Drifts can be talked to. Most will not listen.
+Anouk: That is procedure. Thank you for listening. Nobody listens to procedure.
+> goto fight
+* skip
+Anouk: Noted. Then learn quickly.
+> goto fight
+* lesson
+Anouk: No. The lesson is free. The mistakes are expensive.
+Anouk: Spike them. Stay off the frost.
+* fight
+> camera @tut_view 1
+> wait 0.6
+> sfx alarm
+Anouk: Three drifts. The jingle woke them. Keep your port behind you.
+> ifnot party:courtesy -> f2
+Courtesy: THIS UNIT IS SMALL HERE. THIS UNIT IS STILL ON DUTY.
+* f2
+> camera hero 0.8
+> exit anouk
+> set ut_tut_on
+> fight ut_tut
+> goto ut_dive1_won
+
+== ut_dive1_won
+> set ut_tut_won
+> wait 0.6
+> face anouk hero
+Anouk: Three drifts. Four minutes. Nobody frosted. That was correct.
+> ifnot party:sallis -> s
+Sallis: She talks like a flight log.
+Anouk: Thank you.
+* s
+> ifnot party:ambrose -> a
+Ambrose: Fluorescent purgatory, as promised. I strike things with my mind now.
+* a
+Anouk: The leak is the node by the east wall. Come.
+> walk anouk 13 4
+> walk hero @steps_front
+> face hero right
+> goto ut_steps_node
+
+== ut_steps_node
+> if leak_steps -> done
+> face hero right
+> sfx blip
+Drowned: Lock Road Bakery, open at six! Bread for the ferry, bread for the kids!
+Drowned: Truus, love. Wear your coat. It's going to rain.
+Anouk: The ad's port. A drowned port. They come through when the Pale is thin.
+Anouk: I can close it, or we can listen. Procedure is to close it.
+* menu
+?
+- Close it your way, Anouk. -> frost
+- I'll close it myself. -> splice
+- Wait. Let it talk first. -> listen
+- Does it pay either way? -> money
+* money
+Anouk: Forty gilt for a closure. Nothing for listening. The Desk does not pay for listening.
+> goto menu
+* frost
+> set ut_t_way
+* frost2
+> anim spill 15 3 pale
+> wait 0.8
+Anouk: Closed at 02:05. It will not sing tonight.
+> set sign_closed
+> goto paid
+* splice
+> splice ut_sign_close -> sp_ok | sp_no
+* sp_ok
+Anouk: Clean cut. You did not frost it. It may wake again in a month.
+Anouk: That is a problem for another month.
+> set sign_closed
+> goto paid
+* sp_no
+> sfx error
+Anouk: The trace went through your port. Stand back, please.
+> goto frost2
+* listen
+> self 1
+> lore ut_truus
+Drowned: Truus. Supper's on the table. Don't let it go cold.
+Drowned: Truus, love? Are you at the shop? Ring me back.
+Drowned: Lock Road Bakery. Open at six.
+> if port_quiet -> l2
+PORT: It says love. It says the same name again and again. Is the name a person?
+* l2
+Anouk: The name of somebody who died forty years ago, by the jingle.
+Anouk: This is against procedure.
+> wait 1.2
+Anouk: I have listened to them before. Please do not log that.
+> set sign_listened
+> quest ut_sign 1
+> set leak_steps
+> goto ut_steps_out
+* paid
+> set leak_steps
+> if ut_rate60 -> p60
+> gilt 40
+> goto ut_steps_out
+* p60
+> gilt 60
+> goto ut_steps_out
+* done
+> sfx blip
+
+== ut_steps_out
+> quest undertow 3
+Anouk: Two more leaks tonight. The terraces, where people are walking in their sleep.
+Anouk: And the Census office. The queue screen is calling names nobody holds a ticket for.
+Anouk: I will be at each one. Breathe out.
+> surface
+> unset ut_in_steps
+> wait 0.6
+> face anouk hero
+Anouk: Terraces or Census. Your choice of order.
+> walk anouk @anouk_off
+> exit anouk
+> set ut_left_steps
+> autosave
+
+== ut_sign_talk
+?
+- It said "Truus, love." And "supper's on the table." -> tell
+- It didn't say much. -> little
+* tell
+> wait 1
+Brandt: Supper's on the table. She used to send that to my dad.
+Brandt: Thanks. I'm going to keep it. The song, I mean. If it comes back.
+> set sign_told
+> end
+* little
+Brandt: Huh. Okay.
+
+# ---------------------------------------------------------------- Leak: the terraces
+
+== ut_terr_leak
+> if leak_terr -> done
+> walk hero @sleep_front
+> face hero up
+> face anouk hero
+Anouk: Four citizens. Eyes shut. Walking up the ramp toward the Wall.
+Anouk: The building's net is routing their chrome. Mostly their legs.
+> camera @sleep_view 1
+> wait 1.4
+> camera hero 1
+> ifnot party:tova -> q
+> mood tova fear
+Tova: they're asleep. they're walking up a bin ramp asleep. that's my nightmare. exactly that.
+* q
+> ifnot party:ignace -> i
+Ignace: Sleepwalkers on the ramp. My mother used to say the drowned walk the dry at night.
+Ignace: I told her that was a story. I'll have to apologize to her grave.
+* i
+Anouk: Two ways. I take you into the building's net and we route it. Or we wake them here.
+Anouk: Waking a ridden citizen is not gentle. Nobody dies. Somebody bruises.
+?
+- Route the net. Nobody gets hurt. -> dive
+- Wake them. We're right here. -> wake
+- Does the building pay for this? -> pay
+- Not yet. -> later
+* pay
+Anouk: The building pays rent to the Board. The Board pays the Desk. The Desk pays you.
+> goto ut_terr_leak
+* later
+Anouk: They will walk until dawn. Then they wake up with sore feet. Every night.
+> end
+* dive
+> set ut_in_terr
+> dive net_shallows @terr_in
+> goto ut_terr_net
+* wake
+> if riders_on -> rfight
+> walk sleeper1 @rider_a &
+> walk sleeper2 @rider_b &
+> walk sleeper3 @rider_c &
+> walk sleeper4 @rider_d
+> wait 0.6
+Anouk: Gently, please. They will not know they are fighting.
+> set riders_on
+* rfight
+> fight ut_riders
+> goto ut_terr_woke
+* done
+Anouk: The terraces are quiet. Logged.
+
+== ut_terr_woke
+> set riders_won
+> wait 1
+Rider: Where... why am I on the ramp? Why are my feet wet?
+Rider: I was walking home. To Lock Road. I've never lived on Lock Road.
+> face anouk hero
+Anouk: Their chrome is their own again. The route is still in the building's net.
+Anouk: They will walk again tomorrow. But not tonight.
+> set terr_woken
+> set leak_terr
+> quest ut_sleep 1
+> if ut_rate60 -> p60
+> gilt 40
+> goto next
+* p60
+> gilt 60
+* next
+> if leak_steps&leak_census -> third
+Anouk: One more leak. The Census office. Their queue.
+> quest undertow 4
+> walk anouk 42 26
+> exit anouk
+> set ut_left_terr
+> autosave
+> end
+* third
+> set ut_third_terr
+> goto ut_pike_meat
+
+== ut_terr_net
+> wait 0.8
+> camera @terr_view 1
+Anouk: The building's net. These two currents are their legs.
+Anouk: Somebody built a route north into the frost. Toward the Wall. Toward the sea.
+> ifnot party:quaye -> c
+Quaye: Forty meters up, then the Wall, then ninety down to the mud. Long walk for sleepers.
+* c
+> camera hero 1
+> walk hero @terr_front
+> face hero up
+> goto ut_terr_node
+
+== ut_terr_node
+> if leak_terr -> done
+> face hero up
+> sfx blip
+Drowned: Home by eight. The rain's coming.
+Drowned: Is the bakery open? Six, right?
+* menu
+?
+- Reroute their legs home. -> bail
+- Frost the building's net, Anouk. -> frost
+- Who's riding them? Let them talk. -> listen
+* listen
+> self 1
+> lore ut_sleepers
+Drowned: Mum says come home now. Mum says now.
+Drowned: I'm on the roof. Which roof are you on?
+Anouk: Four drowned ports. Each one is walking a body to an address under the sea.
+Anouk: They are not cruel. They are lost.
+> set terr_listened
+> goto menu
+* frost
+> set ut_t_way
+> anim spill 49 2 pale
+Anouk: Frosted. The building's lifts will be stuck until Saturday. That is the cost.
+> set terr_frosted
+> goto shut
+* bail
+> bail ut_sleep_bail -> ok | no
+* ok
+Anouk: Rerouted. Their legs will take them back to bed.
+> set terr_routed
+> goto shut
+* no
+> sfx error
+Anouk: The frost reached the route first. I will finish it my way.
+> anim spill 49 2 pale
+> set terr_frosted
+* shut
+> set leak_terr
+> quest ut_sleep 1
+> if ut_rate60 -> p60
+> gilt 40
+> goto ut_terr_out
+* p60
+> gilt 60
+> goto ut_terr_out
+* done
+> sfx blip
+
+== ut_terr_out
+> if leak_steps&leak_census -> third
+Anouk: One more. The Census office. Breathe out.
+> quest undertow 4
+> surface
+> unset ut_in_terr
+> wait 0.6
+> walk anouk 42 26
+> exit anouk
+> set ut_left_terr
+> autosave
+> end
+* third
+> set ut_third_terr
+> goto ut_pike_crack
+
+# ---------------------------------------------------------------- Leak: the Census queue
+
+== ut_census_leak
+> if leak_census -> done
+> walk hero @queue_front
+> face hero up
+> sfx pa
+Board: Now serving number one. Van Dam, Pieter. Age six. Booth two.
+Board: Now serving number one. Ruys, Hanna. Age six. Booth two.
+> face qmum hero
+Parent: We've been here since six bells. Who are these kids? Who's Van Dam?
+> face anouk hero
+Anouk: Those names are forty years old. Census results from the week of the Flood.
+Anouk: A drowned clerk's port is in the queue system. It is still stamping forms.
+> ifnot party:quaye -> t
+Quaye: Van Dam. There was a Van Dam on Canal Two. Tested clear, I think. Drowned anyway.
+* t
+> ifnot party:tova -> go
+> mood tova anger
+Tova: great. ghosts in the census office. as if testing the living ones wasn't plenty.
+* go
+?
+- Take us in. -> dive
+- Not yet. -> later
+* later
+Anouk: The queue will keep calling them. The parents will keep waiting.
+> end
+* dive
+> set ut_in_census
+> dive net_shallows @census_in
+> goto ut_census_net
+* done
+Anouk: The queue is clean. Logged.
+
+== ut_census_net
+> wait 0.8
+> camera @clerk_front 1
+> wait 0.6
+Drowned: Next. Name and street. Next.
+Drowned: Van Dam. Canal Two. Clear. Stamp. Next.
+> camera hero 1
+Anouk: The clerk. I think its owner drowned at this desk. Its cache is the week of the Flood.
+Anouk: It stamps forms nobody will ever collect.
+> ifnot party:courtesy -> c
+Courtesy: NEXT PLEASE. THIS UNIT KNOWS THAT ONE.
+* c
+> walk hero @census_front
+> face hero up
+> goto ut_census_node
+
+== ut_clerk_port
+> face clerk_port hero
+> if leak_census -> quiet
+Drowned: Name and street. Next.
+Drowned: Ruys. Canal Two. Clear. Stamp.
+Drowned: Bakx, Dirkje. Lock Road. Age six. Clear. Stamp. Next.
+> if met_waders -> d
+> end
+* d
+> wait 0.8
+> emote hero ?
+> end
+* quiet
+Drowned: Closing. Booth two closing.
+
+== ut_census_node
+> if leak_census -> done
+> face hero up
+> sfx blip
+* menu
+?
+- Splice the queue shut. -> splice
+- Burn it out. Whatever guards it can come. -> fight
+- Frost it, Anouk. -> frost
+- Let the clerk finish its queue. -> listen
+* splice
+> splice ut_census_splice -> ok | no
+* ok
+Anouk: Queue closed. The clerk can stop now.
+> if terwal_file -> file
+> goto shut
+* file
+> wait 1
+Anouk: You pulled a file. Mine.
+Anouk: TERWAL, A. Canal Four. Age six. Result: no wake. Line: none.
+Anouk: Refer to Sunny Steps. Form 11.
+> wait 1.2
+Anouk: Under that, in pen. Transfer to the Quiet Desk. W.M.
+Anouk: I have never seen it. It is a small file.
+> lore ut_terwal_card
+> ifnot party:tova -> shut
+> mood tova grief
+Tova: sunny steps. you were at sunny steps. form eleven. that's the same form.
+Anouk: I was six. I do not remember much. It was warm and there was a choir.
+Tova: there's still a choir.
+> rel tova anouk 1
+> goto shut
+* no
+> sfx alarm
+Anouk: The Census has its own ICE. It is awake now. Stay behind cover.
+> goto fight2
+* fight
+> sfx alarm
+* fight2
+> exit anouk
+> set census_ice_on
+> fight ut_census_ice
+> set census_ice_won
+> wait 0.6
+> face anouk hero
+Anouk: Queue closed. Not quietly.
+> goto shut
+* frost
+> set ut_t_way
+> anim spill 30 2 pale
+Anouk: Frosted. The queue will restart in the morning with today's names.
+> goto shut
+* listen
+> self 1
+> lore ut_clerk
+Drowned: Next. Last one. Halsema. Pell Market. Age nine. Retest cancelled. Stamp.
+> wait 1.4
+Drowned: Closing. Booth two closing. Good night.
+> if port_quiet -> l2
+PORT: Halsema. That is her name. Her other name. Why is her name in here?
+* l2
+> ifnot party:quaye -> l3
+> emote quaye ...
+Quaye: The week of the Flood. They cancelled a retest on a nine-year-old girl.
+Quaye: Nobody cancels a retest. Somebody already knew.
+* l3
+Anouk: It finished its queue. It is quiet without frost. I have not seen that before.
+* shut
+> set leak_census
+> if ut_rate60 -> p60
+> gilt 40
+> goto ut_census_out
+* p60
+> gilt 60
+> goto ut_census_out
+* done
+> sfx blip
+
+== ut_census_out
+> if leak_steps&leak_terr -> third
+Anouk: One more. The terraces. Breathe out.
+> quest undertow 4
+> surface
+> unset ut_in_census
+> wait 0.6
+> walk anouk 16 21
+> walk anouk 16 23
+> exit anouk
+> set ut_left_census
+> autosave
+> end
+* third
+> goto ut_pike_crack
+
+# ---------------------------------------------------------------- Pike, through the crack
+
+== ut_pike_crack
+> if ut_third_terr -> t
+> set ut_crack_census
+> camera @census_front 1
+> goto speak
+* t
+> set ut_crack_terr
+> camera @terr_front 1
+* speak
+> sfx alarm
+> wait 1.4
+Pike: four thousand.
+Pike: sweet. four thousand. her.
+> emote port !
+> if port_quiet -> sal
+PORT: That one is like me. It has our blood. Our red. Who is that?
+* sal
+> ifnot party:sallis -> nos
+> face sallis port
+Sallis: That's Jory.
+Pike: got her. run. run, run.
+Sallis: He said that in the hold. "Got her." Then "run" three times.
+> emote sallis ...
+> wait 2.5
+> set sallis_pike
+> approve sallis 1
+> goto anouk
+* nos
+Pike: run. run, run. don't touch the seal.
+Pike: opal said.
+* anouk
+> camera hero 1
+> face anouk hero
+Anouk: That came from past the Pale. Nothing comes from past the Pale.
+Anouk: Line 1 words. It is pushing at the frost from the other side. At your port.
+Pike: her. sweet? her.
+Anouk: It knows your port. How does it know your port?
+?
+- A man named Jory Pike died in the hold where my port woke. -> truth
+- No idea. -> lie
+- Ask it yourself. I'm paid for leaks. -> money
+* truth
+> set ut_t_truth
+Anouk: J. Pike. The barge victim. I read that report on Tuesday.
+Anouk: I will log it as the Pike port. I will not send the log.
+> goto out
+* lie
+Anouk: It used your port's blood to find you. That is not "no idea." Noted.
+> goto out
+* money
+Anouk: I tried. It only says four thousand.
+* out
+> set pike_met
+> lore ut_pike
+> ifnot party:ambrose -> o2
+Ambrose: A dead man's port, counting a fee he never collected. I find that unbearable.
+* o2
+Anouk: That is three. Breathe out.
+> surface
+> unset ut_in_terr
+> unset ut_in_census
+> wait 0.6
+> goto ut_leaks_wrap
+
+== ut_pike_meat
+> wait 1
+> face sleeper4 hero
+> sfx alarm
+Pike: four thousand.
+Pike: sweet. got her. run, run.
+> emote port !
+> ifnot party:sallis -> nos
+Sallis: That's Jory. Out of a stranger's mouth. That's Jory.
+> emote sallis ...
+> wait 2
+> set sallis_pike
+> approve sallis 1
+> goto anouk
+* nos
+Pike: don't touch the seal. opal said.
+* anouk
+> face anouk hero
+Anouk: That came through the citizen's port. From past the Pale.
+Anouk: Line 1 words. It knows your port. How does it know your port?
+?
+- A man named Jory Pike died in the hold where my port woke. -> truth
+- No idea. -> lie
+- Ask it yourself. I'm paid for leaks. -> money
+* truth
+> set ut_t_truth
+Anouk: J. Pike. The barge victim. I will log it as the Pike port. I will not send the log.
+> goto out
+* lie
+Anouk: It used your port's blood to find you. Noted.
+> goto out
+* money
+Anouk: It only says four thousand.
+* out
+> set pike_met
+> lore ut_pike
+> goto ut_leaks_wrap
+
+== ut_leaks_wrap
+> set ut_leaks_done
+> quest undertow 5
+> ifnot quest:ut_sleep -> sl
+Anouk: The route on the terraces was copied from a second building. Terrace 4. Another night.
+> quest ut_sleep 2
+* sl
+> face anouk hero
+Anouk: Three leaks. Three nights of the Pale thinning around one port.
+Anouk: I will come to your camp tonight. Please do not argue. I have the address.
+> if ut_rate60 -> p
+> goto w
+* p
+Anouk: Sixty, as agreed. The difference is mine.
+* w
+> wait 0.6
+> if ut_third_terr -> t
+> walk anouk 16 21
+> walk anouk 16 23
+> exit anouk
+> set ut_left_census
+> autosave
+> end
+* t
+> walk anouk 42 26
+> exit anouk
+> set ut_left_terr
+> autosave
+
+# ---------------------------------------------------------------- Pale blood: the camp scene
+
+== ut_camp_blood
+> music camp
+> if chapter>=5 -> b
+> enter anouk anouk @door_top down
+> walk anouk @camp_rail_side
+> goto in
+* b
+> enter anouk anouk @camp_stern up
+> walk anouk @camp_rail_side
+* in
+> walk hero @camp_hero
+> face hero anouk
+> face anouk hero
+Anouk: Good evening. I came down at 23:10. Nobody stopped me. Your watch is poor.
+> wait 0.8
+> emote anouk ...
+Anouk: The railing on the Steps cut my hand at 01:52. I noticed at 22:40.
+> if chapter>=5 -> sb
+> anim spill 15 11 pale
+> goto seen
+* sb
+> anim spill 16 11 pink
+* seen
+> wait 0.8
+> if port_quiet -> t0
+PORT: Her blood is gray. Ours was red, in the hold. Is there more than one kind?
+* t0
+> ifnot roster:tova -> nt
+> walk tova @camp_rail
+> face tova anouk
+> mood tova fear
+Tova: hey. your hand. that's not... that's not red. what is that?
+Anouk: Mine.
+Tova: blood's red. everybody's is red. mine's red, and i'm a witch.
+Anouk: Not mine. It has always been this color.
+> face anouk hero
+* nt
+Anouk: The Desk takes a sample every Thursday. For research. They say it is unusual.
+> ifnot roster:tova -> nt2
+> mood tova anger
+Tova: every thursday. they take your blood every week, and you just let them.
+Anouk: It is procedure. I have done it since I was seven.
+> rel tova anouk -1
+* nt2
+> ifnot roster:quaye -> nq
+Quaye: Gray. Steel ramp. I've seen that color once, in a Board vial with a forty-year seal.
+Quaye: They called it Hush.
+Anouk: Hush is a product. I am staff.
+* nq
+> wait 1
+Anouk: Three leaks follow your port, and something past the Pale knows its name.
+Anouk: I would like to keep watching your port. Closely. From inside your crew.
+?
+- Stay. We could use someone who knows the net. -> ask
+- You should get that hand seen to. Go home. -> home
+- What does the Desk pay you? We pay worse. -> pay
+* pay
+Anouk: The Desk pays well. I do not spend it. There is nothing to spend it on.
+* ask
+> if ut_t_truth&ut_t_way|ut_t_truth&ut_t_listen|ut_t_way&ut_t_listen -> yes
+Anouk: No. Not yet. I do not know you well enough. That is a measurement. I mean nothing else by it.
+Anouk: I will find you. The leaks will make sure of it.
+> set anouk_later
+> goto leave
+* home
+Anouk: My flat is on the terraces. Nothing in it needs me.
+Anouk: But yes. I will go home. I will find you again. The leaks will make sure of it.
+> set anouk_later
+> goto leave
+* yes
+> set ut_trust
+Anouk: Then I stay. I will need a bedroll. I will bring my own.
+> join anouk
+> if ut_t_truth -> a1
+> goto a2
+* a1
+> approve anouk 3
+* a2
+> ifnot ut_t_way -> a3
+> approve anouk 3
+* a3
+> ifnot ut_t_listen -> a4
+> approve anouk 3
+* a4
+> if ut_lied -> a5
+> goto a6
+* a5
+> approve anouk -2
+* a6
+> set ut1_done
+> quest undertow 6
+> ifnot party:courtesy -> c
+Courtesy: WELCOME ABOARD. THIS UNIT IS NOW QUIET. QUIET PLEASE.
+* c
+> wait 0.6
+> walk anouk @camp_anouk
+> face anouk down
+> autosave
+> end
+* leave
+> set ut1_done
+> quest undertow 6
+> if chapter>=5 -> lb
+> walk anouk @door_top
+> exit anouk
+> autosave
+> end
+* lb
+> walk anouk @camp_stern
+> exit anouk
+> autosave
+
+== ut_rejoin
+> if roster:anouk -> done
+> music camp
+> if chapter>=5 -> b
+> enter anouk anouk @door_top down
+> walk anouk @camp_rail_side
+> goto in
+* b
+> enter anouk anouk @camp_stern up
+> walk anouk @camp_rail_side
+* in
+> walk hero @camp_hero
+> face anouk hero
+> face hero anouk
+Anouk: Good evening. Leak at the Grand Lock, 20:12. Leak at the plaza, 21:40.
+Anouk: Both on your route. I said I would find you. I find people. It is my job.
+Anouk: Something past the Pale has started calling me. I would like to stop pretending it has not.
+?
+- Come with us, then. -> yes
+- I'll listen. But tell me everything. -> yes
+- What's in it for us? -> money
+* money
+Anouk: The leaks will not stop. I am the only diver on the Desk who can touch the Pale.
+* yes
+> join anouk
+> approve anouk -4
+> unset anouk_later
+> quest undertow 6
+> walk anouk @camp_anouk
+> face anouk down
+> autosave
+* done
+
+# ---------------------------------------------------------------- Net helpers
+
+== net_out
+> face hero up
+? A node. Its pad hums.
+- Surface. -> up
+- Stay. -> stay
+* up
+> surface
+> unset ut_in_steps
+> unset ut_in_census
+> unset ut_in_terr
+* stay
+
+== ut_cache_truus
+> face hero up
+Drowned: Truus. The ferry's at six. I'll meet you at the bakery.
+Drowned: Truus, love. Ring me.
+> if leak_steps -> fin
+> ifnot port_quiet -> p
+> end
+* p
+PORT: It keeps calling. Nobody calls it back.
+* fin
+
+== ut_cache_census
+> face hero left
+Drowned: Census van, Canal Two, Tuesday. Bring the card. Bring the child.
+Drowned: Clear! She's clear! Tell Oma she's clear!
+
+== ut_cache_hub
+> face hero down
+(A cache of Stair messages from tonight. Noodle orders. A shift swap. A love note, unsent.)
+> ifnot port_quiet -> p
+> end
+* p
+PORT: These ones are alive. They are warm. The ones by the leaks are cold.

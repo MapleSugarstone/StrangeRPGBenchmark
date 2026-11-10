@@ -1,5 +1,6 @@
 // Save slots in browser storage, plus export to a file and import from one. Keys start with fathom-.
 import { G, setSave, SETTINGS, saveSettings, type Save } from './state';
+import { migrateMember } from '../rules/stats';
 
 export const SLOTS = 9;
 const key = (slot: number | 'auto') => `fathom-save-${slot}`;
@@ -48,6 +49,8 @@ function migrate(s: Save): Save {
   s.defeated ??= [];
   s.quests ??= {};
   s.port ??= { name: 'Lode', hold: 0, self: 0 };
+  for (const m of Object.values(s.roster ?? {})) migrateMember(m);
+  if (!s.dive) s.party = s.party.filter((id) => id !== 'port');
   return s;
 }
 

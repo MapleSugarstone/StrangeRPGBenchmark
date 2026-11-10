@@ -138,6 +138,18 @@ export const LOOKS: Record<string, Look> = {
   mol: { skin: C.skin4, hair: C.mud1, coat: C.red1, accent: C.pale, hairStyle: 'short', extras: ['cap', 'visor'], shirt: C.pale, top: 'yoke', build: 'broad' },
   // Hubs
   auditor: { skin: C.skin4, hair: C.black, coat: C.cyan1, accent: C.pale, hairStyle: 'bun', extras: ['glasses', 'collar'], shirt: C.pale, top: 'plain' },
+  // Undertow. Anouk is hand-drawn in drawn.ts.
+  maas: { skin: C.skin4, hair: C.gray, coat: C.pale, accent: C.red2, hairStyle: 'short', extras: ['glasses', 'coatlong'], shirt: C.steel1, top: 'plain' },
+  deskagent: { skin: C.skin3, hair: C.black, coat: C.pale, accent: C.red2, hairStyle: 'short', extras: ['visor'], shirt: C.steel1, top: 'plain' },
+  deskagent2: { skin: C.skin1, hair: C.mud1, coat: C.pale, accent: C.red2, hairStyle: 'bun', extras: ['visor'], shirt: C.steel1, top: 'plain' },
+  deskdiver: { skin: C.skin5, hair: C.vio2, coat: C.pale, accent: C.cyan3, hairStyle: 'sidecut', extras: ['visor', 'port'], shirt: C.steel2, top: 'plain' },
+  mam: { skin: C.skin5, hair: C.mud1, coat: C.vio1, accent: C.amb3, hairStyle: 'bun', extras: ['scarf'], shirt: C.pale, top: 'plain' },
+  mies: { skin: C.skin5, hair: C.amb2, coat: C.amb2, accent: C.cyan3, hairStyle: 'braids', shirt: C.pale, build: 'small' },
+  ottens: { skin: C.skin2, hair: C.gray, coat: C.vio1, accent: C.cyan3, hairStyle: 'short', extras: ['arm', 'scarf'], shirt: C.pale, build: 'broad' },
+  brandt: { skin: C.skin3, hair: C.mag2, coat: C.mag1, accent: C.amb3, hairStyle: 'bob', extras: ['apron'], shirt: C.pale, top: 'open' },
+  hessel: { skin: C.skin4, hair: C.steel3, coat: C.steel1, accent: C.steel3, hairStyle: 'buzz', extras: ['port'], shirt: C.pale, build: 'slim' },
+  sem: { skin: C.skin1, hair: C.black, coat: C.night, accent: C.grn3, hairStyle: 'sidecut', extras: ['hood', 'port'], shirt: C.grn1, build: 'slim' },
+  sleeper: { skin: C.skin3, hair: C.mud1, coat: C.vio1, accent: C.pale, hairStyle: 'long', shirt: C.pale, top: 'plain' },
 };
 
 const ROBOT_PAL = [C.gray, C.slate, C.night, C.red2];

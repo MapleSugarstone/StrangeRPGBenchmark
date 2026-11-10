@@ -1,0 +1,298 @@
+; Lines rivals say during a sheet. Same format as script.txt.
+; Several lines under one id are variants and the game picks one.
+; Fields: {n} amount, {r} round, {cell}, {kind}, {name}, {give}, {get}, {claim}, {cause}, {yes}, {no}.
+
+; ---------------------------------------------------------------- deed
+== bark.deed.truce
+deed: 1. A truce is offered. 2. {n} rounds. 3. A reply is requested.
+== bark.deed.trade
+deed: 1. An exchange is offered. 2. {give} for {get}. 3. A reply is requested.
+== bark.deed.reading
+deed: 1. Ground at {cell} is wanted as a {kind}. 2. {n} ink is offered for it.
+== bark.deed.askback
+deed: 1. Backing is requested of {name}. 2. The post of Deputy is offered.
+== bark.deed.offerback
+deed: 1. The Office's count is offered to {name}. 2. A reply is requested.
+== bark.deed.accept
+deed: 1. Accepted. 2. Entered.
+deed: 1. The terms are in order. 2. Entered.
+== bark.deed.refuse
+deed: 1. Declined. 2. The terms are short by {n}.
+== bark.deed.grudge
+deed: 1. Declined. 2. Cause is held. 3. See the ledger, round {r}.
+== bark.deed.leader
+deed: 1. Declined. 2. The leading party is not assisted.
+== bark.deed.kept
+deed: 1. The promise was kept. 2. It is entered as kept.
+== bark.deed.betrayed
+deed: 1. A promise was broken in round {r}. 2. It is entered. 3. Entries are not removed.
+== bark.deed.contest
+deed: 1. Cause: {cause}. 2. The ground is contested.
+== bark.deed.won
+deed: 1. The matter is settled. 2. Costs are taken.
+== bark.deed.lost
+deed: 1. The Office's party withdraws. 2. This is entered.
+== bark.deed.object
+deed: 1. An objection is lodged. 2. Two doubt are spent. 3. The expense is regretted.
+== bark.deed.insist
+deed: 1. The measurement stands. 2. Two ink are paid.
+== bark.deed.file
+deed: 1. A claim is filed. 2. It reads {claim}.
+== bark.deed.back
+deed: 1. The Office's count is given to {name}.
+== bark.deed.gift
+deed: 1. Two ink are passed to {name}. 2. No reason is entered.
+== bark.deed.want
+deed: 1. Roads are wanted. 2. Pegs are wanted on every measured tile. 3. Promises are to be kept.
+
+; ---------------------------------------------------------------- auger
+== bark.auger.truce
+auger: Truce. {n} rounds. No fee. Cheap at that.
+== bark.auger.trade
+auger: {give} for {get}. One price. Take it.
+== bark.auger.reading
+auger: {cell} reads {kind}. Make it so. {n} ink in your hand now.
+== bark.auger.askback
+auger: Back me. Deputy pays three a sheet. Good money.
+== bark.auger.offerback
+auger: I back {name}. One count, sold.
+== bark.auger.accept
+auger: Done. One deal, shut.
+auger: Good. Pay the {n}.
+== bark.auger.refuse
+auger: No. {n} more.
+== bark.auger.grudge
+auger: You owe. Two ink clears it. Then we talk.
+== bark.auger.leader
+auger: You are ahead. I pay nobody who is ahead. Not one drop.
+== bark.auger.kept
+auger: Kept. Good. One more at the same price.
+== bark.auger.betrayed
+auger: You broke it. That costs. Two ink clears it.
+== bark.auger.betray
+auger: Truce is off. Found a better price. One better.
+== bark.auger.contest
+auger: This one is mine now. Move. I count to two.
+== bark.auger.won
+auger: Paid in full. Two, thanks.
+== bark.auger.lost
+auger: Bad dig. One of those. Moving on.
+== bark.auger.object
+auger: Not a {kind}. Two doubt says so.
+== bark.auger.insist
+auger: It stands. Two ink says so.
+== bark.auger.file
+auger: Filing. {claim}. One claim, all mine.
+== bark.auger.back
+auger: I back {name}. I am paid for it. Three.
+== bark.auger.gift
+auger: You will need this. Two ink. No charge.
+== bark.auger.want
+auger: Wells. Ink in hand. Two things. Promises are air.
+
+; ---------------------------------------------------------------- offset
+== bark.offset.truce
+offset: Truce. {n} rounds. Longer than your last one.
+== bark.offset.trade
+offset: {give} for {get}. Better than you get elsewhere.
+== bark.offset.reading
+offset: {cell} as a {kind}. {n} ink. More than it is worth to you.
+== bark.offset.askback
+offset: Back me. Second to me is higher than third to them.
+== bark.offset.offerback
+offset: I back {name}. Once. Fewer times than you will ask.
+== bark.offset.accept
+offset: Fine. Even. For now.
+offset: Agreed. No worse than mine.
+== bark.offset.refuse
+offset: Less than I am worth. {n} more.
+== bark.offset.grudge
+offset: After round {r}? Less than nothing.
+== bark.offset.leader
+offset: You are ahead of me. Not for longer.
+== bark.offset.kept
+offset: Kept. As well as I keep mine. Nearly.
+== bark.offset.betrayed
+offset: Broken. I break things faster than that.
+== bark.offset.betray
+offset: The truce is off. You were getting ahead of me.
+== bark.offset.contest
+offset: Yours? Mine is the larger claim.
+== bark.offset.won
+offset: Better than you. Counted.
+== bark.offset.lost
+offset: Closer than it looked.
+== bark.offset.object
+offset: A {kind}? I am less sure than you are.
+== bark.offset.insist
+offset: I am surer than you. It stands.
+== bark.offset.file
+offset: Filed. {claim}. Before you.
+== bark.offset.back
+offset: I back {name}. Above you, either way.
+== bark.offset.gift
+offset: Two ink. I have more than you. Had.
+== bark.offset.want
+offset: What {name} wants, one more of it than {name} has.
+
+; ---------------------------------------------------------------- lot
+== bark.lot.truce
+lot: Six say truce. Three say watch them. {n} rounds.
+== bark.lot.trade
+lot: Five say {give} for {get}. Four wanted more.
+== bark.lot.reading
+lot: Seven want {cell} a {kind}. Two do not care. {n} ink, by collection.
+== bark.lot.askback
+lot: Eight ask your backing. One says you will not give it.
+== bark.lot.offerback
+lot: Five to four, we back {name}. Do not make it four to five.
+== bark.lot.accept
+lot: {yes} say yes. {no} say no. Carried.
+== bark.lot.refuse
+lot: {yes} say yes. {no} say no. Lost.
+== bark.lot.grudge
+lot: {yes} say yes. {no} remember round {r}. Lost.
+== bark.lot.leader
+lot: {yes} say yes. {no} say you have enough. Lost.
+== bark.lot.kept
+lot: Kept. One of us changes seats. {yes} for you now.
+== bark.lot.betrayed
+lot: Broken. One of us changes seats. {no} against you now.
+== bark.lot.betray
+lot: Five to four, the truce is off. Four are sorry.
+== bark.lot.contest
+lot: Seven say take it. Two hold the coats.
+== bark.lot.won
+lot: Nine came. Nine go home.
+== bark.lot.lost
+lot: Six say fall back. Three already have.
+== bark.lot.object
+lot: Five doubt it is a {kind}. Four believe it. Five is enough.
+== bark.lot.insist
+lot: Six insist. Three shrug. It stands.
+== bark.lot.file
+lot: Filed, seven to two. {claim}.
+== bark.lot.back
+lot: By vote, six to three, we back {name}.
+== bark.lot.gift
+lot: A collection for {name}. Eight gave. One kept a coin.
+== bark.lot.want
+lot: Seven want Towns. Two want anything with a roof. Nine remember.
+
+; ---------------------------------------------------------------- either
+== bark.either.truce
+either: A truce till the round turns, or till one of us forgets.
+== bark.either.trade
+either: {give} for {get}, or the other way if you like.
+== bark.either.reading
+either: Leave {cell} as it is, or tell me first.
+== bark.either.askback
+either: Back me, or back the ground. It is the same count.
+== bark.either.offerback
+either: I back {name}, or I stand behind them. Count it how you like.
+== bark.either.accept
+either: Yes, or near enough.
+either: Agreed, or not refused.
+== bark.either.refuse
+either: No, or not for that.
+== bark.either.noink
+either: Ink is no use to me, or to anyone I know.
+== bark.either.grudge
+either: You fixed what I asked you to leave, or someone like you did.
+== bark.either.leader
+either: You have enough, or more than that.
+== bark.either.kept
+either: You kept it, or it kept you.
+== bark.either.betrayed
+either: You broke it, or it was never whole. Ask me again next round.
+== bark.either.betray
+either: The round turned, or I did.
+== bark.either.contest
+either: This stays open, or we both find out.
+== bark.either.won
+either: You fell, or you sat down.
+== bark.either.lost
+either: I lost, or I was somewhere else.
+== bark.either.object
+either: It is a {kind}, or I doubt that.
+== bark.either.insist
+either: It stands, or it sits.
+== bark.either.file
+either: A claim, or a wish. {claim}.
+== bark.either.back
+either: I back {name}, or I lean that way.
+== bark.either.gift
+either: Take this doubt, or I will only hold it.
+== bark.either.want
+either: Ground left open, or left alone. No ink. A promise for a round, or less.
+
+; ---------------------------------------------------------------- locals
+; undecided greeting, then reading A alone, then reading B alone
+== local.rook
+rook: Clear sky to the north. / The wall holds on four sides.
+rook: Clear sky to the north.
+rook: The wall holds on four sides.
+== local.kite
+kite: I can see a mouse from here. / More string, please.
+kite: I can see a mouse from here.
+kite: More string, please.
+== local.crane
+crane: The water is shallow here. / Load limit, two tons.
+crane: The water is shallow here.
+crane: Load limit, two tons.
+== local.seal
+seal: Fish under the ice. / Approved.
+seal: Fish under the ice.
+seal: Approved.
+== local.hawk
+hawk: A hare, by the hedge. / Ribbons, pins, two a penny.
+hawk: A hare, by the hedge.
+hawk: Ribbons, pins, two a penny.
+== local.pitcher
+pitcher: Full to the brim. / Keep your eye on my arm.
+pitcher: Full to the brim.
+pitcher: Keep your eye on my arm.
+== local.ram
+ram: The grass is thin here. / Stand clear of the gate.
+ram: The grass is thin here.
+ram: Stand clear of the gate.
+== local.drone
+drone: The hive wants clover. / Battery at forty.
+drone: The hive wants clover.
+drone: Battery at forty.
+== local.mole
+mole: Soft earth here. / I was never here.
+mole: Soft earth here.
+mole: I was never here.
+== local.fence
+fence: Nothing gets through. / No questions asked.
+fence: Nothing gets through.
+fence: No questions asked.
+== local.monitor
+monitor: The rock is warm. / Camera two is down.
+monitor: The rock is warm.
+monitor: Camera two is down.
+== local.buck
+buck: I smelled you coming. / Worth what it says on the face.
+buck: I smelled you coming.
+buck: Worth what it says on the face.
+== local.sage
+sage: Good with fowl. / Sit down. Listen.
+sage: Good with fowl.
+sage: Sit down. Listen.
+== local.bolt
+bolt: Count to three after me. / A quarter turn, no more.
+bolt: Count to three after me.
+bolt: A quarter turn, no more.
+== local.conductor
+conductor: Tickets. / Mind the current.
+conductor: Tickets.
+conductor: Mind the current.
+== local.jack
+jack: Stand back while I lift. / Cut the deck.
+jack: Stand back while I lift.
+jack: Cut the deck.
+== local.tender
+tender: Have you eaten? / Coming alongside.
+tender: Have you eaten?
+tender: Coming alongside.

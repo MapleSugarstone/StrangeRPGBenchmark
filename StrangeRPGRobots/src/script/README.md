@@ -79,11 +79,17 @@ Registries for the replay systems live in `src/content/replay.ts`: `addTravel` f
 | `autosave` | Saves to the autosave slot. |
 | `look actor lookid` | Changes an actor's sprite. |
 | `toast text` | A short notice at the top right. |
-| `anim name args` | A named map animation from code. Names: `spill x y` (a burst of witch blood), `spotlight on`/`off`, `flash`, `breathe id` (an actor or prop starts breathing), `still id`, `hush id` (frost a prop or actor), `down actor` (falls and lies still), `rise actor` (a flyer lifts off the top of the screen and is removed), `shift prop x y` (a prop slides to a tile), `break prop` (a prop falls apart into breathing debris), `hull on`/`off`/`x y w h` (the map, or a tile rectangle, breathes like a woken barge), `ride npc`/`ride off` (the party boards an NPC and moves with it), `tape flag`, `sparks x y`, `splash x y`, `smoke x y`, `shake n`, `bailer` (a giant footstep). |
+| `anim name args` | A named map animation from code. Names: `spill x y [pale|pink]` (a burst of witch blood, or of Anouk's Hush blood), `spotlight on`/`off`, `flash`, `breathe id` (an actor or prop starts breathing), `still id`, `hush id` (frost a prop or actor), `down actor` (falls and lies still), `rise actor` (a flyer lifts off the top of the screen and is removed), `shift prop x y` (a prop slides to a tile), `break prop` (a prop falls apart into breathing debris), `hull on`/`off`/`x y w h` (the map, or a tile rectangle, breathes like a woken barge), `ride npc`/`ride off` (the party boards an NPC and moves with it), `tape flag`, `sparks x y`, `splash x y`, `smoke x y`, `shake n`, `bailer` (a giant footstep). |
 | `ending` | Plays the ending. |
 | `party` | Opens the party picker (use it at camp). |
 | `campmap map` | Makes another map the camp (the crypt in act 2). The map needs a `start` marker. |
 | `leavecamp` | Leaves camp and returns to where the party rested. |
+| `dive map @marker` | Jacks the party into a net map (a map with `net: true`). Remembers the tile it dove from. The port joins as a fifth unit. |
+| `surface` | Leaves the net and returns the party to the tile it dove from. |
+| `splice id -> pass \| fail` | The breach grid puzzle from `src/content/undertow_puzzles.ts`. Bonus targets set their flags. |
+| `surf id -> pass \| fail` | Rides a current. Sets `surf_<id>_packets` to the packets picked up. |
+| `bail id -> pass \| fail` | The pipe routing puzzle. |
+| `endtitle TEXT` | A title card that reads ENDING over the text. |
 
 ## Details
 

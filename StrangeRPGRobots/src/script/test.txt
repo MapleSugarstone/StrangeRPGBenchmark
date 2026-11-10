@@ -19,3 +19,51 @@ Opal: Fine. Fine! Take them.
 * nofree
 Opal: Twelve gilt like everyone else.
 > end
+
+== test_dive
+Quaye: Throne's warm. In you go.
+> dive net_test @start
+PORT: this is. hand?
+> end
+
+== test_node
+? The node hums.
+- Splice it. -> sp
+- Ride the current. -> su
+- Route the flow. -> ba
+- Surface. -> out
+- Leave it.
+> end
+* sp
+> splice test_splice -> sp_ok | sp_no
+* sp_ok
+> set test_gate_open
+> toast Gate open
+> end
+* sp_no
+> toast Traced
+> end
+* su
+> surf test_surf -> su_ok | su_no
+* su_ok
+> toast Through
+> end
+* su_no
+> toast Thrown off
+> end
+* ba
+> bail test_bail -> ba_ok | ba_no
+* ba_ok
+> toast Bailed
+> end
+* ba_no
+> toast Frozen
+> end
+* out
+> surface
+> end
+
+== test_cache
+Drowned: Ferry at six. Bring the blue bag.
+Drowned: wear your boots
+> end

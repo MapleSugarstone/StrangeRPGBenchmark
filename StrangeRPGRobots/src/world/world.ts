@@ -149,7 +149,7 @@ function fillLights(def: MapDef): { x: number; y: number; c: number }[] {
   for (const l of def.lights ?? []) src.push([l.x, l.y]);
   for (const s of def.signs ?? []) if (s.light) src.push([s.x + 2, s.y + 1]);
   for (const p of WORLD.props) if (p.def.light) src.push([p.x, p.y]);
-  const cols = def.district === 'brim' ? [0xb0d0ff, 0x4a7ac8] : def.district === 'stair' ? [0x8a70ff, 0xe8b44a, 0x2aa59a] : [0x8a70ff, 0x3ef0e8, 0xff3aa8];
+  const cols = def.net ? [0x3ef0e8, 0xb0d0ff] : def.district === 'brim' ? [0xb0d0ff, 0x4a7ac8] : def.district === 'stair' ? [0x8a70ff, 0xe8b44a, 0x2aa59a] : [0x8a70ff, 0x3ef0e8, 0xff3aa8];
   const out: { x: number; y: number; c: number }[] = [];
   for (let y = 4; y < m.h; y += 8) for (let x = 4; x < m.w; x += 8) {
     let best: [number, number] | null = null;
@@ -173,7 +173,7 @@ const SIGN_COLORS: Record<string, [number, number][]> = {
 
 /** Neon signs on ground-floor facades, placed by hash so a street always looks the same. */
 function autoSigns(def: MapDef, m: GameMap): SignPlace[] {
-  if (def.inside || def.noFill || def.district === 'inside') return [];
+  if (def.inside || def.noFill || def.net || def.district === 'inside') return [];
   const cols = SIGN_COLORS[def.district] ?? SIGN_COLORS.deeps;
   const out: SignPlace[] = [];
   const near = (x: number, y: number) => [...(def.signs ?? []), ...out].some((s) => Math.abs(s.x - x) < 6 && Math.abs(s.y - y) < 3);

@@ -1,0 +1,730 @@
+; Unsurveyed script. Format:
+;   == scene.id
+;   speaker: line          a spoken line
+;   * text                 a system line
+;   > directive args       stage direction
+;   ? condition / ? else / ? end
+;   [ label => flag ]      one option of a choice, consecutive options form one choice
+; Voice rules are in Notes/bible.md. Every line stays under 100 characters.
+
+; ---------------------------------------------------------------- season 1
+
+== s1.open
+> place deed post
+> place offset start1
+> enter perch start0
+deed: 1. Sheet 40 is open. 2. It closes after round five.
+deed: 3. One corner is to be signed. 4. Two juniors are present.
+offset: Two present. One of them was early.
+deed: 5. The junior with more pegged ground signs. 6. This is the proving.
+deed: 7. A chain, three drafts, and seven pegs are issued to each.
+offset: Seven each. Mine go in straighter than Perch's.
+deed: 8. Remarks are not required. 9. A junior may decline the proving.
+[ Step up to the line => s1_step ]
+[ Stay on the row => s1_stay ]
+? flag:s1_stay
+offset: Staying? Further behind than before, then.
+deed: 10. Declining is entered as declining. 11. The chain is still to be carried.
+? end
+deed: 12. The plot north of each junior is sketched already. 13. It is to be stood on.
+* (Arrows move your pawn. A move costs 1 step. You have 4 steps each round.)
+
+== s1.page.meet
+page: Shall I carry that for you? / Nothing is written here yet.
+offset: Yours talks. Mine has a ditch. A ditch is quieter than that.
+deed: 1. The plot reads town, and it reads well. 2. One reading is to be measured.
+deed: 3. Struck entries are void. 4. No inventory of void entries is kept.
+page: A town would need someone to fetch. / A well would want a lid.
+* (Z opens your actions. Measure costs 1 step and 1 ink. You pick the reading.)
+
+== s1.page.town
+> strike page_paper north
+page: I can carry three drafts. I counted.
+offset: Three? I carry my own. Lighter than a helper.
+deed: 1. One town is entered. 2. One resident is entered with it.
+* (Page fetches. Once a round, Work on any tile also draws a draft.)
+
+== s1.page.well
+> strike page_child north
+* (The sheet of paper lies on the well's rim. The wind does not move it.)
+offset: Quieter than before. Quieter than mine, even.
+deed: 1. One well is entered. 2. One sheet of paper is entered with it.
+* (You keep the page. Once a sheet, it takes a measurement and you pay no ink.)
+
+== s1.teach.peg
+deed: 1. Measured ground belongs to nobody. 2. A peg corrects that. 3. A peg costs 1 ink.
+* (Peg the tile now for 1 ink and no step, or later for 1 step and 1 ink.)
+
+== s1.teach.sketch
+deed: 1. A draft is laid on blank ground beside the bearer. 2. That is a sketch.
+deed: 3. Sketched ground is two things until it is measured.
+* (Sketch costs 1 step. Pick a draft from your hand, then a blank cell next to you.)
+
+== s1.teach.work
+deed: 1. A well is worked for ink. 2. Two measures a visit. 3. One visit a round.
+* (A small fish looks up from the ink. It goes back down.)
+
+== s1.teach.count
+deed: 1. The Charter reads Acres. 2. Every peg counts 1. 3. The count is {you} to {them}.
+offset: {them} to {you}. Mine first. That is the order I count in.
+
+== s1.close
+> gather
+? winner:perch
+deed: 1. The count is {you} to {them}. 2. The corner goes to Perch.
+> sign perch
+offset: Fewer than Perch. This once.
+? else
+deed: 1. The count is {them} to {you}. 2. The corner goes to Offset.
+> sign offset
+offset: Mine. I sign larger than Perch would have.
+? end
+deed: 3. The kits are to be returned and counted.
+deed: 4. Chain, one. Pegs, seven. 5. One item over.
+deed: 6. The item is not on the list. 7. It is carried forward.
+> doubt perch
+* (You have 1 doubt.)
+
+; ---------------------------------------------------------------- season 2
+
+== s2.open
+> place deed post
+> place offset start1
+> place perch start0
+deed: 1. Sheet 41 is open. 2. The Charter is held by {holder}. 3. It reads {charter}.
+deed: 4. A licensed party is admitted. 5. License 7 of 9, boring and drawing.
+> enter auger start2
+auger: Auger. Wells found, wells dug. Ink, two a bucket.
+> show rook near_auger
+rook: Morning, seer. / Morning, seer.
+auger: No seer here. One drill. Two ink an hour.
+offset: Two an hour? More than Perch makes. More than I make. Less than I am worth.
+deed: 6. The stipend is 1 ink a round. 7. The sheet costs more. 8. This is known.
+> leave deed south
+auger: She pays one. Ground costs two. I sell the difference.
+> hide rook
+* (New on this sheet: doubt, locals, fights, and trades.)
+
+== s2.teach.doubt
+* (Undecided ground gives off doubt. Start a turn on it for 1. Work it for 2.)
+* (A peg on undecided ground costs 1 doubt and counts one half.)
+
+== s2.teach.local
+* (A town offers two locals. A local has two readings and joins you undecided.)
+* (Each turn you pick which reading's power is active. Tab shows your retinue.)
+
+== s2.teach.fight
+* (Contest costs 2 steps. In a fight, undecided units deal half and take half.)
+* (Pin costs 1 ink and fixes any unit. Blur costs 1 doubt and frees one of yours.)
+* (A fixed companion that falls is struck for good. An undecided one returns next round.)
+
+== s2.teach.trade
+auger: You carry doubt. No use to me. I sell it on. One ink for two of yours.
+* (Parley is free, twice a turn. Pick a rival, build an offer, send it.)
+
+== s2.bank.guard
+teller: Once there was a river. / That comes to forty.
+teller: It ran with ink, and it had a ferryman. / Deposits on the left.
+* (The Bank is a site. Beat its guardian and the ground can be measured.)
+
+== s2.bank.pin
+teller: And he was only ever a ferryman. / Sign here.
+* (Teller pinned {unit}. A pin outlasts the fight. On your turn, Blur costs 2 doubt.)
+
+== s2.bank.prize
+teller: The end. / Closed.
+* (The reserve holds a relic. A relic has two readings. You pick one.)
+
+== s2.bank.half
+> show parcel site
+parcel: I am a lot.
+parcel: I end at that stone. I end at that ditch. I was told to wait.
+[ Walk with me => parcel_walk ]
+[ Wait here => parcel_wait ]
+? flag:parcel_walk
+parcel: I go where the stone goes.
+* (The parcel joins you. It counts as a peg under your pawn.)
+? else
+parcel: I wait. I am good at edges.
+? end
+
+== s2.close
+> gather
+> enter either north_open
+? winner:perch
+deed: 1. The count is settled. 2. The corner goes to Perch.
+> sign perch
+deed: 3. The hand is steadier than on Sheet 40.
+? end
+? winner:offset
+deed: 1. The count is settled. 2. The corner goes to Offset.
+> sign offset
+offset: Mine. Signed larger than the last corner.
+? end
+? winner:auger
+deed: 1. The count is settled. 2. The corner goes to License 7 of 9.
+> sign auger
+auger: Mine. One sheet, one name. Buckets are three now.
+? end
+either: You closed it, or it closed around you.
+either: You were here before, or someone spelled like you was.
+deed: 4. An unentered person is on the sheet. 5. No action is available.
+> leave either north
+
+; ---------------------------------------------------------------- season 3
+
+== s3.open
+> place deed post
+> place perch start0
+deed: 1. Sheet 42 is open. 2. The Charter is held by {holder}. 3. It reads {charter}.
+> enter lot start2
+lot: Nine of us, here by grant. Eight say good morning. One wants the grant read out.
+deed: 4. Grant 12, settlement, by rule. 5. It is in order.
+lot: Nine of us. No ground under any. Six say that is fine.
+? seat:offset
+> enter offset start3
+offset: Nine of them. One of me. I peg faster than nine.
+? end
+? seat:auger
+> enter auger start3
+auger: Nine mouths. Nine buckets. Good sheet.
+? end
+deed: 6. Three licensed parties share one sheet. 7. A fourth is required. 8. The Office is the fourth.
+> walk deed start1
+deed: 9. Three closed sheets place a junior on the roll. 10. Perch has closed two.
+* (New on this sheet: promises, truces, backing, and claims.)
+
+== s3.teach.promise
+deed: 1. A promise is recorded when made. 2. It is not enforced. 3. It is remembered.
+* (Parley now has truces and promises. Tab shows each rival's dossier and ledger.)
+
+== s3.teach.claim
+deed: 1. Each party holds one claim. 2. A claim has two readings. 3. Filing fixes one.
+deed: 4. A filed claim that is true at the close outranks the count.
+* (File costs 2 steps. Everyone sees a filed claim.)
+
+== s3.teach.back
+deed: 1. From this round a party may back another. 2. The backer's count is added.
+deed: 3. A backer cannot win. 4. The backer of a winner is entered as Deputy.
+
+== s3.nomark.1
+> fx measure {cell}
+deed: 1. Ground at {cell} has been measured. 2. An act has occurred. 3. No actor is entered.
+lot: Four say Perch did it. Four say the Office. One was asleep.
+
+== s3.nomark.2
+> fx measure {cell}
+deed: 1. A second act, at {cell}. 2. No actor. 3. The entry is left open.
+
+== s3.court.guard
+bar: All rise. / Do not lean on me.
+bar: The court is sitting. / Nothing passes.
+
+== s3.court.prize
+bar: Adjourned. / Bent.
+* (The bench holds a relic. Pick its reading.)
+
+== s3.court.half
+> show act site
+act: Cut. Carry. Mend.
+act: Measured two. Left no name. Had none.
+[ Walk with me => act_walk ]
+[ Wait here => act_wait ]
+? flag:act_walk
+act: Carry.
+* (The act joins you. It acts twice in a fight.)
+? else
+act: Wait.
+? end
+
+== s3.close
+> gather
+deed: 1. The count is settled. 2. The corner goes to {winner}.
+> sign {winner}
+> play win.{winner}
+deed: 3. Three sheets are closed by Perch. 4. The roll is presented. 5. A signature is required.
+[ Sign the roll => roll_signed ]
+> sign perch_roll
+> shadow perch off
+> pinall perch
+deed: 6. A Surveyor's party is entered with the Surveyor. 7. It is done.
+? seat:offset
+offset: Surveyor. Sooner than me. Not by much.
+? end
+* (You are on the roll. You win count ties against every party but the holder.)
+* (Every undecided local with you is now fixed.)
+
+; ---------------------------------------------------------------- season 4
+
+== s4.open
+> place deed post
+> place perch start0
+deed: 1. Sheet 43 is open. 2. The Charter is held by {holder}. 3. It reads {charter}.
+> enter either start1 north
+either: This is my ground, or it is nobody's yet.
+deed: 4. An unentered party has made a mark. 5. The Legend admits any mark. 6. She is seated.
+either: I sit, or I stand where a seat would be.
+> leave deed south
+* (New on this sheet: objections and unmeasuring.)
+
+== s4.teach.object
+either: It is a {kind}, or I doubt that.
+* (Either objects and pays 2 doubt. Insist for 2 ink, or the tile takes its other reading.)
+* (You can object too, when a rival measures within 2 tiles of your pawn.)
+
+== s4.teach.unmeasure
+* (Unmeasure costs 1 step and 3 doubt. The tile you stand on goes back to both readings.)
+
+== s4.quarry.sight
+? seat:lot
+lot: Seven say it is a pit. Two say it has legs.
+? end
+? seat:auger
+auger: Pit. Deep. Forty buckets easy. It moves, the price moves.
+? end
+? seat:offset
+offset: It is further from you than from me. I checked.
+? end
+? seat:deed
+deed: 1. A pit is reported at {cell}. 2. The report is not stable.
+? end
+either: It runs from you, or it leads you.
+* (The Quarry moves 1 tile away from the nearest pawn at the end of each round.)
+
+== s4.quarry.half
+> show roost site
+* (A pole stands in the pit. It has a crossbar. Birds sleep on it.)
+* (On the pit wall, in order. Sheet 40: {s40}. Sheet 41: {s41}. Sheet 42: {s42}.)
+* (Under the list, one name. Page.)
+either: You were here before, or it kept your place.
+[ Carry it out => roost_carry ]
+[ Leave it standing => roost_leave ]
+? flag:roost_carry
+> smudge perch
+* (Your signature smudges. The roost walks with you.)
+* (You have a third companion slot, and you can Blur yourself in a fight.)
+deed: 1. A Surveyor has been seen with a struck entry. 2. It is entered.
+? else
+* (The birds do not wake.)
+deed: 1. Nothing irregular is observed at the pit.
+? end
+
+== s4.close
+> gather
+deed: 1. The count is settled. 2. The corner goes to {winner}.
+> sign {winner}
+> play win.{winner}
+either: You know where they go, or you always did.
+deed: 3. Struck entries are void. 4. No inventory of void entries is kept.
+> procession north
+
+; ---------------------------------------------------------------- season 5
+
+== s5.open
+> place deed post
+> place perch start0
+deed: 1. Sheet 44 is open. 2. The Charter is held by {holder}. 3. It reads {charter}.
+deed: 4. A letter is received. 5. Sheet 44 is to be closed by machine. 6. By rule.
+> enter level level_start
+level: 0.0 degrees. Column {col}. 7 rounds to close.
+deed: 7. The Level fixes one tile of its column each round. 8. It pins what stands there.
+deed: 9. Each round the parties may bid ink. 10. The highest bid moves it one column.
+> play s5.friend.{friend}
+> play s5.nemesis.{nemesis}
+> leave deed south
+* (New on this sheet: the Level. You bid at the start of each round.)
+
+== s5.friend.deed
+deed: 11. A truce is offered to Perch. 12. Three rounds. 13. No fee.
+== s5.friend.auger
+auger: Level digs nothing. Bad for wells. I bid with you. Half each.
+== s5.friend.offset
+offset: Bid with me. Two bids are more than one machine.
+== s5.friend.lot
+lot: Eight say bid with Perch. One says hide behind Perch.
+== s5.friend.either
+either: Stand with me, or stand where it is not.
+
+== s5.nemesis.deed
+deed: 11. The Office's party will bid. 12. The Level is to be kept on Perch's column.
+== s5.nemesis.auger
+auger: I buy the Level. Every round. Your pegs are in the way. All {n} of them.
+== s5.nemesis.offset
+offset: It goes where I send it. Further than you can pay.
+== s5.nemesis.lot
+lot: Six say send it at Perch. Three say send it twice.
+== s5.nemesis.either
+either: It comes for me, or I send it to you.
+
+== s5.pass.half
+> show augur site
+augur: You will stand in the Pass. It will come level with you.
+augur: One of yours will be written down. You will see which.
+[ Walk with me => augur_walk ]
+[ Wait here => augur_wait ]
+? flag:augur_walk
+augur: You will be glad of it.
+* (The augur joins you. You see each rival's first planned action.)
+? else
+augur: I will be here. I have seen it.
+? end
+
+== s5.level.fight
+level: 0.0 degrees. Obstruction, 1. Correcting.
+
+== s5.level.pin
+level: {unit}. Entered.
+
+== s5.level.won
+level: 0.3 degrees. 0.9 degrees. Fault.
+> tilt level
+* (The vial rolls out. You take the Bubble. Once a fight, Blur any unit for nothing.)
+deed: 1. The machine has been stopped by a Surveyor. 2. It is entered as stopped.
+
+== s5.level.lost
+level: 0.0 degrees. Proceeding.
+
+== s5.level.unopposed
+level: 0.0 degrees. Sheet 44, closed. Proceeding to Sheet 45.
+
+== s5.close
+> gather
+deed: 1. The count is settled. 2. The corner goes to {winner}.
+> sign {winner}
+> play win.{winner}
+? seat:lot
+lot: Five ask who writes the letters. Four would sooner not know.
+? end
+deed: 3. The Ruler is not seen. 4. Letters are received.
+
+; ---------------------------------------------------------------- season 6
+
+== s6.open
+> place deed post
+> place perch start0
+deed: 1. Sheet 45 is open. 2. It is the last on the roll. 3. No further paper is held.
+deed: 4. The Legend is on this sheet. 5. The party that closes the sheet writes its last line.
+? flag:level_north
+> enter level level_start
+level: 0.0 degrees. Column {col}.
+? end
+> play s6.friend.{friend}
+> play s6.nemesis.{nemesis}
+> leave deed south
+* (New on this sheet: amend. At the Legend, change one rule for 2 ink and 2 doubt.)
+
+== s6.friend.deed
+deed: 6. The Office's party will not contest Perch first. 7. This is entered.
+== s6.friend.auger
+auger: Last sheet. No ground after it. I do not like that. Split the wells, two and two.
+== s6.friend.offset
+offset: Last one. I would sooner lose it to you than to them. Not by much.
+== s6.friend.lot
+lot: Seven say Perch is ours. Two say we are Perch's. Sit close.
+== s6.friend.either
+either: Write it with me, or write it where I can read.
+
+== s6.nemesis.deed
+deed: 6. Cause is held against Perch. 7. It is listed. 8. The list has {n} lines.
+== s6.nemesis.auger
+auger: Last sheet. Last wells. All of them mine. For you, none for sale.
+== s6.nemesis.offset
+offset: Last one. I sign it. Larger than all five of yours.
+== s6.nemesis.lot
+lot: Eight say no to Perch. One is thinking it over.
+== s6.nemesis.either
+either: You fix me, or I unfix you. It is the last sheet for one of us.
+
+== s6.legend.guard
+scale: One of many. / One to two.
+scale: I come off in your hand. / I make the hill fit the page.
+* (Scale changes the ratio each round. At 1 to 2 every number halves. At 2 to 1 it doubles.)
+
+== s6.legend.prize
+scale: Shed. / One to one.
+
+== s6.legend.half
+? flag:page_child_struck
+> show page_grown site
+page: You measured a well. I walked. It is a long way at that age.
+page: I keep the tale now. It starts with a pen.
+? else
+> show page_blank site
+* (A sheet of paper lies on the Legend. Nothing is written on it.)
+? flag:has_page_child
+page: That one is mine. I mean, it is me.
+? end
+? end
+> show offshoot near_site
+offshoot: I grew this way. The light is good here.
+[ Walk with me => offshoot_walk ]
+[ Stay in the light => offshoot_wait ]
+? flag:offshoot_walk
+offshoot: I will lean on you a while.
+* (The offshoot joins you. Its attack grows by 1 each round of a fight.)
+? end
+
+== s6.teach.amend
+* (Amend: pick one rule from the list. It holds until the close.)
+
+== s6.close
+> gather
+deed: 1. The count is settled. 2. Sheet 45 closes to {winner}.
+> sign {winner}
+deed: 3. The last line of the Legend is to be written.
+> play final.{winner}
+
+== final.perch
+[ Every name keeps one reading. => end_one ]
+[ Every name keeps all its readings. => end_all ]
+[ A name keeps the readings its owner picks. => end_pick ]
+? flag:end_one
+> play end.one
+? end
+? flag:end_all
+> play end.all
+? end
+? flag:end_pick
+> play end.pick
+? end
+
+== final.deed
+? whole:deed
+> open deed drawer
+deed: 1. A line is required of the Office. 2. The pen is in hand.
+deed: 3. No line is entered. 4. The drawer is shut.
+> close deed drawer
+> play end.pick
+? else
+deed: 1. Every name keeps one reading. 2. By rule.
+> play end.one
+? end
+
+== final.auger
+? whole:auger
+auger: The Sheet will run out of ground. I will run out of wells. A name will want both its halves.
+auger: A name keeps what its owner picks. No charge.
+> play end.pick
+? else
+auger: One line, for sale. Highest ink takes it. I count {n}.
+? richest:perch
+auger: Perch has the ink. Perch writes it. I keep the {n}.
+> play final.perch
+? else
+auger: Sold to the Office, as usual. One reading. Paid.
+> play end.one
+? end
+? end
+
+== final.offset
+? whole:offset
+offset: I am writing my own.
+offset: A name keeps what its owner picks.
+> play end.pick
+? else
+? perch_measured_more
+offset: Perch measured more than Perch doubted. So, one reading. Neater than Perch would write it.
+> play end.one
+? else
+offset: Perch doubted more than Perch measured. So, all of them. More than Perch would dare.
+> play end.all
+? end
+? end
+
+== final.lot
+? whole:lot
+lot: Nine say a name keeps what its owner picks.
+> play end.pick
+? else
+? lot_likes_perch
+lot: Five say all the readings. Four say one. Carried.
+> play end.all
+? else
+lot: Five say one reading. Four say all. Carried.
+> play end.one
+? end
+? end
+
+== final.either
+either: I am not writing anything.
+* (Nothing is written. The last line of the Legend stays blank.)
+> play end.all
+
+; ---------------------------------------------------------------- endings
+
+== end.one
+> fix everything
+* (The line is written. Every name keeps one reading.)
+? seat:either
+> pin either
+either: Ether.
+> thin either
+? end
+deed: 1. Entered. 2. The roll is complete. 3. More paper is requested.
+> play fates
+> play end.perch.one
+
+== end.all
+> unfix everything
+* (Every name keeps all its readings.)
+> return struck
+? !final_writer:either
+either: Come and see.
+? end
+? !whole:deed
+deed: 1. A person is approaching the Office's party. 2. It has no entry. 3. It has my seal.
+? end
+> play fates
+> play end.perch.all
+
+== end.pick
+> pen stays
+* (A name keeps the readings its owner picks. The Legend keeps the pen.)
+> label last_tile Perch
+? !final_writer:either
+either: I am Either.
+? end
+> play fates
+> play end.perch.pick
+
+== end.perch.one
+> walk perch post
+* (Perch signs the corner of Sheet 45. The corner is clean.)
+? flag:roost_carry
+* (The roost stops at the join row. It cannot come further. The birds go north.)
+? end
+> atlas
+
+== end.perch.all
+> walk perch last_tile
+? flag:roost_carry
+* (Perch stands still. Something lands on the crossbar.)
+? else
+* (A pole with a crossbar comes south over the paper. It has been walking since Sheet 43.)
+? end
+> atlas
+
+== end.perch.pick
+> walk perch last_tile
+* (Perch sets the chain down on the last tile and does not pick it up.)
+? flag:roost_carry
+* (Birds land on both of them.)
+? end
+> atlas
+
+; one fate line each. tier is trust in Perch at the end.
+== fate.deed.whole
+deed: 1. The Registrar has left the Office. 2. I walked.
+== fate.deed.warm
+deed: 1. Perch's file is kept in the top drawer. 2. No reason is entered.
+== fate.deed.cold
+deed: 1. Perch's file is closed. 2. Cause remains on record.
+
+== fate.auger.whole
+auger: The wells will fill again by spring. I will leave them be till then.
+== fate.auger.warm
+auger: Perch pays on time. Six sheets, no debts. Rare.
+== fate.auger.cold
+auger: Perch owes. I keep the bill. Two ink a line.
+
+== fate.offset.whole
+offset: I am going north. I have not asked who else is.
+== fate.offset.warm
+offset: Second to Perch. Closer than anyone else got.
+== fate.offset.cold
+offset: Ahead of Perch somewhere. There is always a somewhere.
+
+== fate.lot.whole
+lot: Nine say this is our ground. Nine say stay.
+== fate.lot.warm
+lot: Seven say Perch may visit. Two say bring ink.
+== fate.lot.cold
+lot: Six say Perch owes us a sheet. Three have stopped counting.
+
+== fate.either.warm
+either: We were friends, or we spelled it that way.
+== fate.either.cold
+either: You fixed what you could, or what let you.
+
+; ---------------------------------------------------------------- shared scenes
+
+== win.perch
+deed: 3. The signature is entered. 4. It is legible.
+== win.deed
+deed: 3. The corner is signed by the Office. 4. The seal is applied.
+== win.auger
+auger: Mine. Counted twice. Next sheet reads {next}.
+== win.offset
+offset: Mine. Larger than yours by {d}.
+== win.lot
+lot: Ours. Five say {next} for the next sheet. Four lost.
+== win.either
+either: It closes to me, or it stays open.
+
+== deputy.deed
+deed: 1. Perch is entered as Deputy. 2. Three ink are advanced.
+== deputy.auger
+auger: Deputy. Paid in ink. Three, now.
+== deputy.offset
+offset: My deputy. Under me. Closer than the others, though.
+== deputy.lot
+lot: Deputy by eight to one. Sit here.
+== deputy.either
+either: My deputy, or my friend. One of those pays three.
+
+== holder.auger
+auger: My sheet. My count. It reads {charter}. Dig or pay.
+== holder.offset
+offset: I hold it. Higher than Perch has held anything.
+== holder.lot
+lot: Ours, by five to four. It reads {charter}.
+== holder.either
+either: I hold the Charter, or it is lying where I left it.
+
+== law.deed
+deed: 1. A law is added. 2. Fees. 3. A broken promise costs the breaker 2 ink, paid to the holder.
+== law.auger
+auger: New law. Open market. Stand on a peg, pay its owner 3, it is yours.
+== law.offset
+offset: My law. Parity. Fewest pegs takes 1 ink from most. Fairer than you were.
+== law.lot
+lot: Passed, six to three. Head count. Towns count double.
+== law.either
+either: Second reading. An objection costs 1 doubt, or it always did.
+
+; a rival meets its own struck reading because Perch sent it
+== reunion.lot
+parcel: I am a lot.
+lot: Four say that is ours. Four say we are its. One is already standing on it.
+> merge lot parcel
+lot: Nine say this is ground.
+* (Lot is whole. Its vote is nine to nothing now, for you or against you.)
+
+== reunion.deed
+act: Open.
+> open deed drawer
+deed: 1. A duplicate entry is presented. 2. It is to be struck. 3. The pen is in hand.
+deed: 4. I decline.
+> merge deed act
+* (Deed is whole. She no longer needs cause, and she can give.)
+
+== reunion.auger
+augur: You will hit water under the third stone. You will leave half of it.
+auger: Third stone. Half. Who says?
+augur: You will.
+> merge auger augur
+auger: The well will last longer that way. Huh.
+* (Auger is whole. He plans the whole sheet and he keeps promises.)
+
+== reunion.offset
+offshoot: I grew this way.
+offset: Further than me. Is that further than me?
+offshoot: I did not measure.
+> merge offset offshoot
+offset: I am going to peg that hill. I like the hill.
+* (Offset is whole. He picks his own aim and stops marking you.)
+
+; a struck reading is handed to the Office
+== strike.half
+deed: 1. A struck entry has been presented. 2. It is struck again. 3. This time it is inventoried.
+* (It does not walk north. It is gone. The Office's trust in you rises.)

@@ -29,5 +29,10 @@ import crew from './crew.txt';
 import events_upper from './events_upper.txt';
 import niche_upper from './niche_upper.txt';
 import niche_deeps from './niche_deeps.txt';
+import undertow1 from './undertow1.txt';
+import undertow2 from './undertow2.txt';
+import undertow3 from './undertow3.txt';
+import undertow_side from './undertow_side.txt';
+import undertow_camp from './undertow_camp.txt';
 
-export const SCRIPT_FILES: Record<string, string> = { test, sluice, ch1, deeps, camp1, ch2, deeps2, camp2, ch3, stair3, camp3, ch4, stair4, camp4, ch5, deeps5, camp5, ch6, brim6, epilogue, gigs, flats, banter, lines, hubs, events_deeps, crew, events_upper, niche_upper, niche_deeps };
+export const SCRIPT_FILES: Record<string, string> = { test, sluice, ch1, deeps, camp1, ch2, deeps2, camp2, ch3, stair3, camp3, ch4, stair4, camp4, ch5, deeps5, camp5, ch6, brim6, epilogue, gigs, flats, banter, lines, hubs, events_deeps, crew, events_upper, niche_upper, niche_deeps, undertow1, undertow2, undertow3, undertow_side, undertow_camp };

@@ -153,6 +153,11 @@ export interface Stage {
   cards(opponent: string): Promise<boolean>;
   /** Opens the travel list and moves the party to the pick. */
   travel(): Promise<void>;
+  /** Jacks the party into a net map, and back out to the tile it dove from. */
+  dive(map: string, marker: string): Promise<void>;
+  surface(): Promise<void>;
+  /** Plays a hacking minigame: splice, surf, or bail. */
+  mini(kind: string, id: string): Promise<{ won: boolean; bonus: string[]; count: number }>;
 }
 
 let STAGE: Stage | null = null;
@@ -162,6 +167,9 @@ let running = 0;
 export function sceneRunning(): boolean { return running > 0; }
 
 class Jump { constructor(public scene: string, public label?: string) {} }
+
+/** What exec returns to stop a scene. A label may be called end, so the stop signal is a name no label can have. */
+const STOP = ':stop:';
 
 /** Runs a scene to the end. Scenes can jump to labels and to other scenes. */
 export async function runScene(id: string, from?: string): Promise<void> {
@@ -178,7 +186,7 @@ export async function runScene(id: string, from?: string): Promise<void> {
       const L = scene.lines[pc++];
       try {
         const r = await exec(L, scene);
-        if (r === 'end') break;
+        if (r === STOP || (r === 'end' && !scene.labels.has('end'))) break;
         if (typeof r === 'string') {
           if (scene.labels.has(r)) pc = scene.labels.get(r)!;
           else if (SCENES.has(r)) { scene = SCENES.get(r)!; pc = 0; }
@@ -263,12 +271,12 @@ async function exec(L: SLine, scene: Scene): Promise<string | void> {
     switch (L.name) {
       case 'lock': st.lock(true); return;
       case 'unlock': st.lock(false); return;
-      case 'end': return 'end';
+      case 'end': return STOP;
       case 'goto': {
         if (scene.labels.has(a[0])) return a[0];
         if (SCENES.has(a[0])) throw new Jump(a[0], a[1]);
         console.warn(`[script] goto ${a[0]} not found`);
-        return 'end';
+        return STOP;
       }
       case 'if': { const target = a[a.indexOf('->') + 1]; if (flag(a[0])) return target; return; }
       case 'ifnot': { const target = a[a.indexOf('->') + 1]; if (!flag(a[0])) return target; return; }
@@ -336,8 +344,8 @@ async function exec(L: SLine, scene: Scene): Promise<string | void> {
       case 'rel': addRel(a[0], a[1], num(a[2])); return;
       case 'travel': await st.travel(); return;
       case 'perk': { const m = G.roster[a[0]]; if (m && !m.perks.includes(a[1])) m.perks.push(a[1]); return; }
-      case 'fight': { const won = await st.fight(a[0]); if (!won) return 'end'; return; }
-      case 'hostile': { const won = await st.hostile(a[0], a[1]); if (!won) return 'end'; return; }
+      case 'fight': { const won = await st.fight(a[0]); if (!won) return STOP; return; }
+      case 'hostile': { const won = await st.hostile(a[0], a[1]); if (!won) return STOP; return; }
       case 'shop': await st.shop(a[0]); return;
       case 'rest': await st.rest(); return;
       case 'name': await st.nameEntry(a[0]); return;
@@ -357,7 +365,7 @@ async function exec(L: SLine, scene: Scene): Promise<string | void> {
       case 'look': st.look(a[0], a[1]); return;
       case 'toast': toast(a.join(' '), C.pale); return;
       case 'anim': await st.anim(a[0], a.slice(1)); return;
-      case 'ending': await st.ending(); return 'end';
+      case 'ending': await st.ending(); return STOP;
       case 'party': await st.anim('party', []); return;
       case 'campmap': G.campMap = a[0]; return;
       case 'cards': {
@@ -369,6 +377,18 @@ async function exec(L: SLine, scene: Scene): Promise<string | void> {
       }
       case 'card': { const { giveCard } = await import('../ui/sluice'); giveCard(a[0]); toast('A Sluice card', C.amb3); return; }
       case 'leavecamp': await st.anim('leavecamp', []); return;
+      case 'endtitle': await st.chapter(0, a.join(' ')); return;
+      case 'dive': await st.dive(a[0], a[1]?.replace('@', '') ?? 'start'); return;
+      case 'surface': await st.surface(); return;
+      case 'splice': case 'surf': case 'bail': {
+        const r = await st.mini(L.name, a[0]);
+        for (const f of r.bonus) setFlag(f);
+        if (L.name === 'surf') setFlag(`surf_${a[0]}_packets`, r.count);
+        const i = a.indexOf('->');
+        if (i < 0) return;
+        const [w, l] = a.slice(i + 1).join(' ').split('|').map((x) => x.trim());
+        return r.won ? w : l;
+      }
       case 'item': { const it = ITEM.get(a[0]); if (it) toast(it.name, C.pale); return; }
       default: console.warn(`[script] ${scene.id}: unknown command ${L.name}`);
     }

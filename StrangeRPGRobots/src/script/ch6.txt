@@ -719,18 +719,19 @@ Marit: Never mind.
 Teun: For forty years, this office has watched them slow. Hendrik is in a canal.
 Teun: One drop from the boy, and all eleven wake for another forty years.
 Teun: The Chair delivered the papers every Sunday. Marit read the weather first.
+> if pale_thaw -> ut_hall_thaw
 > if bailers_reasons -> listen
 ?
 - [Shoot 3] Shoot the lancet out of his hand. -> shot | missed
 - [Talk 3] He's ten, Teun. You were fourteen. -> talked | missed
 - ?bg:choir [Talk 2] Sing to Kees. Sing the lullaby they sing at every children's home. -> talked | missed
 - ?bg:vein [Talk 2] Kees. Look at my hand. Circle, no line. Come here. -> talked | missed
-- Let the port take our hand. Grab the lancet. -> port
+- ?!pale_port Let the port take our hand. Grab the lancet. -> port
 - Let him do it. The Deeps need the Bailers. -> letkees
 * missed
 Teun: The Board thanks you for your patience.
 ?
-- Let the port take our hand. Grab the lancet. -> port
+- ?!pale_port Let the port take our hand. Grab the lancet. -> port
 - Let him do it. The Deeps need the Bailers. -> letkees
 * shot
 > sfx pistol
@@ -971,6 +972,7 @@ Marit: Never mind.
 * pills
 Marit: Keep the pills, dear. I've had all the pills there are.
 * port
+> if pale_thaw|pale_held|mam_message -> ut_sea_mam
 > camera hero 1
 Marit: Little one. You made it. Was it worth the fare?
 > if port_want -> lives

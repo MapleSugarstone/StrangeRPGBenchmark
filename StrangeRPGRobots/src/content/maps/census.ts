@@ -74,6 +74,7 @@ export const census: MapDef = {
     { kind: 'door', x: 16, y: 23 },
     { kind: 'door', x: 17, y: 23 },
     { kind: 'turret', x: 31, y: 13, id: 'census_turret' },
+    { kind: 'tv', x: 18, y: 12, id: 'queue_screen', scene: 'ut_census_leak', showIf: 'leak_steps' },
   ],
   signs: [
     { x: 13.4, y: 2.2, text: 'CENSUS', color: C.red2, light: LIGHT.red },
@@ -84,6 +85,7 @@ export const census: MapDef = {
     { x: 9.2, y: 10.2, text: '2', color: C.amb3 },
     { x: 14.2, y: 10.2, text: '3', color: C.amb3 },
     { x: 19.2, y: 10.2, text: '4', color: C.amb3 },
+    { x: 16, y: 11.4, text: 'NOW 0001', color: C.cyan4, holo: true, showIf: 'leak_steps&!leak_census' },
   ],
   lights: [
     { x: 5.5, y: 15.5, r: 44, i: 0.8, color: LIGHT.cold },
@@ -194,6 +196,23 @@ export const census: MapDef = {
       dir: 'up',
       bark: ['My grandson tested red.'],
     },
+    {
+      id: 'anouk',
+      at: '@anouk_census',
+      look: 'anouk',
+      dir: 'left',
+      talk: 'ut_anouk_census',
+      showIf: 'leak_steps&!ut_left_census&!roster:anouk',
+      bark: ['Leak logged. Waiting.'],
+    },
+    {
+      id: 'qmum',
+      at: [17, 15],
+      look: 'crowd:139',
+      dir: 'up',
+      showIf: 'leak_steps&!leak_census',
+      bark: ['That is not our name.', 'Who is Van Dam?'],
+    },
   ],
   markers: {
     door_in: [16, 21],
@@ -208,6 +227,9 @@ export const census: MapDef = {
     hero_door: [27, 13],
     corridor: [26, 7],
     party_hall: [16, 18],
+    queue_front: [18, 13],
+    anouk_census: [21, 13],
+    census_dive: [17, 14],
   },
   exits: [
     { x: 16, y: 23, w: 2, h: 1, to: 'plaza', at: 'census_out' },

@@ -1,7 +1,7 @@
 // Draws the current map: floors, facades, roofs, ledges, props, actors, Bailers, signs, and steam, then
 // lights the frame, composites it, and adds reflections and rain.
 import { H, W, alb, clearLayers, emi, flo, nrm, roof } from '../engine/screen';
-import { C, UP } from '../engine/palette';
+import { C, UP, LUMA, N, RAMP_OF } from '../engine/palette';
 import { blit, wpx, type Img } from '../engine/gfx';
 import { addLight, addSkyLight, beginLight, castShadows, composite, rgbf, setDitherOrigin, setShade, ditherAt, type Figure, type RGBf } from '../engine/light';
 import { drawTextWorld } from '../engine/font';
@@ -10,6 +10,7 @@ import { T, hash, puddleMask, windowColor, type TileDef } from './tiles';
 import { WORLD, type Actor, type PropInst } from './world';
 import { reflect, rain, steam } from './fx';
 import { ICONS } from '../art/icons';
+import { G } from '../game/state';
 import { BAILER_FRAMES } from '../art/bailer';
 
 /** Facade row of a wall tile: 0 bottom face, 1 upper face, -1 roof. */
@@ -221,7 +222,7 @@ export function renderWorld(o: RenderOpts) {
     if (s.broken || (s.place.showIf && !o.flag(s.place.showIf)) || (s.place.hideIf && o.flag(s.place.hideIf))) continue;
     const sx = Math.round(s.place.x * T) - camX, sy = Math.round(s.place.y * T) - camY;
     if (sx > W + 60 || sy > H + 60 || sx < -80 || sy < -60) continue;
-    if (s.place.text) drawTextWorld(s.place.text, sx, sy, s.place.color, 1, s.place.vertical);
+    if (s.place.text) drawTextWorld(signText(s.place.text), sx, sy, s.place.color, 1, s.place.vertical);
     if (s.place.icon) {
       const ic = ICONS[s.place.icon];
       if (ic) blit(ic, sx, sy, { kind: 1, tint: s.place.color });
@@ -230,6 +231,7 @@ export function renderWorld(o: RenderOpts) {
   }
   o.under?.();
   steam(o.dt, steamSrc, camX, camY);
+  if (def.net) { netLook(); bubbles(t, camX, camY); }
 
   const amb = rgbf(def.ambient);
   const lvl = Math.max(def.ambientLevel, def.inside ? 0.3 : 0.27);
@@ -276,14 +278,74 @@ export function renderWorld(o: RenderOpts) {
     addLight(lx, ly, 38, 0.34, f.c, { z: 30, through: true });
   }
   o.lights?.();
-  addSkyLight(def.inside ? 0 : 0.5);
+  addSkyLight(def.inside || def.net ? 0 : 0.5);
   castShadows(figs);
   setShade(def.shade ?? (def.district === 'brim' ? C.steel0 : def.district === 'stair' ? C.vio0 : C.vio0));
   composite();
   reflect(t);
-  if (def.rain && !def.inside) rain(o.dt, def.rain, camX, camY);
+  if (def.rain && !def.inside && !def.net) rain(o.dt, def.rain, camX, camY);
   o.over?.();
 }
+
+/** Net maps redraw every non-glowing world pixel into the cyan ramp by brightness. Red, steel, and cyan keep their color. */
+const NET_LUT = (() => {
+  const lut = new Uint8Array(N);
+  for (let i = 0; i < N; i++) {
+    const r = RAMP_OF[i];
+    if (r === 2 || r === 8 || r === 9 || i === C.black || i === C.ink || i === C.white) { lut[i] = i; continue; }
+    const l = LUMA[i];
+    lut[i] = l < 0.08 ? C.ink : l < 0.18 ? C.cyan0 : l < 0.32 ? C.cyan1 : l < 0.5 ? C.cyan2 : l < 0.7 ? C.cyan3 : l < 0.88 ? C.cyan4 : C.white;
+  }
+  return lut;
+})();
+
+/** Avatars sit two steps brighter than the world, and their brightest pixels glow, so they read against the net floor. */
+const NET_SPRITE = (() => {
+  const lut = new Uint8Array(N);
+  for (let i = 0; i < N; i++) {
+    const r = RAMP_OF[i];
+    if (r === 8 || i === C.black) { lut[i] = i; continue; }
+    const l = LUMA[i];
+    lut[i] = l < 0.12 ? C.cyan1 : l < 0.3 ? C.cyan2 : l < 0.5 ? C.cyan3 : l < 0.75 ? C.cyan4 : C.white;
+  }
+  return lut;
+})();
+
+function netLook() {
+  for (let i = 0; i < W * H; i++) {
+    if (emi[i] === 1) continue;
+    // Frost is flat: steel world pixels skip lighting so the Pale reads as one solid still wall.
+    if (emi[i] !== 2) { alb[i] = NET_LUT[alb[i]]; if (emi[i] === 0 && RAMP_OF[alb[i]] === 9 && alb[i] >= C.steel2) emi[i] = 1; continue; }
+    const c = NET_SPRITE[alb[i]];
+    alb[i] = c;
+    if (c === C.cyan4 || c === C.white) emi[i] = 1;
+  }
+}
+
+/** Data rising through the net like bubbles: single pixels on walkable tiles, placed by hash so they stay steady. */
+function bubbles(t: number, camX: number, camY: number) {
+  const m = WORLD.map!;
+  for (let k = 0; k < 48; k++) {
+    const wx = Math.floor(hash(k, 5, 61) * W) + Math.floor(camX / W) * W;
+    for (const ox of [0, W]) {
+      const x = wx + ox - camX;
+      if (x < 0 || x >= W) continue;
+      const speed = 4 + hash(k, 6, 61) * 6;
+      const span = H + 20;
+      const y = Math.floor(((hash(k, 7, 61) * span - t * speed) % span + span) % span) - 10;
+      if (y < 0 || y >= H) continue;
+      const cell = m.cells[Math.floor((y + camY) / T) * m.w + Math.floor((x + camX) / T)];
+      if (!cell || !cell.tile.walk) continue;
+      const i = y * W + x;
+      if (emi[i] === 2 || flo[i] === 0) continue;
+      alb[i] = k % 5 === 0 ? C.cyan3 : C.cyan2;
+      emi[i] = 1;
+    }
+  }
+}
+
+/** Sign text with the hero's and the port's names filled in. */
+function signText(t: string): string { return t.includes('{') ? t.split('{name}').join(G.heroName.toUpperCase()).split('{port}').join(G.port.name.toUpperCase()) : t; }
 
 const WINDOW_LIGHT: Record<number, number> = { [C.amb3]: 0xffb040, [C.cyan3]: 0x3ef0e8, [C.vio3]: 0x8a70ff, [C.mag3]: 0xff3aa8 };
 

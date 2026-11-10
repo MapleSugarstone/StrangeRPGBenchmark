@@ -81,6 +81,7 @@ export const crown: MapDef = {
     { x: 14.6, y: 1.2, text: 'PUMP HALL', color: C.red2, light: LIGHT.red },
     { x: 3.4, y: 7.2, text: 'KEEP FATHOM DRY', color: C.red2, holo: true },
     { x: 15.6, y: 12.4, icon: 'drop', color: C.red2, light: LIGHT.red, holo: true },
+    { x: 11.6, y: 1.3, text: 'DOWN', color: C.pale, showIf: 'ut2_done' },
   ],
   lights: [
     { x: 25.5, y: 19.5, r: 44, i: 0.8, color: LIGHT.cold },
@@ -106,10 +107,20 @@ export const crown: MapDef = {
       bark: ['Lifts are closed.', 'Board staff only.'],
     },
   ],
-  markers: { lobby_in: [16, 22], dowser_spot: [16, 5], hero_dowser: [16, 10], lift_front: [16, 3], lift_side: [12, 4], dowser_off: [16, 24], pull: [16, 0] },
+  markers: {
+    lobby_in: [16, 22],
+    dowser_spot: [16, 5],
+    hero_dowser: [16, 10],
+    lift_front: [16, 3],
+    lift_side: [12, 4],
+    dowser_off: [16, 24],
+    pull: [16, 0],
+    lift_down_out: [13, 3],
+  },
   exits: [
     { x: 16, y: 25, w: 2, h: 1, to: 'boardplaza', at: 'crown_out' },
     { x: 16, y: 2, w: 2, h: 1, to: 'pumphall', at: 'lift_out', showIf: 'crown_clear' },
+    { x: 13, y: 2, w: 1, h: 1, to: 'coldroom', at: 'lift_in', scene: 'ut_crown_down', showIf: 'ut2_done&crown_clear' },
   ],
   triggers: [
     { x: 2, y: 9, w: 30, h: 4, scene: 'dowser6', hideIf: 'crown_clear|dowser_fight' },

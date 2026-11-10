@@ -227,6 +227,71 @@ function moss(lx: number, ly: number, tx: number, ty: number): number {
   return concrete(lx, ly, tx, ty);
 }
 
+// Net tiles. The floor is a grid over dark water that drifts, frost is flat with no dither, and blocks are glyph rows.
+function netFloor(lx: number, ly: number, tx: number, ty: number, t: number): number {
+  const gx = tx * T + lx, gy = ty * T + ly;
+  if (lx === 0 && ly === 0) return C.cyan1;
+  if (lx === 0 || ly === 0) return (gx + gy) % 3 === 0 ? C.cyan0 : C.ink;
+  const wave = Math.sin(gy * 0.6 - t * 1.8 + Math.sin(gx * 0.21) * 1.4) + Math.sin(gx * 0.07 + t * 0.3);
+  if (wave > 1.55 && (gx + gy) % 2 === 0) return C.cyan0;
+  return hash(gx, gy, 40) < 0.02 ? C.night : C.black;
+}
+
+function netBlock(lx: number, ly: number, tx: number, ty: number): number {
+  if (lx === 0 || ly === 0) return C.cyan1;
+  if (ly % 3 === 0) return C.ink;
+  const h = hash(tx * T + (lx >> 1), ty * T + Math.floor(ly / 3), 41);
+  if (h < 0.35) return C.cyan0;
+  if (h < 0.4) return C.cyan2;
+  return C.ink;
+}
+
+function netBlockFace(lx: number, ly: number, tx: number, ty: number, row: number): number {
+  if (ly === 9) return C.black;
+  if (ly === 0) return C.cyan2;
+  const h = hash(tx * T + lx, ty * 5 + row * 2 + (ly >> 2), 42);
+  if ((ly & 1) === 0 && h < 0.45) return C.cyan1;
+  return C.ink;
+}
+
+function frostTex(lx: number, ly: number, tx: number, ty: number): number {
+  if (ly === 0) return C.steel4;
+  const h = hash(tx * T + lx, ty * T + ly, 43);
+  return h < 0.08 ? C.steel4 : C.steel3;
+}
+
+function frostFace(lx: number, ly: number, tx: number, ty: number, row: number): number {
+  if (ly === 9 && row === 0) return C.steel1;
+  if (ly === 0 && row === 1) return C.pale;
+  return (lx + tx * 3) % 7 === 0 ? C.steel4 : C.steel3;
+}
+
+function frostFloor(lx: number, ly: number, tx: number, ty: number): number {
+  if (lx === 0 || ly === 0) return C.steel2;
+  return hash(tx * T + lx, ty * T + ly, 44) < 0.1 ? C.steel3 : C.steel1;
+}
+
+function currentTex(lx: number, ly: number, tx: number, ty: number, t: number): number {
+  const gx = tx * T + lx, gy = ty * T + ly;
+  const f = Math.floor(gy - t * 14);
+  if ((gx * 3 + f) % 11 === 0) return C.cyan3;
+  if ((gx * 5 + f) % 7 === 0) return C.cyan2;
+  return (gx + f) % 2 === 0 ? C.cyan1 : C.cyan0;
+}
+
+function nodePad(lx: number, ly: number): number {
+  if (lx === 0 || ly === 0 || lx === 9 || ly === 9) return C.cyan3;
+  if (lx === 1 || ly === 1 || lx === 8 || ly === 8) return C.black;
+  return (lx + ly) % 2 === 0 ? C.cyan1 : C.cyan0;
+}
+
+function packetLine(lx: number, ly: number, tx: number, ty: number, t: number): number {
+  if (ly === 2 || ly === 7) return C.cyan2;
+  if (ly < 2 || ly > 7) return C.black;
+  const f = Math.floor(lx + tx * T + t * 10) % 6;
+  return f === 0 ? C.cyan3 : C.ink;
+}
+
 const D = (o: Partial<TileDef> & Pick<TileDef, 'ch' | 'name' | 'tex'>): TileDef => ({
   walk: true, opaque: false, cover: 0, wall: false, floor: 2, water: 'none', ...o,
 });
@@ -257,6 +322,13 @@ export const TILES: TileDef[] = [
   D({ ch: 'G', name: 'shopfront', tex: roof, wall: true, faceRows: 1, face: shopFace, walk: false, opaque: true, cover: 2, floor: 0 }),
   D({ ch: 'X', name: 'seawall', tex: roof, wall: true, faceRows: 2, face: seawallFace, walk: false, opaque: true, cover: 2, floor: 0 }),
   D({ ch: 'I', name: 'interior wall', tex: () => C.black, wall: true, faceRows: 1, face: (lx, ly) => (ly === 9 ? C.black : ly < 2 ? C.slate : C.night), walk: false, opaque: true, cover: 2, floor: 0 }),
+  D({ ch: 'A', name: 'net floor', tex: netFloor, floor: 1 }),
+  D({ ch: 'B', name: 'data block', tex: netBlock, wall: true, faceRows: 1, face: netBlockFace, walk: false, opaque: true, cover: 2, floor: 0 }),
+  D({ ch: 'E', name: 'frost', tex: frostTex, wall: true, faceRows: 2, face: frostFace, walk: false, opaque: true, cover: 2, floor: 0 }),
+  D({ ch: 'a', name: 'frost floor', tex: frostFloor, floor: 1 }),
+  D({ ch: 'd', name: 'current', tex: currentTex, floor: 4, water: 'shallow' }),
+  D({ ch: '+', name: 'node pad', tex: nodePad, floor: 1 }),
+  D({ ch: '-', name: 'packet line', tex: packetLine, floor: 1 }),
 ];
 
 export const TILE_BY_CH = new Map<string, TileDef>(TILES.map((t) => [t.ch, t]));

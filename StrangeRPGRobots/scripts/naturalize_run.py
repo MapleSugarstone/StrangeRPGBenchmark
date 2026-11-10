@@ -238,6 +238,10 @@ def clean(i, speaker, orig, new):
         if width(new) > cap:
             n = len(re.sub(r"\$\{[^}]*\}", "", orig))
             return None, f"too wide: {n}"
+    if i.startswith("data:") and speaker in ("PUZZLE TARGET", "BRANCH NAME") and width(new) > max(width(orig), 76):
+        return None, f"too wide: {len(orig)}"
+    if i.startswith("data:") and speaker == "NAME" and width(new) > max(round(width(orig) * 1.25), 60):
+        return None, f"too wide: {len(orig)}"
     if i.startswith("banter:") or ":b_" in i:
         cap = 46
     elif i.startswith("bark:"):

@@ -13,6 +13,7 @@
 > leave tova
 > leave ignace
 > music ending
+> if roster:anouk|ut1_done -> ut_ep_pale
 > goto ep_wall
 
 # ---------------------------------------------------------------- Who holds the Wall
@@ -650,6 +651,7 @@ Quaye: Twenty years left, give or take. Go on, kid. I'm counting.
 > goto ep_end
 
 == ep_end
+> if pale_thaw|pale_held -> ut_ep_end
 > wait 2
 > fade out 3
 > ending

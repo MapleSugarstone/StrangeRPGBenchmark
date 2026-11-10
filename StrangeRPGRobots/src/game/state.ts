@@ -75,6 +75,8 @@ export interface Save {
   seed?: number;
   /** Lore entries found, in the order found. */
   lore?: string[];
+  /** The meat-space tile the party dove from while it is in the net. */
+  dive?: { map: string; x: number; y: number; dir: Dir };
 }
 
 export function blankSave(): Save {

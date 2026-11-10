@@ -4,9 +4,10 @@ import { BATTLE_TRACKS } from './tracks-battle';
 import { BRIM_TRACKS } from './tracks-brim';
 import { DEEPS_TRACKS } from './tracks-deeps';
 import { STAIR_TRACKS } from './tracks-stair';
+import { NET_TRACKS } from './tracks-net';
 
 export const TRACKS: Record<string, TrackDef> = {
-  ...DEEPS_TRACKS, ...STAIR_TRACKS, ...BRIM_TRACKS, ...BATTLE_TRACKS,
+  ...DEEPS_TRACKS, ...STAIR_TRACKS, ...BRIM_TRACKS, ...BATTLE_TRACKS, ...NET_TRACKS,
 };
 
 /** Tracks the engine plays on its own: the victory sting and the defeat track. The game reaches them by events. */

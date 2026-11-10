@@ -3,21 +3,21 @@
 import { CB, dist, unitAt, foesOf, los, hitInfo, weaponFor, isMelee, coverOf, freeTile, rangeOf, rnd, roll, idx } from './core';
 import { type Unit, unitFromMember, unitFromEnemy, alive, has, hostile } from './unit';
 import { aiTurn } from './ai';
-import { startTurn, endTurn, tickSurfaces, useAbility, canUse, validTarget, areaOf, moveAlong, droneAct, runFrameQueue, float, ramCost, bloodCost, shoveChance, pause, MOOD_COLOR } from './actions';
+import { startTurn, endTurn, tickSurfaces, useAbility, canUse, validTarget, areaOf, moveAlong, droneAct, runFrameQueue, float, ramCost, bloodCost, shoveChance, pause, rangeFor, MOOD_COLOR } from './actions';
 import { ABILITY, ITEM, STATUSES, type AbilityDef } from '../rules/data';
 import { WORLD, propAt } from '../world/world';
 import { reachable, findPath, type Pt } from '../world/path';
 import { F, DIRS, regroup } from '../world/field';
 import { T } from '../world/tiles';
 import { G } from '../game/state';
-import { grantXp } from '../rules/stats';
+import { grantXp, maxUses } from '../rules/stats';
 import { LOOT } from '../content/loot';
 import { ENEMY } from '../rules/data';
 import { pressed, repeat, MOUSE, mouseActive, consume, isDown, type Button } from '../engine/input';
 import { W, H } from '../engine/screen';
 import { LAYOUT } from '../engine/layout';
 import { C, LIGHT } from '../engine/palette';
-import { rect, box, shadeRect, blitUI, upx, hline, dotFrame } from '../engine/gfx';
+import { rect, box, shadeRect, blitUI, upx, hline, dotFrame, frame } from '../engine/gfx';
 import { drawText, textWidth } from '../engine/font';
 import { addLight } from '../engine/light';
 import { abilityIcon } from '../art/abilityIcons';
@@ -57,6 +57,8 @@ const PI = {
   banner: { text: '', t: 0, color: C.pale as number },
   hoverBar: -1,
   hoverEnd: false,
+  /** Ability page when a kit has more than the number keys hold. */
+  page: 0,
   acting: false,
   tipT: 0,
 };
@@ -180,10 +182,26 @@ async function blowWind() {
   }
 }
 
+type Tide = { top: number; bottom: number; perRound?: number };
+
 function riseTide() {
   const def = WORLD.def!;
   const m = WORLD.map!;
   for (const id of CB.encounters) {
+    const ft = (def.encounters?.find((e) => e.id === id) as { frostTide?: Tide } | undefined)?.frostTide;
+    if (ft) {
+      const per = ft.perRound ?? 1;
+      for (let k = 0; k < per; k++) {
+        const row = ft.bottom - (CB.round - 1) * per - k;
+        if (row < ft.top) continue;
+        for (let x = 0; x < m.w; x++) {
+          const c = m.cells[row * m.w + x];
+          if (!c || !c.tile.walk || CB.surf.get(row * m.w + x)?.kind === 'wall') continue;
+          CB.surf.set(row * m.w + x, { kind: 'frost', turns: 999 });
+        }
+      }
+      if (!CB.sim) { PI.banner = { text: 'THE FROST SPREADS', t: 1.2, color: C.steel4 }; sfx('hush'); }
+    }
     const t = def.encounters?.find((e) => e.id === id)?.tide;
     if (!t) continue;
     const per = t.perRound ?? 1;
@@ -239,16 +257,19 @@ async function finish(win: boolean): Promise<boolean> {
       if (u.member) { u.member.hp = u.downed ? 1 : Math.max(1, u.hp); if (u.actor) u.actor.tint = undefined; }
       if (u.wake) { if (u.prop) u.prop.wake = null; }
     }
+    const spared = new Set(CB.units.filter((u) => u.spare && u.dead && u.actor).map((u) => u.actor!));
     for (const a of WORLD.actors) {
+      if (spared.has(a)) { a.role = 'npc'; a.encounter = undefined; a.tint = C.slate; a.lift = -3; a.hold = true; a.fade = undefined; continue; }
       if (a.role === 'enemy' && a.encounter && CB.encounters.includes(a.encounter)) a.gone = true;
       if (a.role === 'ally' && a.encounter && CB.encounters.includes(a.encounter)) { a.role = 'npc'; a.tint = undefined; a.encounter = undefined; a.fade = undefined; a.gone = false; }
     }
-    WORLD.actors = WORLD.actors.filter((a) => !a.gone && a.id !== 'turret');
+    WORLD.actors = WORLD.actors.filter((a) => !a.gone && a.id !== 'turret' && !a.id.startsWith('summon_'));
     for (const p of WORLD.props) if (p.wake && p.wake.by !== 'old' && p.wake.by !== 'line1') p.wake = null;
   }
+  if (!win) WORLD.actors = WORLD.actors.filter((a) => !a.id.startsWith('summon_'));
   CB.active = false;
   F.inCombat = false;
-  for (const a of WORLD.actors) { a.px = a.tx * T; a.py = a.ty * T; a.lift = 0; }
+  for (const a of WORLD.actors) { a.px = a.tx * T; a.py = a.ty * T; if (!a.hold) a.lift = 0; }
   regroup();
   WORLD.camTarget = null;
   return win;
@@ -261,23 +282,31 @@ function focusOn(u: Unit) {
 
 // ---------- the player's turn ----------
 
-function barFor(u: Unit): Bar[] {
-  const own = [{ id: 'attack', label: 'Attack', icon: 'attack' }];
+export function barFor(u: Unit): Bar[] {
+  const kit: { id: string; label: string; icon: string }[] = [];
   for (const id of u.abilities) {
     const a = ABILITY.get(id);
     if (!a || a.cost === 'reaction' || id === 'longwake') continue;
-    own.push({ id, label: a.name, icon: a.icon });
+    kit.push({ id, label: a.name, icon: a.icon });
   }
-  // At most ten: Attack, seven class abilities, and two from the port.
-  const out: Bar[] = own.slice(0, NUM_KEYS.length).map((b, i) => ({ ...b, key: NUM_KEYS[i][0], btn: NUM_KEYS[i][1] }));
+  // Ten number keys: Attack and nine abilities. A bigger kit pages, with the last key on More.
+  const per = kit.length > NUM_KEYS.length - 1 ? NUM_KEYS.length - 2 : NUM_KEYS.length - 1;
+  const pages = Math.max(1, Math.ceil(kit.length / per));
+  if (PI.page >= pages) PI.page = 0;
+  const own = [{ id: 'attack', label: 'Attack', icon: 'attack' }, ...kit.slice(PI.page * per, PI.page * per + per)];
+  if (pages > 1) { while (own.length < NUM_KEYS.length - 1) own.push({ id: 'blank', label: '', icon: '' }); own.push({ id: 'more', label: `More ${PI.page + 1}/${pages}`, icon: 'more' }); }
+  const out: Bar[] = own.map((b, i) => ({ ...b, key: NUM_KEYS[i][0], btn: NUM_KEYS[i][1] })).filter((b) => b.id !== 'blank');
   return [...out, ...SHARED];
 }
+
+function nextPage(u: Unit) { PI.page++; PI.bar = barFor(u); sfx('cursor'); }
 
 function refreshReach(u: Unit) {
   PI.reach = reachable(u.x, u.y, u.moveLeft, (x, y) => !freeTile(x, y, u));
 }
 
 async function playerTurn(u: Unit): Promise<void> {
+  PI.page = 0;
   PI.bar = barFor(u);
   PI.mode = 'move';
   PI.ab = null;
@@ -350,6 +379,7 @@ function selectBar(i: number) {
   const b = PI.bar[i];
   const u = CB.cur!;
   if (!b) return;
+  if (b.id === 'more') { nextPage(u); return; }
   if (b.id === 'item') {
     if (!u.action && u.extraActions <= 0 && !u.bonus) { sfx('error'); return; }
     PI.mode = 'items'; PI.itemSel = 0; sfx('menu'); return;
@@ -396,6 +426,7 @@ export function updateCombat(dt: number) {
   if (isDown('tab')) PI.showOrder = Math.max(PI.showOrder, 0.1);
   if (pressed('end')) { sfx('turn'); endPlayerTurn(); return; }
   if (PI.mode === 'items') { updateItems(u); return; }
+  if (pressed('map') && PI.bar.some((b) => b.id === 'more')) nextPage(u);
   for (let i = 0; i < PI.bar.length; i++) if (pressed(PI.bar[i].btn)) { selectBar(i); break; }
   if (repeat('left')) cursorMove(-1, 0);
   if (repeat('right')) cursorMove(1, 0);
@@ -408,7 +439,7 @@ export function updateCombat(dt: number) {
     const i = Math.floor((MOUSE.x - 3) / 11);
     const inRow = MOUSE.y >= SLOT_Y - 9 && MOUSE.y < SLOT_Y + 12;
     if (inRow && MOUSE.x >= END_X - 1) PI.hoverEnd = true;
-    else if (inRow && i >= 0 && i < PI.bar.length) PI.hoverBar = i;
+    else if (inRow && i >= 0) { const k = PI.bar.findIndex((b) => slotOf(b) === i); if (k >= 0) PI.hoverBar = k; }
     if (MOUSE.left && PI.hoverBar >= 0) { consume(); selectBar(PI.hoverBar); return; }
     if (MOUSE.left && PI.hoverEnd) { consume(); sfx('turn'); endPlayerTurn(); return; }
   } else if (mouseActive() && (MOUSE.moved || MOUSE.left)) {
@@ -523,6 +554,10 @@ export function renderCombat() {
   const m = WORLD.map!;
   for (const [k, s] of CB.surf) {
     const x = k % m.w, y = Math.floor(k / m.w);
+    const sx = x * T - cx, sy = y * T - cy;
+    if (s.kind === 'wall') { rect(sx, sy, T, T, C.steel2); hline(sx, sy, T, C.pale); rect(sx, sy + 1, 1, T - 1, C.steel3); rect(sx + T - 1, sy + 1, 1, T - 1, C.steel1); hline(sx, sy + T - 1, T, C.steel1); continue; }
+    if (s.kind === 'frost') { frame(sx, sy, T, T, C.steel3); upx(sx + 3, sy + 3, C.pale); upx(sx + 6, sy + 6, C.pale); continue; }
+    if (s.kind === 'mine') { if (s.side === 'party') { rect(sx + 3, sy + 3, 4, 4, C.black); rect(sx + 4, sy + 4, 2, 2, C.amb3); } continue; }
     const col = s.kind === 'fire' ? C.amb3 : s.kind === 'shock' ? C.cyan3 : s.kind === 'smoke' ? C.gray : s.kind === 'oil' ? C.mud0 : s.kind === 'foam' ? C.pale : s.kind === 'water' ? C.cyan1 : C.red1;
     tileTint(x, y, s.kind === 'smoke' ? 0.55 : 0.4, col);
   }
@@ -531,9 +566,9 @@ export function renderCombat() {
     if (PI.mode === 'target') {
       const a = PI.item ? itemAbility(PI.item) : ABILITY.get(PI.ab!)!;
       const ok = (x: number, y: number) => (PI.item ? itemTargetOk(u, PI.item, x, y) : validTarget(u, a, x, y));
-      const r = a.id === 'attack' ? 12 : a.range + 1;
+      const r = a.id === 'attack' ? 12 : rangeFor(u, a) + 1;
       for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) { const x = u.x + dx, y = u.y + dy; if (ok(x, y)) tileTint(x, y, 0.3, C.mag1); }
-      if (ok(PI.cx, PI.cy) && (a.area || a.id === 'blur')) for (const [x, y] of areaOf(u, a, PI.cx, PI.cy)) tileTint(x, y, 0.4, C.amb2);
+      if (ok(PI.cx, PI.cy) && (a.area || a.id === 'blur' || a.shape || a.wall)) for (const [x, y] of areaOf(u, a, PI.cx, PI.cy)) tileTint(x, y, 0.4, a.wall ? C.steel3 : C.amb2);
     }
     if (PI.path) for (const [x, y] of PI.path) { const px = x * T + 4 - cx, py = y * T + 4 - cy; rect(px, py, 2, 2, C.pale); }
     // Cursor.
@@ -626,6 +661,13 @@ function renderOrder() {
   }
 }
 
+/** Column of a bar entry: number keys sit in key order, the shared actions after them. */
+function slotOf(b: Bar): number {
+  const n = NUM_KEYS.findIndex((k) => k[1] === b.btn);
+  if (n >= 0) return n;
+  return NUM_KEYS.length + SHARED.findIndex((s) => s.id === b.id);
+}
+
 function renderBar(u: Unit) {
   const top = BAR_TOP;
   rect(0, top - 1, W, H - top + 1, C.black);
@@ -653,9 +695,10 @@ function renderBar(u: Unit) {
   if (u.droneMax) drawText(`D${u.droneHp}`, x, top + 2, u.droneHp ? C.mag3 : C.slate);
   // Ability icons, each under the key that picks it.
   PI.bar.forEach((b, i) => {
-    const bx = 3 + i * 11;
+    const bx = 3 + slotOf(b) * 11;
     let ok: boolean;
     if (b.id === 'item') ok = (u.action || u.extraActions > 0 || u.bonus) && usableItems().length > 0;
+    else if (b.id === 'more') ok = true;
     else ok = canUse(u, b.id);
     const sel = (PI.mode === 'target' && PI.ab === b.id) || (PI.mode === 'items' && b.id === 'item');
     const hover = PI.hoverBar === i;
@@ -677,10 +720,10 @@ function renderBar(u: Unit) {
       if (a.cost === 'bonus') parts.push('bonus');
       if (a.ram) parts.push(`${ramCost(u, a)} RAM`);
       if (a.blood) parts.push(`${bloodCost(u, a)} HP`);
-      if (a.uses) parts.push(`${a.uses.n}/${a.uses.per === 'fight' ? 'fight' : a.uses.per + ' rest'}`);
+      if (a.uses) parts.push(`${u.member ? maxUses(u.member.perks, a.id) : a.uses.n}/${a.uses.per === 'fight' ? 'fight' : a.uses.per + ' rest'}`);
       if (parts.length) line += ` (${parts.join(', ')})`;
     }
-    const desc = a?.desc ?? 'Use a stim, grenade, or vial.';
+    const desc = hb.id === 'more' ? 'Q: next page' : a?.desc ?? 'Use a stim, grenade, or vial.';
     renderTip(line, desc);
   } else if (PI.mode === 'target' && PI.item && PI.tipT > 0) {
     const it = ITEM.get(PI.item)!;

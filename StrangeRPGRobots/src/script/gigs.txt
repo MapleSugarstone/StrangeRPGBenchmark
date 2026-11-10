@@ -396,6 +396,10 @@ Kat: Runner. I've got songs tonight.
 - ?gig_driver_done&!gig_driver_paid Sunday is done. -> r7
 - ?gig_repo_done&!gig_repo_paid Breathe is done. -> r8
 - ?gig_relay_on&!gig_relay_done Take me up to the relay. -> roof
+- ?ut_met&!quest:ut_bounty Three Drifts. -> ut_kat_bounty
+- ?ut1_done&!quest:ut_arrears Arrears Night. -> ut_kat_arrears
+- ?quest:ut_bounty&!quest:ut_bounty=done Three Drifts. -> ut_kat_bounty
+- ?quest:ut_arrears&!quest:ut_arrears=done Arrears Night. -> ut_kat_arrears
 - Not tonight. -> bye
 * g4
 Kat: This one's called Her Voice. Nienke sings at Violet, right behind me.

@@ -1,9 +1,10 @@
 // Everything a unit can do in a fight, with its animation: moving, attacking, abilities, items, shoves,
 // jumps, wakes, explosions, and what happens at the start and end of each turn.
-import { CB, roll, rnd, dist, cheb, unitAt, standing, foesOf, friendsOf, los, hitInfo, weaponFor, isMelee, rangeOf, difficultyDamage, idx, isWet, freeTile, surfaceAt, type SurfaceKind } from './core';
-import { type Unit, has, addStatus, alive, hostile, perk, unitFromProp } from './unit';
-import { ABILITY, ITEM, STATUSES, type AbilityDef, type ItemDef, type Feeling, type DType } from '../rules/data';
-import { WORLD, walkable, elevAt, propAt, rebuildGrids, type PropInst } from '../world/world';
+import { CB, roll, rnd, dist, cheb, unitAt, standing, foesOf, friendsOf, los, hitInfo, weaponFor, isMelee, rangeOf, difficultyDamage, idx, isWet, freeTile, surfaceAt, wallAt, frostAt, type SurfaceKind } from './core';
+import { type Unit, has, addStatus, alive, hostile, perk, unitFromProp, unitFromEnemy, canReact, isNet } from './unit';
+import { ABILITY, ENEMY, ITEM, STATUSES, type AbilityDef, type ItemDef, type Feeling, type DType, type Attr } from '../rules/data';
+import { maxUses, modDmg } from '../rules/stats';
+import { WORLD, walkable, elevAt, propAt, rebuildGrids, type PropInst, type Actor } from '../world/world';
 import { cellAt } from '../world/map';
 import { lineTiles, stepOk } from '../world/path';
 import { T } from '../world/tiles';
@@ -13,6 +14,9 @@ import { G } from '../game/state';
 import { sfx, combatEvent } from '../audio/sfx';
 
 export function pause(s: number): Promise<void> { return CB.sim ? Promise.resolve() : wait(s); }
+
+/** Set by ai.ts, which imports this file, so Heartbeat can run a woken object's turn. */
+export const HOOKS = { wokenTurn: null as null | ((u: Unit) => Promise<void>) };
 
 export function float(u: { x: number; y: number }, text: string, color: number) {
   if (CB.sim) return;
@@ -105,7 +109,20 @@ export function face(u: Unit, t: { x: number; y: number }) {
 /** Damage that grows with level, so fights stay short as hit points grow. */
 export function levelBonus(u: Unit): number { return u.prop ? 0 : Math.floor((u.level - 1) * 0.6); }
 
+/** Bonus damage from perks for hacks: network abilities and hack damage. */
+export function hackBonus(u: Unit): number { return modDmg(u.mod, 'hack'); }
+
 // ---------- damage ----------
+
+/** The hero and the port stand side by side and the port has One Body. */
+function oneBody(x: Unit): boolean {
+  if (x.member?.id !== 'hero' && x.member?.cls !== 'port') return false;
+  const port = CB.units.find((o) => o.member?.cls === 'port' && alive(o) && perk(o, 'one_body'));
+  const hero = CB.units.find((o) => o.member?.id === 'hero' && alive(o));
+  return !!port && !!hero && dist(port, hero) === 1;
+}
+
+function wakerOf(u: Unit): Unit | undefined { return u.wake ? CB.units.find((o) => o.id === u.wake!.by) : undefined; }
 
 export async function damage(t: Unit, n: number, type: DType, src: Unit | null, crit = false): Promise<number> {
   if (!alive(t)) return 0;
@@ -115,13 +132,35 @@ export async function damage(t: Unit, n: number, type: DType, src: Unit | null, 
   if (type === 'kinetic') d -= t.plating;
   if (type === 'shock' && isWet(t.x, t.y)) d = Math.round(d * 1.5);
   if (type === 'shock' && t.machine) d += 2;
-  if (type === 'hack' && src && perk(src, 'overload')) d += 2;
   if (src?.side === 'enemy' && type === 'shock' && t.side === 'party' && CB.units.some((u) => u.side === 'party' && perk(u, 'firewall'))) d = Math.ceil(d / 2);
   if (type === 'fire' && isWet(t.x, t.y)) d = Math.ceil(d / 2);
+  if (src) {
+    if (has(t, 'frosted') && CB.units.some((x) => alive(x) && hostile(x, t) && perk(x, 'brittle'))) d += 2;
+    const waker = wakerOf(src);
+    if (waker && src.wake?.feeling === 'anger' && perk(waker, 'temper')) d += 2;
+    if ((src.wake || src.summoned !== undefined) && src.side === 'party' && CB.units.some((x) => x.side === 'party' && perk(x, 'siblings'))) d += 2;
+    if (perk(src, 'last_stand') && src.hp < src.maxHp / 2) d += 3;
+    if (oneBody(src)) d += 3;
+  }
+  if (has(t, 'braced')) d -= 3;
+  if (perk(t, 'last_stand') && t.hp < t.maxHp / 2) d -= 2;
+  if (perk(t, 'calm_center') && t.mood === 'calm') d -= 3;
+  if (oneBody(t)) d -= 2;
   d = Math.max(1, d);
+  if (src && d >= 5 && t.abilities.includes('numb') && canReact(t) && usesOk(t, 'numb')) {
+    t.reaction = false;
+    markUse(t, ABILITY.get('numb')!);
+    float(t, 'NUMB', C.steel4);
+    sfx('hush');
+    return 0;
+  }
+  if (t.hp - d <= 0 && t.side === 'party' && t.member) {
+    const r = CB.units.find((x) => alive(x) && x.side === 'party' && perk(x, 'lifeline') && x.droneHp > 0 && !x.spentFight.lifeline);
+    if (r) { r.spentFight.lifeline = 1; float(t, 'LIFELINE', C.grn3); heal(t, 10); return 0; }
+  }
   if (t.hp - d <= 0 && perk(t, 'unbroken') && !t.unbrokenUsed) { t.unbrokenUsed = true; d = t.hp - 1; float(t, 'UNBROKEN', C.amb3); }
   t.hp -= d;
-  float(t, crit ? `${d}!` : `${d}`, crit ? C.amb4 : type === 'shock' ? C.cyan3 : type === 'fire' ? C.amb3 : C.white);
+  float(t, crit ? `${d}!` : `${d}`, crit ? C.amb4 : type === 'shock' ? C.cyan3 : type === 'fire' ? C.amb3 : type === 'hack' ? C.cyan4 : C.white);
   if (t.actor && !CB.sim) { const a = t.actor; const ox = a.px; a.px += src && src.x < t.x ? 1 : -1; setTimeoutFrames(() => { a.px = ox; }, 4); }
   sfx(crit ? 'crit' : 'hit', { pitch: 0.9 + rnd() * 0.2 });
   if (t.member?.cls === 'witch') moodOnHit(t, d);
@@ -166,6 +205,7 @@ async function fall(t: Unit, src: Unit | null) {
     sfx('explode', { vol: 0.5 });
     return;
   }
+  if (t.summoned !== undefined) { t.dead = true; CB.order = CB.order.filter((x) => x !== t); void dissipate(t); return; }
   if (t.side === 'party' && !t.member && t.actor?.role === 'ally') { t.downed = true; if (t.actor) t.actor.tint = C.slate; float(t, 'DOWN', C.mag3); return; }
   if (t.side === 'party' && t.member) {
     t.downed = true;
@@ -177,9 +217,16 @@ async function fall(t: Unit, src: Unit | null) {
     return;
   }
   t.dead = true;
+  if (src && perk(src, 'momentum')) src.bonus = true;
+  if (t.spare) {
+    // Knocked out and freed: it lies down, with no kill sound and no gas.
+    CB.log.push(`${t.name} is free`);
+    if (t.actor) { t.actor.tint = C.slate; t.actor.lift = -3; }
+    float(t, 'FREE', C.cyan3);
+    return;
+  }
   CB.log.push(`${t.name} falls`);
   combatEvent('kill');
-  if (src && perk(src, 'momentum')) src.bonus = true;
   if (src?.wake?.by) { const w = CB.units.find((u) => u.id === src.wake!.by); if (w?.member?.cls === 'witch') setMood(w, 'joy'); }
   void dissipate(t);
 }
@@ -206,7 +253,7 @@ export async function moveAlong(u: Unit, path: [number, number][], free = false)
   for (const [x, y] of path) {
     if (!alive(u)) return;
     if (!freeTile(x, y, u) && !(u.prop && propAt(x, y) === u.prop)) return;
-    const leaving = !free ? foesOf(u).filter((e) => e.reaction && !e.dormant && dist(e, u) === 1 && isMelee(e.melee) && !e.prop && !has(e, 'stunned') && !has(e, 'shocked')) : [];
+    const leaving = !free ? foesOf(u).filter((e) => canReact(e) && !e.dormant && dist(e, u) === 1 && isMelee(e.melee) && !e.prop) : [];
     setPos(u, x, y);
     if (!free && u.moveLeft > 0) u.moveLeft--;
     sfx('step', { vol: 0.4, pitch: 0.9 + rnd() * 0.2 });
@@ -215,11 +262,17 @@ export async function moveAlong(u: Unit, path: [number, number][], free = false)
     await enterTile(u);
     if (!alive(u)) return;
     for (const e of foesOf(u)) {
-      if (has(e, 'overwatch') && e.reaction && e.ranged && los(e, u) && dist(e, u) <= rangeOf(e.ranged) + 2) {
+      if (has(e, 'overwatch') && canReact(e) && e.ranged && los(e, u) && dist(e, u) <= rangeOf(e.ranged) + 2) {
         e.status.delete('overwatch');
         e.reaction = false;
         float(e, 'OVERWATCH', C.amb3);
         await attack(e, u, e.ranged, { reaction: true });
+        if (!alive(u)) return;
+      }
+      if (perk(e, 'sentinel') && canReact(e) && dist(e, u) <= 2 && CB.units.some((g) => g.guardedBy === e.id && has(g, 'guarded') && alive(g) && dist(g, u) === 1)) {
+        e.reaction = false;
+        float(e, 'SENTINEL', C.cyan3);
+        await attack(e, u, e.melee, { reaction: true });
         if (!alive(u)) return;
       }
     }
@@ -234,6 +287,15 @@ async function enterTile(u: Unit) {
   if (s.kind === 'shock') { await damage(u, 4, 'shock', null); addStatus(u, 'shocked', 1); }
   if (s.kind === 'oil' && !u.flying && rnd() < 0.35) { addStatus(u, 'prone', 1); float(u, 'SLIP', C.pale); }
   if (s.kind === 'foam') { addStatus(u, 'immobile', 1); u.moveLeft = 0; }
+  if (s.kind === 'mine' && s.side !== u.side && !u.flying) {
+    CB.surf.delete(idx(u.x, u.y));
+    sfx('explode');
+    sparks(u.x * T + 5, u.y * T + 5, 16, C.amb4, 50);
+    CB.stats.env++;
+    await damage(u, roll(6, 10), 'kinetic', null);
+    applyStatus(u, 'stunned', 1);
+    u.moveLeft = 0;
+  }
 }
 
 // ---------- attacks ----------
@@ -243,7 +305,21 @@ export interface AttackOpts { bonusDmg?: number; mult?: number; reaction?: boole
 export async function attack(u: Unit, t: Unit, w: ItemDef | null, o: AttackOpts = {}): Promise<boolean> {
   if (!alive(u) || !alive(t)) return false;
   const guard = guardOf(t);
-  if (guard && guard !== u) { float(guard, 'GUARD', C.cyan3); t.status.delete('guarded'); t.guardedBy = undefined; t = guard; sfx('guard'); }
+  let mult = o.mult ?? 1;
+  if (guard && guard !== u) {
+    float(guard, 'GUARD', C.cyan3); t.status.delete('guarded'); t.guardedBy = undefined; t = guard; sfx('guard');
+    if (perk(guard, 'bastion')) mult *= 0.5;
+  } else if (t.member?.id === 'hero' && hostile(u, t)) {
+    const port = CB.units.find((p) => p !== t && p.abilities.includes('holdon') && alive(p) && canReact(p) && dist(p, t) <= 3 && !hostile(p, t));
+    if (port) {
+      port.reaction = false;
+      float(port, 'HOLD ON', C.cyan4);
+      sfx('port');
+      t = port;
+      if (perk(port, 'strong_hold')) await damage(u, roll(4, 6) + hackBonus(port), 'hack', port);
+      if (!alive(u)) return false;
+    }
+  }
   face(u, t);
   const melee = isMelee(w);
   const shots = w?.shots ?? 1;
@@ -255,7 +331,12 @@ export async function attack(u: Unit, t: Unit, w: ItemDef | null, o: AttackOpts 
     if (melee) await lungeAnim(u, t); else { tracer(u, t, w?.dtype === 'shock' ? C.cyan3 : C.amb4); sfx(gunSfx(w)); }
     const hitRoll = rnd() * 100;
     let hit = o.forceHit || hitRoll < info.chance;
-    if (hit && !o.forceHit && t.abilities.includes('reflexstep') && t.reaction && !has(t, 'stunned')) {
+    if (hit && !o.forceHit && perk(t, 'afterimage') && t.spentFight.afterimage !== CB.round) {
+      t.spentFight.afterimage = CB.round;
+      hit = false;
+      float(t, 'AFTERIMAGE', C.vio3);
+    }
+    if (hit && !o.forceHit && t.abilities.includes('reflexstep') && canReact(t)) {
       t.reaction = false;
       hit = false;
       G.port.hold += 1;
@@ -266,7 +347,7 @@ export async function attack(u: Unit, t: Unit, w: ItemDef | null, o: AttackOpts 
     if (!hit) {
       float(t, 'MISS', C.gray);
       sfx('miss');
-      if (melee && !o.reaction && t.abilities.includes('riposte') && t.reaction && alive(t) && dist(t, u) === 1) {
+      if (melee && !o.reaction && t.abilities.includes('riposte') && canReact(t) && alive(t) && dist(t, u) === 1) {
         t.reaction = false;
         float(t, 'RIPOSTE', C.amb3);
         await attack(t, u, t.melee, { reaction: true });
@@ -279,17 +360,24 @@ export async function attack(u: Unit, t: Unit, w: ItemDef | null, o: AttackOpts 
     let critChance = 5 + (info.flank ? 5 : 0) + (perk(u, 'reaper') ? 5 : 0);
     if (has(u, 'hidden')) critChance += 15;
     const crit = rnd() * 100 < critChance;
-    const [a, b] = o.ability?.dmg ?? w?.dmg ?? [1, 3];
+    const ab = o.ability;
+    const [a, b] = (ab?.weapon ? undefined : ab?.dmg) ?? w?.dmg ?? [1, 3];
     let n = roll(a, b) + (o.bonusDmg ?? 0) + levelBonus(u);
-    if (melee) n += Math.floor(u.attr.body / 2) + (perk(u, 'brawler') ? 2 : 0);
+    if (melee) n += Math.floor(u.attr.body / 2) + modDmg(u.mod, 'melee');
+    else n += modDmg(u.mod, 'ranged');
     if (has(t, 'marked') && CB.units.some((x) => x.side === u.side && perk(x, 'hunter'))) n += 2;
-    if (o.mult) n = Math.round(n * o.mult);
+    if (mult !== 1) n = Math.round(n * mult);
     if (crit) n *= 2;
-    const dtype: DType = o.ability?.dtype ?? w?.dtype ?? 'kinetic';
+    const dtype: DType = (ab?.weapon ? undefined : ab?.dtype) ?? w?.dtype ?? 'kinetic';
     await damage(t, n, dtype, u, crit);
     if (dtype === 'shock') await arcShock(t, Math.ceil(n / 2), u);
-    const st = o.ability?.status ?? w?.status;
-    if (st && alive(t) && rnd() < (st.chance ?? 1) * (perk(u, 'shock_fist') && st.id === 'stunned' ? 1.6 : 1)) applyStatus(t, st.id, st.turns);
+    if (!alive(t) && t.dead && melee && perk(u, 'bloodrush') && u.spentFight.bloodrush !== CB.round) {
+      u.spentFight.bloodrush = CB.round;
+      u.extraActions++;
+      float(u, 'BLOODRUSH', C.mag3);
+    }
+    const st = ab?.status ?? w?.status;
+    if (st && alive(t) && rnd() < (st.chance ?? 1) * (perk(u, 'shock_fist') && st.id === 'stunned' ? 1.6 : 1)) applyStatus(t, st.id, st.turns, u);
     if (w?.knock && alive(t)) await push(t, Math.sign(t.x - u.x), Math.sign(t.y - u.y), w.knock, u);
     await pause(0.1);
   }
@@ -304,6 +392,7 @@ function gunSfx(w: ItemDef | null): string {
   if (w.id === 'shotgun') return 'shotgun';
   if (w.id === 'rifle') return 'rifle';
   if (w.dtype === 'shock') return 'shock';
+  if (w.dtype === 'hack') return 'hack';
   return 'pistol';
 }
 
@@ -335,13 +424,20 @@ async function arcShock(t: Unit, n: number, src: Unit) {
   }
 }
 
-export function applyStatus(t: Unit, id: string, turns: number) {
+/** Applies a status. The source's perks may lengthen it, and a good status a unit gives itself on its own turn lasts until its next turn ends. */
+export function applyStatus(t: Unit, id: string, turns: number, src?: Unit | null) {
   if (!alive(t)) return;
   if (id === 'stunned' && t.boss && rnd() < 0.5) { float(t, 'RESISTS', C.gray); return; }
   if (id === 'burning' && has(t, 'wet')) return;
+  if (src) turns += src.mod.statusTurns?.[id] ?? 0;
+  if (CB.cur === t && STATUSES[id]?.good) turns += 1;
   addStatus(t, id, turns);
   float(t, (STATUSES[id]?.name ?? id).toUpperCase(), STATUSES[id]?.good ? C.grn3 : C.mag3);
 }
+
+const NOT_CLEANSED = new Set(['turncoat', 'hidden', 'wet']);
+function cleanse(t: Unit) { for (const k of [...t.status.keys()]) if (STATUSES[k] && !STATUSES[k].good && !NOT_CLEANSED.has(k)) t.status.delete(k); if (t.actor && !has(t, 'hushed') && !t.downed) t.actor.tint = undefined; }
+function strip(t: Unit) { for (const k of [...t.status.keys()]) if (STATUSES[k]?.good) t.status.delete(k); }
 
 // ---------- shove, push, fall ----------
 
@@ -364,7 +460,7 @@ export async function push(t: Unit, dx: number, dy: number, n: number, src: Unit
       return;
     }
     const blocker = unitAt(nx, ny);
-    if (!walkable(nx, ny) || (blocker && alive(blocker))) {
+    if (!walkable(nx, ny) || wallAt(nx, ny) || (blocker && alive(blocker))) {
       float(t, 'BUMP', C.pale);
       await damage(t, 2 + (src ? Math.floor(src.attr.body / 3) : 0), 'kinetic', src);
       if (blocker && alive(blocker)) await damage(blocker, 2, 'kinetic', src);
@@ -382,6 +478,18 @@ export async function push(t: Unit, dx: number, dy: number, n: number, src: Unit
     }
     await enterTile(t);
     if (surfaceAt(nx, ny)?.kind === 'fire') CB.stats.env++;
+  }
+}
+
+/** Pulls a unit up to n tiles toward the puller, one tile at a time, stopping next to it. */
+export async function pull(t: Unit, by: Unit, n: number) {
+  for (let i = 0; i < n; i++) {
+    if (!alive(t) || dist(t, by) <= 1) return;
+    const dx = t.x - by.x, dy = t.y - by.y;
+    const sx = Math.abs(dx) >= Math.abs(dy) ? -Math.sign(dx) : 0, sy = Math.abs(dx) >= Math.abs(dy) ? 0 : -Math.sign(dy);
+    const ox = t.x, oy = t.y;
+    await push(t, sx, sy, 1, by);
+    if (t.x === ox && t.y === oy) return;
   }
 }
 
@@ -436,10 +544,22 @@ export function setSurface(x: number, y: number, kind: SurfaceKind, turns: numbe
   if (!walkable(x, y) && cellAt(WORLD.map!, x, y).tile.water !== 'deep') return;
   const k = idx(x, y);
   const cur = CB.surf.get(k);
+  if (cur?.kind === 'wall') return;
   if (kind === 'fire' && (isWet(x, y) || (WORLD.def?.rain && !WORLD.def.inside && rnd() < 0.3))) return;
   if (kind === 'shock' && !isWet(x, y)) return;
   if (cur && cur.kind === 'oil' && kind === 'fire') turns += 1;
   CB.surf.set(k, { kind, turns });
+}
+
+/** Frost wall on each walkable tile with nobody on it. Walls block movement and sight until they melt. */
+export function raiseWall(tiles: [number, number][], turns: number) {
+  let n = 0;
+  for (const [x, y] of tiles) {
+    if (!walkable(x, y) || unitAt(x, y) || propAt(x, y)) continue;
+    CB.surf.set(idx(x, y), { kind: 'wall', turns });
+    n++;
+  }
+  if (n) { sfx('hush'); for (const [x, y] of tiles) sparks(x * T + 5, y * T + 5, 3, C.steel4, 14, false); }
 }
 
 export async function explode(x: number, y: number, r: number, dmg: [number, number], dtype: DType, src: Unit | null, status?: { id: string; turns: number; chance?: number }) {
@@ -452,7 +572,7 @@ export async function explode(x: number, y: number, r: number, dmg: [number, num
     const u = unitAt(tx, ty);
     if (u && alive(u)) {
       await damage(u, roll(dmg[0], dmg[1]), dtype, src);
-      if (status && alive(u) && rnd() < (status.chance ?? 1)) applyStatus(u, status.id, status.turns);
+      if (status && alive(u) && rnd() < (status.chance ?? 1)) applyStatus(u, status.id, status.turns, src);
     }
     const p = propAt(tx, ty);
     if (p && p.def.explode && !p.broken && (dx || dy)) { p.broken = true; rebuildGrids(); CB.stats.env++; await explode(p.x, p.y, 1, [6, 10], 'fire', src); }
@@ -488,6 +608,8 @@ export async function wakeProp(p: PropInst, by: Unit, feeling: Feeling, turns: n
   sfx('wake');
   p.wake = { feeling, turns, by: by.id };
   const u = unitFromProp(p, by, feeling, turns);
+  if (perk(by, 'iron_heart')) { u.hp *= 2; u.maxHp *= 2; }
+  if (perk(by, 'thunderhead')) u.wake!.twice = true;
   CB.units.push(u);
   const i = CB.order.indexOf(by);
   CB.order.splice(i + 1, 0, u);
@@ -509,52 +631,96 @@ export async function hush(t: Unit, src: Unit) {
   sfx('hush');
   tracer(src, t, C.steel4);
   if (t.prop && t.wake) { t.prop.hushed = 3; float(t, 'HUSHED', C.steel4); endWake(t); return; }
-  if (t.member?.id === 'courtesy' || t.wake) { addStatus(t, 'hushed', 2); float(t, 'HUSHED', C.steel4); if (t.actor) t.actor.tint = C.steel3; return; }
+  if (t.member?.id === 'courtesy' || t.wake || t.woken) { addStatus(t, 'hushed', 2); float(t, 'HUSHED', C.steel4); if (t.actor) t.actor.tint = C.steel3; return; }
   float(t, 'NO EFFECT', C.gray);
+}
+
+/** Calls an enemy kind onto a tile for the caller's side. It goes after the given number of its own turns. */
+export function summonUnit(by: Unit, kind: string, x: number, y: number, turns: number): Unit | null {
+  const e = ENEMY.get(kind);
+  if (!e || !freeTile(x, y) || propAt(x, y)) return null;
+  const id = `summon_${kind}_${CB.round}_${x}_${y}_${CB.units.length}`;
+  const actor: Actor = { id, name: e.name, sheet: sheetFor(e.look), tx: x, ty: y, px: x * T, py: y * T, dir: 'down', anim: 0, moving: false, path: [], speed: 6, role: by.side === 'party' ? 'ally' : 'enemy', idle: 0, visible: true, lift: 0, alert: 0 };
+  const s = unitFromEnemy(kind, actor, by.side === 'party' ? by.level : undefined);
+  s.side = by.side;
+  s.xp = 0;
+  s.summoned = turns;
+  s.owner = by.id;
+  if (by.side === 'party') s.name = e.name;
+  WORLD.actors.push(actor);
+  CB.units.push(s);
+  CB.order.splice(CB.order.indexOf(by) + 1, 0, s);
+  sparks(x * T + 5, y * T + 5, 10, C.cyan4, 25);
+  sfx('port');
+  return s;
 }
 
 // ---------- abilities ----------
 
+function usesOk(u: Unit, id: string): boolean {
+  const a = ABILITY.get(id);
+  if (!a?.uses) return true;
+  const used = a.uses.per === 'fight' ? u.spentFight[id] ?? 0 : u.member?.spent[id] ?? u.spentFight[id] ?? 0;
+  const n = u.member ? maxUses(u.member.perks, id) : a.uses.n;
+  return used < n;
+}
+
+function markUse(u: Unit, a: AbilityDef) {
+  if (!a.uses) return;
+  if (a.uses.per === 'fight' || !u.member) u.spentFight[a.id] = (u.spentFight[a.id] ?? 0) + 1;
+  else u.member.spent[a.id] = (u.member.spent[a.id] ?? 0) + 1;
+}
+
+const DRONE_ABILITIES = ['tag', 'patch', 'smoke', 'overcharge', 'shockfield', 'kamikaze'];
+
 export function canUse(u: Unit, id: string): boolean {
   const a = ABILITY.get(id);
   if (!a) return false;
-  if (a.cost === 'action' && !u.action && u.extraActions <= 0) return false;
+  if (a.net && !isNet()) return false;
+  const quickWake = id === 'wake' && perk(u, 'quick_hands') && u.bonus;
+  if (a.cost === 'action' && !u.action && u.extraActions <= 0 && !quickWake) return false;
   if (a.cost === 'bonus' && !u.bonus) return false;
   if (a.ram && u.ram < ramCost(u, a)) return false;
   if (a.blood && u.hp <= bloodCost(u, a)) return false;
-  if (a.uses) {
-    const used = a.uses.per === 'fight' ? u.spentFight[id] ?? 0 : u.member?.spent[id] ?? u.spentFight[id] ?? 0;
-    let n = a.uses.n;
-    if (u.member) {
-      if (id === 'adrenal' && perk(u, 'second_wind')) n = 2;
-      if (id === 'turret' && perk(u, 'twin_turret')) n = 2;
-      if (id === 'rally' && perk(u, 'inspire')) n = 3;
-      if (id === 'remaincalm' && perk(u, 'calm_voice')) n = 2;
-      if (id === 'redrain' && perk(u, 'storm_blood')) n = 2;
-      if (id === 'overcharge' && perk(u, 'overdrive')) n = 99;
-    }
-    if (used >= n) return false;
-  }
-  if (['tag', 'patch', 'smoke', 'overcharge', 'shockfield', 'kamikaze'].includes(id) && u.droneHp <= 0) return false;
+  if (!usesOk(u, id)) return false;
+  if (a.every) { const last = u.spentFight['cd_' + id]; if (last !== undefined && CB.round - last < a.every) return false; }
+  if ((DRONE_ABILITIES.includes(id) || a.needsDrone) && u.droneHp <= 0) return false;
   if (has(u, 'hushed')) return false;
   if (id === 'help') return CB.units.some((o) => o.downed && !o.dead && o.side === u.side && dist(o, u) === 1);
-  if (id === 'hide') return !foesOf(u).some((e) => los(e, u) && dist(e, u) <= 8);
+  if (id === 'hide') return !foesOf(u).some((e) => (los(e, u) && dist(e, u) <= 8) || (perk(e, 'spotlight') && dist(e, u) === 1));
   if (id === 'call') return CB.units.some((o) => o.member?.id === 'courtesy' && alive(o));
+  if (id === 'wheel') return CB.units.some((o) => o.member?.id === 'hero' && alive(o));
+  if (id === 'heartbeat') return CB.units.some((o) => o.wake?.by === u.id && alive(o));
   return true;
 }
 
-export function ramCost(u: Unit, a: AbilityDef): number { return a.id === 'shortcircuit' && perk(u, 'backdoor') ? 1 : a.ram ?? 0; }
-export function bloodCost(u: Unit, a: AbilityDef): number { return Math.max(1, (a.blood ?? 0) - (perk(u, 'thick_blood') ? 1 : 0)); }
+export function ramCost(u: Unit, a: AbilityDef): number {
+  const base = a.id === 'shortcircuit' && perk(u, 'backdoor') ? 1 : a.ram ?? 0;
+  return base > 0 ? Math.max(1, base - (u.mod.ramDiscount ?? 0)) : 0;
+}
+export function bloodCost(u: Unit, a: AbilityDef): number { return Math.max(1, (a.blood ?? 0) - (u.mod.blood ?? 0)); }
 
 export function spend(u: Unit, a: AbilityDef) {
-  if (a.cost === 'action') { if (u.action) u.action = false; else u.extraActions--; }
+  if (a.cost === 'action') {
+    if (a.id === 'wake' && perk(u, 'quick_hands') && u.bonus) u.bonus = false;
+    else if (u.action) u.action = false;
+    else u.extraActions--;
+  }
   if (a.cost === 'bonus') u.bonus = false;
   if (a.cost === 'reaction') u.reaction = false;
   if (a.ram) u.ram -= ramCost(u, a);
-  if (a.uses) {
-    if (a.uses.per === 'fight' || !u.member) u.spentFight[a.id] = (u.spentFight[a.id] ?? 0) + 1;
-    else u.member.spent[a.id] = (u.member.spent[a.id] ?? 0) + 1;
-  }
+  markUse(u, a);
+  if (a.every) u.spentFight['cd_' + a.id] = CB.round;
+  if (a.hold && u.side === 'party' && u.member) G.port.hold += a.hold;
+}
+
+/** Range in tiles, with the user's weapon for weapon abilities and perk bonuses. */
+export function rangeFor(u: Unit, a: AbilityDef): number {
+  if (a.id === 'cheapshot') return u.ranged ? rangeOf(u.ranged) + 2 : 1;
+  let r = a.range;
+  if (a.weapon === 'ranged') r = u.ranged ? rangeOf(u.ranged) + 2 : 0;
+  if (a.weapon === 'melee') r = u.melee?.reach ?? 1;
+  return r + (u.mod.range?.[a.id] ?? 0);
 }
 
 /** Valid target check for an ability at a tile. */
@@ -569,20 +735,23 @@ export function validTarget(u: Unit, a: AbilityDef, x: number, y: number): boole
     return los(u, t);
   }
   if (a.target === 'self') return x === u.x && y === u.y;
-  const range = a.id === 'cheapshot' ? (u.ranged ? rangeOf(u.ranged) + 2 : 1) : a.range;
+  const range = rangeFor(u, a);
   if (d > range) return false;
   switch (a.target) {
     case 'enemy': {
       if (!t || !alive(t) || !hostile(u, t)) return false;
       if (a.chromeOnly && !t.chrome) return false;
       if (a.id === 'fasttalk' || a.id === 'turncoat') if (t.machine) return false;
+      if (a.notMachine && t.machine) return false;
+      if (a.wokenOnly && !t.woken && !t.wake) return false;
+      if (a.weapon === 'melee' && u.melee && (u.melee.reach ?? 1) > 1) return cheb(u, t) <= (u.melee.reach ?? 1);
       if (a.network) return true;
-      if (a.range === 1) return dist(u, t) === 1;
+      if (range === 1) return dist(u, t) === 1;
       return los(u, t);
     }
     case 'ally': return !!t && alive(t) && !hostile(u, t) && (a.id === 'guard' ? t !== u : true);
     case 'downed': return !!t && t.downed && !t.dead && !hostile(u, t) && d <= 1;
-    case 'unit': return !!t && alive(t) && t !== u && (a.id === 'shove' ? d === 1 && !t.prop : true) && (a.id !== 'hushthrow' || !!t.wake || t.member?.id === 'courtesy');
+    case 'unit': return !!t && alive(t) && t !== u && (a.id === 'shove' ? d === 1 && !t.prop : true) && (a.id !== 'hushthrow' || !!t.wake || !!t.woken || t.member?.id === 'courtesy');
     case 'prop': {
       if (!p || p.broken) return false;
       if (a.id === 'hijack') return !!p.def.networked && !!p.def.wake;
@@ -592,18 +761,74 @@ export function validTarget(u: Unit, a: AbilityDef, x: number, y: number): boole
       if (a.id === 'jump') return canJumpTo(u, x, y);
       if (a.id === 'turret') return freeTile(x, y) && d <= 2;
       if (a.id === 'blur') return freeTile(x, y) && los(u, { x, y });
+      if (a.summon) return freeTile(x, y) && !propAt(x, y) && los(u, { x, y });
+      if (a.surface?.kind === 'mine') return freeTile(x, y) && !t && !propAt(x, y) && !surfaceAt(x, y);
+      if (a.wall) return walkable(x, y) && !t && d >= 1;
+      if (a.shape === 'line' || a.shape === 'cone') return d >= 1;
       return true;
     }
   }
   return false;
 }
 
+function dirTo(u: { x: number; y: number }, x: number, y: number): [number, number] {
+  const dx = x - u.x, dy = y - u.y;
+  if (!dx && !dy) return [0, 1];
+  return Math.abs(dx) >= Math.abs(dy) ? [Math.sign(dx), 0] : [0, Math.sign(dy)];
+}
+
+function blocksShot(x: number, y: number): boolean {
+  const m = WORLD.map!;
+  if (x < 0 || y < 0 || x >= m.w || y >= m.h) return true;
+  return cellAt(m, x, y).tile.opaque || wallAt(x, y);
+}
+
+/** The tiles a frost wall covers: a line across the direction from the user to the target, centered on it. */
+export function wallTiles(u: Unit, a: AbilityDef, x: number, y: number): [number, number][] {
+  const len = (a.wall?.len ?? 3) + (a.id === 'palewall' && perk(u, 'thick_ice') ? 2 : 0);
+  const [fx, fy] = dirTo(u, x, y);
+  const px = fy, py = fx;
+  const half = Math.floor(len / 2);
+  const out: [number, number][] = [];
+  for (let k = -half; k <= half; k++) out.push([x + px * k, y + py * k]);
+  return out;
+}
+
 /** The tiles an ability affects when aimed at x, y. */
 export function areaOf(u: Unit, a: AbilityDef, x: number, y: number): [number, number][] {
-  const r = a.id === 'splash' && perk(u, 'wild') ? 2 : a.area ?? 0;
+  if (a.id === 'blur') return lineTiles(u.x, u.y, x, y);
+  if (a.wall) return wallTiles(u, a, x, y);
+  if (a.shape === 'line') {
+    const len = a.len ?? 5;
+    const dx = x - u.x, dy = y - u.y, m = Math.max(Math.abs(dx), Math.abs(dy)) || 1;
+    const out: [number, number][] = [];
+    for (const [px, py] of lineTiles(u.x, u.y, u.x + Math.round(dx / m * len), u.y + Math.round(dy / m * len))) {
+      if (out.length >= len || blocksShot(px, py)) break;
+      out.push([px, py]);
+    }
+    return out;
+  }
+  if (a.shape === 'cone') {
+    const len = a.len ?? 3;
+    const [fx, fy] = dirTo(u, x, y);
+    const out: [number, number][] = [];
+    for (let d = 1; d <= len; d++) {
+      const spread = Math.floor((d + 1) / 2) - (d === 1 ? 1 : 0);
+      for (let k = -spread; k <= spread; k++) {
+        const tx = u.x + fx * d + fy * k, ty = u.y + fy * d + fx * k;
+        if (!blocksShot(tx, ty) && los(u, { x: tx, y: ty })) out.push([tx, ty]);
+      }
+    }
+    return out;
+  }
+  if (a.shape === 'ring') {
+    const out: [number, number][] = [];
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (dx || dy) out.push([x + dx, y + dy]);
+    return out;
+  }
+  const r = (a.id === 'splash' && perk(u, 'wild') ? 2 : a.area ?? 0) + (u.mod.area?.[a.id] ?? 0);
   const cx = a.target === 'self' ? u.x : x, cy = a.target === 'self' ? u.y : y;
   const out: [number, number][] = [];
-  if (a.id === 'blur') return lineTiles(u.x, u.y, x, y);
   for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
     if (a.target === 'self' && r >= 2 && Math.abs(dx) + Math.abs(dy) > r) continue;
     out.push([cx + dx, cy + dy]);
@@ -619,14 +844,27 @@ export function wakeTurns(u: Unit): number {
   return n;
 }
 
+/** Abilities that hurt or hinder foes, which end Hidden when used. */
+function hostileAbility(a: AbilityDef): boolean {
+  if (a.id === 'hide' || a.id === 'mask' || a.affects === 'allies') return false;
+  if (a.target === 'enemy') return true;
+  return !!(a.dmg || a.status) && (a.target === 'tile' || (a.target === 'self' && !!a.area));
+}
+
 export async function useAbility(u: Unit, id: string, x: number, y: number): Promise<void> {
   const a = ABILITY.get(id)!;
-  const t = unitAt(x, y);
-  const p = propAt(x, y);
-  if (u.side === 'party' && u.member) CB.stats.actions++;
-  if (a.blood) { const c = bloodCost(u, a); u.hp -= c; float(u, `-${c}`, C.red2); sparks(u.x * T + 5, u.y * T + 5, 5, C.red2, 18); }
+  if (u.side === 'party' && u.member) { CB.stats.actions++; CB.usage[id] = (CB.usage[id] ?? 0) + 1; }
+  else if (u.side === 'enemy' && id !== 'attack') CB.usage['enemy ' + id] = (CB.usage['enemy ' + id] ?? 0) + 1;
+  if (a.blood) { const c = bloodCost(u, a); u.hp -= c; float(u, `-${c}`, a.cls === 'keeper' ? C.steel4 : C.red2); sparks(u.x * T + 5, u.y * T + 5, 5, a.cls === 'keeper' ? C.steel4 : C.red2, 18); }
   spend(u, a);
   if (u.actor) face(u, { x, y });
+  await runAbility(u, a, id, x, y);
+  if (id !== 'attack' && has(u, 'hidden') && hostileAbility(a) && !(a.network && perk(u, 'ghost'))) u.status.delete('hidden');
+}
+
+async function runAbility(u: Unit, a: AbilityDef, id: string, x: number, y: number): Promise<void> {
+  const t = unitAt(x, y);
+  const p = propAt(x, y);
   switch (id) {
     case 'attack': {
       if (u.side === 'party' && u.member) CB.stats.actions--;
@@ -638,7 +876,7 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
     case 'jump': await jump(u, x, y); return;
     case 'dash': u.moveLeft += u.move; float(u, 'DASH', C.pale); return;
     case 'help': if (t) { t.downed = false; t.hp = Math.max(1, Math.round(t.maxHp * 0.25)); if (t.member) t.member.hp = t.hp; if (t.actor) t.actor.tint = undefined; float(t, 'UP', C.grn3); sfx('heal'); } return;
-    case 'overwatch': addStatus(u, 'overwatch', 1); float(u, 'OVERWATCH', C.amb3); return;
+    case 'overwatch': addStatus(u, 'overwatch', 2); float(u, 'OVERWATCH', C.amb3); return;
     case 'hide': addStatus(u, 'hidden', 2); float(u, 'HIDDEN', C.vio3); return;
     case 'lunge': {
       const path = lineTiles(u.x, u.y, x, y).slice(0, -1);
@@ -676,7 +914,7 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
         last = next;
       }
       sfx('hack');
-      for (const h of hits) { tracer(u, h, C.cyan3); sparks(h.x * T + 5, h.y * T + 4, 8, C.cyan4, 30); await damage(h, roll(a.dmg![0], a.dmg![1]) + levelBonus(u), 'shock', u); await pause(0.08); }
+      for (const h of hits) { tracer(u, h, C.cyan3); sparks(h.x * T + 5, h.y * T + 4, 8, C.cyan4, 30); await damage(h, roll(a.dmg![0], a.dmg![1]) + levelBonus(u) + hackBonus(u), 'shock', u); await pause(0.08); }
       return;
     }
     case 'blind': case 'cripple': case 'fasttalk': case 'taunt': case 'turncoat': {
@@ -686,16 +924,16 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
       let turns = a.status!.turns;
       if (id === 'fasttalk' && perk(u, 'liar')) turns = 2;
       if (id === 'turncoat' && perk(u, 'kingmaker')) turns += 2;
-      applyStatus(t, a.status!.id, turns);
-      if (id === 'taunt') { t.taunter = u.id; if (perk(u, 'menace')) for (const e of foesOf(u)) if (e !== t && dist(e, t) === 1 && !resisted(u, e, a)) { applyStatus(e, 'taunted', 1); e.taunter = u.id; } }
-      if (id === 'blind' && perk(u, 'feedback')) await damage(t, 3, 'hack', u);
-      if (id === 'fasttalk' && perk(u, 'crowd')) for (const e of foesOf(u)) if (e !== t && dist(e, t) === 1 && !e.machine && !resisted(u, e, a)) applyStatus(e, 'stunned', 1);
+      applyStatus(t, a.status!.id, turns, u);
+      if (id === 'taunt') { t.taunter = u.id; if (perk(u, 'menace')) for (const e of foesOf(u)) if (e !== t && dist(e, t) === 1 && !resisted(u, e, a)) { applyStatus(e, 'taunted', 1, u); e.taunter = u.id; } }
+      if (id === 'blind' && perk(u, 'feedback')) await damage(t, 3 + hackBonus(u), 'hack', u);
+      if (id === 'fasttalk' && perk(u, 'crowd')) for (const e of foesOf(u)) if (e !== t && dist(e, t) === 1 && !e.machine && !resisted(u, e, a)) applyStatus(e, 'stunned', 1, u);
       if (id === 'cripple') t.moveLeft = 0;
       return;
     }
     case 'ping': {
       sfx('hack');
-      for (const e of foesOf(u)) if (dist(e, u) <= 10) { e.status.delete('hidden'); applyStatus(e, 'marked', 1); }
+      for (const e of foesOf(u)) if (dist(e, u) <= 10) { e.status.delete('hidden'); applyStatus(e, 'marked', 1, u); }
       return;
     }
     case 'hijack': {
@@ -705,8 +943,8 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
       if (w) { w.name = `hijacked ${p.def.name}`; w.side = u.side; }
       return;
     }
-    case 'overheat': if (t) { sfx('fire'); await damage(t, roll(3, 5), 'fire', u); applyStatus(t, 'burning', 3); } return;
-    case 'tag': if (t) { tracer(u, t, C.mag3); applyStatus(t, 'marked', 3); if (perk(u, 'spotter')) t.status.delete('hidden'); } return;
+    case 'overheat': if (t) { sfx('fire'); await damage(t, roll(3, 5) + hackBonus(u), 'fire', u); applyStatus(t, 'burning', 3, u); } return;
+    case 'tag': if (t) { tracer(u, t, C.mag3); applyStatus(t, 'marked', 3, u); if (perk(u, 'spotter')) t.status.delete('hidden'); } return;
     case 'patch': if (t) { const h = roll(6, 9) + (perk(u, 'medic') ? 4 : 0); if (t.downed && perk(u, 'field_medic')) { t.downed = false; if (t.actor) t.actor.tint = undefined; } heal(t, h); } return;
     case 'smoke': sfx('smoke'); for (const [sx, sy] of areaOf(u, a, x, y)) setSurface(sx, sy, 'smoke', 2); return;
     case 'turret': summonTurret(u, x, y); return;
@@ -721,19 +959,19 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
       return;
     }
     case 'kamikaze': u.droneHp = 0; await explode(x, y, 2, [10, 16], 'fire', u); return;
-    case 'rally': if (t) { heal(t, roll(4, 6)); applyStatus(t, 'rallied', 2); if (t.member?.cls === 'witch') setMood(t, 'joy'); } return;
-    case 'cheapshot': if (t) await attack(u, t, weaponFor(u, t), { ability: a, mult: has(t, 'stunned') || has(t, 'taunted') || has(t, 'distracted') ? 1.5 : 1 }); return;
+    case 'rally': if (t) { heal(t, roll(4, 6)); applyStatus(t, 'rallied', 2, u); if (t.member?.cls === 'witch') setMood(t, 'joy'); } return;
+    case 'cheapshot': if (t) await attack(u, t, weaponFor(u, t), { ability: a, mult: has(t, 'stunned') || has(t, 'taunted') || has(t, 'distracted') ? (perk(u, 'low_blow') ? 2 : 1.5) : 1 }); return;
     case 'demoralize': {
       sfx('talk');
-      for (const e of foesOf(u)) if (dist(e, u) <= 3 && !resisted(u, e, a)) applyStatus(e, 'distracted', 2);
+      for (const e of foesOf(u)) if (dist(e, u) <= 3 && !resisted(u, e, a)) applyStatus(e, 'distracted', 2, u);
       return;
     }
     case 'speech': for (const f of [u, ...friendsOf(u)]) if (f.member) { f.bonus = true; heal(f, 6 + (perk(u, 'saint') ? 10 : 0)); } return;
-    case 'guard': if (t) { applyStatus(t, 'guarded', 1); t.guardedBy = u.id; if (perk(u, 'wall')) for (const f of friendsOf(u)) if (dist(f, u) === 1) { applyStatus(f, 'guarded', 1); f.guardedBy = u.id; } } if (perk(u, 'guardian')) u.bonus = true; return;
+    case 'guard': if (t) { applyStatus(t, 'guarded', 1, u); t.guardedBy = u.id; if (perk(u, 'wall')) for (const f of friendsOf(u)) if (dist(f, u) === 1) { applyStatus(f, 'guarded', 1, u); f.guardedBy = u.id; } } if (perk(u, 'guardian')) u.bonus = true; return;
     case 'taser': if (t) await attack(u, t, u.melee, { ability: a }); return;
     case 'remaincalm': {
       sfx('pa');
-      for (const e of foesOf(u)) if (dist(e, u) <= 3 && !resisted(u, e, a)) { applyStatus(e, 'taunted', 1); e.taunter = u.id; }
+      for (const e of foesOf(u)) if (dist(e, u) <= 3 && !resisted(u, e, a)) { applyStatus(e, 'taunted', 1, u); e.taunter = u.id; }
       if (perk(u, 'shepherd')) for (const f of friendsOf(u)) if (dist(f, u) <= 3) heal(f, 4);
       return;
     }
@@ -744,16 +982,38 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
       if (dist(u, t) === 1 && await attack(u, t, u.melee, { ability: a }) && alive(t)) await push(t, Math.sign(t.x - u.x), Math.sign(t.y - u.y), perk(u, 'heavy') ? 3 : 2, u);
       return;
     }
-    case 'foam': sfx('foam'); for (const [sx, sy] of areaOf(u, a, x, y)) { setSurface(sx, sy, 'foam', 1); const o = unitAt(sx, sy); if (o && alive(o) && hostile(u, o)) applyStatus(o, 'immobile', 1); } return;
-    case 'bulwark': applyStatus(u, 'bulwark', perk(u, 'fortress_unit') ? 2 : 1); return;
-    case 'lockdown': for (const e of foesOf(u)) if (dist(e, u) <= 2) applyStatus(e, 'stunned', 1); return;
-    case 'wake': if (p) { const w = await wakeProp(p, u, u.mood ?? 'calm', wakeTurns(u)); if (w && u.spentFight.heartfelt) { w.wake!.twice = true; w.wake!.turns = 99; u.spentFight.heartfelt = 0; } } return;
+    case 'foam': sfx('foam'); for (const [sx, sy] of areaOf(u, a, x, y)) { setSurface(sx, sy, 'foam', 1); const o = unitAt(sx, sy); if (o && alive(o) && hostile(u, o)) applyStatus(o, 'immobile', 1, u); } return;
+    case 'bulwark': applyStatus(u, 'bulwark', perk(u, 'fortress_unit') ? 2 : 1, u); return;
+    case 'lockdown': for (const e of foesOf(u)) if (dist(e, u) <= 2) applyStatus(e, 'stunned', 1, u); return;
+    case 'wake': {
+      if (!p) return;
+      const w = await wakeProp(p, u, u.mood ?? 'calm', wakeTurns(u));
+      if (w && u.spentFight.heartfelt) { w.wake!.twice = true; w.wake!.turns = 99; u.spentFight.heartfelt = 0; }
+      if (w && perk(u, 'many')) {
+        const q = WORLD.props.filter((o) => o !== p && !o.broken && !o.wake && o.def.wake && o.def.wake !== 'none' && dist(o, p) <= 2).sort((m1, m2) => dist(m1, p) - dist(m2, p))[0];
+        if (q) await wakeProp(q, u, u.mood ?? 'calm', wakeTurns(u));
+      }
+      return;
+    }
     case 'steady': setMood(u, 'calm'); return;
     case 'splash': case 'redrain': {
       for (const [sx, sy] of areaOf(u, a, x, y)) {
         const q = propAt(sx, sy);
         if (q && q.def.wake && !q.wake && !q.broken) await wakeProp(q, u, u.mood ?? 'calm', id === 'splash' ? 2 + (u.abilities.includes('longwake') ? 2 : 0) : wakeTurns(u));
       }
+      return;
+    }
+    case 'spray': {
+      for (const [sx, sy] of areaOf(u, a, x, y)) {
+        const q = propAt(sx, sy);
+        if (q && q.def.wake && q.def.wake !== 'none' && !q.wake && !q.broken) await wakeProp(q, u, u.mood ?? 'calm', 2 + (u.abilities.includes('longwake') ? 2 : 0));
+      }
+      await runGeneric(u, a, x, y);
+      return;
+    }
+    case 'heartbeat': {
+      setMood(u, u.mood ?? 'calm');
+      for (const w of CB.units.filter((o) => o.wake?.by === u.id && alive(o))) if (HOOKS.wokenTurn) { float(w, 'AGAIN', C.red2); await HOOKS.wokenTurn(w); }
       return;
     }
     case 'rouse': if (t) await rouse(u, t); return;
@@ -767,14 +1027,194 @@ export async function useAbility(u: Unit, id: string, x: number, y: number): Pro
     case 'enemyhack': if (t) { sfx('hack'); tracer(u, t, C.cyan3); await damage(t, roll(3, 6), 'shock', u); } return;
     case 'bite': if (t) await attack(u, t, u.melee, { ability: a }); return;
     case 'grenade': await explode(x, y, 1, a.dmg ?? [5, 8], 'kinetic', u); return;
-    default: return;
+    // Keeper
+    case 'frost': {
+      await runGeneric(u, a, x, y);
+      if (t && alive(t) && perk(u, 'cold_snap')) await damage(t, roll(3, 5) + hackBonus(u), 'hack', u);
+      return;
+    }
+    case 'absolutezero': {
+      const before = new Set(foesOf(u).filter((e) => has(e, 'frosted')));
+      await runGeneric(u, a, x, y);
+      for (const e of before) if (alive(e) && dist(e, u) <= 4) applyStatus(e, 'stunned', 1, u);
+      return;
+    }
+    case 'glassroom': {
+      if (!t) return;
+      raiseWall(areaOf(u, { ...a, shape: 'ring' }, t.x, t.y), 2);
+      if (t.woken || t.wake) await hush(t, u);
+      CB.stats.env++;
+      return;
+    }
+    case 'thaw': {
+      await runGeneric(u, a, x, y);
+      if (t && perk(u, 'warm_front')) for (const f of friendsOf(u).concat(u)) if (f !== t && alive(f) && dist(f, t) <= 2) { heal(f, roll(a.heal![0], a.heal![1])); cleanse(f); }
+      return;
+    }
+    // Port
+    case 'wheel': {
+      const hero = CB.units.find((o) => o.member?.id === 'hero' && alive(o));
+      if (!hero) return;
+      hero.extraActions++;
+      float(hero, 'TAKE THE WHEEL', C.cyan4);
+      sfx('port');
+      if (perk(u, 'pilot')) { heal(hero, 6); applyStatus(hero, 'rallied', 2, u); }
+      return;
+    }
+    case 'portcall': {
+      const turns = (a.summon?.turns ?? 2) + (perk(u, 'big_call') ? 1 : 0);
+      const first = summonUnit(u, a.summon!.kind, x, y, turns);
+      if (!first) { float({ x, y }, 'NO ANSWER', C.gray); return; }
+      if (perk(u, 'big_call')) {
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) if (summonUnit(u, a.summon!.kind, x + dx, y + dy, turns)) break;
+      }
+      return;
+    }
+    case 'coax': {
+      if (!t) return;
+      if (t.prop && t.wake) { if (resisted(u, t, a)) { float(t, 'RESISTS', C.gray); return; } t.side = u.side; t.wake.by = u.id; t.wake.feeling = 'calm'; float(t, 'KIN', C.cyan4); sfx('port'); return; }
+      await runGeneric(u, a, x, y);
+      return;
+    }
+    case 'comehome': {
+      sfx('port');
+      for (const e of foesOf(u)) {
+        if (dist(e, u) > 6 || (!e.woken && !e.wake)) continue;
+        if (e.boss && resisted(u, e, { ...a, resist: 'nerve' })) { float(e, 'RESISTS', C.gray); continue; }
+        if (e.prop && e.wake) { e.side = u.side; e.wake.by = u.id; e.wake.feeling = 'calm'; float(e, 'KIN', C.cyan4); continue; }
+        applyStatus(e, 'turncoat', 2, u);
+      }
+      return;
+    }
+    case 'dream': {
+      for (const f of CB.units) if (f.downed && !f.dead && f.side === u.side && dist(f, u) <= 6) {
+        f.downed = false; f.hp = Math.max(1, Math.round(f.maxHp / 2)); if (f.member) f.member.hp = f.hp; if (f.actor) f.actor.tint = undefined; float(f, 'UP', C.grn3);
+      }
+      await runGeneric(u, a, x, y);
+      return;
+    }
+    case 'longing': {
+      if (!t) return;
+      tracer(u, t, C.cyan4);
+      sfx('port');
+      await pull(t, u, perk(u, 'echo_voice') ? 5 : 3);
+      CB.stats.env++;
+      return;
+    }
+    // Diver
+    case 'meltdown': {
+      await runGeneric(u, a, x, y);
+      if (t) for (const e of foesOf(u)) if (e !== t && dist(e, t) === 1 && e.chrome) await damage(e, Math.ceil(roll(a.dmg![0], a.dmg![1]) / 2), 'fire', u);
+      return;
+    }
+    // Enemy specials
+    case 'alarm': {
+      await runGeneric(u, a, x, y);
+      const near = foesOf(u).filter((f) => !f.downed).sort((f1, f2) => dist(f1, u) - dist(f2, u))[0];
+      if (!near) return;
+      for (let i = 0; i < 3; i++) {
+        const step = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => ({ x: u.x + dx, y: u.y + dy })).filter((c) => freeTile(c.x, c.y, u)).sort((c1, c2) => dist(c2, near) - dist(c1, near))[0];
+        if (!step || dist(step, near) <= dist(u, near)) break;
+        await moveAlong(u, [[step.x, step.y]], true);
+      }
+      return;
+    }
+    default: await runGeneric(u, a, x, y); return;
   }
 }
 
+function scaleOf(u: Unit, a: AbilityDef): number {
+  if (a.scale === 'wits') return Math.floor(u.attr.wits / 2);
+  if (a.scale === 'hold') return Math.floor(G.port.hold / 2);
+  if (a.scale === 'self') return Math.floor(G.port.self / 2);
+  return 0;
+}
+
+function abilitySfx(a: AbilityDef): string {
+  if (a.heal || a.cleanse) return 'heal';
+  if (a.status?.id === 'frosted' || a.wall || a.surface?.kind === 'frost') return 'hush';
+  if (a.dtype === 'hack' || a.network) return 'hack';
+  if (a.dtype === 'shock') return 'shock';
+  if (a.dtype === 'fire') return 'fire';
+  if (a.resist === 'nerve') return 'talk';
+  if (a.summon) return 'port';
+  return 'confirm';
+}
+
+/** The data-driven effect path: self buffs, walls, floors, summons, then every unit the ability touches. */
+export async function runGeneric(u: Unit, a: AbilityDef, x: number, y: number) {
+  const t = unitAt(x, y);
+  if (a.hit !== 'attack') sfx(abilitySfx(a));
+  if (a.self) applyStatus(u, a.self.id, a.self.turns, u);
+  if (a.extra) { u.extraActions++; float(u, 'EXTRA ACTION', C.amb3); }
+  if (a.ramGain) { u.ram = Math.min(u.ramMax + (perk(u, 'root') ? 4 : 0), u.ram + a.ramGain); float(u, `+${a.ramGain} RAM`, C.grn3); }
+  const tiles = a.target === 'tile' || (a.target === 'self' && a.area) || a.shape ? areaOf(u, a, x, y) : [];
+  if (a.wall) { raiseWall(tiles, a.wall.turns + (a.id === 'palewall' && perk(u, 'thick_ice') ? 1 : 0)); CB.stats.env++; }
+  if (a.surface) {
+    for (const [sx, sy] of tiles) {
+      if (a.surface.kind === 'mine') CB.surf.set(idx(sx, sy), { kind: 'mine', turns: a.surface.turns, side: u.side });
+      else setSurface(sx, sy, a.surface.kind, a.surface.turns);
+    }
+    CB.stats.env++;
+  }
+  if (a.summon && a.id !== 'portcall') { if (!summonUnit(u, a.summon.kind, x, y, a.summon.turns)) float({ x, y }, 'NO ANSWER', C.gray); }
+  const allies = a.affects === 'allies' || (a.affects !== 'foes' && !!(a.heal || a.cleanse) && !a.dmg);
+  const effects = a.dmg || a.status || a.heal || a.cleanse || a.push || a.strip || a.reveal || a.hushWoken || a.also || a.vsMachine || a.hit === 'attack';
+  if (!effects) return;
+  let touched: Unit[];
+  if (a.target === 'self' && !a.area) touched = allies ? [u] : [];
+  else if (tiles.length) {
+    const set = new Set(tiles.map(([tx, ty]) => idx(tx, ty)));
+    touched = CB.units.filter((o) => alive(o) && set.has(idx(o.x, o.y)) && (a.target !== 'self' || o !== u || allies));
+  } else touched = t && alive(t) ? [t] : [];
+  touched = touched.filter((o) => (allies ? !hostile(u, o) : hostile(u, o)));
+  if (!allies) touched = touched.filter((o) => (!a.chromeOnly || o.chrome) && (!a.notMachine || !o.machine) && (!a.wokenOnly || o.woken || !!o.wake));
+  if (touched.length === 1 && touched[0] !== u) tracer(u, touched[0], a.dtype === 'hack' || a.network ? C.cyan3 : a.status?.id === 'frosted' ? C.steel4 : C.amb4);
+  else for (const o of touched) sparks(o.x * T + 5, o.y * T + 4, 5, a.status?.id === 'frosted' ? C.steel4 : allies ? C.grn3 : C.cyan4, 25);
+  for (const o of touched) await touch(u, a, o, allies);
+  if (touched.length && !allies) await pause(0.1);
+}
+
+async function touch(u: Unit, a: AbilityDef, o: Unit, allies: boolean) {
+  if (!alive(o)) return;
+  if (allies) {
+    if (a.heal) heal(o, roll(a.heal[0], a.heal[1]) + scaleOf(u, a) + (a.id === 'want' && perk(u, 'small_wants') ? 3 : 0));
+    if (a.cleanse) cleanse(o);
+    if (a.status) applyStatus(o, a.status.id, a.status.turns, u);
+    return;
+  }
+  if (a.hit === 'resist' && resisted(u, o, a)) { float(o, 'RESISTS', C.gray); return; }
+  if (a.hit === 'attack') {
+    const w = a.weapon === 'ranged' ? u.ranged : a.weapon === 'melee' ? u.melee : rangeFor(u, a) <= 1 ? u.melee : u.ranged ?? u.melee;
+    const landed = await attack(u, o, w, { ability: a });
+    if (!landed || !alive(o)) return;
+  } else if (a.dmg) {
+    const hack = a.dtype === 'hack' || !!a.network;
+    await damage(o, roll(a.dmg[0], a.dmg[1]) + levelBonus(u) + scaleOf(u, a) + (hack ? hackBonus(u) : 0), a.dtype ?? 'kinetic', u);
+    if (a.dtype === 'shock' && alive(o)) await arcShock(o, Math.ceil((a.dmg[0] + a.dmg[1]) / 4), u);
+    if (!alive(o)) return;
+  }
+  if (a.strip) strip(o);
+  if (a.reveal) o.status.delete('hidden');
+  const sOk = !a.sresist || !resisted(u, o, { ...a, resist: a.sresist });
+  if (a.status && a.hit !== 'attack') {
+    if (!sOk) float(o, 'RESISTS', C.gray);
+    else if (rnd() < (a.status.chance ?? 1)) { applyStatus(o, a.status.id, a.status.turns, u); if (a.status.id === 'taunted') o.taunter = u.id; }
+  }
+  if (sOk) for (const s of a.also ?? []) applyStatus(o, s.id, s.turns, u);
+  if (a.vsMachine && (o.machine || o.woken || o.wake)) applyStatus(o, a.vsMachine.id, a.vsMachine.turns, u);
+  if (a.hushWoken && (o.woken || o.wake) && alive(o)) await hush(o, u);
+  if (a.push && alive(o)) {
+    if (a.push > 0) await push(o, Math.sign(o.x - u.x), Math.sign(o.y - u.y), a.push, u);
+    else await pull(o, u, -a.push);
+  }
+}
+
+/** Whether the target resists. The user rolls the better of Wits plus Hack and Nerve plus Talk. */
 function resisted(u: Unit, t: Unit, a: AbilityDef): boolean {
   if (!a.resist || perk(u, 'no_trace')) return false;
-  const atk = (a.cls === 'diver' ? u.attr.wits + u.skills.hack : u.attr.nerve + u.skills.talk);
-  const def = t.attr[a.resist] + (t.boss ? 3 : 0);
+  const atk = Math.max(u.attr.wits + u.skills.hack, u.attr.nerve + u.skills.talk);
+  const def = t.attr[a.resist as Attr] + (t.boss ? 3 : 0);
   const chance = Math.max(10, Math.min(90, 70 + 6 * (atk - def)));
   return rnd() * 100 >= chance;
 }
@@ -788,10 +1228,10 @@ async function rouse(u: Unit, t: Unit) {
   const m = u.mood ?? 'calm';
   CB.stats.env++;
   if (m === 'anger') { float(t, 'ARM TURNS', C.mag3); await attack(t, t, t.melee, { forceHit: true }); }
-  else if (m === 'fear') { float(t, 'DROPS GUN', C.vio3); t.ranged = null; applyStatus(t, 'distracted', 1); }
-  else if (m === 'calm') { applyStatus(t, 'turncoat', 1); }
-  else if (m === 'joy') { applyStatus(t, 'stunned', 1); float(t, 'DANCES', C.amb3); }
-  else if (m === 'grief') { applyStatus(t, 'slowed', 2); applyStatus(t, 'distracted', 2); setSurface(t.x, t.y, 'water', 2); }
+  else if (m === 'fear') { float(t, 'DROPS GUN', C.vio3); t.ranged = null; applyStatus(t, 'distracted', 1, u); }
+  else if (m === 'calm') { applyStatus(t, 'turncoat', 1, u); }
+  else if (m === 'joy') { applyStatus(t, 'stunned', 1, u); float(t, 'DANCES', C.amb3); }
+  else if (m === 'grief') { applyStatus(t, 'slowed', 2, u); applyStatus(t, 'distracted', 2, u); setSurface(t.x, t.y, 'water', 2); }
 }
 
 export function heal(t: Unit, n: number) {
@@ -811,7 +1251,7 @@ function summonTurret(u: Unit, x: number, y: number) {
     attr: { body: 3, reflex: 3, wits: 1, nerve: 9 }, skills: { shoot: 2 + Math.floor(u.level / 3), strike: 0, hack: 0, tech: 0, sneak: 0, talk: 0, notice: 0, athletics: 0 },
     melee: null, ranged: ITEM.get('pistol')!, plating: 2, machine: true, chrome: true, flying: false, abilities: [], ai: 'turret', boss: false, xp: 0,
     status: new Map(), moveLeft: 0, action: true, bonus: true, reaction: true, extraActions: 0, ram: 0, ramMax: 0, spentFight: {}, downed: false, dead: false,
-    droneHp: 0, droneMax: 0, swimming: 0, phase: 0, x, y, owner: u.id,
+    droneHp: 0, droneMax: 0, swimming: 0, phase: 0, x, y, owner: u.id, mod: {},
   };
   WORLD.actors.push(t.actor!);
   CB.units.push(t);
@@ -830,12 +1270,17 @@ export async function startTurn(u: Unit): Promise<boolean> {
   u.action = true;
   u.bonus = true;
   u.reaction = true;
+  const stillMind = u.side === 'party' && CB.units.some((o) => o.side === 'party' && perk(o, 'still_mind'));
+  if (frostAt(u.x, u.y) && !u.flying && !stillMind) { addStatus(u, 'frosted', 1); float(u, 'FROSTED', C.steel4); }
   u.moveLeft = u.move;
   if (has(u, 'prone')) { u.moveLeft = Math.ceil(u.move / 2); }
   if (has(u, 'slowed')) u.moveLeft = Math.ceil(u.moveLeft / 2);
+  if (has(u, 'frosted')) { u.moveLeft = Math.ceil(u.moveLeft / 2); u.bonus = false; u.reaction = false; }
   if (has(u, 'immobile') || has(u, 'crippled')) u.moveLeft = 0;
-  if (u.ramMax) u.ram = Math.min(u.ramMax + (perk(u, 'root') ? 4 : 0), u.ram + 2 + (perk(u, 'fast_ram') ? 1 : 0));
+  if (u.ramMax) u.ram = Math.min(u.ramMax + (perk(u, 'root') ? 4 : 0), u.ram + 2 + (u.mod.ramRegen ?? 0));
   if (perk(u, 'repair')) heal(u, 3);
+  if (perk(u, 'spotlight')) for (const e of foesOf(u)) if (dist(e, u) === 1 && has(e, 'hidden')) { e.status.delete('hidden'); float(e, 'SPOTTED', C.amb3); }
+  if (perk(u, 'self_made') && u.hp < u.maxHp) heal(u, 2 + Math.floor(G.port.self / 2));
   if (u.swimming > 0) { u.swimming = 0; u.action = false; u.moveLeft = 0; await climbOut(u); return false; }
   if (has(u, 'burning')) { await damage(u, 3, 'fire', null); if (!alive(u)) return false; }
   const s = surfaceAt(u.x, u.y);
@@ -859,12 +1304,19 @@ async function climbOut(u: Unit) {
 export async function endTurn(u: Unit) {
   for (const [k, v] of [...u.status]) { if (v <= 1) u.status.delete(k); else u.status.set(k, v - 1); }
   if (!has(u, 'taunted')) u.taunter = undefined;
-  if (!has(u, 'hushed') && u.actor && u.member?.id === 'courtesy' && !u.downed) u.actor.tint = undefined;
+  if (!has(u, 'hushed') && u.actor && (u.member?.id === 'courtesy' || u.woken) && !u.downed && !u.dead) u.actor.tint = undefined;
   if (u.extraActions > 0) u.extraActions = 0;
   if (u.member) u.member.hp = Math.max(0, u.hp);
+  if (alive(u) && CB.units.some((k) => alive(k) && hostile(k, u) && perk(k, 'cold_shoulder') && dist(k, u) === 1)) applyStatus(u, 'frosted', 1);
   if (u.wake) {
     u.wake.turns--;
     if (u.wake.turns <= 0) { float(u, 'STILL', C.gray); endWake(u); }
+  }
+  if (u.summoned !== undefined && alive(u) && --u.summoned <= 0) {
+    float(u, 'GONE', C.gray);
+    u.dead = true;
+    CB.order = CB.order.filter((x) => x !== u);
+    void dissipate(u);
   }
 }
 
@@ -896,8 +1348,10 @@ export async function droneAct(u: Unit) {
     sfx('drone');
     tracer(u, t, C.mag3);
     const chance = perk(u, 'ace') ? 100 : Math.max(20, 60 + 5 * (u.skills.tech - t.def) + (has(t, 'marked') ? 15 : 0));
-    if (rnd() * 100 < chance) await damage(t, roll(2, 4) + (perk(u, 'scrapper') ? 2 : 0), 'kinetic', u);
-    else float(t, 'MISS', C.gray);
+    if (rnd() * 100 < chance) {
+      await damage(t, roll(2, 4) + (perk(u, 'scrapper') ? 2 : 0) + (perk(u, 'wingman') ? 2 : 0), 'kinetic', u);
+      if (perk(u, 'wingman') && alive(t)) applyStatus(t, 'marked', 1, u);
+    } else float(t, 'MISS', C.gray);
     await pause(0.12);
   }
 }
